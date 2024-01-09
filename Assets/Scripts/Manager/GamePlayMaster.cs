@@ -348,6 +348,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     public void AnnounceState(string message)
     {
       //  Debug.Log(message);
+      // √º≈© ±Í«„∫Í
     }
 
     public bool AdaptActionCount = false;
