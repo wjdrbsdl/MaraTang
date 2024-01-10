@@ -307,7 +307,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     }
     private void RecoverActionCount()
     {
-        Debug.Log("소비된 액션 카운트 회복 - 겜마스터에서 명하면 MgToken이 존재하는 모든 TokenChar의 상태를 보고 회복시킨다. ");
+       AnnounceState("소비된 액션 카운트 회복");
         for (int i = 0; i < MgToken.g_instance.GetNpcPlayerList().Count; i++)
         {
             MgToken.g_instance.GetNpcPlayerList()[i].actionCount = i + 1; //

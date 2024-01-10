@@ -38,7 +38,6 @@ public class MgGameLoader : MonoBehaviour
 
     public void MasterDataLoad()
     {
-        Debug.Log("");
         //로드한 자료를 담을 diction 과, 로드할 테이블을 세트로 보내서 생성
         //맵 마스터 로드
         //캐릭 마스터 데이터 로드

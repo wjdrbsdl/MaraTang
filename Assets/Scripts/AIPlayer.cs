@@ -22,12 +22,8 @@ public class AIPlayer : PlayerRule
     public void PlayTurn()
     {
         // Ai가 캐릭터 조작하는 방법
-        
-       
-        //5. 만약 남은 액션 횟수가 없다면, 1번으로 돌아가서 다음 조작할 캐릭터를 뽑는다. 
-        //6. 모든 npc 턴이 끝났다면, 게임마스터에게 자신의 플레이어턴이 끝났음을 알린다. 
-        Debug.Log("에이아이 진행");
 
+        GamePlayMaster.g_instance.AnnounceState("AI플레이어 진행");
         //1. 순서대로 조작할 char를 뽑는다 - 이곳에서 액션 행동 카운트까지 남아있는 캐릭터만 받음.
         TokenChar turnChar =  SelectCharactor(); //행동할 녀석 뽑는걸로 행동 시작
         if(turnChar == null)
@@ -137,7 +133,7 @@ public class AIPlayer : PlayerRule
             //1 찾은 적이 사거리 이내라면 공격 액션 아니라면 이동액션 목적지는 그대로 
             //대적 행위를 하고 
             
-            TMapIndex tMapIndex = new TMapIndex(_char.GetXIndex(), _char.GetYIndex(), _char.GetTarget().GetXIndex(), _char.GetTarget().GetYIndex());
+            TMapIndex tMapIndex = new TMapIndex(_char, _char.GetTarget());
             int enemyRange = GameUtil.GetMinRange(tMapIndex);
             Debug.Log("몬스터 까지 거리 " + enemyRange);
             int charRange = 1; //일단 캐릭터의 공격 사거리를 1로 지정
@@ -208,13 +204,9 @@ public class AIPlayer : PlayerRule
         //현재 케릭이, 타겟까지 이동할 루트로 tokenTile을 찾아, 액션 토큰에 삽입. 
 
         int tempMoveCount = 3; //이동횟수 겟 함수
-        int x = _char.GetXIndex();
-        int y = _char.GetYIndex();
-        int toX = _target.GetXIndex();
-        int toY = _target.GetYIndex(); //
-
+   
         TokenTile[,] maps = MgToken.g_instance.GetMaps();
-        TMapIndex mapInfoes = new TMapIndex(x, y, toX, toY);
+        TMapIndex mapInfoes = new TMapIndex(_char, _target);
         
         for (int i = 1; i <= tempMoveCount; i++)
         {

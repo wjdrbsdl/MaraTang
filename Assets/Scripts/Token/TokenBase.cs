@@ -126,13 +126,13 @@ public class TokenBase
     {
         int index = ParseEnumValue(_enumIndex);
         m_tokenIValues[index] = _value;
-        Debug.Log(m_tokenType + ": " + _enumIndex + ":" + m_tokenIValues[index]);
+        //Debug.Log(m_tokenType + ": " + _enumIndex + ":" + m_tokenIValues[index]);
     }
     public void CalStat(System.Enum _enumIndex, int _value)
     {
         int index = ParseEnumValue(_enumIndex);
         m_tokenIValues[index] += _value;
-        Debug.Log(m_tokenType + ": " + _enumIndex + ":" + m_tokenIValues[index]);
+        //Debug.Log(m_tokenType + ": " + _enumIndex + ":" + m_tokenIValues[index]);
     }
 
     protected int ParseEnumValue(System.Enum _enumValue)

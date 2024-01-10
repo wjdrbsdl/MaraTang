@@ -67,11 +67,8 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
 
     public void SelectActionToken(TokenBase _token)
     {
-        Debug.Log("액션 고름");
-        //  Debug.Log("액션 고름");
+        //Debug.Log("액션 고름");
         TokenAction actionToken = (TokenAction)_token;
-        m_curAction = actionToken;
-        //액션 토큰을 선택했으면,
         //0. 액션 토큰 사용 조건 확인
         if (GamePlayMaster.g_instance.RuleBook.CheckUsableToken(m_curChar, actionToken) == false)
         {
@@ -80,7 +77,8 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
             if (GamePlayMaster.g_instance.AdaptActionCount)
                 return;
         }
-
+        //1. 현재 액션으로 할당하고, 단계 변화
+        m_curAction = actionToken;
         ChangedPlayerStep(GamePlayStep.FillContent);//액션토큰을 골랐으면 내용채우기 단계로
 
     }
