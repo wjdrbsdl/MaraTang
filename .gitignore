@@ -81,10 +81,6 @@ crashlytics-build.properties
 /[Pp]rojectSettings*
 /[Aa]ssets/*
 !/[Aa]ssets/Scripts
-MaRaTang/*
-!MaRaTang/Assets
-MaRaTang/Assets/*
-!MaRaTang/Assets/Scripts
-!MaRaTang/Assets/Animation
-!MaRaTang/Assets/Scenes
-!MaRaTang/Assets/Used
+!/[Aa]ssets/Animation
+!/[Aa]ssets/Scenes
+!/[Aa]ssets/Used
