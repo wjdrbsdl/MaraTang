@@ -38,11 +38,12 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
                 if (tokenType == TokenType.Char) //만약 _token 타입이 캐릭이라면 해당 캐릭고른걸로
                 {
                     //게임마스터에게 얘 골랐다고 전달 - 액션 지니고 있어야하네 
-                    Debug.Log(_token.GetItemName() + "캐릭터 고름");
+                   
                     TokenChar charToken = (TokenChar)_token;
                     if (charToken.IsPlayerChar())
                     {
                         m_curChar = charToken;
+                        GamePlayMaster.g_instance.EmphasizeTarget(m_curChar);
                         ChangedPlayerStep(GamePlayStep.SelectAct);
                     }
                 }

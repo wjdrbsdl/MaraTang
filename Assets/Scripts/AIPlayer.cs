@@ -102,7 +102,7 @@ public class AIPlayer : PlayerRule
         //캐릭터 상태 그밖에 조건등으로 현재 캐릭터가 취해야할 액션을 선택하는 로직
         _char.ClearNextActionList();
 
-        int tempEyeSight = 3; //캐릭터의 시야거리
+        int tempEyeSight = 15; //캐릭터의 시야거리
         List<TokenTile> inRangedTiles = GameUtil.GetTileTokenListInRange(tempEyeSight, _char.GetXIndex(), _char.GetYIndex());
         bool isEnemyFind = false;
         for (int i = 0; i < inRangedTiles.Count; i++)

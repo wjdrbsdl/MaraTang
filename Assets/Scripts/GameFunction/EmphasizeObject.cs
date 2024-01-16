@@ -25,6 +25,15 @@ public class EmphasizeObject
         }
     }
 
+    public void Emphasize(TokenBase _token)
+    {
+        ObjectTokenBase _emphaObject = _token.GetObject(); //강조할 오브젝트 얻기 
+        if (_emphaObject == null)
+            return; //강조할 대상없음. 
+
+        Debug.Log(_token.GetItemName() + "캐릭터 고름 강조");
+    }
+
     public void Nomalize(List<ObjectTokenBase> _tokenbases)
     {
         for (int i = 0; i < _tokenbases.Count; i++)

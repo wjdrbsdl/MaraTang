@@ -27,6 +27,8 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     public RuleBook RuleBook;
     public EmphasizeObject EmphasizeTool;
 
+    [Header("[배틀씬]")]
+    [SerializeField] private UIBattle m_battleUI;
     #region 행동 예약 변수
     Queue<IEnumerator> actionReserVationQueue = new(); //수행할 코루틴
     private bool isPlayingCorutine = false; //선행중인 코루틴이 있는지 체크
@@ -169,8 +171,24 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
         PlayReservation(curstep);
     }
 
+    //어택이 아니더라도 대상에게 어떠한 효과를 주는 경우에는 다해도 될것 같은데
     public void ReservateAttack()
     {
+        m_battleUI.Switch(true);
+        //어택 토큰을 상대에게 사용시 
+        //------------ 데이터
+        //1. 어택토큰의 기능 + 사용자 버프로 공격 산출 
+        //2. 방어자의 버프 적용 최종 데미지 적용
+        //3. 방어자의 반격 모드 적용 - 
+        //4. 사후 적용 - 데이터 부분
+        //------------ UI
+        //1. 캐릭터 토큰들 버프, 스텟 표시 
+        //2. 사용된 공방 토큰 버프 적용 상태 표시 
+        //3. 최종 적용 스텟 표시 
+        //-> 확인누르면 반격 진행 - 위과정 반복 
+        //4. 위 루트 가운데 센터로 표기 - A가 B로 공격 - C가 D만큼 피해 등. 
+        //5. 최종확인시 창 종료 
+
 
     }
 
@@ -328,6 +346,11 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     #endregion
 
     #region 부가 편의 기능
+    public void EmphasizeTarget(TokenBase _token)
+    {
+        EmphasizeTool.Emphasize(_token);
+    }
+
     public void EmphasizeTargetObject(int _centerX, int _centerY, TokenAction _actionToken)
     {
         //토큰오브젝트를 강조하는 부분 (UI 부분은 UIPlayGame 에서 관리)
