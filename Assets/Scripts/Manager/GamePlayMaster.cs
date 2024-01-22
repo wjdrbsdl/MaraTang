@@ -49,16 +49,16 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
         }
         if (Input.GetKeyDown(KeyCode.F6))
         {
-            for (int i = 0; i < MgToken.g_instance.GetNpcPlayerList().Count; i++)
+            for (int i = 0; i < MgToken.GetInstance().GetNpcPlayerList().Count; i++)
             {
-                TokenChar charToken = MgToken.g_instance.GetNpcPlayerList()[i];
-                MgToken.g_instance.TempPosRandomPlayer(charToken);
+                TokenChar charToken = MgToken.GetInstance().GetNpcPlayerList()[i];
+                MgToken.GetInstance().TempPosRandomPlayer(charToken);
             }
            
         }
         if (Input.GetKeyDown(KeyCode.F7))
         {
-            MgToken.g_instance.MakeMap(); // 맵 다시만들기
+            MgToken.GetInstance().MakeMap(); // 맵 다시만들기
         }
         if (Input.GetKeyDown(KeyCode.F8))
         {
@@ -75,7 +75,6 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     public override void InitiSet()
     {
         base.InitiSet();
-        g_instance = this; //플레이마스터
         RuleBook = new();
         RuleBook.m_PlayMaster = this;
         m_aiPlayer = new();
@@ -87,7 +86,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     {
         m_aiPlayer.SetInitial(); //mgtoken이 토큰 다 만들고 나서 진행해야함.
         m_playerMemeber = PlayerMember.LivePlayer; //시작은 플레이어
-        m_players[0] = PlayerManager.g_instance;
+        m_players[0] = PlayerManager.GetInstance();
         m_players[1] = m_aiPlayer;
         ReadyNextTurn();
     }
@@ -104,7 +103,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
         m_players[turn].PlayTurn();
 
         //해당 플레이턴이 될때 카메라 고정을 풀거나, 하도록
-        CameraFollow(MgToken.g_instance.GetNpcPlayerList()[turn]);
+        CameraFollow(MgToken.GetInstance().GetNpcPlayerList()[turn]);
     }
  
     //2. 전달 받은 캐릭과 액션을 수행 해줌
@@ -326,9 +325,9 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     private void RecoverActionCount()
     {
        AnnounceState("소비된 액션 카운트 회복");
-        for (int i = 0; i < MgToken.g_instance.GetNpcPlayerList().Count; i++)
+        for (int i = 0; i < MgToken.GetInstance().GetNpcPlayerList().Count; i++)
         {
-            MgToken.g_instance.GetNpcPlayerList()[i].actionCount = i + 1; //
+            MgToken.GetInstance().GetNpcPlayerList()[i].actionCount = i + 1; //
         }
     }
     private void SettleWorldTurn()

@@ -11,7 +11,8 @@ public class ObjectTokenBase : MonoBehaviour
     public TokenType m_tokenType;
     [SerializeField]
     public TokenBase m_token; //들어있는 토큰
-    public SpriteRenderer m_icon;
+    public SpriteRenderer m_charIcon;
+    public SpriteRenderer m_actionIcon;
     CharState m_state = CharState.Idle;
     public Animator m_animator;
     public int m_ClickPriority = 0;
@@ -84,12 +85,12 @@ public class ObjectTokenBase : MonoBehaviour
 
     public void ShowActionIcon(ActionType _action)
     {
-        m_icon.sprite = GamePlayMaster.g_instance.m_testActionIcon[(int)_action];
-        m_icon.gameObject.SetActive(true);
+        m_actionIcon.sprite = GamePlayMaster.g_instance.m_testActionIcon[(int)_action];
+        m_actionIcon.gameObject.SetActive(true);
     }
     public void OffActionIcon()
     {
-        m_icon.gameObject.SetActive(false);
+        m_actionIcon.gameObject.SetActive(false);
     }
    
     public void PlayAnimation(CharState _state)

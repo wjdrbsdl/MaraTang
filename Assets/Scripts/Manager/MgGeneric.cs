@@ -9,6 +9,20 @@ public class MgGeneric<T> : MonoBehaviour
     public virtual void InitiSet()
     {
         //매니저로서 자신의 static 인스턴스를 생성하고, 자기 내부에서 처리가능한 초기화를 진행
+
+        MakeSingleton();
     }
 
+    public void MakeSingleton()
+    {
+        //매니저로서 자신의 static 인스턴스를 생성하고, 자기 내부에서 처리가능한 초기화를 진행
+        if (g_instance != null)
+            return;
+        g_instance = gameObject.GetComponent<T>();
+    }
+
+    public static T GetInstance()
+    {
+        return g_instance;
+    }
 }

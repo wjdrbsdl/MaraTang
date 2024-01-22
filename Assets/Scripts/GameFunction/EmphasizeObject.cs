@@ -31,7 +31,7 @@ public class EmphasizeObject
         if (_emphaObject == null)
             return; //강조할 대상없음. 
 
-        Debug.Log(_token.GetItemName() + "캐릭터 고름 강조");
+        Debug.Log(_token.GetItemName() + "[기능 필요]캐릭터 고름 강조");
     }
 
     public void Nomalize(List<ObjectTokenBase> _tokenbases)

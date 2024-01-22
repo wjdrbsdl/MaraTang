@@ -14,7 +14,7 @@ public class AIPlayer : PlayerRule
 
     public void SetInitial()
     {
-        m_npcList = MgToken.g_instance.GetNpcPlayerList();
+        m_npcList = MgToken.GetInstance().GetNpcPlayerList();
         m_turnNumber = 0;
     }
 
@@ -23,7 +23,7 @@ public class AIPlayer : PlayerRule
     {
         // Ai가 캐릭터 조작하는 방법
 
-        GamePlayMaster.g_instance.AnnounceState("AI플레이어 진행");
+        GamePlayMaster.GetInstance().AnnounceState("AI플레이어 진행");
         //1. 순서대로 조작할 char를 뽑는다 - 이곳에서 액션 행동 카운트까지 남아있는 캐릭터만 받음.
         TokenChar turnChar =  SelectCharactor(); //행동할 녀석 뽑는걸로 행동 시작
         if(turnChar == null)
@@ -55,7 +55,7 @@ public class AIPlayer : PlayerRule
         }
 
         //4.내용까지 채워졌다면 겜마에게 수행하도록 요청 
-        GamePlayMaster.g_instance.PlayCharAction(turnChar);
+        GamePlayMaster.GetInstance().PlayCharAction(turnChar);
 
     }
 
@@ -67,7 +67,7 @@ public class AIPlayer : PlayerRule
 
     public void EndTurn()
     {
-        GamePlayMaster.g_instance.EndPlayerTurn();
+        GamePlayMaster.GetInstance().EndPlayerTurn();
     }
     #endregion
 
@@ -182,7 +182,7 @@ public class AIPlayer : PlayerRule
             {
                 int tempAttackRange = 1; //임시 현재 타겟의 사거리를 1로 조정
                 tempStopDistance = tempAttackRange; //멈출거리 1로 조정
-                targetTile = MgToken.g_instance.GetMaps()[charTarget.GetXIndex(), charTarget.GetYIndex()]; //해당 타겟이 있는 타일을 목적지로 설정
+                targetTile = MgToken.GetInstance().GetMaps()[charTarget.GetXIndex(), charTarget.GetYIndex()]; //해당 타겟이 있는 타일을 목적지로 설정
                 
             }
             //2. 따로 타겟이 없으면 범위 내 타일중 이동할 곳 랜덤으로 뽑기
@@ -205,7 +205,7 @@ public class AIPlayer : PlayerRule
 
         int tempMoveCount = 3; //이동횟수 겟 함수
    
-        TokenTile[,] maps = MgToken.g_instance.GetMaps();
+        TokenTile[,] maps = MgToken.GetInstance().GetMaps();
         TMapIndex mapInfoes = new TMapIndex(_char, _target);
         
         for (int i = 1; i <= tempMoveCount; i++)

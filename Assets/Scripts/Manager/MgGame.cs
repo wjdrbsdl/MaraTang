@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class MgGame : MonoBehaviour
 {
+    //인게임에서 게임의 시작(로드) 저장 흐름을 제어.
+
+    #region 매니저
     [SerializeField]
     MgToken m_tokenManager;
     [SerializeField]
@@ -12,14 +15,12 @@ public class MgGame : MonoBehaviour
     GamePlayMaster m_playMaster;
     [SerializeField]
     PlayerManager m_playerManager;
+    [SerializeField] SoundManager m_soundManager;
 
     [SerializeField]
     MgUI m_uiManager;
-
-    //게임 로딩에 필요한 매니저들 리셋 시키고, 맵에서 판을 까는 순서를 제어
-
-    //data와 ui 부분을 나눠서 준비
-    //모든 준비 후 게임마스터의 스타트게임 호출
+    #endregion
+ 
     void Start()
     {
         //데이터 파트 
@@ -48,6 +49,7 @@ public class MgGame : MonoBehaviour
         m_tokenManager.InitiSet();
         m_playMaster.InitiSet();
         m_playerManager.InitiSet();
+        m_soundManager.InitiSet();
     }
    
     private void LoadMasterData()

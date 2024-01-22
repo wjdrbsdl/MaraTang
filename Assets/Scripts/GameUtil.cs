@@ -285,8 +285,8 @@ public static class GameUtil
 
     public static bool IsThereMap(int _x, int _y)
     {
-        int maxX = MgToken.g_instance.GetMaps().GetLength(0);
-        int maxY = MgToken.g_instance.GetMaps().GetLength(1);
+        int maxX = MgToken.GetInstance().GetMaps().GetLength(0);
+        int maxY = MgToken.GetInstance().GetMaps().GetLength(1);
         
         if (_x < 0 || maxX <= _x)
             return false;
@@ -309,17 +309,17 @@ public static class GameUtil
 
     public static TokenTile GetTileTokenFromMap(int[] _index)
     {
-        return MgToken.g_instance.GetMaps()[_index[0], _index[1]];
+        return MgToken.GetInstance().GetMaps()[_index[0], _index[1]];
     }
 
     public static TokenTile GetTileTokenFromMap(TokenChar _char)
     {
-        return MgToken.g_instance.GetMaps()[_char.GetXIndex(), _char.GetYIndex()];
+        return MgToken.GetInstance().GetMaps()[_char.GetXIndex(), _char.GetYIndex()];
     }
 
     public static ObjectTokenBase GetTokenObjectFromMap(int[] _index)
     {
-        return MgToken.g_instance.GetMaps()[_index[0], _index[1]].GetObject();
+        return MgToken.GetInstance().GetMaps()[_index[0], _index[1]].GetObject();
     }
 
     #region 테이블 enum 변경기

@@ -23,6 +23,9 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
     {
         if (Input.GetKeyDown(KeyCode.Escape))
             ClickCancle();
+
+        if (Input.GetMouseButtonDown(1))
+            ClickCancle();
     }
 
     #region 플레이어 인풋으로 호출되는 부분
@@ -60,6 +63,8 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
                     m_curAction.ClearTarget();
                     m_curAction.AddTarget(_token);
                     m_playGameUI.AddContent(_token);
+
+                    ConfirmAction();
                 }
 
                 break;

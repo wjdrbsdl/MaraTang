@@ -50,7 +50,6 @@ public class MgToken : MgGeneric<MgToken>
     public override void InitiSet()
     {
         base.InitiSet();
-        g_instance = this; //토큰매니저
     }
 
     #region 맵만들기
@@ -104,7 +103,7 @@ public class MgToken : MgGeneric<MgToken>
             RuleBook.Migrate(monsterToken, m_tileTokenes[ranX, ranY]); //타일토큰에 캐릭토큰 할당
             monsterToken.SetObjectPostion(ranX, ranY); //오브젝트 위치 동기화
         }
-        PlayerManager.g_instance.SetMainChar(m_npcTokens[0]);
+        PlayerManager.GetInstance().SetMainChar(m_npcTokens[0]);
     }
     #endregion
 
