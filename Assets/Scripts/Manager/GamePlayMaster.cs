@@ -103,7 +103,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
         m_players[turn].PlayTurn();
 
         //해당 플레이턴이 될때 카메라 고정을 풀거나, 하도록
-        CameraFollow(MgToken.GetInstance().GetNpcPlayerList()[turn]);
+        CamTraceOn(MgToken.GetInstance().GetNpcPlayerList()[turn]);
     }
  
     //2. 전달 받은 캐릭과 액션을 수행 해줌
@@ -113,7 +113,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
         ResetEmphasize();
         _charToken.actionCount -= 1;
         _charToken.ShowAction(true);
-        CameraFollow(_charToken);
+        CamTraceOn(_charToken);
         RuleBook.PlayAction(_charToken);
     }
 
@@ -193,6 +193,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
 
     public void DoneReserve(int _curStep)
     {
+        CamTraceOff();
         PlayReservation(_curStep); //룰북으로부터 예약이 끝나면 받는 부분 - 
         //오로지 즉발로 이뤄진 액션토큰의 경우 - 종료가 2번 호출될 수 있겠다. 
     }
@@ -246,6 +247,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
 
     private void PlayReservation(int _curStep)
     {
+        CamTraceOn(m_actionChar);
         if (isPlayingCorutine == true)
             return; //선행중인 코루틴 있으면 할거 없음. - 선행중 추가 예약하는 경우에 발생 
 
@@ -362,9 +364,15 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
         EmphasizeTool.ResetEmphasize(); //선택시 필요했던 강조부분을 초기화 
     }
 
-    public void CameraFollow(TokenChar _char)
+    public void CamTraceOn(TokenChar _char)
     {
      m_camFollow.SetTarget(_char.GetObject());
+        m_camFollow.TraceOnOff(true);
+    }
+
+    public void CamTraceOff()
+    {
+        m_camFollow.TraceOnOff(false);
     }
 
     public void AnnounceState(string message)

@@ -142,7 +142,7 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
     public void PlayTurn()
     {
         //1. 메인캐릭터로 카메라 이동
-        GamePlayMaster.g_instance.CameraFollow(m_mainChar);
+        GamePlayMaster.g_instance.CamTraceOn(m_mainChar);
 
         //2. 자동 조작
         if (GamePlayMaster.g_instance.m_testAuto)
