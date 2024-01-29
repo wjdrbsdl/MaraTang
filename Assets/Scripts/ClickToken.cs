@@ -5,22 +5,78 @@ using UnityEngine.EventSystems;
 
 public class ClickToken : MonoBehaviour
 {
+    private bool m_isMouseClick = false;
+    [SerializeField]
+    private float m_dragCutDistance = 2.0f; //드래그로 인정되는 이동거리
+    [SerializeField]
+    private bool m_isDragMode = false;
+    [SerializeField]
+    private float m_minMoveSpeed = 0.1f;
+    [SerializeField]
+    private float m_maxMoveSpeed = 0.3f;
+    public float dragSpeed = 0f;
+
+    Vector2 priorMousePosition = new Vector2();
     private void Update()
     {
-        CallTokenClick();
+        LeftMouse();
         InputKey();
+        DragCam();
     }
 
-    void CallTokenClick()
+    private void LeftMouse()
     {
-        if (!Input.GetMouseButtonDown(0))
-            return;
-
         if (EventSystem.current.IsPointerOverGameObject())
         {
-           // Debug.Log("유아이 슬랏 눌러서 종료");
+            //누르기 전
+            if (m_isMouseClick == false)
+                return;
+
+            //누른 상태로 UI 영역 침범시
+            if(m_isMouseClick == true)
+            {
+                //그냥 초기화
+                m_isMouseClick = false;
+                m_isDragMode = false;
+            }
+            //
             return;
         }
+
+        //짧게 눌렀다 때면 클릭
+        //길게 누르고 있으면 드래그 
+
+        //1. 눌렀을 때
+        if (Input.GetMouseButtonDown(0)&&m_isMouseClick == false)
+        {
+            m_isMouseClick = true; //눌러졌음으로 바꾸고
+            m_isDragMode = false; //초기화
+            priorMousePosition = Input.mousePosition;
+            return;
+        }
+        //2. 누른 상태로 - 클릭이냐 드래그냐 가르는 부분
+        if(Input.GetMouseButton(0) && m_isMouseClick == true && m_isDragMode == false)
+        {
+            //마우스 누른상태에서 지속중이면 클릭일지 드래그일지 판별 -> 판별나고 나선 판별 안해도 됨
+           if(Vector2.Distance(Input.mousePosition, priorMousePosition) > m_dragCutDistance)
+            {
+                m_isDragMode = true;
+            }
+        }
+        //3. 떼었을 때
+        if(Input.GetMouseButtonUp(0) && m_isMouseClick == true)
+        {
+            //마우스를 뗀순간 드래그모드인지 따라서 클릭 진행
+            if (m_isDragMode == false)
+                CallTokenClick();
+            //클릭 상태는 초기화
+            m_isMouseClick = false;
+            m_isDragMode = false;
+        }
+    }
+
+    private void CallTokenClick()
+    {
      
         RaycastHit2D[] hit = Physics2D.RaycastAll(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, 0f);
         int maxPri = -1; //최소 선호도는 0 
@@ -43,8 +99,25 @@ public class ClickToken : MonoBehaviour
             clickToken.OnClickObject();
         
     }
+   
+    private void DragCam()
+    {
+        if (m_isDragMode == false)
+            return;
 
-    void InputKey()
+        
+        Vector2 direct = new Vector2(Input.mousePosition.x - priorMousePosition.x , Input.mousePosition.y - priorMousePosition.y);
+        direct = -direct.normalized;
+        
+        //인버스러프 -> 그 구간에서 해당 값이 어느 비율값인지 0~1 사이 값
+        float ratio = Mathf.InverseLerp(CameraMove.m_minScopeSize, CameraMove.m_maxScopeSize, Camera.main.orthographicSize);
+        //러프 -> 그 구간에서 비율(0~1)에 해당하는 값 min~max 사이 값
+        dragSpeed = Mathf.Lerp(m_minMoveSpeed, m_maxMoveSpeed, ratio); //크기 비율에 따라 속도 변화
+        Camera.main.gameObject.transform.Translate(direct * dragSpeed);
+        priorMousePosition = Input.mousePosition; //이동한 위치로 갱신 
+    }
+    
+    private void InputKey()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {

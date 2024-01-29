@@ -31,6 +31,7 @@ public enum TokenType
 [System.Serializable]
 public class TokenBase
 {
+    [SerializeField]
     protected int[] m_tokenIValues; //각 토큰마다 사용할 벨류들을 enum으로 선언해서 인덱스로 사용
     [SerializeField]
     protected int m_xIndex = 0;//지도상 행렬 포지션

@@ -12,7 +12,7 @@ public class MgGame : MonoBehaviour
     [SerializeField]
     MgGameLoader m_loadManager;
     [SerializeField]
-    GamePlayMaster m_playMaster;
+    GamePlayMaster m_gamePlayMaster;
     [SerializeField]
     PlayerManager m_playerManager;
     [SerializeField] SoundManager m_soundManager;
@@ -47,7 +47,7 @@ public class MgGame : MonoBehaviour
     {
         //아직 매니저 초기셋팅에 순서는 중요치 않음.
         m_tokenManager.InitiSet();
-        m_playMaster.InitiSet();
+        m_gamePlayMaster.InitiSet();
         m_playerManager.InitiSet();
         m_soundManager.InitiSet();
     }
@@ -88,7 +88,7 @@ public class MgGame : MonoBehaviour
     private void PlayGame()
     {
         //4. 게임플레이가 플레이 진행
-        m_playMaster.FirstStart();
+        m_gamePlayMaster.FirstStart();
     }
 
 }

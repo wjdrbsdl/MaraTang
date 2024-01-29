@@ -6,10 +6,17 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
 {
     [SerializeField]
     UIPlayGame m_playGameUI; //플레이어의 액션에 관련된 UI
+    [SerializeField]SoundManager m_soundMg;
     private GamePlayStep m_curStep = GamePlayStep.SelectAct; //현재 플레이 단계 
     private TokenChar m_curChar; //현재 선택된 캐릭터
     private TokenAction m_curAction;
     private TokenChar m_mainChar = null; //메인 캐릭터
+
+    [Header("Efx 별도 확보")]
+    [SerializeField]
+    AudioClip actionSelectEFx;
+    [SerializeField]
+    AudioClip eventSelectEFx;
 
     #region 초기화
     public override void InitiSet()
@@ -74,6 +81,7 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
     public void SelectActionToken(TokenBase _token)
     {
         //Debug.Log("액션 고름");
+        m_soundMg.PlayEfx(actionSelectEFx);
         TokenAction actionToken = (TokenAction)_token;
         //0. 액션 토큰 사용 조건 확인
         if (GamePlayMaster.g_instance.RuleBook.CheckUsableToken(m_curChar, actionToken) == false)
@@ -91,6 +99,7 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
 
     public void SelectEventToken(TokenBase _eventToken)
     {
+        m_soundMg.PlayEfx(eventSelectEFx);
         TokenEvent eventToken = (TokenEvent)_eventToken;
         //이벤트 선택 가능여부는 제쳐두고 
         m_playGameUI.OffPlayUI();
