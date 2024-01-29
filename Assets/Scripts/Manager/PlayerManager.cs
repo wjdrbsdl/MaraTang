@@ -141,10 +141,6 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
     #region 플레이어 턴 수행 인터페이스
     public void PlayTurn()
     {
-        //1. 메인캐릭터로 카메라 이동
-        GamePlayMaster.g_instance.CamTraceOn(m_mainChar);
-
-        //2. 자동 조작
         if (GamePlayMaster.g_instance.m_testAuto)
         {
             Debug.Log("리얼 플레이어 자동 턴 종료 선언");

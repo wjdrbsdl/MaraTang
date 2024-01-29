@@ -104,6 +104,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
 
         //해당 플레이턴이 될때 카메라 고정을 풀거나, 하도록
         CamTraceOn(MgToken.GetInstance().GetNpcPlayerList()[turn]);
+        CamTraceOff();
     }
  
     //2. 전달 받은 캐릭과 액션을 수행 해줌
@@ -120,7 +121,8 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     //3. 액션 수행 끝났으면 해당 플레이어게 해당 캐릭터 액션수행 끝났음을 알림. 
     public void DoneCharAction(TokenChar _charToken)
     {
-     //   Debug.Log("<<color=red>마스터 :  " + _charToken.num + "번 더 수행할 행동력이 있나?</color>");
+        //   Debug.Log("<<color=red>마스터 :  " + _charToken.num + "번 더 수행할 행동력이 있나?</color>");
+        CamTraceOff();
         _charToken.ShowAction(false);
         RuleBook.OffRouteNumber();
         m_players[(int)m_playerMemeber].DoneCharAction(_charToken); //현재 플레이어에게 해당 캐릭터의 액션이 완료되었음을 알린다.
@@ -193,7 +195,6 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
 
     public void DoneReserve(int _curStep)
     {
-        CamTraceOff();
         PlayReservation(_curStep); //룰북으로부터 예약이 끝나면 받는 부분 - 
         //오로지 즉발로 이뤄진 액션토큰의 경우 - 종료가 2번 호출될 수 있겠다. 
     }
@@ -247,7 +248,6 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
 
     private void PlayReservation(int _curStep)
     {
-        CamTraceOn(m_actionChar);
         if (isPlayingCorutine == true)
             return; //선행중인 코루틴 있으면 할거 없음. - 선행중 추가 예약하는 경우에 발생 
 
