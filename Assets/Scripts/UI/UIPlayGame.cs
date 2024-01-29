@@ -8,6 +8,15 @@ public class UIPlayGame : MonoBehaviour
     public UIActionTokenBox m_actionTokenBox;
     public UIFillContent m_fillContentUI;
     public UIEventContent m_eventContentUI;
+    public UICapital m_capitalUI;
+
+    public UIBase[] m_offUIes; //껐다 켰따 할 리스트들
+
+    private void Start()
+    {
+        m_offUIes = new UIBase[] { m_actionTokenBox, m_fillContentUI, m_eventContentUI };
+    }
+
     public void ShowActionToken(TokenChar _char)
     {
         //플레이어 캐릭터 눌렀을 때 - 플레이어 매니저상 어떤 상태인지에 따라서 세팅하기 
@@ -39,10 +48,16 @@ public class UIPlayGame : MonoBehaviour
     }
     #endregion
 
+    public void ResetCapitalInfo(PlayerCapitalData _capitalData)
+    {
+        m_capitalUI.ResetCapitalInfo(_capitalData);
+    }
+
     public void OffPlayUI()
     {
-        m_actionTokenBox.Switch(false);
-        m_fillContentUI.Switch(false);
-        m_eventContentUI.Switch(false);
+        for (int i = 0; i < m_offUIes.Length; i++)
+        {
+            m_offUIes[i].Switch(false);
+        }
     }
 }

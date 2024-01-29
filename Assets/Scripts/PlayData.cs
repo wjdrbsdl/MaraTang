@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerCapitalData
 {
-    public enum Resource
+    public enum Capital
     {
         Stone, Grass
     }
@@ -15,7 +15,7 @@ public class PlayerCapitalData
     public PlayerCapitalData()
     {
         Debug.Log("최초생ㅅㅇ");
-        m_intValues = new int[System.Enum.GetValues(typeof(Resource)).Length];
+        m_intValues = new int[System.Enum.GetValues(typeof(Capital)).Length];
     }
 
     #region 스텟 배열 적용하는 부분

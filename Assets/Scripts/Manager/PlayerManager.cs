@@ -184,9 +184,9 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
     #endregion
 
     //플레이어 자본 데이터 조정 
-    public void AdaptCapital(PlayerCapitalData.Resource _resource, int _value, bool isCal)
+    public void AdaptCapital(PlayerCapitalData.Capital _resource, int _value, bool isCal)
     {
-        string reward = string.Format("{0} 자원 {1} 확보", PlayerCapitalData.Resource.Grass, 50);
+        string reward = string.Format("{0} 자원 {1} 확보", _resource, _value);
         GamePlayMaster.GetInstance().AnnounceState(reward);
         //기존데이터에 적용인지, 덮는건지 
         if (isCal)
@@ -198,6 +198,7 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
             m_playerCapitalData.SetData(_resource, _value);
         }
 
+        m_playGameUI.ResetCapitalInfo(m_playerCapitalData);
     }
 
     public void SetMainChar(TokenChar _mainChar)
