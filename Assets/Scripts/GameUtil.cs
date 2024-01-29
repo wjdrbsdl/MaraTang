@@ -18,10 +18,12 @@ public static class GameUtil
 
         List<int[]> rangedTile = new List<int[]>();
 
+
         int[] startPoint = {_centerX , _centerY}; //기준이되는 시작점을 센터로 잡음
+        rangedTile.Add(new int[] { _centerX, _centerY });
         //string resultLog = "";
         //한칸씩 주변을 돌면서 기록
-        for(int range = 1; range <= _range; range++)
+        for (int range = 1; range <= _range; range++)
         {
             //주변을 도는 6 방향 - TileDirection으로 매칭 -> RightUp방향으로 먼저 진행하므로, -1(살피려는 범위의 사거리)로 시작점을 조정
             startPoint[0] = _centerX - range;
