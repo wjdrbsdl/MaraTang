@@ -280,14 +280,14 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
 
     private void OccurMoveEvent(TokenChar _charToken)
     {
-        if (CheckMoveEventCondition(_charToken) == false)
+        if (IsOccurMoveEvent(_charToken) == false)
             return;
 
         //판약 플레이어가 액션을 수행했다면, 
         RuleBook.OnTileArrive(_charToken);
     }
 
-    private bool CheckMoveEventCondition(TokenChar _charToken)
+    private bool IsOccurMoveEvent(TokenChar _charToken)
     {
         //플레이어의 메인 캐릭터면서 최근한 행동이 Move인 경우 이벤트 발생
         if (_charToken.isMainChar == false)

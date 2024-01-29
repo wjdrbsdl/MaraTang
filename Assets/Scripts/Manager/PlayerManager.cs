@@ -11,6 +11,7 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
     private TokenChar m_curChar; //현재 선택된 캐릭터
     private TokenAction m_curAction;
     private TokenChar m_mainChar = null; //메인 캐릭터
+    private PlayerCapitalData m_playerCapitalData; //플레이어의 자원 정보
 
     [Header("Efx 별도 확보")]
     [SerializeField]
@@ -23,6 +24,7 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
     {
         base.InitiSet();
         g_instance = this;
+        m_playerCapitalData = new();
     }
     #endregion
 
@@ -40,6 +42,7 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
     {
         //플레이에서 Clicker로 클릭을 감지한 경우 이녀석으로 클릭한걸 넘긴다. 
         //무슨 토큰을 눌렀나
+        m_soundMg.PlayEfx(actionSelectEFx);
         TokenType tokenType = _token.GetTokenType();
         // Debug.Log(m_step + "에 " + tokenType + "눌림");
         switch (m_curStep)
@@ -173,9 +176,29 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
     public void OnAdaptEvent()
     {
         //이벤트 적용 후
+        //1. 획득한 자원값 적용
         ChangedPlayerStep(m_preStep); //이전 스텝으로 돌아가고
     }
+
+
     #endregion
+
+    //플레이어 자본 데이터 조정 
+    public void AdaptCapital(PlayerCapitalData.Resource _resource, int _value, bool isCal)
+    {
+        string reward = string.Format("{0} 자원 {1} 확보", PlayerCapitalData.Resource.Grass, 50);
+        GamePlayMaster.GetInstance().AnnounceState(reward);
+        //기존데이터에 적용인지, 덮는건지 
+        if (isCal)
+        {
+            m_playerCapitalData.CalData(_resource, _value);
+        }
+        else
+        {
+            m_playerCapitalData.SetData(_resource, _value);
+        }
+
+    }
 
     public void SetMainChar(TokenChar _mainChar)
     {
