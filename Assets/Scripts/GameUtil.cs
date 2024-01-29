@@ -63,12 +63,6 @@ public static class GameUtil
        return GameUtil.GetTileIdxListInRange(_range, _centerX, _centerY).ConvertAll(new System.Converter<int[], TokenTile>(GetTileTokenFromMap)); // 사거리 내부 안의 타일 가져오기
     }
 
-    public static List<HideTile> GetHideTileListInRange(int _range, int _centerX, int _centerY)
-    {
-        return GameUtil.GetTileIdxListInRange(_range, _centerX, _centerY).ConvertAll(new System.Converter<int[], HideTile>(GetHideTileFromMap)); // 사거리 내부 안의 타일 가져오기
-    }
-
-
     public static List<ObjectTokenBase> GetTokenObjectInRange(int _range, int _centerX, int _centerY)
     {
         return GameUtil.GetTileIdxListInRange(_range, _centerX, _centerY).ConvertAll(new System.Converter<int[], ObjectTokenBase>(GetTokenObjectFromMap)); // 사거리 내부 안의 타일 가져오기
@@ -291,6 +285,7 @@ public static class GameUtil
         string define = PlayerSettings.GetScriptingDefineSymbolsForGroup(BuildTargetGroup.Android);
     */
 
+    #region 좌표에 해당하는 타일 얻기
     public static bool IsThereMap(int _x, int _y)
     {
         int maxX = MgToken.GetInstance().GetMaps().GetLength(0);
@@ -334,6 +329,7 @@ public static class GameUtil
     {
         return MgToken.GetInstance().GetMaps()[_index[0], _index[1]].GetObject();
     }
+    #endregion 
 
     #region 테이블 enum 변경기
     static string[]  originEnumString = { "Plus", "cheicken", "Scoop", "Vio" }; //기존 테이블에서 읽었다고 가정

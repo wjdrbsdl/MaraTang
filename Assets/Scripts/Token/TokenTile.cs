@@ -8,11 +8,17 @@ public enum TileType
 
 }
 
+public enum TileViewState
+{
+    Fog, Sight
+}
+
 public class TokenTile : TokenBase
 {
     List<TokenChar> m_inTileCharList = new();
     [SerializeField]
     private TileType m_tileType;
+    private TileViewState m_viewState = TileViewState.Fog;
 
     public TokenTile()
     {
@@ -26,7 +32,6 @@ public class TokenTile : TokenBase
         
         return tileToken;
     }
-
   
     public List<TokenChar> GetCharsInTile()
     {
@@ -54,5 +59,11 @@ public class TokenTile : TokenBase
     public void OffRouteNumber()
     {
         ((ObjectTile)m_object).OffRouteNumber();
+    }
+
+    public void ChangeViewState(TileViewState _toState)
+    {
+        if(_toState.Equals(TileViewState.Sight))
+        GameUtil.GetHideTileFromMap(GetMapIndex()).FogOff();
     }
 }
