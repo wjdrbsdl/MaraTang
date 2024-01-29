@@ -146,6 +146,11 @@ public class TokenBase
     #endregion
 
     #region ÁÂÇ¥ °ª
+    public int[] GetMapIndex()
+    {
+        return new int[] { m_xIndex, m_yIndex };
+    }
+
     public int GetXIndex()
     {
         return m_xIndex;

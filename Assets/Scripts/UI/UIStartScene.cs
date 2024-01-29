@@ -7,6 +7,6 @@ public class UIStartScene : UIBase
 {
     public void GoGame()
     {
-        SceneManager.LoadScene("PlayScene");
+        SceneManager.LoadScene("1.PlayScene");
     }
 }

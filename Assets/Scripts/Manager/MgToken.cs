@@ -16,6 +16,10 @@ public class MgToken : MgGeneric<MgToken>
     TileMaker m_tileMaker;
     public GameObject[] m_tiles;
     public Transform m_tileBox;
+
+    
+    public Transform m_hideBox;
+    public GameObject m_hideTile;
     public int m_xLength;
     public int m_yLength;
     public float m_rLength;
@@ -30,10 +34,12 @@ public class MgToken : MgGeneric<MgToken>
         public float t_rLength;
         public GameObject[] t_tiles;
         public Transform t_box;
+        public GameObject t_hideTile;
+        public Transform t_hideBox;
         public int t_seed ;
         public float t_noise;
 
-        public TMapBluePrint(int xLength, int yLength, float rLength, int seed, float noise, GameObject[] tiles, Transform tileBox)
+        public TMapBluePrint(int xLength, int yLength, float rLength, int seed, float noise, GameObject[] tiles, Transform tileBox, GameObject hideTile, Transform hideBox)
         {
             t_xLength = xLength;
             t_yLength = yLength;
@@ -42,9 +48,12 @@ public class MgToken : MgGeneric<MgToken>
             t_box = tileBox;
             t_seed = seed;
             t_noise = noise;
+            t_hideBox = hideBox;
+            t_hideTile = hideTile;
         }
     }
     private TokenTile[,] m_tileTokenes; //현재 맵의 타일 토큰
+    private HideTile[,] m_hideTiles;
     private List<TokenChar> m_npcTokens; //현재 맵에 생성된 npc 토큰들
 
     public override void InitiSet()
@@ -56,7 +65,7 @@ public class MgToken : MgGeneric<MgToken>
     public void MakeMap()
     {
         ResetMapTileObject();
-        TMapBluePrint mapBluePrint = new TMapBluePrint(m_xLength, m_yLength, m_rLength, m_seed, m_noise, m_tiles, m_tileBox);
+        TMapBluePrint mapBluePrint = new TMapBluePrint(m_xLength, m_yLength, m_rLength, m_seed, m_noise, m_tiles, m_tileBox, m_hideTile, m_hideBox);
         m_tileMaker.MakeTopTypeMap(mapBluePrint);
     }
 
@@ -74,6 +83,12 @@ public class MgToken : MgGeneric<MgToken>
     public void SetMapTiles(TokenTile[,] _tiles)
     {
         m_tileTokenes = _tiles;
+    }
+
+    
+    public void SetHideTiles(HideTile[,] _tiles)
+    {
+        m_hideTiles = _tiles;
     }
     #endregion
 
@@ -125,6 +140,10 @@ public class MgToken : MgGeneric<MgToken>
     public TokenTile[,] GetMaps()
     {
         return m_tileTokenes;
+    }
+    public HideTile[,] GetHideMaps()
+    {
+        return m_hideTiles;
     }
 
 

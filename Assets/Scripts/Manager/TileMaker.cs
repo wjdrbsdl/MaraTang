@@ -11,6 +11,7 @@ public class TileMaker : MonoBehaviour
         float tileRadius = _mapOrder.t_rLength;
 
         TokenTile[,] newMap = new TokenTile[orderXLength, orderYLength];
+        HideTile[,] newHideMap = new HideTile[orderXLength, orderYLength];
         //y 간의 간격은 반지름 *1.5
         float yOffSet = tileRadius * 1.5f;
         //x 간의 간격은 정육각형이므로 정삼각형의 높이(반지름 * 루트3/2) * 2 ; 
@@ -35,6 +36,7 @@ public class TileMaker : MonoBehaviour
 
                 //오브젝트용
                 ObjectTokenBase newTileObject = Instantiate(_mapOrder.t_tiles[selectMap]).GetComponent<ObjectTokenBase>();
+                HideTile newHideTile = Instantiate(_mapOrder.t_hideTile).GetComponent<HideTile>();
                 //타일토큰용
                 TokenTile newTokeTileInfo = new TokenTile().MakeTileToken();
 
@@ -45,9 +47,14 @@ public class TileMaker : MonoBehaviour
                 newMap[curx, cury] = newTokeTileInfo; //맵 배열의 인덱스엔 만들어진 맵을 할당
                 newTileObject.transform.SetParent(_mapOrder.t_box);
                 newTileObject.transform.localPosition = new Vector2(finalX, yPos); //박스 안에서 로컬포지션으로 위치 
+
+                newHideMap[curx, cury] = newHideTile; //맵 배열의 인덱스엔 만들어진 맵을 할당
+                newHideTile.transform.SetParent(_mapOrder.t_hideBox);
+                newHideTile.transform.localPosition = new Vector2(finalX, yPos); //박스 안에서 로컬포지션으로 위치 
             }
         }
-        MgToken.g_instance.SetMapTiles(newMap); //만들어진 맵 정보 전달
+        MgToken.GetInstance().SetMapTiles(newMap); //만들어진 맵 정보 전달
+        MgToken.GetInstance().SetHideTiles(newHideMap); //만들어진 맵 정보 전달
     }
 
     //노이즈 방식의 절차적 생성

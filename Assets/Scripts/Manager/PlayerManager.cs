@@ -146,8 +146,18 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
             Debug.Log("리얼 플레이어 자동 턴 종료 선언");
             EndTurn();
         }
-
+        FogControl(m_mainChar.GetMapIndex());
         ChangedPlayerStep(GamePlayStep.ChooseChar);
+    }
+
+    private void FogControl(int[] mapIndex)
+    {
+        //해당 맵 포지션 주변 사거리 2 이내 포그 타일 받아옴
+        List<HideTile> hides = GameUtil.GetHideTileListInRange(2, mapIndex[0], mapIndex[1]);
+        for (int i = 0; i < hides.Count; i++)
+        {
+            hides[i].FogOff();
+        }
     }
 
     public void DoneCharAction(TokenChar _char)

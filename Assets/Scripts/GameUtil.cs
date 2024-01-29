@@ -61,6 +61,12 @@ public static class GameUtil
        return GameUtil.GetTileIdxListInRange(_range, _centerX, _centerY).ConvertAll(new System.Converter<int[], TokenTile>(GetTileTokenFromMap)); // 사거리 내부 안의 타일 가져오기
     }
 
+    public static List<HideTile> GetHideTileListInRange(int _range, int _centerX, int _centerY)
+    {
+        return GameUtil.GetTileIdxListInRange(_range, _centerX, _centerY).ConvertAll(new System.Converter<int[], HideTile>(GetHideTileFromMap)); // 사거리 내부 안의 타일 가져오기
+    }
+
+
     public static List<ObjectTokenBase> GetTokenObjectInRange(int _range, int _centerX, int _centerY)
     {
         return GameUtil.GetTileIdxListInRange(_range, _centerX, _centerY).ConvertAll(new System.Converter<int[], ObjectTokenBase>(GetTokenObjectFromMap)); // 사거리 내부 안의 타일 가져오기
@@ -305,6 +311,11 @@ public static class GameUtil
             remain = false;
 
         return remain;
+    }
+
+    public static HideTile GetHideTileFromMap(int[] _index)
+    {
+        return MgToken.GetInstance().GetHideMaps()[_index[0], _index[1]];
     }
 
     public static TokenTile GetTileTokenFromMap(int[] _index)

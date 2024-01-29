@@ -385,6 +385,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
 
     public bool AdaptActionCount = false;
     public bool AdaptEvent = false;
+
     #endregion
 
 }
