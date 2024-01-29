@@ -238,6 +238,11 @@ public class AIPlayer : PlayerRule
             _actionToken.AddTarget(targetMap);;
         }
     }
+
+    public GamePlayStep GetCurPlayStep()
+    {
+        return GamePlayStep.ChooseChar;
+    }
     #endregion
 }
 
@@ -252,4 +257,6 @@ public interface PlayerRule
     public void DoneCharAction(TokenChar _char);
 
     public void EndTurn();
+
+    public GamePlayStep GetCurPlayStep();
 }

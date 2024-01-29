@@ -159,6 +159,11 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
     {
        GamePlayMaster.g_instance.EndPlayerTurn();
     }
+
+    public GamePlayStep GetCurPlayStep()
+    {
+        return m_curStep;
+    }
     #endregion //플레이어 인터페이스
 
     #region 이벤트 토큰 관련
