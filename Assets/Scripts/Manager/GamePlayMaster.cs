@@ -284,14 +284,16 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
 
     private void OccurMoveEvent(TokenChar _charToken)
     {
-        if (IsOccurMoveEvent(_charToken) == false)
+        if (IsPlayerMoveDone(_charToken) == false)
             return;
+        //만약 플레이어 캐릭터가 이동한거라면 해당 위치에서 다시 안개 설정
+        FogContorl(_charToken);
 
         //판약 플레이어가 액션을 수행했다면, 
         RuleBook.OnTileArrive(_charToken);
     }
 
-    private bool IsOccurMoveEvent(TokenChar _charToken)
+    private bool IsPlayerMoveDone(TokenChar _charToken)
     {
         //플레이어의 메인 캐릭터면서 최근한 행동이 Move인 경우 이벤트 발생
         if (_charToken.isMainChar == false)
@@ -349,6 +351,17 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     #endregion
 
     #region 부가 편의 기능
+    public void FogContorl(TokenChar _char)
+    {
+        //일단 안개 걷는 기능만
+        int tempSight = 2;
+        List<TokenTile> tiles = GameUtil.GetTileTokenListInRange(tempSight, _char.GetXIndex(), _char.GetYIndex());
+        for (int i = 0; i < tiles.Count; i++)
+        {
+            tiles[i].ChangeViewState(TileViewState.Sight);
+        }
+    }
+
     public void EmphasizeTarget(TokenBase _token)
     {
         EmphasizeTool.Emphasize(_token);
