@@ -16,10 +16,6 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     public bool m_testAuto = true;
 
     [SerializeField]
-    private class GamePlayData
-    {
-        public int PlayTime = 0;
-    }
     private GamePlayData m_playData = new();
 
     [SerializeField]
@@ -417,7 +413,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
 
     #endregion
 
-}
+ }
 
 public enum GamePlayStep
 {
@@ -425,3 +421,7 @@ public enum GamePlayStep
     ChooseChar, SelectAct, FillContent, CheckDecision, PlayAction, TriggerEvent
 }
 
+public class GamePlayData
+{
+    public int PlayTime = 0;
+}
