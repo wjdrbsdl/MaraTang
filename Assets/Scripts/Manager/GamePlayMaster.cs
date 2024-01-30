@@ -16,9 +16,12 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     public bool m_testAuto = true;
 
     [SerializeField]
-    private int m_playTime = 0;
+    private class GamePlayData
+    {
+        public int PlayTime = 0;
+    }
+    private GamePlayData m_playData = new();
 
-   
     [SerializeField]
     private CameraFollow m_camFollow;
     private PlayerMember m_playerMemeber = PlayerMember.LivePlayer; // 0번 플레이어, 1번 AI
@@ -27,6 +30,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     public RuleBook RuleBook;
     public EmphasizeObject EmphasizeTool;
 
+    
     [Header("[배틀씬]")]
     [SerializeField] private UIBattle m_battleUI;
     #region 행동 예약 변수
@@ -43,7 +47,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     {
         if (Input.GetKeyDown(KeyCode.F5))
         {
-            m_playTime = 0;
+           m_playData.PlayTime = 0;
             m_playerMemeber = 0;
             NoticeTurnPlayer();
         }
@@ -318,11 +322,13 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
         SettleActionTurn(); //턴 정산
         SettleWorldTurn();
         SettingPlayerTurn();
+        SetDataUI();
+        StartActionTurn();
     }
 
     private void SettleActionTurn()
     {
-        m_playTime += 1; //여태 진행한 턴
+        m_playData.PlayTime += 1; //여태 진행한 턴
        // Debug.Log("행동 횟수 초기화");
         RecoverActionCount();
       //  Debug.Log("진행한 플레이어 넘버 초기화");
@@ -342,10 +348,20 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
       
     }
 
+    private void SetDataUI()
+    {
+
+    }
+
     private void SettingPlayerTurn()
     {
         //AI 턴까지 끝나면 다시 리얼플레이어 턴으로 초기화 해서 시작 
         m_playerMemeber = PlayerMember.LivePlayer; //처음 유저로 플레이어 코드 변경. 
+        
+    }
+
+    private void StartActionTurn()
+    {
         Invoke(nameof(NoticeTurnPlayer), 0.2f); //다시 진행
     }
     #endregion
@@ -408,3 +424,4 @@ public enum GamePlayStep
     //게임마스터가 게임을 진행하면서 현재 스텝을 정의 
     ChooseChar, SelectAct, FillContent, CheckDecision, PlayAction, TriggerEvent
 }
+
