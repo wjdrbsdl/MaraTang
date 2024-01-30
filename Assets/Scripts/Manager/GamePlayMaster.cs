@@ -15,8 +15,10 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     public Sprite[] m_testActionIcon;
     public bool m_testAuto = true;
 
-    [SerializeField]
+    
     private GamePlayData m_playData = new();
+    [SerializeField]
+    private UIPlayData m_playDataUI;
 
     [SerializeField]
     private CameraFollow m_camFollow;
@@ -318,7 +320,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
         SettleActionTurn(); //≈œ ¡§ªÍ
         SettleWorldTurn();
         SettingPlayerTurn();
-        SetDataUI();
+        SetPlayDataUI();
         StartActionTurn();
     }
 
@@ -344,9 +346,9 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
       
     }
 
-    private void SetDataUI()
+    private void SetPlayDataUI()
     {
-
+        m_playDataUI.ShowPlayData(m_playData);
     }
 
     private void SettingPlayerTurn()
@@ -393,7 +395,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
 
     public void CamTraceOn(TokenChar _char)
     {
-     m_camFollow.SetTarget(_char.GetObject());
+        m_camFollow.SetTarget(_char.GetObject());
         m_camFollow.TraceOnOff(true);
     }
 
