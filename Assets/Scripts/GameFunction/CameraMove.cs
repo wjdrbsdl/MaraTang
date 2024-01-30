@@ -74,7 +74,7 @@ public class CameraMove : MonoBehaviour
     {
       
             //줌 정도를 받아서
-            float zoom = Input.GetAxis("Mouse ScrollWheel") * m_scopeSpeed;
+            float zoom = Input.GetAxis("Mouse ScrollWheel") * -m_scopeSpeed;
             if (zoom != 0)
             {
                 SizeZoom(zoom);
