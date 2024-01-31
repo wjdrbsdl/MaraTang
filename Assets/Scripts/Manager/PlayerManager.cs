@@ -82,6 +82,15 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
         }
     }
 
+    public void DoubleClickTokenObject(TokenBase _token)
+    {
+        //더블클릭한 토큰 타입에 따라 UI 세팅
+        TokenType tokenType = _token.GetTokenType();
+
+        if (tokenType.Equals(TokenType.Tile))
+            m_playGameUI.ResetTileWorkShopUI((TokenTile)_token);
+    }
+
     public void SelectActionToken(TokenBase _token)
     {
         //Debug.Log("액션 고름");

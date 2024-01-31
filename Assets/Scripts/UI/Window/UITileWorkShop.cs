@@ -8,6 +8,6 @@ public class UITileWorkShop : UIBase
 
     public void SetTileWorkShopInfo(TokenTile _tile)
     {
-
+        Switch(true);
     }
 }

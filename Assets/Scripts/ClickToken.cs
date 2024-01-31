@@ -11,7 +11,7 @@ public class ClickToken : MonoBehaviour
     [SerializeField]
     private bool m_isDragMode = false;
     [SerializeField]
-    private float m_doubleClickInterval = 0.5f; //더블클릭 인정시간
+    private float m_doubleClickInterval = 0.2f; //더블클릭 인정시간
 
     [SerializeField]
     private float m_minMoveSpeed = 0.1f;
@@ -107,7 +107,7 @@ public class ClickToken : MonoBehaviour
         if(m_preClickToken == null)
         {
             //첫 클릭
-            Debug.Log("생 초클릭");
+            //Debug.Log("생 초클릭");
             clickToken.OnClickObject();
             m_preClickTime = curTime; //누른시간 넣고
             m_preClickToken = clickToken; //누른 토큰 넣고
@@ -119,12 +119,12 @@ public class ClickToken : MonoBehaviour
             //만약 같은 토큰을 눌렀다면 누른 시간 간격에 따라 더블클릭 혹은 원클릭으로 진행
             if(curTime - m_preClickTime < m_doubleClickInterval)
             {
-                Debug.Log("더블클릭");
-
+                // Debug.Log("더블클릭");
+                PlayerManager.GetInstance().DoubleClickTokenObject(clickToken.GetToken());
             }
             else
             {
-                Debug.Log("원클릭");
+                //Debug.Log("원클릭");
                 clickToken.OnClickObject();
             }
             m_preClickTime = curTime; //누른시간 넣고
@@ -134,7 +134,7 @@ public class ClickToken : MonoBehaviour
 
         //만약 다른 경우라면
         //첫 클릭으로 진행
-        Debug.Log("다른 원클릭");
+       // Debug.Log("다른 원클릭");
         clickToken.OnClickObject();
         m_preClickTime = curTime; //누른시간 넣고
         m_preClickToken = clickToken; //누른 토큰 넣고
