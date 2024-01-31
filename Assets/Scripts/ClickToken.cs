@@ -11,7 +11,7 @@ public class ClickToken : MonoBehaviour
     [SerializeField]
     private bool m_isDragMode = false;
     [SerializeField]
-    private float m_doubleClickInterval = 0.2f; //더블클릭 인정시간
+    private float m_doubleClickInterval = 0.13f; //더블클릭 인정시간
 
     [SerializeField]
     private float m_minMoveSpeed = 0.1f;

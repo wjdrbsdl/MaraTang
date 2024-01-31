@@ -74,6 +74,8 @@ public class ObjectTokenBase : MonoBehaviour
                 return (TokenTile)m_token;
             case TokenType.Action:
                 return (TokenAction)m_token;
+            case TokenType.Char:
+                return (TokenChar)m_token;
         }
         return null;
     }
