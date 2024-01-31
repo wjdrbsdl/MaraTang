@@ -5,12 +5,12 @@ using UnityEngine;
 
 public class UIPlayGame : MonoBehaviour
 {
-    public UIActionTokenBox m_actionTokenBox;
-    public UIFillContent m_fillContentUI;
-    public UIEventContent m_eventContentUI;
-    public UICapital m_capitalUI;
-
-    public UIBase[] m_offUIes; //껐다 켰따 할 리스트들
+    [SerializeField] private UIActionTokenBox m_actionTokenBox;
+    [SerializeField] private UIFillContent m_fillContentUI;
+    [SerializeField] private UIEventContent m_eventContentUI;
+    [SerializeField] private UICapital m_capitalUI;
+    [SerializeField] private UITokenSnapInfo m_snapInfoUI;
+    [SerializeField] private UIBase[] m_offUIes; //껐다 켰따 할 리스트들
 
     private void Start()
     {
@@ -51,6 +51,11 @@ public class UIPlayGame : MonoBehaviour
     public void ResetCapitalInfo(PlayerCapitalData _capitalData)
     {
         m_capitalUI.ResetCapitalInfo(_capitalData);
+    }
+
+    public void ResetSnapInfo(TokenBase _token)
+    {
+        m_snapInfoUI.SetTokenSnapInfo(_token);
     }
 
     public void OffPlayUI()

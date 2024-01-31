@@ -27,11 +27,11 @@ public class UITokenSnapInfo : UIBase
 
     private void SetCharTokenInfo(TokenChar _tokenChar)
     {
-        Debug.Log("Ä³¶ô »þ");
+       m_Info.text =("Ä³¶ô »þ");
     }
 
     private void SetTileTokenInfo(TokenTile _tokenTile)
     {
-        Debug.Log("Å¸ÀÏ »þ");
+        m_Info.text = ("Å¸ÀÏ »þ");
     }
 }
