@@ -43,6 +43,7 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
         //플레이에서 Clicker로 클릭을 감지한 경우 이녀석으로 클릭한걸 넘긴다. 
         //무슨 토큰을 눌렀나
         m_soundMg.PlayEfx(actionSelectEFx);
+        m_playGameUI.ResetSnapInfo(_token);
         TokenType tokenType = _token.GetTokenType();
         // Debug.Log(m_step + "에 " + tokenType + "눌림");
         switch (m_curStep)
