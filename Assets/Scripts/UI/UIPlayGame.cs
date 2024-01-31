@@ -10,6 +10,7 @@ public class UIPlayGame : MonoBehaviour
     [SerializeField] private UIEventContent m_eventContentUI;
     [SerializeField] private UICapital m_capitalUI;
     [SerializeField] private UITokenSnapInfo m_snapInfoUI;
+    [SerializeField] private UITileWorkShop m_tileWorkShopUI;
     [SerializeField] private UIBase[] m_offUIes; //껐다 켰따 할 리스트들
 
     private void Start()
@@ -56,6 +57,11 @@ public class UIPlayGame : MonoBehaviour
     public void ResetSnapInfo(TokenBase _token)
     {
         m_snapInfoUI.SetTokenSnapInfo(_token);
+    }
+
+    public void ResetTileWorkShopUI(TokenTile _tile)
+    {
+        m_tileWorkShopUI.SetTileWorkShopInfo(_tile);
     }
 
     public void OffPlayUI()
