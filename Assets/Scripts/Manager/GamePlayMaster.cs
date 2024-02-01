@@ -332,6 +332,8 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
         }
 
         //없다면 도착에 따른 확률적 이벤트 수행
+        int setCount = UnityEngine.Random.Range(1, 100);
+        if(setCount >= 90)
         RuleBook.OnTileArrive(_charToken);
     }
 
