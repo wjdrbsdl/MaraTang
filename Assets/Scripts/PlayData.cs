@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+public enum Capital
+{
+    Stone, Grass
+}
 public class PlayerCapitalData
 {
-    public enum Capital
-    {
-        Stone, Grass
-    }
+  
     //게임을 플레이하면서 누적되는 데이터 
     protected int[] m_intValues; 
     protected float[] m_FloatValues;
@@ -46,5 +48,9 @@ public class PlayerCapitalData
     }
     #endregion
 
+    public int[] GetCapitalValue()
+    {
+        return m_intValues;
+    }
 
 }

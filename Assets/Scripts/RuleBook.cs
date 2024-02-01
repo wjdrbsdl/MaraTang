@@ -143,7 +143,7 @@ public class RuleBook
 
         //어차피 AI한텐 안하고 Player만 하니까
         
-        PlayerManager.GetInstance().AdaptCapital(PlayerCapitalData.Capital.Grass, 50, true);
+        PlayerManager.GetInstance().AdaptCapital(Capital.Grass, 50, true);
         PlayerManager.GetInstance().OnAdaptEvent(); //마지막에 이벤트 적용끝났음을 플레이어에게 전달. 
     }
     #endregion

@@ -15,7 +15,7 @@ public enum TileViewState
 
 public enum TileAction
 {
-    Grass, Mineral
+    Grass, Mineral, RemoveGrass, RemoveMineral
 }
 
 public class TokenTile : TokenBase

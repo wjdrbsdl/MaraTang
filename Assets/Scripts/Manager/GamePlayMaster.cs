@@ -281,6 +281,27 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     public void PlayTileAction(TokenTile _tile, string _action)
     {
 
+        if (_action.Equals(TileAction.Grass.ToString()))
+        {
+            PlayerManager.GetInstance().AdaptCapital(Capital.Grass, 50, true);
+            return;
+        }
+        if (_action.Equals(TileAction.Mineral.ToString()))
+        {
+            PlayerManager.GetInstance().AdaptCapital(Capital.Stone, 50, true);
+            return;
+        }
+        if (_action.Equals(TileAction.RemoveMineral.ToString()))
+        {
+            PlayerManager.GetInstance().AdaptCapital(Capital.Stone, -50, true);
+            return;
+        }
+        if (_action.Equals(TileAction.RemoveGrass.ToString()))
+        {
+            PlayerManager.GetInstance().AdaptCapital(Capital.Grass, -50, true);
+            return;
+        }
+
     }
     #endregion
 

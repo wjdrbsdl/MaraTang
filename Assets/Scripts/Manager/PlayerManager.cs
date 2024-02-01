@@ -165,6 +165,7 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
     public void SelectTileAction(TokenTile _selectedToken, string _tileAction)
     {
         GamePlayMaster.GetInstance().PlayTileAction(_selectedToken, _tileAction);
+        m_playGameUI.OffPlayUI();
     }
     #endregion
  
@@ -215,7 +216,7 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
     #endregion
 
     //플레이어 자본 데이터 조정 
-    public void AdaptCapital(PlayerCapitalData.Capital _resource, int _value, bool isCal)
+    public void AdaptCapital(Capital _resource, int _value, bool isCal)
     {
         string reward = string.Format("{0} 자원 {1} 확보", _resource, _value);
         GamePlayMaster.GetInstance().AnnounceState(reward);

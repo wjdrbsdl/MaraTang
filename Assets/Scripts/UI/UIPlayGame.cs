@@ -15,7 +15,7 @@ public class UIPlayGame : MonoBehaviour
 
     private void Start()
     {
-        m_offUIes = new UIBase[] { m_actionTokenBox, m_fillContentUI, m_eventContentUI };
+        m_offUIes = new UIBase[] { m_actionTokenBox, m_fillContentUI, m_eventContentUI, m_tileWorkShopUI };
     }
 
     public void ShowActionToken(TokenChar _char)
