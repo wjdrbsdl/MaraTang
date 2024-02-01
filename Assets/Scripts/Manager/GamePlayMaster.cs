@@ -283,22 +283,22 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
 
         if (_action.Equals(TileAction.Grass.ToString()))
         {
-            PlayerManager.GetInstance().AdaptCapital(Capital.Grass, 50, true);
+            PlayerManager.GetInstance().AdaptCapitalStat(Capital.Grass, 50, true);
             return;
         }
         if (_action.Equals(TileAction.Mineral.ToString()))
         {
-            PlayerManager.GetInstance().AdaptCapital(Capital.Stone, 50, true);
+            PlayerManager.GetInstance().AdaptCapitalStat(Capital.Stone, 50, true);
             return;
         }
         if (_action.Equals(TileAction.RemoveMineral.ToString()))
         {
-            PlayerManager.GetInstance().AdaptCapital(Capital.Stone, -50, true);
+            PlayerManager.GetInstance().AdaptCapitalStat(Capital.Stone, -50, true);
             return;
         }
         if (_action.Equals(TileAction.RemoveGrass.ToString()))
         {
-            PlayerManager.GetInstance().AdaptCapital(Capital.Grass, -50, true);
+            PlayerManager.GetInstance().AdaptCapitalStat(Capital.Grass, -50, true);
             return;
         }
 
@@ -319,7 +319,14 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
         //만약 플레이어 캐릭터가 이동한거라면 해당 위치에서 다시 안개 설정
         FogContorl(_charToken);
 
-        //판약 플레이어가 액션을 수행했다면, 
+        //입장 동시에 발발하는 이벤트가 있으면 수행
+        if (RuleBook.CheckEnteranceEvent(_charToken.GetMapIndex()))
+        {
+            RuleBook.PlayEntranceEvent();
+            return;
+        }
+
+        //없다면 도착에 따른 확률적 이벤트 수행
         RuleBook.OnTileArrive(_charToken);
     }
 

@@ -38,7 +38,6 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
     }
 
     #region 플레이어 인풋 - 클릭, 선택 등
-
     #region 클릭- 한번, 더블, 취소
     public void ClickTokenObject(TokenBase _token)
     {
@@ -121,6 +120,7 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
     }
     #endregion
 
+    #region 선택 - 캐릭 액션, 이벤트, 타일 액션
     public void SelectActionToken(TokenBase _token)
     {
         //Debug.Log("액션 고름");
@@ -168,7 +168,8 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
         m_playGameUI.OffPlayUI();
     }
     #endregion
- 
+    #endregion
+
     #region 플레이어 턴 수행 인터페이스
     public void PlayTurn()
     {
@@ -205,7 +206,7 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
         ChangedPlayerStep(GamePlayStep.TriggerEvent);
         m_playGameUI.ShowEventList(_events);
     }
-    public void OnAdaptEvent()
+    public void DoneAdaptEvent()
     {
         //이벤트 적용 후
         //1. 획득한 자원값 적용
@@ -216,7 +217,7 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
     #endregion
 
     //플레이어 자본 데이터 조정 
-    public void AdaptCapital(Capital _resource, int _value, bool isCal)
+    public void AdaptCapitalStat(Capital _resource, int _value, bool isCal)
     {
         string reward = string.Format("{0} 자원 {1} 확보", _resource, _value);
         GamePlayMaster.GetInstance().AnnounceState(reward);
