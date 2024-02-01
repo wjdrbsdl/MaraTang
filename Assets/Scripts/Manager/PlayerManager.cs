@@ -164,7 +164,7 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
 
     public void SelectTileAction(TokenTile _selectedToken, string _tileAction)
     {
-        Debug.Log(_tileAction + "Å¬¸¯");
+        GamePlayMaster.GetInstance().PlayTileAction(_selectedToken, _tileAction);
     }
     #endregion
  

@@ -277,6 +277,13 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     }
     #endregion // 액션 예약 및 수행 
 
+    #region 타일 액션 수행
+    public void PlayTileAction(TokenTile _tile, string _action)
+    {
+
+    }
+    #endregion
+
     #region 사건 발생
     public void SelectEvent(TokenEvent _eventToken)
     {
