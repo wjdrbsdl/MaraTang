@@ -18,8 +18,8 @@ public class DragSlot : MonoBehaviour
     private void Awake()
     {
         instance = this;
+        SetOff(false);        
     }
-
     //실제 사용하는 함수들은 2개
     public void DragSetImage(Image _itemimage)
     {
@@ -31,6 +31,10 @@ public class DragSlot : MonoBehaviour
         Color color = m_icon.color;
         color.a = _num;
         m_icon.color = color;
-    }
 
+    }
+    public void SetOff(bool onOff)
+    {
+        gameObject.SetActive(onOff);
+    }
 }

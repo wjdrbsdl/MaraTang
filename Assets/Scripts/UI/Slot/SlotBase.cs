@@ -170,7 +170,7 @@ public class SlotBase : MonoBehaviour, IDragHandler, IBeginDragHandler, IDropHan
     public void ResetDragSlot()
     {
         //Debug.Log("End 드랍되었다.");
-        DragSlot.instance.SetColor(0);
+        DragSlot.instance.SetOff(false);
     }
 
     public void StartDrag()
@@ -178,7 +178,7 @@ public class SlotBase : MonoBehaviour, IDragHandler, IBeginDragHandler, IDropHan
         DragSlot.instance.dragslot = this;
         DragSlot.instance.DragSetImage(m_icon);
         DragSlot.instance.transform.position = transform.position;
-        DragSlot.instance.SetColor(1);
+        DragSlot.instance.SetOff(true);
     }
     #endregion
 
