@@ -24,6 +24,7 @@ public class TokenTile : TokenBase
     [SerializeField]
     private TileType m_tileType;
     private TileViewState m_viewState = TileViewState.Fog;
+    private TokenEvent m_enteranceEvent; //입장시 발동하는 이벤트가 있는가
     
     public TokenTile()
     {
@@ -76,5 +77,10 @@ public class TokenTile : TokenBase
     {
         //해당 타일에서 가능한 액션을 계산하기 위한 정보를 받는곳 
         //쓸지 안쓸지 모름. 
+    }
+
+    public TokenEvent GetEneteranceEvent()
+    {
+        return m_enteranceEvent;
     }
 }

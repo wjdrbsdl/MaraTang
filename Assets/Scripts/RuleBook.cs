@@ -117,18 +117,20 @@ public class RuleBook
     #endregion
 
     #region 이벤트 발생 
-    public void PlayEntranceEvent()
+    public void PlayEntranceEvent(TokenEvent _eneterEvent)
     {
         //타일에 이동한 것만으로 발생하는 이벤트
+        Debug.Log("입장시 이벤트 발생");
     }
 
-    public bool CheckEnteranceEvent(int[] mapCoordi)
+    public TokenEvent CheckEnteranceEvent(int[] mapCoordi)
     {
         //타일에 즉발용 이벤트가 있는지 확인
         TokenTile mapTile = GameUtil.GetTileTokenFromMap(mapCoordi);
         //맵에 있는지 따져보고 반환
+        TokenEvent enterEvent = mapTile.GetEneteranceEvent();
 
-        return false;
+        return enterEvent;
     }
 
     public void OnTileArrive(TokenChar _char)

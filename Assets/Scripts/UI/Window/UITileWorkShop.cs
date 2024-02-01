@@ -15,7 +15,8 @@ public class UITileWorkShop : UIBase
     public void SetTileWorkShopInfo(TokenTile _tile)
     {
         Switch(true);
-        
+        bool inMain = IsInMainChar(_tile);
+        Debug.Log("메인 캐릭 있다 " + inMain);
         _tile.GetInfoForTileWorkShop(); //타일 고유 정보 얻고
         //기본 타일 액션들
         string[] baseWorks = System.Enum.GetNames(typeof(TileAction));
@@ -28,6 +29,17 @@ public class UITileWorkShop : UIBase
         //버튼 세팅
         SetButtons(_tile, confirmWorks);
 
+    }
+
+    private bool IsInMainChar(TokenTile _tile)
+    {
+        List<TokenChar> chars = _tile.GetCharsInTile();
+        for (int i = 0; i < chars.Count; i++)
+        {
+            if (chars[i].isMainChar)
+                return true;
+        }
+        return false;
     }
 
     private string[] ConfirmTileActions(string[] _baseWorks)

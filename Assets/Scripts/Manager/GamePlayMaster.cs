@@ -320,10 +320,15 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
         FogContorl(_charToken);
 
         //입장 동시에 발발하는 이벤트가 있으면 수행
-        if (RuleBook.CheckEnteranceEvent(_charToken.GetMapIndex()))
+        TokenEvent enterEvent = RuleBook.CheckEnteranceEvent(_charToken.GetMapIndex());
+        if (enterEvent != null)
         {
-            RuleBook.PlayEntranceEvent();
+            RuleBook.PlayEntranceEvent(enterEvent);
             return;
+        }
+        else
+        {
+            Debug.Log("입장 이벤트 없드");
         }
 
         //없다면 도착에 따른 확률적 이벤트 수행
@@ -352,11 +357,11 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
 
     private void ReadyNextTurn()
     {
-        SettleActionTurn(); //턴 정산
-        SettleWorldTurn();
-        SettingPlayerTurn();
-        SetPlayDataUI();
-        StartActionTurn();
+        SettleActionTurn(); //액션 턴 정산
+        SettleWorldTurn(); //월드 턴 정산
+        SettingPlayerTurn(); //플레이어 턴으로 세팅
+        SetPlayDataUI(); //플레이 데이터 갱신
+        StartActionTurn(); //액션 턴 시작
     }
 
     private void SettleActionTurn()
@@ -377,12 +382,13 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     }
     private void SettleWorldTurn()
     {
-      //  Debug.Log("세계턴 변화 따짐");
+        AnnounceState("세계턴 변화 따짐 내용 없음");
       
     }
 
     private void SetPlayDataUI()
     {
+        AnnounceState("플레이 데이터 갱신");
         m_playDataUI.ShowPlayData(m_playData);
     }
 
