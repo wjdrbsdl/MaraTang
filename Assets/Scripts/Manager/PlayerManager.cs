@@ -49,6 +49,9 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
         switch (m_curStep)
         {
             case GamePlayStep.ChooseChar:
+            case GamePlayStep.SelectAct:
+                //액션을 골라서 타겟을 고르는 상태가 아니라면 
+                ChangedPlayerStep(GamePlayStep.ChooseChar); //일단 기본 아무것도 안고른 상태로 돌리고
                 if (tokenType == TokenType.Char) //만약 _token 타입이 캐릭이라면 해당 캐릭고른걸로
                 {
                     //게임마스터에게 얘 골랐다고 전달 - 액션 지니고 있어야하네 
@@ -122,6 +125,15 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
     public void ClickCancle()
     {
         //어떤 도구로든 취소가 들어왓다면
+        //1. 켜져있는 UI가 있으면 걔를 우선적으로 끌것
+        if (m_playGameUI.CheckLastUI())
+        {
+            //만약 펼쳐져있던 UI가 있으면 UI를 끄기 수행.
+            m_playGameUI.CancleLastUI();
+            return;
+        }
+
+        //2. 없다면 조작중인 상태의 롤벡으로 진행
         if (m_curStep.Equals(GamePlayStep.SelectAct))
         {
             ChangedPlayerStep(GamePlayStep.ChooseChar);

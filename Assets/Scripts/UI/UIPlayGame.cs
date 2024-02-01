@@ -61,6 +61,7 @@ public class UIPlayGame : MonoBehaviour
 
     public void ResetTileWorkShopUI(TokenTile _tile)
     {
+        m_uiStack.Push(m_tileWorkShopUI);
         m_tileWorkShopUI.SetTileWorkShopInfo(_tile);
     }
 
@@ -69,6 +70,33 @@ public class UIPlayGame : MonoBehaviour
         for (int i = 0; i < m_offUIes.Length; i++)
         {
             m_offUIes[i].Switch(false);
+        }
+    }
+
+    Stack<UIBase> m_uiStack = new();
+    public bool CheckLastUI()
+    {
+        //행동 변화를 막을만한 UI가 펼쳐져 있는가
+        
+        //해당 스택에는 다른 상태로 넘어가면 안되는 UI가 있을 것
+        if(m_uiStack.Count >= 1)
+        {
+            //마지막 UI
+            //UIBase ui = m_uiStack.Pop();
+            //ui.Switch(false);
+            return true;
+        }
+
+        return false;
+    }
+
+    public void CancleLastUI()
+    {
+        if (m_uiStack.Count >= 1)
+        {
+            //마지막 UI를 꺼내서 취소 -> 취소 버튼으로 취소 가능한지 여부는 알아서 판단
+            UIBase ui = m_uiStack.Pop();
+            ui.Switch(false);
         }
     }
 }
