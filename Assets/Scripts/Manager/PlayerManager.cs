@@ -37,7 +37,9 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
             ClickCancle();
     }
 
-    #region 플레이어 인풋으로 호출되는 부분
+    #region 플레이어 인풋 - 클릭, 선택 등
+
+    #region 클릭- 한번, 더블, 취소
     public void ClickTokenObject(TokenBase _token)
     {
         //플레이에서 Clicker로 클릭을 감지한 경우 이녀석으로 클릭한걸 넘긴다. 
@@ -94,6 +96,31 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
             m_playGameUI.ResetTileWorkShopUI((TokenTile)_token);
     }
 
+    public void ClickCancle()
+    {
+        //어떤 도구로든 취소가 들어왓다면
+        //1. 켜져있는 UI가 있으면 걔를 우선적으로 끌것
+        if (m_playGameUI.CheckLastUI())
+        {
+            //만약 펼쳐져있던 UI가 있으면 UI를 끄기 수행.
+            m_playGameUI.CancleLastUI();
+            return;
+        }
+
+        //2. 없다면 조작중인 상태의 롤벡으로 진행
+        if (m_curStep.Equals(GamePlayStep.SelectAct))
+        {
+            ChangedPlayerStep(GamePlayStep.ChooseChar);
+            return;
+        }
+        if (m_curStep.Equals(GamePlayStep.FillContent))
+        {
+            ChangedPlayerStep(GamePlayStep.SelectAct);
+            return;
+        }
+    }
+    #endregion
+
     public void SelectActionToken(TokenBase _token)
     {
         //Debug.Log("액션 고름");
@@ -122,30 +149,6 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
         GamePlayMaster.g_instance.SelectEvent(eventToken);
     }
 
-    public void ClickCancle()
-    {
-        //어떤 도구로든 취소가 들어왓다면
-        //1. 켜져있는 UI가 있으면 걔를 우선적으로 끌것
-        if (m_playGameUI.CheckLastUI())
-        {
-            //만약 펼쳐져있던 UI가 있으면 UI를 끄기 수행.
-            m_playGameUI.CancleLastUI();
-            return;
-        }
-
-        //2. 없다면 조작중인 상태의 롤벡으로 진행
-        if (m_curStep.Equals(GamePlayStep.SelectAct))
-        {
-            ChangedPlayerStep(GamePlayStep.ChooseChar);
-            return;
-        }
-        if (m_curStep.Equals(GamePlayStep.FillContent))
-        {
-            ChangedPlayerStep(GamePlayStep.SelectAct);
-            return;
-        }
-    }
-
     public void ConfirmAction()
     {
         //현재 액션을 수행할것을 확인 누름 
@@ -157,6 +160,11 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
         ChangedPlayerStep(GamePlayStep.PlayAction);//내용을 채워서 액션수행 요청을 할때
         GamePlayMaster.g_instance.PlayCharAction(m_curChar);
         
+    }
+
+    public void SelectTileAction(TokenTile _selectedToken, string _tileAction)
+    {
+        Debug.Log(_tileAction + "클릭");
     }
     #endregion
  

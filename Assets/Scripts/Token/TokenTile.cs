@@ -13,13 +13,18 @@ public enum TileViewState
     Fog, Sight
 }
 
+public enum TileAction
+{
+    Grass, Mineral
+}
+
 public class TokenTile : TokenBase
 {
     List<TokenChar> m_inTileCharList = new();
     [SerializeField]
     private TileType m_tileType;
     private TileViewState m_viewState = TileViewState.Fog;
-
+    
     public TokenTile()
     {
 
@@ -65,5 +70,11 @@ public class TokenTile : TokenBase
     {
         if(_toState.Equals(TileViewState.Sight))
         GameUtil.GetHideTileFromMap(GetMapIndex()).FogOff();
+    }
+
+    public void GetInfoForTileWorkShop()
+    {
+        //해당 타일에서 가능한 액션을 계산하기 위한 정보를 받는곳 
+        //쓸지 안쓸지 모름. 
     }
 }

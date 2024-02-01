@@ -92,6 +92,16 @@ public class UIBase : MonoBehaviour
     #endregion
 
     #region UI Slot ¼ÂÆÃ
+    protected void MakeSamplePool<T>(ref T[] _curArray, GameObject _sampleObj, int _workCount, Transform _box)
+    {
+        int needSlotCount = MakeCount<T>(_curArray, _workCount);
+        if (needSlotCount > 0)
+        {
+            MakeSlots<T>(ref _curArray, needSlotCount, _sampleObj, _box);
+        }
+
+    }
+
     protected int MakeCount<T>(T[] _curArray, int _goalCount)
     {
         if (_curArray == null || _curArray.Length == 0)

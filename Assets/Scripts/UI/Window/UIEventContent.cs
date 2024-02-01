@@ -15,12 +15,7 @@ public class UIEventContent : UIBase
     {
         //이벤트 받은것들을 유아이로 표현
         Switch(true);
-        int needSlotCount = MakeCount<EventSlot>(m_eventSlots, _eventTokens.Count);
-        if (needSlotCount > 0)
-        {
-            MakeSlots<EventSlot>(ref m_eventSlots, needSlotCount, m_sampleEventSlot.gameObject, m_box);
-        }
-            
+        MakeSamplePool<EventSlot>(ref m_eventSlots, m_sampleEventSlot.gameObject, _eventTokens.Count, m_box);
 
         for (int i = 0; i < _eventTokens.Count; i++)
         {
