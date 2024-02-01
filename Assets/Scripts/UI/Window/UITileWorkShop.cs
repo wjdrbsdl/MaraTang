@@ -39,7 +39,7 @@ public class UITileWorkShop : UIBase
 
     private void SetButtons(TokenTile _tile, string[] _workes)
     {
-        int setCount = Random.Range(1, 3);
+        int setCount = Random.Range(1, 5);
         for (int i = 0; i < setCount; i++)
         {
             m_workButtones[i].gameObject.SetActive(true);
