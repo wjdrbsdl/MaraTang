@@ -93,7 +93,7 @@ public class ClickToken : MonoBehaviour
             if (tokenObject == null)
                 continue;
 
-            int curClickPrior = tokenObject.GetClickPrior();
+            int curClickPrior = tokenObject.GetClickPriority();
             if (maxPri < curClickPrior)
             {
                 maxPri = curClickPrior;

@@ -30,7 +30,7 @@ public class ObjectTokenBase : MonoBehaviour
     public void SyncObjectPosition(int _x, int _y)
     {
         //Token 의 위치 값 대로 오브젝트 위치를 동기화 
-        Debug.Log("<color=green> 오브젝트 위치도 이동"+_x+":"+_y+" </color>");
+       // Debug.Log("<color=green> 오브젝트 위치도 이동"+_x+":"+_y+" </color>");
         if(MgToken.g_instance.GetMaps()[_x, _y].GetObject() != null)
         {
             transform.position = MgToken.g_instance.GetMaps()[_x, _y].GetObject().transform.position;
@@ -85,7 +85,7 @@ public class ObjectTokenBase : MonoBehaviour
         return null;
     }
 
-    public int GetClickPrior()
+    public int GetClickPriority()
     {
         return m_ClickPriority;
     }
