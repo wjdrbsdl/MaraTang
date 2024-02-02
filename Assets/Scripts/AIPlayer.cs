@@ -137,10 +137,14 @@ public class AIPlayer : PlayerRule
             Debug.Log("몬스터 까지 거리 " + enemyRange);
             int charRange = 1; //일단 캐릭터의 공격 사거리를 1로 지정
             TokenAction attackAction = _char.GetActionList()[1];
-            //사거리 이내면서, 남은 액션 횟수가 1이상일경우 진행
-            if (enemyRange <= charRange && attackAction.GetStat(ActionStat.RemainCountInTurn)>=1)
+            //사거리 이내면 일단 이동은 하지 않고 다른 조건 파악
+            if (enemyRange <= charRange)
             {
+                //횟수가 남아있으면 공격 액션을 할당
+                if(attackAction.GetStat(ActionStat.RemainCountInTurn) >= 1)
                 _char.SetNextAction(attackAction); //사거리이내라면 공격으로
+
+                //없으면 null 로 끝
                 return;
             }
            
