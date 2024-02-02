@@ -83,4 +83,14 @@ public class TokenTile : TokenBase
     {
         return m_enteranceEvent;
     }
+
+    public void SetEnteraceEvent(TokenEvent _enterEvent)
+    {
+        m_enteranceEvent = _enterEvent;
+    }
+
+    public void DeleteEnterEvent()
+    {
+        m_enteranceEvent = null;
+    }
 }
