@@ -32,4 +32,9 @@ public class CameraFollow : MonoBehaviour
     {
         m_onTrace = _on;
     }
+
+    public void FocusTarget(ObjectTokenBase _tokenObject)
+    {
+        transform.position = _tokenObject.gameObject.transform.position + offSet;
+    }
 }
