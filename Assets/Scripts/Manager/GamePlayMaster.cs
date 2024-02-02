@@ -25,21 +25,13 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     public RuleBook RuleBook;
     public EmphasizeObject EmphasizeTool;
 
-    #region 행동 예약 변수
-    Queue<IEnumerator> actionReserVationQueue = new(); //수행할 코루틴
-    private bool isPlayingCorutine = false; //선행중인 코루틴이 있는지 체크
-    private int m_FinalActionStep = 0;
-    public float waitTime = 2f;
-    TokenChar m_actionChar;
-    #endregion
-
     #endregion
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.F5))
         {
-           m_playData.PlayTime = 0;
+            m_playData.PlayTime = 0;
             m_playerMemeber = 0;
             NoticeTurnPlayer();
         }
@@ -50,7 +42,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
                 TokenChar charToken = MgToken.GetInstance().GetNpcPlayerList()[i];
                 MgToken.GetInstance().TempPosRandomPlayer(charToken);
             }
-           
+
         }
         if (Input.GetKeyDown(KeyCode.F7))
         {
@@ -58,7 +50,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
         }
         if (Input.GetKeyDown(KeyCode.F8))
         {
-            if(m_playerMemeber.Equals(PlayerMember.LivePlayer))
+            if (m_playerMemeber.Equals(PlayerMember.LivePlayer))
             {
                 if (m_players[(int)PlayerMember.LivePlayer].GetCurPlayStep() != GamePlayStep.ChooseChar)
                     return;
@@ -101,10 +93,10 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
         m_players[turn].PlayTurn();
 
         //해당 플레이턴이 될때 카메라 고정을 풀거나, 하도록
-        CamTraceOn(MgToken.GetInstance().GetNpcPlayerList()[turn]);
-        CamTraceOff();
+        CamFocus(MgToken.GetInstance().GetNpcPlayerList()[turn]);
+
     }
- 
+
     //2. 전달 받은 캐릭과 액션을 수행 해줌
     public void PlayCharAction(TokenChar _charToken)
     {
@@ -113,21 +105,47 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
         _charToken.actionCount -= 1;
         _charToken.ShowAction(true);
         CamTraceOn(_charToken);
-        RuleBook.PlayAction(_charToken);
+        RuleBook.ReadCharAction(_charToken); //룰북에 액션 수행파트 읽기
     }
 
-    //3. 액션 수행 끝났으면 해당 플레이어게 해당 캐릭터 액션수행 끝났음을 알림. 
+    //3. TokenObject 애니메이션 수행
+    private IEnumerator m_tokenActionCoroutine;
+    private Action m_actionEffect;
+    [SerializeField] private bool m_isPlayAnimate = true;
+    public void AnimateTokenObject(IEnumerator _aniCoroutine, Action _actionEffect, TokenChar _playChar)
+    {
+        //진행중이던 코루틴이 있다면 중지
+        StopAnimateTokenObject();
+
+        m_actionEffect = _actionEffect;
+        m_tokenActionCoroutine = _aniCoroutine;
+        //코루틴이 있으면 수행하고
+        if (m_tokenActionCoroutine != null && m_isPlayAnimate)
+        {
+            StartCoroutine(m_tokenActionCoroutine);
+            return;
+        }
+        //없으면 효과라도 있으면 수행
+        if (m_actionEffect != null)
+            m_actionEffect();
+
+        //코루틴이 아닌 여기서 액션 끝났음을 수행
+        DoneCharAction(_playChar);
+    }
+
+    //4. 액션 수행 끝났으면 해당 플레이어게 해당 캐릭터 액션수행 끝났음을 알림. 
     public void DoneCharAction(TokenChar _charToken)
     {
         //   Debug.Log("<<color=red>마스터 :  " + _charToken.num + "번 더 수행할 행동력이 있나?</color>");
+        ResetAnimateValue();
         CamTraceOff();
+        _charToken.SetState(CharState.Idle);
         _charToken.ShowAction(false);
-        RuleBook.OffRouteNumber();
         m_players[(int)m_playerMemeber].DoneCharAction(_charToken); //현재 플레이어에게 해당 캐릭터의 액션이 완료되었음을 알린다.
         OccurMoveEvent(_charToken);
     }
 
-    //4. 해당 플레이어가 턴을 종료하면, 다음 차례 플레이어를 뽑거나 턴정산을 진행
+    //5. 해당 플레이어가 턴을 종료하면, 다음 차례 플레이어를 뽑거나 턴정산을 진행
     public void EndPlayerTurn()
     {
         int cur = (int)m_playerMemeber;
@@ -145,133 +163,28 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
         NoticeTurnPlayer();//다음 차례 플레이어를 호출 
     }
 
-    #endregion
-
-    #region 액션 예약 및 수행 
-    #region 1. 룰북에서 액션 예약을 거는 부분 - 애니메이션같이 시간이 필요한 액션이 있으므로, 하나씩 예약을 걸어두고 진행하는 방식. 
-    public void RservereInfo(TokenChar _actionChar, int maxStep)
+    public void StopAnimateTokenObject()
     {
-        m_actionChar = _actionChar;
-        m_FinalActionStep = maxStep;
-    }
-
-    public void Reservateinstance(int curStep, Action effectAction)
-    {
-        //즉시 발휘되는 액션들 예약하는 부분
-        PlayReservation(curStep); //액션 플레이를 한다. 
-    }
-
-    public void ReservateMove(TokenChar _interViewChar, TokenTile _tile, int effectTiming, int curstep, Action<TokenChar, TokenTile> effectAction = null)
-    {
-        //룰북에서 해당 pid 액션타입에 맞게 별개의 동작을 예약하는 부분
-        //ex 이부분은 움직임을 위한 액션을 예약하는 부분 
-        IEnumerator moveCoroutin = co_MoveAction(_interViewChar, _tile, effectTiming, curstep, effectAction);
-        actionReserVationQueue.Enqueue(moveCoroutin);
-        PlayReservation(curstep);
-    }
-
-    //어택이 아니더라도 대상에게 어떠한 효과를 주는 경우에는 다해도 될것 같은데
-    public void ReservateAttack()
-    {
-        //어택 토큰을 상대에게 사용시 
-        //------------ 데이터
-        //1. 어택토큰의 기능 + 사용자 버프로 공격 산출 
-        //2. 방어자의 버프 적용 최종 데미지 적용
-        //3. 방어자의 반격 모드 적용 - 
-        //4. 사후 적용 - 데이터 부분
-        //------------ UI
-        //1. 캐릭터 토큰들 버프, 스텟 표시 
-        //2. 사용된 공방 토큰 버프 적용 상태 표시 
-        //3. 최종 적용 스텟 표시 
-        //-> 확인누르면 반격 진행 - 위과정 반복 
-        //4. 위 루트 가운데 센터로 표기 - A가 B로 공격 - C가 D만큼 피해 등. 
-        //5. 최종확인시 창 종료 
-
-
-    }
-
-    public void DoneReservation(int _curStep)
-    {
-        //룰북으로부터 예약이 끝나면 받는 부분 - 
-
-        PlayReservation(_curStep); 
-
-    }
-    #endregion
-
-    #region 2. 행동 수행 코루틴
-    //액션마다 수행 애니메이션이 다르므로 따로 정의 
-    IEnumerator co_MoveAction(TokenChar _char, TokenTile _goalTile, int effectTiming, int curStep, Action<TokenChar, TokenTile> effectAction)
-    {
-        //   Debug.Log("이동 코루틴 수행 단계" + m_MaxStep+"/ " + curStep);
-
-        Vector3 goal = _goalTile.GetObject().transform.position;
-        if (effectTiming == 0 && effectAction != null)
-            effectAction(_char, _goalTile);
-
-        if (effectTiming == 1 && effectAction != null)
-            effectAction(_char, _goalTile);
-
-        _char.SetState(CharState.Move);
-
-        Vector3 dir = goal - _char.GetObject().transform.position;
-        while (true)
+        //코루틴 진행중인거 멈추기
+        if (m_tokenActionCoroutine != null)
         {
-            if (Vector2.Distance(_char.GetObject().transform.position, goal) < c_movePrecision)
-            {
-                //Debug.Log("거리 가까워서 중단");
-                break;
-            }
-
-
-            _char.GetObject().transform.position += (dir.normalized * m_moveSpeed * Time.deltaTime);
-            yield return null;
+            //코루틴 중단
+            StopCoroutine(m_tokenActionCoroutine);
+            //효과 바로 적용
+            if (m_actionEffect != null)
+                m_actionEffect();
         }
-
-        _char.SetState(CharState.Idle);
-
-        if (effectTiming == 2 && effectAction != null)
-            effectAction(_char, _goalTile);
-
-        yield return new WaitForSeconds(waitTime);
-        DoneCoroutineAction(curStep);
+        ResetAnimateValue();
     }
 
-    IEnumerator co_AttackAction(TokenChar _char, int v, int d, int curStep)
+    private void ResetAnimateValue()
     {
-        DoneCoroutineAction(curStep);
-        yield return null;
-
+        m_tokenActionCoroutine = null;
+        m_actionEffect = null;
     }
+
     #endregion
-
-    private void PlayReservation(int _curStep)
-    {
-        if (isPlayingCorutine == true)
-            return; //선행중인 코루틴 있으면 할거 없음. - 선행중 추가 예약하는 경우에 발생 
-
-        if (isPlayingCorutine == false && actionReserVationQueue.Count >= 1) //CheckMaxStep과 Reservate() 두 경로에서 호출되므로 선행중인 코루틴 체크 필요. 
-        {
-            isPlayingCorutine = true;
-            StartCoroutine(actionReserVationQueue.Dequeue()); //뽑은걸로 수행
-            return;
-        }
-
-        //액션 단계중 코루틴이 없는 step인 경우 도달할 수 있으므로, 그 스텝이 최종 스텝인지 따져서 액션 종료.
-        if (m_FinalActionStep == _curStep)
-        {
-            //해당 액션은 코루틴이 없던 녀석인듯. 
-            DoneCharAction(m_actionChar);
-        }
-    }
-
-    private void DoneCoroutineAction(int curStep)
-    {
-        isPlayingCorutine = false; //진행중이던 코루틴 끝났다고 체크. -> 즉발 함수로 이녀석을 호출해서 진행중이던 코루틴 중단시키면 안됨. 
-        PlayReservation(curStep); //계속 수행 
-    }
-    #endregion // 액션 예약 및 수행 
-
+   
     #region 타일 액션 수행
     public void PlayTileAction(TokenTile _tile, string _action)
     {
@@ -430,6 +343,12 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     public void ResetEmphasize()
     {
         EmphasizeTool.ResetEmphasize(); //선택시 필요했던 강조부분을 초기화 
+    }
+
+    public void CamFocus(TokenChar _char)
+    {
+        //해당 으로 포커스
+        m_camFollow.FocusTarget(_char.GetObject());
     }
 
     public void CamTraceOn(TokenChar _char)

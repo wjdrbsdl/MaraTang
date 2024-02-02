@@ -46,7 +46,7 @@ public class AIPlayer : PlayerRule
 
         //3. 해당 액션 수행을 위한 내용을 채움 
         FillContentLogic(turnChar);
-        if(turnChar.GetNextActionToken().GetTargetList().Count == 0)
+        if(turnChar.GetNextActionToken().GetTargetPos() == null)
         {
             //만약 해당 캐릭이 해당 액션을 수행 할 수 없는 상황이라면 다음 캐릭터로 넘기진 말고 다시 진행
             //FillContent 부분에서 해당 액션을 선택하지 못하도록 처리 필요. 
@@ -173,7 +173,7 @@ public class AIPlayer : PlayerRule
         {
             //이동 액션을 제외한 모든 액션은 해당 액션을 취하기 위한 사거리 이내의 적을 발견한 상태일것. 
         //    Debug.Log("어택 내용 채운다");
-            choiceAction.AddTarget(_char.GetTarget());
+            choiceAction.SetTargetCoordi(_char.GetTarget().GetMapIndex());
         }
         else if (actionType == ActionType.Move)
         {
@@ -238,8 +238,9 @@ public class AIPlayer : PlayerRule
             }
             //6. 올바른 좌표라면 이동확정 하고 해당 토큰타일을 추가 
             //메모리상으로 새로 객체 생성할필요없이 그냥 maps에 있는 클래스를 넣어도 되나? 어차피 참조중인가?
-            TokenTile targetMap = maps[mapInfoes.curX, mapInfoes.curY];
-            _actionToken.AddTarget(targetMap);;
+          
+            int[] targetMap = { mapInfoes.curX, mapInfoes.curY };
+            _actionToken.SetTargetCoordi(targetMap);;
         }
     }
 

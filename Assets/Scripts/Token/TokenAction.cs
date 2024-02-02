@@ -17,7 +17,7 @@ public class TokenAction : TokenBase
     [SerializeField]
     private ActionType actionType = ActionType.Move;
     private TokenType actionTarget = TokenType.Tile;
-    private List<TokenBase> m_targetList = new List<TokenBase>(); //대상
+    private int[] m_targetPos; //작용할 위치 
     private TokenBase m_caster; //사용자\
 
     #region 액션 토큰 : 생성부분 추후 테이블 파싱 값으로 생성하기
@@ -30,7 +30,7 @@ public class TokenAction : TokenBase
     {
         TokenAction actionToken = new TokenAction();
         actionToken.m_tokenIValues = new int[System.Enum.GetValues(typeof(ActionStat)).Length];
-        actionToken.m_targetList = new();
+        actionToken.m_targetPos = null;
         actionToken.m_tokenType = TokenType.Action;
         actionToken.actionType = _type;
         if (_type.Equals(ActionType.Move))
@@ -59,9 +59,9 @@ public class TokenAction : TokenBase
         return actionType;
     }
 
-    public List<TokenBase> GetTargetList()
+    public int[] GetTargetPos()
     {
-        return m_targetList;
+        return m_targetPos;
     }
 
     public TokenType GetTargetType()
@@ -69,14 +69,14 @@ public class TokenAction : TokenBase
         return actionTarget;
     }
 
-    public void AddTarget(TokenBase _token)
+    public void SetTargetCoordi(int[] _mapIdx)
     {
-        m_targetList.Add(_token);
+        m_targetPos = _mapIdx;
     }
 
     public void ClearTarget()
     {
-        m_targetList.Clear();
+        m_targetPos =null;
     }
     #endregion
 

@@ -10,50 +10,47 @@ public class RuleBook
     private RouteDisplay m_routeDisplayTool = new();
   
     #region 액션 수행 절차
-    public void PlayAction(TokenChar _char)
+    public void ReadCharAction(TokenChar _playChar)
     {
-        //룰북에서 실행단계
-        //0. 해당 액션이 몇단계일지 넘긴다
-        //1. 해당 액션을 수행하기 위한 예약을 건다
-        //2. 예약된 녀석은 바로 실행이 된다.
-        //3. 룰북에선 액션을 계속 예약을 건다. 
-        //4. 진행하던 코루틴이 종료되면 마지막 스텝인지 체크하여 DoneAction을 호출한다. 
-
-        TokenAction action = _char.GetNextActionToken();
+        TokenAction action = _playChar.GetNextActionToken();
         ActionType actionType = action.GetActionType();
+        //1. 액션토큰 횟수 감소
         action.CalStat(ActionStat.RemainCountInTurn, -1); //액션토큰의 사용 횟수 차감
-        Debug.Log("해당 액션 카운트 감소 " + action.GetStat(ActionStat.RemainCountInTurn));
-        int reserveStep = 0;
+
+        int[] targetPos = action.GetTargetPos();
+
+        Action effectDelegate = null;
+        IEnumerator animateCoroutine = null;
+
+        //2. 공격은 타겟 지점 기준 범위내 적을 선별하여 어택
         if (actionType == ActionType.Attack)
         {
             Debug.Log("어택 내용 수행한다");
-            //파악해둔 캐릭리스트 들 순서대로 혹은 그 중에 랜덤으로 뽑기
-            List<TokenChar> charList = action.GetTargetList().ConvertAll(tokenBase => (TokenChar)tokenBase);//모든 요소를 Char로 전환
-            m_PlayMaster.RservereInfo(_char, 0);
-            for (int i = 0; i < charList.Count; i++)
+            //수정본
+            //0. 겉으로 드러나는 액션은 1개. 휘두르거나 찌르거나 발사하거나 
+            //1. 해당 공격액션의 범위를 설정
+            TokenTile targetTile = GameUtil.GetTileTokenFromMap(targetPos);
+            //2. 범위 내의 타겟을 가져옴
+            List<TokenChar> enemies = targetTile.GetCharsInTile();
+            //3. 해당 타겟에게 해당 공격의 효과를 적용 
+            effectDelegate = delegate
             {
-                //1. _char가 공격자 _charList[i]가 피해자로 공격 규칙 적용 
-           
-            }
+                for (int i = 0; i < enemies.Count; i++)
+                {
+                    Debug.Log(_playChar.GetItemName() + "이 " + enemies[i].GetItemName() + "를 공격");
+                }
+            };
+            animateCoroutine = co_AttacAction(_playChar, effectDelegate);
+
         }
+        //3. 이동은 타겟 지점 위치로 이동
         else if (actionType == ActionType.Move)
         {
-            //Debug.Log("이동 내용 수행한다"+_char.charNum);
-            //타겟리스트로 뽑은 타일로 실제 이동이 일어나는 부분 
-            
-            List<TokenTile> targetTile = action.GetTargetList().ConvertAll(tokenBase => (TokenTile)tokenBase);//모든 요소를 Tile로 전환
-            ShowRouteNumber(targetTile);
-            m_PlayMaster.RservereInfo(_char, targetTile.Count);
-            int tempTimingStep = 2; //효과 발휘할 단계
-            for (int i = 0; i < targetTile.Count; i++)
-            {
-                reserveStep += 1;
-                m_PlayMaster.ReservateMove(_char, targetTile[i], tempTimingStep, reserveStep, Migrate);
-                
-            }
-         
+            TokenTile targetTile = GameUtil.GetTileTokenFromMap(targetPos);
+            effectDelegate = delegate { Migrate(_playChar, targetTile); };
+            animateCoroutine = co_MoveAction(_playChar, targetTile, effectDelegate);
         }
-        m_PlayMaster.DoneReservation(reserveStep); 
+        GamePlayMaster.GetInstance().AnimateTokenObject(animateCoroutine, effectDelegate, _playChar);
     }
 
     public static void Migrate(TokenChar _char, TokenTile _targetTile)
@@ -61,17 +58,50 @@ public class RuleBook
         //해당 타일로 해당 캐릭터를 이주 시키기 
         MgToken.g_instance.GetMaps()[_char.GetXIndex(), _char.GetYIndex()].Immigrate(_char); //이사 보내고
         _targetTile.Migrate(_char); //이사 넣고 
+        _char.GetObject().SyncObjectPosition();
     }
 
-    public void ShowRouteNumber(List<TokenTile> _tiles)
+    IEnumerator co_MoveAction(TokenChar _char, TokenTile _goalTile, Action effectAction)
     {
-        m_routeDisplayTool.ShowRoute(_tiles);
+        //   Debug.Log("이동 코루틴 수행 단계" + m_MaxStep+"/ " + curStep);
+
+        Vector3 goal = _goalTile.GetObject().transform.position;
+
+        _char.SetState(CharState.Move);
+
+        Vector3 dir = goal - _char.GetObject().transform.position;
+        while (true)
+        {
+            if (Vector2.Distance(_char.GetObject().transform.position, goal) < GamePlayMaster.c_movePrecision)
+            {
+                //Debug.Log("거리 가까워서 중단");
+                break;
+            }
+
+
+            _char.GetObject().transform.position += (dir.normalized * GamePlayMaster.GetInstance().m_moveSpeed * Time.deltaTime);
+            yield return null;
+        }
+
+        effectAction();
+        GamePlayMaster.GetInstance().DoneCharAction(_char);
     }
 
-    public void OffRouteNumber()
+    IEnumerator co_AttacAction(TokenChar _char, Action effectAction)
     {
-        m_routeDisplayTool.ResetPreRoute();
+        //   Debug.Log("이동 코루틴 수행 단계" + m_MaxStep+"/ " + curStep);
+        _char.SetState(CharState.Move);
+        float waitTime = 1f;
+        while (waitTime>0)
+        {
+            waitTime -= Time.deltaTime;
+            yield return null;
+        }
+        effectAction();
+        GamePlayMaster.GetInstance().DoneCharAction(_char);
+
     }
+
     #endregion
 
     #region 조건 체크 
@@ -83,14 +113,6 @@ public class RuleBook
         //Debug.Log(_char.GetXIndex() + "," + _char.GetYIndex() + "에서 " + _target.GetXIndex() + "," + _target.GetYIndex() + "거리는 " + targetRange);
         if (_action.GetStat(ActionStat.Range) < targetRange)
            return false;
-
-        return true;
-    }
-
-    public bool IsMatchTargetType(TokenAction _action, TokenBase _target)
-    {
-        if (_action.GetTargetType().Equals(_target.GetTokenType()) == false)
-            return false;
 
         return true;
     }
@@ -107,7 +129,7 @@ public class RuleBook
 
     public bool CheckActionContent(TokenChar _char, TokenAction _action)
     {
-        if (_action.GetTargetList().Count == 0)
+        if (_action.GetTargetPos() == null)
         {
             m_PlayMaster.AnnounceState("타겟이 부정확");
             return false;

@@ -67,21 +67,18 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
                 }
                 break;
             case GamePlayStep.FillContent:
-                if (GamePlayMaster.g_instance.RuleBook.IsMatchTargetType(m_curAction, _token)) //선택한 액션에 맞게 순서대로 혹은 드래그로 내용을 채운다. 
+                //누른게 타일이던 그 위의 오브젝트던 일단 위치로 변환해서
+                
+                if (GamePlayMaster.g_instance.RuleBook.IsInRangeTarget(m_curChar, m_curAction, _token) == false)
                 {
-                    if (GamePlayMaster.g_instance.RuleBook.IsInRangeTarget(m_curChar, m_curAction, _token) == false)
-                    {
-                        Debug.Log("해당 타겟은 사거리밖이라 요청 반려");
-                        return;
-                    }
-
-                    m_curAction.ClearTarget();
-                    m_curAction.AddTarget(_token);
-                    m_playGameUI.AddContent(_token);
-
-                    ConfirmAction();
+                    Debug.Log("해당 타겟은 사거리밖이라 요청 반려");
+                    return;
                 }
 
+                m_curAction.ClearTarget();
+                m_curAction.SetTargetCoordi(_token.GetMapIndex());
+                m_playGameUI.AddContent(_token);
+                ConfirmAction();
                 break;
         }
     }
