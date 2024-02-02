@@ -9,9 +9,9 @@ public class UITileWorkShop : UIBase
     private Transform m_tileActionBox; //액션 리스트 버튼 담을 장소
     [SerializeField]
     private BtnTileWorkShop m_workButtonSample;
-
     [SerializeField]
     private BtnTileWorkShop[] m_workButtones;
+
     public void SetTileWorkShopInfo(TokenTile _tile)
     {
         Switch(true);
@@ -31,6 +31,7 @@ public class UITileWorkShop : UIBase
 
     }
 
+    //타일 액션을 수행할 수 있는 캐릭이 안에 있어야 가능
     private bool IsInMainChar(TokenTile _tile)
     {
         List<TokenChar> chars = _tile.GetCharsInTile();
