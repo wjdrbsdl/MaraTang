@@ -38,6 +38,7 @@ public class TokenChar : TokenBase
         monsterToken.SetStat(CharStat.MaxActonEnergy, 10);
         monsterToken.SetStat(CharStat.CurActionEnergy, 10);
         monsterToken.m_haveActionList = new List<TokenAction>();
+        monsterToken.m_tokenPid = index * 100;
         return monsterToken;
     }
     #endregion
@@ -139,5 +140,18 @@ public class TokenChar : TokenBase
         {
             m_haveActionList[i].RcoverRemainCountInTurn();
         }
+    }
+
+    public void ApplyDamage(float _damage)
+    {
+        Debug.Log("피해 받는다 " + _damage);
+        int damage = (int)_damage;
+        CalStat(CharStat.CurActionEnergy, -damage);
+        if (GetStat(CharStat.CurActionEnergy) <= 0)
+        {
+            Debug.Log("사망");
+            return;
+        }
+
     }
 }

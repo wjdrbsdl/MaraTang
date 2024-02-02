@@ -9,15 +9,62 @@ public class RuleBook
     public static GamePlayMaster m_PlayMaster;
     private RouteDisplay m_routeDisplayTool = new();
   
+    public struct AttackReceipt
+    {
+        public float t_oriignDamage;
+        public float t_reductedDamage;
+        public TokenChar t_attacker;
+        public int t_revengeStep; //공격한 단계
+
+        public AttackReceipt(TokenChar _attackChar, TokenAction _attackAction, int _revenge = 0)
+        {
+            //구조를 만들면서 내부에서 최종피해량 산출
+            t_oriignDamage = _attackChar.GetPid() + 1000;
+            t_reductedDamage = t_oriignDamage;
+            t_attacker = _attackChar;
+            t_revengeStep = _revenge;
+        }
+
+        public float CalDamageByDefense(TokenChar _defenseChar)
+        {
+            float reductedDamage = t_oriignDamage * 0.6f;
+            return reductedDamage;
+        }
+
+        public void ApplyDamage(TokenChar _target)
+        {
+            float reductedDamage = CalDamageByDefense(_target);
+            int damage = (int)reductedDamage;
+            _target.CalStat(CharStat.CurActionEnergy, -damage);
+            if (_target.GetStat(CharStat.CurActionEnergy) <= 0)
+            {
+                Debug.Log(_target.GetItemName()+"사망 체력"+ _target.GetStat(CharStat.CurActionEnergy));
+                //return;
+            }
+            Revenge(_target);
+        }
+
+        public void Revenge(TokenChar _defenseChar)
+        {
+            Debug.Log("복수의 굴레 :" + t_revengeStep);
+            if (t_revengeStep >= 10)
+                return;
+
+            AttackReceipt revenge = new AttackReceipt(_defenseChar, new TokenAction(), t_revengeStep +1);
+            revenge.ApplyDamage(t_attacker);
+
+        }
+    }
+
     #region 액션 수행 절차
     public void ReadCharAction(TokenChar _playChar)
     {
-        TokenAction action = _playChar.GetNextActionToken();
-        ActionType actionType = action.GetActionType();
+        TokenAction actionToken = _playChar.GetNextActionToken();
+        ActionType actionType = actionToken.GetActionType();
         //1. 액션토큰 횟수 감소
-        action.CalStat(ActionStat.RemainCountInTurn, -1); //액션토큰의 사용 횟수 차감
+        actionToken.CalStat(ActionStat.RemainCountInTurn, -1); //액션토큰의 사용 횟수 차감
 
-        int[] targetPos = action.GetTargetPos();
+        int[] targetPos = actionToken.GetTargetPos();
 
         Action effectDelegate = null;
         IEnumerator animateCoroutine = null;
@@ -35,9 +82,11 @@ public class RuleBook
             //3. 해당 타겟에게 해당 공격의 효과를 적용 
             effectDelegate = delegate
             {
+                AttackReceipt attackReceipt = new AttackReceipt(_playChar, actionToken);
                 for (int i = 0; i < enemies.Count; i++)
                 {
                     Debug.Log(_playChar.GetItemName() + "이 " + enemies[i].GetItemName() + "를 공격");
+                    attackReceipt.ApplyDamage(enemies[i]);
                 }
             };
             animateCoroutine = co_AttacAction(_playChar, effectDelegate);
