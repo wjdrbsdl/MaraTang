@@ -7,7 +7,7 @@ public class ClickToken : MonoBehaviour
 {
     private bool m_isMouseClick = false;
     [SerializeField]
-    private float m_dragCutDistance = 2.0f; //드래그로 인정되는 이동거리
+    private float m_dragCutDistance = 3.0f; //드래그로 인정되는 이동거리
     [SerializeField]
     private bool m_isDragMode = false;
     [SerializeField]
@@ -64,6 +64,7 @@ public class ClickToken : MonoBehaviour
            if(Vector2.Distance(Input.mousePosition, priorMousePosition) > m_dragCutDistance)
             {
                 m_isDragMode = true;
+                GamePlayMaster.GetInstance().CamTraceOff();
             }
         }
         //3. 떼었을 때
