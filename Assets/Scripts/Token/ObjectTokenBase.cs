@@ -44,6 +44,11 @@ public class ObjectTokenBase : MonoBehaviour
         
     }
 
+    public void SyncObjectPosition()
+    {
+        SyncObjectPosition(m_token.GetXIndex(), m_token.GetYIndex());
+    }
+
     public virtual void SetToken(TokenBase _token, TokenType _tokenType)
     {
         m_tokenType = _tokenType; // 해당 오브젝트의 토큰타입은 보유한 토큰타입으로 설정
