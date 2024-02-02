@@ -23,7 +23,7 @@ public class AIPlayer : PlayerRule
     {
         // Ai가 캐릭터 조작하는 방법
 
-        GamePlayMaster.GetInstance().AnnounceState("AI플레이어 진행");
+        Announcer.Instance.AnnounceState("AI플레이어 진행");
         //1. 순서대로 조작할 char를 뽑는다 - 이곳에서 액션 행동 카운트까지 남아있는 캐릭터만 받음.
         TokenChar turnChar =  SelectCharactor(); //행동할 녀석 뽑는걸로 행동 시작
         if(turnChar == null)

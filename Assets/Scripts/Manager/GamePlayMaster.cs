@@ -67,6 +67,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
         base.InitiSet();
         RuleBook = new();
         RuleBook.m_PlayMaster = this;
+        Announcer play = new();
         m_aiPlayer = new();
         m_players = new PlayerRule[2];
         EmphasizeTool = new();
@@ -213,7 +214,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     }
     #endregion
 
-    #region 사건 발생
+    #region 이벤트 발생
     public void SelectEvent(TokenEvent _eventToken)
     {
         AnnounceState("플레이어가 선택한 이벤트는 " + _eventToken.GetPid());
@@ -328,6 +329,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
         }
     }
 
+    #region 오브젝트 강조
     public void EmphasizeTarget(TokenBase _token)
     {
         EmphasizeTool.Emphasize(_token);
@@ -344,7 +346,9 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     {
         EmphasizeTool.ResetEmphasize(); //선택시 필요했던 강조부분을 초기화 
     }
+    #endregion
 
+    #region 카메라 조정
     public void CamFocus(TokenChar _char)
     {
         //해당 으로 포커스
@@ -361,15 +365,16 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     {
         m_camFollow.TraceOnOff(false);
     }
+    #endregion
 
     public void AnnounceState(string message)
     {
-      //  Debug.Log(message);
-      // 체크 깃허브
+        //  Debug.Log(message);
+        Announcer.Instance.AnnounceState(message);
     }
 
-    public bool AdaptActionCount = false;
-    public bool AdaptEvent = false;
+    public bool TempAdaptActionCount = false;
+    public bool TempAdaptEvent = false;
 
     #endregion
 

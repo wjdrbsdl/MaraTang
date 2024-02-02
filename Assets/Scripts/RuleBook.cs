@@ -134,7 +134,7 @@ public class RuleBook
     {
         if (_action.GetTargetPos() == null)
         {
-            m_PlayMaster.AnnounceState("타겟이 부정확");
+            Announcer.Instance.AnnounceState("타겟이 부정확");
             return false;
         }
             
@@ -171,7 +171,7 @@ public class RuleBook
         TokenEvent event3 = new TokenEvent(3, 2);
 
         List<TokenEvent> eventList = new List<TokenEvent>() { event1, event2, event3 };
-        if(m_PlayMaster.AdaptEvent)
+        if(m_PlayMaster.TempAdaptEvent)
         PlayerManager.GetInstance().OnTriggerEvent(eventList);
     }
 

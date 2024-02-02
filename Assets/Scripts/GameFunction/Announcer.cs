@@ -11,11 +11,6 @@ public class Announcer
         Instance = this;
     }
 
-    public void TestInstance()
-    {
-        Debug.Log("테스트 완료");
-    }
-
     public void AnnounceState(string message)
     {
 

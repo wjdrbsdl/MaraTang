@@ -126,9 +126,9 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
         //0. 액션 토큰 사용 조건 확인
         if (GamePlayMaster.g_instance.RuleBook.CheckUsableToken(m_curChar, actionToken) == false)
         {
-            GamePlayMaster.g_instance.AnnounceState("캐릭터 행동 수치 부족");
+            Announcer.Instance.AnnounceState("캐릭터 행동 수치 부족");
 
-            if (GamePlayMaster.g_instance.AdaptActionCount)
+            if (GamePlayMaster.g_instance.TempAdaptActionCount)
                 return;
         }
         //1. 현재 액션으로 할당하고, 단계 변화
@@ -218,7 +218,7 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
     public void AdaptCapitalStat(Capital _resource, int _value, bool isCal)
     {
         string reward = string.Format("{0} 자원 {1} 확보", _resource, _value);
-        GamePlayMaster.GetInstance().AnnounceState(reward);
+        Announcer.Instance.AnnounceState(reward);
         //기존데이터에 적용인지, 덮는건지 
         if (isCal)
         {
