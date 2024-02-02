@@ -82,7 +82,7 @@ public class RuleBook
             //3. 해당 타겟에게 해당 공격의 효과를 적용 
             effectDelegate = delegate
             {
-                AttackReceipt attackReceipt = new AttackReceipt(_playChar, actionToken);
+                AttackReceipt attackReceipt = new AttackReceipt(_playChar, actionToken, 0);
                 for (int i = 0; i < enemies.Count; i++)
                 {
                     Debug.Log(_playChar.GetItemName() + "이 " + enemies[i].GetItemName() + "를 공격");
