@@ -36,7 +36,7 @@ public class AIPlayer : PlayerRule
 
         //2. 사용 가능한 액션 토큰이 있으면 세팅 - 공격, 이동 로직등 
         SelectActionLogic(turnChar);
-        if(turnChar.GetNextActionList() == null)
+        if(turnChar.GetNextAction() == null)
         {
             //만약 해당 캐릭이 수행가능한 액션이 없으면 다시 캐릭뽑기부터 시작
             SetNextNpcNum(); //차례 번호 넘기고
@@ -100,7 +100,7 @@ public class AIPlayer : PlayerRule
     private void SelectActionLogic(TokenChar _char)
     {
         //캐릭터 상태 그밖에 조건등으로 현재 캐릭터가 취해야할 액션을 선택하는 로직
-        _char.ClearNextActionList();
+        _char.ClearNextAction();
 
         int tempEyeSight = 15; //캐릭터의 시야거리
         List<TokenTile> inRangedTiles = GameUtil.GetTileTokenListInRange(tempEyeSight, _char.GetXIndex(), _char.GetYIndex());
@@ -113,21 +113,20 @@ public class AIPlayer : PlayerRule
             {
                 //적 발견했으면 해당 포문 종료
                 TokenChar enemy = tile.GetCharsInTile()[tileIndex];
-                _char.SetTarget(enemy);
-                Debug.Log("적발 견" + enemy.GetXIndex() + ", " + enemy.GetYIndex());
-                isEnemyFind = true;
-                if (isEnemyFind)
+                if(enemy != _char) //자기 자신이 아니면{
+                {
+                    _char.SetTarget(enemy);
+                    Debug.Log("적발 견" + enemy.GetXIndex() + ", " + enemy.GetYIndex());
+                    isEnemyFind = true;
                     break;
-                
+                }
             }
             if (isEnemyFind)
                 break;
         }
-        //Tokenchar 가 사거리 이내 캐릭터들을 다 파악해놓는다? 
-        //최적화 부분으로서 자신의 주변 생태를 어떻게 파악할지는 나중에 생각해보기로 하고, 일단 주변반경 ~5 정도 까지 타일 갯수 파악하는걸로
-        //토큰 리스트
-        //캐릭 리스트를 해놓자. 
-
+        //Tokenchar 가 사거리 이내 캐릭터들을 다 파악해놓는다? 최적화 방식 연구 필요
+        
+        //적을 찾은 경우 사거리 이내라면 공격 액션
         if (isEnemyFind)
         {
             //1 찾은 적이 사거리 이내라면 공격 액션 아니라면 이동액션 목적지는 그대로 
@@ -137,21 +136,22 @@ public class AIPlayer : PlayerRule
             int enemyRange = GameUtil.GetMinRange(tMapIndex);
             Debug.Log("몬스터 까지 거리 " + enemyRange);
             int charRange = 1; //일단 캐릭터의 공격 사거리를 1로 지정
-            if (enemyRange <= charRange)
+            TokenAction attackAction = _char.GetActionList()[1];
+            //사거리 이내면서, 남은 액션 횟수가 1이상일경우 진행
+            if (enemyRange <= charRange && attackAction.GetStat(ActionStat.RemainCountInTurn)>=1)
             {
-                _char.SetNextAction(_char.GetActionList()[1]); //사거리이내라면 공격으로
+                _char.SetNextAction(attackAction); //사거리이내라면 공격으로
                 return;
             }
-            else
-            {
-                _char.SetNextAction(_char.GetActionList()[0]); //아니라면 이동으로
-            }
+           
         }
-        else
-        {
-            //그밖에 행위 일단 이동으로 
-            _char.SetNextAction(_char.GetActionList()[0]);
-        }
+
+        TokenAction moveAction = _char.GetActionList()[0];
+        //그밖에 행위는 일단 이동으로 - 남은 횟수 세서 할당
+        if(moveAction.GetStat(ActionStat.RemainCountInTurn) >= 1)
+         _char.SetNextAction(moveAction);
+
+        //수행할 액션 중 남은 횟수가 없으면 null을 반환
 
 
 
@@ -203,7 +203,7 @@ public class AIPlayer : PlayerRule
     {
         //현재 케릭이, 타겟까지 이동할 루트로 tokenTile을 찾아, 액션 토큰에 삽입. 
 
-        int tempMoveCount = 3; //이동횟수 겟 함수
+        int tempMoveCount = 1; //이동횟수 겟 함수
    
         TokenTile[,] maps = MgToken.GetInstance().GetMaps();
         TMapIndex mapInfoes = new TMapIndex(_char, _target);

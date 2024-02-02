@@ -21,7 +21,9 @@ public class RuleBook
 
         TokenAction action = _char.GetNextActionToken();
         ActionType actionType = action.GetActionType();
-        int curStep = 0;
+        action.CalStat(ActionStat.RemainCountInTurn, -1); //액션토큰의 사용 횟수 차감
+        Debug.Log("해당 액션 카운트 감소 " + action.GetStat(ActionStat.RemainCountInTurn));
+        int reserveStep = 0;
         if (actionType == ActionType.Attack)
         {
             Debug.Log("어택 내용 수행한다");
@@ -42,16 +44,16 @@ public class RuleBook
             List<TokenTile> targetTile = action.GetTargetList().ConvertAll(tokenBase => (TokenTile)tokenBase);//모든 요소를 Tile로 전환
             ShowRouteNumber(targetTile);
             m_PlayMaster.RservereInfo(_char, targetTile.Count);
-            int tempTiming = 2;
+            int tempTimingStep = 2; //효과 발휘할 단계
             for (int i = 0; i < targetTile.Count; i++)
             {
-                curStep += 1;
-                m_PlayMaster.ReservateMove(_char, targetTile[i], tempTiming, curStep, Migrate);
+                reserveStep += 1;
+                m_PlayMaster.ReservateMove(_char, targetTile[i], tempTimingStep, reserveStep, Migrate);
                 
             }
          
         }
-        m_PlayMaster.DoneReserve(curStep); //아무 예약도 되지 않은 상황을 대비 아니지 그냥 DoneReserve 호출이 낫겠다.
+        m_PlayMaster.DoneReservation(reserveStep); 
     }
 
     public static void Migrate(TokenChar _char, TokenTile _targetTile)

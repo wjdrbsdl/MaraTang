@@ -8,7 +8,7 @@ public enum ActionType
 
 public enum ActionStat
 {
-    Range, MaxTargetCount, Power, NeedActionEnergy
+    Range, RemainCountInTurn, MaxCountInTurn, Power, NeedActionEnergy
 }
 
 [System.Serializable]
@@ -37,13 +37,15 @@ public class TokenAction : TokenBase
         {
             actionToken.actionTarget = TokenType.Tile;
             actionToken.SetStat(ActionStat.Range, 3);
-            actionToken.SetStat(ActionStat.MaxTargetCount, 2);
+            actionToken.SetStat(ActionStat.RemainCountInTurn, 2);
+            actionToken.SetStat(ActionStat.MaxCountInTurn, 2);
         }
         else if (_type.Equals(ActionType.Attack))
         {
             actionToken.actionTarget = TokenType.Char;
             actionToken.SetStat(ActionStat.Range, 1);
-            actionToken.SetStat(ActionStat.MaxTargetCount, 1);
+            actionToken.SetStat(ActionStat.RemainCountInTurn, 1);
+            actionToken.SetStat(ActionStat.MaxCountInTurn, 1);
         }
         
         
@@ -78,4 +80,8 @@ public class TokenAction : TokenBase
     }
     #endregion
 
+    public void RcoverRemainCountInTurn()
+    {
+        m_tokenIValues[(int)ActionStat.RemainCountInTurn] = m_tokenIValues[(int)ActionStat.MaxCountInTurn];
+    }
 }

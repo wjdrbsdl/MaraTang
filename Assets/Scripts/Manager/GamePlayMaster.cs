@@ -25,9 +25,6 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     public RuleBook RuleBook;
     public EmphasizeObject EmphasizeTool;
 
-    
-    [Header("[배틀씬]")]
-    [SerializeField] private UICutScene m_battleUI;
     #region 행동 예약 변수
     Queue<IEnumerator> actionReserVationQueue = new(); //수행할 코루틴
     private bool isPlayingCorutine = false; //선행중인 코루틴이 있는지 체크
@@ -176,7 +173,6 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     //어택이 아니더라도 대상에게 어떠한 효과를 주는 경우에는 다해도 될것 같은데
     public void ReservateAttack()
     {
-        m_battleUI.Switch(true);
         //어택 토큰을 상대에게 사용시 
         //------------ 데이터
         //1. 어택토큰의 기능 + 사용자 버프로 공격 산출 
@@ -194,10 +190,12 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
 
     }
 
-    public void DoneReserve(int _curStep)
+    public void DoneReservation(int _curStep)
     {
-        PlayReservation(_curStep); //룰북으로부터 예약이 끝나면 받는 부분 - 
-        //오로지 즉발로 이뤄진 액션토큰의 경우 - 종료가 2번 호출될 수 있겠다. 
+        //룰북으로부터 예약이 끝나면 받는 부분 - 
+
+        PlayReservation(_curStep); 
+
     }
     #endregion
 
@@ -377,6 +375,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
         for (int i = 0; i < MgToken.GetInstance().GetNpcPlayerList().Count; i++)
         {
             MgToken.GetInstance().GetNpcPlayerList()[i].actionCount = i + 1; //
+            MgToken.GetInstance().GetNpcPlayerList()[i].RecoverActionTokenCount();
         }
     }
     private void SettleWorldTurn()

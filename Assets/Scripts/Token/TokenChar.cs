@@ -82,12 +82,12 @@ public class TokenChar : TokenBase
         return m_haveActionList;
     }
 
-    public TokenAction GetNextActionList()
+    public TokenAction GetNextAction()
     {
         return m_nextAction;
     }
 
-    public void ClearNextActionList()
+    public void ClearNextAction()
     {
         m_nextAction = null;
     }
@@ -132,4 +132,12 @@ public class TokenChar : TokenBase
         m_haveActionList.Add(_action);
     }
     #endregion
+
+    public void RecoverActionTokenCount()
+    {
+        for (int i = 0; i < m_haveActionList.Count; i++)
+        {
+            m_haveActionList[i].RcoverRemainCountInTurn();
+        }
+    }
 }
