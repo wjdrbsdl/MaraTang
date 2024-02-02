@@ -92,7 +92,7 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
         TokenType tokenType = _token.GetTokenType();
 
         if (tokenType.Equals(TokenType.Tile))
-            m_playGameUI.ResetTileWorkShopUI((TokenTile)_token);
+            m_playGameUI.ShowTileWorkShopUI((TokenTile)_token);
     }
 
     public void ClickCancle()
@@ -238,6 +238,11 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
     {
         _mainChar.isMainChar = true;
         m_mainChar = _mainChar;
+    }
+
+    public void OnChangePlayData()
+    {
+        m_playGameUI.ResetPlayData();
     }
 
     //플레이어 스텝 단계가 바뀐경우, 그 상태에 필요한 초기 세팅(값들, ui들)

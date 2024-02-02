@@ -15,10 +15,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     public Sprite[] m_testActionIcon;
     public bool m_testAuto = true;
 
-    
     private GamePlayData m_playData = new();
-    [SerializeField]
-    private UIPlayData m_playDataUI;
 
     [SerializeField]
     private CameraFollow m_camFollow;
@@ -30,7 +27,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
 
     
     [Header("[배틀씬]")]
-    [SerializeField] private UIBattle m_battleUI;
+    [SerializeField] private UICutScene m_battleUI;
     #region 행동 예약 변수
     Queue<IEnumerator> actionReserVationQueue = new(); //수행할 코루틴
     private bool isPlayingCorutine = false; //선행중인 코루틴이 있는지 체크
@@ -391,7 +388,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     private void SetPlayDataUI()
     {
         AnnounceState("플레이 데이터 갱신");
-        m_playDataUI.ShowPlayData(m_playData);
+        PlayerManager.GetInstance().OnChangePlayData();
     }
 
     private void SettingPlayerTurn()
@@ -458,6 +455,10 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
 
     #endregion
 
+    public GamePlayData GetPlayData()
+    {
+        return m_playData;
+    }
  }
 
 public enum GamePlayStep

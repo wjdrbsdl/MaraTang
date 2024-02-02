@@ -5,19 +5,27 @@ using UnityEngine;
 
 public class UIPlayGame : MonoBehaviour
 {
+    [Header("액션")]
     [SerializeField] private UIActionTokenBox m_actionTokenBox;
     [SerializeField] private UIFillContent m_fillContentUI;
     [SerializeField] private UIEventContent m_eventContentUI;
+    [SerializeField] private UITileWorkShop m_tileWorkShopUI;
+
+    [Header("데이터 표기")]
     [SerializeField] private UICapital m_capitalUI;
     [SerializeField] private UITokenSnapInfo m_snapInfoUI;
-    [SerializeField] private UITileWorkShop m_tileWorkShopUI;
-    [SerializeField] private UIBase[] m_offUIes; //껐다 켰따 할 리스트들
+    [SerializeField] private UIPlayData m_playDataUI;
 
+    [Header("컷씬")]
+    [SerializeField] private UICutScene m_cutScene;
+
+    [SerializeField] private UIBase[] m_offUIes; //껐다 켰따 할 리스트들
     private void Start()
     {
         m_offUIes = new UIBase[] { m_actionTokenBox, m_fillContentUI, m_eventContentUI, m_tileWorkShopUI };
     }
 
+    #region 플레이어 액션
     public void ShowActionToken(TokenChar _char)
     {
         //플레이어 캐릭터 눌렀을 때 - 플레이어 매니저상 어떤 상태인지에 따라서 세팅하기 
@@ -27,7 +35,6 @@ public class UIPlayGame : MonoBehaviour
         m_actionTokenBox.SetActionSlot(_char);
     }
 
-    #region 내용 채우기 
     public void ShowFillContentUI(TokenChar _char, TokenAction _action)
     {
         OffPlayUI();
@@ -39,6 +46,12 @@ public class UIPlayGame : MonoBehaviour
         //해당 액션에 타겟이 추가 된 경우 //타겟이 옳은지 틀린지는 룰북에서 확인하고, 통과된 경우만 이곳으로 호출 UI는 오로지 입출력만 담당.
         m_fillContentUI.AddContent(_contentTarget);
     }
+
+    public void ShowTileWorkShopUI(TokenTile _tile)
+    {
+        m_uiStack.Push(m_tileWorkShopUI);
+        m_tileWorkShopUI.SetTileWorkShopInfo(_tile);
+    }
     #endregion
 
     #region 이벤트 관련
@@ -49,6 +62,7 @@ public class UIPlayGame : MonoBehaviour
     }
     #endregion
 
+    #region 현황 데이터 표기
     public void ResetCapitalInfo(PlayerCapitalData _capitalData)
     {
         m_capitalUI.ResetCapitalInfo(_capitalData);
@@ -59,10 +73,9 @@ public class UIPlayGame : MonoBehaviour
         m_snapInfoUI.SetTokenSnapInfo(_token);
     }
 
-    public void ResetTileWorkShopUI(TokenTile _tile)
+    public void ResetPlayData()
     {
-        m_uiStack.Push(m_tileWorkShopUI);
-        m_tileWorkShopUI.SetTileWorkShopInfo(_tile);
+        m_playDataUI.ShowPlayData();
     }
 
     public void OffPlayUI()
@@ -72,6 +85,7 @@ public class UIPlayGame : MonoBehaviour
             m_offUIes[i].Switch(false);
         }
     }
+    #endregion
 
     Stack<UIBase> m_uiStack = new();
     public bool CheckLastUI()

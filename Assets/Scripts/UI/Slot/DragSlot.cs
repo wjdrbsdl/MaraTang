@@ -35,6 +35,6 @@ public class DragSlot : MonoBehaviour
     }
     public void SetOff(bool onOff)
     {
-        gameObject.SetActive(onOff);
+        m_icon.enabled = onOff;
     }
 }

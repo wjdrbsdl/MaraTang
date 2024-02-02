@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UIBattle : UIBase
+public class UICutScene : UIBase
 {
     
     [SerializeField] private GameObject m_attackInfo; //공격에 관련된 버프
