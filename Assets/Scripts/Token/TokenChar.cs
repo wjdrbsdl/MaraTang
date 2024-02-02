@@ -127,7 +127,7 @@ public class TokenChar : TokenBase
         m_nextTarget = _tokenBase;
     }
 
-    public void SetActionToken(TokenAction _action)
+    public void AddActionToken(TokenAction _action)
     {
         m_haveActionList.Add(_action);
     }

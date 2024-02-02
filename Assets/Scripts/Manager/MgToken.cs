@@ -127,8 +127,8 @@ public class MgToken : MgGeneric<MgToken>
     {
         TokenAction moveAction = new TokenAction().MakeTestAction(ActionType.Move);
         TokenAction attackAction = new TokenAction().MakeTestAction(ActionType.Attack);
-        _tokenChar.SetActionToken(moveAction);
-        _tokenChar.SetActionToken(attackAction);
+        _tokenChar.AddActionToken(moveAction);
+        _tokenChar.AddActionToken(attackAction);
     }
     #endregion
 
