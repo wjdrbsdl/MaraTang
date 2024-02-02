@@ -186,6 +186,7 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
 
     public void EndTurn()
     {
+        ChangedPlayerStep(GamePlayStep.EndTurn);
        GamePlayMaster.g_instance.EndPlayerTurn();
     }
 
@@ -279,6 +280,14 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
         }
         if (m_curStep.Equals(GamePlayStep.PlayAction))
         {
+            m_playGameUI.OffPlayUI();
+            return;
+        }
+        if (m_curStep.Equals(GamePlayStep.EndTurn))
+        {
+            m_curChar = null;
+            m_curAction = null;
+            GamePlayMaster.g_instance.ResetEmphasize();
             m_playGameUI.OffPlayUI();
             return;
         }

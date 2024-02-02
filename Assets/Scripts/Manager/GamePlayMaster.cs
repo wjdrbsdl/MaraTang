@@ -55,7 +55,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
                 if (m_players[(int)PlayerMember.LivePlayer].GetCurPlayStep() != GamePlayStep.ChooseChar)
                     return;
                 //리얼 플레이어 차례일때 누르면 라이브 플레이어 턴 종료 선언
-                EndPlayerTurn();
+                PlayerManager.GetInstance().EndTurn();
                 Debug.Log("플레이어 턴 종료 선언");
             }
         }
@@ -382,7 +382,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
 public enum GamePlayStep
 {
     //게임마스터가 게임을 진행하면서 현재 스텝을 정의 
-    ChooseChar, SelectAct, FillContent, CheckDecision, PlayAction, TriggerEvent
+    ChooseChar, SelectAct, FillContent, CheckDecision, PlayAction, TriggerEvent, EndTurn
 }
 
 public class GamePlayData

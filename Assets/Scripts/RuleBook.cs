@@ -47,7 +47,10 @@ public class RuleBook
         else if (actionType == ActionType.Move)
         {
             TokenTile targetTile = GameUtil.GetTileTokenFromMap(targetPos);
-            effectDelegate = delegate { Migrate(_playChar, targetTile); };
+            effectDelegate = delegate 
+            { 
+                Migrate(_playChar, targetTile); 
+            };
             animateCoroutine = co_MoveAction(_playChar, targetTile, effectDelegate);
         }
         GamePlayMaster.GetInstance().AnimateTokenObject(animateCoroutine, effectDelegate, _playChar);
