@@ -40,9 +40,6 @@ public class TileMaker : MonoBehaviour
                 //타일토큰용
                 TokenTile newTokeTileInfo = new TokenTile().MakeTileToken();
 
-                //환경 자원 생성
-                if (selectMap.Equals(0))
-                    CapitalObjManager.GetInstance().RequestCapitalObject(newTokeTileInfo);
 
                 //서로 참조 세팅
                 newTileObject.SetToken(newTokeTileInfo, TokenType.Tile);
@@ -55,6 +52,11 @@ public class TileMaker : MonoBehaviour
                 newHideMap[curx, cury] = newHideTile; //맵 배열의 인덱스엔 만들어진 맵을 할당
                 newHideTile.transform.SetParent(_mapOrder.t_hideBox);
                 newHideTile.transform.localPosition = new Vector2(finalX, yPos); //박스 안에서 로컬포지션으로 위치 
+
+
+                //환경 자원 Object 생성
+                if (selectMap.Equals(0))
+                    CapitalObjManager.GetInstance().RequestCapitalObject(newTokeTileInfo);
             }
         }
         MgToken.GetInstance().SetMapTiles(newMap); //만들어진 맵 정보 전달
