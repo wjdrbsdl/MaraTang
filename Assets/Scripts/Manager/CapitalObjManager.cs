@@ -9,7 +9,7 @@ public class CapitalObjManager : MgGeneric<CapitalObjManager>
     private ObjTokenCapital m_sample; 
     private Stack<ObjTokenCapital> m_capitalObjStack = new Stack<ObjTokenCapital>();
     
-    public void RequestObjToken(TokenTile _tile)
+    public void RequestCapitalObject(TokenTile _tile)
     {
         ObjTokenCapital capitalObj = Instantiate(m_sample).GetComponent<ObjTokenCapital>();
         capitalObj.gameObject.transform.SetParent(_tile.GetObject().transform);

@@ -40,6 +40,10 @@ public class TileMaker : MonoBehaviour
                 //타일토큰용
                 TokenTile newTokeTileInfo = new TokenTile().MakeTileToken();
 
+                //환경 자원 생성
+                if (selectMap.Equals(0))
+                    CapitalObjManager.GetInstance().RequestCapitalObject(newTokeTileInfo);
+
                 //서로 참조 세팅
                 newTileObject.SetToken(newTokeTileInfo, TokenType.Tile);
                 newTokeTileInfo.SetMapIndex(curx, cury); //토큰 자체에 자신의 인덱스 넣고
