@@ -116,7 +116,7 @@ public class AIPlayer : PlayerRule
                 if(enemy != _char) //자기 자신이 아니면{
                 {
                     _char.SetTarget(enemy);
-                    Debug.Log("적발 견" + enemy.GetXIndex() + ", " + enemy.GetYIndex());
+                  //  Debug.Log("적발 견" + enemy.GetXIndex() + ", " + enemy.GetYIndex());
                     isEnemyFind = true;
                     break;
                 }
@@ -134,7 +134,7 @@ public class AIPlayer : PlayerRule
             
             TMapIndex tMapIndex = new TMapIndex(_char, _char.GetTarget());
             int enemyRange = GameUtil.GetMinRange(tMapIndex);
-            Debug.Log("몬스터 까지 거리 " + enemyRange);
+            //Debug.Log("몬스터 까지 거리 " + enemyRange);
             int charRange = 1; //일단 캐릭터의 공격 사거리를 1로 지정
             TokenAction attackAction = _char.GetActionList()[1];
             //사거리 이내면 일단 이동은 하지 않고 다른 조건 파악

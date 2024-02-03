@@ -235,11 +235,9 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
             RuleBook.PlayEntranceEvent(enterEvent);
             return;
         }
-        else
-        {
-            Debug.Log("입장 이벤트 없드");
-        }
-
+      
+        //Debug.Log("입장 이벤트 없드");
+       
         //없다면 도착에 따른 확률적 이벤트 수행
         int setCount = UnityEngine.Random.Range(1, 100);
         if(setCount >= 90)
