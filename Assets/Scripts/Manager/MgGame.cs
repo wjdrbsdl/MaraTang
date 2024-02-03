@@ -15,7 +15,10 @@ public class MgGame : MonoBehaviour
     GamePlayMaster m_gamePlayMaster;
     [SerializeField]
     PlayerManager m_playerManager;
-    [SerializeField] SoundManager m_soundManager;
+    [SerializeField]
+    SoundManager m_soundManager;
+    [SerializeField]
+    CapitalObjManager m_capitalManager;
 
     #endregion
  
@@ -48,6 +51,7 @@ public class MgGame : MonoBehaviour
         m_gamePlayMaster.InitiSet();
         m_playerManager.InitiSet();
         m_soundManager.InitiSet();
+        m_capitalManager.InitiSet();
     }
    
     private void LoadMasterData()

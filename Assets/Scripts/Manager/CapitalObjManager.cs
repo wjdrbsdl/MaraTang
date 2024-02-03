@@ -8,11 +8,7 @@ public class CapitalObjManager : MgGeneric<CapitalObjManager>
     [SerializeField]
     private ObjTokenCapital m_sample; 
     private Stack<ObjTokenCapital> m_capitalObjStack = new Stack<ObjTokenCapital>();
-    private void Awake()
-    {
-        g_instance = this;
-    }
-
+    
     public void RequestObjToken(TokenTile _tile)
     {
         ObjTokenCapital capitalObj = Instantiate(m_sample).GetComponent<ObjTokenCapital>();
