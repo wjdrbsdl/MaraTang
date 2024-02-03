@@ -9,7 +9,7 @@ public class ClickToken : MonoBehaviour
     [SerializeField]
     private float m_doubleClickInterval = 0.13f; //더블클릭 인정시간
     [SerializeField]
-    private float m_dragCutDistance = 3.0f; //드래그로 인정되는 이동거리
+    private float m_dragCutDistance = 6.0f; //드래그로 인정되는 이동거리
     [SerializeField]
     private bool m_isDragMode = false;
 

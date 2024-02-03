@@ -65,6 +65,7 @@ public class ObjectTokenBase : MonoBehaviour
         else if (_tokenType == TokenType.Action)
         {
             m_token = (TokenAction)_token;
+            m_ClickPriority = 3;
         }
         m_token.SetObject(this);
     }
@@ -87,6 +88,8 @@ public class ObjectTokenBase : MonoBehaviour
 
     public int GetClickPriority()
     {
+        //오브젝트의 경우 레이를 쏘기 때문에 여러 오브젝트가 감지 될 수 있음
+        //이 중 tokenType별로 할당된 클릭우선도에 따라 대상을 선택
         return m_ClickPriority;
     }
 
