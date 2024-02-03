@@ -25,7 +25,9 @@ public class CameraFollow : MonoBehaviour
     public void MoveToTarget()
     {
         if (m_target != null)
-            transform.position = m_target.transform.position + offSet;
+        {
+            ClickToken.RestrictCamPos(m_target.transform.position + offSet);
+        }
     }
 
     public void TraceOnOff(bool _on)
@@ -35,6 +37,6 @@ public class CameraFollow : MonoBehaviour
 
     public void FocusTarget(ObjectTokenBase _tokenObject)
     {
-        transform.position = _tokenObject.gameObject.transform.position + offSet;
+        ClickToken.RestrictCamPos(_tokenObject.gameObject.transform.position + offSet);
     }
 }
