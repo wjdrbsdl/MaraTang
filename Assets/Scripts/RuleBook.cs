@@ -16,7 +16,7 @@ public class RuleBook
         public TokenChar t_attacker;
         public int t_revengeStep; //공격한 단계
 
-        public AttackReceipt(TokenChar _attackChar, TokenAction _attackAction, int _revenge = 0)
+        public AttackReceipt(TokenChar _attackChar, TokenAction _attackAction, int _revenge = 1)
         {
             //구조를 만들면서 내부에서 최종피해량 산출
             t_oriignDamage = _attackChar.GetPid() + 1000;
@@ -47,7 +47,7 @@ public class RuleBook
         public void Revenge(TokenChar _defenseChar)
         {
             Debug.Log("복수의 굴레 :" + t_revengeStep);
-            if (t_revengeStep >= 10)
+            if (t_revengeStep >= 2)
                 return;
 
             AttackReceipt revenge = new AttackReceipt(_defenseChar, new TokenAction(), t_revengeStep +1);
@@ -82,7 +82,7 @@ public class RuleBook
             //3. 해당 타겟에게 해당 공격의 효과를 적용 
             effectDelegate = delegate
             {
-                AttackReceipt attackReceipt = new AttackReceipt(_playChar, actionToken, 0);
+                AttackReceipt attackReceipt = new AttackReceipt(_playChar, actionToken);
                 for (int i = 0; i < enemies.Count; i++)
                 {
                     Debug.Log(_playChar.GetItemName() + "이 " + enemies[i].GetItemName() + "를 공격");
@@ -122,16 +122,9 @@ public class RuleBook
         _char.SetState(CharState.Move);
 
         Vector3 dir = goal - _char.GetObject().transform.position;
-        while (true)
+        while (Vector2.Distance(_char.GetObject().transform.position, goal) > GamePlayMaster.c_movePrecision)
         {
-            if (Vector2.Distance(_char.GetObject().transform.position, goal) < GamePlayMaster.c_movePrecision)
-            {
-                //Debug.Log("거리 가까워서 중단");
-                break;
-            }
-
-
-            _char.GetObject().transform.position += (dir.normalized * GamePlayMaster.GetInstance().m_moveSpeed * Time.deltaTime);
+           _char.GetObject().transform.position += (dir.normalized * GamePlayMaster.GetInstance().m_moveSpeed * Time.deltaTime);
             yield return null;
         }
 
@@ -142,7 +135,7 @@ public class RuleBook
     IEnumerator co_AttacAction(TokenChar _char, Action effectAction)
     {
         //   Debug.Log("이동 코루틴 수행 단계" + m_MaxStep+"/ " + curStep);
-        _char.SetState(CharState.Move);
+        _char.SetState(CharState.Swing);
         float waitTime = 1f;
         while (waitTime>0)
         {

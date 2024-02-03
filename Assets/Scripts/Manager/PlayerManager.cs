@@ -7,7 +7,7 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
     [SerializeField]
     UIPlayGame m_playGameUI; //플레이어의 액션에 관련된 UI
     [SerializeField]SoundManager m_soundMg;
-    private GamePlayStep m_curStep = GamePlayStep.SelectAct; //현재 플레이 단계 
+    private GamePlayStep m_curStep = GamePlayStep.EndTurn; //현재 플레이 단계 
     private TokenChar m_curChar; //현재 선택된 캐릭터
     private TokenAction m_curAction;
     private TokenChar m_mainChar = null; //메인 캐릭터
@@ -186,8 +186,11 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
 
     public void EndTurn()
     {
+        if (m_curStep.Equals(GamePlayStep.EndTurn))
+            return;
+
         ChangedPlayerStep(GamePlayStep.EndTurn);
-       GamePlayMaster.g_instance.EndPlayerTurn();
+        GamePlayMaster.g_instance.EndPlayerTurn();
     }
 
     public GamePlayStep GetCurPlayStep()
