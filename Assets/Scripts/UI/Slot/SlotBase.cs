@@ -185,15 +185,12 @@ public class SlotBase : MonoBehaviour, IDragHandler, IBeginDragHandler, IDropHan
     #region Ä¿¼­ ÀÎ, ¾Æ¿ô
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (m_token == null || m_tipType.Equals(TipType.None))
-            return;
-
-        MgUI.g_instance.ShowTip(this);
+  
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        MgUI.g_instance.CloseTip();
+
     }
 
     public virtual void OnPointerClick(PointerEventData eventData)

@@ -17,8 +17,6 @@ public class MgGame : MonoBehaviour
     PlayerManager m_playerManager;
     [SerializeField] SoundManager m_soundManager;
 
-    [SerializeField]
-    MgUI m_uiManager;
     #endregion
  
     void Start()
@@ -78,8 +76,7 @@ public class MgGame : MonoBehaviour
     }
     private void InitiUIManager()
     {
-        //UIpart - ³ª¿­
-        m_uiManager.InitiSet();
+  
     }
 
 
