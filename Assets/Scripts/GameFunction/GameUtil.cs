@@ -329,6 +329,16 @@ public static class GameUtil
     {
         return MgToken.GetInstance().GetMaps()[_index[0], _index[1]].GetObject();
     }
+
+    public static int GetMapLength(bool _isX)
+    {
+        if (_isX)
+        {
+            return MgToken.GetInstance().GetMaps().GetLength(0);
+        }
+
+        return MgToken.GetInstance().GetMaps().GetLength(1);
+    }
     #endregion 
 
     #region 테이블 enum 변경기

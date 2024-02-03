@@ -7,19 +7,41 @@ public class ClickToken : MonoBehaviour
 {
     private bool m_isMouseClick = false;
     [SerializeField]
+    private float m_doubleClickInterval = 0.13f; //더블클릭 인정시간
+    [SerializeField]
     private float m_dragCutDistance = 3.0f; //드래그로 인정되는 이동거리
     [SerializeField]
     private bool m_isDragMode = false;
-    [SerializeField]
-    private float m_doubleClickInterval = 0.13f; //더블클릭 인정시간
 
+
+   [SerializeField]
+    private float m_minDragSpeed = 0.1f;
     [SerializeField]
-    private float m_minMoveSpeed = 0.1f;
-    [SerializeField]
-    private float m_maxMoveSpeed = 0.3f;
+    private float m_maxDragSpeed = 0.3f;
     public float dragSpeed = 0f;
+    private float m_dragRatioByTileLength; //기본 맵 타일 크기에 따른 드래그 속도 비율
+    private static float m_camMinX = 5f;
+    private static float m_camMinY = 0f;
+    private static float m_camMaxX = 0f;
+    private static float m_camMaxY = 0f;
+
+    
 
     Vector2 priorMousePosition = new Vector2();
+
+    
+
+    private void Start()
+    {
+        float tileRLength = MgToken.GetInstance().m_rLength; //맵 타일 반지름
+        m_dragRatioByTileLength = tileRLength * 0.55f; // 타일 크기에 비례한 속도 증감, 기존 타일 크기 1.5f
+        int tileXNum = GameUtil.GetMapLength(true);
+        int tileYNum = GameUtil.GetMapLength(false);
+        m_camMaxX = MgToken.GetInstance().GetMaps()[tileXNum - 1, tileYNum - 1].GetObject().transform.position.x - m_camMinX;
+        m_camMaxY = MgToken.GetInstance().GetMaps()[tileXNum - 1, tileYNum - 1].GetObject().transform.position.y;
+        Debug.Log("최고 너비는 " + m_camMaxX + " : " + m_camMaxY);
+    }
+
     private void Update()
     {
         LeftMouse();
@@ -150,17 +172,35 @@ public class ClickToken : MonoBehaviour
             return;
 
         
-        Vector2 direct = new Vector2(Input.mousePosition.x - priorMousePosition.x , Input.mousePosition.y - priorMousePosition.y);
+        Vector3 direct = new Vector2(Input.mousePosition.x - priorMousePosition.x , Input.mousePosition.y - priorMousePosition.y);
         direct = -direct.normalized;
         
         //인버스러프 -> 그 구간에서 해당 값이 어느 비율값인지 0~1 사이 값
         float ratio = Mathf.InverseLerp(CameraMove.m_minScopeSize, CameraMove.m_maxScopeSize, Camera.main.orthographicSize);
         //러프 -> 그 구간에서 비율(0~1)에 해당하는 값 min~max 사이 값
-        dragSpeed = Mathf.Lerp(m_minMoveSpeed, m_maxMoveSpeed, ratio); //크기 비율에 따라 속도 변화
-        Camera.main.gameObject.transform.Translate(direct * dragSpeed);
+        dragSpeed = Mathf.Lerp(m_minDragSpeed, m_maxDragSpeed, ratio); //크기 비율에 따라 속도 변화
+        dragSpeed *= m_dragRatioByTileLength;
+        //Camera.main.gameObject.transform.Translate(direct * dragSpeed);
+
+        Vector3 moved = Camera.main.gameObject.transform.position + direct * dragSpeed;
+
+        RestrictCamPos(moved);
+
+
         priorMousePosition = Input.mousePosition; //이동한 위치로 갱신 
     }
     
+    public static void RestrictCamPos(Vector3 _moved)
+    {
+        //정해진 범위 밖으로 벗어나지 않도록 수정
+        _moved.x = Mathf.Max(m_camMinX, _moved.x);
+        _moved.x = Mathf.Min(m_camMaxX, _moved.x);
+        _moved.y = Mathf.Max(m_camMinY, _moved.y);
+        _moved.y = Mathf.Min(m_camMaxY, _moved.y);
+
+        Camera.main.gameObject.transform.position = _moved; //카메라 허용범위 벗어난게 아니라면 위치 이동.
+    }
+
     private void InputKey()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
