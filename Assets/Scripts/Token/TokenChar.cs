@@ -142,16 +142,4 @@ public class TokenChar : TokenBase
         }
     }
 
-    public void ApplyDamage(float _damage)
-    {
-        Debug.Log("피해 받는다 " + _damage);
-        int damage = (int)_damage;
-        CalStat(CharStat.CurActionEnergy, -damage);
-        if (GetStat(CharStat.CurActionEnergy) <= 0)
-        {
-            Debug.Log("사망");
-            return;
-        }
-
-    }
 }
