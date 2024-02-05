@@ -13,31 +13,13 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
     private TokenChar m_curChar; //현재 선택된 캐릭터
     private TokenAction m_curAction;
     private TokenChar m_mainChar = null; //메인 캐릭터
-    private PlayerCapitalData m_playerCapitalData; //플레이어의 자원 정보
+    private PlayerCapitalData m_playerCapitalData = new(); //플레이어의 자원 정보
 
     [Header("Efx 별도 확보")]
     [SerializeField]
     AudioClip actionSelectEFx;
     [SerializeField]
     AudioClip eventSelectEFx;
-
-    #region 초기화
-    public override void InitiSet()
-    {
-        base.InitiSet();
-        g_instance = this;
-        m_playerCapitalData = new();
-    }
-    #endregion
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-            ClickCancle();
-
-        if (Input.GetMouseButtonDown(1))
-            ClickCancle();
-    }
 
     #region 플레이어 인풋 - 클릭, 선택 등
     #region 클릭- 한번, 더블, 취소
@@ -164,7 +146,7 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
     public void SelectTileAction(TokenTile _selectedToken, string _tileAction)
     {
         GamePlayMaster.GetInstance().PlayTileAction(_selectedToken, _tileAction);
-        m_playGameUI.OffPlayUI();
+        m_playGameUI.CancleLastUI();
     }
     #endregion
     #endregion
