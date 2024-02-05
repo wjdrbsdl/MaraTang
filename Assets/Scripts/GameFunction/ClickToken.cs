@@ -47,6 +47,7 @@ public class ClickToken : MonoBehaviour
         LeftMouse();
         InputKey();
         DragCam();
+        InputCancle();
     }
 
     private void LeftMouse()
@@ -207,5 +208,11 @@ public class ClickToken : MonoBehaviour
         {
 
         }
+    }
+
+    private void InputCancle()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(1))
+            PlayerManager.GetInstance().ClickCancle();
     }
 }
