@@ -78,7 +78,6 @@ public class ClickToken : MonoBehaviour
             m_isMouseClick = true; //눌러졌음으로 바꾸고
             m_isDragMode = false; //초기화
             priorMousePosition = Input.mousePosition;
-            m_startClickToken = ClickedObjectToken(); //누른 순간 위치에 있는 오브젝트 저장해놓기
             return;
         }
         //2. 누른 상태로 - 클릭이냐 드래그냐 가르는 부분
@@ -95,9 +94,9 @@ public class ClickToken : MonoBehaviour
         if(Input.GetMouseButtonUp(0) && m_isMouseClick == true)
         {
             //마우스를 뗀순간 드래그모드인지 따라서 클릭 진행
-            ObjectTokenBase endClickObject = ClickedObjectToken(); //뗀 위치에서 오브젝트
+            ObjectTokenBase endClickObject = ParseObjectToken(); //뗀 위치에서 오브젝트
             if (m_isDragMode == false)
-                CallTokenClick(endClickObject);
+                ClickTokenObject(endClickObject);
             //클릭 상태는 초기화
             m_isMouseClick = false;
             m_isDragMode = false;
@@ -105,11 +104,11 @@ public class ClickToken : MonoBehaviour
     }
 
     private ObjectTokenBase m_preClickToken = null;
-    private ObjectTokenBase m_startClickToken = null;
     private float m_preClickTime =0f;
-    private void CallTokenClick(ObjectTokenBase _clickToken)
+    private void ClickTokenObject(ObjectTokenBase _clickToken)
     {
-     
+        if(_clickToken == null)
+                return;
         float curTime = Time.realtimeSinceStartup;
 
         if(m_preClickToken == null)
@@ -151,7 +150,7 @@ public class ClickToken : MonoBehaviour
 
     }
 
-    private ObjectTokenBase ClickedObjectToken()
+    private ObjectTokenBase ParseObjectToken()
     {
         RaycastHit2D[] hit = Physics2D.RaycastAll(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, 0f);
         int maxPri = -1; //최소 선호도는 0 
