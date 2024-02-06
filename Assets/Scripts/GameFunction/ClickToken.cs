@@ -9,7 +9,7 @@ public class ClickToken : MonoBehaviour
     [SerializeField]
     private float m_doubleClickInterval = 0.13f; //더블클릭 인정시간
     [SerializeField]
-    private float m_dragCutDistance = 6.0f; //드래그로 인정되는 이동거리
+    private float m_dragCutDistance = 55.0f; //드래그로 인정되는 이동거리
     [SerializeField]
     private bool m_isDragMode = false;
 
@@ -78,6 +78,7 @@ public class ClickToken : MonoBehaviour
             m_isMouseClick = true; //눌러졌음으로 바꾸고
             m_isDragMode = false; //초기화
             priorMousePosition = Input.mousePosition;
+            m_startClickToken = ClickedObjectToken(); //누른 순간 위치에 있는 오브젝트 저장해놓기
             return;
         }
         //2. 누른 상태로 - 클릭이냐 드래그냐 가르는 부분
@@ -94,8 +95,9 @@ public class ClickToken : MonoBehaviour
         if(Input.GetMouseButtonUp(0) && m_isMouseClick == true)
         {
             //마우스를 뗀순간 드래그모드인지 따라서 클릭 진행
+            ObjectTokenBase endClickObject = ClickedObjectToken(); //뗀 위치에서 오브젝트
             if (m_isDragMode == false)
-                CallTokenClick();
+                CallTokenClick(endClickObject);
             //클릭 상태는 초기화
             m_isMouseClick = false;
             m_isDragMode = false;
@@ -103,10 +105,54 @@ public class ClickToken : MonoBehaviour
     }
 
     private ObjectTokenBase m_preClickToken = null;
+    private ObjectTokenBase m_startClickToken = null;
     private float m_preClickTime =0f;
-    private void CallTokenClick()
+    private void CallTokenClick(ObjectTokenBase _clickToken)
     {
      
+        float curTime = Time.realtimeSinceStartup;
+
+        if(m_preClickToken == null)
+        {
+            //첫 클릭
+            //Debug.Log("생 초클릭");
+            _clickToken.OnClickObject();
+            m_preClickTime = curTime; //누른시간 넣고
+            m_preClickToken = _clickToken; //누른 토큰 넣고
+            return;
+        }
+
+        if(m_preClickToken == _clickToken)
+        {
+            //만약 같은 토큰을 눌렀다면 누른 시간 간격에 따라 더블클릭 혹은 원클릭으로 진행
+            if(curTime - m_preClickTime < m_doubleClickInterval)
+            {
+                // Debug.Log("더블클릭");
+                PlayerManager.GetInstance().DoubleClickTokenObject(_clickToken.GetToken());
+            }
+            else
+            {
+                //Debug.Log("원클릭");
+                _clickToken.OnClickObject();
+            }
+            m_preClickTime = curTime; //누른시간 넣고
+            m_preClickToken = _clickToken; //누른 토큰 넣고
+            return;
+        }
+
+        //만약 다른 경우라면
+        //첫 클릭으로 진행
+       // Debug.Log("다른 원클릭");
+        _clickToken.OnClickObject();
+        m_preClickTime = curTime; //누른시간 넣고
+        m_preClickToken = _clickToken; //누른 토큰 넣고
+        return;
+
+
+    }
+
+    private ObjectTokenBase ClickedObjectToken()
+    {
         RaycastHit2D[] hit = Physics2D.RaycastAll(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, 0f);
         int maxPri = -1; //최소 선호도는 0 
         ObjectTokenBase clickToken = null;
@@ -124,47 +170,9 @@ public class ClickToken : MonoBehaviour
             }
         }
         if (clickToken == null)
-            return;
+            return null;
 
-        float curTime = Time.realtimeSinceStartup;
-
-        if(m_preClickToken == null)
-        {
-            //첫 클릭
-            //Debug.Log("생 초클릭");
-            clickToken.OnClickObject();
-            m_preClickTime = curTime; //누른시간 넣고
-            m_preClickToken = clickToken; //누른 토큰 넣고
-            return;
-        }
-
-        if(m_preClickToken == clickToken)
-        {
-            //만약 같은 토큰을 눌렀다면 누른 시간 간격에 따라 더블클릭 혹은 원클릭으로 진행
-            if(curTime - m_preClickTime < m_doubleClickInterval)
-            {
-                // Debug.Log("더블클릭");
-                PlayerManager.GetInstance().DoubleClickTokenObject(clickToken.GetToken());
-            }
-            else
-            {
-                //Debug.Log("원클릭");
-                clickToken.OnClickObject();
-            }
-            m_preClickTime = curTime; //누른시간 넣고
-            m_preClickToken = clickToken; //누른 토큰 넣고
-            return;
-        }
-
-        //만약 다른 경우라면
-        //첫 클릭으로 진행
-       // Debug.Log("다른 원클릭");
-        clickToken.OnClickObject();
-        m_preClickTime = curTime; //누른시간 넣고
-        m_preClickToken = clickToken; //누른 토큰 넣고
-        return;
-
-
+        return clickToken;
     }
    
     private void DragCam()
