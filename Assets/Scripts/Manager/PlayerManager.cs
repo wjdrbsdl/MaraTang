@@ -209,11 +209,11 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
         //기존데이터에 적용인지, 덮는건지 
         if (isCal)
         {
-            m_playerCapitalData.CalData(_resource, _value);
+            m_playerCapitalData.CalValue(_resource, _value);
         }
         else
         {
-            m_playerCapitalData.SetData(_resource, _value);
+            m_playerCapitalData.SetValue(_resource, _value);
         }
 
         m_playGameUI.ResetCapitalInfo(m_playerCapitalData);

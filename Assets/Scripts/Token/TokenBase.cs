@@ -120,28 +120,20 @@ public class TokenBase
     #region 스텟 배열 적용하는 부분
     public int GetStat(System.Enum _enumIndex)
     {
-        int index = ParseEnumValue(_enumIndex);
+        int index = GameUtil.ParseEnumValue(_enumIndex);
         return m_tokenIValues[index];
     }
     public void SetStat(System.Enum _enumIndex, int _value)
     {
-        int index = ParseEnumValue(_enumIndex);
+        int index = GameUtil.ParseEnumValue(_enumIndex);
         m_tokenIValues[index] = _value;
         //Debug.Log(m_tokenType + ": " + _enumIndex + ":" + m_tokenIValues[index]);
     }
     public void CalStat(System.Enum _enumIndex, int _value)
     {
-        int index = ParseEnumValue(_enumIndex);
+        int index = GameUtil.ParseEnumValue(_enumIndex); 
         m_tokenIValues[index] += _value;
         //Debug.Log(m_tokenType + ": " + _enumIndex + ":" + m_tokenIValues[index]);
-    }
-
-    protected int ParseEnumValue(System.Enum _enumValue)
-    {
-        int enumIntValue = (int)System.Enum.Parse(_enumValue.GetType(), _enumValue.ToString());
-
-        //  Debug.Log("들어옴");
-        return enumIntValue;
     }
     #endregion
 

@@ -16,36 +16,28 @@ public class PlayerCapitalData
 
     public PlayerCapitalData()
     {
-        Debug.Log("최초생ㅅㅇ");
         m_intValues = new int[System.Enum.GetValues(typeof(Capital)).Length];
     }
 
     #region 스텟 배열 적용하는 부분
-    public int GetData(System.Enum _enumIndex)
+    public int GetValue(System.Enum _enumIndex)
     {
-        int index = ParseEnumValue(_enumIndex);
+        int index = GameUtil.ParseEnumValue(_enumIndex);
         return m_intValues[index];
     }
-    public void SetData(System.Enum _enumIndex, int _value)
+    public void SetValue(System.Enum _enumIndex, int _value)
     {
-        int index = ParseEnumValue(_enumIndex);
+        int index = GameUtil.ParseEnumValue(_enumIndex);
         m_intValues[index] = _value;
         //Debug.Log(m_tokenType + ": " + _enumIndex + ":" + m_tokenIValues[index]);
     }
-    public void CalData(System.Enum _enumIndex, int _value)
+    public void CalValue(System.Enum _enumIndex, int _value)
     {
-        int index = ParseEnumValue(_enumIndex);
+        int index = GameUtil.ParseEnumValue(_enumIndex);
         m_intValues[index] += _value;
         //Debug.Log(m_tokenType + ": " + _enumIndex + ":" + m_tokenIValues[index]);
     }
 
-    protected int ParseEnumValue(System.Enum _enumValue)
-    {
-        int enumIntValue = (int)System.Enum.Parse(_enumValue.GetType(), _enumValue.ToString());
-
-        //  Debug.Log("들어옴");
-        return enumIntValue;
-    }
     #endregion
 
     public int[] GetCapitalValue()

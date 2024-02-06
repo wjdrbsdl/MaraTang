@@ -401,6 +401,14 @@ public static class GameUtil
         return loadIndex;
     }
     #endregion
+
+    public static int ParseEnumValue(System.Enum _enumValue)
+    {
+        int enumIntValue = (int)System.Enum.Parse(_enumValue.GetType(), _enumValue.ToString());
+
+        //  Debug.Log("µé¾î¿È");
+        return enumIntValue;
+    }
 }
 
 public struct TMapIndex
