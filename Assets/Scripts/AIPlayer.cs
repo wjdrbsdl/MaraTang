@@ -101,6 +101,10 @@ public class AIPlayer : PlayerRule
     {
         //캐릭터 상태 그밖에 조건등으로 현재 캐릭터가 취해야할 액션을 선택하는 로직
         _char.ClearNextAction();
+        TokenAction nextAction = null;
+        //캐릭이 자고있는 상태라면 그냥넘김.
+        if (_char.GetState().Equals(CharState.Sleep))
+            return;
 
         int tempEyeSight = 15; //캐릭터의 시야거리
         List<TokenTile> inRangedTiles = GameUtil.GetTileTokenListInRange(tempEyeSight, _char.GetXIndex(), _char.GetYIndex());
@@ -136,13 +140,13 @@ public class AIPlayer : PlayerRule
             int enemyRange = GameUtil.GetMinRange(tMapIndex);
             //Debug.Log("몬스터 까지 거리 " + enemyRange);
             int charRange = 1; //일단 캐릭터의 공격 사거리를 1로 지정
-            TokenAction attackAction = _char.GetActionList()[1];
+            nextAction = _char.GetActionList()[1];
             //사거리 이내면 일단 이동은 하지 않고 다른 조건 파악
             if (enemyRange <= charRange)
             {
                 //횟수가 남아있으면 공격 액션을 할당
-                if(attackAction.GetStat(ActionStat.RemainCountInTurn) >= 1)
-                _char.SetNextAction(attackAction); //사거리이내라면 공격으로
+                if(nextAction.GetStat(ActionStat.RemainCountInTurn) >= 1)
+                _char.SetNextAction(nextAction); //사거리이내라면 공격으로
 
                 //없으면 null 로 끝
                 return;
@@ -150,10 +154,10 @@ public class AIPlayer : PlayerRule
            
         }
 
-        TokenAction moveAction = _char.GetActionList()[0];
+        nextAction = _char.GetActionList()[0];
         //그밖에 행위는 일단 이동으로 - 남은 횟수 세서 할당
-        if(moveAction.GetStat(ActionStat.RemainCountInTurn) >= 1)
-         _char.SetNextAction(moveAction);
+        if(nextAction.GetStat(ActionStat.RemainCountInTurn) >= 1)
+         _char.SetNextAction(nextAction);
 
         //수행할 액션 중 남은 횟수가 없으면 null을 반환
 

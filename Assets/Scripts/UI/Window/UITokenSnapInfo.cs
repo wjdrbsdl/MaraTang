@@ -27,7 +27,9 @@ public class UITokenSnapInfo : UIBase
 
     private void SetCharTokenInfo(TokenChar _tokenChar)
     {
-       m_Info.text =("char");
+        int maxActCount = _tokenChar.GetStat(CharStat.MaxActionCount);
+        int curActCount = _tokenChar.GetStat(CharStat.CurActionCount);
+        m_Info.text =("char" + curActCount +" / "+maxActCount);
     }
 
     private void SetTileTokenInfo(TokenTile _tokenTile)

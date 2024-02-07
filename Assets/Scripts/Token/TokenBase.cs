@@ -3,14 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public enum eTokenTier
+public enum TokenTier
 {
     Nomal, Magic, Rare, Unique, Legend
-}
-
-public enum CharStat
-{
-    MaxActionEnergy, CurActionEnergy, MaxActionCount, CurActionCount
 }
 
 public enum CharExpand
@@ -43,7 +38,7 @@ public class TokenBase
     protected Sprite m_tokenImage;
     protected GameObject m_prefeb; //뭔가 형태를 띄우고 싶을때 쓰는 부분. 
     //[JsonProperty] 
-    protected eTokenTier m_tier;
+    protected TokenTier m_tier;
     // [JsonProperty] 
     protected string m_itemName;
     protected ObjectTokenBase m_object;
@@ -118,12 +113,14 @@ public class TokenBase
     #endregion
 
     #region 스텟 배열 적용하는 부분
+  
+
     public int GetStat(System.Enum _enumIndex)
     {
         int index = GameUtil.ParseEnumValue(_enumIndex);
         return m_tokenIValues[index];
     }
-    public void SetStat(System.Enum _enumIndex, int _value)
+    public void SetStatValue(System.Enum _enumIndex, int _value)
     {
         int index = GameUtil.ParseEnumValue(_enumIndex);
         m_tokenIValues[index] = _value;

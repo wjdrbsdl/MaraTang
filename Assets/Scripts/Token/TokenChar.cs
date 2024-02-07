@@ -2,11 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum CharStat
+{
+    MaxActionEnergy, CurActionEnergy, MaxActionCount, CurActionCount, Sight
+}
+
 public class TokenChar : TokenBase
 {
     public int actionCount = 0;
     public int charNum = 0;
     public bool isMainChar = false;
+    private CharState m_state = CharState.Idle;
+    private List<TokenAction> m_haveActionList = new(); //이 캐릭터가 지니고 있는 액션 토큰들
+    private TokenAction m_nextAction = null;
+    private TokenBase m_nextTarget;
+    private bool m_isPlayerChar = false;
 
     #region 캐릭 토큰 생성부분
     public TokenChar()
@@ -23,8 +33,8 @@ public class TokenChar : TokenBase
         TokenChar playerToken = new TokenChar();
         playerToken.m_tokenIValues = new int[GameUtil.EnumLength(CharStat.CurActionEnergy)];
         playerToken.m_tokenType = TokenType.Player;
-        playerToken.SetStat(CharStat.MaxActionEnergy, 10);
-        playerToken.SetStat(CharStat.CurActionEnergy, 10);
+        playerToken.SetStatValue(CharStat.MaxActionEnergy, 10);
+        playerToken.SetStatValue(CharStat.CurActionEnergy, 10);
         playerToken.m_haveActionList = new List<TokenAction>();
         return playerToken;
     }
@@ -35,18 +45,18 @@ public class TokenChar : TokenBase
         monsterToken.charNum = index;
         monsterToken.m_tokenIValues = new int[GameUtil.EnumLength(CharStat.CurActionEnergy)];
         monsterToken.m_tokenType = TokenType.Char;
-        monsterToken.SetStat(CharStat.MaxActionEnergy, 10);
-        monsterToken.SetStat(CharStat.CurActionEnergy, 10);
+        monsterToken.SetStatValue(CharStat.MaxActionEnergy, 10);
+        monsterToken.SetStatValue(CharStat.CurActionEnergy, 10);
+        monsterToken.SetStatValue(CharStat.MaxActionCount, 2);
+        monsterToken.SetStatValue(CharStat.CurActionCount, 2);
+        monsterToken.SetStatValue(CharStat.Sight, 3);
         monsterToken.m_haveActionList = new List<TokenAction>();
         monsterToken.m_tokenPid = index * 100;
+        monsterToken.SetState(CharState.Sleep);
         return monsterToken;
     }
     #endregion
-    private CharState m_state = CharState.Idle;
-    private List<TokenAction> m_haveActionList = new(); //이 캐릭터가 지니고 있는 액션 토큰들
-    private TokenAction m_nextAction = null;
-    private TokenBase m_nextTarget;
-    private bool m_isPlayerChar = false;
+  
 
     public void ShowAction(bool isShow)
     {
@@ -67,6 +77,10 @@ public class TokenChar : TokenBase
         m_object.PlayAnimation(_state);
     }
 
+    public CharState GetState()
+    {
+        return m_state;
+    }
     #region Get
     public TokenBase GetTarget()
     {

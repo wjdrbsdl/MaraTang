@@ -135,7 +135,7 @@ public class RuleBook
     IEnumerator co_AttacAction(TokenChar _char, Action effectAction)
     {
         //   Debug.Log("이동 코루틴 수행 단계" + m_MaxStep+"/ " + curStep);
-        _char.SetState(CharState.Swing);
+        _char.SetState(CharState.Attack);
         float waitTime = 1f;
         while (waitTime>0)
         {

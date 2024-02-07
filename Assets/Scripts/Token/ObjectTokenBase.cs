@@ -2,7 +2,7 @@
 using UnityEngine;
 public enum CharState
 {
-    Idle, Move, Swing
+    Idle, Move, Attack, Trace, Sleep
 }
 
 public class ObjectTokenBase : MonoBehaviour

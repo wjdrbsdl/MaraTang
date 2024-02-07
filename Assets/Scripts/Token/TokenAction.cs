@@ -36,16 +36,16 @@ public class TokenAction : TokenBase
         if (_type.Equals(ActionType.Move))
         {
             actionToken.actionTarget = TokenType.Tile;
-            actionToken.SetStat(ActionStat.Range, 3);
-            actionToken.SetStat(ActionStat.RemainCountInTurn, 2);
-            actionToken.SetStat(ActionStat.MaxCountInTurn, 2);
+            actionToken.SetStatValue(ActionStat.Range, 3);
+            actionToken.SetStatValue(ActionStat.RemainCountInTurn, 2);
+            actionToken.SetStatValue(ActionStat.MaxCountInTurn, 2);
         }
         else if (_type.Equals(ActionType.Attack))
         {
             actionToken.actionTarget = TokenType.Char;
-            actionToken.SetStat(ActionStat.Range, 1);
-            actionToken.SetStat(ActionStat.RemainCountInTurn, 1);
-            actionToken.SetStat(ActionStat.MaxCountInTurn, 1);
+            actionToken.SetStatValue(ActionStat.Range, 1);
+            actionToken.SetStatValue(ActionStat.RemainCountInTurn, 1);
+            actionToken.SetStatValue(ActionStat.MaxCountInTurn, 1);
         }
         
         
@@ -87,11 +87,11 @@ public class TokenAction : TokenBase
 
     public bool AbleUse()
     {
-        //남은 횟수가 1 이상이면
-        if (1 <= m_tokenIValues[(int)ActionStat.RemainCountInTurn])
+        //1. 남은 횟수가 1 이상이면
+        if (0 == m_tokenIValues[(int)ActionStat.RemainCountInTurn])
         {
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
 }

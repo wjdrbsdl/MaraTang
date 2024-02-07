@@ -247,7 +247,7 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
         {
             m_curAction = null;
             m_playGameUI.ShowActionToken(m_curChar); //UI적으로 필요한 처리 진행
-            m_displayAction.ShowActionTokens(m_curChar);
+            //m_displayAction.ShowActionTokens(m_curChar);
             GamePlayMaster.g_instance.ResetEmphasize();
             return;
         }
@@ -259,9 +259,9 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
             m_curChar.SetNextAction(m_curAction);
             //2. 액션 타겟 초기화
             m_curAction.ClearTarget();
-            //3. UI 로 표기
-            m_playGameUI.ShowFillContentUI(m_curChar, m_curAction);
-            m_displayAction.OffActionDisplay();
+            //3. UI 표기
+            //m_playGameUI.ShowFillContentUI(m_curChar, m_curAction);
+            //m_displayAction.OffActionDisplay();
 
             //4. 선택한 액션의 타겟 오브젝트 강조 표시
             GamePlayMaster.g_instance.EmphasizeTargetObject(m_curChar.GetXIndex(), m_curChar.GetYIndex(), m_curAction); //기본 이동 거리 세팅 
