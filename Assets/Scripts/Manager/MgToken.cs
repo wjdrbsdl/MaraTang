@@ -113,7 +113,7 @@ public class MgToken : MgGeneric<MgToken>
         
         for (int i = 0; i < 2; i++)
         {
-            TokenChar monsterToken = new TokenChar().MakeTestMonsterToken("ȣȣ" +i.ToString(), i);
+            TokenChar monsterToken = TokenChar.MakeTestMonsterToken("ȣȣ" +i.ToString(), i);
             m_mosterObject[i].SetToken(monsterToken, TokenType.Char);
             m_npcTokens.Add(monsterToken);
             MakeTestCharActionToken(monsterToken);

@@ -38,7 +38,7 @@ public class TokenChar : TokenBase
         playerToken.m_haveActionList = new List<TokenAction>();
         return playerToken;
     }
-    public TokenChar MakeTestMonsterToken(string _name, int index)
+    public static TokenChar MakeTestMonsterToken(string _name, int index)
     {
         TokenChar monsterToken = new TokenChar();
         monsterToken.m_itemName = _name;
