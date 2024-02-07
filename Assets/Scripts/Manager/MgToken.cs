@@ -16,7 +16,6 @@ public class MgToken : MgGeneric<MgToken>
     TileMaker m_tileMaker;
     public GameObject[] m_tiles;
     public Transform m_tileBox;
-
     
     public Transform m_hideBox;
     public GameObject m_hideTile;
@@ -55,6 +54,10 @@ public class MgToken : MgGeneric<MgToken>
     private TokenTile[,] m_tileTokenes; //현재 맵의 타일 토큰
     private HideTile[,] m_hideTiles;
     private List<TokenChar> m_npcTokens; //현재 맵에 생성된 npc 토큰들
+
+    private TokenAction[] m_charActions; //캐릭터들이 사용할 액션 모음집 - 나중엔 딕션으로 관리
+    private TokenAction[] m_tileActions; // 타일에서 사용가능한 보편적인 액션 모음집
+
 
     public override void InitiSet()
     {
@@ -113,7 +116,7 @@ public class MgToken : MgGeneric<MgToken>
             TokenChar monsterToken = new TokenChar().MakeTestMonsterToken("호호" +i.ToString(), i);
             m_mosterObject[i].SetToken(monsterToken, TokenType.Char);
             m_npcTokens.Add(monsterToken);
-            MakeTestActionToken(monsterToken);
+            MakeTestCharActionToken(monsterToken);
             int ranX = Random.Range(0, m_xLength);
             int ranY = Random.Range(0, m_yLength);
             RuleBook.Migrate(monsterToken, m_tileTokenes[ranX, ranY]); //타일토큰에 캐릭토큰 할당
@@ -124,12 +127,27 @@ public class MgToken : MgGeneric<MgToken>
     #endregion
 
     #region 액션 토큰 생성
-    public void MakeTestActionToken(TokenChar _tokenChar)
+    public void MakeTestCharActionToken(TokenChar _tokenChar)
     {
         TokenAction moveAction = new TokenAction().MakeTestAction(ActionType.Move);
         TokenAction attackAction = new TokenAction().MakeTestAction(ActionType.Attack);
         _tokenChar.AddActionToken(moveAction);
         _tokenChar.AddActionToken(attackAction);
+    }
+
+    public void MakeTestTileActionToken()
+    {
+        TokenAction grassAction = new TokenAction().MakeTestTileAction(ActionType.Move, "grass");
+        TokenAction mineralAction = new TokenAction().MakeTestTileAction(ActionType.Attack, "mineral");
+        TokenAction removeGrassAction = new TokenAction().MakeTestTileAction(ActionType.Attack, "removeGrass");
+        TokenAction removeMineralAction = new TokenAction().MakeTestTileAction(ActionType.Attack, "removeMineral");
+
+        m_tileActions = new TokenAction[] {grassAction, mineralAction, removeGrassAction, removeMineralAction };
+    }
+
+    public TokenAction[] GetTileActions()
+    {
+        return m_tileActions;
     }
     #endregion
 
