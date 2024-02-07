@@ -108,4 +108,9 @@ public class ObjectTokenBase : MonoBehaviour
         m_state = _state;
         m_animator.SetInteger("State", (int)m_state);
     }
+
+    public void Death()
+    {
+        gameObject.SetActive(false);
+    }
 }

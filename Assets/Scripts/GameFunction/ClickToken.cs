@@ -26,15 +26,19 @@ public class ClickToken : MonoBehaviour
 
     Vector2 priorMousePosition = new Vector2();
 
-    private void Start()
+    public static void SetCamRestrict()
     {
-        float tileRLength = MgToken.GetInstance().m_rLength; //맵 타일 반지름
-        m_dragRatioByTileLength = tileRLength * 0.55f; // 타일 크기에 비례한 속도 증감, 기존 타일 크기 1.5f
         int tileXNum = GameUtil.GetMapLength(true);
         int tileYNum = GameUtil.GetMapLength(false);
         m_camMaxX = MgToken.GetInstance().GetMaps()[tileXNum - 1, tileYNum - 1].GetObject().transform.position.x - m_camMinX;
         m_camMaxY = MgToken.GetInstance().GetMaps()[tileXNum - 1, tileYNum - 1].GetObject().transform.position.y;
         Debug.Log("최고 너비는 " + m_camMaxX + " : " + m_camMaxY);
+    }
+
+    private void Start()
+    {
+        float tileRLength = MgToken.GetInstance().m_rLength; //맵 타일 반지름
+        m_dragRatioByTileLength = tileRLength * 0.55f; // 타일 크기에 비례한 속도 증감, 기존 타일 크기 1.5f
     }
 
     private void Update()
@@ -186,13 +190,13 @@ public class ClickToken : MonoBehaviour
 
         Vector3 moved = Camera.main.gameObject.transform.position + direct * dragSpeed;
 
-        RestrictCamPos(moved);
+        RestricCamPos(moved);
 
 
         priorMousePosition = Input.mousePosition; //이동한 위치로 갱신 
     }
     
-    public static void RestrictCamPos(Vector3 _moved)
+    public static void RestricCamPos(Vector3 _moved)
     {
         //정해진 범위 밖으로 벗어나지 않도록 수정
         _moved.x = Mathf.Max(m_camMinX, _moved.x);

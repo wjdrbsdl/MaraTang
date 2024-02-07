@@ -80,6 +80,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
         m_players[0] = PlayerManager.GetInstance();
         m_players[1] = m_aiPlayer;
         ReadyNextTurn();
+        GamePlayMaster.GetInstance().CamFocus(PlayerManager.GetInstance().GetMainChar());
     }
     #endregion
 
@@ -94,7 +95,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
         m_players[turn].PlayTurn();
 
         //해당 플레이턴이 될때 카메라 고정을 풀거나, 하도록
-        CamFocus(MgToken.GetInstance().GetNpcPlayerList()[turn]);
+       //CamFocus(MgToken.GetInstance().GetNpcPlayerList()[turn]);
 
     }
 
@@ -105,7 +106,6 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
         ResetEmphasize();
         _charToken.actionCount -= 1;
         _charToken.ShowAction(true);
-        CamTraceOn(_charToken);
         RuleBook.ReadCharAction(_charToken); //룰북에 액션 수행파트 읽기
     }
 

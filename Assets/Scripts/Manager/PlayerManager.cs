@@ -137,8 +137,11 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
             return;
 
         //플레이어 쪽이 먼저 단계를 바꿔놔야함,
-        //액션을 먼저 수행하면, 즉시 끝나는경우 ChooseChar단계로 넘어오는데, 그 상태에서 뒤에 다시 playaction단계로 수정해서 먹통
         ChangedPlayerStep(GamePlayStep.PlayAction);//내용을 채워서 액션수행 요청을 할때
+
+        //액션의 실제 수행여부는 상관없이 액션 횟수는 차감
+        m_curChar.CalStat(CharStat.CurActionCount, -1);
+
         GamePlayMaster.g_instance.PlayCharAction(m_curChar);
         
     }
@@ -223,6 +226,10 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
     {
         _mainChar.isMainChar = true;
         m_mainChar = _mainChar;
+    }
+    public TokenChar GetMainChar()
+    {
+        return m_mainChar;
     }
 
     public void OnChangePlayData()

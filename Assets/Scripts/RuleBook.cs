@@ -39,7 +39,8 @@ public class RuleBook
             if (_target.GetStat(CharStat.CurActionEnergy) <= 0)
             {
                 Debug.Log(_target.GetItemName()+"»ç¸Á Ã¼·Â"+ _target.GetStat(CharStat.CurActionEnergy));
-                //return;
+                _target.Death();
+                return;
             }
             Revenge(_target);
         }

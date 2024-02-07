@@ -71,6 +71,7 @@ public class TokenChar : TokenBase
 
     public void SetState(CharState _state)
     {
+        m_state = _state;
         if (m_object == null)
             return;
 
@@ -156,4 +157,9 @@ public class TokenChar : TokenBase
         }
     }
 
+    public void Death()
+    {
+        if (m_object != null)
+            m_object.Death();
+    }
 }
