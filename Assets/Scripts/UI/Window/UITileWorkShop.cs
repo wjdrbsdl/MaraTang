@@ -18,17 +18,12 @@ public class UITileWorkShop : UIBase
         bool inMain = IsInMainChar(_tile);
         Debug.Log("메인 캐릭 있다 " + inMain);
         _tile.GetInfoForTileWorkShop(); //타일 고유 정보 얻고
-        //기본 타일 액션들
-        string[] baseWorks = System.Enum.GetNames(typeof(TileAction));
-        TokenAction[] tileWokrs = GamePlayMaster.GetInstance().RuleBook.RequestTileActions(_tile);
-
-        //둘이 조합해서 가능한 액션들 뽑는다
-        string[] confirmWorks = ConfirmTileActions(baseWorks);
+        TokenAction[] tileWorks = GamePlayMaster.GetInstance().RuleBook.RequestTileActions(_tile);
         
         //사용하는 만큼 버튼 활성화 
-        MakeSamplePool<BtnTileWorkShop>(ref m_workButtones, m_workButtonSample.gameObject, confirmWorks.Length, m_tileActionBox);
+        MakeSamplePool<BtnTileWorkShop>(ref m_workButtones, m_workButtonSample.gameObject, tileWorks.Length, m_tileActionBox);
         //버튼 세팅
-        SetButtons(_tile, confirmWorks);
+        SetButtons(_tile, tileWorks);
 
     }
 
@@ -44,14 +39,7 @@ public class UITileWorkShop : UIBase
         return false;
     }
 
-    private string[] ConfirmTileActions(string[] _baseWorks)
-    {
-        //여러 정보 활용해서 타일에서 할 수 있는 액션을 최종적으로 확정.
-
-        return _baseWorks;
-    }
-
-    private void SetButtons(TokenTile _tile, string[] _workes)
+    private void SetButtons(TokenTile _tile, TokenAction[] _workes)
     {
         int setCount = Random.Range(1, 5);
         for (int i = 0; i < setCount; i++)

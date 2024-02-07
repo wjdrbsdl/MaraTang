@@ -10,11 +10,11 @@ public class BtnTileWorkShop : MonoBehaviour
     private string m_workCode;
     private TokenTile m_tile;
 
-    public void SetButtonInfo(TokenTile _tile, string _actionCode)
+    public void SetButtonInfo(TokenTile _tile, TokenAction _actionCode)
     {
-        m_tmpText.text = _actionCode;
+        m_tmpText.text = _actionCode.GetItemName();
         m_tile = _tile;
-        m_workCode = _actionCode;
+        m_workCode = _actionCode.GetItemName();
     }
 
     public void OnButtonClick()

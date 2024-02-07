@@ -67,8 +67,9 @@ public class MgGame : MonoBehaviour
         //2. 캐릭 토큰을 만든다 - 맵의 환경에 맞게 지형적으로 캐릭 토큰 생성
         // m_tokenManager.MakePlayerToken();
         m_tokenManager.MakeMonsterToken();
+        m_tokenManager.MakeTestTileActionToken();
 
-   
+
     }
     #endregion
 
