@@ -8,6 +8,7 @@ public class RuleBook
 {
     public static GamePlayMaster m_PlayMaster;
     private RouteDisplay m_routeDisplayTool = new();
+    private TokenAction[] m_tileActions; 
   
     public struct AttackReceipt
     {
@@ -55,6 +56,15 @@ public class RuleBook
             revenge.ApplyDamage(t_attacker);
 
         }
+    }
+
+    public void ParseTileActions()
+    {
+        //타일의 고유 속성값에 따라 가능한 액션이 다를 뿐 - 가능한 액션 풀은 모든 타일에서 동일
+        //또한 액션에 사용되는 값 또한 타일마다 모두 동일 
+        //따라서 한 액션타일 풀을 가지고 돌아가면서 사용가능. 
+        
+        m_tileActions = MgToken.GetInstance().GetTileActions(); 
     }
 
     #region 액션 수행 절차
@@ -247,6 +257,21 @@ public class RuleBook
         PlayerManager.GetInstance().AdaptCapitalStat(Capital.Grass, 50, true);
         PlayerManager.GetInstance().DoneAdaptEvent(); //마지막에 이벤트 적용끝났음을 플레이어에게 전달. 
     }
+    #endregion
+
+    #region 타일 액션 산출
+    public TokenAction[] RequestTileActions(TokenTile _tile)
+    {
+        //해당 타일을 가지고 가능한 액션을 뽑아줌. 
+        List<TokenAction> ableList = new();
+        //1. tile의 값을 본다. 
+
+        //2. 미리정해둔 tileAction중에서 가능한걸 뽑는다.
+
+       // return ableList.ToArray();
+        return m_tileActions;
+    }
+
     #endregion
 }
 

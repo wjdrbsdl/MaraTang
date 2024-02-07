@@ -75,6 +75,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
 
     public void FirstStart()
     {
+        RuleBook.ParseTileActions();
         m_aiPlayer.SetInitial(); //mgtoken이 토큰 다 만들고 나서 진행해야함.
         m_playerMemeber = PlayerMember.LivePlayer; //시작은 플레이어
         m_players[0] = PlayerManager.GetInstance();

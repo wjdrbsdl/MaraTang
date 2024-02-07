@@ -20,6 +20,7 @@ public class UITileWorkShop : UIBase
         _tile.GetInfoForTileWorkShop(); //타일 고유 정보 얻고
         //기본 타일 액션들
         string[] baseWorks = System.Enum.GetNames(typeof(TileAction));
+        TokenAction[] tileWokrs = GamePlayMaster.GetInstance().RuleBook.RequestTileActions(_tile);
 
         //둘이 조합해서 가능한 액션들 뽑는다
         string[] confirmWorks = ConfirmTileActions(baseWorks);
