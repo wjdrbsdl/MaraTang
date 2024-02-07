@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public enum TileDirection
 {
@@ -417,6 +419,28 @@ public static class GameUtil
         //  Debug.Log("µé¾î¿È");
         return enumLength;
     }
+
+    public static IEnumerator GetSheetDataCo(string documentID, string sheetID, Action<bool, string> process = null)
+    {
+
+        string url = $"https://docs.google.com/spreadsheets/d/{documentID}/export?format=tsv&gid={sheetID}";
+
+        UnityWebRequest req = UnityWebRequest.Get(url);
+
+        yield return req.SendWebRequest();
+
+        if (req.result == UnityWebRequest.Result.ConnectionError || req.responseCode != 200)
+        {
+
+            process?.Invoke(false, null);
+            yield break;
+
+        }
+
+        process?.Invoke(true, req.downloadHandler.text);
+
+    }
+
 }
 
 public struct TMapIndex
