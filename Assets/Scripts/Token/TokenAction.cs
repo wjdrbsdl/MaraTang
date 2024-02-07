@@ -8,7 +8,7 @@ public enum ActionType
 
 public enum ActionStat
 {
-    Range, MaxCountInTurn, RemainCountInTurn, Power, NeedActionEnergy
+    Range, MaxCountInTurn, RemainCountInTurn, Power, NeedActionEnergy, NeedActionCount
 }
 
 [System.Serializable]

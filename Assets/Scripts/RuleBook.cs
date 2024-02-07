@@ -165,21 +165,21 @@ public class RuleBook
 
     public bool IsAbleAction(TokenChar _char, TokenAction _action)
     {
-        //1. 캐릭터 행동 카운트 
-        if(_char.GetActionCount()<= 0)
+        //1. 액션의 소비 액션 카운트와 비교(액션소비카운트가 0 인 녀석인 경우 true)
+        if(_char.GetActionCount() < _action.GetStat(ActionStat.NeedActionCount))
         {
-            Announcer.Instance.AnnounceState("행동카운트 부족");
+            Announcer.Instance.AnnounceState("행동 카운트 부족");
             return false;
         }
 
-        //2.캐릭터의 남은 에너지보다 필요에너지가 크면 
+        //2. 액션의 소비 에너지
         if (_char.GetStat(CharStat.CurActionEnergy) < _action.GetStat(ActionStat.NeedActionEnergy))
         {
             Announcer.Instance.AnnounceState("행동 에너지 부족");
             return false;
         }
 
-        //3. 액션이 사용가능 상태인가
+        //3. 액션 자체의 사용횟수(한 턴에 사용제한을 둬야하는 경우)
         if (_action.AbleUse() == false)
         {
             Announcer.Instance.AnnounceState("사용불가 상태 액션");
