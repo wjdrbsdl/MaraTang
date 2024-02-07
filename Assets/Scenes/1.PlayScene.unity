@@ -1991,7 +1991,7 @@ RectTransform:
   m_GameObject: {fileID: 525467706}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 185276707}
@@ -2003,7 +2003,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -0.71}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &525467708
@@ -4277,6 +4277,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1002761298}
   m_CullTransparentMesh: 1
+--- !u!1 &1018302270
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1018302272}
+  - component: {fileID: 1018302271}
+  m_Layer: 0
+  m_Name: GameSettingManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1018302271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1018302270}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7a4dd3d276e12f4cb66414c6b03b87a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SoundValue: 0
+--- !u!4 &1018302272
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1018302270}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1019336247
 GameObject:
   m_ObjectHideFlags: 0
@@ -6517,7 +6562,7 @@ Transform:
   - {fileID: 2035375372}
   - {fileID: 1473844561}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1546573815
 GameObject:
@@ -6901,7 +6946,7 @@ GameObject:
   - component: {fileID: 1622518809}
   - component: {fileID: 1622518810}
   m_Layer: 0
-  m_Name: CapObjManager
+  m_Name: TileCapitalManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6979,8 +7024,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 219b9a7b4d4e3c844a028ec6a971582a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_doubleClickInterval: 0.5
-  m_dragCutDistance: 2
+  m_doubleClickInterval: 0.25
+  m_dragCutDistance: 55
   m_isDragMode: 0
   m_minDragSpeed: 0.1
   m_maxDragSpeed: 0.3

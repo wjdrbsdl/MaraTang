@@ -33,7 +33,7 @@ public class TokenTile : TokenBase
     public TokenTile MakeTileToken()
     {
         TokenTile tileToken = new TokenTile();
-        tileToken.m_tokenIValues = new int[(int)TileStat.StatSize];
+        tileToken.m_tokenIValues = new int[GameUtil.EnumLength(TileStat.StatSize)];
         tileToken.m_tokenType = TokenType.Tile;
         
         return tileToken;

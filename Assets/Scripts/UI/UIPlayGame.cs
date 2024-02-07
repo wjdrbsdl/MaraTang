@@ -30,7 +30,7 @@ public class UIPlayGame : MonoBehaviour
     {
         //플레이어 캐릭터 눌렀을 때 - 플레이어 매니저상 어떤 상태인지에 따라서 세팅하기 
         //1. 일단 내턴에서 액션 수행을 위한 선택으로 간주하고, action선택 ui에서 액션슬랏 세팅하도록 진행
-        Debug.Log("내캐릭터 눌러짐");
+      //  Debug.Log("내캐릭터 눌러짐");
         OffPlayUI();
         m_actionTokenBox.SetActionSlot(_char);
     }

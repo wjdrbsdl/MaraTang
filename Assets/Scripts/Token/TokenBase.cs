@@ -10,7 +10,7 @@ public enum eTokenTier
 
 public enum CharStat
 {
-    MaxActonEnergy, CurActionEnergy, StatSize
+    MaxActionEnergy, CurActionEnergy, MaxActionCount, CurActionCount
 }
 
 public enum CharExpand

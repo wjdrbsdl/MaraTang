@@ -21,9 +21,9 @@ public class TokenChar : TokenBase
     public TokenChar MakePlayerToken()
     {
         TokenChar playerToken = new TokenChar();
-        playerToken.m_tokenIValues = new int[(int)CharStat.StatSize];
+        playerToken.m_tokenIValues = new int[GameUtil.EnumLength(CharStat.CurActionEnergy)];
         playerToken.m_tokenType = TokenType.Player;
-        playerToken.SetStat(CharStat.MaxActonEnergy, 10);
+        playerToken.SetStat(CharStat.MaxActionEnergy, 10);
         playerToken.SetStat(CharStat.CurActionEnergy, 10);
         playerToken.m_haveActionList = new List<TokenAction>();
         return playerToken;
@@ -33,9 +33,9 @@ public class TokenChar : TokenBase
         TokenChar monsterToken = new TokenChar();
         monsterToken.m_itemName = _name;
         monsterToken.charNum = index;
-        monsterToken.m_tokenIValues = new int[(int)CharStat.StatSize];
+        monsterToken.m_tokenIValues = new int[GameUtil.EnumLength(CharStat.CurActionEnergy)];
         monsterToken.m_tokenType = TokenType.Char;
-        monsterToken.SetStat(CharStat.MaxActonEnergy, 10);
+        monsterToken.SetStat(CharStat.MaxActionEnergy, 10);
         monsterToken.SetStat(CharStat.CurActionEnergy, 10);
         monsterToken.m_haveActionList = new List<TokenAction>();
         monsterToken.m_tokenPid = index * 100;

@@ -12,12 +12,11 @@ public class ClickToken : MonoBehaviour
     private float m_dragCutDistance = 55.0f; //드래그로 인정되는 이동거리
     [SerializeField]
     private bool m_isDragMode = false;
-
-
-   [SerializeField]
+    [SerializeField]
     private float m_minDragSpeed = 0.1f;
     [SerializeField]
     private float m_maxDragSpeed = 0.3f;
+
     public float dragSpeed = 0f;
     private float m_dragRatioByTileLength; //기본 맵 타일 크기에 따른 드래그 속도 비율
     private static float m_camMinX = 5f;
@@ -25,11 +24,7 @@ public class ClickToken : MonoBehaviour
     private static float m_camMaxX = 0f;
     private static float m_camMaxY = 0f;
 
-    
-
     Vector2 priorMousePosition = new Vector2();
-
-    
 
     private void Start()
     {
@@ -45,7 +40,6 @@ public class ClickToken : MonoBehaviour
     private void Update()
     {
         LeftMouse();
-        InputKey();
         DragCam();
         InputCancle();
     }
@@ -207,14 +201,6 @@ public class ClickToken : MonoBehaviour
         _moved.y = Mathf.Min(m_camMaxY, _moved.y);
 
         Camera.main.gameObject.transform.position = _moved; //카메라 허용범위 벗어난게 아니라면 위치 이동.
-    }
-
-    private void InputKey()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-
-        }
     }
 
     private void InputCancle()

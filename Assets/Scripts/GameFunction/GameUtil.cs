@@ -409,6 +409,14 @@ public static class GameUtil
         //  Debug.Log("µé¾î¿È");
         return enumIntValue;
     }
+
+    public static int EnumLength(System.Enum _enumValue)
+    {
+        int enumLength = (int)System.Enum.GetValues(_enumValue.GetType()).Length;
+
+        //  Debug.Log("µé¾î¿È");
+        return enumLength;
+    }
 }
 
 public struct TMapIndex
