@@ -8,7 +8,7 @@ public enum ActionType
 
 public enum ActionStat
 {
-    Range, RemainCountInTurn, MaxCountInTurn, Power, NeedActionEnergy
+    Range, MaxCountInTurn, RemainCountInTurn, Power, NeedActionEnergy
 }
 
 [System.Serializable]
@@ -83,5 +83,15 @@ public class TokenAction : TokenBase
     public void RcoverRemainCountInTurn()
     {
         m_tokenIValues[(int)ActionStat.RemainCountInTurn] = m_tokenIValues[(int)ActionStat.MaxCountInTurn];
+    }
+
+    public bool AbleUse()
+    {
+        //남은 횟수가 1 이상이면
+        if (1 <= m_tokenIValues[(int)ActionStat.RemainCountInTurn])
+        {
+            return true;
+        }
+        return false;
     }
 }
