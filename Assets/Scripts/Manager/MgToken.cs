@@ -16,7 +16,7 @@ public class MgToken : MgGeneric<MgToken>
     TileMaker m_tileMaker;
     public GameObject[] m_tiles;
     public Transform m_tileBox;
-    
+
     public Transform m_hideBox;
     public GameObject m_hideTile;
     public int m_xLength;
@@ -35,7 +35,7 @@ public class MgToken : MgGeneric<MgToken>
         public Transform t_box;
         public GameObject t_hideTile;
         public Transform t_hideBox;
-        public int t_seed ;
+        public int t_seed;
         public float t_noise;
 
         public TMapBluePrint(int xLength, int yLength, float rLength, int seed, float noise, GameObject[] tiles, Transform tileBox, GameObject hideTile, Transform hideBox)
@@ -58,13 +58,12 @@ public class MgToken : MgGeneric<MgToken>
     private TokenAction[] m_charActions; //캐릭터들이 사용할 액션 모음집 - 나중엔 딕션으로 관리
     private TokenAction[] m_tileActions; // 타일에서 사용가능한 보편적인 액션 모음집
 
-
     public override void InitiSet()
     {
         base.InitiSet();
 
         MakeMonsterToken();
-        MakeTestTileActionToken();
+        MakeTileActionToken();
     }
 
     public override void ReferenceSet()
@@ -142,29 +141,7 @@ public class MgToken : MgGeneric<MgToken>
         }
     }
     #endregion
-    private void ParsingTileActionToken(bool _successLoad, string message)
-    {
-       if (_successLoad)
-        {
-            List<TokenAction> parseActions = new();
-            string[] enterDivde = message.Split('\n'); //엔터 - 행 분리
-
-            for (int i = 1; i < enterDivde.Length; i++) //1행부터 자료 값
-            {
-                string[] spaceDivde = enterDivde[i].Split('\t'); //탭 - 열 분리 
-                string itemName = spaceDivde[1]; //1열이 아이템네임
-                TokenAction newAction = new TokenAction().MakeTestTileAction(ActionType.Move, itemName);
-                parseActions.Add(newAction);
-            }
-
-            m_tileActions = parseActions.ToArray();
-        }
-        else
-            Debug.Log("실패");
-
-        MgGame.GetInstance().DoneInitiDataManager("파싱 끝");
-    }
-
+ 
     #region 액션 토큰 생성
     public void MakeTestCharActionToken(TokenChar _tokenChar)
     {
@@ -174,11 +151,17 @@ public class MgToken : MgGeneric<MgToken>
         _tokenChar.AddActionToken(attackAction);
     }
 
-    public void MakeTestTileActionToken()
+    public void MakeTileActionToken()
     {
-        Debug.Log("시트 요청해봄");
-        StartCoroutine(GameUtil.GetSheetDataCo("19xXN_chVCf-ZEsvAly-j-c69gjok0HIKYMaFcAk1Lqg", "0", ParsingTileActionToken));
-
+        Debug.Log("db Dic 찾아서 만들어봄");
+        MgParsing.ParseContainer parseContainer = MgParsing.GetInstance().GetDataBase(ActionStat.MaxCountInTurn);
+        List<TokenAction> tileactions = new();
+        for (int i = 0; i < parseContainer.DbValueList.Count; i++)
+        {
+            TokenAction tileAction = new TokenAction(parseContainer.MatchCode, parseContainer.DbValueList[i]);
+            tileactions.Add(tileAction);
+        }
+        m_tileActions = tileactions.ToArray();
     }
 
     public TokenAction[] GetTileActions()

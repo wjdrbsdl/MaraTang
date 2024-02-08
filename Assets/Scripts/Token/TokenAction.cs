@@ -26,6 +26,15 @@ public class TokenAction : TokenBase
 
     }
 
+    public TokenAction(List<int[]> matchCode, string[] valueCode)
+    {
+        m_tokenPid = int.Parse(valueCode[0]);
+        m_itemName = valueCode[1];
+        m_tokenIValues = new int[System.Enum.GetValues(typeof(ActionStat)).Length];
+        GameUtil.InputMatchValue(ref m_tokenIValues, matchCode, valueCode);
+        m_tokenIValues[(int)ActionStat.RemainCountInTurn] = m_tokenIValues[(int)ActionStat.MaxCountInTurn];
+    }
+
     public TokenAction MakeTestAction(ActionType _type)
     {
         TokenAction actionToken = new TokenAction();

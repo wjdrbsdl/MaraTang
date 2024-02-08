@@ -420,25 +420,97 @@ public static class GameUtil
         return enumLength;
     }
 
-    public static IEnumerator GetSheetDataCo(string documentID, string sheetID, Action<bool, string> process = null)
+    public static string[] ParseEnumStrings(System.Enum _enumValue)
     {
+        return System.Enum.GetNames(_enumValue.GetType());
+    }
 
-        string url = $"https://docs.google.com/spreadsheets/d/{documentID}/export?format=tsv&gid={sheetID}";
-
-        UnityWebRequest req = UnityWebRequest.Get(url);
-
-        yield return req.SendWebRequest();
-
-        if (req.result == UnityWebRequest.Result.ConnectionError || req.responseCode != 200)
+    public static List<int[]> MakeMatchCode(System.Enum _codeEnum, string[] _dbCodes)
+    {
+        //db의 벨류Code 값과 인게임의 enumCode 값을 매칭
+        //벨류코드의 0번째가 enumCode의 몇 번째인지 짜서 반환
+        string[] enumCodes = ParseEnumStrings(_codeEnum);
+        List<int[]> matchCodeList = new();
+        //거의 풀 매치 돌려야하네
+        for (int dbIndex = 0; dbIndex < _dbCodes.Length; dbIndex++)
         {
+            string dbCode = _dbCodes[dbIndex];
+            for (int enumIndex = 0; enumIndex < enumCodes.Length; enumIndex++)
+            {
+                string enumCode = enumCodes[enumIndex];
+                if(dbCode == enumCode)
+                {
+                    int[] match = { dbIndex, enumIndex }; //디비 x번째의 값이 이넘y번째 값인걸로 코드 산출
+                    matchCodeList.Add(match);
+                    break;
+                }
+            }
+        }
+        return matchCodeList;
+    }
 
-            process?.Invoke(false, null);
-            yield break;
+    public static void InputMatchValue(ref int[] _valueArray, List<int[]> _matchCode, string[] valueCode)
+    {
+        for (int i = 0; i < _matchCode.Count; i++)
+        {
+            int dbIndex = _matchCode[i][0];
+            int tokenIndex = _matchCode[i][1];
 
+            _valueArray[tokenIndex] = int.Parse(valueCode[dbIndex]);
+        }
+    }
+
+    public static IEnumerator GetSheetDataCo(string[] documentID, string[] sheetID, System.Enum[] _enumValue, Action doneAct = null,  Action<bool, System.Enum, string> process = null)
+    {
+        int done = documentID.Length; //처리해야할 숫자
+        int cur = 0;
+        while (cur < done)
+        {
+            string url = $"https://docs.google.com/spreadsheets/d/{documentID[cur]}/export?format=tsv&gid={sheetID[cur]}";
+
+            UnityWebRequest req = UnityWebRequest.Get(url);
+
+            yield return req.SendWebRequest();
+
+            if (req.result == UnityWebRequest.Result.ConnectionError || req.responseCode != 200)
+            {
+
+                process?.Invoke(false, _enumValue[cur], null);
+                yield break;
+
+            }
+
+            process?.Invoke(true, _enumValue[cur], req.downloadHandler.text);
+            cur += 1;
         }
 
-        process?.Invoke(true, req.downloadHandler.text);
+        doneAct?.Invoke();
+    }
+    public static IEnumerator GetSheetDataCo(string[] documentID, string[] sheetID, int[] _dbCode, Action doneAct = null, Action<bool, int, string> process = null)
+    {
+        int done = documentID.Length; //처리해야할 숫자
+        int cur = 0;
+        while (cur < done)
+        {
+            string url = $"https://docs.google.com/spreadsheets/d/{documentID[cur]}/export?format=tsv&gid={sheetID[cur]}";
 
+            UnityWebRequest req = UnityWebRequest.Get(url);
+
+            yield return req.SendWebRequest();
+
+            if (req.result == UnityWebRequest.Result.ConnectionError || req.responseCode != 200)
+            {
+
+                process?.Invoke(false, _dbCode[cur], null);
+                yield break;
+
+            }
+
+            process?.Invoke(true, _dbCode[cur], req.downloadHandler.text);
+            cur += 1;
+        }
+
+        doneAct?.Invoke();
     }
 
 }

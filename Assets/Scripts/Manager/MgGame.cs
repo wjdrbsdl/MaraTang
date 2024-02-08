@@ -9,6 +9,8 @@ public class MgGame : MgGeneric<MgGame>
 
     #region 매니저
     [SerializeField]
+    MgParsing m_parseManager;
+    [SerializeField]
     MgToken m_tokenManager;
     [SerializeField]
     MgGameLoader m_loadManager;
@@ -84,19 +86,25 @@ public class MgGame : MgGeneric<MgGame>
     {
         //아직 매니저 초기셋팅에 순서는 중요치 않음.
         initiManagerStack = new();
-        
-        Action mgToken = delegate { m_tokenManager.InitiSet(); };
-        Action mgMc = delegate { m_gamePlayMaster.InitiSet(); DoneInitiDataManager("mg엠씨끝"); } ;
-        Action mgPlayer = delegate { m_playerManager.InitiSet(); DoneInitiDataManager("mg플레이어셋끝"); };
-        Action mgSound = delegate { m_soundManager.InitiSet(); DoneInitiDataManager("mg사운드셋끝"); };
-        Action mgCapital = delegate { m_capitalManager.InitiSet(); DoneInitiDataManager("mg자원셋끝"); };
+        Action parse = delegate { m_parseManager.InitiSet(); };
+        initiManagerStack.Enqueue(parse);
+
+        Action mgToken = delegate { m_tokenManager.InitiSet(); DoneInitiDataManager("mg토큰끝"); };
         initiManagerStack.Enqueue(mgToken);
+
+        Action mgMc = delegate { m_gamePlayMaster.InitiSet(); DoneInitiDataManager("mg엠씨끝"); } ;
         initiManagerStack.Enqueue(mgMc);
+
+        Action mgPlayer = delegate { m_playerManager.InitiSet(); DoneInitiDataManager("mg플레이어셋끝"); };
         initiManagerStack.Enqueue(mgPlayer);
+
+        Action mgSound = delegate { m_soundManager.InitiSet(); DoneInitiDataManager("mg사운드셋끝"); };
         initiManagerStack.Enqueue(mgSound);
+
+        Action mgCapital = delegate { m_capitalManager.InitiSet(); DoneInitiDataManager("mg자원셋끝"); };
         initiManagerStack.Enqueue(mgCapital);
 
-        DoneInitiDataManager("mgToken셋");
+        DoneInitiDataManager("파싱 시작");
     }
 
     public void DoneInitiDataManager(string message)
