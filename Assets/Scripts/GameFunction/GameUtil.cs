@@ -462,11 +462,11 @@ public static class GameUtil
 
     public static IEnumerator GetSheetDataCo(string[] documentID, string[] sheetID, System.Enum[] _enumValue, Action doneAct = null,  Action<bool, System.Enum, string> process = null)
     {
-        int done = documentID.Length; //처리해야할 숫자
-        int cur = 0;
-        while (cur < done)
+        int doneWork = documentID.Length; //처리해야할 숫자
+        int curWork = 0;//처리한 숫자
+        while (curWork < doneWork)
         {
-            string url = $"https://docs.google.com/spreadsheets/d/{documentID[cur]}/export?format=tsv&gid={sheetID[cur]}";
+            string url = $"https://docs.google.com/spreadsheets/d/{documentID[curWork]}/export?format=tsv&gid={sheetID[curWork]}";
 
             UnityWebRequest req = UnityWebRequest.Get(url);
 
@@ -475,44 +475,18 @@ public static class GameUtil
             if (req.result == UnityWebRequest.Result.ConnectionError || req.responseCode != 200)
             {
 
-                process?.Invoke(false, _enumValue[cur], null);
+                process?.Invoke(false, _enumValue[curWork], null);
                 yield break;
 
             }
 
-            process?.Invoke(true, _enumValue[cur], req.downloadHandler.text);
-            cur += 1;
+            process?.Invoke(true, _enumValue[curWork], req.downloadHandler.text);
+            curWork += 1;
         }
 
-        doneAct?.Invoke();
+        doneAct?.Invoke(); //보통은 GameManager에 작업 완료했음을 알림. 
     }
-    public static IEnumerator GetSheetDataCo(string[] documentID, string[] sheetID, int[] _dbCode, Action doneAct = null, Action<bool, int, string> process = null)
-    {
-        int done = documentID.Length; //처리해야할 숫자
-        int cur = 0;
-        while (cur < done)
-        {
-            string url = $"https://docs.google.com/spreadsheets/d/{documentID[cur]}/export?format=tsv&gid={sheetID[cur]}";
-
-            UnityWebRequest req = UnityWebRequest.Get(url);
-
-            yield return req.SendWebRequest();
-
-            if (req.result == UnityWebRequest.Result.ConnectionError || req.responseCode != 200)
-            {
-
-                process?.Invoke(false, _dbCode[cur], null);
-                yield break;
-
-            }
-
-            process?.Invoke(true, _dbCode[cur], req.downloadHandler.text);
-            cur += 1;
-        }
-
-        doneAct?.Invoke();
-    }
-
+  
 }
 
 public struct TMapIndex
