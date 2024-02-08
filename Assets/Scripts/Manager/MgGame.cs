@@ -1,8 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MgGame : MonoBehaviour
+public class MgGame : MgGeneric<MgGame>
 {
     //인게임에서 게임의 시작(로드) 저장 흐름을 제어.
 
@@ -24,52 +25,116 @@ public class MgGame : MonoBehaviour
  
     void Start()
     {
+        MakeSingleton(); 
+        SetGame();
+    }
+
+    private bool doneSetDataPart = false;
+    private bool doneSetUIPart = false;
+    private bool donePlayGame = false;
+    private void SetGame()
+    {
         //데이터 파트 
-        SetDataPart();
-        //유아이 파트 
-        SetUIPart();
+        if(doneSetDataPart == false)
+        {
+            SetDataPart();
+            return;
+        }
+        if (doneSetUIPart == false)
+        {
+            //유아이 파트 
+            SetUIPart();
+            return;
+        }
         //게임 시작
         PlayGame();
     }
 
     #region 데이터 세팅 부분
+    private bool doneDataManager = false;
+    private bool doneLoadData = false;
+    private bool doneInitiGameSetting = false;
     private void SetDataPart()
     {
-        //1. 매니저 준비
-        InitiDataManager();
-        //2. 데이터 로드
-        LoadMasterData();
-        //3. 게임 플레이 세팅
-        InitiGameSetting(); //여기선 GO영역도 들어감.
+        if(doneDataManager == false)
+        {
+            //1. 매니저 준비
+            InitiDataManager();
+            return;
+        }
+        if (doneLoadData == false)
+        {
+            //2. 데이터 로드
+            LoadMasterData();
+            return;
+        }
+        if (doneInitiGameSetting == false)
+        {
+            //3. 게임 플레이 세팅
+            InitiGameSetting(); //여기선 GO영역도 들어감.
+            return;
+        }
+        doneSetDataPart = true;
+        SetGame();
     }
 
+   Queue<Action> initiManagerStack; 
     //매니저들 초기화 - 데이터 파트 부터 진행. 
     private void InitiDataManager()
     {
         //아직 매니저 초기셋팅에 순서는 중요치 않음.
-        m_tokenManager.InitiSet();
-        m_gamePlayMaster.InitiSet();
-        m_playerManager.InitiSet();
-        m_soundManager.InitiSet();
-        m_capitalManager.InitiSet();
+        initiManagerStack = new();
+        
+        Action mgToken = delegate { m_tokenManager.InitiSet(); };
+        Action mgMc = delegate { m_gamePlayMaster.InitiSet(); DoneInitiDataManager("mg엠씨끝"); } ;
+        Action mgPlayer = delegate { m_playerManager.InitiSet(); DoneInitiDataManager("mg플레이어셋끝"); };
+        Action mgSound = delegate { m_soundManager.InitiSet(); DoneInitiDataManager("mg사운드셋끝"); };
+        Action mgCapital = delegate { m_capitalManager.InitiSet(); DoneInitiDataManager("mg자원셋끝"); };
+        initiManagerStack.Enqueue(mgToken);
+        initiManagerStack.Enqueue(mgMc);
+        initiManagerStack.Enqueue(mgPlayer);
+        initiManagerStack.Enqueue(mgSound);
+        initiManagerStack.Enqueue(mgCapital);
+
+        DoneInitiDataManager("mgToken셋");
+    }
+
+    public void DoneInitiDataManager(string message)
+    {
+        Debug.Log(message);
+        if (initiManagerStack.Count >= 1)
+        {
+            Action nextIniti = initiManagerStack.Dequeue();
+            nextIniti();
+            return;
+        }
+        //데이터 매니저 초기화 끝
+        doneDataManager = true;
+        SetDataPart();
     }
    
     private void LoadMasterData()
     {
         m_loadManager.MasterDataLoad(); //토큰에 관한 마스터 데이터 로드. 
+        DoneLoad();
+    }
+
+    public void DoneLoad()
+    {
+        doneLoadData = true;
+        SetDataPart();
     }
 
     private void InitiGameSetting()
     {
-        //0. 기본적인 토큰의 원본을 만든다 -> 이후 생성되는 토큰은 오리지널을 복사하면서 이미지 같은건 하나의 자료를 참조해서 쓰는 방식으로 
-        //1. 맵을 만든다 - 노이즈맵과 거기에 해당하는 타일 토큰을 생성하면서 
-        m_tokenManager.MakeMap();
-        //2. 캐릭 토큰을 만든다 - 맵의 환경에 맞게 지형적으로 캐릭 토큰 생성
-        // m_tokenManager.MakePlayerToken();
-        m_tokenManager.MakeMonsterToken();
-        m_tokenManager.MakeTestTileActionToken();
+        m_tokenManager.ReferenceSet(); //두 클래스의 인스턴스 참조가 필요해서 나중에 해야함.
+        DoneGameSetting();
+    }
 
-
+    public void DoneGameSetting()
+    {
+        doneInitiGameSetting = true;
+        SetDataPart();
     }
     #endregion
 
@@ -81,7 +146,9 @@ public class MgGame : MonoBehaviour
     }
     private void InitiUIManager()
     {
-  
+
+        doneSetUIPart = true;
+        SetGame();
     }
 
 

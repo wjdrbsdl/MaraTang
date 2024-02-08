@@ -42,8 +42,6 @@ public class TokenBase
     // [JsonProperty] 
     protected string m_itemName;
     protected ObjectTokenBase m_object;
-    public delegate void EventCoolTimer(float _remainTime, float _coolTime);
-    public event EventCoolTimer e_coolTimer;
 
     #region Reset
     //오리지널 Class 생성시 필요한 유니티 자료를 연계하는곳, 그 자료명은 아이템명에 + icon, prefeb 형식으로 지정. 

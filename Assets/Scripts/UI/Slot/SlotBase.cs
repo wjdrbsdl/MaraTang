@@ -58,7 +58,6 @@ public class SlotBase : MonoBehaviour, IDragHandler, IBeginDragHandler, IDropHan
         if (m_token == null)
             return;
 
-        m_token.e_coolTimer -= DisplayCool; //해당 아이템에 넣었던 쿨 함수 제거. 
         m_icon.sprite = null;
         m_token = null;
         if(m_tierImage != null)

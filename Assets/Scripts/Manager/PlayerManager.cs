@@ -21,6 +21,12 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
     [SerializeField]
     AudioClip eventSelectEFx;
 
+    public override void InitiSet()
+    {
+        base.InitiSet();
+        m_mainChar = MgToken.GetInstance().GetMainChar();
+    }
+
     #region 플레이어 인풋 - 클릭, 선택 등
     #region 클릭- 한번, 더블, 취소
     public void ClickTokenObject(TokenBase _token)

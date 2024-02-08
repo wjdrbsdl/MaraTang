@@ -62,6 +62,24 @@ public class MgToken : MgGeneric<MgToken>
     public override void InitiSet()
     {
         base.InitiSet();
+
+        MakeMonsterToken();
+        MakeTestTileActionToken();
+    }
+
+    public override void ReferenceSet()
+    {
+        MakeMap();
+        for (int i = 0; i < m_npcTokens.Count; i++)
+        {
+            TokenChar monsterToken = m_npcTokens[i];
+            int coordX = monsterToken.GetXIndex();
+            int coordY = monsterToken.GetYIndex();
+            RuleBook.Migrate(monsterToken, m_tileTokenes[coordX, coordY]); //타일토큰에 캐릭토큰 할당
+
+            monsterToken.SetObjectPostion(coordX, coordY); //오브젝트 위치 동기화
+        }
+        
     }
 
     #region 맵만들기
@@ -110,7 +128,7 @@ public class MgToken : MgGeneric<MgToken>
     public void MakeMonsterToken()
     {
         m_npcTokens = new List<TokenChar>();
-        
+      
         for (int i = 0; i < 2; i++)
         {
             TokenChar monsterToken = TokenChar.MakeTestMonsterToken("호호" +i.ToString(), i);
@@ -119,12 +137,33 @@ public class MgToken : MgGeneric<MgToken>
             MakeTestCharActionToken(monsterToken);
             int ranX = Random.Range(0, m_xLength);
             int ranY = Random.Range(0, m_yLength);
-            RuleBook.Migrate(monsterToken, m_tileTokenes[ranX, ranY]); //타일토큰에 캐릭토큰 할당
-            monsterToken.SetObjectPostion(ranX, ranY); //오브젝트 위치 동기화
+            monsterToken.SetMapIndex(ranX, ranY); //좌표값 입력 - 실제 이동은 안된상태
+
         }
-        PlayerManager.GetInstance().SetMainChar(m_npcTokens[0]);
     }
     #endregion
+    private void ParsingTileActionToken(bool _successLoad, string message)
+    {
+       if (_successLoad)
+        {
+            List<TokenAction> parseActions = new();
+            string[] enterDivde = message.Split('\n'); //엔터 - 행 분리
+
+            for (int i = 1; i < enterDivde.Length; i++) //1행부터 자료 값
+            {
+                string[] spaceDivde = enterDivde[i].Split('\t'); //탭 - 열 분리 
+                string itemName = spaceDivde[1]; //1열이 아이템네임
+                TokenAction newAction = new TokenAction().MakeTestTileAction(ActionType.Move, itemName);
+                parseActions.Add(newAction);
+            }
+
+            m_tileActions = parseActions.ToArray();
+        }
+        else
+            Debug.Log("실패");
+
+        MgGame.GetInstance().DoneInitiDataManager("파싱 끝");
+    }
 
     #region 액션 토큰 생성
     public void MakeTestCharActionToken(TokenChar _tokenChar)
@@ -137,12 +176,9 @@ public class MgToken : MgGeneric<MgToken>
 
     public void MakeTestTileActionToken()
     {
-        TokenAction grassAction = new TokenAction().MakeTestTileAction(ActionType.Move, "grass");
-        TokenAction mineralAction = new TokenAction().MakeTestTileAction(ActionType.Attack, "mineral");
-        TokenAction removeGrassAction = new TokenAction().MakeTestTileAction(ActionType.Attack, "removeGrass");
-        TokenAction removeMineralAction = new TokenAction().MakeTestTileAction(ActionType.Attack, "removeMineral");
+        Debug.Log("시트 요청해봄");
+        StartCoroutine(GameUtil.GetSheetDataCo("19xXN_chVCf-ZEsvAly-j-c69gjok0HIKYMaFcAk1Lqg", "0", ParsingTileActionToken));
 
-        m_tileActions = new TokenAction[] {grassAction, mineralAction, removeGrassAction, removeMineralAction };
     }
 
     public TokenAction[] GetTileActions()
@@ -165,6 +201,12 @@ public class MgToken : MgGeneric<MgToken>
         return m_hideTiles;
     }
 
+    public TokenChar GetMainChar()
+    {
+        //임시로 0번째
+
+        return m_npcTokens[0];
+    }
 
     public void TempPosRandomPlayer(TokenChar _char)
     {

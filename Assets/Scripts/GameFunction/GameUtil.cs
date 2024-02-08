@@ -212,7 +212,7 @@ public static class GameUtil
         //Debug.Log(_tMapIndex.curX + "," + _tMapIndex.curY + "에서 " + _tMapIndex.toY + "높이에서 x값들\n" + reviseLeftX + " " + reviseRightX+"xGap:"+xGap);
 
         //4. 높이와 좌우 간격에 따라 진행가능한 방향 도출
-        int random = Random.Range(0, 2); //두가지 갈래가 가능한 경우 대비 랜덤수 뽑아놓기
+        int random = UnityEngine.Random.Range(0, 2); //두가지 갈래가 가능한 경우 대비 랜덤수 뽑아놓기
         if(0 < yGap)
         {
             //위로 향해야하는 경우에서
