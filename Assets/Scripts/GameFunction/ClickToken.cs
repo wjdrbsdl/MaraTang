@@ -18,7 +18,7 @@ public class ClickToken : MonoBehaviour
     private float m_maxDragSpeed = 0.3f;
 
     public float dragSpeed = 0f;
-    private float m_dragRatioByTileLength; //기본 맵 타일 크기에 따른 드래그 속도 비율
+    private static float m_dragRatioByTileLength; //기본 맵 타일 크기에 따른 드래그 속도 비율
     private static float m_camMinX = 5f;
     private static float m_camMinY = 0f;
     private static float m_camMaxX = 0f;
@@ -35,10 +35,9 @@ public class ClickToken : MonoBehaviour
         Debug.Log("최고 너비는 " + m_camMaxX + " : " + m_camMaxY);
     }
 
-    private void Start()
+    public static void SetDragRatio(float _tileRLength)
     {
-        float tileRLength = MgToken.GetInstance().m_rLength; //맵 타일 반지름
-        m_dragRatioByTileLength = tileRLength * 0.55f; // 타일 크기에 비례한 속도 증감, 기존 타일 크기 1.5f
+        m_dragRatioByTileLength = _tileRLength * 0.55f; // 타일 크기에 비례한 속도 증감, 기존 타일 크기 1.5f
     }
 
     private void Update()
