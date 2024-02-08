@@ -27,13 +27,15 @@ public class MgGame : MgGeneric<MgGame>
  
     void Start()
     {
+        doneSetDataPart = false;
+        doneSetUIPart = false;
         MakeSingleton(); 
         SetGame();
     }
 
     private bool doneSetDataPart = false;
     private bool doneSetUIPart = false;
-    private bool donePlayGame = false;
+    
     private void SetGame()
     {
         //데이터 파트 
@@ -80,8 +82,7 @@ public class MgGame : MgGeneric<MgGame>
         SetGame();
     }
 
-   Queue<Action> initiManagerStack; 
-    //매니저들 초기화 - 데이터 파트 부터 진행. 
+    Queue<Action> initiManagerStack; 
     private void InitiDataManager()
     {
         //아직 매니저 초기셋팅에 순서는 중요치 않음.
@@ -106,7 +107,6 @@ public class MgGame : MgGeneric<MgGame>
 
         DoneInitiDataManager("파싱 시작");
     }
-
     public void DoneInitiDataManager(string message)
     {
         Debug.Log(message);
@@ -121,24 +121,24 @@ public class MgGame : MgGeneric<MgGame>
         SetDataPart();
     }
    
+
     private void LoadMasterData()
     {
         m_loadManager.MasterDataLoad(); //토큰에 관한 마스터 데이터 로드. 
         DoneLoad();
     }
-
     public void DoneLoad()
     {
         doneLoadData = true;
         SetDataPart();
     }
 
+
     private void InitiGameSetting()
     {
         m_tokenManager.ReferenceSet(); //두 클래스의 인스턴스 참조가 필요해서 나중에 해야함.
         DoneGameSetting();
     }
-
     public void DoneGameSetting()
     {
         doneInitiGameSetting = true;
