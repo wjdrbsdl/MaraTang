@@ -59,31 +59,7 @@ public class TokenAction : TokenBase
         
         return actionToken;
     }
-    public TokenAction MakeTestTileAction(ActionType _type, string _name)
-    {
-        TokenAction actionToken = new TokenAction();
-        actionToken.m_itemName = _name;
-        actionToken.m_tokenIValues = new int[System.Enum.GetValues(typeof(ActionStat)).Length];
-        actionToken.m_targetPos = null;
-        actionToken.m_tokenType = TokenType.Action;
-        actionToken.actionType = _type;
-        if (_type.Equals(ActionType.Move))
-        {
-            actionToken.actionTarget = TokenType.Tile;
-            actionToken.SetStatValue(ActionStat.Range, 3);
-            actionToken.SetStatValue(ActionStat.RemainCountInTurn, 2);
-            actionToken.SetStatValue(ActionStat.MaxCountInTurn, 2);
-        }
-        else if (_type.Equals(ActionType.Attack))
-        {
-            actionToken.actionTarget = TokenType.Char;
-            actionToken.SetStatValue(ActionStat.Range, 1);
-            actionToken.SetStatValue(ActionStat.RemainCountInTurn, 1);
-            actionToken.SetStatValue(ActionStat.MaxCountInTurn, 1);
-        }
 
-        return actionToken;
-    }
     #endregion
 
     #region 타겟 수정 관련

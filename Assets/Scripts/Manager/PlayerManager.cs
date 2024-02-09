@@ -25,6 +25,7 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
     {
         base.InitiSet();
         m_mainChar = MgToken.GetInstance().GetMainChar();
+        m_mainChar.isMainChar = true;
     }
 
     #region 플레이어 인풋 - 클릭, 선택 등
