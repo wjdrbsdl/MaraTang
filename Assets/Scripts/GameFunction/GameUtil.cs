@@ -341,69 +341,9 @@ public static class GameUtil
 
         return MgToken.GetInstance().GetMaps().GetLength(1);
     }
-    #endregion 
-
-    #region 테이블 enum 변경기
-    static string[]  originEnumString = { "Plus", "cheicken", "Scoop", "Vio" }; //기존 테이블에서 읽었다고 가정
-    static int[] originEnumValues = { 10, 20, 30, 25 };
-    static int[] changeEnumValues; //새로 생성된 객체 속성값 
-    static int[] newIndex;
-    enum NewMenu
-    {
-        Valong, Vio, Sionic, Plus
-    }
-
-    public static void LoadTable()
-    {
-        //저장된 값을 불러오는 부분 
-        string[] loadEnumStr = LoadNameValue(); //불러왔을 때의 해당 enum key의 string값들
-                                                //어떤 토큰 불러왔냐 따라서 타입 새로 생성 했다 치고 
-                                                //기존 테이블에서 현재 테이블에 맞는 색인표를 만듬 현재 Vio가, 기존 테이블에선 몇번째인지, 없으면 maxValue로 처리
-        newIndex = ToStringFromEnum(NewMenu.Plus, loadEnumStr, originEnumValues);
-
-    }
-
-    private static string[] LoadNameValue()
-    {
-        //enum name값들을 적어놓은 테이블에서 기존enum값들 가져오던
-        //해당 저장 table 값에서 가져오던 어디서든 가져와서 string[] 로 생성해서 반환
-        return originEnumString;
-    }
-
-    //해당 주석의 변경 인덱스를 짜기 - 아직 미완
-    private static int[] ToStringFromEnum(System.Enum _curType, string[] _origin, int[] _oriValue)
-    {
-        Debug.Log(_curType + " , " + _curType.GetType().ToString());
-        //enum 값중 하나를 가지고 해당 enum 모든 값 파악
-        string[] curNames = System.Enum.GetNames(_curType.GetType());
-        //기존 테이블에서 현재 테이블에 맞는 색인표를 만듬
-        int[] loadIndex = new int[curNames.Length];
-        for (int curIdx = 0; curIdx < curNames.Length; curIdx++)
-        {
-            //Debug.Log(curNames[curIdx]);
-            string curId = curNames[curIdx];
-            loadIndex[curIdx] = int.MaxValue;
-            //bool isFind = false;
-            for (int originIdx = 0; originIdx < _origin.Length; originIdx++)
-            {
-                //해당 아이디를 기존에서 갖고 있는지 체크
-                string originId = _origin[originIdx];
-                if (originId.Equals(curId))
-                {
-                    //현재 enumIdx 대로 기존 값을 파싱
-                    loadIndex[curIdx] = _oriValue[originIdx];
-                    //isFind = true;
-                    break; //이번 루프는 끝
-                }
-            }
-            //if(isFind == false)
-            //Debug.Log(curId + "는 기존 에 없는 enum 값");
-        }
-
-        return loadIndex;
-    }
     #endregion
 
+    #region enum 관련 함수
     public static int ParseEnumValue(System.Enum _enumValue)
     {
         int enumIntValue = (int)System.Enum.Parse(_enumValue.GetType(), _enumValue.ToString());
@@ -424,7 +364,9 @@ public static class GameUtil
     {
         return System.Enum.GetNames(_enumValue.GetType());
     }
+    #endregion
 
+    #region 스프레드 파싱 함수
     public static List<int[]> MakeMatchCode(System.Enum _codeEnum, string[] _dbCodes)
     {
         //db의 벨류Code 값과 인게임의 enumCode 값을 매칭
@@ -486,7 +428,8 @@ public static class GameUtil
 
         doneAct?.Invoke(); //보통은 GameManager에 작업 완료했음을 알림. 
     }
-  
+    #endregion
+
 }
 
 public struct TMapIndex
