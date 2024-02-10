@@ -25,6 +25,11 @@ public class MgParsing : MgGeneric<MgParsing>
         base.InitiSet();
         ParseSheetData();
     }
+    public ParseContainer GetMasterData(System.Enum _enum)
+    {
+        string parseCode = _enum.GetType().ToString();
+        return dbContainer[parseCode];
+    }
 
     private void ParseSheetData()
     {
@@ -62,9 +67,5 @@ public class MgParsing : MgGeneric<MgParsing>
             Debug.Log("½ÇÆÐ");
     }
 
-    public ParseContainer GetDataBase(System.Enum _enum)
-    {
-        string parseCode = _enum.GetType().ToString();
-        return dbContainer[parseCode];
-    }
+ 
 }
