@@ -118,6 +118,9 @@ public class UIBase : MonoBehaviour
     protected void MakeSlots<T>(ref T[] _curArray, int _makeCount, GameObject _slotPrefeb, Transform _parent)
     {
         List<T> newT = new();
+        if (_curArray != null)
+            newT = new(_curArray); //기존 만들어진 배열이 있으면 리스트에 추가해야함. 
+
         for (int i = 0; i < _makeCount; i++)
         {
           newT.Add(  Instantiate(_slotPrefeb, _parent).GetComponent<T>());

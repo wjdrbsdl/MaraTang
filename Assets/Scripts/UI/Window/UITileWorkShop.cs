@@ -20,9 +20,9 @@ public class UITileWorkShop : UIBase
         Debug.Log("메인 캐릭 있다 " + inMain);
         _selectedTile.GetInfoForTileWorkShop(); //타일 고유 정보 얻고
         TokenAction[] tileWorks = GamePlayMaster.GetInstance().RuleBook.RequestTileActions(_selectedTile);
-        
+        setCount = Random.Range(1, tileWorks.Length + 1);
         //사용하는 만큼 버튼 활성화 
-        MakeSamplePool<BtnTileWorkShop>(ref m_workButtones, m_workButtonSample.gameObject, tileWorks.Length, m_tileActionBox);
+        MakeSamplePool<BtnTileWorkShop>(ref m_workButtones, m_workButtonSample.gameObject, setCount, m_tileActionBox);
         //버튼 세팅
         SetButtons(_selectedTile, tileWorks);
 
@@ -39,16 +39,16 @@ public class UITileWorkShop : UIBase
         }
         return false;
     }
-
+    int setCount = 0;
     private void SetButtons(TokenTile _tile, TokenAction[] _workes)
     {
-        int setCount = Random.Range(1, 5);
+        
         for (int i = 0; i < setCount; i++)
         {
             m_workButtones[i].gameObject.SetActive(true);
             m_workButtones[i].SetButtonInfo(_tile, _workes[i]);
         }
-        for (int i = setCount; i < _workes.Length; i++)
+        for (int i = setCount; i < m_workButtones.Length; i++)
         {
             m_workButtones[i].gameObject.SetActive(false);
         }
