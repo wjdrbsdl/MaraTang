@@ -12,18 +12,19 @@ public class UITileWorkShop : UIBase
     [SerializeField]
     private BtnTileWorkShop[] m_workButtones;
 
-    public void SetTileWorkShopInfo(TokenTile _tile)
+    public void SetTileWorkShopInfo()
     {
         Switch(true);
-        bool inMain = IsInMainChar(_tile);
+        TokenTile _selectedTile = PlayerManager.GetInstance().GetSelectedTile();
+        bool inMain = IsInMainChar(_selectedTile);
         Debug.Log("메인 캐릭 있다 " + inMain);
-        _tile.GetInfoForTileWorkShop(); //타일 고유 정보 얻고
-        TokenAction[] tileWorks = GamePlayMaster.GetInstance().RuleBook.RequestTileActions(_tile);
+        _selectedTile.GetInfoForTileWorkShop(); //타일 고유 정보 얻고
+        TokenAction[] tileWorks = GamePlayMaster.GetInstance().RuleBook.RequestTileActions(_selectedTile);
         
         //사용하는 만큼 버튼 활성화 
         MakeSamplePool<BtnTileWorkShop>(ref m_workButtones, m_workButtonSample.gameObject, tileWorks.Length, m_tileActionBox);
         //버튼 세팅
-        SetButtons(_tile, tileWorks);
+        SetButtons(_selectedTile, tileWorks);
 
     }
 

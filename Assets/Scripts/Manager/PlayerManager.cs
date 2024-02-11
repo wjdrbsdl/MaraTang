@@ -11,6 +11,7 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
     [SerializeField]SoundManager m_soundMg;
     private GamePlayStep m_curStep = GamePlayStep.EndTurn; //현재 플레이 단계 
     private TokenChar m_curChar; //현재 선택된 캐릭터
+    private TokenTile m_curTile; //현재 선택한 땅
     private TokenAction m_curAction;
     private TokenChar m_mainChar = null; //메인 캐릭터
     private PlayerCapitalData m_playerCapitalData = new(); //플레이어의 자원 정보
@@ -80,7 +81,11 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
         TokenType tokenType = _token.GetTokenType();
 
         if (tokenType.Equals(TokenType.Tile))
-            m_playGameUI.ShowTileWorkShopUI((TokenTile)_token);
+        {
+            m_curTile = (TokenTile)_token;
+            m_playGameUI.ShowTileWorkShopUI();
+        }
+            
     }
 
     public void ClickCancle()
@@ -239,6 +244,21 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
         return m_mainChar;
     }
 
+    public TokenTile GetSelectedTile()
+    {
+        return m_curTile;
+    }
+
+    public TokenAction GetSelectedAction()
+    {
+        return m_curAction;
+    }
+
+    public TokenChar GetSelectedChar()
+    {
+        return m_curChar;
+    }
+
     public void OnChangePlayData()
     {
         m_playGameUI.ResetPlayData();
@@ -260,7 +280,7 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
         if (m_curStep.Equals(GamePlayStep.SelectAct))
         {
             m_curAction = null;
-            m_playGameUI.ShowActionToken(m_curChar); //UI적으로 필요한 처리 진행
+            m_playGameUI.ShowActionToken(); //UI적으로 필요한 처리 진행
             //m_displayAction.ShowActionTokens(m_curChar);
             GamePlayMaster.g_instance.ResetEmphasize();
             return;

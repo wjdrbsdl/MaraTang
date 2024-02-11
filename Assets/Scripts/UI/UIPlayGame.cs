@@ -27,12 +27,11 @@ public class UIPlayGame : MgGeneric<UIPlayGame>
     }
 
     #region 플레이어 액션
-    public void ShowActionToken(TokenChar _char)
+    public void ShowActionToken()
     {
-        //플레이어 캐릭터 눌렀을 때 - 플레이어 매니저상 어떤 상태인지에 따라서 세팅하기 
-        //1. 일단 내턴에서 액션 수행을 위한 선택으로 간주하고, action선택 ui에서 액션슬랏 세팅하도록 진행
-      //  Debug.Log("내캐릭터 눌러짐");
+        //플레이어 캐릭터 눌렀을 때
         OffPlayUI();
+        TokenChar _char = PlayerManager.GetInstance().GetSelectedChar();
         m_actionTokenBox.SetActionSlot(_char);
     }
 
@@ -48,10 +47,10 @@ public class UIPlayGame : MgGeneric<UIPlayGame>
         m_fillContentUI.AddContent(_contentTarget);
     }
 
-    public void ShowTileWorkShopUI(TokenTile _tile)
+    public void ShowTileWorkShopUI()
     {
         m_uiStack.Push(m_tileWorkShopUI);
-        m_tileWorkShopUI.SetTileWorkShopInfo(_tile);
+        m_tileWorkShopUI.SetTileWorkShopInfo();
     }
 
     public void ShowSubUI(int subCode, TokenTile _tile, TokenAction _action)
