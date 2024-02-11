@@ -197,28 +197,8 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     #region 타일 액션 수행
     public void PlayTileAction(TokenTile _tile, TokenAction _action)
     {
-
-        if (_action.Equals(TileAction.Grass.ToString()))
-        {
-            PlayerManager.GetInstance().AdaptCapitalStat(Capital.Green, 50, true);
-            return;
-        }
-        if (_action.Equals(TileAction.Mineral.ToString()))
-        {
-            PlayerManager.GetInstance().AdaptCapitalStat(Capital.Yellow, 50, true);
-            return;
-        }
-        if (_action.Equals(TileAction.RemoveMineral.ToString()))
-        {
-            PlayerManager.GetInstance().AdaptCapitalStat(Capital.Yellow, -50, true);
-            return;
-        }
-        if (_action.Equals(TileAction.RemoveGrass.ToString()))
-        {
-            PlayerManager.GetInstance().AdaptCapitalStat(Capital.Green, -50, true);
-            return;
-        }
-
+        //타일 액션의 수행자는 CharMain.
+        RuleBook.ConductTileAction(_tile, _action);
     }
     #endregion
 

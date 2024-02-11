@@ -10,6 +10,7 @@ public class UIPlayGame : MgGeneric<UIPlayGame>
     [SerializeField] private UIFillContent m_fillContentUI;
     [SerializeField] private UIEventContent m_eventContentUI;
     [SerializeField] private UITileWorkShop m_tileWorkShopUI;
+    [SerializeField] private UIChefUI m_chefUI;
 
     [Header("데이터 표기")]
     [SerializeField] private UICapital m_capitalUI;
@@ -51,6 +52,17 @@ public class UIPlayGame : MgGeneric<UIPlayGame>
     {
         m_uiStack.Push(m_tileWorkShopUI);
         m_tileWorkShopUI.SetTileWorkShopInfo(_tile);
+    }
+
+    public void ShowSubUI(int subCode, TokenTile _tile, TokenAction _action)
+    {
+        
+        if (subCode.Equals(1))
+        {
+           
+            m_chefUI.SetChefUI(subCode, _tile, _action);
+        }
+        m_uiStack.Push(m_chefUI);
     }
     #endregion
 
