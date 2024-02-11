@@ -23,6 +23,8 @@ public class MgGame : MgGeneric<MgGame>
     [SerializeField]
     ObjTokenManager m_capitalManager;
 
+    [SerializeField]
+    UIPlayGame m_playerGameUI; 
     #endregion
  
     void Start()
@@ -154,8 +156,8 @@ public class MgGame : MgGeneric<MgGame>
     }
     private void InitiUIManager()
     {
-
-        doneSetUIPart = true;
+        m_playerGameUI.InitiSet();
+       doneSetUIPart = true;
         SetGame();
     }
 

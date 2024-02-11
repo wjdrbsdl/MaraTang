@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class UIPlayGame : MonoBehaviour
+public class UIPlayGame : MgGeneric<UIPlayGame>
 {
     [Header("액션")]
     [SerializeField] private UIActionTokenBox m_actionTokenBox;
