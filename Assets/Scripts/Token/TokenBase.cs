@@ -13,10 +13,7 @@ public enum CharExpand
     A
 }
 
-public enum TileStat
-{
-    Height, TileType, StatSize
-}
+
 
 public enum TokenType
 {

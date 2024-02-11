@@ -18,6 +18,11 @@ public enum TileAction
     Grass, Mineral, RemoveGrass, RemoveMineral
 }
 
+public enum TileStat
+{
+    Height, TileType
+}
+
 public class TokenTile : TokenBase
 {
     List<TokenChar> m_inTileCharList = new();
@@ -33,8 +38,11 @@ public class TokenTile : TokenBase
     public TokenTile MakeTileToken()
     {
         TokenTile tileToken = new TokenTile();
-        tileToken.m_tokenIValues = new int[GameUtil.EnumLength(TileStat.StatSize)];
+        tileToken.m_tokenIValues = new int[GameUtil.EnumLength(TileStat.TileType)];
         tileToken.m_tokenType = TokenType.Tile;
+        int ran = Random.Range(0, 2);
+        if (ran.Equals(1))
+            tileToken.SetStatValue(TileStat.TileType, 1);
         
         return tileToken;
     }

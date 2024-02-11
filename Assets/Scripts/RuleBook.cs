@@ -263,13 +263,16 @@ public class RuleBook
     public TokenAction[] RequestTileActions(TokenTile _tile)
     {
         //해당 타일을 가지고 가능한 액션을 뽑아줌. 
-        List<TokenAction> ableList = new();
+        List<TokenAction> ableList = new List<TokenAction>(m_tileActions);
         //1. tile의 값을 본다. 
-
+        if (_tile.GetStat(TileStat.TileType) == 1)
+        {
+            ableList.RemoveAt(2);
+        }
         //2. 미리정해둔 tileAction중에서 가능한걸 뽑는다.
 
-       // return ableList.ToArray();
-        return m_tileActions;
+        // return ableList.ToArray();
+        return ableList.ToArray();
     }
 
     public void ConductTileAction(TokenTile _tile, TokenAction _action)
