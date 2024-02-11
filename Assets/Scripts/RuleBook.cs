@@ -259,7 +259,7 @@ public class RuleBook
     }
     #endregion
 
-    #region 타일 액션 산출
+    #region 타일 액션
     public TokenAction[] RequestTileActions(TokenTile _tile)
     {
         //해당 타일을 가지고 가능한 액션을 뽑아줌. 
@@ -272,6 +272,27 @@ public class RuleBook
         return m_tileActions;
     }
 
+    public void ConductTileAction(TokenTile _tile, TokenAction _action)
+    {
+        int pid = _action.GetPid();
+        //pid로 행태 구별 
+        //1 채집 -> 그 뒤 벨류값들로 캐피탈 인덱스
+        //2 건설 -> 그 뒤 벨류값들로 건설건물 index
+        //3 재료 관련 -> 벨류값으로 변환, 합성
+        if (pid.Equals(3))
+        {
+            int doCode = _action.GetStat(ActionStat.Value2);
+            //재료 변환 
+            if (doCode.Equals(1))
+            {
+                UIPlayGame.GetInstance().ShowSubUI(1, _tile, _action);
+            }
+        }
+        else
+        {
+            UIPlayGame.GetInstance().CancleLastUI();
+        }
+    }
     #endregion
 
     public void MixCapital(int a, int b, int c)
