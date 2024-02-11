@@ -2,14 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CapitalObjManager : MgGeneric<CapitalObjManager>
+public class ObjTokenManager : MgGeneric<ObjTokenManager>
 {
-    //캐피탈 스프라이트 렌더러 풀 관리자
+    //오브젝트 토큰 풀 관리자
+    //타일위에 표시될 자원, 몬스터, 이벤트등은 동일한 objectTokenType을 사용할 수 있으므로 풀로 관리. 
     [SerializeField]
     private ObjTokenCapital m_sample; 
     private Stack<ObjTokenCapital> m_capitalObjStack = new Stack<ObjTokenCapital>();
     
-    public void RequestCapitalObject(TokenTile _tile)
+    public void RequestObjectToken(TokenTile _tile)
     {
         ObjTokenCapital capitalObj = Instantiate(m_sample).GetComponent<ObjTokenCapital>();
         capitalObj.gameObject.transform.SetParent(_tile.GetObject().transform);

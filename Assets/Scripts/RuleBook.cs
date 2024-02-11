@@ -8,8 +8,8 @@ public class RuleBook
 {
     public static GamePlayMaster m_PlayMaster;
     private RouteDisplay m_routeDisplayTool = new();
-    private TokenAction[] m_tileActions; 
-  
+    private TokenAction[] m_tileActions;
+    private CapitalShef m_capitalRecipe = new();
     public struct AttackReceipt
     {
         public float t_oriignDamage;
@@ -254,7 +254,7 @@ public class RuleBook
 
         //어차피 AI한텐 안하고 Player만 하니까
         
-        PlayerManager.GetInstance().AdaptCapitalStat(Capital.Grass, 50, true);
+        PlayerManager.GetInstance().AdaptCapitalStat(Capital.Green, 50, true);
         PlayerManager.GetInstance().DoneAdaptEvent(); //마지막에 이벤트 적용끝났음을 플레이어에게 전달. 
     }
     #endregion
@@ -273,5 +273,14 @@ public class RuleBook
     }
 
     #endregion
+
+    public void MixCapital(int a, int b, int c)
+    {
+        (Capital, int) in1 = (Capital.Red, a);
+        (Capital, int) in2 = (Capital.Green, b);
+        (Capital, int) in3 = (Capital.Yellow, c);
+        List<(Capital, int)> box = new List<(Capital, int)>{ in1, in2, in3 };
+        m_capitalRecipe.MixCapital(box);
+    }
 }
 

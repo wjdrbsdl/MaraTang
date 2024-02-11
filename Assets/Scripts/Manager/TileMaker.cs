@@ -56,7 +56,7 @@ public class TileMaker : MonoBehaviour
 
                 //환경 자원 Object 생성
                 if (selectMap.Equals(0))
-                    CapitalObjManager.GetInstance().RequestCapitalObject(newTokeTileInfo);
+                    ObjTokenManager.GetInstance().RequestObjectToken(newTokeTileInfo);
             }
         }
         MgToken.GetInstance().SetMapTiles(newMap); //만들어진 맵 정보 전달

@@ -21,7 +21,7 @@ public class MgGame : MgGeneric<MgGame>
     [SerializeField]
     SoundManager m_soundManager;
     [SerializeField]
-    CapitalObjManager m_capitalManager;
+    ObjTokenManager m_capitalManager;
 
     #endregion
  

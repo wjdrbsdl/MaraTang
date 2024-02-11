@@ -5,14 +5,12 @@ using UnityEngine;
 
 public enum Capital
 {
-    Stone, Grass
+    Yellow, Green, Red, Blue
 }
 public class PlayerCapitalData
 {
-  
     //게임을 플레이하면서 누적되는 데이터 
     protected int[] m_intValues; 
-    protected float[] m_FloatValues;
 
     public PlayerCapitalData()
     {

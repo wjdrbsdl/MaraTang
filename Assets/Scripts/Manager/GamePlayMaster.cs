@@ -27,6 +27,8 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
 
     #endregion
 
+    public int a, b, c = 0;
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.F5))
@@ -46,7 +48,8 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
         }
         if (Input.GetKeyDown(KeyCode.F7))
         {
-            MgToken.GetInstance().MakeMap(); // 맵 다시만들기
+            //MgToken.GetInstance().MakeMap(); // 맵 다시만들기
+            RuleBook.MixCapital(a, b, c);
         }
         if (Input.GetKeyDown(KeyCode.F8))
         {
@@ -197,22 +200,22 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
 
         if (_action.Equals(TileAction.Grass.ToString()))
         {
-            PlayerManager.GetInstance().AdaptCapitalStat(Capital.Grass, 50, true);
+            PlayerManager.GetInstance().AdaptCapitalStat(Capital.Green, 50, true);
             return;
         }
         if (_action.Equals(TileAction.Mineral.ToString()))
         {
-            PlayerManager.GetInstance().AdaptCapitalStat(Capital.Stone, 50, true);
+            PlayerManager.GetInstance().AdaptCapitalStat(Capital.Yellow, 50, true);
             return;
         }
         if (_action.Equals(TileAction.RemoveMineral.ToString()))
         {
-            PlayerManager.GetInstance().AdaptCapitalStat(Capital.Stone, -50, true);
+            PlayerManager.GetInstance().AdaptCapitalStat(Capital.Yellow, -50, true);
             return;
         }
         if (_action.Equals(TileAction.RemoveGrass.ToString()))
         {
-            PlayerManager.GetInstance().AdaptCapitalStat(Capital.Grass, -50, true);
+            PlayerManager.GetInstance().AdaptCapitalStat(Capital.Green, -50, true);
             return;
         }
 
