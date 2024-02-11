@@ -166,6 +166,8 @@ public class MgGame : MgGeneric<MgGame>
     {
         //4. 게임플레이가 플레이 진행
         m_gamePlayMaster.FirstStart();
+        m_cutton.SetActive(false);
     }
 
+    public GameObject m_cutton;
 }
