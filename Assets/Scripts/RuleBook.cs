@@ -9,7 +9,7 @@ public class RuleBook
     public static GamePlayMaster m_PlayMaster;
     private RouteDisplay m_routeDisplayTool = new();
     private TokenAction[] m_tileActions;
-    private CapitalShef m_capitalRecipe = new();
+    private CapitalChef m_capitalRecipe = new();
     public struct AttackReceipt
     {
         public float t_oriignDamage;

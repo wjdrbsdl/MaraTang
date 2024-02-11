@@ -3,7 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 
 
-public class CapitalShef
+public class CapitalChef
 {
     //속성 넣었을 때 조합식
     public (Capital, int) MixCapital( List<(Capital, int)> _inputCapitals)
