@@ -157,7 +157,7 @@ public class MgToken : MgGeneric<MgToken>
     public void MakeTileActionToken()
     {
         Debug.Log("db Dic 찾아서 만들어봄");
-        MgParsing.ParseContainer parseContainer = MgParsing.GetInstance().GetDataBase(ActionStat.MaxCountInTurn);
+        MgParsing.ParseContainer parseContainer = MgParsing.GetInstance().GetMasterData(ActionStat.MaxCountInTurn);
         List<TokenAction> tileactions = new();
         for (int i = 0; i < parseContainer.DbValueList.Count; i++)
         {

@@ -154,7 +154,7 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
         
     }
 
-    public void SelectTileAction(TokenTile _selectedToken, string _tileAction)
+    public void SelectTileAction(TokenTile _selectedToken, TokenAction _tileAction)
     {
         GamePlayMaster.GetInstance().PlayTileAction(_selectedToken, _tileAction);
         m_playGameUI.CancleLastUI();

@@ -79,9 +79,12 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
         RuleBook.ParseTileActions();
         m_aiPlayer.SetInitial(); //mgtoken이 토큰 다 만들고 나서 진행해야함.
         m_playerMemeber = PlayerMember.LivePlayer; //시작은 플레이어
+        //플레이어 할당
         m_players[0] = PlayerManager.GetInstance();
         m_players[1] = m_aiPlayer;
+        //턴 준비
         ReadyNextTurn();
+        //처음 시작시 플레이어 메인캐릭터에 카메라 포커스.
         GamePlayMaster.GetInstance().CamFocus(PlayerManager.GetInstance().GetMainChar());
     }
     #endregion
@@ -189,7 +192,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     #endregion
    
     #region 타일 액션 수행
-    public void PlayTileAction(TokenTile _tile, string _action)
+    public void PlayTileAction(TokenTile _tile, TokenAction _action)
     {
 
         if (_action.Equals(TileAction.Grass.ToString()))
