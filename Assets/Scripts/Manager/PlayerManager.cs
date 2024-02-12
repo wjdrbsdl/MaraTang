@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
 {
     [SerializeField]
-    UIPlayGame m_playGameUI; //플레이어의 액션에 관련된 UI
+    MgUI m_playGameUI; //플레이어의 액션에 관련된 UI
     [SerializeField]
     DisplayActionToken m_displayAction;
     [SerializeField]SoundManager m_soundMg;
@@ -69,7 +69,6 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
 
                 m_curAction.ClearTarget();
                 m_curAction.SetTargetCoordi(_token.GetMapIndex());
-                m_playGameUI.AddContent(_token);
                 ConfirmAction();
                 break;
         }

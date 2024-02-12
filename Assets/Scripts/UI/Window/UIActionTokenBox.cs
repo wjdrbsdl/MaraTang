@@ -12,17 +12,11 @@ public class UIActionTokenBox : UIBase
     [SerializeField]
     private PlayerActionSlot[] m_playerActionSlots;
 
-    public override void InitiUI()
-    {
-        base.InitiUI();
-        m_playerActionSlots = m_box.GetComponentsInChildren<PlayerActionSlot>();
-    }
-
     public void SetActionSlot(TokenChar _charToken)
     {
-        m_box.gameObject.SetActive(true);
+        Switch(true);
         //Debug.Log(_charToken.GetItemName() + "액션 토큰 세팅해보기");
-        
+
         List<TokenAction> actionList = _charToken.GetActionList();
         int charActionCount = actionList.Count;
         if (m_playerActionSlots.Length < charActionCount)

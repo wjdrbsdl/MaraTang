@@ -2,48 +2,43 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum SwitchEnum
-{
-    Off = -1, Stay, On
-}
-
 public class UIBase : MonoBehaviour
 {
-    public enum ESCOffType
-    {
-        Yes, No
-    }
-  
-    [SerializeField] protected UIType m_uiType = UIType.None; //기본 none;
     [SerializeField] public GameObject m_window;
-    [SerializeField] private ESCOffType m_allOffType;
-    [SerializeField] public bool m_isBaseUI = false; //상시 켜져있는 녀석인가. 
+    public bool IsOnType = false; //m_window를 끄는 타입인가. 
 
-    [SerializeField] private PauseReason m_pauseReason = PauseReason.None;
-    public int Switch()
+    private void Start()
+    {
+        InitiUI();
+    }
+
+    public virtual void InitiUI()
+    {
+        m_window.SetActive(IsOnType); //유아이를 동작하면 window를 Switch()로 활성화 시키는데, 하이어키에서 켜놓은상태로 시작하면 동작이 안됨.
+    }
+
+    public void Switch()
     {
         //전달 받은대로 유아이 화면을 켜고 끄기, 무조건 크거나 끄거나 동작됨
         bool on = !m_window.activeSelf;
         m_window.SetActive(on);
         if(on== false)
             OffWindow();
-        ApplyPause(on);
-        return ReturnSwitchValue(on);
+   }
 
-    }
-
-    public int Switch(bool _on)
+    public void Switch(bool _on)
     {
         //만약 명명한 상태가 현재 상태랑 동일하다면 0을 반환
         if (m_window.activeSelf == _on)
-            return (int)SwitchEnum.Stay;
+            return;
 
         m_window.SetActive(_on); //아니면 상태를 _on상태로 바꾸고 바꾼값을 반환 
         if (_on == false)
             OffWindow();
-
-        ApplyPause(_on);
-        return ReturnSwitchValue(_on);
+        else
+        {
+            OnWindow();
+        }
     }
 
     public virtual void OffWindow()
@@ -51,45 +46,16 @@ public class UIBase : MonoBehaviour
 
     }
 
-    private void ApplyPause(bool _on)
+    public virtual void OnWindow()
     {
-        //사유가 없다면 관계없이 종료
-
-        if (m_pauseReason.Equals(PauseReason.None))
-            return;
-
-        //사유가 있다면, 켜진다면 Pause 꺼진다면 Play로 진행
-        if (_on)
-            SystemPause.g_instance.Pause(m_pauseReason);
-        else
-            SystemPause.g_instance.Play(m_pauseReason);
+        //켜질때면
+        MgUI.GetInstance().PushUIStack(this); //해당 유아이를 넣어보자. 
     }
 
-    private int ReturnSwitchValue(bool _on)
+    public virtual void OpenWindow()
     {
-        if (m_allOffType.Equals(ESCOffType.No))
-            return 0; //만약 esc로 꺼지고 조정되는 타입이 아니라면 그냥 0 반환 
-
-        if (_on)
-        {
-            return (int)SwitchEnum.On;
-        }
-            
-
-        return (int)SwitchEnum.Off;
+        Switch(true);
     }
-
-    #region Get Set
-    public ESCOffType GetOffType()
-    {
-        return m_allOffType;
-    }
-
-    public UIType GetUIType()
-    {
-        return m_uiType;
-    }
-    #endregion
 
     #region UI Slot 셋팅
     protected void MakeSamplePool<T>(ref T[] _curArray, GameObject _sampleObj, int _workCount, Transform _box)
@@ -101,8 +67,7 @@ public class UIBase : MonoBehaviour
         }
 
     }
-
-    protected int MakeCount<T>(T[] _curArray, int _goalCount)
+    private int MakeCount<T>(T[] _curArray, int _goalCount)
     {
         if (_curArray == null || _curArray.Length == 0)
             return _goalCount;
@@ -115,7 +80,7 @@ public class UIBase : MonoBehaviour
     }
 
     //수량에 맞춰서 슬랏을 만들고 해당 슬랏 정보를 가져와야할때. 
-    protected void MakeSlots<T>(ref T[] _curArray, int _makeCount, GameObject _slotPrefeb, Transform _parent)
+    private void MakeSlots<T>(ref T[] _curArray, int _makeCount, GameObject _slotPrefeb, Transform _parent)
     {
         List<T> newT = new();
         if (_curArray != null)
@@ -138,8 +103,5 @@ public class UIBase : MonoBehaviour
     }
     #endregion
 
-    public virtual void InitiUI()
-    {
-
-    }
+ 
 }

@@ -1,184 +1,121 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 
-
-public enum UIType
-{
-    SkillTree, SeedInven, PlantTree, LandFinder, Quick, None, CropInfo, PlayerDisplay, PlayerStat, InterAction, Expander
-}
 public class MgUI : MgGeneric<MgUI>
 {
-    [SerializeField] private GameObject m_listBox;
-    private UIBase[] m_UIes; //¸ğµç UI¸¦ ¹Ş¾Æ³õÀº °÷
-    private UIBase[] m_offTypeUIes; //All Off Ä³½ºÆÃ½Ã ²¨Áú UI¸¸ ¸ğ¾Æ³õÀº °÷
-    [SerializeField] private UIBase[] m_mainUIes; //´Ù¸¥ ¾îµò°¡·ÎºÎÅÍ OnOff¸¦ ¿ä±¸ ¹ŞÀ» ¸¸ÇÑ UI¸¸ ¸ğ¾Æ³õÀº °÷. 
-    [SerializeField] private ToolTip m_toolTip;
-    public GameObject m_InGameUI;
-    public int m_opendCount = 0; //¿­·ÁÁ®ÀÖ´Â ¼ıÀÚ ¼¼±â .
+    [Header("ì•¡ì…˜")]
+    [SerializeField] private UIActionTokenBox m_actionTokenBox;
+    [SerializeField] private UIFillContent m_fillContentUI;
+    [SerializeField] private UIEventContent m_eventContentUI;
+    [SerializeField] private UITileWorkShop m_tileWorkShopUI;
+    [SerializeField] private UIChefUI m_chefUI;
 
-    private void Awake()
+    [Header("ë°ì´í„° í‘œê¸°")]
+    [SerializeField] private UICapital m_capitalUI;
+    [SerializeField] private UITokenSnapInfo m_snapInfoUI;
+    [SerializeField] private UIPlayData m_playDataUI;
+
+    [Header("ì»·ì”¬")]
+    [SerializeField] private UICutScene m_cutScene;
+
+    [SerializeField] private UIShowcase m_shocaseUI;
+
+    #region í”Œë ˆì´ì–´ ì•¡ì…˜
+    public void ShowActionToken()
     {
-        g_instance = this;
-        //m_UIes = m_listBox.GetComponentsInChildren<UIBase>();
-        //ClassfyESCOffType();
-        //ClassfyUIType();
+        //í”Œë ˆì´ì–´ ìºë¦­í„° ëˆŒë €ì„ ë•Œ
+        OffPlayUI();
+        TokenChar _char = PlayerManager.GetInstance().GetSelectedChar();
+        m_actionTokenBox.SetActionSlot(_char);
     }
 
-    public override void InitiSet()
+    public void ShowTileWorkShopUI()
     {
-        base.InitiSet();
-        InitiUi();
+        m_uiStack.Push(m_tileWorkShopUI);
+        m_tileWorkShopUI.SetTileWorkShopInfo();
     }
 
-    private void InitiUi()
+    public void ShowSubUI(int subCode, TokenTile _tile, TokenAction _action)
     {
-        //À¯¾ÆÀÌµé ÃÊ±â »óÅÂ ¼¼ÆÃ
-        for (int i = 0; i < m_mainUIes.Length; i++)
+        if (subCode.Equals(1))
         {
-            m_mainUIes[i].InitiUI();
+            m_chefUI.SetChefUI(subCode, _tile, _action);
         }
-
+        m_uiStack.Push(m_chefUI);
     }
-    #region È­¸é Á¶Á¤
-    public void IntroScene()
+    #endregion
+
+    #region ì´ë²¤íŠ¸ ê´€ë ¨
+    public void ShowEventList(List<TokenEvent> _eventTokens)
     {
-        //m_InGameUI.SetActive(false);
-        AllOff();
+        OffPlayUI();
+        m_eventContentUI.ShowEventList(_eventTokens);
     }
+    #endregion
 
-    public void PlayScene()
+    #region í˜„í™© ë°ì´í„° í‘œê¸°
+    public void ResetCapitalInfo(PlayerCapitalData _capitalData)
     {
-      //  m_InGameUI.SetActive(true);
-        SetBaseState();
+        m_capitalUI.ResetCapitalInfo(_capitalData);
     }
-    #endregion 
 
-    #region UI ½ºÀ§Ä¡ 
-    public void SwitchUI(UIType _uiType)
+    public void ResetSnapInfo(TokenBase _token)
     {
-         int state = m_mainUIes[(int)_uiType].Switch();
-       m_opendCount += state;
-        PlaceToFoward(m_mainUIes[(int)_uiType].m_window);
-        if ((SwitchEnum)state == SwitchEnum.Off)
-            m_toolTip.CallOfUI(_uiType);
-   
+        m_snapInfoUI.SetTokenSnapInfo(_token);
     }
 
-    public void SwitchUI(UIType _uiType, bool _state)
-    { 
-        int state = m_mainUIes[(int)_uiType].Switch(_state);
-        m_opendCount += state;
-
-        if ((SwitchEnum)state == SwitchEnum.Off)
-            m_toolTip.CallOfUI(_uiType);
-    }
-
-
-    public void ESCOff()
+    public void ResetPlayData()
     {
-        for (int i = 0; i < m_offTypeUIes.Length; i++)
-        {
-            int state = m_offTypeUIes[i].Switch(false);
-            m_opendCount += state;
+        m_playDataUI.ShowPlayData();
+    }
+
+    #endregion
+
+    public void ShowCaseOpen(InputSlot _inputSlot)
+    {
+        m_shocaseUI.OpenWindow(_inputSlot);
+    }
+
+    Stack<UIBase> m_uiStack = new();
+    public bool CheckLastUI()
+    {
+        //í–‰ë™ ë³€í™”ë¥¼ ë§‰ì„ë§Œí•œ UIê°€ í¼ì³ì ¸ ìˆëŠ”ê°€
         
-            //ÄÑÁ®ÀÖ´ø ÅøÆÁµµ ²¨Áöµµ·Ï 
-            if ((SwitchEnum)state == SwitchEnum.Off)
-                m_toolTip.CallOfUI(m_offTypeUIes[i].GetUIType());
-                
-        }
-    }
-
-    public void AllOff()
-    {
-        for (int i = 0; i < m_mainUIes.Length; i++)
+        //í•´ë‹¹ ìŠ¤íƒì—ëŠ” ë‹¤ë¥¸ ìƒíƒœë¡œ ë„˜ì–´ê°€ë©´ ì•ˆë˜ëŠ” UIê°€ ìˆì„ ê²ƒ
+        if(m_uiStack.Count >= 1)
         {
-            if (m_mainUIes[i] == null)
-                continue;
-
-            int state = m_mainUIes[i].Switch(false);
-            m_opendCount += state;
-
-            //ÄÑÁ®ÀÖ´ø ÅøÆÁµµ ²¨Áöµµ·Ï 
-            if ((SwitchEnum)state == SwitchEnum.Off)
-                m_toolTip.CallOfUI((UIType)i);
-        }
-    }
-
-    public void SetBaseState()
-    {
-        for (int i = 0; i < m_mainUIes.Length; i++)
-        {
-            if (m_mainUIes[i] == null)
-                continue;
-
-            //¸ŞÀÎ À¯¾ÆÀÌµé Áß, ±âº» À¯¾ÆÀÌ¶ó¸é ÄÑ¼­ ÁøÇà. 
-            m_mainUIes[i].Switch(m_mainUIes[i].m_isBaseUI);
-        }
-    }
-    #endregion
-
-    #region Tip ½ºÀ§Ä¡
-    public void ShowTip(SlotBase _slot)
-    {
-        m_toolTip.ShowTip(_slot);
-    }
-
-    public void CloseTip()
-    {
-        if(m_toolTip != null)
-        m_toolTip.CloseTip();
-    }
-    #endregion
-
-    #region UI ºĞ·ù - ´ÜÃàÅ° ÁöÁ¤ UI, Escape ´ë»ó UI
-
-    //´ÜÃàÅ°¸¦ ÅëÇØ OnOff½ÃÅ³ ¸¸ÇÑ °Íµé. ¸ğµç UI°¡ ´ë»óÀÌ µÉ¼öµµÀÖÀ¸³ª ÀÏ´Ü MainUiEnum À» ÅëÇØ, ÇØ´ç idx´ë·Î Á¤·ÄÇÏ±â À§ÇØ ÇÊ¿ä. 
-    private void ClassfyUIType()
-    {
-        int mainUINum = System.Enum.GetValues(typeof(UIType)).Length;
-        m_mainUIes = new UIBase[mainUINum]; //ÁÖ¿ä ¸ŞÀÎ À¯¾ÆÀÌ ¼ö¸¸Å­ ¹è¿­ ¼±¾ğ
-
-        //Å¸ÀÔ¿¡ µû¶ó idx´ë·Î mainUIes¿¡ ¹èÁ¤. - ÀÌÈÄ onOff ¸Ş¼­µå ¾²±â À§ÇÑ ÁØºñ 
-        for (int i = 0; i < m_UIes.Length; i++)
-        {
-            UIType type = m_UIes[i].GetUIType();
-            if (type == UIType.None) //´ÜÃàÅ° ÁöÁ¤ÀÌ ¾ø´Â UI¶ó¸é Åë°ú 
-                continue;
-
-            m_mainUIes[(int)type] = m_UIes[i]; //ÇØ´ç enumÀÇ idx´ë·Î, ¹è¿­¿¡ ÇöÀç À¯¾ÆÀÌ¸¦ ÇÒ´ç -> ÀÌÈÄ idx¹øÂ° À¯¾ÆÀÌ onoff¸¦ ÇÒ¶§ ¾µ¼öÀÖÀ½.
-        }
-    }
-
-    //escape·Î ²ø UI¸¦ ºĞ·ù, ÇØ´ç UI°¡ ¿­·ÁÀÖÀ» ¶§´Â ½ºÅ³ »ç¿ëµµ ¸ØÃã. 
-    private void ClassfyESCOffType()
-    {
-        List<UIBase>  insList = new List<UIBase>();
-        for (int i = 0; i < m_UIes.Length; i++)
-        {
-            if (m_UIes[i].GetOffType().Equals(UIBase.ESCOffType.Yes))
-                insList.Add(m_UIes[i]);
-
-        }
-        m_offTypeUIes = insList.ToArray();
-    }
-
-
-    #endregion
-
-    public void PlaceToFoward(GameObject _window)
-    {
-        //ÇØ´ç Ã¢À» UI Áß °¡Àå ¸Ç¾ÕÀ¸·Î ´ç±â±â.
-        _window.transform.SetAsLastSibling();
-    }
-
-    public bool IsUIAllOff()
-    {
-        //UIÀûÀ¸·Î ÀÛ¾÷ÁßÀÎÁö Ã¼Å©ÇØ¼­ 
-        if (m_opendCount.Equals(0))
+            //ë§ˆì§€ë§‰ UI
+            //UIBase ui = m_uiStack.Pop();
+            //ui.Switch(false);
             return true;
+        }
 
         return false;
+    }
+
+    public void CancleLastUI()
+    {
+        if (m_uiStack.Count >= 1)
+        {
+            //ë§ˆì§€ë§‰ UIë¥¼ êº¼ë‚´ì„œ ì·¨ì†Œ -> ì·¨ì†Œ ë²„íŠ¼ìœ¼ë¡œ ì·¨ì†Œ ê°€ëŠ¥í•œì§€ ì—¬ë¶€ëŠ” ì•Œì•„ì„œ íŒë‹¨
+            UIBase ui = m_uiStack.Pop();
+            ui.Switch(false);
+        }
+    }
+
+    public void PushUIStack(UIBase _ui)
+    {
+        m_uiStack.Push(_ui);
+    }
+
+    public void OffPlayUI()
+    {
+        int stackCount = m_uiStack.Count;
+        for (int i = 0; i < stackCount; i++)
+        {
+            CancleLastUI();
+        }
     }
 }

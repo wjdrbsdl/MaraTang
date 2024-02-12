@@ -24,7 +24,7 @@ public class MgGame : MgGeneric<MgGame>
     ObjTokenManager m_capitalManager;
 
     [SerializeField]
-    UIPlayGame m_playerGameUI; 
+    MgUI m_playerGameUI; 
     #endregion
  
     void Start()

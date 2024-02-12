@@ -15,7 +15,6 @@ public class SlotBase : MonoBehaviour, IDragHandler, IBeginDragHandler, IDropHan
     [SerializeField] protected Image m_icon;
     [SerializeField] protected Image m_tierImage;
     [SerializeField] protected SlotType m_slotType;//인스펙터에서 설정, 
-    [SerializeField] public UIType m_uiType;//인스펙터에서 설정 : 자신이 속한 UI 그룹
     [SerializeField] public TipType m_tipType;//인스펙터에서 설정 : 자신이 활용할 Tip Type
 
     private void Awake()
