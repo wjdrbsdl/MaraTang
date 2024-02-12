@@ -111,7 +111,7 @@ public class MgGame : MgGeneric<MgGame>
     }
     public void DoneInitiDataManager(string message)
     {
-        Debug.Log(message);
+      //  Debug.Log(message);
         if (initiManagerStack.Count >= 1)
         {
             Action nextIniti = initiManagerStack.Dequeue();

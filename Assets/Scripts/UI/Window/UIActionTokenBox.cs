@@ -21,7 +21,7 @@ public class UIActionTokenBox : UIBase
     public void SetActionSlot(TokenChar _charToken)
     {
         m_box.gameObject.SetActive(true);
-        Debug.Log(_charToken.GetItemName() + "액션 토큰 세팅해보기");
+        //Debug.Log(_charToken.GetItemName() + "액션 토큰 세팅해보기");
         
         List<TokenAction> actionList = _charToken.GetActionList();
         int charActionCount = actionList.Count;

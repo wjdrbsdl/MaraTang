@@ -32,7 +32,7 @@ public class ClickToken : MonoBehaviour
         int tileYNum = GameUtil.GetMapLength(false);
         m_camMaxX = MgToken.GetInstance().GetMaps()[tileXNum - 1, tileYNum - 1].GetObject().transform.position.x - m_camMinX;
         m_camMaxY = MgToken.GetInstance().GetMaps()[tileXNum - 1, tileYNum - 1].GetObject().transform.position.y;
-        Debug.Log("최고 너비는 " + m_camMaxX + " : " + m_camMaxY);
+       // Debug.Log("최고 너비는 " + m_camMaxX + " : " + m_camMaxY);
     }
 
     public static void SetDragRatio(float _tileRLength)

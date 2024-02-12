@@ -239,6 +239,14 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
         _mainChar.isMainChar = true;
         m_mainChar = _mainChar;
     }
+
+    public void OnChangePlayData()
+    {
+        m_playGameUI.ResetPlayData();
+    }
+
+
+    #region 플레이어 할당된 Token 가져오기
     public TokenChar GetMainChar()
     {
         return m_mainChar;
@@ -258,11 +266,7 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
     {
         return m_curChar;
     }
-
-    public void OnChangePlayData()
-    {
-        m_playGameUI.ResetPlayData();
-    }
+    #endregion
 
     //플레이어 스텝 단계가 바뀐경우, 그 상태에 필요한 초기 세팅(값들, ui들)
     private void ChangedPlayerStep(GamePlayStep _step)

@@ -45,7 +45,6 @@ public class MgParsing : MgGeneric<MgParsing>
         {
             //1. 파싱한 타입 - 수동으로 변수에서 매칭해둔거docuID - parseTypes
             string parseCode = parseEnum.GetType().ToString();
-            Debug.Log(parseCode+"파싱");
             //2. sheetData 행마다 분리
             string[] enterDivde = message.Split('\n'); //엔터 - 행 분리
             //3. 첫번째 행은 enum string값 중 db로 관리할 목록을 칼럼명으로 적어놓은 부분
