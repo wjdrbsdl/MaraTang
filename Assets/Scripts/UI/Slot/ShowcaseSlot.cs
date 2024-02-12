@@ -16,7 +16,7 @@ public class ShowcaseSlot : SlotBase
 
     public override void OnLeftClick()
     {
-        Debug.Log("쇼케이스 클릭");
+        MgUI.GetInstance().CancleLastUI();
         _callBackAction.SelectItem(m_testText);
     }
 }

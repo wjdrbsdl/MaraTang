@@ -9,7 +9,6 @@ public class UIChefUI : UIBase
 
     public void SetChefUI(int subCode, TokenTile _tile, TokenAction _action)
     {
-        Debug.Log("¿Ö ¾ÈµÊ?");
         m_window.SetActive(true);
        // m_subUies[subCode].SetActive(true);
     }

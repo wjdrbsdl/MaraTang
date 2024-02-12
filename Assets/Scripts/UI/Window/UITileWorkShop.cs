@@ -17,7 +17,7 @@ public class UITileWorkShop : UIBase
         Switch(true);
         TokenTile _selectedTile = PlayerManager.GetInstance().GetSelectedTile();
         bool inMain = IsInMainChar(_selectedTile);
-        Debug.Log("메인 캐릭 있다 " + inMain);
+        //Debug.Log("메인 캐릭 있다 " + inMain);
         _selectedTile.GetInfoForTileWorkShop(); //타일 고유 정보 얻고
         TokenAction[] tileWorks = GamePlayMaster.GetInstance().RuleBook.RequestTileActions(_selectedTile);
         setCount = Random.Range(1, tileWorks.Length + 1);
