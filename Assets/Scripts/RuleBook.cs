@@ -288,12 +288,12 @@ public class RuleBook
             //재료 변환 
             if (doCode.Equals(1))
             {
-                UIPlayGame.GetInstance().ShowSubUI(1, _tile, _action);
+                MgUI.GetInstance().ShowSubUI(1, _tile, _action);
             }
         }
         else
         {
-            UIPlayGame.GetInstance().CancleLastUI();
+            MgUI.GetInstance().CancleLastUI();
         }
     }
     #endregion
