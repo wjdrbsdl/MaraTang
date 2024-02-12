@@ -10,10 +10,11 @@ public enum Capital
 public class PlayerCapitalData
 {
     //게임을 플레이하면서 누적되는 데이터 
-    protected int[] m_intValues; 
-
+    protected int[] m_intValues;
+    public static PlayerCapitalData g_instance;
     public PlayerCapitalData()
     {
+        g_instance = this;
         m_intValues = new int[System.Enum.GetValues(typeof(Capital)).Length];
     }
 
