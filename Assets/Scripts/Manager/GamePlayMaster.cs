@@ -112,7 +112,6 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     {
         //캐릭터 토큰이 준비된대로 룰북가지고 액션을 수행
         ResetEmphasize();
-        _charToken.actionCount -= 1;
         _charToken.ShowAction(true);
         RuleBook.ReadCharAction(_charToken); //룰북에 액션 수행파트 읽기
     }
@@ -274,7 +273,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
        AnnounceState("소비된 액션 카운트 회복");
         for (int i = 0; i < MgToken.GetInstance().GetNpcPlayerList().Count; i++)
         {
-            MgToken.GetInstance().GetNpcPlayerList()[i].actionCount = i + 1; //
+            MgToken.GetInstance().GetNpcPlayerList()[i].RecvoerActionCount(); //
             MgToken.GetInstance().GetNpcPlayerList()[i].RecoverActionTokenCount();
         }
     }

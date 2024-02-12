@@ -9,14 +9,14 @@ public enum CharStat
 
 public class TokenChar : TokenBase
 {
-    public int actionCount = 0;
-    public int charNum = 0;
     public bool isMainChar = false;
+    private bool m_isPlayerChar = false;
+
     private CharState m_state = CharState.Idle;
     private List<TokenAction> m_haveActionList = new(); //이 캐릭터가 지니고 있는 액션 토큰들
     private TokenAction m_nextAction = null;
     private TokenBase m_nextTarget;
-    private bool m_isPlayerChar = false;
+    
 
     #region 캐릭 토큰 생성부분
     public TokenChar()
@@ -42,7 +42,6 @@ public class TokenChar : TokenBase
     {
         TokenChar monsterToken = new TokenChar();
         monsterToken.m_itemName = _name;
-        monsterToken.charNum = index;
         monsterToken.m_tokenIValues = new int[GameUtil.EnumLength(CharStat.CurActionEnergy)];
         monsterToken.m_tokenType = TokenType.Char;
         monsterToken.SetStatValue(CharStat.MaxActionEnergy, 10);
@@ -56,7 +55,6 @@ public class TokenChar : TokenBase
         return monsterToken;
     }
     #endregion
-  
 
     public void ShowAction(bool isShow)
     {
@@ -82,6 +80,7 @@ public class TokenChar : TokenBase
     {
         return m_state;
     }
+
     #region Get
     public TokenBase GetTarget()
     {
@@ -90,7 +89,7 @@ public class TokenChar : TokenBase
 
     public int GetActionCount()
     {
-        return actionCount;
+        return m_tokenIValues[(int)CharStat.CurActionCount];
     }
 
     public List<TokenAction> GetActionList()
@@ -149,6 +148,7 @@ public class TokenChar : TokenBase
     }
     #endregion
 
+    #region 액션 카운트 회복
     public void RecoverActionTokenCount()
     {
         for (int i = 0; i < m_haveActionList.Count; i++)
@@ -156,6 +156,12 @@ public class TokenChar : TokenBase
             m_haveActionList[i].RcoverRemainCountInTurn();
         }
     }
+
+    public void RecvoerActionCount()
+    {
+        m_tokenIValues[(int)CharStat.CurActionCount] = m_tokenIValues[(int)CharStat.MaxActionCount];
+    }
+    #endregion
 
     public void Death()
     {
