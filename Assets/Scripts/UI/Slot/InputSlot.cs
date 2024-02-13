@@ -14,7 +14,8 @@ public class InputSlot : SlotBase
 
     public override void OnLeftClick()
     {
-    
+        if (GetItemBase() != null)
+            Debug.Log(GetItemBase().GetPid() + "할당되어 있음 "+GetItemBase().GetStat(CapitalStat.Amount));
     }
 
     public void SelectItem(string _itemName)

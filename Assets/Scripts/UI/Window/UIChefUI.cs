@@ -7,19 +7,21 @@ public class UIChefUI : UIBase
     [SerializeField]
     GameObject[] m_subUies;
 
-    [SerializeField]
-    InputSlot[] m_inputCapitals;
+    [SerializeField] private InputSlot[] m_inputCapitals;
+    [SerializeField] private GameObject m_sampleSlot;
+    [SerializeField] private Transform m_box;
+    [SerializeField] private RectTransform m_rectTrans;
 
-    [SerializeField]
-    Transform m_box;
-    [SerializeField]
-    RectTransform m_rectTrans;
 
-    public void SetChefUI(int subCode, TokenTile _tile, TokenAction _action)
+    public void SetChefUI(int subCode, TokenTile _tile, TokenAction _actionToken)
     {
+        //1. 선택한 재료 세팅할 부분
         m_window.SetActive(true);
-        MgUI.GetInstance().ShowCaseOpen(m_rectTrans, RequestSlot);
-        // m_subUies[subCode].SetActive(true);
+        //2. 재료 선택할 쇼케이스 호출
+        int tempSelectMaxCount = 1;
+        MgUI.GetInstance().ShowCaseOpen(m_rectTrans, OnChangeSelect, tempSelectMaxCount);
+        //3. 이전 선택 초기화
+        ResetRecord();
     }
 
     public void MixCapital()
@@ -35,14 +37,36 @@ public class UIChefUI : UIBase
         GamePlayMaster.GetInstance().RuleBook.MixCapital(resources);
     }
 
-    public void OnChangedRecipe()
-    {
-        //재료가 바뀔때마다 
-    }
-
-    public void RequestSlot(ShowcaseSlot _selectedSlot)
+    public void OnChangeSelect(List<ShowcaseSlot> _selectedSlot)
     {
         //선택받은 슬랏을 받고싶다. 
-        Debug.Log(((Capital)(_selectedSlot.GetItemBase().GetPid())).ToString() + "가 클릭됨");
+        string log = "";
+        for (int i = 0; i < _selectedSlot.Count; i++)
+        {
+            log += ((Capital)(_selectedSlot[i].GetItemBase().GetPid())).ToString() + "가 클릭됨\n";
+        }
+        Debug.Log(log);
+
+        int selectCount = _selectedSlot.Count;
+        MakeSamplePool<InputSlot>(ref m_inputCapitals, m_sampleSlot.gameObject, selectCount, m_box);
+        int slotCount = m_inputCapitals.Length;
+
+        for (int i = 0; i < selectCount; i++)
+        {
+            m_inputCapitals[i].gameObject.SetActive(true);
+            m_inputCapitals[i].SetSlot(_selectedSlot[i].GetItemBase());
+        }
+        for (int close = selectCount; close < slotCount; close++)
+        {
+            m_inputCapitals[close].gameObject.SetActive(false);
+        }
+    }
+
+    private void ResetRecord()
+    {
+        for (int i = 0; i < m_inputCapitals.Length; i++)
+        {
+            m_inputCapitals[i].gameObject.SetActive(false);
+        }
     }
 }

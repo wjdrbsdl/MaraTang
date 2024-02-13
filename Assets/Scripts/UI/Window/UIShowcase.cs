@@ -12,16 +12,23 @@ public class UIShowcase : UIBase
     [SerializeField]
     private ShowcaseSlot[] m_showcaseSlots;
 
-    private Action<ShowcaseSlot> m_selectAction;
+    private Action<List<ShowcaseSlot>> m_selectAction;
+    private int m_selectMaxCount;
+    private List<ShowcaseSlot> m_selectedSlotList;
 
-    public void OpenWindow(Action<ShowcaseSlot> _selecttAction)
+    public void OpenWindow(Action<List<ShowcaseSlot>> _selecttAction, int _selectMaxCount)
     {
         base.OpenWindow();
+        //0. 요청한 스타일 할당
+        m_selectAction = _selecttAction;
+        m_selectMaxCount = _selectMaxCount;
+        m_selectedSlotList = new();
+
         //1. 캐릭터가 보유한 자원 리스트를 가져온다. 
         Dictionary<Capital, TokenBase> haveCapitals = PlayerCapitalData.g_instance.GetHaveCapital();
      
         MakeSamplePool<ShowcaseSlot>(ref m_showcaseSlots, m_showcaseSample.gameObject, haveCapitals.Count, m_box);
-        m_selectAction = _selecttAction;
+        
        int setCount = 0; //정보 설정한 수
 
         foreach (KeyValuePair<Capital, TokenBase> item in haveCapitals)
@@ -48,8 +55,28 @@ public class UIShowcase : UIBase
         rectTrans.position = movePos;
     }
    
-    public void SelectedSlot(ShowcaseSlot _caseSlot)
+    public bool SelectSlot(ShowcaseSlot _caseSlot)
     {
-        m_selectAction(_caseSlot);
+        //슬랏을 선택했을때 선택 가능한지 여부를 반환
+        //현재 선택된 횟수를 비교해서 최대 횟수면 불가능 반환
+        if (m_selectedSlotList.Count == m_selectMaxCount)
+                return false;
+
+        m_selectedSlotList.Add(_caseSlot); //공간있으면 추가
+        OnChangedSelect();
+        return true;
+    }
+
+    public bool CancleSlot(ShowcaseSlot _caseSlot)
+    {
+        //선택했던 리스트에서 제외하고 트루반환
+        m_selectedSlotList.Remove(_caseSlot);
+        OnChangedSelect();
+        return true;
+    }
+
+    private void OnChangedSelect()
+    {
+        m_selectAction(m_selectedSlotList);
     }
 }

@@ -74,10 +74,10 @@ public class MgUI : MgGeneric<MgUI>
 
     #endregion
 
-    public void ShowCaseOpen(RectTransform _uiTransform, Action<ShowcaseSlot> _selectAction)
+    public void ShowCaseOpen(RectTransform _uiTransform, Action<List<ShowcaseSlot>> _selectAction, int maxCount)
     {
         //얘를 열고, 그 위치도 조정
-        m_shocaseUI.OpenWindow(_selectAction) ;
+        m_shocaseUI.OpenWindow(_selectAction, maxCount) ;
         m_shocaseUI.SizeControl(_uiTransform);
 
     }
