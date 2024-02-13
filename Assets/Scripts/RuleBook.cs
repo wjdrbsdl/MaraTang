@@ -280,6 +280,12 @@ public class RuleBook
         int pid = _action.GetPid();
         //pid로 행태 구별 
         //1 채집 -> 그 뒤 벨류값들로 캐피탈 인덱스
+        if (pid.Equals(1))
+        {
+            Capital capitalCode = (Capital)_action.GetStat(ActionStat.Value2);
+            int tempAgainValue = 50;
+            PlayerManager.GetInstance().AdaptCapitalStat(capitalCode, tempAgainValue, true);
+        }
         //2 건설 -> 그 뒤 벨류값들로 건설건물 index
         //3 재료 관련 -> 벨류값으로 변환, 합성
         if (pid.Equals(3))

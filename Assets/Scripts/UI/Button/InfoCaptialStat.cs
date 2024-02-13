@@ -13,4 +13,10 @@ public class InfoCaptialStat : MonoBehaviour
         m_tmpText.text = _capital + ": " + _value.ToString();
         
     }
+
+    public void SetCaptialInfo(TokenBase _capitalToken)
+    {
+        m_tmpText.text = _capitalToken.GetItemName()+": " + _capitalToken.GetStat(CapitalStat.Amount);
+
+    }
 }

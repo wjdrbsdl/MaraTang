@@ -29,17 +29,16 @@ public class UICapital : UIBase
     {
         //0이 아닌 자원의 수 활성화
         int[] intVlaues = _capitalData.GetCapitalValue();
+        Dictionary<Capital, TokenBase> curCapitals = _capitalData.GetCurrentCapital();
         int setCount = 0; //정보 설정한 수
-        for (int i = 0; i < intVlaues.Length; i++)
-        {
-            if (intVlaues[i] == 0)
-                continue;
 
-            //0이 아닌 경우에만 정보 표기하고
+        foreach(KeyValuePair<Capital, TokenBase> item in curCapitals)
+        {
             m_capitalStats[setCount].gameObject.SetActive(true);
-            m_capitalStats[setCount].SetCaptialInfo((Capital)i, intVlaues[i]);
+            m_capitalStats[setCount].SetCaptialInfo(item.Key, item.Value.GetStat(CapitalStat.Amount));
             setCount += 1; //세팅한 숫자 올리고
         }
+        
         //세팅 된 숫자부터 그 뒤까진 비활성
         for (int i = setCount; i < intVlaues.Length; i++)
         {

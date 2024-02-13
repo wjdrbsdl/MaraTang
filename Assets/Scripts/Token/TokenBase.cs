@@ -17,7 +17,7 @@ public enum CharExpand
 
 public enum TokenType
 {
-    Tile, Char, Item, Action, Player
+    Tile, Char, Item, Action, Player, Capital
 }
 
 [System.Serializable]
@@ -39,6 +39,24 @@ public class TokenBase
     // [JsonProperty] 
     protected string m_itemName;
     protected ObjectTokenBase m_object;
+
+    #region 생성자
+    public TokenBase()
+    {
+
+    }
+
+    public TokenBase(Capital _capital, int _value = 0)
+    {
+        //자원용 토큰 생성
+        m_tokenIValues = new int[GameUtil.EnumLength(CapitalStat.Amount)];
+        m_tokenPid = (int)_capital;
+        m_tokenType = TokenType.Capital;
+        m_itemName = _capital.ToString();
+        if (_value != 0)
+            m_tokenIValues[(int) CapitalStat.Amount] = _value;
+    }
+    #endregion
 
     #region Reset
     //오리지널 Class 생성시 필요한 유니티 자료를 연계하는곳, 그 자료명은 아이템명에 + icon, prefeb 형식으로 지정. 
