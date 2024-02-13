@@ -7,9 +7,30 @@ public class UIChefUI : UIBase
     [SerializeField]
     GameObject[] m_subUies;
 
+    [SerializeField]
+    InputSlot[] m_inputCapitals;
+
     public void SetChefUI(int subCode, TokenTile _tile, TokenAction _action)
     {
         m_window.SetActive(true);
        // m_subUies[subCode].SetActive(true);
+    }
+
+    public void MixCapital()
+    {
+        List<(Capital, int)> resources = new(); //넣은 재료와 수량
+
+        for (int i = 0; i < m_inputCapitals.Length; i++)
+        {
+
+        }
+        //투약한 재료가 2개 이상인경우 
+        if(resources.Count>=2)
+        GamePlayMaster.GetInstance().RuleBook.MixCapital(resources);
+    }
+
+    public void OnChangedRecipe()
+    {
+        //재료가 바뀔때마다 
     }
 }

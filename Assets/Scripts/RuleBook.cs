@@ -298,13 +298,9 @@ public class RuleBook
     }
     #endregion
 
-    public void MixCapital(int a, int b, int c)
+    public void MixCapital(List<(Capital, int)> _resources)
     {
-        (Capital, int) in1 = (Capital.Red, a);
-        (Capital, int) in2 = (Capital.Green, b);
-        (Capital, int) in3 = (Capital.Yellow, c);
-        List<(Capital, int)> box = new List<(Capital, int)>{ in1, in2, in3 };
-        m_capitalRecipe.MixCapital(box);
+        m_capitalRecipe.MixCapital(_resources);
     }
 }
 
