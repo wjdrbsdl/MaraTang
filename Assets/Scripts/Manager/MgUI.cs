@@ -78,6 +78,8 @@ public class MgUI : MgGeneric<MgUI>
         m_shocaseUI.OpenWindow(_inputSlot);
     }
 
+
+    #region 활성화 UI 관리
     Stack<UIBase> m_uiStack = new();
     public bool CheckLastUI()
     {
@@ -118,4 +120,5 @@ public class MgUI : MgGeneric<MgUI>
             CancleLastUI();
         }
     }
+    #endregion
 }
