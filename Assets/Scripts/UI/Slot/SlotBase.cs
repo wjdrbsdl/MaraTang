@@ -217,7 +217,7 @@ public class SlotBase : MonoBehaviour, IDragHandler, IBeginDragHandler, IDropHan
         return m_slotType;
     }
 
-    public TokenBase GetItemBase()
+    public TokenBase GetTokenBase()
     {
         return m_token;
     }

@@ -44,7 +44,7 @@ public class ToolTip : MonoBehaviour
 
         //설정된 UI는 어딘지 적고 진행
         tooltip.TipSwitch(true);
-        tooltip.SetToolTip(_slot.GetItemBase());
+        tooltip.SetToolTip(_slot.GetTokenBase());
     }
 
     //커서 포인트 아웃으로 진행되는 종료 

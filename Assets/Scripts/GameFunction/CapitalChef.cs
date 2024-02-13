@@ -56,11 +56,12 @@ public class CapitalChef
 
     public Capital RecipeRule(List<Capital> _orderList)
     {
-        Capital finished = Capital.Yellow;
+        Capital tempFinished = Capital.Yellow;
 
         //투입된 순서로 조합 산출
+        tempFinished = _orderList[0]; //일단 첫번째걸로 조합되는걸로
 
-        return finished;
+        return tempFinished;
     }
 
     

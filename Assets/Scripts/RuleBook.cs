@@ -306,7 +306,9 @@ public class RuleBook
 
     public void MixCapital(List<(Capital, int)> _resources)
     {
-        m_capitalRecipe.MixCapital(_resources);
+       (Capital, int) mixed = m_capitalRecipe.MixCapital(_resources);
+
+        Debug.Log("산출된량" + mixed.Item1 + ":" + mixed.Item2);
     }
 }
 

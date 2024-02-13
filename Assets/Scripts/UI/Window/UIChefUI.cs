@@ -18,19 +18,25 @@ public class UIChefUI : UIBase
         //1. 선택한 재료 세팅할 부분
         m_window.SetActive(true);
         //2. 재료 선택할 쇼케이스 호출
-        int tempSelectMaxCount = 1;
+        int tempSelectMaxCount = 2;
         MgUI.GetInstance().ShowCaseOpen(m_rectTrans, OnChangeSelect, tempSelectMaxCount);
         //3. 이전 선택 초기화
         ResetRecord();
     }
 
-    public void MixCapital()
+    public void OnBtnMixCapital()
     {
         List<(Capital, int)> resources = new(); //넣은 재료와 수량
 
         for (int i = 0; i < m_inputCapitals.Length; i++)
         {
+            //1. 순서대로 활성화 되기 때문에 꺼져있으면 넣을 재료 끝난거
+            if (m_inputCapitals[i].gameObject.activeSelf == false)
+                break;
 
+            Capital inputCaptial = (Capital) m_inputCapitals[i].GetTokenBase().GetPid(); //자원 정보 빼오고 - Pid로 자원코드 관리
+            int amount = m_inputCapitals[i].GetAmount(); //해당 슬롯에 할당된 수량 빼옴
+            resources.Add((inputCaptial, amount)); //튜플로 추가
         }
         //투약한 재료가 2개 이상인경우 
         if(resources.Count>=2)
@@ -43,7 +49,7 @@ public class UIChefUI : UIBase
         string log = "";
         for (int i = 0; i < _selectedSlot.Count; i++)
         {
-            log += ((Capital)(_selectedSlot[i].GetItemBase().GetPid())).ToString() + "가 클릭됨\n";
+            log += ((Capital)(_selectedSlot[i].GetTokenBase().GetPid())).ToString() + "가 클릭됨\n";
         }
         Debug.Log(log);
 
@@ -54,7 +60,7 @@ public class UIChefUI : UIBase
         for (int i = 0; i < selectCount; i++)
         {
             m_inputCapitals[i].gameObject.SetActive(true);
-            m_inputCapitals[i].SetSlot(_selectedSlot[i].GetItemBase());
+            m_inputCapitals[i].SetSlot(_selectedSlot[i].GetTokenBase());
         }
         for (int close = selectCount; close < slotCount; close++)
         {

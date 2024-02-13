@@ -14,8 +14,8 @@ public class InputSlot : SlotBase
 
     public override void OnLeftClick()
     {
-        if (GetItemBase() != null)
-            Debug.Log(GetItemBase().GetPid() + "할당되어 있음 "+GetItemBase().GetStat(CapitalStat.Amount));
+        if (GetTokenBase() != null)
+            Debug.Log(GetTokenBase().GetPid() + "할당되어 있음 "+GetTokenBase().GetStat(CapitalStat.Amount));
     }
 
     public override void SetSlot(TokenBase _token)
@@ -23,6 +23,12 @@ public class InputSlot : SlotBase
         base.SetSlot(_token);
         max = _token.GetStat(CapitalStat.Amount); //최댓값 수정 
         tmpInput.text = 1.ToString(); //초기값 1 로 수정
+        selectedText.text = _token.GetItemName();
+    }
+
+    public int GetAmount()
+    {
+        return int.Parse(tmpInput.text);
     }
 
     private void RestrictValue()
