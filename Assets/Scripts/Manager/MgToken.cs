@@ -31,7 +31,7 @@ public class MgToken : MgGeneric<MgToken>
         public int t_xLength;
         public int t_yLength;
         public float t_rLength;
-        public GameObject[] t_tiles;
+        public GameObject[] t_tiles; //타일로 깔 샘플 - 필요가없음 나중에 동일 tile로 깔고, 
         public Transform t_box;
         public GameObject t_hideTile;
         public Transform t_hideBox;
