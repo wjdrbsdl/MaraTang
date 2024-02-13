@@ -63,6 +63,37 @@ public class TileMaker : MonoBehaviour
         MgToken.GetInstance().SetHideTiles(newHideMap); //만들어진 맵 정보 전달
     }
 
+    public List<int[]> DivideChunk(int _length)
+    {
+        //_length 길이 묶음으로 타일을 묶어서 청크화 -> 해당 청크별로 이벤트 발생이나 세력권등 짤 수 있는 구획이 됨. 
+        List<int[]> divided = new(); //
+        int xLength = GameUtil.GetMapLength(true);
+        int yLength = GameUtil.GetMapLength(false);
+        
+        //시작점 포인트를 체크 - 해당 시작점에서 가로세로 _length가 해당 청크에 있는 타일좌표들
+        for (int x = 0; x < xLength; x+=_length)
+        {
+            int xCode = x;
+            for (int y = 0; y < yLength; y+=_length)
+            {
+                int yCode = y;
+                divided.Add(new int[] { xCode, yCode });
+                //만약 마지막 구획이였다면
+                if(yCode + _length >= yLength)
+                {
+                    if(yCode != yLength - 1) //꼬투리를 잘 잘랐는지 보고 남았다면
+                    {
+                        divided.Add(new int[] { xCode, yLength - 1 }); //마지막 y 꼬투리도 추가
+                    }
+
+                }
+            }
+
+
+        }
+        return null;
+    }
+
     //노이즈 방식의 절차적 생성
     private float[,] MakeNoise(int _xLength, int _yLength, int _seed, float _noise, float _height)
     {
