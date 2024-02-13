@@ -16,13 +16,11 @@ public enum CapitalStat
 public class PlayerCapitalData
 {
     //게임을 플레이하면서 누적되는 데이터 
-    protected int[] m_intValues;
     private Dictionary<Capital, TokenBase> m_dicCapital;
     public static PlayerCapitalData g_instance;
     public PlayerCapitalData()
     {
         g_instance = this;
-        m_intValues = new int[System.Enum.GetValues(typeof(Capital)).Length];
         m_dicCapital = new();
     }
 
@@ -36,25 +34,6 @@ public class PlayerCapitalData
         {
             m_dicCapital.Add((Capital)_loadCapital[i].GetPid(), _loadCapital[i]);
         }
-    }
-
-    #region 스텟 배열 적용하는 부분
-    public int GetValue(System.Enum _enumIndex)
-    {
-        int index = GameUtil.ParseEnumValue(_enumIndex);
-        return m_intValues[index];
-    }
-    public void SetValue(System.Enum _enumIndex, int _value)
-    {
-        int index = GameUtil.ParseEnumValue(_enumIndex);
-        m_intValues[index] = _value;
-        //Debug.Log(m_tokenType + ": " + _enumIndex + ":" + m_tokenIValues[index]);
-    }
-    public void CalValue(System.Enum _enumIndex, int _value)
-    {
-        int index = GameUtil.ParseEnumValue(_enumIndex);
-        m_intValues[index] += _value;
-        //Debug.Log(m_tokenType + ": " + _enumIndex + ":" + m_tokenIValues[index]);
     }
 
     public void CalValue(Capital _capital, int _value)
@@ -83,14 +62,7 @@ public class PlayerCapitalData
         }
     }
 
-    #endregion
-
-    public int[] GetCapitalValue()
-    {
-        return m_intValues;
-    }
-
-    public Dictionary<Capital, TokenBase> GetCurrentCapital()
+    public Dictionary<Capital, TokenBase> GetHaveCapital()
     {
         return m_dicCapital;
     }

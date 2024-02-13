@@ -227,7 +227,8 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
         }
         else
         {
-            m_playerCapitalData.SetValue(_resource, _value);
+            //데이터를 불러온 경우 불러온대로 tokenBase 생성
+          //  m_playerCapitalData.SetValue(_resource, _value);
         }
 
         m_playGameUI.ResetCapitalInfo(m_playerCapitalData);

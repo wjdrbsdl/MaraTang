@@ -18,9 +18,9 @@ public class UIShowcase : UIBase
     {
         base.OpenWindow();
         //1. 캐릭터가 보유한 자원 리스트를 가져온다. 
-        int[] capitals = PlayerCapitalData.g_instance.GetCapitalValue();
+        Dictionary<Capital, TokenBase> haveCapitals = PlayerCapitalData.g_instance.GetHaveCapital();
 
-        MakeSamplePool<ShowcaseSlot>(ref m_showcaseSlots, m_showcaseSample.gameObject, capitals.Length, m_box);
+        MakeSamplePool<ShowcaseSlot>(ref m_showcaseSlots, m_showcaseSample.gameObject, haveCapitals.Count, m_box);
         m_selectAction = _selecttAction;
         for (int i = 0; i < m_showcaseSlots.Length; i++)
         {
