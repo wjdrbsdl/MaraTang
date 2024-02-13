@@ -38,12 +38,11 @@ public class MgUI : MgGeneric<MgUI>
         m_tileWorkShopUI.SetTileWorkShopInfo();
     }
 
-    public void ShowSubUI(int subCode, TokenTile _tile, TokenAction _action)
+    public void ShowCapitalChefUI(CapitalAction subCode, TokenTile _tile, TokenAction _action)
     {
-        if (subCode.Equals(1))
-        {
-            m_chefUI.SetChefUI(subCode, _tile, _action);
-        }
+      
+        m_chefUI.SetChefUI(subCode, _tile, _action);
+      
         m_uiStack.Push(m_chefUI);
     }
     #endregion

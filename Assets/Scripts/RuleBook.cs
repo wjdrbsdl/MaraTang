@@ -290,12 +290,9 @@ public class RuleBook
         //3 재료 관련 -> 벨류값으로 변환, 합성
         if (pid.Equals(3))
         {
-            int doCode = _action.GetStat(ActionStat.Value2);
+            CapitalAction doCode = (CapitalAction)_action.GetStat(ActionStat.Value2);
             //재료 변환 
-            if (doCode.Equals(1))
-            {
-                MgUI.GetInstance().ShowSubUI(1, _tile, _action);
-            }
+            MgUI.GetInstance().ShowCapitalChefUI(doCode, _tile, _action);
         }
         else
         {
@@ -310,5 +307,17 @@ public class RuleBook
 
         Debug.Log("산출된량" + mixed.Item1 + ":" + mixed.Item2);
     }
+
+    public void ChangeCapital((Capital, int) _input, Capital _outCapital)
+    {
+        (Capital, int) mixed = m_capitalRecipe.ChangeCapital(_input, _outCapital);
+
+        Debug.Log("변환된 량" + mixed.Item1 + ":" + mixed.Item2);
+    }
 }
 
+public enum CapitalAction
+{
+    //ActionToken 3번의 재료 합성 타입에서 추가 분류
+    MixCapital, ChageCapital
+}

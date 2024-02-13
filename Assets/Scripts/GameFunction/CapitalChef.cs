@@ -48,13 +48,20 @@ public class CapitalChef
             //원하는 재료를 넣었으면 위에서 다시 리셋해서 진행. 마지막에는 1재료만 남고 그재료가 뽑힘.
         }
 
-        finished.Item1 = RecipeRule(order);
+        finished.Item1 = RecipeMixRule(order);
         finished.Item2 = minAmount;
 
         return finished;
     }
 
-    public Capital RecipeRule(List<Capital> _orderList)
+    public (Capital, int) ChangeCapital((Capital, int) _input, Capital _outCapital)
+    {
+        int chagedAmount = 55;
+
+        return (_outCapital, chagedAmount);
+    }
+
+    private Capital RecipeMixRule(List<Capital> _orderList)
     {
         Capital tempFinished = Capital.Yellow;
 
