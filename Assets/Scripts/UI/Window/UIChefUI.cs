@@ -43,6 +43,6 @@ public class UIChefUI : UIBase
     public void RequestSlot(ShowcaseSlot _selectedSlot)
     {
         //선택받은 슬랏을 받고싶다. 
-        Debug.Log(_selectedSlot.m_testText + "가 클릭됨");
+        Debug.Log(((Capital)(_selectedSlot.GetItemBase().GetPid())).ToString() + "가 클릭됨");
     }
 }
