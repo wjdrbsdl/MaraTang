@@ -28,7 +28,7 @@ public class UICapital : UIBase
     private void SetButtons(PlayerCapitalData _capitalData)
     {
         //0이 아닌 자원의 수 활성화
-        int[] intVlaues = _capitalData.GetCapitalValue();
+        int capitalTypes = GameUtil.EnumLength(Capital.Blue);//총 자원수
         Dictionary<Capital, TokenBase> curCapitals = _capitalData.GetCurrentCapital();
         int setCount = 0; //정보 설정한 수
 
@@ -40,7 +40,7 @@ public class UICapital : UIBase
         }
         
         //세팅 된 숫자부터 그 뒤까진 비활성
-        for (int i = setCount; i < intVlaues.Length; i++)
+        for (int i = setCount; i < capitalTypes; i++)
         {
             m_capitalStats[i].gameObject.SetActive(false);
         }
