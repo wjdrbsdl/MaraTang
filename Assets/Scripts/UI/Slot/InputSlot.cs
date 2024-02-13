@@ -18,12 +18,14 @@ public class InputSlot : SlotBase
             Debug.Log(GetItemBase().GetPid() + "할당되어 있음 "+GetItemBase().GetStat(CapitalStat.Amount));
     }
 
-    public void SelectItem(string _itemName)
+    public override void SetSlot(TokenBase _token)
     {
-        selectedText.text = _itemName;
+        base.SetSlot(_token);
+        max = _token.GetStat(CapitalStat.Amount); //최댓값 수정 
+        tmpInput.text = 1.ToString(); //초기값 1 로 수정
     }
 
-    public void RestrictValue()
+    private void RestrictValue()
     {
         int inputValue = int.Parse(tmpInput.text);
         inputValue = Mathf.Max(min, inputValue);
