@@ -14,10 +14,7 @@ public class InputSlot : SlotBase
 
     public override void OnLeftClick()
     {
-        //1. 보유한 재료 전시 요청 
-        MgUI.GetInstance().ShowCaseOpen(this);
-        //2. 쇼케이스에서 선택한 재료로 InputSlot 세팅
-  
+    
     }
 
     public void SelectItem(string _itemName)

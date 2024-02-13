@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -73,9 +74,12 @@ public class MgUI : MgGeneric<MgUI>
 
     #endregion
 
-    public void ShowCaseOpen(InputSlot _inputSlot)
+    public void ShowCaseOpen(RectTransform _uiTransform, Action<ShowcaseSlot> _selectAction)
     {
-        m_shocaseUI.OpenWindow(_inputSlot);
+        //얘를 열고, 그 위치도 조정
+        m_shocaseUI.OpenWindow(_selectAction) ;
+        m_shocaseUI.SizeControl(_uiTransform);
+
     }
 
 

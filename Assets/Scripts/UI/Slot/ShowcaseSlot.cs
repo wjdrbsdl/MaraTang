@@ -5,18 +5,17 @@ using UnityEngine;
 
 public class ShowcaseSlot : SlotBase
 {
-    public InputSlot _callBackAction; //콜백받을 곳
-    private string m_testText;
+    private UIShowcase m_shocaseUI; //콜백받을 곳
+    public string m_testText;
 
-    public void ShowCaseSet(string text, InputSlot _backClass)
+    public void ShowCaseSet(string text, UIShowcase _shocaseUI)
     {
         m_testText = text;
-        _callBackAction = _backClass;
+        m_shocaseUI = _shocaseUI;
     }
 
     public override void OnLeftClick()
     {
-        MgUI.GetInstance().CancleLastUI();
-        _callBackAction.SelectItem(m_testText);
+        m_shocaseUI.SelectedSlot(this);
     }
 }
