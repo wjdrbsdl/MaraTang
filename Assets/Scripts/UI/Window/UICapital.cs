@@ -35,7 +35,7 @@ public class UICapital : UIBase
         foreach(KeyValuePair<Capital, TokenBase> item in curCapitals)
         {
             m_capitalStats[setCount].gameObject.SetActive(true);
-            m_capitalStats[setCount].SetCaptialInfo(item.Key, item.Value.GetStat(CapitalStat.Amount));
+            m_capitalStats[setCount].SetCaptialInfo(item.Value);
             setCount += 1; //세팅한 숫자 올리고
         }
         
