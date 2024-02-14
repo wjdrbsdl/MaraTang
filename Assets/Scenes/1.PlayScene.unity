@@ -259,6 +259,7 @@ MonoBehaviour:
   m_xLength: 20
   m_yLength: 15
   m_rLength: 3
+  m_chunkLength: 6
   m_seed: 0
   m_noise: 0.33
   m_playerObject: {fileID: 0}
