@@ -313,8 +313,6 @@ public class RuleBook
 
         capitalData.CalValue(_resources, false); //사용한만큼 감소 시키고
         capitalData.CalValue(mixed.Item1, mixed.Item2); //얻은 만큼 추가 시키고 
-
-        Debug.Log("산출된량" + mixed.Item1 + ":" + mixed.Item2);
     }
 
     public void ChangeCapital((Capital, int) _input, Capital _outCapital)
@@ -330,7 +328,6 @@ public class RuleBook
 
         capitalData.CalValue(_input.Item1, -_input.Item2); //사용한만큼 감소 시키고
         capitalData.CalValue(mixed.Item1, mixed.Item2); //얻은 만큼 추가 시키고 
-        Debug.Log("변환된 량" + mixed.Item1 + ":" + mixed.Item2);
     }
 }
 

@@ -99,14 +99,6 @@ public class UIChefUI : UIBase
 
     public void OnChangeSelect(List<ShowcaseSlot> _selectedSlot)
     {
-        //선택받은 슬랏을 받고싶다. 
-        string log = "";
-        for (int i = 0; i < _selectedSlot.Count; i++)
-        {
-            log += ((Capital)(_selectedSlot[i].GetTokenBase().GetPid())).ToString() + "가 클릭됨\n";
-        }
-        Debug.Log(log);
-
         int selectCount = _selectedSlot.Count;
         MakeSamplePool<InputSlot>(ref m_inputCapitals, m_sampleSlot.gameObject, selectCount, m_box);
         int slotCount = m_inputCapitals.Length;
