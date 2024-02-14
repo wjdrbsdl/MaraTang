@@ -92,7 +92,7 @@ public class MgToken : MgGeneric<MgToken>
         TMapBluePrint mapBluePrint = new TMapBluePrint(m_xLength, m_yLength, m_rLength, m_seed, m_noise, m_tiles, m_tileBox, m_hideTile, m_hideBox);
         m_tileMaker.MakeTopTypeMap(mapBluePrint);
         m_chunkCoordList = m_tileMaker.DivideChunk(m_chunkLength);
-        
+   
         //맵 크기에 따라 드래그 값 조정
         ClickToken.SetCamRestrict();
         ClickToken.SetDragRatio(m_rLength);

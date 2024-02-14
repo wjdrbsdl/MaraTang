@@ -281,6 +281,30 @@ public static class GameUtil
 
     #endregion
 
+    public static List<int[]> ExportChunkCoord(int[] _coord)
+    {
+        //청크 구획을 받으면 내부의 좌표를 모두 산출해서 반환 
+        List<int[]> tilesCoord = new();
+        int x = _coord[0];
+        int width = _coord[1];
+        int y = _coord[2];
+        int height = _coord[3];
+       
+        for (int xcoord = 0; xcoord < width; xcoord++)
+        {
+            int newX = x + xcoord;
+            for (int ycoord = 0; ycoord < height; ycoord++)
+            {
+                int newY = y + ycoord;
+                tilesCoord.Add(new int[]{ newX, newY });
+             
+            }
+        }
+       
+
+        return tilesCoord;
+    }
+
     /*
     빌드세팅에 디파인 옵션 넣고 가져오는법
         PlayerSettings.SetScriptingDefineSymbolsForGroup(ebuildTarget, m_Defines.ToString());
