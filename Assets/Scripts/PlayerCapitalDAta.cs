@@ -40,6 +40,8 @@ public class PlayerCapitalData
 
     public void CalValue(Capital _capital, int _value)
     {
+        string reward = string.Format("{0} 자원 {1} 확보", _capital, _value);
+        Announcer.Instance.AnnounceState(reward);
         //Debug.Log("추가된 루틴으로 들어옴" + _capital +"."+_value);
         if (m_dicCapital.ContainsKey(_capital))
         {
@@ -62,6 +64,7 @@ public class PlayerCapitalData
         {
             Debug.LogError("수량 체크 실패");
         }
+        MgUI.GetInstance().ResetCapitalInfo(this);
     }
 
     public void CalValue(List<(Capital, int)> _tradeList, bool isGain = true)

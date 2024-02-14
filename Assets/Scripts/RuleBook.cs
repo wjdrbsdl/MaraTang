@@ -253,8 +253,6 @@ public class RuleBook
         //이벤트 발생 -> 플레이어에게 이벤트 선택창 띄움 -> 플레이어가 선택 -> 선택된 이벤트 룰북에 전달 -> 룰북에서 적용 -> 플레이어에게 적용된거알림
 
         //어차피 AI한텐 안하고 Player만 하니까
-        
-        PlayerManager.GetInstance().AdaptCapitalStat(Capital.Green, 50, true);
         PlayerManager.GetInstance().DoneAdaptEvent(); //마지막에 이벤트 적용끝났음을 플레이어에게 전달. 
     }
     #endregion
@@ -284,7 +282,7 @@ public class RuleBook
         {
             Capital capitalCode = (Capital)_action.GetStat(ActionStat.Value2);
             int tempAgainValue = 50;
-            PlayerManager.GetInstance().AdaptCapitalStat(capitalCode, tempAgainValue, true);
+            PlayerCapitalData.g_instance.CalValue(capitalCode, tempAgainValue);
         }
         //2 건설 -> 그 뒤 벨류값들로 건설건물 index
         //3 재료 관련 -> 벨류값으로 변환, 합성

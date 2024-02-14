@@ -215,31 +215,6 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
 
     #endregion
 
-    //플레이어 자본 데이터 조정 
-    public void AdaptCapitalStat(Capital _resource, int _value, bool isCal)
-    {
-        string reward = string.Format("{0} 자원 {1} 확보", _resource, _value);
-        Announcer.Instance.AnnounceState(reward);
-        //기존데이터에 적용인지, 덮는건지 
-        if (isCal)
-        {
-            m_playerCapitalData.CalValue(_resource, _value);
-        }
-        else
-        {
-            //데이터를 불러온 경우 불러온대로 tokenBase 생성
-          //  m_playerCapitalData.SetValue(_resource, _value);
-        }
-
-        m_playGameUI.ResetCapitalInfo(m_playerCapitalData);
-    }
-
-    public void SetMainChar(TokenChar _mainChar)
-    {
-        _mainChar.isMainChar = true;
-        m_mainChar = _mainChar;
-    }
-
     public void OnChangePlayData()
     {
         m_playGameUI.ResetPlayData();
