@@ -308,10 +308,8 @@ public class RuleBook
             Announcer.Instance.AnnounceState("합성 재료 부족");
             return;
         }
-
-       (Capital, int) mixed = m_capitalRecipe.MixCapital(_resources);
-
         capitalData.CalValue(_resources, false); //사용한만큼 감소 시키고
+        (Capital, int) mixed = m_capitalRecipe.MixCapital(_resources);
         capitalData.CalValue(mixed.Item1, mixed.Item2); //얻은 만큼 추가 시키고 
     }
 
@@ -323,10 +321,8 @@ public class RuleBook
             Announcer.Instance.AnnounceState("변환 재료 부족");
             return;
         }
-
-        (Capital, int) mixed = m_capitalRecipe.ChangeCapital(_input, _outCapital);
-
         capitalData.CalValue(_input.Item1, -_input.Item2); //사용한만큼 감소 시키고
+        (Capital, int) mixed = m_capitalRecipe.ChangeCapital(_input, _outCapital);
         capitalData.CalValue(mixed.Item1, mixed.Item2); //얻은 만큼 추가 시키고 
     }
 }
