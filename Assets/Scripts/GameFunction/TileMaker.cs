@@ -71,7 +71,7 @@ public class TileMaker : MonoBehaviour
         int yLength = GameUtil.GetMapLength(false);
 
         //시작점 포인트를 체크 - 해당 시작점에서 가로세로 _length가 해당 청크에 있는 타일좌표들
-        string coord = "";
+    
         for (int x = 0; x < xLength; x+=_chunkLength)
         {
             int xCode = x;
@@ -91,10 +91,10 @@ public class TileMaker : MonoBehaviour
                     yWidth = yLength - yCode;
                 }
                 divided.Add(new int[] { xCode, xWidth, yCode, yWidth });
-                coord += string.Format("({0}+{1},{2}+{3}) \n", xCode, xWidth, yCode, yWidth);
+     
             }
         }
-        Debug.Log(coord);
+      
         return divided;
     }
 
