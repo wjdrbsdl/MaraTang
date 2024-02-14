@@ -29,7 +29,7 @@ public class UICapital : UIBase
     {
         //0이 아닌 자원의 수 활성화
         int capitalTypes = GameUtil.EnumLength(Capital.Blue);//총 자원수
-        Dictionary<Capital, TokenBase> curCapitals = _capitalData.GetHaveCapital();
+        Dictionary<Capital, TokenBase> curCapitals = _capitalData.GetHaveCapitalDic();
         int setCount = 0; //정보 설정한 수
 
         foreach(KeyValuePair<Capital, TokenBase> item in curCapitals)

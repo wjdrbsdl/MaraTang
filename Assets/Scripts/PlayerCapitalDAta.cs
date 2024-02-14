@@ -18,12 +18,13 @@ public class PlayerCapitalData
     //게임을 플레이하면서 누적되는 데이터 
     private Dictionary<Capital, TokenBase> m_dicCapital;
     public static PlayerCapitalData g_instance;
+
+    #region 생성
     public PlayerCapitalData()
     {
         g_instance = this;
         m_dicCapital = new();
     }
-
     //불러온 데이터로 로드시 
     public PlayerCapitalData(TokenBase[] _loadCapital)
     {
@@ -35,6 +36,7 @@ public class PlayerCapitalData
             m_dicCapital.Add((Capital)_loadCapital[i].GetPid(), _loadCapital[i]);
         }
     }
+    #endregion
 
     public void CalValue(Capital _capital, int _value)
     {
@@ -62,9 +64,42 @@ public class PlayerCapitalData
         }
     }
 
-    public Dictionary<Capital, TokenBase> GetHaveCapital()
+    public void CalValue(List<(Capital, int)> _tradeList, bool isGain = true)
+    {
+        int gain = 1; //획득
+        if (isGain == false)
+            gain = -1; //소비
+
+        for (int i = 0; i < _tradeList.Count; i++)
+        {
+            CalValue(_tradeList[i].Item1, gain*_tradeList[i].Item2);
+        }
+    }
+
+    public Dictionary<Capital, TokenBase> GetHaveCapitalDic()
     {
         return m_dicCapital;
     }
 
+    public bool IsEnough(Capital _capital, int _need)
+    {
+        if (m_dicCapital.ContainsKey(_capital) == false)
+            return false;
+
+        if (m_dicCapital[_capital].GetStat(CapitalStat.Amount) < _need)
+            return false;
+
+        return true;
+    }
+
+    public bool IsEnough(List<(Capital, int)> _needList)
+    {
+        for (int i = 0; i < _needList.Count; i++)
+        {
+            if (IsEnough(_needList[i].Item1, _needList[i].Item2) == false)
+                return false;
+        }
+
+        return true;
+    }
 }

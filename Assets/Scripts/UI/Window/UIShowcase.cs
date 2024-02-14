@@ -25,7 +25,7 @@ public class UIShowcase : UIBase
         m_selectedSlotList = new();
 
         //1. 캐릭터가 보유한 자원 리스트를 가져온다. 
-        Dictionary<Capital, TokenBase> haveCapitals = PlayerCapitalData.g_instance.GetHaveCapital();
+        Dictionary<Capital, TokenBase> haveCapitals = PlayerCapitalData.g_instance.GetHaveCapitalDic();
      
         MakeSamplePool<ShowcaseSlot>(ref m_showcaseSlots, m_showcaseSample.gameObject, haveCapitals.Count, m_box);
         
