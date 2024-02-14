@@ -2,12 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum MasterData
+{
+    TileAction
+}
+
 public class MgParsing : MgGeneric<MgParsing>
 {
     private string[] docuIDes = { "19xXN_chVCf-ZEsvAly-j-c69gjok0HIKYMaFcAk1Lqg" };
     private string[] sheetIDes = { "0" };
     private System.Enum[] parseTypes = { ActionStat.MaxCountInTurn };
-    private Dictionary<string, ParseContainer> dbContainer = new();
+    private Dictionary<string, ParseContainer> dbContainer = new(); //파싱한값을 그냥 갖고만 있는상태 - 사용하는곳에서 다시 가공 필요. 
     public struct ParseContainer
     {
         public List<int[]> MatchCode; //enum과 매치되는 인덱스

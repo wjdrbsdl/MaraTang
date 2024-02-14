@@ -426,7 +426,8 @@ public static class GameUtil
         }
     }
 
-    public static IEnumerator GetSheetDataCo(string[] documentID, string[] sheetID, System.Enum[] _enumValue, Action doneAct = null,  Action<bool, System.Enum, string> process = null)
+    public static IEnumerator GetSheetDataCo(string[] documentID, string[] sheetID, System.Enum[] _enumValue, Action doneAct = null, 
+        Action<bool, System.Enum, string> process = null)
     {
         int doneWork = documentID.Length; //처리해야할 숫자
         int curWork = 0;//처리한 숫자
