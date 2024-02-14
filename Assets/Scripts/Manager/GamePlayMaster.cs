@@ -254,10 +254,17 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     private void ReadyNextTurn()
     {
         SettleActionTurn(); //액션 턴 정산
-        SettleWorldTurn(); //월드 턴 정산
+        EffectEndTurn();
+        SettleWorldTurn(); //월드 턴 변화
         SettingPlayerTurn(); //플레이어 턴으로 세팅
         SetPlayDataUI(); //플레이 데이터 갱신
+        EffectStartTurn();
         StartActionTurn(); //액션 턴 시작
+    }
+
+    private void EffectEndTurn()
+    {
+        //효과 토큰중 턴이 끝날때 발휘 되는 부분 동작
     }
 
     private void SettleActionTurn()
@@ -277,10 +284,12 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
             MgToken.GetInstance().GetNpcPlayerList()[i].RecoverActionTokenCount();
         }
     }
+
     private void SettleWorldTurn()
     {
         AnnounceState("세계턴 변화 따짐 내용 없음");
         m_playData.PlayTime += 1; //여태 진행한 턴
+        MGContent.g_instance.NextWorldTurn();
         //컨텐츠 에서 무언가 발생 
 
     }
@@ -296,6 +305,11 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
         //AI 턴까지 끝나면 다시 리얼플레이어 턴으로 초기화 해서 시작 
         m_playerMemeber = PlayerMember.LivePlayer; //처음 유저로 플레이어 코드 변경. 
         
+    }
+
+    private void EffectStartTurn()
+    {
+
     }
 
     private void StartActionTurn()

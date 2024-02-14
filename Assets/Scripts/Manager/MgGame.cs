@@ -107,6 +107,8 @@ public class MgGame : MgGeneric<MgGame>
         Action mgCapital = delegate { m_capitalManager.InitiSet(); DoneInitiDataManager("mg자원셋끝"); };
         initiManagerStack.Enqueue(mgCapital);
 
+        MGContent content = new(); //인스턴스화
+
         DoneInitiDataManager("파싱 시작");
     }
     public void DoneInitiDataManager(string message)

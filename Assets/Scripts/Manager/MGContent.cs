@@ -4,7 +4,14 @@ using UnityEngine;
 
 public class MGContent 
 {
-    public void WriteStory()
+    public static MGContent g_instance;
+
+    public MGContent()
+    {
+        g_instance = this;
+    }
+
+    public void NextWorldTurn()
     {
         //진행도나 무언가에 따라서 컨텐츠 발생
 
