@@ -9,15 +9,15 @@ public class RuleBook
     public static GamePlayMaster m_PlayMaster;
     private RouteDisplay m_routeDisplayTool = new();
     private TokenAction[] m_tileActions;
-    private CapitalChef m_capitalRecipe = new();
-    public struct AttackReceipt
+    private CapitalRecipe m_capitalRecipe = new();
+    public struct TAttackRecipe
     {
         public float t_oriignDamage;
         public float t_reductedDamage;
         public TokenChar t_attacker;
         public int t_revengeStep; //공격한 단계
 
-        public AttackReceipt(TokenChar _attackChar, TokenAction _attackAction, int _revenge = 1)
+        public TAttackRecipe(TokenChar _attackChar, TokenAction _attackAction, int _revenge = 1)
         {
             //구조를 만들면서 내부에서 최종피해량 산출
             t_oriignDamage = _attackChar.GetPid() + 1000;
@@ -52,7 +52,7 @@ public class RuleBook
             if (t_revengeStep >= 2)
                 return;
 
-            AttackReceipt revenge = new AttackReceipt(_defenseChar, new TokenAction(), t_revengeStep +1);
+            TAttackRecipe revenge = new TAttackRecipe(_defenseChar, new TokenAction(), t_revengeStep +1);
             revenge.ApplyDamage(t_attacker);
 
         }
@@ -93,7 +93,7 @@ public class RuleBook
             //3. 해당 타겟에게 해당 공격의 효과를 적용 
             effectDelegate = delegate
             {
-                AttackReceipt attackReceipt = new AttackReceipt(_playChar, actionToken);
+                TAttackRecipe attackReceipt = new TAttackRecipe(_playChar, actionToken);
                 for (int i = 0; i < enemies.Count; i++)
                 {
                     Debug.Log(_playChar.GetItemName() + "이 " + enemies[i].GetItemName() + "를 공격");
@@ -303,15 +303,35 @@ public class RuleBook
 
     public void MixCapital(List<(Capital, int)> _resources)
     {
+        PlayerCapitalData capitalData = PlayerCapitalData.g_instance;
+
+        if (capitalData.IsEnough(_resources) == false)
+        {
+            Announcer.Instance.AnnounceState("합성 재료 부족");
+            return;
+        }
+
        (Capital, int) mixed = m_capitalRecipe.MixCapital(_resources);
+
+        capitalData.CalValue(_resources, false); //사용한만큼 감소 시키고
+        capitalData.CalValue(mixed.Item1, mixed.Item2); //얻은 만큼 추가 시키고 
 
         Debug.Log("산출된량" + mixed.Item1 + ":" + mixed.Item2);
     }
 
     public void ChangeCapital((Capital, int) _input, Capital _outCapital)
     {
+        PlayerCapitalData capitalData = PlayerCapitalData.g_instance;
+        if (capitalData.IsEnough(_input.Item1, _input.Item2) == false)
+        {
+            Announcer.Instance.AnnounceState("변환 재료 부족");
+            return;
+        }
+
         (Capital, int) mixed = m_capitalRecipe.ChangeCapital(_input, _outCapital);
 
+        capitalData.CalValue(_input.Item1, -_input.Item2); //사용한만큼 감소 시키고
+        capitalData.CalValue(mixed.Item1, mixed.Item2); //얻은 만큼 추가 시키고 
         Debug.Log("변환된 량" + mixed.Item1 + ":" + mixed.Item2);
     }
 }
