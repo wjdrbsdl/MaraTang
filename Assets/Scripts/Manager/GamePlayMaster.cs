@@ -262,7 +262,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
 
     private void SettleActionTurn()
     {
-        m_playData.PlayTime += 1; //여태 진행한 턴
+        
        // Debug.Log("행동 횟수 초기화");
         RecoverActionCount();
       //  Debug.Log("진행한 플레이어 넘버 초기화");
@@ -280,7 +280,9 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     private void SettleWorldTurn()
     {
         AnnounceState("세계턴 변화 따짐 내용 없음");
-      
+        m_playData.PlayTime += 1; //여태 진행한 턴
+        //컨텐츠 에서 무언가 발생 
+
     }
 
     private void SetPlayDataUI()
