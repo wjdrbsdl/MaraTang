@@ -124,6 +124,13 @@ public class RuleBook
         _char.GetObject().SyncObjectPosition();
     }
 
+    public static void FirstMigrate(TokenChar _char)
+    {
+        TokenTile tile = GameUtil.GetTileTokenFromMap(_char.GetMapIndex());
+        tile.Migrate(_char);
+        _char.GetObject().SyncObjectPosition();
+    }
+
     IEnumerator co_MoveAction(TokenChar _char, TokenTile _goalTile, Action effectAction)
     {
         //   Debug.Log("이동 코루틴 수행 단계" + m_MaxStep+"/ " + curStep);

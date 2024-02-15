@@ -164,7 +164,7 @@ public class MgToken : MgGeneric<MgToken>
         //좌표에 몬스터 생성
         TokenChar spawnMonster = MakeMonster(_monsterPid);
         spawnMonster.SetMapIndex(_position[0], _position[1]);
-        spawnMonster.GetObject().SyncObjectPosition();
+        RuleBook.FirstMigrate(spawnMonster);
         return spawnMonster;
     }
 
