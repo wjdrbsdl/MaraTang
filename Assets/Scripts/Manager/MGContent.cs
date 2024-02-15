@@ -6,6 +6,11 @@ public class MGContent
 {
     public static MGContent g_instance;
 
+    public void ReferenceSet()
+    {
+
+    }
+
     public enum ContentEnum
     {
         진행턴, 발생컨텐츠
