@@ -455,6 +455,33 @@ public static class GameUtil
     }
     #endregion
 
+    #region Token 에셋 로드
+    //오리지널 Class 생성시 필요한 유니티 자료를 연계하는곳, 그 자료명은 아이템명에 + icon, prefeb 형식으로 지정. 
+    public static void SetIconFromResource(TokenBase _token, string _resourcePath = null)
+    {
+        //클래스명 + Icon 으로 네이밍을해서 불러오며, sprite가 준비되지않은경우에는, testIcon으로 대체해서 진행하고, 이름도 바꿔서, json으로 미비된 부분을 확인할 수 있도록 하기
+        string iconName = _token.GetItemName()+" Icon";
+        Sprite sprite = Resources.Load<Sprite>(_resourcePath + iconName);
+        if (sprite == null)
+        {
+            iconName = "TestBear";
+            _token.TokenImage = Resources.Load<Sprite>(iconName);
+        }
+    }
+
+    public static void SetPrefebFromResource(TokenBase _token, string _resourcePath = null)
+    {
+        //리소스 폴더내에 따로 폴더를 통해 루트를 수정했으면 해당 수정된 루트를 입력
+        //일단은 CropPrefeb, SkillPrefeb 두 폴더를 상정 하고 최초 DB를 생성하는 DbItem.cs와 DbSkill.cs 에서 리셋할때 입력하도록 진행. 
+        string prefabName = _token.GetItemName() + " Prefeb";
+        GameObject load = Resources.Load<GameObject>(_resourcePath + prefabName);
+        if (load == null)
+        {
+            prefabName = "TestAttack";
+            _token.Prefab = Resources.Load<GameObject>(prefabName);
+        }
+    }
+    #endregion
 }
 
 public struct TMapIndex

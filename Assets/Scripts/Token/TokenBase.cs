@@ -8,13 +8,6 @@ public enum TokenTier
     Nomal, Magic, Rare, Unique, Legend
 }
 
-public enum CharExpand
-{
-    A
-}
-
-
-
 public enum TokenType
 {
     Tile, Char, Item, Action, Player, Capital
@@ -23,6 +16,7 @@ public enum TokenType
 [System.Serializable]
 public class TokenBase
 {
+    #region 데이터 변수
     [SerializeField]
     protected int[] m_tokenIValues; //각 토큰마다 사용할 벨류들을 enum으로 선언해서 인덱스로 사용
     [SerializeField]
@@ -32,13 +26,15 @@ public class TokenBase
     [SerializeField]
     protected TokenType m_tokenType;
     protected int m_tokenPid;
-    protected Sprite m_tokenImage;
-    protected GameObject m_prefeb; //뭔가 형태를 띄우고 싶을때 쓰는 부분. 
-    //[JsonProperty] 
     protected TokenTier m_tier;
-    // [JsonProperty] 
     protected string m_itemName;
+    #endregion
+
+    #region 유니티 변수
     protected ObjectTokenBase m_object;
+    public Sprite TokenImage;
+    public GameObject Prefab; //뭔가 형태를 띄우고 싶을때 쓰는 부분. 
+    #endregion
 
     #region 생성자
     public TokenBase()
@@ -58,44 +54,11 @@ public class TokenBase
     }
     #endregion
 
-    #region Reset
-    //오리지널 Class 생성시 필요한 유니티 자료를 연계하는곳, 그 자료명은 아이템명에 + icon, prefeb 형식으로 지정. 
-    public void SetIconFromResource(string _resourcePath = null)
-    {
-        //클래스명 + Icon 으로 네이밍을해서 불러오며, sprite가 준비되지않은경우에는, testIcon으로 대체해서 진행하고, 이름도 바꿔서, json으로 미비된 부분을 확인할 수 있도록 하기
-        string iconName = m_itemName + " Icon";
-        m_tokenImage = Resources.Load<Sprite>(_resourcePath + iconName);
-        if (m_tokenImage == null)
-        {
-            // Debug.LogError(iconName +" 확인필요");
-            if (iconName == " Icon")
-                Debug.LogError(this.GetType().Name);
-            iconName = "TestBear";
-            m_tokenImage = Resources.Load<Sprite>(iconName);
-        }
-    }
-
-    public void SetPrefebFromResource(string _resourcePath = null)
-    {
-        //리소스 폴더내에 따로 폴더를 통해 루트를 수정했으면 해당 수정된 루트를 입력
-        //일단은 CropPrefeb, SkillPrefeb 두 폴더를 상정 하고 최초 DB를 생성하는 DbItem.cs와 DbSkill.cs 에서 리셋할때 입력하도록 진행. 
-        string prefebName = m_itemName + " Prefeb";
-        m_prefeb = Resources.Load<GameObject>(_resourcePath + prefebName);
-        if (m_prefeb == null)
-        {
-            // Debug.LogError(prefebName+ " 없는 파일명 확인필요");
-            if (m_itemName == " Prefeb")
-                Debug.LogError(this.GetType().Name);
-            prefebName = "TestAttack";
-            m_prefeb = Resources.Load<GameObject>(prefebName);
-        }
-    }
-    #endregion
 
     #region Get Set
     public Sprite GetIcon()
     {
-        return m_tokenImage;
+        return TokenImage;
     }
 
     public string GetItemName()
@@ -126,8 +89,6 @@ public class TokenBase
     #endregion
 
     #region 스텟 배열 적용하는 부분
-  
-
     public int GetStat(System.Enum _enumIndex)
     {
         int index = GameUtil.ParseEnumValue(_enumIndex);
