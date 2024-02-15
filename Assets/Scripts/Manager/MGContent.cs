@@ -27,6 +27,12 @@ public class MGContent
         //1. 기존께 강화
         //2. 기존께 소멸
         //3. 기존꺼 유지 
+        Debug.Log("컨텐츠 활성화");
+        MonsterQuest();
     }
 
+    private void MonsterQuest()
+    {
+        MgToken.GetInstance().SpawnMonster(new int[] {3,3}, 1);
+    }
 }

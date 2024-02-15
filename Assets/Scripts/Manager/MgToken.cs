@@ -4,14 +4,7 @@ using UnityEngine;
 
 public class MgToken : MgGeneric<MgToken>
 {
-    /*모든 토큰을 생성 관리하는 곳
-    1. 맵 토큰 - 맵 메이커와 연계해서 맵형태에 맞게 생성
-    2. 캐릭터 토큰 - 맵 생계에 맞게 생성 
-    3. 액션 토큰 - 캐릭터에 맞게 생성
-    4. 이벤트 토큰, 재앙 토큰 등 그밖에 토큰들 생성 관리
-    */
-
-    //----------- 맵 생성 변수 ---- 맵 메이커로 이전시키고, 호출시킬때 값 넣도록 
+    #region 맵생성 변수
     [SerializeField]
     TileMaker m_tileMaker;
     public GameObject[] m_tiles;
@@ -28,7 +21,7 @@ public class MgToken : MgGeneric<MgToken>
 
     public int m_seed = 0;
     public float m_noise = 0.25f;
-
+   
     public struct TMapBluePrint
     {
         public int t_xLength;
@@ -57,11 +50,15 @@ public class MgToken : MgGeneric<MgToken>
     }
     private TokenTile[,] m_tileTokenes; //현재 맵의 타일 토큰
     private HideTile[,] m_hideTiles;
-    private List<TokenChar> m_npcTokens; //현재 맵에 생성된 npc 토큰들
+    #endregion
 
+    #region 토큰들 - 마스터 토큰과 생성된 토큰 모두 관리 
+    private List<TokenChar> m_npcTokens; //현재 맵에 생성된 npc 토큰들
     private TokenAction[] m_charActions; //캐릭터들이 사용할 액션 모음집 - 나중엔 딕션으로 관리
     private TokenAction[] m_tileActions; // 타일에서 사용가능한 보편적인 액션 모음집
+    #endregion
 
+    #region 리셋
     public override void InitiSet()
     {
         base.InitiSet();
@@ -84,6 +81,7 @@ public class MgToken : MgGeneric<MgToken>
         }
         
     }
+    #endregion
 
     #region 맵만들기
     public void MakeMap()
@@ -131,7 +129,10 @@ public class MgToken : MgGeneric<MgToken>
     #endregion
 
     #region 몬스터 토큰 생성
-    public List<ObjectTokenBase> m_mosterObject;
+    [Header("캐릭터 생성")]
+    [SerializeField] private Transform m_monsterBox;
+    [SerializeField] private ObjectTokenBase m_monsterObjSample;
+    [SerializeField] private List<ObjectTokenBase> m_mosterObject;
     public void MakeMonsterToken()
     {
         m_npcTokens = new List<TokenChar>();
@@ -148,6 +149,24 @@ public class MgToken : MgGeneric<MgToken>
 
         }
     }
+
+    private TokenChar MakeMonster(int _monsterPId)
+    {
+        TokenChar monsterToken = TokenChar.MakeTestMonsterToken("생성된 몹" +_monsterPId, _monsterPId);
+        ObjectTokenBase monster = Instantiate(m_monsterObjSample);
+        monster.gameObject.transform.SetParent(m_monsterBox);
+        monster.SetToken(monsterToken, TokenType.Char);
+        return monsterToken;
+    }
+
+    public void SpawnMonster(int[] _position, int _monsterPid)
+    {
+        //좌표에 몬스터 생성
+        TokenChar spawnMonster = MakeMonster(_monsterPid);
+        spawnMonster.SetMapIndex(_position[0], _position[1]);
+        spawnMonster.GetObject().SyncObjectPosition();
+    }
+
     #endregion
  
     #region 액션 토큰 생성
@@ -177,6 +196,7 @@ public class MgToken : MgGeneric<MgToken>
     }
     #endregion
 
+    #region Get
     public List<TokenChar> GetNpcPlayerList()
     {
         return m_npcTokens;
@@ -197,6 +217,7 @@ public class MgToken : MgGeneric<MgToken>
 
         return m_npcTokens[0];
     }
+    #endregion
 
     public void TempPosRandomPlayer(TokenChar _char)
     {
