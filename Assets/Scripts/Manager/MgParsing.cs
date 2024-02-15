@@ -6,6 +6,17 @@ public enum MasterData
 {
     TileActionData, ContentData
 }
+public struct ParseContainer
+{
+    public List<int[]> MatchCode; //enum과 매치되는 인덱스
+    public List<string[]> DbValueList; //디비에서 따온 값들
+
+    public ParseContainer(List<int[]> _matchCode, List<string[]> _dbValues)
+    {
+        MatchCode = _matchCode;
+        DbValueList = _dbValues;
+    }
+}
 
 public class MgParsing : MgGeneric<MgParsing>
 {
@@ -14,18 +25,7 @@ public class MgParsing : MgGeneric<MgParsing>
     private MasterData[] dbId = { MasterData.TileActionData, MasterData.ContentData };
     private System.Enum[] matchTypes = { ActionStat.MaxCountInTurn, MGContent.ContentEnum.발생컨텐츠 };
     private Dictionary<MasterData, ParseContainer> dbContainer = new(); //파싱한값을 그냥 갖고만 있는상태 - 사용하는곳에서 다시 가공 필요. 
-    public struct ParseContainer
-    {
-        public List<int[]> MatchCode; //enum과 매치되는 인덱스
-        public List<string[]> DbValueList; //디비에서 따온 값들
-
-        public ParseContainer(List<int[]>_matchCode, List<string[]> _dbValues)
-        {
-            MatchCode = _matchCode;
-            DbValueList = _dbValues;
-        }
-    }
-
+ 
     public override void InitiSet()
     {
         base.InitiSet();
