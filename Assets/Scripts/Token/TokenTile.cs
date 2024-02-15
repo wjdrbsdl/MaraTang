@@ -77,6 +77,9 @@ public class TokenTile : TokenBase
 
     public void ChangeViewState(TileViewState _toState)
     {
+        if (_toState.Equals(m_viewState))
+            return;
+
         if(_toState.Equals(TileViewState.Sight))
         GameUtil.GetHideTileFromMap(GetMapIndex()).FogOff();
     }

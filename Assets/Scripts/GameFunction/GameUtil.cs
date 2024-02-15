@@ -281,6 +281,7 @@ public static class GameUtil
 
     #endregion
 
+    #region 청크 계산
     public static List<int[]> ExportChunkCoord(int[] _coord)
     {
         //청크 구획을 받으면 내부의 좌표를 모두 산출해서 반환 
@@ -304,6 +305,7 @@ public static class GameUtil
 
         return tilesCoord;
     }
+    #endregion
 
     /*
     빌드세팅에 디파인 옵션 넣고 가져오는법
