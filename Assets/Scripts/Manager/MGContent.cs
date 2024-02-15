@@ -5,10 +5,22 @@ using UnityEngine;
 public class MGContent 
 {
     public static MGContent g_instance;
+    private ParseData parseData;
 
     public void ReferenceSet()
     {
+        parseData = MgParsing.GetInstance().GetMasterData(MasterData.ContentData);
 
+        string matchCode = "";
+        for (int i = 0; i < parseData.DbValueList.Count; i++)
+        {
+            for (int inter = 0; inter < parseData.DbValueList[i].Length; inter++)
+            {
+                matchCode += parseData.DbValueList[i][inter] + " ";
+            }
+            matchCode += "\n";
+        }
+        Debug.Log(matchCode);
     }
 
     public enum ContentEnum

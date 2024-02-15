@@ -181,7 +181,7 @@ public class MgToken : MgGeneric<MgToken>
 
     public void MakeTileActionToken()
     {
-        ParseContainer parseContainer = MgParsing.GetInstance().GetMasterData(MasterData.TileActionData);
+        ParseData parseContainer = MgParsing.GetInstance().GetMasterData(MasterData.TileActionData);
         List<TokenAction> tileactions = new();
         for (int i = 0; i < parseContainer.DbValueList.Count; i++)
         {

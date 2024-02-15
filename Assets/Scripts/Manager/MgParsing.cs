@@ -6,12 +6,12 @@ public enum MasterData
 {
     TileActionData, ContentData
 }
-public struct ParseContainer
+public struct ParseData
 {
     public List<int[]> MatchCode; //enum과 매치되는 인덱스
     public List<string[]> DbValueList; //디비에서 따온 값들
 
-    public ParseContainer(List<int[]> _matchCode, List<string[]> _dbValues)
+    public ParseData(List<int[]> _matchCode, List<string[]> _dbValues)
     {
         MatchCode = _matchCode;
         DbValueList = _dbValues;
@@ -24,14 +24,14 @@ public class MgParsing : MgGeneric<MgParsing>
     private string[] sheetIDes = { "0" , "85445904" };
     private MasterData[] dbId = { MasterData.TileActionData, MasterData.ContentData };
     private System.Enum[] matchTypes = { ActionStat.MaxCountInTurn, MGContent.ContentEnum.발생컨텐츠 };
-    private Dictionary<MasterData, ParseContainer> dbContainer = new(); //파싱한값을 그냥 갖고만 있는상태 - 사용하는곳에서 다시 가공 필요. 
+    private Dictionary<MasterData, ParseData> dbContainer = new(); //파싱한값을 그냥 갖고만 있는상태 - 사용하는곳에서 다시 가공 필요. 
  
     public override void InitiSet()
     {
         base.InitiSet();
         ParseSheetData();
     }
-    public ParseContainer GetMasterData(MasterData _dataId)
+    public ParseData GetMasterData(MasterData _dataId)
     {
         return dbContainer[_dataId];
     }
@@ -65,7 +65,7 @@ public class MgParsing : MgGeneric<MgParsing>
                 dbValueList.Add(valueDivde);
             }
             //6. 파싱코드에 - 인덱스 매칭 코드와 실제 값들을 struct로 묶어서 dctionary에 저장 
-            dbContainer.Add(parseData, new ParseContainer(matchCode, dbValueList));
+            dbContainer.Add(parseData, new ParseData(matchCode, dbValueList));
             
         }
         else
