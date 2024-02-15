@@ -34,6 +34,7 @@ public class TokenBase
     protected ObjectTokenBase m_object;
     public Sprite TokenImage;
     public GameObject Prefab; //뭔가 형태를 띄우고 싶을때 쓰는 부분. 
+    public MGContent.Quest QuestCard;
     #endregion
 
     #region 생성자
