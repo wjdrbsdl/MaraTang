@@ -6,6 +6,11 @@ public class MGContent
 {
     public static MGContent g_instance;
 
+    public enum ContentEnum
+    {
+        진행턴, 발생컨텐츠
+    }
+
     public MGContent()
     {
         g_instance = this;

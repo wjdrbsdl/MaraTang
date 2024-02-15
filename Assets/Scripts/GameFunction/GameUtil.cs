@@ -426,14 +426,14 @@ public static class GameUtil
         }
     }
 
-    public static IEnumerator GetSheetDataCo(string[] documentID, string[] sheetID, System.Enum[] _enumValue, Action doneAct = null, 
-        Action<bool, System.Enum, string> process = null)
+    public static IEnumerator GetSheetDataCo(string documentID, string[] sheetID, Action doneAct = null, 
+        Action<bool, int, string> process = null)
     {
-        int doneWork = documentID.Length; //처리해야할 숫자
+        int doneWork = sheetID.Length; //처리해야할 숫자
         int curWork = 0;//처리한 숫자
         while (curWork < doneWork)
         {
-            string url = $"https://docs.google.com/spreadsheets/d/{documentID[curWork]}/export?format=tsv&gid={sheetID[curWork]}";
+            string url = $"https://docs.google.com/spreadsheets/d/{documentID}/export?format=tsv&gid={sheetID[curWork]}";
 
             UnityWebRequest req = UnityWebRequest.Get(url);
 
@@ -442,12 +442,12 @@ public static class GameUtil
             if (req.result == UnityWebRequest.Result.ConnectionError || req.responseCode != 200)
             {
 
-                process?.Invoke(false, _enumValue[curWork], null);
+                process?.Invoke(false, curWork, null);
                 yield break;
 
             }
 
-            process?.Invoke(true, _enumValue[curWork], req.downloadHandler.text);
+            process?.Invoke(true, curWork, req.downloadHandler.text);
             curWork += 1;
         }
 
