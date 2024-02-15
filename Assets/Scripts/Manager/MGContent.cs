@@ -28,11 +28,25 @@ public class MGContent
         //2. 기존께 소멸
         //3. 기존꺼 유지 
         Debug.Log("컨텐츠 활성화");
-        MonsterQuest();
+        SelectContent();
+    }
+
+    private void SelectContent()
+    {
+        //미리 세팅해둔 컨텐츠 테이블에 따라 수행할것
+
+        //임시로 3턴 마다 몬스터 퀘스트 수행하도록 
+        GamePlayData data = GamePlayMaster.GetInstance().GetPlayData();
+        if (data.PlayTime % 3 == 0)
+            MonsterQuest();
     }
 
     private void MonsterQuest()
     {
-        MgToken.GetInstance().SpawnMonster(new int[] {3,3}, 1);
+        //스폰 시킨몬스터를 퀘스트 몬스터로
+        Debug.Log("몬스터 소환 컨텐츠");
+       TokenChar questMonster = MgToken.GetInstance().SpawnMonster(new int[] {3,3}, 1);
+        //컨텐츠 이벤트 등록은 여기서 따로 시행
+
     }
 }

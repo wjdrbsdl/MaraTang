@@ -159,12 +159,13 @@ public class MgToken : MgGeneric<MgToken>
         return monsterToken;
     }
 
-    public void SpawnMonster(int[] _position, int _monsterPid)
+    public TokenChar SpawnMonster(int[] _position, int _monsterPid)
     {
         //좌표에 몬스터 생성
         TokenChar spawnMonster = MakeMonster(_monsterPid);
         spawnMonster.SetMapIndex(_position[0], _position[1]);
         spawnMonster.GetObject().SyncObjectPosition();
+        return spawnMonster;
     }
 
     #endregion
