@@ -263,7 +263,7 @@ public class RuleBook
         //해당 타일을 가지고 가능한 액션을 뽑아줌. 
         List<TokenAction> ableList = new List<TokenAction>(m_tileActions);
         //1. tile의 값을 본다. 
-        if (_tile.GetStat(TileStat.TileType) == 1)
+        if (_tile.tileType == TileType.Farm)
         {
             ableList.RemoveAt(2);
         }

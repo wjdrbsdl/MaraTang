@@ -16,6 +16,12 @@ public struct ParseData
         MatchCode = _matchCode;
         DbValueList = _dbValues;
     }
+
+    public string[] ExportValues(int _idx)
+    {
+        //해당 인덱스의 스트링 배열만 인출 
+        return DbValueList[_idx];
+    }
 }
 
 public class MgParsing : MgGeneric<MgParsing>

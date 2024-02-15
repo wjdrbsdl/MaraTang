@@ -5,7 +5,7 @@ using TMPro;
 
 public enum TileType
 {
-
+    Nomal, Farm, Rock, Bake
 }
 
 public enum TileViewState
@@ -20,14 +20,14 @@ public enum TileAction
 
 public enum TileStat
 {
-    Height, TileType
+    Height
 }
 
 public class TokenTile : TokenBase
 {
     List<TokenChar> m_inTileCharList = new();
     [SerializeField]
-    private TileType m_tileType;
+    public TileType tileType;
     private TileViewState m_viewState = TileViewState.Fog;
     private TokenEvent m_enteranceEvent; //입장시 발동하는 이벤트가 있는가
     
@@ -38,11 +38,11 @@ public class TokenTile : TokenBase
     public TokenTile MakeTileToken()
     {
         TokenTile tileToken = new TokenTile();
-        tileToken.m_tokenIValues = new int[GameUtil.EnumLength(TileStat.TileType)];
+        tileToken.m_tokenIValues = new int[GameUtil.EnumLength(TileStat.Height)];
         tileToken.m_tokenType = TokenType.Tile;
         int ran = Random.Range(0, 2);
         if (ran.Equals(1))
-            tileToken.SetStatValue(TileStat.TileType, 1);
+            tileToken.tileType = TileType.Farm;
         
         return tileToken;
     }
