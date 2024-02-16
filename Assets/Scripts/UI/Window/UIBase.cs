@@ -6,7 +6,7 @@ public class UIBase : MonoBehaviour
 {
     [SerializeField] public GameObject m_window;
     public bool IsOnType = false; //m_window를 끄는 타입인가. 
-
+    public bool IsStackType = true; //switch로 온오프시 uiStack에 관계되는 타입인가 
     private void Start()
     {
         InitiUI();
@@ -49,6 +49,7 @@ public class UIBase : MonoBehaviour
     public virtual void OnWindow()
     {
         //켜질때면
+        if(IsStackType)
         MgUI.GetInstance().PushUIStack(this); //해당 유아이를 넣어보자. 
     }
 

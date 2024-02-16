@@ -33,9 +33,9 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
     #region 클릭- 한번, 더블, 취소
     public void ClickTokenObject(TokenBase _token)
     {
-        //플레이에서 Clicker로 클릭을 감지한 경우 이녀석으로 클릭한걸 넘긴다. 
-        //무슨 토큰을 눌렀나
+        //1. 선택 사운드
         m_soundMg.PlayEfx(actionSelectEFx);
+        //2. 스냅인포 갱신
         m_playGameUI.ResetSnapInfo(_token);
         TokenType tokenType = _token.GetTokenType();
         // Debug.Log(m_step + "에 " + tokenType + "눌림");
@@ -117,6 +117,11 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
     {
         //Debug.Log("액션 고름");
         m_soundMg.PlayEfx(actionSelectEFx);
+        if(!(m_curStep.Equals(GamePlayStep.ChooseChar) || m_curStep.Equals(GamePlayStep.SelectAct)))
+        {
+            //현재 상태가 캐릭터 선택이나 액션 고르는 단계가 아니면 작용 안됨. 
+            return;
+        }
         TokenAction actionToken = (TokenAction)_token;
         //0. 액션 토큰 사용 조건 확인
         if (GamePlayMaster.g_instance.RuleBook.IsAbleAction(m_curChar, actionToken) == false)
@@ -250,7 +255,7 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
         m_curStep = _step;
         if (m_curStep.Equals(GamePlayStep.ChooseChar))
         {
-            m_curChar = null;
+           // m_curChar = null;
             m_playGameUI.OffPlayUI();
             m_displayAction.OffActionDisplay();
             GamePlayMaster.g_instance.ResetEmphasize();
@@ -288,7 +293,7 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
         }
         if (m_curStep.Equals(GamePlayStep.EndTurn))
         {
-            m_curChar = null;
+           // m_curChar = null;
             m_curAction = null;
             GamePlayMaster.g_instance.ResetEmphasize();
             m_playGameUI.OffPlayUI();
