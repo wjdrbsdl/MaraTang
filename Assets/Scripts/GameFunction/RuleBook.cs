@@ -124,9 +124,10 @@ public class RuleBook
         _char.GetObject().SyncObjectPosition();
     }
 
-    public static void FirstMigrate(TokenChar _char)
+    public static void FirstMigrate(TokenChar _char, int[] _position)
     {
-        TokenTile tile = GameUtil.GetTileTokenFromMap(_char.GetMapIndex());
+        //
+        TokenTile tile = GameUtil.GetTileTokenFromMap(_position);
         tile.Migrate(_char);
         _char.GetObject().SyncObjectPosition();
     }
