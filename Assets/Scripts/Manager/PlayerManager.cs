@@ -157,8 +157,8 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
 
         //액션의 실제 수행여부는 상관없이 액션 횟수는 차감
         int needCount = m_curAction.GetStat(ActionStat.NeedActionCount);
-        m_curChar.CalStat(CharStat.CurActionCount, -needCount);
-
+        m_curChar.UseActionCount(needCount); 
+        m_curChar.UseActionEnergy(m_curAction.GetStat(ActionStat.NeedActionEnergy));
         GamePlayMaster.g_instance.PlayCharAction(m_curChar);
         
     }

@@ -48,6 +48,7 @@ public class TokenAction : TokenBase
             actionToken.SetStatValue(ActionStat.Range, 3);
             actionToken.SetStatValue(ActionStat.RemainCountInTurn, 2);
             actionToken.SetStatValue(ActionStat.MaxCountInTurn, 2);
+            actionToken.SetStatValue(ActionStat.NeedActionCount, 1);
         }
         else if (_type.Equals(ActionType.Attack))
         {
@@ -55,6 +56,7 @@ public class TokenAction : TokenBase
             actionToken.SetStatValue(ActionStat.Range, 1);
             actionToken.SetStatValue(ActionStat.RemainCountInTurn, 1);
             actionToken.SetStatValue(ActionStat.MaxCountInTurn, 1);
+            actionToken.SetStatValue(ActionStat.NeedActionCount, 2);
         }
         
         return actionToken;

@@ -161,6 +161,16 @@ public class TokenChar : TokenBase
     {
         m_tokenIValues[(int)CharStat.CurActionCount] = m_tokenIValues[(int)CharStat.MaxActionCount];
     }
+
+    public void UseActionCount(int _useCount = 1)
+    {
+        m_tokenIValues[(int)CharStat.CurActionCount] -= _useCount;
+    }
+
+    public void UseActionEnergy(int _useEnergy = 1)
+    {
+        m_tokenIValues[(int)CharStat.CurActionEnergy] -= _useEnergy;
+    }
     #endregion
 
     public void Death()

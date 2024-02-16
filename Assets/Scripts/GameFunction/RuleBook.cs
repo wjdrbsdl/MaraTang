@@ -73,8 +73,8 @@ public class RuleBook
         TokenAction actionToken = _playChar.GetNextActionToken();
         ActionType actionType = actionToken.GetActionType();
         //1. 액션토큰 횟수 감소
-        actionToken.CalStat(ActionStat.RemainCountInTurn, -1); //액션토큰의 사용 횟수 차감
-
+        actionToken.CalStat(ActionStat.RemainCountInTurn, -1); //액션토큰의 해당턴에서 가능한 사용 횟수 차감
+    
         int[] targetPos = actionToken.GetTargetPos();
 
         Action effectDelegate = null;
