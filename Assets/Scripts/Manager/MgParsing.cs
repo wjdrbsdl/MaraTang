@@ -60,14 +60,16 @@ public class MgParsing : MgGeneric<MgParsing>
             //2. sheetData 행마다 분리
             string[] enterDivde = message.Split('\n'); //엔터 - 행 분리
             //3. 첫번째 행은 enum string값 중 db로 관리할 목록을 칼럼명으로 적어놓은 부분
-            string[] dbValueCode = enterDivde[0].Trim().Split('\t'); //enumCode를 칼럼명으로 - 첫번째 행의 역할
+            string[] dbEnumCode = enterDivde[0].Trim().Split('\t'); //enumCode를 칼럼명으로 - 첫번째 행의 역할
             //4. sheet 열과 현재 enum에서 해당 칼럼명의 인덱스가 다를 수 있으므로 조정
-            List<int[]> matchCode = GameUtil.MakeMatchCode(parseEnum, dbValueCode);
+            List<int[]> matchCode = GameUtil.MakeMatchCode(parseEnum, dbEnumCode);
             //5. 나머지 행은 실제 값들.
             List<string[]> dbValueList = new();
             for (int i = 1; i < enterDivde.Length; i++) //1행부터 자료 값
             {
                 string[] valueDivde = enterDivde[i].Trim().Split('\t'); //탭 - 열 분리 
+     
+               // Debug.Log(parseData + "행 사이즈" + valueDivde.Length);
                 dbValueList.Add(valueDivde);
             }
             //6. 파싱코드에 - 인덱스 매칭 코드와 실제 값들을 struct로 묶어서 dctionary에 저장 
