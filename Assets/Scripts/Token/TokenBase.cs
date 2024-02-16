@@ -131,4 +131,10 @@ public class TokenBase
     }
 
     #endregion
+
+    public void SendQuestCallBack()
+    {
+        if (QuestCard != null)
+            QuestCard.SendQuestCallBack(this);
+    }
 }

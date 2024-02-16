@@ -168,7 +168,6 @@ public class TokenChar : TokenBase
         if (m_object != null)
             m_object.Death();
 
-        if(QuestCard!=null)
-        QuestCard.SendQuestCallBack(this);
+        SendQuestCallBack();
     }
 }
