@@ -84,12 +84,6 @@ public class TokenTile : TokenBase
         GameUtil.GetHideTileFromMap(GetMapIndex()).FogOff();
     }
 
-    public void GetInfoForTileWorkShop()
-    {
-        //해당 타일에서 가능한 액션을 계산하기 위한 정보를 받는곳 
-        //쓸지 안쓸지 모름. 
-    }
-
     public TokenEvent GetEneteranceEvent()
     {
         return m_enteranceEvent;
