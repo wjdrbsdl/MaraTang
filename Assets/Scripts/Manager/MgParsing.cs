@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum MasterData
+public enum EMasterData
 {
-    TileActionData, ContentData
+    TileActionData, ContentData, TileType
 }
 public struct ParseData
 {
@@ -27,17 +27,17 @@ public struct ParseData
 public class MgParsing : MgGeneric<MgParsing>
 {
     private static string docuIDes =  "19xXN_chVCf-ZEsvAly-j-c69gjok0HIKYMaFcAk1Lqg";
-    private string[] sheetIDes = { "0" , "85445904" };
-    private MasterData[] dbId = { MasterData.TileActionData, MasterData.ContentData };
-    private System.Enum[] matchTypes = { ActionStat.MaxCountInTurn, MGContent.ContentEnum.발생컨텐츠 };
-    private Dictionary<MasterData, ParseData> dbContainer = new(); //파싱한값을 그냥 갖고만 있는상태 - 사용하는곳에서 다시 가공 필요. 
+    private string[] sheetIDes = { "0" , "85445904", "1971334673" };
+    private EMasterData[] dbId = { EMasterData.TileActionData, EMasterData.ContentData, EMasterData.TileType };
+    private System.Enum[] matchTypes = { ActionStat.MaxCountInTurn, MGContent.ContentEnum.발생컨텐츠, EMasterData.ContentData };
+    private Dictionary<EMasterData, ParseData> dbContainer = new(); //파싱한값을 그냥 갖고만 있는상태 - 사용하는곳에서 다시 가공 필요. 
  
     public override void InitiSet()
     {
         base.InitiSet();
         ParseSheetData();
     }
-    public ParseData GetMasterData(MasterData _dataId)
+    public ParseData GetMasterData(EMasterData _dataId)
     {
         return dbContainer[_dataId];
     }
@@ -56,7 +56,7 @@ public class MgParsing : MgGeneric<MgParsing>
         if (_successLoad)
         {
             //1. 파싱한 타입 - 수동으로 변수에서 매칭해둔거docuID - parseTypes
-            MasterData parseData = dbId[_index];
+            EMasterData parseData = dbId[_index];
             //2. sheetData 행마다 분리
             string[] enterDivde = message.Split('\n'); //엔터 - 행 분리
             //3. 첫번째 행은 enum string값 중 db로 관리할 목록을 칼럼명으로 적어놓은 부분

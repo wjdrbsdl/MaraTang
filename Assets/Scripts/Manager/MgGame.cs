@@ -22,11 +22,14 @@ public class MgGame : MgGeneric<MgGame>
     SoundManager m_soundManager;
     [SerializeField]
     ObjTokenManager m_capitalManager;
-    MGContent contentManager;
+    
     [SerializeField]
-    MgUI m_playerGameUI; 
+    MgUI m_playerGameUI;
+
+    MGContent contentManager;
+    MgMasterData m_MasterDataManager;
     #endregion
- 
+
     void Start()
     {
         doneSetDataPart = false;
@@ -108,6 +111,7 @@ public class MgGame : MgGeneric<MgGame>
         initiManagerStack.Enqueue(mgCapital);
 
         contentManager = new(); //인스턴스화
+        m_MasterDataManager = new();
 
         DoneInitiDataManager("파싱 시작");
     }
@@ -142,6 +146,7 @@ public class MgGame : MgGeneric<MgGame>
     {
         m_tokenManager.ReferenceSet(); //두 클래스의 인스턴스 참조가 필요해서 나중에 해야함.
         contentManager.ReferenceSet();
+        m_MasterDataManager.ReferenceSet();
         DoneGameSetting();
     }
     public void DoneGameSetting()

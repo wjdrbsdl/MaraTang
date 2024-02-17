@@ -12,6 +12,8 @@ public class UITileWorkShop : UIBase
     [SerializeField]
     private BtnTileWorkShop[] m_workButtones;
 
+    private Dictionary<int, int[]> m_ableWorkData = new();
+
     public void SetTileWorkShopInfo()
     {
         Switch(true);

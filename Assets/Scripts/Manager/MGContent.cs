@@ -71,7 +71,7 @@ public class MGContent
     }
     public void ReferenceSet()
     {
-        parseData = MgParsing.GetInstance().GetMasterData(MasterData.ContentData);
+        parseData = MgParsing.GetInstance().GetMasterData(EMasterData.ContentData);
 
         string matchCode = "";
         for (int i = 0; i < parseData.DbValueList.Count; i++)

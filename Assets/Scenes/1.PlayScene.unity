@@ -450,6 +450,8 @@ MonoBehaviour:
     m_xIndex: 0
     m_yIndex: 0
     m_tokenType: 0
+    TokenImage: {fileID: 0}
+    Prefab: {fileID: 0}
   m_charIcon: {fileID: 0}
   m_actionIcon: {fileID: 0}
   m_animator: {fileID: 0}
@@ -904,6 +906,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_window: {fileID: 479520072}
   IsOnType: 0
+  IsStackType: 1
   m_sampleEventSlot: {fileID: 664245841}
   m_box: {fileID: 977439549}
   m_eventSlots: []
@@ -1164,6 +1167,8 @@ MonoBehaviour:
     m_xIndex: 0
     m_yIndex: 0
     m_tokenType: 0
+    TokenImage: {fileID: 0}
+    Prefab: {fileID: 0}
   m_charIcon: {fileID: 0}
   m_actionIcon: {fileID: 0}
   m_animator: {fileID: 0}
@@ -1252,6 +1257,8 @@ MonoBehaviour:
     m_xIndex: 0
     m_yIndex: 0
     m_tokenType: 0
+    TokenImage: {fileID: 0}
+    Prefab: {fileID: 0}
   m_icon: {fileID: 859622144}
   m_tierImage: {fileID: 0}
   m_slotType: 0
@@ -1564,6 +1571,8 @@ MonoBehaviour:
     m_xIndex: 0
     m_yIndex: 0
     m_tokenType: 0
+    TokenImage: {fileID: 0}
+    Prefab: {fileID: 0}
   m_icon: {fileID: 365173116}
   m_tierImage: {fileID: 0}
   m_slotType: 0
@@ -1699,6 +1708,8 @@ MonoBehaviour:
     m_xIndex: 0
     m_yIndex: 0
     m_tokenType: 0
+    TokenImage: {fileID: 0}
+    Prefab: {fileID: 0}
   m_charIcon: {fileID: 0}
   m_actionIcon: {fileID: 0}
   m_animator: {fileID: 0}
@@ -1994,6 +2005,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_window: {fileID: 1844609949}
   IsOnType: 0
+  IsStackType: 1
   m_contentForm: {fileID: 1844609949}
   m_charSlot: {fileID: 1772958389}
   m_actionSlot: {fileID: 1890620306}
@@ -2188,7 +2200,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_window: {fileID: 1043466008}
-  IsOnType: 0
+  IsOnType: 1
+  IsStackType: 0
   m_box: {fileID: 1043466009}
   m_sample: {fileID: 1406806245}
   m_playerActionSlots: []
@@ -2655,6 +2668,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_window: {fileID: 602225694}
   IsOnType: 1
+  IsStackType: 1
   m_box: {fileID: 1835124874}
   m_sample: {fileID: 583118286}
   m_capitalStats: []
@@ -2710,6 +2724,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_window: {fileID: 752581751}
   IsOnType: 1
+  IsStackType: 1
   m_Info: {fileID: 879209547}
 --- !u!1 &583118284
 GameObject:
@@ -3276,6 +3291,8 @@ MonoBehaviour:
     m_xIndex: 0
     m_yIndex: 0
     m_tokenType: 0
+    TokenImage: {fileID: 0}
+    Prefab: {fileID: 0}
   m_icon: {fileID: 664245842}
   m_tierImage: {fileID: 0}
   m_slotType: 0
@@ -3526,6 +3543,8 @@ MonoBehaviour:
     m_xIndex: 0
     m_yIndex: 0
     m_tokenType: 0
+    TokenImage: {fileID: 0}
+    Prefab: {fileID: 0}
   m_charIcon: {fileID: 403918757}
   m_actionIcon: {fileID: 1791091908}
   m_animator: {fileID: 686227106}
@@ -4049,6 +4068,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_window: {fileID: 1471571217}
   IsOnType: 0
+  IsStackType: 1
   m_tileActionBox: {fileID: 410241338}
   m_workButtonSample: {fileID: 1604524021}
   m_workButtones: []
@@ -6006,6 +6026,8 @@ MonoBehaviour:
     m_xIndex: 0
     m_yIndex: 0
     m_tokenType: 0
+    TokenImage: {fileID: 0}
+    Prefab: {fileID: 0}
   m_charIcon: {fileID: 1151728677}
   m_actionIcon: {fileID: 1209688827}
   m_animator: {fileID: 1204709713}
@@ -6815,6 +6837,8 @@ MonoBehaviour:
     m_xIndex: 0
     m_yIndex: 0
     m_tokenType: 0
+    TokenImage: {fileID: 0}
+    Prefab: {fileID: 0}
   m_charIcon: {fileID: 0}
   m_actionIcon: {fileID: 0}
   m_animator: {fileID: 0}
@@ -6999,6 +7023,8 @@ MonoBehaviour:
     m_xIndex: 0
     m_yIndex: 0
     m_tokenType: 0
+    TokenImage: {fileID: 0}
+    Prefab: {fileID: 0}
   m_icon: {fileID: 1406806246}
   m_tierImage: {fileID: 0}
   m_slotType: 0
@@ -7191,6 +7217,8 @@ MonoBehaviour:
     m_xIndex: 0
     m_yIndex: 0
     m_tokenType: 0
+    TokenImage: {fileID: 0}
+    Prefab: {fileID: 0}
   m_charIcon: {fileID: 0}
   m_actionIcon: {fileID: 0}
   m_animator: {fileID: 0}
@@ -7249,6 +7277,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_window: {fileID: 860120292}
   IsOnType: 0
+  IsStackType: 1
   m_showcaseSample: {fileID: 365173118}
   m_box: {fileID: 1909159876}
   m_showcaseSlots: []
@@ -7735,6 +7764,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_window: {fileID: 1686754019}
   IsOnType: 0
+  IsStackType: 1
   m_attackInfo: {fileID: 0}
   m_defenseInfo: {fileID: 0}
   m_worldInfo: {fileID: 0}
@@ -8467,6 +8497,8 @@ MonoBehaviour:
     m_xIndex: 0
     m_yIndex: 0
     m_tokenType: 0
+    TokenImage: {fileID: 0}
+    Prefab: {fileID: 0}
   m_charIcon: {fileID: 0}
   m_actionIcon: {fileID: 0}
   m_animator: {fileID: 0}
@@ -8610,7 +8642,7 @@ MonoBehaviour:
   b: 55
   c: 123
   m_isPlayAnimate: 1
-  TempAdaptActionCount: 0
+  TempAdaptActionCount: 1
   TempAdaptEvent: 0
 --- !u!4 &1653216243
 Transform:
@@ -9453,6 +9485,8 @@ MonoBehaviour:
     m_xIndex: 0
     m_yIndex: 0
     m_tokenType: 0
+    TokenImage: {fileID: 0}
+    Prefab: {fileID: 0}
   m_icon: {fileID: 1772958390}
   m_tierImage: {fileID: 0}
   m_slotType: 0
@@ -9789,6 +9823,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_window: {fileID: 761214187}
   IsOnType: 1
+  IsStackType: 1
   m_turnText: {fileID: 2122112579}
 --- !u!1 &1890620305
 GameObject:
@@ -9826,6 +9861,8 @@ MonoBehaviour:
     m_xIndex: 0
     m_yIndex: 0
     m_tokenType: 0
+    TokenImage: {fileID: 0}
+    Prefab: {fileID: 0}
   m_icon: {fileID: 1890620307}
   m_tierImage: {fileID: 0}
   m_slotType: 0
@@ -10020,6 +10057,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_window: {fileID: 1657087310}
   IsOnType: 0
+  IsStackType: 1
   m_subUies: []
   m_inputCapitals: []
   m_sampleSlot: {fileID: 198151385}
@@ -10501,6 +10539,8 @@ MonoBehaviour:
     m_xIndex: 0
     m_yIndex: 0
     m_tokenType: 0
+    TokenImage: {fileID: 0}
+    Prefab: {fileID: 0}
   m_charIcon: {fileID: 0}
   m_actionIcon: {fileID: 0}
   m_animator: {fileID: 0}
@@ -10670,6 +10710,8 @@ MonoBehaviour:
     m_xIndex: 0
     m_yIndex: 0
     m_tokenType: 0
+    TokenImage: {fileID: 0}
+    Prefab: {fileID: 0}
   m_icon: {fileID: 2077663698}
   m_tierImage: {fileID: 0}
   m_slotType: 0
