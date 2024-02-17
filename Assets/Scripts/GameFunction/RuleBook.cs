@@ -281,6 +281,12 @@ public class RuleBook
             TokenAction ableAction = m_tileActionDic[tileData.AbleTileWork[i]];
             ableList.Add(ableAction);
         }
+        //문제
+        /*
+         * 타일 액션은 해당 타일에 종속되어야하는데, 위는 원본 자료 참조 방식으로 모든 타일이 한 행동을 공유해서
+         * 사용 상태등이 공유 되버림. 
+         */
+
         
         return ableList.ToArray();
     }
