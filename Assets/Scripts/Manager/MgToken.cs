@@ -55,7 +55,7 @@ public class MgToken : MgGeneric<MgToken>
     #region 토큰들 - 마스터 토큰과 생성된 토큰 모두 관리 
     private List<TokenChar> m_npcTokens; //현재 맵에 생성된 npc 토큰들
     private TokenAction[] m_charActions; //캐릭터들이 사용할 액션 모음집 - 나중엔 딕션으로 관리
-    private TokenAction[] m_tileActions; // 타일에서 사용가능한 보편적인 액션 모음집
+    private Dictionary<int, TokenAction> m_tileActionDic; // 타일에서 사용가능한 보편적인 액션 모음집
     #endregion
 
     #region 리셋
@@ -181,18 +181,17 @@ public class MgToken : MgGeneric<MgToken>
     public void MakeTileActionToken()
     {
         ParseData parseContainer = MgParsing.GetInstance().GetMasterData(EMasterData.TileActionData);
-        List<TokenAction> tileactions = new();
+        m_tileActionDic = new();
         for (int i = 0; i < parseContainer.DbValueList.Count; i++)
         {
             TokenAction tileAction = new TokenAction(parseContainer.MatchCode, parseContainer.DbValueList[i]);
-            tileactions.Add(tileAction);
+            m_tileActionDic.Add(tileAction.GetPid(), tileAction);
         }
-        m_tileActions = tileactions.ToArray();
     }
 
-    public TokenAction[] GetTileActions()
+    public Dictionary<int, TokenAction> GetTileActions()
     {
-        return m_tileActions;
+        return m_tileActionDic;
     }
     #endregion
 

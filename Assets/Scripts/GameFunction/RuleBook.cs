@@ -8,7 +8,7 @@ public class RuleBook
 {
     public static GamePlayMaster m_PlayMaster;
     private RouteDisplay m_routeDisplayTool = new();
-    private TokenAction[] m_tileActions;
+    private Dictionary<int, TokenAction> m_tileActionDic;
     private CapitalRecipe m_capitalRecipe = new();
     public struct TAttackRecipe
     {
@@ -63,8 +63,8 @@ public class RuleBook
         //타일의 고유 속성값에 따라 가능한 액션이 다를 뿐 - 가능한 액션 풀은 모든 타일에서 동일
         //또한 액션에 사용되는 값 또한 타일마다 모두 동일 
         //따라서 한 액션타일 풀을 가지고 돌아가면서 사용가능. 
-        
-        m_tileActions = MgToken.GetInstance().GetTileActions(); 
+
+        m_tileActionDic = MgToken.GetInstance().GetTileActions(); 
     }
 
     #region 액션 수행 절차
