@@ -269,15 +269,19 @@ public class RuleBook
     public TokenAction[] RequestTileActions(TokenTile _tile)
     {
         //해당 타일을 가지고 가능한 액션을 뽑아줌. 
-        List<TokenAction> ableList = new List<TokenAction>(m_tileActions);
-        //1. tile의 값을 본다. 
-        if (_tile.tileType == TileType.Farm)
+        List<TokenAction> ableList = new List<TokenAction>();
+        //1.해당 타일의 pid를 확인
+        int tileType = (int)_tile.tileType;
+        //2. pid에 맞는 타일 데이터 가져옴
+        TileTypeData tileData = MgMasterData.g_instance.GetTileData()[tileType]; //해당 타입의 타일데이터를 가져옴
+        //3. 가능한 액션 토큰 배열을 순환
+        for (int i = 0; i < tileData.AbleTileWork.Length; i++)
         {
-            ableList.RemoveAt(2);
+            //4. 타일 데이터의 작업 가능한 액션 pid 리스트에 해당하는 타일액션들을 찾아서 반환
+            TokenAction ableAction = m_tileActionDic[tileData.AbleTileWork[i]];
+            ableList.Add(ableAction);
         }
-        //2. 미리정해둔 tileAction중에서 가능한걸 뽑는다.
-
-        // return ableList.ToArray();
+        
         return ableList.ToArray();
     }
 
