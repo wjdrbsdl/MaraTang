@@ -12,7 +12,7 @@ public enum TileDirection
 public static class GameUtil 
 {
     #region 타일 계산
-    public static List<int[]> GetTileIdxListInRange(int _range, int _centerX, int _centerY)
+    public static List<int[]> GetTileIdxListInRange(int _range, int _centerX, int _centerY, int _minRange = 0)
     {
         //   _1 _2
         //  /6    |3  왼쪽을 스타트로 해당 사거리 _range 단계만큼 TileDirection enum 방향으로 진행하면서 상대적 좌표 도출
@@ -22,21 +22,23 @@ public static class GameUtil
 
 
         int[] startPoint = {_centerX , _centerY}; //기준이되는 시작점을 센터로 잡음
-        rangedTile.Add(new int[] { _centerX, _centerY });
+        //최소 사거리가 0 일때만 원점 추가 
+        if(_minRange== 0)
+            rangedTile.Add(new int[] { _centerX, _centerY });
         //string resultLog = "";
         //한칸씩 주변을 돌면서 기록
-        for (int range = 1; range <= _range; range++)
+        for (int range = _minRange; range <= _range; range++)
         {
             //주변을 도는 6 방향 - TileDirection으로 매칭 -> RightUp방향으로 먼저 진행하므로, -1(살피려는 범위의 사거리)로 시작점을 조정
             startPoint[0] = _centerX - range;
-            for (int x = 0; x <= 5; x++)
+            for (int direction = 0; direction <= 5; direction++)
             {
                 //해당 방향으로 나아가는 횟수는 현재 살펴보는 range
                 for (int i = 1; i <= range; i++) //6방향으로 돔
                 {
                    // Debug.Log((TileDirection)x + "방향으로 " + i + "번 진행");
                    //1. 타일에서 특정방향으로 갈때 상대 좌표값 도출
-                    int[] newTile = GetTileFromDirect(startPoint[1], (TileDirection)x); 
+                    int[] newTile = GetTileFromDirect(startPoint[1], (TileDirection)direction); 
 
                     //2. 도출된 상대좌표에 기본 좌표값을 더하면 이동한 절대 좌표가 나옴. 
                     newTile[0] += startPoint[0];
@@ -60,14 +62,14 @@ public static class GameUtil
         return rangedTile;
     }
 
-    public static List<TokenTile> GetTileTokenListInRange(int _range, int _centerX, int _centerY)
+    public static List<TokenTile> GetTileTokenListInRange(int _range, int _centerX, int _centerY, int _minRange = 0)
     {
-       return GameUtil.GetTileIdxListInRange(_range, _centerX, _centerY).ConvertAll(new System.Converter<int[], TokenTile>(GetTileTokenFromMap)); // 사거리 내부 안의 타일 가져오기
+       return GameUtil.GetTileIdxListInRange(_range, _centerX, _centerY, _minRange).ConvertAll(new System.Converter<int[], TokenTile>(GetTileTokenFromMap)); // 사거리 내부 안의 타일 가져오기
     }
 
-    public static List<ObjectTokenBase> GetTokenObjectInRange(int _range, int _centerX, int _centerY)
+    public static List<ObjectTokenBase> GetTokenObjectInRange(int _range, int _centerX, int _centerY, int _minRange = 0)
     {
-        return GameUtil.GetTileIdxListInRange(_range, _centerX, _centerY).ConvertAll(new System.Converter<int[], ObjectTokenBase>(GetTokenObjectFromMap)); // 사거리 내부 안의 타일 가져오기
+        return GameUtil.GetTileIdxListInRange(_range, _centerX, _centerY, _minRange).ConvertAll(new System.Converter<int[], ObjectTokenBase>(GetTokenObjectFromMap)); // 사거리 내부 안의 타일 가져오기
     }
 
     public static int[] GetTileFromDirect(int _centerY, TileDirection _direction)

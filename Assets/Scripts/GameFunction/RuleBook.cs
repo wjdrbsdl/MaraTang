@@ -175,6 +175,9 @@ public class RuleBook
         int targetRange = GameUtil.GetMinRange(mapIndex);
 
         //Debug.Log(_char.GetXIndex() + "," + _char.GetYIndex() + "에서 " + _target.GetXIndex() + "," + _target.GetYIndex() + "거리는 " + targetRange);
+        if (targetRange < _action.GetStat(ActionStat.MinRange))
+            return false;
+
         if (_action.GetStat(ActionStat.Range) < targetRange)
            return false;
 

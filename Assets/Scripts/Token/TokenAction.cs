@@ -42,6 +42,7 @@ public class TokenAction : TokenBase
         actionToken.m_targetPos = null;
         actionToken.m_tokenType = TokenType.Action;
         actionToken.actionType = _type;
+        actionToken.SetStatValue(ActionStat.MinRange, 1);
         if (_type.Equals(ActionType.Move))
         {
             actionToken.actionTarget = TokenType.Tile;
