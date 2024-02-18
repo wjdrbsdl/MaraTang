@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8501867463564011304}
-  - component: {fileID: 7509150406540041615}
+  - component: {fileID: 2200763077419563700}
   m_Layer: 0
   m_Name: DamagePopup
   m_TagString: Untagged
@@ -39,7 +39,7 @@ RectTransform:
   m_AnchoredPosition: {x: 12.065633, y: 15.492167}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &7509150406540041615
+--- !u!114 &2200763077419563700
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -52,12 +52,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   permanent: 0
-  lifetime: 2
+  lifetime: 1
   unscaledTime: 0
   enable3DGame: 0
   faceCameraView: 1
   lookAtCamera: 0
-  renderThroughWalls: 0
+  renderThroughWalls: 1
   consistentScreenSize: 0
   distanceScalingSettings:
     baseDistance: 15
@@ -194,15 +194,15 @@ MonoBehaviour:
     fromNumber: 10
     toNumber: 100
   durationFadeIn: 0.2
-  enableOffsetFadeIn: 1
-  offsetFadeIn: {x: 0.5, y: 0}
+  enableOffsetFadeIn: 0
+  offsetFadeIn: {x: 0, y: 0.5}
   enableScaleFadeIn: 1
-  scaleFadeIn: {x: 2, y: 2}
+  scaleFadeIn: {x: 0.5, y: 2}
   enableCrossScaleFadeIn: 0
   crossScaleFadeIn: {x: 1, y: 1.5}
-  enableShakeFadeIn: 0
+  enableShakeFadeIn: 1
   shakeOffsetFadeIn: {x: 0, y: 1.5}
-  shakeFrequencyFadeIn: 4
+  shakeFrequencyFadeIn: 2
   durationFadeOut: 0.2
   enableOffsetFadeOut: 1
   offsetFadeOut: {x: 0.5, y: 0}
@@ -216,10 +216,10 @@ MonoBehaviour:
   enableLerp: 1
   lerpSettings:
     speed: 5
-    minX: -0.4
-    maxX: 0.4
-    minY: 0.5
-    maxY: 1
+    minX: 0
+    maxX: 0
+    minY: 0
+    maxY: 0
     randomFlip: 0
   enableVelocity: 0
   velocitySettings:
@@ -321,7 +321,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  spamGroup: 
+  spamGroup: Default
   enableCombination: 0
   combinationSettings:
     method: 0
@@ -341,17 +341,8 @@ MonoBehaviour:
         inWeight: 0
         outWeight: 0
       - serializedVersion: 3
-        time: 0.7
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
         time: 1
-        value: 0
+        value: 0.5
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -366,15 +357,6 @@ MonoBehaviour:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 0.5
         value: 1
         inSlope: 0
         outSlope: 0
@@ -458,7 +440,7 @@ MonoBehaviour:
     radius: 0.5
     pushFactor: 1
     desiredDirection: {x: 0, y: 0, z: 0}
-  enablePush: 0
+  enablePush: 1
   pushSettings:
     radius: 4
     pushOffset: 0.8
@@ -466,7 +448,7 @@ MonoBehaviour:
   enablePooling: 0
   poolSize: 50
   disableOnSceneLoad: 1
-  editorLastFont: Blood-Thin
+  editorLastFont: Saw-Neon
   position: {x: 0, y: 0, z: 0}
 --- !u!1 &2845574617134858852
 GameObject:
@@ -536,8 +518,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 1
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 3d2ad912ef2b822468ba9755e509025b, type: 2}
-  m_sharedMaterial: {fileID: -4316245157388792597, guid: 3d2ad912ef2b822468ba9755e509025b, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 9a9da3c6fe6d8674b979acf47b14f139, type: 2}
+  m_sharedMaterial: {fileID: -6900626577801905656, guid: 9a9da3c6fe6d8674b979acf47b14f139, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -671,10 +653,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: 1
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 3d2ad912ef2b822468ba9755e509025b, type: 2}
-  m_sharedMaterial: {fileID: -4316245157388792597, guid: 3d2ad912ef2b822468ba9755e509025b, type: 2}
-  m_fontSharedMaterials:
-  - {fileID: -4316245157388792597, guid: 3d2ad912ef2b822468ba9755e509025b, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 9a9da3c6fe6d8674b979acf47b14f139, type: 2}
+  m_sharedMaterial: {fileID: -6900626577801905656, guid: 9a9da3c6fe6d8674b979acf47b14f139, type: 2}
+  m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:

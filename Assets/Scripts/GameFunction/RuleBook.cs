@@ -36,6 +36,7 @@ public class RuleBook
         {
             float reductedDamage = CalDamageByDefense(_target);
             int damage = (int)reductedDamage;
+            PopupDamage.GetInstance().DamagePop(_target.GetObject().gameObject, damage);
             _target.CalStat(CharStat.CurActionEnergy, -damage);
             if (_target.GetStat(CharStat.CurActionEnergy) <= 0)
             {

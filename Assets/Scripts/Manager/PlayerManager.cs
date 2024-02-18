@@ -173,6 +173,7 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
     #region 플레이어 턴 수행 인터페이스
     public void PlayTurn()
     {
+        PopupDamage.GetInstance().DamagePop(m_mainChar.GetObject().gameObject, 10);
         if (GamePlayMaster.g_instance.m_testAuto)
         {
             Debug.Log("리얼 플레이어 자동 턴 종료 선언");
