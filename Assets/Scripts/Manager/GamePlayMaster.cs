@@ -253,6 +253,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
 
     private void ReadyNextTurn()
     {
+        PopupNextTurn();
         SettleActionTurn(); //액션 턴 정산
         EffectEndTurn();
         SettleWorldTurn(); //월드 턴 변화
@@ -260,6 +261,10 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
         SetPlayDataUI(); //플레이 데이터 갱신
         EffectStartTurn();
         StartActionTurn(); //액션 턴 시작
+    }
+    private void PopupNextTurn()
+    {
+        AlarmPopup.GetInstance().PopUpMessage("턴 바꿈");
     }
 
     private void EffectEndTurn()

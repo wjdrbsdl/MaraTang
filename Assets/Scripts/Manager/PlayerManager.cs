@@ -185,6 +185,13 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
     public void DoneCharAction(TokenChar _char)
     {
         ChangedPlayerStep(GamePlayStep.ChooseChar);//액션 수행이 되었으면 다시 캐릭선택상태로
+        AutoEnd();
+    }
+
+    private void AutoEnd()
+    {
+        if (m_mainChar.GetStat(CharStat.CurActionCount) == 0)
+            EndTurn();
     }
 
     public void EndTurn()
