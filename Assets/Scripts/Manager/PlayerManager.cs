@@ -91,7 +91,7 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
     {
         //어떤 도구로든 취소가 들어왓다면
         //1. 켜져있는 UI가 있으면 걔를 우선적으로 끌것
-        if (m_playGameUI.CheckLastUI())
+        if (m_playGameUI.CheckOpenUI())
         {
             //만약 펼쳐져있던 UI가 있으면 UI를 끄기 수행.
             m_playGameUI.CancleLastUI();

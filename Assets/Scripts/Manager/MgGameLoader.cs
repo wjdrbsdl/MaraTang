@@ -18,14 +18,6 @@ public class MgGameLoader : MonoBehaviour
     [SerializeField] private GameLoad m_gameLoad;
     [SerializeField] private GameObject m_loadScene;
 
-    //각 토큰의 원본 기본 데이터 
-    const string c_masterTileTable = "MasterTileTable";
-    const string c_masterCharTable = "MasterCharTable";
-    const string c_masterActionTable = "MasterActionTable";
-    private Dictionary<int, TokenTile> m_dicMasterTileToken = new();
-    private Dictionary<int, TokenChar> m_dicMasterCharToken = new();
-    private Dictionary<int, TokenAction> m_dicMasterActionToken = new();
-
     private void Awake()
     {
         g_instance = this; 
@@ -42,15 +34,6 @@ public class MgGameLoader : MonoBehaviour
         //맵 마스터 로드
         //캐릭 마스터 데이터 로드
         //액션 마스터 데이터 로드 등 각 모든 마스터 데이터 로드
-    }
-
-    public bool GetMasterTileData(int _pid, TokenTile masterTile)
-    {
-        if (m_dicMasterTileToken.TryGetValue(_pid, out masterTile))
-        {
-            return true; 
-        }
-        return false;
     }
 
     public void GameLoadButton(LoadMenuEnum _button)

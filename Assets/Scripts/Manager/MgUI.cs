@@ -84,7 +84,7 @@ public class MgUI : MgGeneric<MgUI>
 
     #region 활성화 UI 관리
     Stack<UIBase> m_uiStack = new();
-    public bool CheckLastUI()
+    public bool CheckOpenUI()
     {
         //행동 변화를 막을만한 UI가 펼쳐져 있는가
         
@@ -112,7 +112,8 @@ public class MgUI : MgGeneric<MgUI>
 
     public void PushUIStack(UIBase _ui)
     {
-        m_uiStack.Push(_ui);
+        if(m_uiStack.Contains(_ui) == false)
+            m_uiStack.Push(_ui);
     }
 
     public void OffPlayUI()
