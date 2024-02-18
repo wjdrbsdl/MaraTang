@@ -59,7 +59,7 @@ public class TokenTile : TokenBase
         _char.SetMapIndex(m_xIndex, m_yIndex);
     }
 
-    public void Immigrate(TokenChar _char)
+    public void RemoveToken(TokenChar _char)
     {
         //이주 보냈으면 리스트에서 제거
         m_inTileCharList.Remove(_char);

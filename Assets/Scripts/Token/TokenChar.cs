@@ -178,6 +178,9 @@ public class TokenChar : TokenBase
         if (m_object != null)
             m_object.Death();
 
+        TokenTile place = GameUtil.GetTileTokenFromMap(GetMapIndex());
+        place.RemoveToken(this);
+
         SendQuestCallBack();
     }
 }

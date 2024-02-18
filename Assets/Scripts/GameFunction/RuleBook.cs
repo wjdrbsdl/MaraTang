@@ -120,7 +120,7 @@ public class RuleBook
     public static void Migrate(TokenChar _char, TokenTile _targetTile)
     {
         //해당 타일로 해당 캐릭터를 이주 시키기 
-        MgToken.g_instance.GetMaps()[_char.GetXIndex(), _char.GetYIndex()].Immigrate(_char); //이사 보내고
+        MgToken.g_instance.GetMaps()[_char.GetXIndex(), _char.GetYIndex()].RemoveToken(_char); //이사 보내고
         _targetTile.Migrate(_char); //이사 넣고 
         _char.GetObject().SyncObjectPosition();
     }
