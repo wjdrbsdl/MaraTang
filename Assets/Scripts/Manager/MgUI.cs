@@ -33,12 +33,6 @@ public class MgUI : MgGeneric<MgUI>
         m_actionTokenBox.SetActionSlot(_char);
     }
 
-    public void ShowTileWorkShopUI()
-    {
-        m_uiStack.Push(m_tileWorkShopUI);
-        m_tileWorkShopUI.SetTileWorkShopInfo();
-    }
-
     public void ShowTokenObjectUI(TokenBase _token)
     {
         TokenType tokenType = _token.GetTokenType();
@@ -46,7 +40,7 @@ public class MgUI : MgGeneric<MgUI>
         if (tokenType.Equals(TokenType.Tile))
         {
             m_uiStack.Push(m_tileWorkShopUI);
-            m_tileWorkShopUI.SetTileWorkShopInfo();
+            m_tileWorkShopUI.SetTileWorkShopInfo((TokenTile)_token);
         }
         else if (tokenType.Equals(TokenType.Char))
         {

@@ -13,10 +13,10 @@ public class UITileWorkShop : UIBase
     private BtnTileWorkShop[] m_workButtones;
 
     
-    public void SetTileWorkShopInfo()
+    public void SetTileWorkShopInfo(TokenTile _tile)
     {
         Switch(true);
-        TokenTile _selectedTile = PlayerManager.GetInstance().GetSelectedTile();
+        TokenTile _selectedTile = _tile;
         bool inMain = IsInMainChar(_selectedTile);
         //Debug.Log("메인 캐릭 있다 " + inMain);
         TokenAction[] tileWorks = GamePlayMaster.GetInstance().RuleBook.RequestTileActions(_selectedTile);
