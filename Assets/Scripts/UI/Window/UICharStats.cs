@@ -9,49 +9,36 @@ public class UICharStats : UIBase
     [SerializeField]
     private Transform m_charStatBox; //액션 리스트 버튼 담을 장소
     [SerializeField]
-    private BtnTileWorkShop m_workButtonSample;
+    private BtnCharStatIntense m_statButtonSample;
     [SerializeField]
-    private BtnTileWorkShop[] m_workButtones;
+    private BtnCharStatIntense[] m_statkButtones;
+    private int setCount = 0;
+    private CharStat[] m_showStat = { };
 
-
-    public void SetTileWorkShopInfo()
+    public void SetCharStat(TokenChar _char)
     {
         Switch(true);
-        TokenTile _selectedTile = PlayerManager.GetInstance().GetSelectedTile();
-        bool inMain = IsInMainChar(_selectedTile);
-        //Debug.Log("메인 캐릭 있다 " + inMain);
-        TokenAction[] tileWorks = GamePlayMaster.GetInstance().RuleBook.RequestTileActions(_selectedTile);
-        setCount = tileWorks.Length;
+  
+        setCount = m_showStat.Length;
         //사용하는 만큼 버튼 활성화 
-        MakeSamplePool<BtnTileWorkShop>(ref m_workButtones, m_workButtonSample.gameObject, setCount, m_charStatBox);
+        MakeSamplePool<BtnCharStatIntense>(ref m_statkButtones, m_statButtonSample.gameObject, setCount, m_charStatBox);
         //버튼 세팅
-        SetButtons(_selectedTile, tileWorks);
+        SetButtons(_char);
 
     }
 
-    //타일 액션을 수행할 수 있는 캐릭이 안에 있어야 가능
-    private bool IsInMainChar(TokenTile _tile)
-    {
-        List<TokenChar> chars = _tile.GetCharsInTile();
-        for (int i = 0; i < chars.Count; i++)
-        {
-            if (chars[i].isMainChar)
-                return true;
-        }
-        return false;
-    }
-    int setCount = 0;
-    private void SetButtons(TokenTile _tile, TokenAction[] _workes)
+ 
+    private void SetButtons(TokenChar _char)
     {
 
-        for (int i = 0; i < setCount; i++)
+        for (int i = 0; i < m_showStat.Length; i++)
         {
-            m_workButtones[i].gameObject.SetActive(true);
-            m_workButtones[i].SetButtonInfo(_tile, _workes[i]);
+            m_statkButtones[i].gameObject.SetActive(true);
+            m_statkButtones[i].SetButton(_char, m_showStat[i]);
         }
-        for (int i = setCount; i < m_workButtones.Length; i++)
+        for (int i = setCount; i < m_statkButtones.Length; i++)
         {
-            m_workButtones[i].gameObject.SetActive(false);
+            m_statkButtones[i].gameObject.SetActive(false);
         }
     }
 }
