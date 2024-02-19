@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public enum TokenTier
+public enum Tier
 {
     Nomal, Magic, Rare, Unique, Legend
 }
@@ -26,7 +26,7 @@ public class TokenBase
     [SerializeField]
     protected TokenType m_tokenType;
     protected int m_tokenPid;
-    protected TokenTier m_tier;
+    protected Tier m_tier;
     protected string m_itemName;
     #endregion
 

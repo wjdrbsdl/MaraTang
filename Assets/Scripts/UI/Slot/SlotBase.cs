@@ -91,24 +91,24 @@ public class SlotBase : MonoBehaviour, IDragHandler, IBeginDragHandler, IDropHan
         m_icon.fillAmount = (_cool - _remain) / _cool;
     }
 
-    private void SetTier(TokenTier _tier)
+    private void SetTier(Tier _tier)
     {
         m_tierImage.enabled = true;
         switch (_tier)
         {
-            case TokenTier.Nomal:
+            case Tier.Nomal:
                 SetColor(Color.white);
                 break;
-            case TokenTier.Magic:
+            case Tier.Magic:
                 SetColor(Color.green);
                 break;
-            case TokenTier.Rare:
+            case Tier.Rare:
                 SetColor(Color.blue);
                 break;
-            case TokenTier.Unique:
+            case Tier.Unique:
                 SetColor(Color.magenta);
                 break;
-            case TokenTier.Legend:
+            case Tier.Legend:
                 SetColor(Color.yellow);
                 break;
         }
