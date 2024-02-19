@@ -74,7 +74,7 @@ public class RuleBook
         TokenAction actionToken = _playChar.GetNextActionToken();
         ActionType actionType = actionToken.GetActionType();
         //1. 액션토큰 횟수 감소
-        actionToken.CalStat(ActionStat.RemainCountInTurn, -1); //액션토큰의 해당턴에서 가능한 사용 횟수 차감
+        actionToken.CalStat(CharActionStat.RemainCountInTurn, -1); //액션토큰의 해당턴에서 가능한 사용 횟수 차감
     
         int[] targetPos = actionToken.GetTargetPos();
 
@@ -176,10 +176,10 @@ public class RuleBook
         int targetRange = GameUtil.GetMinRange(mapIndex);
 
         //Debug.Log(_char.GetXIndex() + "," + _char.GetYIndex() + "에서 " + _target.GetXIndex() + "," + _target.GetYIndex() + "거리는 " + targetRange);
-        if (targetRange < _action.GetStat(ActionStat.MinRange))
+        if (targetRange < _action.GetStat(CharActionStat.MinRange))
             return false;
 
-        if (_action.GetStat(ActionStat.Range) < targetRange)
+        if (_action.GetStat(CharActionStat.Range) < targetRange)
            return false;
 
         return true;
@@ -188,14 +188,14 @@ public class RuleBook
     public bool IsAbleAction(TokenChar _char, TokenAction _action)
     {
         //1. 액션의 소비 액션 카운트와 비교(액션소비카운트가 0 인 녀석인 경우 true)
-        if(_char.GetActionCount() < _action.GetStat(ActionStat.NeedActionCount))
+        if(_char.GetActionCount() < _action.GetStat(CharActionStat.NeedActionCount))
         {
             Announcer.Instance.AnnounceState("행동 카운트 부족");
             return false;
         }
 
         //2. 액션의 소비 에너지
-        if (_char.GetStat(CharStat.CurActionEnergy) < _action.GetStat(ActionStat.NeedActionEnergy))
+        if (_char.GetStat(CharStat.CurActionEnergy) < _action.GetStat(CharActionStat.NeedActionEnergy))
         {
             Announcer.Instance.AnnounceState("행동 에너지 부족");
             return false;
@@ -302,7 +302,7 @@ public class RuleBook
         //1 채집 -> 그 뒤 벨류값들로 캐피탈 인덱스
         if (pid.Equals(1))
         {
-            Capital capitalCode = (Capital)_action.GetStat(ActionStat.Value2);
+            Capital capitalCode = (Capital)_action.GetStat(CharActionStat.Value2);
             int tempAgainValue = 50;
             PlayerCapitalData.g_instance.CalValue(capitalCode, tempAgainValue);
         }
@@ -310,7 +310,7 @@ public class RuleBook
         //3 재료 관련 -> 벨류값으로 변환, 합성
         if (pid.Equals(3))
         {
-            CapitalAction doCode = (CapitalAction)_action.GetStat(ActionStat.Value2);
+            CapitalAction doCode = (CapitalAction)_action.GetStat(CharActionStat.Value2);
             //재료 변환 
             MgUI.GetInstance().ShowCapitalChefUI(doCode, _tile, _action);
         }

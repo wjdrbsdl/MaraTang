@@ -6,10 +6,21 @@ public enum ActionType
     Move, Attack
 }
 
-public enum ActionStat
+public enum CharActionStat
 {
    MinRange, Range, MinRatio, MaxCountInTurn, RemainCountInTurn, Power, NeedActionEnergy, NeedActionCount, Value2
 }
+
+public enum TileActionStat
+{
+    NeedActionEnergy, NeedActionCount, TileActionType, SubValue
+}
+
+public enum TileActionType
+{
+    Harvest = 1, Build, CapitalChef
+}
+
 
 [System.Serializable]
 public class TokenAction : TokenBase
@@ -30,36 +41,36 @@ public class TokenAction : TokenBase
     {
         m_tokenPid = int.Parse(valueCode[0]);
         m_itemName = valueCode[1];
-        m_tokenIValues = new int[System.Enum.GetValues(typeof(ActionStat)).Length];
+        m_tokenIValues = new int[System.Enum.GetValues(typeof(CharActionStat)).Length];
         GameUtil.InputMatchValue(ref m_tokenIValues, matchCode, valueCode);
-        m_tokenIValues[(int)ActionStat.RemainCountInTurn] = m_tokenIValues[(int)ActionStat.MaxCountInTurn];
+        m_tokenIValues[(int)CharActionStat.RemainCountInTurn] = m_tokenIValues[(int)CharActionStat.MaxCountInTurn];
     }
 
     public TokenAction MakeTestAction(ActionType _type)
     {
         TokenAction actionToken = new TokenAction();
-        actionToken.m_tokenIValues = new int[System.Enum.GetValues(typeof(ActionStat)).Length];
+        actionToken.m_tokenIValues = new int[System.Enum.GetValues(typeof(CharActionStat)).Length];
         actionToken.m_targetPos = null;
         actionToken.m_tokenType = TokenType.Action;
         actionToken.actionType = _type;
-        actionToken.SetStatValue(ActionStat.MinRange, 1);
+        actionToken.SetStatValue(CharActionStat.MinRange, 1);
         if (_type.Equals(ActionType.Move))
         {
             actionToken.actionTarget = TokenType.Tile;
-            actionToken.SetStatValue(ActionStat.Range, 3);
-            actionToken.SetStatValue(ActionStat.MinRatio, 2);
-            actionToken.SetStatValue(ActionStat.RemainCountInTurn, 2);
-            actionToken.SetStatValue(ActionStat.MaxCountInTurn, 2);
-            actionToken.SetStatValue(ActionStat.NeedActionCount, 1);
+            actionToken.SetStatValue(CharActionStat.Range, 3);
+            actionToken.SetStatValue(CharActionStat.MinRatio, 2);
+            actionToken.SetStatValue(CharActionStat.RemainCountInTurn, 2);
+            actionToken.SetStatValue(CharActionStat.MaxCountInTurn, 2);
+            actionToken.SetStatValue(CharActionStat.NeedActionCount, 1);
         }
         else if (_type.Equals(ActionType.Attack))
         {
             actionToken.actionTarget = TokenType.Char;
-            actionToken.SetStatValue(ActionStat.Range, 1);
-            actionToken.SetStatValue(ActionStat.MinRatio, 1);
-            actionToken.SetStatValue(ActionStat.RemainCountInTurn, 1);
-            actionToken.SetStatValue(ActionStat.MaxCountInTurn, 1);
-            actionToken.SetStatValue(ActionStat.NeedActionCount, 2);
+            actionToken.SetStatValue(CharActionStat.Range, 1);
+            actionToken.SetStatValue(CharActionStat.MinRatio, 1);
+            actionToken.SetStatValue(CharActionStat.RemainCountInTurn, 1);
+            actionToken.SetStatValue(CharActionStat.MaxCountInTurn, 1);
+            actionToken.SetStatValue(CharActionStat.NeedActionCount, 2);
         }
         
         return actionToken;
@@ -96,13 +107,13 @@ public class TokenAction : TokenBase
 
     public void RcoverRemainCountInTurn()
     {
-        m_tokenIValues[(int)ActionStat.RemainCountInTurn] = m_tokenIValues[(int)ActionStat.MaxCountInTurn];
+        m_tokenIValues[(int)CharActionStat.RemainCountInTurn] = m_tokenIValues[(int)CharActionStat.MaxCountInTurn];
     }
 
     public bool AbleUse()
     {
         //1. 남은 횟수가 1 이상이면
-        if (0 == m_tokenIValues[(int)ActionStat.RemainCountInTurn])
+        if (0 == m_tokenIValues[(int)CharActionStat.RemainCountInTurn])
         {
             return false;
         }
@@ -111,9 +122,9 @@ public class TokenAction : TokenBase
 
     public int GetFinalRange(TokenChar _char)
     {
-        int finalRange = GetStat(ActionStat.Range);
+        int finalRange = GetStat(CharActionStat.Range);
         int dex = _char.GetStat(CharStat.Dexility);
-        int ratio = GetStat(ActionStat.MinRatio);
+        int ratio = GetStat(CharActionStat.MinRatio);
         float ratioValue = (finalRange * dex * ratio * 0.01f);
         finalRange =(int)( finalRange + ratioValue);
         return finalRange;

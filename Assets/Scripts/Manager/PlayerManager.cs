@@ -157,9 +157,9 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
         ChangedPlayerStep(GamePlayStep.PlayAction);//내용을 채워서 액션수행 요청을 할때
 
         //액션의 실제 수행여부는 상관없이 액션 횟수는 차감
-        int needCount = m_curAction.GetStat(ActionStat.NeedActionCount);
+        int needCount = m_curAction.GetStat(CharActionStat.NeedActionCount);
         m_curChar.UseActionCount(needCount); 
-        m_curChar.UseActionEnergy(m_curAction.GetStat(ActionStat.NeedActionEnergy));
+        m_curChar.UseActionEnergy(m_curAction.GetStat(CharActionStat.NeedActionEnergy));
         GamePlayMaster.g_instance.PlayCharAction(m_curChar);
         
     }

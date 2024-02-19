@@ -145,7 +145,7 @@ public class AIPlayer : PlayerRule
             if (enemyRange <= charRange)
             {
                 //횟수가 남아있으면 공격 액션을 할당
-                if(nextAction.GetStat(ActionStat.RemainCountInTurn) >= 1)
+                if(nextAction.GetStat(CharActionStat.RemainCountInTurn) >= 1)
                 _char.SetNextAction(nextAction); //사거리이내라면 공격으로
 
                 //없으면 null 로 끝
@@ -156,7 +156,7 @@ public class AIPlayer : PlayerRule
 
         nextAction = _char.GetActionList()[0];
         //그밖에 행위는 일단 이동으로 - 남은 횟수 세서 할당
-        if(nextAction.GetStat(ActionStat.RemainCountInTurn) >= 1)
+        if(nextAction.GetStat(CharActionStat.RemainCountInTurn) >= 1)
          _char.SetNextAction(nextAction);
 
         //수행할 액션 중 남은 횟수가 없으면 null을 반환

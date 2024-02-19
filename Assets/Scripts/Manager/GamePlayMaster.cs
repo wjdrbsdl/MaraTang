@@ -350,7 +350,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     public void EmphasizeTargetObject(TokenChar _char, TokenAction _actionToken)
     {
         //토큰오브젝트를 강조하는 부분 (UI 부분은 UIPlayGame 에서 관리)
-        List<ObjectTokenBase> objList = GameUtil.GetTokenObjectInRange(_actionToken.GetFinalRange(_char), _char.GetXIndex(), _char.GetYIndex(), _actionToken.GetStat(ActionStat.MinRange));
+        List<ObjectTokenBase> objList = GameUtil.GetTokenObjectInRange(_actionToken.GetFinalRange(_char), _char.GetXIndex(), _char.GetYIndex(), _actionToken.GetStat(CharActionStat.MinRange));
         EmphasizeTool.Emphasize(objList);
     }
 
