@@ -297,20 +297,21 @@ public class RuleBook
 
     public void ConductTileAction(TokenTile _tile, TokenAction _action)
     {
-        int pid = _action.GetPid();
-        //pid로 행태 구별 
-        //1 채집 -> 그 뒤 벨류값들로 캐피탈 인덱스
-        if (pid.Equals(1))
+        TileActionType tileActionType = (TileActionType)_action.GetStat(TileActionStat.TileActionType);
+        //tileActionType으로 행태 구별 
+        //1 채집 
+        if (tileActionType.Equals(TileActionType.Harvest))
         {
-            Capital capitalCode = (Capital)_action.GetStat(CharActionStat.Value2);
+           // 서브 벨류 -> 캐피탈 인덱스
+            Capital capitalCode = (Capital)_action.GetStat(TileActionStat.SubValue);
             int tempAgainValue = 50;
             PlayerCapitalData.g_instance.CalValue(capitalCode, tempAgainValue);
         }
-        //2 건설 -> 그 뒤 벨류값들로 건설건물 index
+        
         //3 재료 관련 -> 벨류값으로 변환, 합성
-        if (pid.Equals(3))
+        if (tileActionType.Equals(TileActionType.CapitalChef))
         {
-            CapitalAction doCode = (CapitalAction)_action.GetStat(CharActionStat.Value2);
+            CapitalAction doCode = (CapitalAction)_action.GetStat(TileActionStat.SubValue);
             //재료 변환 
             MgUI.GetInstance().ShowCapitalChefUI(doCode, _tile, _action);
         }

@@ -62,9 +62,19 @@ public class MgToken : MgGeneric<MgToken>
     public override void InitiSet()
     {
         base.InitiSet();
-
+        SetTileSize();
         MakeMonsterToken();
         MakeTileActionToken();
+    }
+
+    private void SetTileSize()
+    {
+        for (int i = 0; i < m_tiles.Length; i++)
+        {
+            float size = m_rLength * 0.6666f; //1.5°¡ size 1¿¡ ºñ·Ê
+            Vector3 sizeVect = new Vector3(size, size, 1);
+            m_tiles[i].transform.localScale = sizeVect;
+        }
     }
 
     public override void ReferenceSet()
