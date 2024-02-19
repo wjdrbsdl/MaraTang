@@ -321,6 +321,13 @@ public class RuleBook
     }
     #endregion
 
+    #region 캐릭 스텟 강화
+    public void IntenseStat(TokenChar _targetChar, CharStat _targetStat)
+    {
+        _targetChar.CalStat(_targetStat, 100);
+    }
+    #endregion
+
     public void MixCapital(List<(Capital, int)> _resources)
     {
         PlayerCapitalData capitalData = PlayerCapitalData.g_instance;
