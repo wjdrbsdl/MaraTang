@@ -77,13 +77,14 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
     public void DoubleClickTokenObject(TokenBase _token)
     {
         //더블클릭한 토큰 타입에 따라 UI 세팅
-        TokenType tokenType = _token.GetTokenType();
-
-        if (tokenType.Equals(TokenType.Tile))
-        {
-            m_curTile = (TokenTile)_token;
-            m_playGameUI.ShowTileWorkShopUI();
-        }
+      //  TokenType tokenType = _token.GetTokenType();
+        m_selectedToken = _token;
+        //if (tokenType.Equals(TokenType.Tile))
+        //{
+        //    m_curTile = (TokenTile)_token;
+        //    m_playGameUI.ShowTileWorkShopUI();
+        //}
+        m_playGameUI.ShowTokenObjectUI(m_selectedToken);
             
     }
 
@@ -253,6 +254,12 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
     public TokenChar GetSelectedChar()
     {
         return m_curChar;
+    }
+
+    private TokenBase m_selectedToken;
+    public TokenBase GetSelectedToken()
+    {
+        return m_selectedToken;
     }
     #endregion
 

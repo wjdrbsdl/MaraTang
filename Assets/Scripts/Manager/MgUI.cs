@@ -11,6 +11,7 @@ public class MgUI : MgGeneric<MgUI>
     [SerializeField] private UIFillContent m_fillContentUI;
     [SerializeField] private UIEventContent m_eventContentUI;
     [SerializeField] private UITileWorkShop m_tileWorkShopUI;
+    [SerializeField] private UICharStats m_charStatUI;
     [SerializeField] private UIChefUI m_chefUI;
 
     [Header("데이터 표기")]
@@ -36,6 +37,22 @@ public class MgUI : MgGeneric<MgUI>
     {
         m_uiStack.Push(m_tileWorkShopUI);
         m_tileWorkShopUI.SetTileWorkShopInfo();
+    }
+
+    public void ShowTokenObjectUI(TokenBase _token)
+    {
+        TokenType tokenType = _token.GetTokenType();
+
+        if (tokenType.Equals(TokenType.Tile))
+        {
+            m_uiStack.Push(m_tileWorkShopUI);
+            m_tileWorkShopUI.SetTileWorkShopInfo();
+        }
+        else if (tokenType.Equals(TokenType.Char))
+        {
+            m_uiStack.Push(m_charStatUI);
+            m_charStatUI.SetCharStat((TokenChar)_token);
+        }
     }
 
     public void ShowCapitalChefUI(CapitalAction subCode, TokenTile _tile, TokenAction _action)
