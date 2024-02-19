@@ -562,6 +562,8 @@ MonoBehaviour:
     m_xIndex: 0
     m_yIndex: 0
     m_tokenType: 0
+    TokenImage: {fileID: 0}
+    Prefab: {fileID: 0}
   m_icon: {fileID: 3118113249914422221}
   m_tierImage: {fileID: 0}
   m_slotType: 0
