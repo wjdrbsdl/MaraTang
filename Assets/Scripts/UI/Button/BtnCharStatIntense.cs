@@ -7,11 +7,14 @@ public class BtnCharStatIntense : MonoBehaviour
 {
     [SerializeField]
     private TMP_Text m_statText;
+    [SerializeField]
+    private TMP_Text m_valueText;
     private TokenChar m_char;
     public void SetButton(TokenChar _char, CharStat _stat)
     {
         m_char = _char;
-        m_statText.text = _char.GetStat(_stat).ToString();
+        m_statText.text = _stat.ToString();
+        m_valueText.text = _char.GetStat(_stat).ToString();
     }
     public void OnButtonClick()
     {
