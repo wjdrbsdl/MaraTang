@@ -47,7 +47,7 @@ public class TokenAction : TokenBase
         {
             actionToken.actionTarget = TokenType.Tile;
             actionToken.SetStatValue(ActionStat.Range, 3);
-            actionToken.SetStatValue(ActionStat.MinRatio, 200);
+            actionToken.SetStatValue(ActionStat.MinRatio, 2);
             actionToken.SetStatValue(ActionStat.RemainCountInTurn, 2);
             actionToken.SetStatValue(ActionStat.MaxCountInTurn, 2);
             actionToken.SetStatValue(ActionStat.NeedActionCount, 1);
@@ -56,7 +56,7 @@ public class TokenAction : TokenBase
         {
             actionToken.actionTarget = TokenType.Char;
             actionToken.SetStatValue(ActionStat.Range, 1);
-            actionToken.SetStatValue(ActionStat.MinRatio, 100);
+            actionToken.SetStatValue(ActionStat.MinRatio, 1);
             actionToken.SetStatValue(ActionStat.RemainCountInTurn, 1);
             actionToken.SetStatValue(ActionStat.MaxCountInTurn, 1);
             actionToken.SetStatValue(ActionStat.NeedActionCount, 2);
@@ -107,5 +107,15 @@ public class TokenAction : TokenBase
             return false;
         }
         return true;
+    }
+
+    public int GetFinalRange(TokenChar _char)
+    {
+        int finalRange = GetStat(ActionStat.Range);
+        int dex = _char.GetStat(CharStat.Dexility);
+        int ratio = GetStat(ActionStat.MinRatio);
+        float ratioValue = (finalRange * dex * ratio * 0.01f);
+        finalRange =(int)( finalRange + ratioValue);
+        return finalRange;
     }
 }

@@ -297,7 +297,7 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
             //m_displayAction.OffActionDisplay();
 
             //4. 선택한 액션의 타겟 오브젝트 강조 표시
-            GamePlayMaster.g_instance.EmphasizeTargetObject(m_curChar.GetXIndex(), m_curChar.GetYIndex(), m_curAction); //기본 이동 거리 세팅 
+            GamePlayMaster.g_instance.EmphasizeTargetObject(m_curChar, m_curAction); //기본 이동 거리 세팅 
 
             return;
         }
