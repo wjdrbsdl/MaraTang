@@ -86,7 +86,7 @@ public class MGContent
     }
     #endregion
 
-    public void NextWorldTurn()
+    public void MakeContent()
     {
         //진행도나 무언가에 따라서 컨텐츠 발생
 
