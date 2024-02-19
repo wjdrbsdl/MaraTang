@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum CharStat
 {
-    MaxActionEnergy, CurActionEnergy, MaxActionCount, CurActionCount, Sight
+    MaxActionEnergy, CurActionEnergy, MaxActionCount, CurActionCount, Sight, Strenth, Dexility, Inteligent
 }
 
 public class TokenChar : TokenBase
