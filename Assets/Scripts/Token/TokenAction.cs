@@ -8,7 +8,7 @@ public enum ActionType
 
 public enum ActionStat
 {
-   MinRange, Range, MaxCountInTurn, RemainCountInTurn, Power, NeedActionEnergy, NeedActionCount, Value2
+   MinRange, Range, MinRatio, MaxCountInTurn, RemainCountInTurn, Power, NeedActionEnergy, NeedActionCount, Value2
 }
 
 [System.Serializable]
@@ -47,6 +47,7 @@ public class TokenAction : TokenBase
         {
             actionToken.actionTarget = TokenType.Tile;
             actionToken.SetStatValue(ActionStat.Range, 3);
+            actionToken.SetStatValue(ActionStat.MinRatio, 200);
             actionToken.SetStatValue(ActionStat.RemainCountInTurn, 2);
             actionToken.SetStatValue(ActionStat.MaxCountInTurn, 2);
             actionToken.SetStatValue(ActionStat.NeedActionCount, 1);
@@ -55,6 +56,7 @@ public class TokenAction : TokenBase
         {
             actionToken.actionTarget = TokenType.Char;
             actionToken.SetStatValue(ActionStat.Range, 1);
+            actionToken.SetStatValue(ActionStat.MinRatio, 100);
             actionToken.SetStatValue(ActionStat.RemainCountInTurn, 1);
             actionToken.SetStatValue(ActionStat.MaxCountInTurn, 1);
             actionToken.SetStatValue(ActionStat.NeedActionCount, 2);
