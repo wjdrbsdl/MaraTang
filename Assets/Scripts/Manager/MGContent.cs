@@ -8,7 +8,8 @@ public class MGContent
     public static MGContent g_instance;
     private ParseData parseData;
     private List<Quest> m_QuestReports = new List<Quest>();
-   
+    List<(int, bool)> m_QuestRecorde = new(); //과거 퀘스트의 기록
+
     public class Quest
     {
         //과제
@@ -135,5 +136,20 @@ public class MGContent
         questMonster.QuestCard = newQuest;
         //컨텐츠 이벤트 등록은 여기서 따로 시행
 
+    }
+
+    private void RecordQuest(Quest _quest)
+    {
+        int questPid = _quest.QuestPid;
+        bool questSucces = true;
+        m_QuestRecorde.Add((questPid, questSucces)); 
+    }
+
+    private void QuestReward()
+    {
+        //1.최근에 A 퀘스트를 완료했다. 
+        //2. A가 들어가는 퀘스트의 조건을 확인한다. 
+        //3. 보상을 지급한다 
+        //4. 퀘스트의 조합을 관리하는 퀘스트? 
     }
 }
