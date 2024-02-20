@@ -63,10 +63,7 @@ public class TileMaker : MonoBehaviour
         MgToken.GetInstance().SetHideTiles(newHideMap); //만들어진 맵 정보 전달
     }
 
-    public class Chunk
-    {
-        public int[,,] m_chunkedPos; // 청크상 a,b 위치에 있는 좌표 x,y = [a,b,0] , [a,b,1];
-    }
+  
 
     public List<int[]> DivideChunk(int _chunkLength)
     {
@@ -103,9 +100,9 @@ public class TileMaker : MonoBehaviour
         return divided;
     }
 
-    public List<TokenTile[,]> MakeChunk(List<int[]> _chunkedRecipe)
+    public List<Chunk> MakeChunk(List<int[]> _chunkedRecipe)
     {
-        List<TokenTile[,]> chunkedCoordi = new();
+        List<Chunk> ChunkLIst = new();
 
         for (int i = 0; i < _chunkedRecipe.Count; i++)
         {
@@ -120,14 +117,16 @@ public class TileMaker : MonoBehaviour
                 for (int y = 0; y < widthY; y++)
                 {
                     TokenTile tile = GameUtil.GetTileTokenFromMap(new int[] {startX+x, startY+y });
+                    tile.ChunkNum = i;
                     chunkedTile[x, y] = tile;
                 }
             }
-            chunkedCoordi.Add(chunkedTile);
+            Chunk newChunk = new Chunk(chunkedTile, i);
+            ChunkLIst.Add(newChunk);
         }
 
 
-        return chunkedCoordi;
+        return ChunkLIst;
     }
 
     //노이즈 방식의 절차적 생성
@@ -221,4 +220,20 @@ public class TileMaker : MonoBehaviour
         }
     }
     #endregion
+}
+
+public class Chunk
+{
+    public TokenTile[,] tiles;
+    public int ChunkNum;
+    public MGContent.Quest Quest;
+
+    public Chunk() { }
+
+    public Chunk(TokenTile[,] _tiles, int _num)
+    {
+        tiles = _tiles;
+        ChunkNum = _num;
+    }
+
 }

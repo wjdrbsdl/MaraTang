@@ -122,8 +122,22 @@ public class MGContent
         Quest newQuest = new(); //퀘스트 문서 생성 
         m_QuestReports.Add(newQuest); //리스트에 추가 
         Debug.Log("몬스터 소환 컨텐츠");
-        TokenChar questMonster = MgToken.GetInstance().SpawnMonster(new int[] {3,3}, 1); //몬스터의 경우 사망시에 설치
-        questMonster.QuestCard = newQuest;
+
+        int playerChunk = GameUtil.GetChunk(PlayerManager.GetInstance().GetMainChar().GetMapIndex());
+
+        for (int i = 0; i < MgToken.GetInstance().ChunkList.Count; i++)
+        {
+            //플레이어와 같은 청크는 패스. 
+            if (i.Equals(playerChunk))
+                continue;
+
+            Chunk chunk = MgToken.GetInstance().ChunkList[i];
+            //각 청크마다 몬스터 소환
+            int[] spawnCoord = chunk.tiles[0, 0].GetMapIndex();
+            TokenChar questMonster = MgToken.GetInstance().SpawnMonster(spawnCoord, 1); //몬스터의 경우 사망시에 설치
+            questMonster.QuestCard = newQuest;
+            chunk.Quest = newQuest;
+        }
         //컨텐츠 이벤트 등록은 여기서 따로 시행
 
     }

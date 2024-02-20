@@ -28,6 +28,7 @@ public class TokenTile : TokenBase
     List<TokenChar> m_inTileCharList = new();
     [SerializeField]
     public TileType tileType;
+    public int ChunkNum;
     private TileViewState m_viewState = TileViewState.Fog;
     private TokenEvent m_enteranceEvent; //입장시 발동하는 이벤트가 있는가
     
