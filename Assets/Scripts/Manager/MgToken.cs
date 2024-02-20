@@ -62,7 +62,9 @@ public class MgToken : MgGeneric<MgToken>
     public override void InitiSet()
     {
         base.InitiSet();
+
         SetTileSize();
+        MakeMap();
         MakeMonsterToken();
         MakeTileActionToken();
     }
@@ -79,7 +81,7 @@ public class MgToken : MgGeneric<MgToken>
 
     public override void ReferenceSet()
     {
-        MakeMap();
+     
         for (int i = 0; i < m_npcTokens.Count; i++)
         {
             TokenChar monsterToken = m_npcTokens[i];
