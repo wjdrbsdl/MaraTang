@@ -67,6 +67,13 @@ public class MgParsing : MgGeneric<MgParsing>
             List<string[]> dbValueList = new();
             for (int i = 1; i < enterDivde.Length; i++) //1행부터 자료 값
             {
+                if (enterDivde[i][0].Equals('#'))
+                {
+                    Debug.Log(enterDivde[i] + "이후 파싱 중지");
+                    break;
+                }
+                    
+
                 string[] valueDivde = enterDivde[i].Trim().Split('\t'); //탭 - 열 분리 
      
                // Debug.Log(parseData + "행 사이즈" + valueDivde.Length);
