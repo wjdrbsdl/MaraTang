@@ -25,13 +25,14 @@ public class MgInput : MonoBehaviour
     private static float m_camMaxY = 0f;
 
     Vector2 priorMousePosition = new Vector2();
-
+    KeyCode[] inputNum = { KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Alpha4, KeyCode.Alpha5 };
 
     private void Update()
     {
         LeftMouse();
         DragCam();
         InputCancle();
+        InputKeyBoard();
     }
 
     #region 클릭
@@ -210,6 +211,19 @@ public class MgInput : MonoBehaviour
         Camera.main.gameObject.transform.position = _moved; //카메라 허용범위 벗어난게 아니라면 위치 이동.
     }
     #endregion
+
+    private void InputKeyBoard()
+    {
+       
+        for (int i = 0; i < inputNum.Length; i++)
+        {
+            if (Input.GetKeyDown(inputNum[i]))
+            {
+                PlayerManager.GetInstance().InputActionSlot(i);
+            }
+        }
+        
+    }
 
     private void InputCancle()
     {

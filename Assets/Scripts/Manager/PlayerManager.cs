@@ -125,7 +125,11 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
     {
         //Debug.Log("액션 고름");
         m_soundMg.PlayEfx(actionSelectEFx);
-        if(!(m_curStep.Equals(GamePlayStep.ChooseChar) || m_curStep.Equals(GamePlayStep.SelectAct)))
+        if(
+          (m_curStep.Equals(GamePlayStep.ChooseChar) ||
+          m_curStep.Equals(GamePlayStep.SelectAct)|| 
+          m_curStep.Equals(GamePlayStep.FillContent)) 
+           == false)
         {
             //현재 상태가 캐릭터 선택이나 액션 고르는 단계가 아니면 작용 안됨. 
             return;
@@ -176,6 +180,17 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
         GamePlayMaster.GetInstance().PlayTileAction(_selectedToken, _tileAction);
     }
     #endregion
+
+    public void InputActionSlot(int _index)
+    {
+        if (m_curChar == null)
+            return;
+
+        if (m_curChar.GetActionList().Count <= _index)
+            return;
+
+        SelectActionToken( m_curChar.GetActionList()[_index]);
+    }
     #endregion
 
     #region 플레이어 턴 수행 인터페이스
