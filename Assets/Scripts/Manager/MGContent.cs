@@ -62,7 +62,7 @@ public class MGContent
             if (m_mainCharChunk.Equals(moveChunk) == false)
             {
                 //다른 청크로 이동한거면
-                Debug.Log(moveChunk + "번 청크 퀘스트 수행");
+             //   Debug.Log(moveChunk + "번 청크 퀘스트 수행");
                 
             }
             m_mainCharChunk = moveChunk;
@@ -92,7 +92,7 @@ public class MGContent
         //스폰 시킨몬스터를 퀘스트 몬스터로
         Quest newQuest = new(); //퀘스트 문서 생성 
         m_QuestReports.Add(newQuest); //리스트에 추가 
-        Debug.Log("몬스터 소환 컨텐츠");
+      //  Debug.Log("몬스터 소환 컨텐츠");
 
         m_mainCharChunk = GameUtil.GetChunkNum(PlayerManager.GetInstance().GetMainChar().GetMapIndex());
 

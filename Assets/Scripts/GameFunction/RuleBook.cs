@@ -40,7 +40,7 @@ public class RuleBook
             _target.CalStat(CharStat.CurActionEnergy, -damage);
             if (_target.GetStat(CharStat.CurActionEnergy) <= 0)
             {
-                Debug.Log(_target.GetItemName()+"사망 체력"+ _target.GetStat(CharStat.CurActionEnergy));
+           //     Debug.Log(_target.GetItemName()+"사망 체력"+ _target.GetStat(CharStat.CurActionEnergy));
                 _target.Death();
                 return;
             }
@@ -49,7 +49,7 @@ public class RuleBook
 
         public void Revenge(TokenChar _defenseChar)
         {
-            Debug.Log("복수의 굴레 :" + t_revengeStep);
+         //   Debug.Log("복수의 굴레 :" + t_revengeStep);
             if (t_revengeStep >= 2)
                 return;
 
@@ -84,7 +84,7 @@ public class RuleBook
         //2. 공격은 타겟 지점 기준 범위내 적을 선별하여 어택
         if (actionType == ActionType.Attack)
         {
-            Debug.Log("어택 내용 수행한다");
+          //  Debug.Log("어택 내용 수행한다");
             //수정본
             //0. 겉으로 드러나는 액션은 1개. 휘두르거나 찌르거나 발사하거나 
             //1. 해당 공격액션의 범위를 설정
@@ -97,7 +97,7 @@ public class RuleBook
                 TAttackRecipe attackReceipt = new TAttackRecipe(_playChar, actionToken);
                 for (int i = 0; i < enemies.Count; i++)
                 {
-                    Debug.Log(_playChar.GetItemName() + "이 " + enemies[i].GetItemName() + "를 공격");
+                 //   Debug.Log(_playChar.GetItemName() + "이 " + enemies[i].GetItemName() + "를 공격");
                     attackReceipt.ApplyDamage(enemies[i]);
                 }
             };
