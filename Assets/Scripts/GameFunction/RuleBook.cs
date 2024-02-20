@@ -305,7 +305,7 @@ public class RuleBook
            // 서브 벨류 -> 캐피탈 인덱스
             Capital capitalCode = (Capital)_action.GetStat(TileActionStat.SubValue);
             int tempAgainValue = 50;
-            PlayerCapitalData.g_instance.CalValue(capitalCode, tempAgainValue);
+            PlayerCapitalData.g_instance.CalCapital(capitalCode, tempAgainValue);
         }
         
         //3 재료 관련 -> 벨류값으로 변환, 합성
@@ -340,7 +340,7 @@ public class RuleBook
         }
         capitalData.CalValue(_resources, false); //사용한만큼 감소 시키고
         (Capital, int) mixed = m_capitalRecipe.MixCapital(_resources);
-        capitalData.CalValue(mixed.Item1, mixed.Item2); //얻은 만큼 추가 시키고 
+        capitalData.CalCapital(mixed.Item1, mixed.Item2); //얻은 만큼 추가 시키고 
     }
 
     public void ChangeCapital((Capital, int) _input, Capital _outCapital)
@@ -351,9 +351,9 @@ public class RuleBook
             Announcer.Instance.AnnounceState("변환 재료 부족");
             return;
         }
-        capitalData.CalValue(_input.Item1, -_input.Item2); //사용한만큼 감소 시키고
+        capitalData.CalCapital(_input.Item1, -_input.Item2); //사용한만큼 감소 시키고
         (Capital, int) mixed = m_capitalRecipe.ChangeCapital(_input, _outCapital);
-        capitalData.CalValue(mixed.Item1, mixed.Item2); //얻은 만큼 추가 시키고 
+        capitalData.CalCapital(mixed.Item1, mixed.Item2); //얻은 만큼 추가 시키고 
     }
 }
 

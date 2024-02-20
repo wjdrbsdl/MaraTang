@@ -129,7 +129,3 @@ public class MGContent
     }
 }
 
-public enum RewardType
-{
-    Capital, Content, CharStat
-}

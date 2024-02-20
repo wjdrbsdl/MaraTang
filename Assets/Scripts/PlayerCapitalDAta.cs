@@ -38,7 +38,7 @@ public class PlayerCapitalData
     }
     #endregion
 
-    public void CalValue(Capital _capital, int _value)
+    public void CalCapital(Capital _capital, int _value)
     {
         string reward = string.Format("{0} 자원 {1} 확보", _capital, _value);
         Announcer.Instance.AnnounceState(reward);
@@ -75,7 +75,7 @@ public class PlayerCapitalData
 
         for (int i = 0; i < _tradeList.Count; i++)
         {
-            CalValue(_tradeList[i].Item1, gain*_tradeList[i].Item2);
+            CalCapital(_tradeList[i].Item1, gain*_tradeList[i].Item2);
         }
     }
 
