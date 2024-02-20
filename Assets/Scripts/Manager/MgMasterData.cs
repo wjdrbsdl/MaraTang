@@ -8,10 +8,12 @@ public class MgMasterData : Mg<MgMasterData>
     private Dictionary<int, TileTypeData> m_tileTypeDataDic;
     private Dictionary<int, TokenChar> m_charDataDic;
 
+    #region 생성자
     public MgMasterData()
     {
         InitiSet();
     }
+    #endregion
 
     public override void InitiSet()
     {
@@ -24,6 +26,13 @@ public class MgMasterData : Mg<MgMasterData>
         SetTileTypeData();
         SetCharData();
     }
+
+    public Dictionary<int, TileTypeData> GetTileData()
+    {
+        return m_tileTypeDataDic;
+    }
+
+    #region 마스터 데이터 생성
     private void SetTileTypeData()
     {
         m_tileTypeDataDic = new();
@@ -48,10 +57,7 @@ public class MgMasterData : Mg<MgMasterData>
         Debug.Log("캐릭터 마스터 데이터 완료");
     }
 
-    public Dictionary<int, TileTypeData> GetTileData()
-    {
-        return m_tileTypeDataDic;
-    }
+    #endregion
 }
 
 public class TileTypeData{
@@ -69,4 +75,9 @@ public class TileTypeData{
             AbleTileWork[i] = int.Parse(divideAble[i]);
         }
     }
+}
+
+public enum RewardType
+{
+    Capital, Content, CharStat
 }

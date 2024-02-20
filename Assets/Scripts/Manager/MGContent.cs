@@ -73,17 +73,7 @@ public class MGContent
     public void ReferenceSet()
     {
         parseData = MgParsing.GetInstance().GetMasterData(EMasterData.ContentData);
-
-        string matchCode = "";
-        for (int i = 0; i < parseData.DbValueList.Count; i++)
-        {
-            for (int inter = 0; inter < parseData.DbValueList[i].Length; inter++)
-            {
-                matchCode += parseData.DbValueList[i][inter] + " ";
-            }
-            matchCode += "\n";
-        }
-        Debug.Log(matchCode);
+   
     }
     #endregion
 
