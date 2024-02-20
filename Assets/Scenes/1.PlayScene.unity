@@ -369,13 +369,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_tokenType: 0
-  m_token:
-    m_tokenIValues: 
-    m_xIndex: 0
-    m_yIndex: 0
-    m_tokenType: 0
-    TokenImage: {fileID: 0}
-    Prefab: {fileID: 0}
   m_charIcon: {fileID: 0}
   m_actionIcon: {fileID: 0}
   m_animator: {fileID: 0}
@@ -469,7 +462,7 @@ SpriteRenderer:
   m_SortingLayerID: -1620172761
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 5aa35be748a3bba4782a0e40a04b0f64, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 45cac9c14de5c40468374d98098db725, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1010,13 +1003,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_tokenType: 0
-  m_token:
-    m_tokenIValues: 
-    m_xIndex: 0
-    m_yIndex: 0
-    m_tokenType: 0
-    TokenImage: {fileID: 0}
-    Prefab: {fileID: 0}
   m_charIcon: {fileID: 0}
   m_actionIcon: {fileID: 0}
   m_animator: {fileID: 0}
@@ -1100,13 +1086,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bbe9b9fbdbe3064c94ab03b3f454c28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_token:
-    m_tokenIValues: 
-    m_xIndex: 0
-    m_yIndex: 0
-    m_tokenType: 0
-    TokenImage: {fileID: 0}
-    Prefab: {fileID: 0}
+  m_isDragSlot: 0
   m_icon: {fileID: 859622144}
   m_tierImage: {fileID: 0}
   m_slotType: 0
@@ -1391,13 +1371,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c1e6d0bf3ad688428058e782c250981, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_token:
-    m_tokenIValues: 
-    m_xIndex: 0
-    m_yIndex: 0
-    m_tokenType: 0
-    TokenImage: {fileID: 0}
-    Prefab: {fileID: 0}
+  m_isDragSlot: 0
   m_icon: {fileID: 365173116}
   m_tierImage: {fileID: 0}
   m_slotType: 0
@@ -1528,13 +1502,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_tokenType: 0
-  m_token:
-    m_tokenIValues: 
-    m_xIndex: 0
-    m_yIndex: 0
-    m_tokenType: 0
-    TokenImage: {fileID: 0}
-    Prefab: {fileID: 0}
   m_charIcon: {fileID: 0}
   m_actionIcon: {fileID: 0}
   m_animator: {fileID: 0}
@@ -3214,13 +3181,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72b513f58e1652341a32c4c55bd66254, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_token:
-    m_tokenIValues: 
-    m_xIndex: 0
-    m_yIndex: 0
-    m_tokenType: 0
-    TokenImage: {fileID: 0}
-    Prefab: {fileID: 0}
+  m_isDragSlot: 0
   m_icon: {fileID: 664245842}
   m_tierImage: {fileID: 0}
   m_slotType: 0
@@ -3466,13 +3427,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_tokenType: 1
-  m_token:
-    m_tokenIValues: 
-    m_xIndex: 0
-    m_yIndex: 0
-    m_tokenType: 0
-    TokenImage: {fileID: 0}
-    Prefab: {fileID: 0}
   m_charIcon: {fileID: 403918757}
   m_actionIcon: {fileID: 1791091908}
   m_animator: {fileID: 686227106}
@@ -5967,13 +5921,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_tokenType: 1
-  m_token:
-    m_tokenIValues: 
-    m_xIndex: 0
-    m_yIndex: 0
-    m_tokenType: 0
-    TokenImage: {fileID: 0}
-    Prefab: {fileID: 0}
   m_charIcon: {fileID: 1151728677}
   m_actionIcon: {fileID: 1209688827}
   m_animator: {fileID: 1204709713}
@@ -6156,10 +6103,10 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 3.36, y: 4.16}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1209688828
@@ -6702,13 +6649,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_tokenType: 0
-  m_token:
-    m_tokenIValues: 
-    m_xIndex: 0
-    m_yIndex: 0
-    m_tokenType: 0
-    TokenImage: {fileID: 0}
-    Prefab: {fileID: 0}
   m_charIcon: {fileID: 0}
   m_actionIcon: {fileID: 0}
   m_animator: {fileID: 0}
@@ -6888,13 +6828,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf5c876d7250bb44a980af186dd70197, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_token:
-    m_tokenIValues: 
-    m_xIndex: 0
-    m_yIndex: 0
-    m_tokenType: 0
-    TokenImage: {fileID: 0}
-    Prefab: {fileID: 0}
+  m_isDragSlot: 0
   m_icon: {fileID: 1406806246}
   m_tierImage: {fileID: 0}
   m_slotType: 0
@@ -7082,13 +7016,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_tokenType: 0
-  m_token:
-    m_tokenIValues: 
-    m_xIndex: 0
-    m_yIndex: 0
-    m_tokenType: 0
-    TokenImage: {fileID: 0}
-    Prefab: {fileID: 0}
   m_charIcon: {fileID: 0}
   m_actionIcon: {fileID: 0}
   m_animator: {fileID: 0}
@@ -8424,13 +8351,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_tokenType: 0
-  m_token:
-    m_tokenIValues: 
-    m_xIndex: 0
-    m_yIndex: 0
-    m_tokenType: 0
-    TokenImage: {fileID: 0}
-    Prefab: {fileID: 0}
   m_charIcon: {fileID: 0}
   m_actionIcon: {fileID: 0}
   m_animator: {fileID: 0}
@@ -8524,7 +8444,7 @@ SpriteRenderer:
   m_SortingLayerID: -1620172761
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 5aa35be748a3bba4782a0e40a04b0f64, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f02258d84213387478472d20f6da78de, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -9355,13 +9275,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06dd20727b5ff7e44ae503c587bb3d97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_token:
-    m_tokenIValues: 
-    m_xIndex: 0
-    m_yIndex: 0
-    m_tokenType: 0
-    TokenImage: {fileID: 0}
-    Prefab: {fileID: 0}
+  m_isDragSlot: 0
   m_icon: {fileID: 1772958390}
   m_tierImage: {fileID: 0}
   m_slotType: 0
@@ -9731,13 +9645,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06dd20727b5ff7e44ae503c587bb3d97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_token:
-    m_tokenIValues: 
-    m_xIndex: 0
-    m_yIndex: 0
-    m_tokenType: 0
-    TokenImage: {fileID: 0}
-    Prefab: {fileID: 0}
+  m_isDragSlot: 0
   m_icon: {fileID: 1890620307}
   m_tierImage: {fileID: 0}
   m_slotType: 0
@@ -10744,13 +10652,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_tokenType: 0
-  m_token:
-    m_tokenIValues: 
-    m_xIndex: 0
-    m_yIndex: 0
-    m_tokenType: 0
-    TokenImage: {fileID: 0}
-    Prefab: {fileID: 0}
   m_charIcon: {fileID: 0}
   m_actionIcon: {fileID: 0}
   m_animator: {fileID: 0}
@@ -10915,13 +10816,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ee882f217de318468e598cf6469cc79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_token:
-    m_tokenIValues: 
-    m_xIndex: 0
-    m_yIndex: 0
-    m_tokenType: 0
-    TokenImage: {fileID: 0}
-    Prefab: {fileID: 0}
+  m_isDragSlot: 0
   m_icon: {fileID: 2077663698}
   m_tierImage: {fileID: 0}
   m_slotType: 0
@@ -11462,10 +11357,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4382253129068172930, guid: e65e78ad81738674ca9fdd0a35f560e1, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 3.2812498
+      objectReference: {fileID: 0}
+    - target: {fileID: 4382253129068172930, guid: e65e78ad81738674ca9fdd0a35f560e1, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 3.2812498
+      objectReference: {fileID: 0}
     - target: {fileID: 4382253129068172931, guid: e65e78ad81738674ca9fdd0a35f560e1, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 46b2f91dbe0e2534c9f8f4beb4ac63a4, type: 3}
+      objectReference: {fileID: 21300000, guid: 1a4e35235ead0a340b351322d6140f21, type: 3}
     - target: {fileID: 4382253129068172931, guid: e65e78ad81738674ca9fdd0a35f560e1, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
