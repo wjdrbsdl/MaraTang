@@ -6,6 +6,7 @@ using UnityEngine;
 public class MgMasterData : Mg<MgMasterData>
 {
     private Dictionary<int, TileTypeData> m_tileTypeDataDic;
+    private Dictionary<int, TokenChar> m_charDataDic;
 
     public MgMasterData()
     {
@@ -21,6 +22,7 @@ public class MgMasterData : Mg<MgMasterData>
     {
         Debug.Log("마스터데이터 레퍼런스 시작");
         SetTileTypeData();
+        SetCharData();
     }
     private void SetTileTypeData()
     {
@@ -32,6 +34,18 @@ public class MgMasterData : Mg<MgMasterData>
             m_tileTypeDataDic.Add(newTileData.TypePID, newTileData);
         }
         Debug.Log("완료");
+    }
+
+    private void SetCharData()
+    {
+        m_charDataDic = new();
+        ParseData parseData = MgParsing.GetInstance().GetMasterData(EMasterData.CharData);
+        for (int i = 0; i < parseData.DbValueList.Count; i++)
+        {
+            TokenChar masterChar = new(parseData.MatchCode, parseData.DbValueList[i]);
+            m_charDataDic.Add(masterChar.GetPid(), masterChar);
+        }
+        Debug.Log("캐릭터 마스터 데이터 완료");
     }
 
     public Dictionary<int, TileTypeData> GetTileData()

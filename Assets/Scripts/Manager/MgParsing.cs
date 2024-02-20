@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum EMasterData
 {
-    TileActionData, ContentData, TileType
+    TileActionData, ContentData, TileType, CharData
 }
 public struct ParseData
 {
@@ -27,9 +27,9 @@ public struct ParseData
 public class MgParsing : MgGeneric<MgParsing>
 {
     private static string docuIDes =  "19xXN_chVCf-ZEsvAly-j-c69gjok0HIKYMaFcAk1Lqg";
-    private string[] sheetIDes = { "0" , "85445904", "1971334673" };
-    private EMasterData[] dbId = { EMasterData.TileActionData, EMasterData.ContentData, EMasterData.TileType };
-    private System.Enum[] matchTypes = { TileActionStat.NeedActionCount, MGContent.ContentEnum.발생컨텐츠, EMasterData.ContentData };
+    private string[] sheetIDes = { "0" , "85445904", "1971334673", "1134768741" };
+    private EMasterData[] dbId = { EMasterData.TileActionData, EMasterData.ContentData, EMasterData.TileType, EMasterData.CharData };
+    private System.Enum[] matchTypes = { TileActionStat.NeedActionCount, MGContent.ContentEnum.발생컨텐츠, EMasterData.ContentData, CharStat.CurActionCount };
     private Dictionary<EMasterData, ParseData> dbContainer = new(); //파싱한값을 그냥 갖고만 있는상태 - 사용하는곳에서 다시 가공 필요. 
  
     public override void InitiSet()

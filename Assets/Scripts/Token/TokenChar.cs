@@ -23,6 +23,17 @@ public class TokenChar : TokenBase
     {
 
     }
+
+    public TokenChar(List<int[]> matchCode, string[] valueCode)
+    {
+        m_tokenPid = int.Parse(valueCode[0]);
+        m_itemName = valueCode[1];
+        m_tokenIValues = new int[System.Enum.GetValues(typeof(CharStat)).Length];
+        GameUtil.InputMatchValue(ref m_tokenIValues, matchCode, valueCode);
+        m_tokenIValues[(int)CharStat.CurActionCount] = m_tokenIValues[(int)CharStat.MaxActionCount];
+        m_tokenIValues[(int)CharStat.CurActionEnergy] = m_tokenIValues[(int)CharStat.MaxActionEnergy];
+    }
+
     public TokenChar(TokenType _type)
     {
         //타입에 따라 생성되는걸로;
