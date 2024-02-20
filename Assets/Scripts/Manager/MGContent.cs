@@ -5,10 +5,11 @@ using UnityEngine;
 
 public class MGContent 
 {
+    #region 변수
     public static MGContent g_instance;
-    private ParseData parseData;
     private List<Quest> m_QuestReports = new List<Quest>();
     List<(int, bool)> m_QuestRecorde = new(); //과거 퀘스트의 기록
+    private int m_mainCharChunk = 0;
 
     public class Quest
     {
@@ -64,6 +65,7 @@ public class MGContent
     {
         진행턴, 발생컨텐츠
     }
+    #endregion
 
     #region 초기화
     public MGContent()
@@ -98,6 +100,24 @@ public class MGContent
         SelectContent(); //새로 추가할 컨텐츠 있는지 체크 
     }
 
+    public void AlarmAction(TokenChar _doChar, TokenAction _doAction)
+    {
+        //캐릭이 액션을 수행할때마다 알림 받음 
+        if (_doChar.isMainChar == false)
+            return;
+
+        if (_doAction.GetActionType().Equals(ActionType.Move))
+        {
+            int moveChunk = GameUtil.GetChunkNum(_doChar.GetMapIndex());
+            if (!m_mainCharChunk.Equals(moveChunk) == false)
+            {
+                //다른 청크로 이동한거면
+                Debug.Log(moveChunk + "번 청크 퀘스트 수행");
+
+            }
+        }
+    }
+
     private void CountQuestTurn()
     {
         for (int i = 0; i < m_QuestReports.Count; i++)
@@ -123,12 +143,12 @@ public class MGContent
         m_QuestReports.Add(newQuest); //리스트에 추가 
         Debug.Log("몬스터 소환 컨텐츠");
 
-        int playerChunk = GameUtil.GetChunk(PlayerManager.GetInstance().GetMainChar().GetMapIndex());
+        m_mainCharChunk = GameUtil.GetChunkNum(PlayerManager.GetInstance().GetMainChar().GetMapIndex());
 
         for (int i = 0; i < MgToken.GetInstance().ChunkList.Count; i++)
         {
             //플레이어와 같은 청크는 패스. 
-            if (i.Equals(playerChunk))
+            if (i.Equals(m_mainCharChunk))
                 continue;
 
             Chunk chunk = MgToken.GetInstance().ChunkList[i];

@@ -284,7 +284,7 @@ public static class GameUtil
     #endregion
 
     #region 청크 계산
-    public static int GetChunk(int[] _coordi)
+    public static int GetChunkNum(int[] _coordi)
     {
         return GetTileTokenFromMap(_coordi).ChunkNum;
     }

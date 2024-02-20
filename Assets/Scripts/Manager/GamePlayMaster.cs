@@ -27,8 +27,6 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
 
     #endregion
 
-    public int a, b, c = 0;
-
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.F5))
