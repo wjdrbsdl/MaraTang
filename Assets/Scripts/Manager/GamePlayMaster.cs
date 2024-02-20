@@ -87,6 +87,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
         ReadyNextTurn();
         //처음 시작시 플레이어 메인캐릭터에 카메라 포커스.
         GamePlayMaster.GetInstance().CamFocus(PlayerManager.GetInstance().GetMainChar());
+        PlayerManager.GetInstance().FirstStart();
     }
     #endregion
 

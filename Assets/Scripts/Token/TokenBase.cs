@@ -13,7 +13,6 @@ public enum TokenType
     Tile, Char, Item, Action, Player, Capital
 }
 
-[System.Serializable]
 public class TokenBase
 {
     #region 데이터 변수
@@ -54,7 +53,6 @@ public class TokenBase
             m_tokenIValues[(int) CapitalStat.Amount] = _value;
     }
     #endregion
-
 
     #region Get Set
     public Sprite GetIcon()

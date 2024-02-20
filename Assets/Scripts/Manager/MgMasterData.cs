@@ -22,7 +22,7 @@ public class MgMasterData : Mg<MgMasterData>
 
     public override void ReferenceSet()
     {
-        Debug.Log("마스터데이터 레퍼런스 시작");
+       // Debug.Log("마스터데이터 레퍼런스 시작");
         SetTileTypeData();
         SetCharData();
     }
@@ -42,7 +42,7 @@ public class MgMasterData : Mg<MgMasterData>
             TileTypeData newTileData = new(parseData.DbValueList[i]);
             m_tileTypeDataDic.Add(newTileData.TypePID, newTileData);
         }
-        Debug.Log("완료");
+    //    Debug.Log("완료");
     }
 
     private void SetCharData()
@@ -54,7 +54,7 @@ public class MgMasterData : Mg<MgMasterData>
             TokenChar masterChar = new(parseData.MatchCode, parseData.DbValueList[i]);
             m_charDataDic.Add(masterChar.GetPid(), masterChar);
         }
-        Debug.Log("캐릭터 마스터 데이터 완료");
+     //   Debug.Log("캐릭터 마스터 데이터 완료");
     }
 
     #endregion

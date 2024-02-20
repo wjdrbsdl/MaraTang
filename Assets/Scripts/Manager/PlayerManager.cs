@@ -29,6 +29,13 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
         m_mainChar.isMainChar = true;
     }
 
+    public void FirstStart()
+    {
+        //메인 캐릭터 선택된 상태로 시작
+        m_curChar = m_mainChar;
+        ChangedPlayerStep(GamePlayStep.SelectAct);
+    }
+
     #region 플레이어 인풋 - 클릭, 선택 등
     #region 클릭- 한번, 더블, 취소
     public void ClickTokenObject(TokenBase _token)

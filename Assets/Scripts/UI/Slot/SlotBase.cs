@@ -12,6 +12,7 @@ public class SlotBase : MonoBehaviour, IDragHandler, IBeginDragHandler, IDropHan
 {
     [SerializeField]
     protected TokenBase m_token;
+    [SerializeField] protected bool m_isDragSlot = false;
     [SerializeField] protected Image m_icon;
     [SerializeField] protected Image m_tierImage;
     [SerializeField] protected SlotType m_slotType;//인스펙터에서 설정, 
@@ -127,7 +128,7 @@ public class SlotBase : MonoBehaviour, IDragHandler, IBeginDragHandler, IDropHan
     public virtual void OnBeginDrag(PointerEventData eventData)
     {
         //일단 모든 슬롯에서 가능토록해놨는데, 각 슬롯에서 시작이 되고 싶지 않으면 해당 메서드를 오버라이딩하고 공백으로 두면 됨. 
-        if (m_token != null)
+        if (m_token != null && m_isDragSlot == true)
         {
             Debug.Log("공용 드래그");
             StartDrag();
