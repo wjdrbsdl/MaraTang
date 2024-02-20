@@ -104,8 +104,8 @@ public class MgToken : MgGeneric<MgToken>
         List<int[]> chunkCoordList = m_tileMaker.DivideChunk(m_chunkLength);
         ChunkList = m_tileMaker.MakeChunk(chunkCoordList);
         //맵 크기에 따라 드래그 값 조정
-        ClickToken.SetCamRestrict();
-        ClickToken.SetDragRatio(m_rLength);
+        MgInput.SetCamRestrict();
+        MgInput.SetDragRatio(m_rLength);
     }
 
     public void ResetMapTileObject()

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class ClickToken : MonoBehaviour
+public class MgInput : MonoBehaviour
 {
     private bool m_isMouseClick = false;
     [SerializeField]
@@ -26,19 +26,6 @@ public class ClickToken : MonoBehaviour
 
     Vector2 priorMousePosition = new Vector2();
 
-    public static void SetCamRestrict()
-    {
-        int tileXNum = GameUtil.GetMapLength(true);
-        int tileYNum = GameUtil.GetMapLength(false);
-        m_camMaxX = MgToken.GetInstance().GetMaps()[tileXNum - 1, tileYNum - 1].GetObject().transform.position.x - m_camMinX;
-        m_camMaxY = MgToken.GetInstance().GetMaps()[tileXNum - 1, tileYNum - 1].GetObject().transform.position.y;
-       // Debug.Log("최고 너비는 " + m_camMaxX + " : " + m_camMaxY);
-    }
-
-    public static void SetDragRatio(float _tileRLength)
-    {
-        m_dragRatioByTileLength = _tileRLength * 0.55f; // 타일 크기에 비례한 속도 증감, 기존 타일 크기 1.5f
-    }
 
     private void Update()
     {
@@ -47,6 +34,7 @@ public class ClickToken : MonoBehaviour
         InputCancle();
     }
 
+    #region 클릭
     private void LeftMouse()
     {
         if (EventSystem.current.IsPointerOverGameObject())
@@ -170,7 +158,9 @@ public class ClickToken : MonoBehaviour
 
         return clickToken;
     }
-   
+    #endregion
+
+    #region 드래그
     private void DragCam()
     {
         if (m_isDragMode == false)
@@ -194,7 +184,21 @@ public class ClickToken : MonoBehaviour
 
         priorMousePosition = Input.mousePosition; //이동한 위치로 갱신 
     }
-    
+
+    public static void SetCamRestrict()
+    {
+        int tileXNum = GameUtil.GetMapLength(true);
+        int tileYNum = GameUtil.GetMapLength(false);
+        m_camMaxX = MgToken.GetInstance().GetMaps()[tileXNum - 1, tileYNum - 1].GetObject().transform.position.x - m_camMinX;
+        m_camMaxY = MgToken.GetInstance().GetMaps()[tileXNum - 1, tileYNum - 1].GetObject().transform.position.y;
+        // Debug.Log("최고 너비는 " + m_camMaxX + " : " + m_camMaxY);
+    }
+
+    public static void SetDragRatio(float _tileRLength)
+    {
+        m_dragRatioByTileLength = _tileRLength * 0.55f; // 타일 크기에 비례한 속도 증감, 기존 타일 크기 1.5f
+    }
+
     public static void RestricCamPos(Vector3 _moved)
     {
         //정해진 범위 밖으로 벗어나지 않도록 수정
@@ -205,6 +209,7 @@ public class ClickToken : MonoBehaviour
 
         Camera.main.gameObject.transform.position = _moved; //카메라 허용범위 벗어난게 아니라면 위치 이동.
     }
+    #endregion
 
     private void InputCancle()
     {
