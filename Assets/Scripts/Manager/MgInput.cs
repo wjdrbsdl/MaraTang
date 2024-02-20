@@ -210,6 +210,15 @@ public class MgInput : MonoBehaviour
 
         Camera.main.gameObject.transform.position = _moved; //카메라 허용범위 벗어난게 아니라면 위치 이동.
     }
+
+    public static void RatioValue(float _xRatio, float _yRatio)
+    {
+        //정해진 범위 밖으로 벗어나지 않도록 수정
+        float xPos = (m_camMaxX - m_camMinX) * _xRatio;
+        float yPos = (m_camMaxY - m_camMinY) * _yRatio;
+        Vector3 realPos = new Vector3(xPos, yPos, 0);
+        RestricCamPos(realPos);
+    }
     #endregion
 
     private void InputKeyBoard()
