@@ -147,6 +147,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
         CamTraceOff();
         _charToken.SetState(CharState.Idle);
         _charToken.ShowAction(false);
+        MGContent.g_instance.AlarmAction(_charToken, _charToken.GetNextAction());
         m_players[(int)m_playerMemeber].DoneCharAction(_charToken); //현재 플레이어에게 해당 캐릭터의 액션이 완료되었음을 알린다.
         OccurMoveEvent(_charToken);
     }

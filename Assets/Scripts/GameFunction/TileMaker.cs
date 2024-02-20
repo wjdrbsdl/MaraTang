@@ -222,18 +222,3 @@ public class TileMaker : MonoBehaviour
     #endregion
 }
 
-public class Chunk
-{
-    public TokenTile[,] tiles;
-    public int ChunkNum;
-    public MGContent.Quest Quest;
-
-    public Chunk() { }
-
-    public Chunk(TokenTile[,] _tiles, int _num)
-    {
-        tiles = _tiles;
-        ChunkNum = _num;
-    }
-
-}

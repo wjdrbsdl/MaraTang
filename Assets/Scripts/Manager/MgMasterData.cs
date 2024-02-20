@@ -77,7 +77,3 @@ public class TileTypeData{
     }
 }
 
-public enum RewardType
-{
-    Capital, Content, CharStat
-}
