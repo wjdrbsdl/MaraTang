@@ -63,6 +63,11 @@ public class TileMaker : MonoBehaviour
         MgToken.GetInstance().SetHideTiles(newHideMap); //만들어진 맵 정보 전달
     }
 
+    public class Chunk
+    {
+        public int[,,] m_chunkedPos; // 청크상 a,b 위치에 있는 좌표 x,y = [a,b,0] , [a,b,1];
+    }
+
     public List<int[]> DivideChunk(int _chunkLength)
     {
         //_length 길이 묶음으로 타일을 묶어서 청크화 -> 해당 청크별로 이벤트 발생이나 세력권등 짤 수 있는 구획이 됨. 
@@ -96,6 +101,33 @@ public class TileMaker : MonoBehaviour
         }
       
         return divided;
+    }
+
+    public List<TokenTile[,]> MakeChunk(List<int[]> _chunkedRecipe)
+    {
+        List<TokenTile[,]> chunkedCoordi = new();
+
+        for (int i = 0; i < _chunkedRecipe.Count; i++)
+        {
+            
+            int startX = _chunkedRecipe[i][0];
+            int widthX = _chunkedRecipe[i][1];
+            int startY = _chunkedRecipe[i][2];
+            int widthY = _chunkedRecipe[i][3];
+            TokenTile[,] chunkedTile = new TokenTile[widthX, widthY];
+            for (int x = 0; x < widthX; x++)
+            {
+                for (int y = 0; y < widthY; y++)
+                {
+                    TokenTile tile = GameUtil.GetTileTokenFromMap(new int[] {startX+x, startY+y });
+                    chunkedTile[x, y] = tile;
+                }
+            }
+            chunkedCoordi.Add(chunkedTile);
+        }
+
+
+        return chunkedCoordi;
     }
 
     //노이즈 방식의 절차적 생성
