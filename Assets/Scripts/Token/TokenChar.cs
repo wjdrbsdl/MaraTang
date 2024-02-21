@@ -193,5 +193,6 @@ public class TokenChar : TokenBase
         place.RemoveToken(this);
 
         SendQuestCallBack();
+        DropItem();
     }
 }

@@ -130,6 +130,11 @@ public class TokenBase
 
     #endregion
 
+    public void DropItem()
+    {
+
+    }
+
     public void SendQuestCallBack()
     {
         if (QuestCard != null)
