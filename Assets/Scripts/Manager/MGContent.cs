@@ -83,11 +83,42 @@ public class MGContent
 
         //임시로 3턴 마다 몬스터 퀘스트 수행하도록 
         GamePlayData data = GamePlayMaster.GetInstance().GetPlayData();
+        int playTime = data.PlayTime;
+
+        if(playTime == 1)
+        {
+            TutorialQuest(1);
+            return;
+        }
+
         if (data.PlayTime % 3 == 0)
-            MonsterQuest();
+            MonsterQuest(1);
     }
 
-    private void MonsterQuest()
+    private void TutorialQuest(int _monsterPID)
+    {
+        //스폰 시킨몬스터를 퀘스트 몬스터로
+        Quest newQuest = new(); //퀘스트 문서 생성 
+        m_QuestReports.Add(newQuest); //리스트에 추가 
+                                      //  Debug.Log("몬스터 소환 컨텐츠");
+
+        m_mainCharChunk = GameUtil.GetChunkNum(PlayerManager.GetInstance().GetMainChar().GetMapIndex());
+        Chunk chunk = MgToken.GetInstance().ChunkList[m_mainCharChunk]; //플레이어가 있는 청크로 결정
+        int width = chunk.tiles.GetLength(0);
+        int height = chunk.tiles.GetLength(1);
+        int tileCount =  width * height;
+        for (int i = 0; i < 5; i++)
+        {
+            int[] spawnCoord = chunk.tiles[0, i].GetMapIndex();
+            TokenChar questMonster = MgToken.GetInstance().SpawnMonster(spawnCoord, _monsterPID); //몬스터의 경우 사망시에 설치
+            questMonster.QuestCard = newQuest;
+            newQuest.TempQuestTokens.Add(questMonster);
+            chunk.Quest = newQuest;
+        }
+        //컨텐츠 이벤트 등록은 여기서 따로 시행
+    }
+
+    private void MonsterQuest(int _monsterPID)
     {
         //스폰 시킨몬스터를 퀘스트 몬스터로
         Quest newQuest = new(); //퀘스트 문서 생성 
@@ -105,7 +136,7 @@ public class MGContent
             Chunk chunk = MgToken.GetInstance().ChunkList[i];
             //각 청크마다 몬스터 소환
             int[] spawnCoord = chunk.tiles[0, 0].GetMapIndex();
-            TokenChar questMonster = MgToken.GetInstance().SpawnMonster(spawnCoord, 1); //몬스터의 경우 사망시에 설치
+            TokenChar questMonster = MgToken.GetInstance().SpawnMonster(spawnCoord, _monsterPID); //몬스터의 경우 사망시에 설치
             questMonster.QuestCard = newQuest;
             chunk.Quest = newQuest;
         }

@@ -12,7 +12,7 @@ public class Quest
     public int TempMissonType = 5; //수행 조건 
     public int TempCompleteCode = 5; //완료 조건
     public RewardData reward; //보상
-    public List<TokenBase> TempQuestTokens; //퀘스트에 관련된 토큰들 
+    public List<TokenBase> TempQuestTokens = new(); //퀘스트에 관련된 토큰들 
 
     #region 생성
     public Quest()
@@ -43,14 +43,19 @@ public class Quest
     {
         //몬스터 사망시 알림받는 장소 
         Debug.Log(_token.GetItemName() + " 토큰" + _concludeCode + "코드 호출");
+        TempQuestTokens.Remove((TokenChar)_token);
         CheckQuestComplete();
     }
 
     private void CheckQuestComplete()
     {
         //토큰의 호출시 마다 결과 코드를 기록하고 퀘스트 완료 여부를 체크한다. 
-        Debug.Log("퀘스트 수행 성공 보상 진행");
-        if (true)
+        Debug.Log("남은 몹 수 " + TempQuestTokens.Count);
+        if (TempQuestTokens.Count == 0)
+        {
+            Debug.Log("리워드 진행");
             GamePlayMaster.GetInstance().RewardQuest(reward);
+        }
+            
     }
 }
