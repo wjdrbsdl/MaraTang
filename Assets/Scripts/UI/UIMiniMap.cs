@@ -2,18 +2,21 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class UIMiniMap : MonoBehaviour, IPointerClickHandler
+public class UIMiniMap : UIBase, IPointerClickHandler
 {
-    float m_minX, m_maxX;
-    float m_minY, m_maxY;
+    public Transform left;
+    public Transform right;
+    public Transform up;
+    public Transform down;
+
     Vector2 minVector;
-    public RectTransform m_mapRect;
+
     float widht;
     float height;
 
     private void Start()
     {
-        SetSizeInfo();
+        SetSizeTwo();
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -24,19 +27,11 @@ public class UIMiniMap : MonoBehaviour, IPointerClickHandler
         MgInput.RatioValue(gap.x/widht, gap.y/height );
     }
 
-    private void SetSizeInfo()
+    private void SetSizeTwo()
     {
-        //우하 앵커라 우하 쪽이 위치점
-        widht = m_mapRect.rect.width;
-        height = m_mapRect.rect.height;
-
-        m_maxX = transform.position.x;
-        m_minX = m_maxX - m_mapRect.rect.width;
-
-        m_minY = transform.position.y;
-        m_maxY = m_minY + m_mapRect.rect.height;
-
-        minVector = new Vector2(m_minX, m_minY);
+        widht = right.transform.position.x - left.transform.position.x;
+        height= up.transform.position.y - down.transform.position.y;
+        minVector = new Vector2(left.transform.position.x, down.transform.position.y);
     }
 
 }
