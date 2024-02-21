@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
+#region 타일 enum
 public enum TileType
 {
     Nomal, Farm, Rock, Bake
@@ -22,6 +23,7 @@ public enum TileStat
 {
     Height
 }
+#endregion
 
 public class TokenTile : TokenBase
 {
@@ -31,7 +33,8 @@ public class TokenTile : TokenBase
     public int ChunkNum;
     private TileViewState m_viewState = TileViewState.Fog;
     private TokenEvent m_enteranceEvent; //입장시 발동하는 이벤트가 있는가
-    
+
+    #region 타일생성
     public TokenTile()
     {
 
@@ -47,7 +50,8 @@ public class TokenTile : TokenBase
         
         return tileToken;
     }
-  
+    #endregion
+
     public List<TokenChar> GetCharsInTile()
     {
         return m_inTileCharList;
