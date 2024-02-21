@@ -60,7 +60,7 @@ public class MGContent
         Debug.Log("컨텐츠 활성화");
         CountQuestTurn(); //기존에 있던 퀘스트들 턴 감소
         Quest newQuest = SelectContent(); //새로 추가할 컨텐츠 있는지 체크 
-        PlayQuest(newQuest);
+        RealizeQuest(newQuest);
     }
 
     public void AlarmAction(TokenChar _doChar, TokenAction _doAction)
@@ -130,7 +130,7 @@ public class MGContent
         return newQuest;
     }
 
-    private void PlayQuest(Quest _quest)
+    private void RealizeQuest(Quest _quest)
     {
         if (_quest == null)
             return;
