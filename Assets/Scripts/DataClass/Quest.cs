@@ -9,15 +9,22 @@ public class Quest
     //보상을 명기한 컨텐트
     public int QuestPid = 0; //해당 퀘스트 pid mgContet 리스트에 추가되는 값으로 인덱스용
     public int RestWoldTurn = 5; //유지되는 기간 
-    public int TempMissonType = 5; //수행 조건 
     public int TempCompleteCode = 5; //완료 조건
+    public int ChunkNum = 0;
+    public QuestCondition condition; //수행 조건
     public RewardData reward; //보상
     public List<TokenBase> TempQuestTokens = new(); //퀘스트에 관련된 토큰들 
 
     #region 생성
     public Quest()
     {
-        reward = new RewardData(); //임시로 자원 보상
+        reward = new RewardData(RewardType.None); //임시로 자원 보상
+    }
+
+    public Quest(int _monsterPID, int _monsterCount, RewardType _rewardType)
+    {
+        condition = new QuestCondition(_monsterPID, _monsterCount);
+        reward = new RewardData(_rewardType); //임시로 자원 보상
     }
     #endregion
 
@@ -41,8 +48,9 @@ public class Quest
 
     public void CheckCallBackCode(TokenBase _token, int _concludeCode)
     {
-        //몬스터 사망시 알림받는 장소 
-        Debug.Log(_token.GetItemName() + " 토큰" + _concludeCode + "코드 호출");
+        //전달받은 코드로, 퀘스트 조건값 수정 
+   
+        //현재는 몬스터 사망으로 잡아야할 몬스터 리스트에서 제거하는 중
         TempQuestTokens.Remove((TokenChar)_token);
         CheckQuestComplete();
     }
@@ -50,12 +58,34 @@ public class Quest
     private void CheckQuestComplete()
     {
         //토큰의 호출시 마다 결과 코드를 기록하고 퀘스트 완료 여부를 체크한다. 
-        Debug.Log("남은 몹 수 " + TempQuestTokens.Count);
+        
         if (TempQuestTokens.Count == 0)
         {
             Debug.Log("리워드 진행");
-            GamePlayMaster.GetInstance().RewardQuest(reward);
+            GamePlayMaster.GetInstance().RewardQuest(this);
         }
             
     }
+}
+public enum QuestType
+{
+    Battle, Action, Item
+}
+
+public class QuestCondition
+{
+    //몬스터 관련 조건
+    public int monsterPID;
+    public int monsterCount;
+
+    //수행해야할 액션 조건
+
+    //득템해야할 아이템 조건
+
+    public QuestCondition(int _monsterPID, int _monsterCount)
+    {
+        monsterPID = _monsterPID;
+        monsterCount = _monsterCount;
+    }
+
 }
