@@ -132,7 +132,7 @@ public class TokenBase
 
     public void DropItem()
     {
-
+        GameUtil.DropMagnetItem(GetMapIndex());
     }
 
     public void SendQuestCallBack()

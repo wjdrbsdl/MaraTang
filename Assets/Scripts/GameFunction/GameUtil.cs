@@ -467,6 +467,14 @@ public static class GameUtil
         }
     }
     #endregion
+
+    public static void DropMagnetItem(int[] mapIndex)
+    {
+        TokenTile tile = GetTileTokenFromMap(mapIndex);
+        Vector3 dropPosition = tile.GetObject().gameObject.transform.position; // À§Ä¡ »Ì°í
+        MagnetItem magnetItem = MonoBehaviour.Instantiate(GamePlayMaster.GetInstance().testMangetSample);
+        magnetItem.SetMagnetInfo(dropPosition);
+    }
 }
 
 public struct TMapIndex

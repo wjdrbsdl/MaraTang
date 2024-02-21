@@ -8749,7 +8749,7 @@ GameObject:
   - component: {fileID: 1653216243}
   - component: {fileID: 1653216242}
   m_Layer: 0
-  m_Name: GamePlay
+  m_Name: GamePlayMaster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8767,6 +8767,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 716a73bc2fd9f6943a354efdf027daa3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  testMangetSample: {fileID: 4823927384914364228, guid: 6f92de07b7f9178458ba0d3a0b60670d, type: 3}
   m_moveSpeed: 5
   m_testActionIcon:
   - {fileID: 21300000, guid: a8a524439af76b34488b1bb0efbc18af, type: 3}
