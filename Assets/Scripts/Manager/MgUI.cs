@@ -18,6 +18,7 @@ public class MgUI : MgGeneric<MgUI>
     [SerializeField] private UICapital m_capitalUI;
     [SerializeField] private UITokenSnapInfo m_snapInfoUI;
     [SerializeField] private UIPlayData m_playDataUI;
+    [SerializeField] private UIMiniMap m_miniMapUI;
 
     [Header("컷씬")]
     [SerializeField] private UICutScene m_cutScene;
