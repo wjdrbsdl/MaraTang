@@ -24,31 +24,30 @@ public class TokenChar : TokenBase
 
     }
 
+    //마스터 캐릭 생성
     public TokenChar(List<int[]> matchCode, string[] valueCode)
     {
         m_tokenPid = int.Parse(valueCode[0]);
         m_itemName = valueCode[1];
+        m_tokenType = TokenType.Char;
         m_tokenIValues = new int[System.Enum.GetValues(typeof(CharStat)).Length];
         GameUtil.InputMatchValue(ref m_tokenIValues, matchCode, valueCode);
         m_tokenIValues[(int)CharStat.CurActionCount] = m_tokenIValues[(int)CharStat.MaxActionCount];
         m_tokenIValues[(int)CharStat.CurActionEnergy] = m_tokenIValues[(int)CharStat.MaxActionEnergy];
     }
 
-    public TokenChar(TokenType _type)
+    //복사본 캐릭 생성
+    public TokenChar(TokenChar _masterToken)
     {
-        //타입에 따라 생성되는걸로;
+        m_tokenPid = _masterToken.m_tokenPid;
+        m_itemName = _masterToken.m_itemName;
+        m_tokenType = TokenType.Char;
+        int arraySize = _masterToken.m_tokenIValues.Length;
+        m_tokenIValues = new int[arraySize];
+        //마스터 데이터 깊은 복사로 객체 고유 배열 값 생성. 
+        System.Array.Copy(_masterToken.m_tokenIValues, m_tokenIValues, arraySize);
     }
-    //이후 플레이어 토큰을 만들땐 매개변수에 플레이어 정보를 넣어서, 받는 형식으로. 아니면 그냥 해도되긴될듯. 
-    public TokenChar MakePlayerToken()
-    {
-        TokenChar playerToken = new TokenChar();
-        playerToken.m_tokenIValues = new int[GameUtil.EnumLength(CharStat.CurActionEnergy)];
-        playerToken.m_tokenType = TokenType.Player;
-        playerToken.SetStatValue(CharStat.MaxActionEnergy, 10);
-        playerToken.SetStatValue(CharStat.CurActionEnergy, 10);
-        playerToken.m_haveActionList = new List<TokenAction>();
-        return playerToken;
-    }
+
     public static TokenChar MakeTestMonsterToken(string _name, int index)
     {
         TokenChar monsterToken = new TokenChar();

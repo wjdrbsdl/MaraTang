@@ -59,15 +59,6 @@ public class RuleBook
         }
     }
 
-    public void ParseTileActions()
-    {
-        //타일의 고유 속성값에 따라 가능한 액션이 다를 뿐 - 가능한 액션 풀은 모든 타일에서 동일
-        //또한 액션에 사용되는 값 또한 타일마다 모두 동일 
-        //따라서 한 액션타일 풀을 가지고 돌아가면서 사용가능. 
-
-        m_tileActionDic = MgToken.GetInstance().GetTileActions(); 
-    }
-
     #region 액션 수행 절차
     public void ReadCharAction(TokenChar _playChar)
     {
@@ -277,12 +268,12 @@ public class RuleBook
         //1.해당 타일의 pid를 확인
         int tileType = (int)_tile.tileType;
         //2. pid에 맞는 타일 데이터 가져옴
-        TileTypeData tileData = MgMasterData.g_instance.GetTileData()[tileType]; //해당 타입의 타일데이터를 가져옴
+        TileTypeData tileData = MgMasterData.g_instance.GetTileData(tileType); //해당 타입의 타일데이터를 가져옴
         //3. 가능한 액션 토큰 배열을 순환
-        for (int i = 0; i < tileData.AbleTileWork.Length; i++)
+        for (int i = 0; i < tileData.AbleTileActionPID.Length; i++)
         {
             //4. 타일 데이터의 작업 가능한 액션 pid 리스트에 해당하는 타일액션들을 찾아서 반환
-            TokenAction ableAction = m_tileActionDic[tileData.AbleTileWork[i]];
+            TokenAction ableAction = MgMasterData.g_instance.GetTileActions(tileData.AbleTileActionPID[i]);
             ableList.Add(ableAction);
         }
         //문제

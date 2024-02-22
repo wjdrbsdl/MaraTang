@@ -54,8 +54,6 @@ public class MgToken : MgGeneric<MgToken>
 
     #region 토큰들 - 마스터 토큰과 생성된 토큰 모두 관리 
     private List<TokenChar> m_npcTokens; //현재 맵에 생성된 npc 토큰들
-    private TokenAction[] m_charActions; //캐릭터들이 사용할 액션 모음집 - 나중엔 딕션으로 관리
-    private Dictionary<int, TokenAction> m_tileActionDic; // 타일에서 사용가능한 보편적인 액션 모음집
     #endregion
 
     #region 리셋
@@ -66,7 +64,6 @@ public class MgToken : MgGeneric<MgToken>
         SetTileSize();
         MakeMap();
         MakeMonsterToken();
-        MakeTileActionToken();
     }
 
     private void SetTileSize()
@@ -131,15 +128,6 @@ public class MgToken : MgGeneric<MgToken>
     }
     #endregion
 
-    #region 플레이어 토큰 생성
-    public ObjectTokenBase m_playerObject;
-    public void MakePlayerToken()
-    {
-        TokenChar playerToken = new TokenChar().MakePlayerToken();
-        m_playerObject.SetToken(playerToken, TokenType.Player);
-    }
-    #endregion
-
     #region 몬스터 토큰 생성
     [Header("캐릭터 생성")]
     [SerializeField] private Transform m_monsterBox;
@@ -164,11 +152,12 @@ public class MgToken : MgGeneric<MgToken>
 
     private TokenChar MakeMonster(int _monsterPId)
     {
-        TokenChar monsterToken = TokenChar.MakeTestMonsterToken("생성된 몹" +_monsterPId, _monsterPId);
-        ObjectTokenBase monster = Instantiate(m_monsterObjSample);
-        monster.gameObject.transform.SetParent(m_monsterBox);
-        monster.SetToken(monsterToken, TokenType.Char);
-        return monsterToken;
+        TokenChar masterDataChar = MgMasterData.g_instance.GetCharData(_monsterPId);
+        TokenChar newMonToken = new TokenChar(masterDataChar);
+        ObjectTokenBase monObj = Instantiate(m_monsterObjSample);
+        monObj.gameObject.transform.SetParent(m_monsterBox);
+        monObj.SetToken(newMonToken, TokenType.Char);
+        return newMonToken;
     }
 
     public TokenChar SpawnMonster(int[] _position, int _monsterPid)
@@ -188,22 +177,6 @@ public class MgToken : MgGeneric<MgToken>
         TokenAction attackAction = new TokenAction().MakeTestAction(ActionType.Attack);
         _tokenChar.AddActionToken(moveAction);
         _tokenChar.AddActionToken(attackAction);
-    }
-
-    public void MakeTileActionToken()
-    {
-        ParseData parseContainer = MgParsing.GetInstance().GetMasterData(EMasterData.TileActionData);
-        m_tileActionDic = new();
-        for (int i = 0; i < parseContainer.DbValueList.Count; i++)
-        {
-            TokenAction tileAction = new TokenAction(parseContainer.MatchCode, parseContainer.DbValueList[i]);
-            m_tileActionDic.Add(tileAction.GetPid(), tileAction);
-        }
-    }
-
-    public Dictionary<int, TokenAction> GetTileActions()
-    {
-        return m_tileActionDic;
     }
     #endregion
 

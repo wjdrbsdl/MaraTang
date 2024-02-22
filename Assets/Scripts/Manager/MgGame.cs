@@ -61,10 +61,14 @@ public class MgGame : MgGeneric<MgGame>
         PlayGame();
     }
 
-    #region 데이터 세팅 부분
+    #region SetGame - 데이터 세팅 부분
+
+    #region 데이터 세팅 진행 변수
     private bool doneDataManager = false;
     private bool doneLoadData = false;
     private bool doneInitiGameSetting = false;
+    #endregion
+
     private void SetDataPart()
     {
         if(doneDataManager == false)
@@ -89,14 +93,20 @@ public class MgGame : MgGeneric<MgGame>
         SetGame();
     }
 
+    #region 1. 매니저 세팅
     Queue<Action> initiManagerStack; 
     private void InitiDataManager()
     {
-        //아직 매니저 초기셋팅에 순서는 중요치 않음.
+        //
         initiManagerStack = new();
+
+        //1. 파싱
         Action parse = delegate { m_parseManager.InitiSet(); };
         initiManagerStack.Enqueue(parse);
-
+        //2. 데이터 생성 
+        Action makeMasterData = delegate { m_MasterDataManager = new MgMasterData(); DoneInitiDataManager("기본데이터 생성 끝"); };
+        initiManagerStack.Enqueue(makeMasterData);
+        //3. 이후 순서 무관
         Action mgToken = delegate { m_tokenManager.InitiSet(); DoneInitiDataManager("mg토큰끝"); };
         initiManagerStack.Enqueue(mgToken);
 
@@ -113,7 +123,6 @@ public class MgGame : MgGeneric<MgGame>
         initiManagerStack.Enqueue(mgCapital);
 
         contentManager = new MGContent(); //인스턴스화
-        m_MasterDataManager = new MgMasterData();
 
         DoneInitiDataManager("파싱 시작");
     }
@@ -130,6 +139,9 @@ public class MgGame : MgGeneric<MgGame>
         doneDataManager = true;
         SetDataPart();
     }
+    #endregion
+
+    #region 2 데이터 로드
     private void LoadMasterData()
     {
         m_loadManager.MasterDataLoad(); //토큰에 관한 마스터 데이터 로드. 
@@ -140,11 +152,14 @@ public class MgGame : MgGeneric<MgGame>
         doneLoadData = true;
         SetDataPart();
     }
+    #endregion 
+
+    #region 3 InitiGameSetting
+    //3 게임을 위한 세팅
     private void InitiGameSetting()
     {
         m_tokenManager.ReferenceSet(); //두 클래스의 인스턴스 참조가 필요해서 나중에 해야함.
         contentManager.ReferenceSet();
-        m_MasterDataManager.ReferenceSet();
         DoneGameSetting();
     }
     public void DoneGameSetting()
@@ -154,7 +169,9 @@ public class MgGame : MgGeneric<MgGame>
     }
     #endregion
 
-    #region UI 세팅 부분 - 데이터의 표현 및 플레이어의 입력만을 담당.
+    #endregion
+
+    #region SetGame - UI 세팅 부분
     private void SetUIPart()
     {
         //1. 매니저
