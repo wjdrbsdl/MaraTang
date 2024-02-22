@@ -70,7 +70,7 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
                 
                 if (GamePlayMaster.g_instance.RuleBook.IsInRangeTarget(m_curChar, m_curAction, _token) == false)
                 {
-                    Debug.Log("해당 타겟은 사거리밖이라 요청 반려");
+                   // Debug.Log("해당 타겟은 사거리밖이라 요청 반려");
                     return;
                 }
 

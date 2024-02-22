@@ -152,7 +152,7 @@ public class MgToken : MgGeneric<MgToken>
 
     private TokenChar MakeMonster(int _monsterPId)
     {
-        TokenChar masterDataChar = MgMasterData.g_instance.GetCharData(_monsterPId);
+        TokenChar masterDataChar = MgMasterData.GetInstance().GetCharData(_monsterPId);
         TokenChar newMonToken = new TokenChar(masterDataChar);
         ObjectTokenBase monObj = Instantiate(m_monsterObjSample);
         monObj.gameObject.transform.SetParent(m_monsterBox);
