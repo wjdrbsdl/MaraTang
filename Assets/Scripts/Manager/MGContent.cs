@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class MGContent 
+public class MGContent
 {
     /*
      * 게임에 컨텐츠를 풀어 놓는 곳 
@@ -17,6 +17,19 @@ public class MGContent
      * 3. 해당 청크 내부에서 전달받은 타입으로 퀘스트를 생성하고
      * 4. 퀘스트를 수행 
      * --------------------------------------------------------------
+     *  //진행도나 무언가에 따라서 컨텐츠 발생
+
+        /*컨텐츠는 
+         * - 해당 지역 몬스터 제거하기 
+         * - 해당 지역 점거 하기 
+         * - 해당 지역 자원 캐기 등 특정한 이벤트를 발생시키고, 그에 따라 보상을 약속하는 시스템 
+         * 
+     
+
+        //기존 발생되었던 녀석은 어떻게? 
+        //1. 기존께 강화
+        //2. 기존께 소멸
+        //3. 기존꺼 유지 
      */
     #region 변수
     public static MGContent g_instance;
@@ -44,20 +57,8 @@ public class MGContent
 
     public void MakeContent()
     {
-        //진행도나 무언가에 따라서 컨텐츠 발생
-
-        /*컨텐츠는 
-         * - 해당 지역 몬스터 제거하기 
-         * - 해당 지역 점거 하기 
-         * - 해당 지역 자원 캐기 등 특정한 이벤트를 발생시키고, 그에 따라 보상을 약속하는 시스템 
-         * 
-        */
-
-        //기존 발생되었던 녀석은 어떻게? 
-        //1. 기존께 강화
-        //2. 기존께 소멸
-        //3. 기존꺼 유지 
-        Debug.Log("컨텐츠 활성화");
+       
+       // Debug.Log("컨텐츠 활성화");
         CountQuestTurn(); //기존에 있던 퀘스트들 턴 감소
         Quest newQuest = SelectContent(); //새로 추가할 컨텐츠 있는지 체크 
         RealizeQuest(newQuest);
@@ -115,9 +116,7 @@ public class MGContent
 
     private Quest MakeQuest(int _chunkNum, int _monsterPID, int _monsterCount, RewardType _rewardType)
     {
-        int tempMonPid = 1;
-        int tempMonCount = 5;
-        Quest newQuest = new(tempMonPid, tempMonCount, RewardType.TileEvent); //퀘스트 문서 생성 
+        Quest newQuest = new(_monsterPID, _monsterCount, RewardType.TileEvent); //퀘스트 문서 생성 
         newQuest.ChunkNum = _chunkNum;
         m_QuestReports.Add(newQuest); //리스트에 추가 
                                       //  Debug.Log("몬스터 소환 컨텐츠");
