@@ -32,6 +32,7 @@ public class MgGame : MgGeneric<MgGame>
 
     void Start()
     {
+        m_cutton.SetActive(true);
         doneSetDataPart = false;
         doneSetUIPart = false;
         MakeSingleton(); 
@@ -43,8 +44,9 @@ public class MgGame : MgGeneric<MgGame>
     
     private void SetGame()
     {
+        
         //데이터 파트 
-        if(doneSetDataPart == false)
+        if (doneSetDataPart == false)
         {
             SetDataPart();
             return;
@@ -110,8 +112,8 @@ public class MgGame : MgGeneric<MgGame>
         Action mgCapital = delegate { m_capitalManager.InitiSet(); DoneInitiDataManager("mg자원셋끝"); };
         initiManagerStack.Enqueue(mgCapital);
 
-        contentManager = new(); //인스턴스화
-        m_MasterDataManager = new();
+        contentManager = new MGContent(); //인스턴스화
+        m_MasterDataManager = new MgMasterData();
 
         DoneInitiDataManager("파싱 시작");
     }
@@ -128,8 +130,6 @@ public class MgGame : MgGeneric<MgGame>
         doneDataManager = true;
         SetDataPart();
     }
-   
-
     private void LoadMasterData()
     {
         m_loadManager.MasterDataLoad(); //토큰에 관한 마스터 데이터 로드. 
@@ -140,8 +140,6 @@ public class MgGame : MgGeneric<MgGame>
         doneLoadData = true;
         SetDataPart();
     }
-
-
     private void InitiGameSetting()
     {
         m_tokenManager.ReferenceSet(); //두 클래스의 인스턴스 참조가 필요해서 나중에 해야함.
