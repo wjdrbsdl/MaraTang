@@ -23,6 +23,7 @@ public class Quest
 
     public Quest(int _monsterPID, int _monsterCount, RewardType _rewardType)
     {
+        QuestPid = MGContent.g_instance.GetQuestList().Count;
         condition = new QuestCondition(_monsterPID, _monsterCount);
         reward = new RewardData(_rewardType); //임시로 자원 보상
     }

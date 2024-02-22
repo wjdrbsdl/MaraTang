@@ -20,6 +20,7 @@ public class MgUI : MgGeneric<MgUI>
     [SerializeField] private UIPlayData m_playDataUI;
     [SerializeField] private UIMiniMap m_miniMapUI;
     [SerializeField] private UIQuest m_questUI;
+    [SerializeField] private UIQuestList m_questListUI;
 
     [Header("컷씬")]
     [SerializeField] private UICutScene m_cutScene;
@@ -86,6 +87,11 @@ public class MgUI : MgGeneric<MgUI>
     public void ShowQuest(Quest _quest)
     {
         m_questUI.SetQuestInfo(_quest);
+    }
+
+    public void ShowQuestList()
+    {
+        m_questListUI.SetQuestList();
     }
 
     #endregion

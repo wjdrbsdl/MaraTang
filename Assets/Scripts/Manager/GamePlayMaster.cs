@@ -49,6 +49,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
         if (Input.GetKeyDown(KeyCode.F7))
         {
             //MgToken.GetInstance().MakeMap(); // 맵 다시만들기
+            MgUI.GetInstance().ShowQuestList();
 
         }
         if (Input.GetKeyDown(KeyCode.F8))
