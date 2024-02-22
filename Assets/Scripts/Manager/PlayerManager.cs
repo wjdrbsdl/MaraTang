@@ -33,7 +33,8 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
     {
         //메인 캐릭터 선택된 상태로 시작
         m_curChar = m_mainChar;
-        ChangedPlayerStep(GamePlayStep.SelectAct);
+        m_playGameUI.ShowActionToken();
+        
     }
 
     #region 플레이어 인풋 - 클릭, 선택 등
@@ -292,17 +293,12 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
         m_curStep = _step;
         if (m_curStep.Equals(GamePlayStep.ChooseChar))
         {
-           // m_curChar = null;
-            m_playGameUI.OffPlayUI();
-            m_displayAction.OffActionDisplay();
             GamePlayMaster.g_instance.ResetEmphasize();
             return;
         }
         if (m_curStep.Equals(GamePlayStep.SelectAct))
         {
             m_curAction = null;
-            m_playGameUI.ShowActionToken(); //UI적으로 필요한 처리 진행
-            //m_displayAction.ShowActionTokens(m_curChar);
             GamePlayMaster.g_instance.ResetEmphasize();
             return;
         }
