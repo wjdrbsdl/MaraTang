@@ -33,7 +33,7 @@ public class MGContent
      */
     #region 변수
     public static MGContent g_instance;
-    private List<Quest> m_QuestReports = new List<Quest>();
+    private List<Quest> m_QuestList = new List<Quest>();
     List<(int, bool)> m_QuestRecorde = new(); //과거 퀘스트의 기록
     private int m_mainCharChunkNum = 0;
 
@@ -85,9 +85,9 @@ public class MGContent
 
     private void CountQuestTurn()
     {
-        for (int i = 0; i < m_QuestReports.Count; i++)
+        for (int i = 0; i < m_QuestList.Count; i++)
         {
-            m_QuestReports[i].RemoveTurn();
+            m_QuestList[i].RemoveTurn();
         }
     }
 
@@ -118,7 +118,7 @@ public class MGContent
     {
         Quest newQuest = new(_monsterPID, _monsterCount, RewardType.TileEvent); //퀘스트 문서 생성 
         newQuest.ChunkNum = _chunkNum;
-        m_QuestReports.Add(newQuest); //리스트에 추가 
+        m_QuestList.Add(newQuest); //리스트에 추가 
                                       //  Debug.Log("몬스터 소환 컨텐츠");
 
         //발현시킬 구역 청크
@@ -153,5 +153,9 @@ public class MGContent
         //그외 조건 값들이 더있으면 또 수행 
     }
 
+    public List<Quest> GetQuestList()
+    {
+        return m_QuestList;
+    }
 }
 
