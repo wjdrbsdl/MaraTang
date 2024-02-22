@@ -30,7 +30,6 @@ public class MgUI : MgGeneric<MgUI>
     public void ShowActionToken()
     {
         //플레이어 캐릭터 눌렀을 때
-        OffPlayUI();
         TokenChar _char = PlayerManager.GetInstance().GetSelectedChar();
         m_actionTokenBox.SetActionSlot(_char);
     }
@@ -120,6 +119,7 @@ public class MgUI : MgGeneric<MgUI>
 
     public void CancleLastUI()
     {
+        Debug.Log("종료 요청");
         if (m_uiStack.Count >= 1)
         {
             //마지막 UI를 꺼내서 취소 -> 취소 버튼으로 취소 가능한지 여부는 알아서 판단

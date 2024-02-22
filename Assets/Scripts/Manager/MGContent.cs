@@ -134,6 +134,8 @@ public class MGContent
         if (_quest == null)
             return;
 
+        MgUI.GetInstance().ShowQuest(_quest);
+
         //룰북에서 할까?
         QuestCondition condition = _quest.condition;
         Chunk chunk = MgToken.GetInstance().ChunkList[_quest.ChunkNum];
@@ -150,5 +152,6 @@ public class MGContent
         }
         //그외 조건 값들이 더있으면 또 수행 
     }
+
 }
 
