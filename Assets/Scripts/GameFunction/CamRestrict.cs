@@ -29,12 +29,11 @@ public static class CamRestrict
         Camera.main.gameObject.transform.position = _moved; //카메라 허용범위 벗어난게 아니라면 위치 이동.
     }
 
-    public static void RatioValue(float _xRatio, float _yRatio)
+    public static Vector3 CalGamePos(float _xRatio, float _yRatio)
     {
-        //정해진 범위 밖으로 벗어나지 않도록 수정
+        //어느 공간(미니맵)에서 특정점의 위치 비율을 전체 캠 너비 비율로 환산
         float xPos = (m_camMaxX - m_camMinX) * _xRatio;
         float yPos = (m_camMaxY - m_camMinY) * _yRatio;
-        Vector3 realPos = new Vector3(xPos, yPos, Camera.main.transform.position.z);
-        RestricCamPos(realPos);
+        return new Vector3(xPos, yPos, Camera.main.transform.position.z);
     }
 }
