@@ -40,11 +40,16 @@ public class NaviPin : MonoBehaviour
 
     private float Scalar(Vector2 _dir)
     {
-      //  Debug.Log("스크린 포인트 " + screenPoint + "수정전 벡터" + _dir);
-        if(Mathf.Abs(_dir.x) < Mathf.Abs(_dir.y))
-          return 0.5f / Mathf.Abs(0.5f - screenPoint.y);
+        //  Debug.Log("스크린 포인트 " + screenPoint + "수정전 벡터" + _dir);
+        float gap = Mathf.Abs(0.5f - screenPoint.x);
+        if (Mathf.Abs(_dir.x) < Mathf.Abs(_dir.y))
+          gap = Mathf.Abs(0.5f - screenPoint.y);
 
-        return 0.5f / Mathf.Abs(0.5f - screenPoint.x);
+        if (gap == 0)
+            gap = 0.0001f;
+
+        float ratio = 0.5f / gap;
+        return ratio;
     }
 
     Vector2 screenPoint;
