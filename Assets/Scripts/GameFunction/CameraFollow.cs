@@ -26,7 +26,7 @@ public class CameraFollow : MonoBehaviour
     {
         if (m_target != null)
         {
-            MgInput.RestricCamPos(m_target.transform.position + offSet);
+            CamRestrict.RestricCamPos(m_target.transform.position + offSet);
         }
     }
 
@@ -37,6 +37,6 @@ public class CameraFollow : MonoBehaviour
 
     public void FocusTarget(ObjectTokenBase _tokenObject)
     {
-        MgInput.RestricCamPos(_tokenObject.gameObject.transform.position + offSet);
+        CamRestrict.RestricCamPos(_tokenObject.gameObject.transform.position + offSet);
     }
 }
