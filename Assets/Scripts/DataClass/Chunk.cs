@@ -36,6 +36,7 @@ public class Chunk
     public void MakeMonsterToken()
     {
         //룰북에서 할까?
+        MgMasterData masterData = MgMasterData.GetInstance();
         QuestCondition condition = Quest.condition;
         for (int i = 0; i < condition.monsterCount; i++)
         {
@@ -43,10 +44,20 @@ public class Chunk
             int tempSpawnX = 0;
             int tempSpawnY = i % 5;
             int[] spawnCoord = tiles[tempSpawnX, tempSpawnY].GetMapIndex();
+            if(!masterData.CheckPID(EMasterData.CharData, condition.monsterPID))
+            {
+                //만약 몬스터 피아이디가 없는거라면 딴걸로 변경
+                condition.monsterPID = 2;
+            }
             TokenChar questMonster = MgToken.GetInstance().SpawnMonster(spawnCoord, condition.monsterPID); //몬스터의 경우 사망시에 설치
             questMonster.QuestCard = Quest;
             Quest.TempQuestTokens.Add(questMonster);
         }
     }
 
+    public void MakePin()
+    {
+        NaviPin naviPin = MonoBehaviour.Instantiate(GamePlayMaster.GetInstance().testNaviPin);
+        naviPin.naviPoint = tiles[2, 2].GetObject().transform.position;
+    }
 }

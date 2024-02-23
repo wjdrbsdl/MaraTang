@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class MGContent
+public class MGContent : Mg<MGContent>
 {
     /*
      * 게임에 컨텐츠를 풀어 놓는 곳 
@@ -32,7 +32,6 @@ public class MGContent
         //3. 기존꺼 유지 
      */
     #region 변수
-    public static MGContent g_instance;
     private List<Quest> m_QuestList = new List<Quest>();
     List<(int, bool)> m_QuestRecorde = new(); //과거 퀘스트의 기록
     private int m_mainCharChunkNum = 0;
@@ -48,7 +47,7 @@ public class MGContent
     {
         g_instance = this;
     }
-    public void ReferenceSet()
+    public override void ReferenceSet()
     {
         MgParsing.GetInstance().GetMasterData(EMasterData.ContentData);
    
@@ -103,12 +102,13 @@ public class MGContent
         {
             //어디 청크에서 발현시킬지는 따로 산출
             m_mainCharChunkNum = GameUtil.GetChunkNum(PlayerManager.GetInstance().GetMainChar().GetMapIndex());
-            return MakeQuest(m_mainCharChunkNum, 1, 5, RewardType.TileEvent);
+            return MakeQuest(m_mainCharChunkNum, 12, 5, RewardType.TileEvent);
         }
 
         if (data.PlayTime % 3 == 0)
         {
-            return MakeQuest(m_mainCharChunkNum, 1, 1, RewardType.Capital);
+            int ranChunkNum = Random.Range(0, MgToken.GetInstance().ChunkList.Count);
+            return MakeQuest(ranChunkNum, 6, 1, RewardType.Capital);
         }
 
         return null;
@@ -139,7 +139,7 @@ public class MGContent
 
         //몬스터 카운트가 있으면 몬스터 생성
         chunk.MakeMonsterToken();
-
+        chunk.MakePin();
        
         //그외 조건 값들이 더있으면 또 수행 
     }

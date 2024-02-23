@@ -6,7 +6,7 @@ using System;
 public class GamePlayMaster : MgGeneric<GamePlayMaster>
 {
     public MagnetItem testMangetSample;
-    public GameObject testEventGO;
+    public NaviPin testNaviPin;
     #region  º¯¼ö
     public enum PlayerMember
     {

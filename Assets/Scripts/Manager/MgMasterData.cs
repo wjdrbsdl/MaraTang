@@ -45,6 +45,24 @@ public class MgMasterData : Mg<MgMasterData>
         return m_tileActionDataDic[_actionPID];
     }
 
+    public bool CheckPID(EMasterData _dataType, int pid)
+    {
+        bool isHaveData = false;
+        switch (_dataType)
+        {
+            case EMasterData.TileActionData:
+                isHaveData = m_tileActionDataDic.ContainsKey(pid);
+                break;
+            case EMasterData.CharData:
+                isHaveData = m_charDataDic.ContainsKey(pid);
+                break;
+            case EMasterData.TileType:
+                isHaveData = m_tileTypeDataDic.ContainsKey(pid);
+                break;
+        }
+        return isHaveData;
+    }
+
     #region 마스터 데이터 생성
     private void SetTileTypeData()
     {
