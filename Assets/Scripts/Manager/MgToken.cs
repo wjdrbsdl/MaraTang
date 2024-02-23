@@ -132,6 +132,7 @@ public class MgToken : MgGeneric<MgToken>
     [Header("캐릭터 생성")]
     [SerializeField] private Transform m_monsterBox;
     [SerializeField] private ObjectTokenBase m_monsterObjSample;
+    [SerializeField] private ObjectTokenBase m_eventGO;
     [SerializeField] private List<ObjectTokenBase> m_mosterObject;
     public void MakeMonsterToken()
     {
@@ -166,6 +167,20 @@ public class MgToken : MgGeneric<MgToken>
         TokenChar spawnMonster = MakeMonster(_monsterPid);
         RuleBook.FirstMigrate(spawnMonster, _position);
         return spawnMonster;
+    }
+
+    public TokenEvent SpawnEvent(TokenTile _tile, int _eventPid)
+    {
+        //원본 파일 가져오기 - 지금은 없음
+        //TokenEvent spawnEvent = MgMasterData.GetInstance()
+        TokenEvent masterEvent = new TokenEvent(); //임시로 
+        TokenEvent spawnEventToken = new TokenEvent(masterEvent);
+        ObjectTokenBase eventObj = Instantiate(m_eventGO);
+        eventObj.SetToken(spawnEventToken, TokenType.Event);
+        spawnEventToken.SetMapIndex(_tile.GetXIndex(), _tile.GetYIndex());
+        eventObj.SyncObjectPosition();
+        _tile.SetEnteraceEvent(spawnEventToken);
+        return spawnEventToken;
     }
 
     #endregion

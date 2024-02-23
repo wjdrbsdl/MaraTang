@@ -18,6 +18,7 @@ public class Chunk
 
     public void MakeEventToken()
     {
+        //수량 임시로 3
         for (int i = 0; i < 3; i++)
         {
             int tempPid = i;
@@ -28,16 +29,23 @@ public class Chunk
             int y = i;
             TokenTile tile = tiles[x, y];
 
-            //1.이벤트 토큰 및 오브젝트 만들고
-            TokenEvent eventToken = new TokenEvent(tempPid, tempValue);
-            eventToken.SetMapIndex(tile.GetXIndex(),tile.GetYIndex()); //이벤트 토큰 위치 잡고
-            ObjectTokenBase objectToken = MonoBehaviour.Instantiate(GamePlayMaster.GetInstance().testEventGO).GetComponent<ObjectTokenBase>();
-            objectToken.SetToken(eventToken, TokenType.Event);
-            objectToken.SyncObjectPosition(); //오브젝트 자체 이동 시키고 
+            MgToken.GetInstance().SpawnEvent(tile, tempPid);
+        }
+    }
 
-            //2. 타일에 이벤트 심기
-            tile.SetEnteraceEvent(eventToken);
-
+    public void MakeMonsterToken()
+    {
+        //룰북에서 할까?
+        QuestCondition condition = Quest.condition;
+        for (int i = 0; i < condition.monsterCount; i++)
+        {
+            //위치 잡는 코드 필요 일단은 임시로 
+            int tempSpawnX = 0;
+            int tempSpawnY = i % 5;
+            int[] spawnCoord = tiles[tempSpawnX, tempSpawnY].GetMapIndex();
+            TokenChar questMonster = MgToken.GetInstance().SpawnMonster(spawnCoord, condition.monsterPID); //몬스터의 경우 사망시에 설치
+            questMonster.QuestCard = Quest;
+            Quest.TempQuestTokens.Add(questMonster);
         }
     }
 

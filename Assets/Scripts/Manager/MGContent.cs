@@ -108,7 +108,7 @@ public class MGContent
 
         if (data.PlayTime % 3 == 0)
         {
-            return MakeQuest(m_mainCharChunkNum, 1, 1, RewardType.None);
+            return MakeQuest(m_mainCharChunkNum, 1, 1, RewardType.Capital);
         }
 
         return null;
@@ -116,7 +116,7 @@ public class MGContent
 
     private Quest MakeQuest(int _chunkNum, int _monsterPID, int _monsterCount, RewardType _rewardType)
     {
-        Quest newQuest = new(_monsterPID, _monsterCount, RewardType.TileEvent); //퀘스트 문서 생성 
+        Quest newQuest = new(_monsterPID, _monsterCount, _rewardType); //퀘스트 문서 생성 
         newQuest.ChunkNum = _chunkNum;
         m_QuestList.Add(newQuest); //리스트에 추가 
                                       //  Debug.Log("몬스터 소환 컨텐츠");
@@ -135,21 +135,12 @@ public class MGContent
             return;
 
         MgUI.GetInstance().ShowQuest(_quest);
-
-        //룰북에서 할까?
-        QuestCondition condition = _quest.condition;
         Chunk chunk = MgToken.GetInstance().ChunkList[_quest.ChunkNum];
+
         //몬스터 카운트가 있으면 몬스터 생성
-        for (int i = 0; i < condition.monsterCount; i++)
-        {
-            //위치 잡는 코드 필요 일단은 임시로 
-            int tempSpawnX = 0;
-            int tempSpawnY = i%5;
-            int[] spawnCoord = chunk.tiles[tempSpawnX, tempSpawnY].GetMapIndex();
-            TokenChar questMonster = MgToken.GetInstance().SpawnMonster(spawnCoord, condition.monsterPID); //몬스터의 경우 사망시에 설치
-            questMonster.QuestCard = _quest;
-            _quest.TempQuestTokens.Add(questMonster);
-        }
+        chunk.MakeMonsterToken();
+
+       
         //그외 조건 값들이 더있으면 또 수행 
     }
 
