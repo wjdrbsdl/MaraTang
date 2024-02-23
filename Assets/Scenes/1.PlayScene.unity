@@ -264,6 +264,7 @@ MonoBehaviour:
   m_noise: 0.33
   m_monsterBox: {fileID: 1959083408}
   m_monsterObjSample: {fileID: 1204709712}
+  m_eventGO: {fileID: -5879170163187854571, guid: dc6fc28704325b642b685b445aeae98e, type: 3}
   m_mosterObject:
   - {fileID: 686227105}
   - {fileID: 1204709712}
@@ -6858,7 +6859,7 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 3
+  m_ChildAlignment: 0
   m_StartCorner: 0
   m_StartAxis: 1
   m_CellSize: {x: 350, y: 55}
@@ -7534,7 +7535,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 27.099976, y: 0}
+  m_AnchoredPosition: {x: 27.100098, y: 0}
   m_SizeDelta: {x: 384.5, y: 255}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1390471896

@@ -64,6 +64,7 @@ public class Quest
         {
             Debug.Log("리워드 진행");
             MGContent.g_instance.RewardQuest(this);
+            MGContent.g_instance.RemoveQuest(this);
         }
             
     }

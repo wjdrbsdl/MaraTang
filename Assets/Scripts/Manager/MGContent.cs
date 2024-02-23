@@ -166,5 +166,10 @@ public class MGContent
     {
         return m_QuestList;
     }
+
+    public void RemoveQuest(Quest _quest)
+    {
+        m_QuestList.Remove(_quest);
+    }
 }
 
