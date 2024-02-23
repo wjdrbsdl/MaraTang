@@ -63,7 +63,7 @@ public class Quest
         if (TempQuestTokens.Count == 0)
         {
             Debug.Log("리워드 진행");
-            GamePlayMaster.GetInstance().RewardQuest(this);
+            MGContent.g_instance.RewardQuest(this);
         }
             
     }

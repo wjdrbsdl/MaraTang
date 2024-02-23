@@ -153,6 +153,24 @@ public class MGContent
         //그외 조건 값들이 더있으면 또 수행 
     }
 
+    public void RewardQuest(Quest _quest)
+    {
+        RewardData _reward = _quest.reward;
+        RewardType rewardType = _reward.RewardType;
+        if (rewardType.Equals(RewardType.Capital))
+        {
+            Capital rewardCapital = (Capital)_reward.SubType;
+            PlayerCapitalData.g_instance.CalCapital(rewardCapital, _reward.RewardValue);
+            return;
+        }
+        if (rewardType.Equals(RewardType.TileEvent))
+        {
+            Chunk chunk = MgToken.GetInstance().ChunkList[_quest.ChunkNum];
+            chunk.MakeEventToken();
+            return;
+        }
+    }
+
     public List<Quest> GetQuestList()
     {
         return m_QuestList;

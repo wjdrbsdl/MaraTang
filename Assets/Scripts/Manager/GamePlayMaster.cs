@@ -331,26 +331,6 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     }
     #endregion
 
-    #region
-    public void RewardQuest(Quest _quest)
-    {
-        RewardData _reward = _quest.reward;
-        RewardType rewardType = _reward.RewardType;
-        if (rewardType.Equals(RewardType.Capital))
-        {
-            Capital rewardCapital = (Capital)_reward.SubType;
-            PlayerCapitalData.g_instance.CalCapital(rewardCapital, _reward.RewardValue);
-            return;
-        }
-        if (rewardType.Equals(RewardType.TileEvent))
-        {
-            Chunk chunk = MgToken.GetInstance().ChunkList[_quest.ChunkNum];
-            chunk.MakeEventToken();
-            return;
-        }
-    }
-    #endregion
-
     #region 부가 편의 기능
     public void FogContorl(TokenChar _char)
     {
