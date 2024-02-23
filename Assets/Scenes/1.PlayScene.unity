@@ -9195,8 +9195,8 @@ MonoBehaviour:
   m_doubleClickInterval: 0.25
   m_dragCutDistance: 55
   m_isDragMode: 0
-  m_minDragSpeed: 0.1
-  m_maxDragSpeed: 0.3
+  m_minDragSpeed: 0.25
+  m_maxDragSpeed: 0.5
   dragSpeed: 0
 --- !u!1 &1636353978
 GameObject:
