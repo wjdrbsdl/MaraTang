@@ -11,7 +11,7 @@ public class NaviPin : MonoBehaviour
         m_mainCam = Camera.main;
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         Navigate();
     }
@@ -19,17 +19,40 @@ public class NaviPin : MonoBehaviour
     private void Navigate()
     {
         //카메라 뷰에 들어와있으면
-        IsInCamevaView();
-        //위치에 꽂고 그대로 리턴
-        //카메라 뷰에 나가있으면
-        //카메라 포지션에서 point 방향의 포커스 라인에 위치 
+        if (IsInCamevaView())
+        {
+            transform.position = naviPoint;
+            return;
+        }
+
+        Vector2 dirVec = screenPoint - new Vector2(0.5f, 0.5f); //뷰 센터에서 목적지 까지의 벡터
+        float ratio = Scalar(dirVec); //뷰 센터내 벡터 비율 산출
+        float padding = 0.95f; //뷰 경계선으로 부터 줄 패딩
+        dirVec.x *= ratio * padding; //목적지 까지 벡터에 비율과 패딩을 곱해서 뷰 포트내 벡터 산출
+        dirVec.y *= ratio * padding;
+        
+        Vector2 posVec = new Vector2(0.5f, 0.5f) + dirVec; //센터에서 산출된 벡터를 더해서 위치값 계산
+        //Debug.Log("비율 적용 벡터" + dirVec + "위치 벡터" + posVec);
+        Vector2 viewVec = m_mainCam.ViewportToWorldPoint(posVec); //뷰포트 값을 월드 좌표상으로 옮겨서 화면에 표시 - 그냥 뷰포트 좌표 대로 해도되겠는데
+        transform.position = viewVec; //산출된 월드좌표로 핀 이동
+
     }
 
+    private float Scalar(Vector2 _dir)
+    {
+      //  Debug.Log("스크린 포인트 " + screenPoint + "수정전 벡터" + _dir);
+        if(Mathf.Abs(_dir.x) < Mathf.Abs(_dir.y))
+          return 0.5f / Mathf.Abs(0.5f - screenPoint.y);
+
+        return 0.5f / Mathf.Abs(0.5f - screenPoint.x);
+    }
+
+    Vector2 screenPoint;
     private bool IsInCamevaView()
     {
-        Vector2 screenPoint = m_mainCam.WorldToViewportPoint(naviPoint);
+        screenPoint = m_mainCam.WorldToViewportPoint(naviPoint);
         bool isIn = screenPoint.x > 0 && screenPoint.x < 1 && screenPoint.y > 0 && screenPoint.y < 1;
-        Debug.Log(isIn + " "+screenPoint);
-        return true;
+       // Debug.Log(isIn + " "+screenPoint);
+        return isIn;
     }
 }
