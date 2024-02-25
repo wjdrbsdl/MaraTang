@@ -110,14 +110,9 @@ public class MgUI : MgGeneric<MgUI>
     public bool CheckOpenUI()
     {
         //행동 변화를 막을만한 UI가 펼쳐져 있는가
-        
-        //해당 스택에는 다른 상태로 넘어가면 안되는 UI가 있을 것
         if(m_uiStack.Count >= 1)
         {
-            //마지막 UI
-            //UIBase ui = m_uiStack.Pop();
-            //ui.Switch(false);
-            return true;
+             return true;
         }
 
         return false;
@@ -125,7 +120,7 @@ public class MgUI : MgGeneric<MgUI>
 
     public void CancleLastUI()
     {
-        Debug.Log("종료 요청");
+        //Debug.Log("종료 요청");
         if (m_uiStack.Count >= 1)
         {
             //마지막 UI를 꺼내서 취소 -> 취소 버튼으로 취소 가능한지 여부는 알아서 판단
