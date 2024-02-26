@@ -16,6 +16,21 @@ public class NaviPin : MonoBehaviour
         Navigate();
     }
 
+    public void PutPin(Vector2 _position)
+    {
+        naviPoint = _position;
+    }
+
+    public void RemovePin()
+    {
+        MgNaviPin.GetInstance().RemovePin(this);
+    }
+
+    public void SwitchPin(bool _on)
+    {
+        gameObject.SetActive(_on);
+    }
+
     private void Navigate()
     {
         //카메라 뷰에 들어와있으면

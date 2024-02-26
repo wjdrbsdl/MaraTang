@@ -57,7 +57,7 @@ public class Chunk
 
     public void MakePin()
     {
-        NaviPin naviPin = MonoBehaviour.Instantiate(GamePlayMaster.GetInstance().testNaviPin);
-        naviPin.naviPoint = tiles[2, 2].GetObject().transform.position;
+        NaviPin naviPin = MgNaviPin.GetInstance().GetNaviPin();
+        naviPin.PutPin(tiles[2, 2].GetObject().transform.position);
     }
 }
