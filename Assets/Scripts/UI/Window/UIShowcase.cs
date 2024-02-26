@@ -10,6 +10,8 @@ public class UIShowcase : UIBase
     [SerializeField]
     private Transform m_box;
     [SerializeField]
+    private Transform m_grid;
+    [SerializeField]
     private ShowcaseSlot[] m_showcaseSlots;
 
     private Action<List<ShowcaseSlot>> m_selectAction;
@@ -27,7 +29,7 @@ public class UIShowcase : UIBase
         //1. 캐릭터가 보유한 자원 리스트를 가져온다. 
         Dictionary<Capital, TokenBase> haveCapitals = PlayerCapitalData.g_instance.GetHaveCapitalDic();
      
-        MakeSamplePool<ShowcaseSlot>(ref m_showcaseSlots, m_showcaseSample.gameObject, haveCapitals.Count, m_box);
+        MakeSamplePool<ShowcaseSlot>(ref m_showcaseSlots, m_showcaseSample.gameObject, haveCapitals.Count, m_grid);
         
        int setCount = 0; //정보 설정한 수
 
@@ -47,12 +49,14 @@ public class UIShowcase : UIBase
 
     public void SizeControl(RectTransform _tran)
     {
-        RectTransform rectTrans = m_box.GetComponent<RectTransform>();
-        rectTrans.sizeDelta = _tran.sizeDelta;
-        Vector3 movePos = _tran.position;
-        float yMove = rectTrans.sizeDelta.y * 0.5f + _tran.sizeDelta.y * 0.5f + 55f;
-        movePos.y -= yMove;
-        rectTrans.position = movePos;
+        RectTransform caseRectTrans = m_box.GetComponent<RectTransform>();
+        caseRectTrans.pivot = _tran.pivot; //피봇 동일하게 바꾼뒤
+        Vector3 movePos = _tran.position; //이동할 위치로 이동시키고 
+        //원본 높이 * 피봇 만큼, 난 피봇 반대만큼 - 앞에서 피봇을 일치 시켜놨기 때문에 밑에 내려갈애는 1- 반전으로 진행
+        float yMove = caseRectTrans.sizeDelta.y * (1 - caseRectTrans.pivot.y)+ _tran.sizeDelta.y * _tran.pivot.y;
+        yMove += 5f; //패딩
+        movePos.y -= yMove; //y값을이동 
+        caseRectTrans.position = movePos;
     }
    
     public bool SelectSlot(ShowcaseSlot _caseSlot)
