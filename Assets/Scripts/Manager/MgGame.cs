@@ -22,7 +22,8 @@ public class MgGame : MgGeneric<MgGame>
     SoundManager m_soundManager;
     [SerializeField]
     ObjTokenManager m_capitalManager;
-    
+    [SerializeField]
+    MgNaviPin m_naviManager;
     [SerializeField]
     MgUI m_playerGameUI;
 
@@ -95,34 +96,34 @@ public class MgGame : MgGeneric<MgGame>
 
     #region 1. 매니저 세팅
     Queue<Action> initiManagerStack; 
+
+    private void InputWorkStep(Action _do)
+    {
+        initiManagerStack.Enqueue(_do);
+    }
+
     private void InitiDataManager()
     {
         //
         initiManagerStack = new();
-
         //1. 파싱
-        Action parse = delegate { m_parseManager.InitiSet(); };
-        initiManagerStack.Enqueue(parse);
+        InputWorkStep(delegate { m_parseManager.InitiSet(); });
         //2. 데이터 생성 
-        Action makeMasterData = delegate { m_MasterDataManager = new MgMasterData(); DoneInitiDataManager("기본데이터 생성 끝"); };
-        initiManagerStack.Enqueue(makeMasterData);
+        InputWorkStep(delegate { m_MasterDataManager = new MgMasterData(); DoneInitiDataManager("기본데이터 생성 끝"); });
         //3. 이후 순서 무관
-        Action mgToken = delegate { m_tokenManager.InitiSet(); DoneInitiDataManager("mg토큰끝"); };
-        initiManagerStack.Enqueue(mgToken);
+        InputWorkStep(delegate { m_tokenManager.InitiSet(); DoneInitiDataManager("mg토큰끝"); });
 
-        Action mgMc = delegate { m_gamePlayMaster.InitiSet(); DoneInitiDataManager("mg엠씨끝"); } ;
-        initiManagerStack.Enqueue(mgMc);
+        InputWorkStep(delegate { m_gamePlayMaster.InitiSet(); DoneInitiDataManager("mg엠씨끝"); });
+        
+        InputWorkStep(delegate { m_playerManager.InitiSet(); DoneInitiDataManager("mg플레이어셋끝"); });
 
-        Action mgPlayer = delegate { m_playerManager.InitiSet(); DoneInitiDataManager("mg플레이어셋끝"); };
-        initiManagerStack.Enqueue(mgPlayer);
+        InputWorkStep(delegate { m_soundManager.InitiSet(); DoneInitiDataManager("mg사운드셋끝"); });
 
-        Action mgSound = delegate { m_soundManager.InitiSet(); DoneInitiDataManager("mg사운드셋끝"); };
-        initiManagerStack.Enqueue(mgSound);
+        InputWorkStep(delegate { m_capitalManager.InitiSet(); DoneInitiDataManager("mg자원셋끝"); });
 
-        Action mgCapital = delegate { m_capitalManager.InitiSet(); DoneInitiDataManager("mg자원셋끝"); };
-        initiManagerStack.Enqueue(mgCapital);
+        InputWorkStep(delegate { m_naviManager.InitiSet(); DoneInitiDataManager("mg네비셋끝"); });
 
-        contentManager = new MGContent(); //인스턴스화
+        InputWorkStep(delegate { contentManager = new MGContent(); DoneInitiDataManager("컨텐츠 매니저 끝"); });
 
         DoneInitiDataManager("파싱 시작");
     }
