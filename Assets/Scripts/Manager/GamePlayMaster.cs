@@ -56,10 +56,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
         {
             if (m_playerMemeber.Equals(PlayerMember.LivePlayer))
             {
-                if (m_players[(int)PlayerMember.LivePlayer].GetCurPlayStep() != GamePlayStep.ChooseChar)
-                    return;
-                //리얼 플레이어 차례일때 누르면 라이브 플레이어 턴 종료 선언
-                PlayerManager.GetInstance().EndTurn();
+                m_players[(int)PlayerMember.LivePlayer].EndTurn();
                 Debug.Log("플레이어 턴 종료 선언");
             }
         }
