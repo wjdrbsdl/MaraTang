@@ -259,7 +259,6 @@ MonoBehaviour:
   m_xLength: 25
   m_yLength: 20
   m_rLength: 2.25
-  m_chunkLength: 5
   m_seed: 0
   m_noise: 0.33
   m_monsterBox: {fileID: 1959083408}
@@ -1096,6 +1095,7 @@ MonoBehaviour:
   min: 1
   max: 55
   showcaseType: 5
+  ShowCase: {fileID: 0}
 --- !u!222 &198151389
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3289,6 +3289,7 @@ Transform:
   - {fileID: 1622518809}
   - {fileID: 1625699925}
   - {fileID: 528832909}
+  - {fileID: 929518734}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5507,6 +5508,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 925200586}
   m_CullTransparentMesh: 1
+--- !u!1 &929518733
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 929518734}
+  - component: {fileID: 929518735}
+  m_Layer: 0
+  m_Name: CharScriptMg
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &929518734
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 929518733}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 595696427}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &929518735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 929518733}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58a7ab686bd510f458d5d818a0d13996, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_texture: {fileID: 3587508070279733473, guid: df3be8e0b09ab3d41b407f69913101a1, type: 3}
 --- !u!1 &947372445
 GameObject:
   m_ObjectHideFlags: 0
@@ -11084,7 +11130,6 @@ MonoBehaviour:
   m_window: {fileID: 1657087310}
   IsOnType: 0
   IsStackType: 1
-  m_subUies: []
   m_inputCapitals: []
   m_sampleSlot: {fileID: 198151385}
   m_box: {fileID: 1008572471}
