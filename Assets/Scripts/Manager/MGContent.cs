@@ -102,7 +102,7 @@ public class MGContent : Mg<MGContent>
         for (int i = 0; i < ranChunkIdx.Count; i++)
         {
             rulletChunk.Add(m_chunkList[ranChunkIdx[i]]);
-            Debug.Log(ranChunkIdx[i] + "번째 청크");
+         //   Debug.Log(ranChunkIdx[i] + "번째 청크");
         }
 
         return rulletChunk;
