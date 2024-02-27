@@ -60,8 +60,8 @@ public class MGContent : Mg<MGContent>
     {
         // 턴이 지났음
         CountQuestTurn(); //기존에 있던 퀘스트들 턴 감소
+        List<Chunk> questChunk = SelectChunk(3);
         Quest newQuest = SelectContent(); //새로 추가할 컨텐츠 있는지 체크 
-        List<Chunk> questChunk = SelectChunk();
         RealizeQuest(newQuest);
     }
 
@@ -94,10 +94,10 @@ public class MGContent : Mg<MGContent>
     }
 
     #region 퀘스트 생성
-    private List<Chunk> SelectChunk()
+    private List<Chunk> SelectChunk(int _selectCount)
     {
         //퀘스트를 수행할 청크 뽑기
-        List<int> ranChunkIdx = GameUtil.GetRandomNum(m_chunkList.Count, 3);
+        List<int> ranChunkIdx = GameUtil.GetRandomNum(m_chunkList.Count, _selectCount);
         List<Chunk> rulletChunk = new();
         for (int i = 0; i < ranChunkIdx.Count; i++)
         {
