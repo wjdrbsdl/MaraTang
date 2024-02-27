@@ -468,6 +468,27 @@ public static class GameUtil
     }
     #endregion
 
+    public static List<int> GetRandomNum(int _length, int _randomCount)
+    {
+        //범위에서 랜덤으로 숫자 count만큼 뽑기
+        List<int> randomList = new();
+        List<int> rangeList = new();
+        for (int i = 0; i < _length; i++)
+        {
+            rangeList.Add(i); //범위 만큼 숫자 넣기
+        }
+
+        for (int i = 1; i <= _randomCount; i++)
+        {
+            int ranIndex = UnityEngine.Random.Range(0, rangeList.Count);
+            int randomNum = rangeList[ranIndex]; //범위 리스트의 인덱스의 숫자를 빼고
+            randomList.Add(randomNum); //랜덤리스트에 넣고
+            rangeList.RemoveAt(ranIndex); //범위리스트의 해당 인덱스 아이템 제거 
+        }
+
+        return randomList;
+    }
+
     public static void DropMagnetItem(int[] mapIndex)
     {
         TokenTile tile = GetTileTokenFromMap(mapIndex);
