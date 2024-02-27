@@ -6,7 +6,7 @@ public class MgToken : MgGeneric<MgToken>
 {
     #region ¸Ê»ý¼º º¯¼ö
     [SerializeField]
-    TileMaker m_tileMaker;
+    public TileMaker m_tileMaker;
     public GameObject[] m_tiles;
     public Transform m_tileBox;
 

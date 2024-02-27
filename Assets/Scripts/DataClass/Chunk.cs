@@ -64,10 +64,12 @@ public class Chunk
     public void OnEnterChunk()
     {
         //해당 청크에 들어온 순간
+        Debug.Log(ChunkNum + "에 입장");
     }
 
     public void OnExitChunk()
     {
         //해당 청크에서 나간 순간 
+        Debug.Log(ChunkNum + "에서 나감");
     }
 }

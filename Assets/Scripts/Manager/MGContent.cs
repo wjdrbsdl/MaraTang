@@ -51,7 +51,7 @@ public class MGContent : Mg<MGContent>
     public override void ReferenceSet()
     {
         MgParsing.GetInstance().GetMasterData(EMasterData.ContentData);
-        TileMaker maker = new();
+        TileMaker maker = MgToken.GetInstance().m_tileMaker;
         m_chunkList = maker.MakeChunk(maker.DivideChunk(5));
     }
     #endregion
@@ -75,11 +75,12 @@ public class MGContent : Mg<MGContent>
             int moveChunk = GameUtil.GetChunkNum(_doChar.GetMapIndex());
             if (m_mainCharChunkNum.Equals(moveChunk) == false)
             {
-                //다른 청크로 이동한거면
-             //   Debug.Log(moveChunk + "번 청크 퀘스트 수행");
-                
+                //다른 구역으로 넘어갔을때 
+                m_chunkList[m_mainCharChunkNum].OnExitChunk(); //이전건 나간거
+                m_chunkList[moveChunk].OnEnterChunk(); //새로운건 들어간거
             }
             m_mainCharChunkNum = moveChunk;
+
         }
     }
 
@@ -109,7 +110,6 @@ public class MGContent : Mg<MGContent>
 
         if (data.PlayTime % 3 == 0)
         {
-            //int ranChunkNum = Random.Range(0, MgToken.GetInstance().ChunkList.Count);
             int ranChunkNum = Random.Range(0, m_chunkList.Count);
             return MakeQuest(ranChunkNum, 6, 1, RewardType.Capital);
         }
@@ -126,7 +126,6 @@ public class MGContent : Mg<MGContent>
 
         //발현시킬 구역 청크
         m_mainCharChunkNum = GameUtil.GetChunkNum(PlayerManager.GetInstance().GetMainChar().GetMapIndex());
-        //Chunk chunk = MgToken.GetInstance().ChunkList[_chunkNum]; //플레이어가 있는 청크로 결정
         Chunk chunk = m_chunkList[_chunkNum]; //플레이어가 있는 청크로 결정
         chunk.Quest = newQuest;
 
@@ -141,7 +140,6 @@ public class MGContent : Mg<MGContent>
             return;
 
         MgUI.GetInstance().ShowQuest(_quest);
-        //Chunk chunk = MgToken.GetInstance().ChunkList[_quest.ChunkNum];
         Chunk chunk = m_chunkList[_quest.ChunkNum];
 
         //몬스터 카운트가 있으면 몬스터 생성
@@ -177,7 +175,6 @@ public class MGContent : Mg<MGContent>
         }
         if (rewardType.Equals(RewardType.TileEvent))
         {
-            //Chunk chunk = MgToken.GetInstance().ChunkList[_quest.ChunkNum];
             Chunk chunk = m_chunkList[_quest.ChunkNum];
             chunk.MakeEventToken();
             return;
