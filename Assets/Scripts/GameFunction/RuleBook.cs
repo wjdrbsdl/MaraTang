@@ -181,21 +181,21 @@ public class RuleBook
         //1. 액션의 소비 액션 카운트와 비교(액션소비카운트가 0 인 녀석인 경우 true)
         if(_char.GetActionCount() < _action.GetStat(CharActionStat.NeedActionCount))
         {
-            Announcer.Instance.AnnounceState("행동 카운트 부족");
+            Announcer.Instance.AnnounceState("행동 카운트 부족", true);
             return false;
         }
 
         //2. 액션의 소비 에너지
         if (_char.GetStat(CharStat.CurActionEnergy) < _action.GetStat(CharActionStat.NeedActionEnergy))
         {
-            Announcer.Instance.AnnounceState("행동 에너지 부족");
+            Announcer.Instance.AnnounceState("행동 에너지 부족", true);
             return false;
         }
 
         //3. 액션 자체의 사용횟수(한 턴에 사용제한을 둬야하는 경우)
         if (_action.AbleUse() == false)
         {
-            Announcer.Instance.AnnounceState("사용불가 상태 액션");
+            Announcer.Instance.AnnounceState("사용불가 상태 액션", true);
             return false;
         }
 
@@ -206,7 +206,7 @@ public class RuleBook
     {
         if (_action.GetTargetPos() == null)
         {
-            Announcer.Instance.AnnounceState("타겟이 부정확");
+            Announcer.Instance.AnnounceState("타겟이 부정확", true);
             return false;
         }
             
@@ -326,7 +326,7 @@ public class RuleBook
 
         if (capitalData.IsEnough(_resources) == false)
         {
-            Announcer.Instance.AnnounceState("합성 재료 부족");
+            Announcer.Instance.AnnounceState("합성 재료 부족", true);
             return;
         }
         capitalData.CalValue(_resources, false); //사용한만큼 감소 시키고
@@ -339,7 +339,7 @@ public class RuleBook
         PlayerCapitalData capitalData = PlayerCapitalData.g_instance;
         if (capitalData.IsEnough(_input.Item1, _input.Item2) == false)
         {
-            Announcer.Instance.AnnounceState("변환 재료 부족");
+            Announcer.Instance.AnnounceState("변환 재료 부족", true);
             return;
         }
         capitalData.CalCapital(_input.Item1, -_input.Item2); //사용한만큼 감소 시키고

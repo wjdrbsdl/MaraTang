@@ -139,8 +139,6 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
         //0. 액션 토큰 사용 조건 확인
         if (GamePlayMaster.g_instance.RuleBook.IsAbleAction(m_curChar, actionToken) == false)
         {
-            Announcer.Instance.AnnounceState("캐릭터 행동 수치 부족");
-
             if (GamePlayMaster.g_instance.TempAdaptActionCount)
                 return;
         }
