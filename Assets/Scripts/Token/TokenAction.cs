@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System;
 
 public enum ActionType
 {
@@ -45,6 +46,7 @@ public class TokenAction : TokenBase
         m_tokenIValues = new int[System.Enum.GetValues(typeof(CharActionStat)).Length];
         GameUtil.InputMatchValue(ref m_tokenIValues, matchCode, valueCode);
         m_tokenIValues[(int)CharActionStat.RemainCountInTurn] = m_tokenIValues[(int)CharActionStat.MaxCountInTurn];
+ 
     }
 
     public TokenAction MakeTestAction(ActionType _type)
@@ -63,6 +65,7 @@ public class TokenAction : TokenBase
             actionToken.SetStatValue(CharActionStat.RemainCountInTurn, 2);
             actionToken.SetStatValue(CharActionStat.MaxCountInTurn, 2);
             actionToken.SetStatValue(CharActionStat.NeedActionCount, 1);
+            actionToken.SetStatValue(CharActionStat.CoolTime, 2);
         }
         else if (_type.Equals(ActionType.Attack))
         {
@@ -105,6 +108,22 @@ public class TokenAction : TokenBase
         m_targetPos =null;
     }
     #endregion
+
+    public override void CalStat(Enum _enumIndex, int _value)
+    {
+        base.CalStat(_enumIndex, _value);
+        if (_enumIndex.Equals(CharActionStat.RemainCountInTurn))
+        {
+           if(GetStat(CharActionStat.RemainCountInTurn)< GetStat(CharActionStat.MaxCountInTurn))
+            {
+                //사용 했는데, 현재 쿨이 돌지 않고 있다면
+                if(GetStat(CharActionStat.RemainCool) != 0)
+                {
+                    SetStatValue(CharActionStat.RemainCool, GetStat(CharActionStat.CoolTime)); //해당 쿨만큼으로 세팅 
+                }
+            }
+        }
+    }
 
     public void RcoverRemainCountInTurn()
     {

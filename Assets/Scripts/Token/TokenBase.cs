@@ -99,7 +99,7 @@ public class TokenBase
         m_tokenIValues[index] = _value;
         //Debug.Log(m_tokenType + ": " + _enumIndex + ":" + m_tokenIValues[index]);
     }
-    public void CalStat(System.Enum _enumIndex, int _value)
+    public virtual void CalStat(System.Enum _enumIndex, int _value)
     {
         int index = GameUtil.ParseEnumValue(_enumIndex); 
         m_tokenIValues[index] += _value;
