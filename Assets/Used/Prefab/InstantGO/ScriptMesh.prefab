@@ -318,7 +318,7 @@ MonoBehaviour:
     closeScale: 2
     farScale: 0.5
   cameraOverride: {fileID: 0}
-  enableNumber: 1
+  enableNumber: 0
   number: 1
   numberSettings:
     bold: 0
@@ -446,9 +446,9 @@ MonoBehaviour:
     fromNumber: 10
     toNumber: 100
   durationFadeIn: 0.2
-  enableOffsetFadeIn: 1
+  enableOffsetFadeIn: 0
   offsetFadeIn: {x: 0.5, y: 0}
-  enableScaleFadeIn: 1
+  enableScaleFadeIn: 0
   scaleFadeIn: {x: 2, y: 2}
   enableCrossScaleFadeIn: 0
   crossScaleFadeIn: {x: 1, y: 1.5}
@@ -465,7 +465,7 @@ MonoBehaviour:
   enableShakeFadeOut: 0
   shakeOffsetFadeOut: {x: 0, y: 1.5}
   shakeFrequencyFadeOut: 4
-  enableLerp: 1
+  enableLerp: 0
   lerpSettings:
     speed: 5
     minX: -0.4
@@ -730,7 +730,7 @@ SortingGroup:
   m_Enabled: 1
   m_SortingLayerID: -1620172761
   m_SortingLayer: 2
-  m_SortingOrder: 15
+  m_SortingOrder: 2
 --- !u!1 &7143100433784861680
 GameObject:
   m_ObjectHideFlags: 0
