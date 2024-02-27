@@ -63,8 +63,6 @@ public class TileMaker : MonoBehaviour
         MgToken.GetInstance().SetHideTiles(newHideMap); //만들어진 맵 정보 전달
     }
 
-  
-
     public List<int[]> DivideChunk(int _chunkLength)
     {
         //_length 길이 묶음으로 타일을 묶어서 청크화 -> 해당 청크별로 이벤트 발생이나 세력권등 짤 수 있는 구획이 됨. 

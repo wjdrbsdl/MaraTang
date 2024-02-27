@@ -35,6 +35,7 @@ public class MGContent : Mg<MGContent>
     private List<Quest> m_QuestList = new List<Quest>();
     List<(int, bool)> m_QuestRecorde = new(); //과거 퀘스트의 기록
     private int m_mainCharChunkNum = 0;
+    private List<Chunk> m_chunkList = new List<Chunk>();
 
     public enum ContentEnum
     {
@@ -50,7 +51,8 @@ public class MGContent : Mg<MGContent>
     public override void ReferenceSet()
     {
         MgParsing.GetInstance().GetMasterData(EMasterData.ContentData);
-   
+        TileMaker maker = new();
+        m_chunkList = maker.MakeChunk(maker.DivideChunk(5));
     }
     #endregion
 
@@ -107,7 +109,8 @@ public class MGContent : Mg<MGContent>
 
         if (data.PlayTime % 3 == 0)
         {
-            int ranChunkNum = Random.Range(0, MgToken.GetInstance().ChunkList.Count);
+            //int ranChunkNum = Random.Range(0, MgToken.GetInstance().ChunkList.Count);
+            int ranChunkNum = Random.Range(0, m_chunkList.Count);
             return MakeQuest(ranChunkNum, 6, 1, RewardType.Capital);
         }
 
@@ -123,7 +126,8 @@ public class MGContent : Mg<MGContent>
 
         //발현시킬 구역 청크
         m_mainCharChunkNum = GameUtil.GetChunkNum(PlayerManager.GetInstance().GetMainChar().GetMapIndex());
-        Chunk chunk = MgToken.GetInstance().ChunkList[_chunkNum]; //플레이어가 있는 청크로 결정
+        //Chunk chunk = MgToken.GetInstance().ChunkList[_chunkNum]; //플레이어가 있는 청크로 결정
+        Chunk chunk = m_chunkList[_chunkNum]; //플레이어가 있는 청크로 결정
         chunk.Quest = newQuest;
 
         return newQuest;
@@ -137,7 +141,8 @@ public class MGContent : Mg<MGContent>
             return;
 
         MgUI.GetInstance().ShowQuest(_quest);
-        Chunk chunk = MgToken.GetInstance().ChunkList[_quest.ChunkNum];
+        //Chunk chunk = MgToken.GetInstance().ChunkList[_quest.ChunkNum];
+        Chunk chunk = m_chunkList[_quest.ChunkNum];
 
         //몬스터 카운트가 있으면 몬스터 생성
         chunk.MakeMonsterToken();
@@ -172,7 +177,8 @@ public class MGContent : Mg<MGContent>
         }
         if (rewardType.Equals(RewardType.TileEvent))
         {
-            Chunk chunk = MgToken.GetInstance().ChunkList[_quest.ChunkNum];
+            //Chunk chunk = MgToken.GetInstance().ChunkList[_quest.ChunkNum];
+            Chunk chunk = m_chunkList[_quest.ChunkNum];
             chunk.MakeEventToken();
             return;
         }
