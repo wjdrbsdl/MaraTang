@@ -121,7 +121,21 @@ public class TokenAction : TokenBase
                 {
                     SetStatValue(CharActionStat.RemainCool, GetStat(CharActionStat.CoolTime)); //해당 쿨만큼으로 세팅 
                 }
+                
             }
+           else //남은 횟수의 변화를 줬는데 최대 수치 이상이라면
+            {
+                SetStatValue(CharActionStat.RemainCool, 0); //쿨을 0 으로 초기화 
+            }
+            return;
+        }
+
+        //쿨 관련 계산이였다면
+        if (_enumIndex.Equals(CharActionStat.RemainCool))
+        {
+            //최대 수치 만큼 회복
+            if (GetStat((CharActionStat.RemainCool)) == 0)
+                SetStatValue(CharActionStat.RemainCountInTurn, GetStat(CharActionStat.MaxCountInTurn));
         }
     }
 
@@ -130,15 +144,9 @@ public class TokenAction : TokenBase
         int coolTime = GetStat(CharActionStat.RemainCool); //남은쿨을 보고
         if(0 < coolTime) //쿨이 돌고 있으면
         {
-            coolTime -= 1;
             CalStat(CharActionStat.RemainCool, -1); //1을 깐다. 
         }
-        //그리고 만약 쿨이 다 되었다면
-        if(0 == coolTime)
-        { 
-            //최대 수치 만큼 회복
-            m_tokenIValues[(int)CharActionStat.RemainCountInTurn] = m_tokenIValues[(int)CharActionStat.MaxCountInTurn];
-        }
+      
     }
 
     public bool AbleUse()
