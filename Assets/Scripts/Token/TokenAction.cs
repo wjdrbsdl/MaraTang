@@ -117,7 +117,7 @@ public class TokenAction : TokenBase
            if(GetStat(CharActionStat.RemainCountInTurn)< GetStat(CharActionStat.MaxCountInTurn))
             {
                 //사용 했는데, 현재 쿨이 돌지 않고 있다면
-                if(GetStat(CharActionStat.RemainCool) != 0)
+                if(GetStat(CharActionStat.RemainCool) == 0) //즉 남은 쿨이 0 이라면
                 {
                     SetStatValue(CharActionStat.RemainCool, GetStat(CharActionStat.CoolTime)); //해당 쿨만큼으로 세팅 
                 }
@@ -127,7 +127,18 @@ public class TokenAction : TokenBase
 
     public void RcoverRemainCountInTurn()
     {
-        m_tokenIValues[(int)CharActionStat.RemainCountInTurn] = m_tokenIValues[(int)CharActionStat.MaxCountInTurn];
+        int coolTime = GetStat(CharActionStat.RemainCool); //남은쿨을 보고
+        if(0 < coolTime) //쿨이 돌고 있으면
+        {
+            coolTime -= 1;
+            CalStat(CharActionStat.RemainCool, -1); //1을 깐다. 
+        }
+        //그리고 만약 쿨이 다 되었다면
+        if(0 == coolTime)
+        { 
+            //최대 수치 만큼 회복
+            m_tokenIValues[(int)CharActionStat.RemainCountInTurn] = m_tokenIValues[(int)CharActionStat.MaxCountInTurn];
+        }
     }
 
     public bool AbleUse()

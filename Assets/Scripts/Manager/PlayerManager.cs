@@ -291,6 +291,7 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
         m_curStep = _step;
         if (m_curStep.Equals(GamePlayStep.ChooseChar))
         {
+            m_playGameUI.ShowActionToken();
             GamePlayMaster.g_instance.ResetEmphasize();
             return;
         }
