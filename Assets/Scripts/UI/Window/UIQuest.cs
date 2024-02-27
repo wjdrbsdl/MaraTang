@@ -11,8 +11,8 @@ public class UIQuest : UIBase
     public void SetQuestInfo(Quest quest)
     {
         Switch(true);
-        SetConditionInfo(quest.condition);
-        SetRewardInfo(quest.reward);
+        SetConditionInfo(quest.Condition);
+        SetRewardInfo(quest.Reward);
     }
 
     private void SetConditionInfo(QuestCondition _condition)

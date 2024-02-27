@@ -9,29 +9,32 @@ public class Quest
     //보상을 명기한 컨텐트
     public int QuestPid = 0; //해당 퀘스트 pid mgContet 리스트에 추가되는 값으로 인덱스용
     public int RestWoldTurn = 5; //유지되는 기간 
-    public int TempCompleteCode = 5; //완료 조건
     public int ChunkNum = 0;
-    public QuestCondition condition; //수행 조건
-    public RewardData reward; //보상
+    public QuestCondition Condition; //수행 조건
+    public RewardData Reward; //보상
+    public PenaltyData Penalty;
     public List<TokenBase> TempQuestTokens = new(); //퀘스트에 관련된 토큰들 
 
     #region 생성
     public Quest()
     {
-        reward = new RewardData(RewardType.None); //임시로 자원 보상
+        Reward = new RewardData(RewardType.None); //임시로 자원 보상
     }
 
     public Quest(int _monsterPID, int _monsterCount, RewardType _rewardType)
     {
         QuestPid = MGContent.g_instance.GetQuestList().Count;
-        condition = new QuestCondition(_monsterPID, _monsterCount);
-        reward = new RewardData(_rewardType); //임시로 자원 보상
+        Condition = new QuestCondition(_monsterPID, _monsterCount);
+        Reward = new RewardData(_rewardType); //임시로 자원 보상
+        Penalty = new PenaltyData();
     }
     #endregion
 
     public void RemoveTurn(int _count = 1)
     {
         RestWoldTurn -= 1;
+        if (RestWoldTurn == 0)
+            MGContent.GetInstance().FailQuest(this);
     }
 
     public void SendQuestCallBack(TokenBase _token)
@@ -53,20 +56,23 @@ public class Quest
    
         //현재는 몬스터 사망으로 잡아야할 몬스터 리스트에서 제거하는 중
         TempQuestTokens.Remove((TokenChar)_token);
-        CheckQuestComplete();
-    }
-
-    private void CheckQuestComplete()
-    {
-        //토큰의 호출시 마다 결과 코드를 기록하고 퀘스트 완료 여부를 체크한다. 
-        
-        if (TempQuestTokens.Count == 0)
+        bool isComplete = CheckQuestComplete();
+        //퀘스트 평가중 성공했다면
+        if (isComplete)
         {
-            Debug.Log("리워드 진행");
-            MGContent.g_instance.RewardQuest(this);
-            MGContent.g_instance.RemoveQuest(this);
+            MGContent.GetInstance().SuccessQuest(this);
         }
             
+    }
+
+    private bool CheckQuestComplete()
+    {
+        //토큰의 호출시 마다 결과 코드를 기록하고 퀘스트 완료 여부를 체크한다. 
+        if (TempQuestTokens.Count == 0)
+        {
+            return true;
+        }
+        return false;
     }
 }
 public enum QuestType

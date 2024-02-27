@@ -54,10 +54,9 @@ public class MGContent : Mg<MGContent>
     }
     #endregion
 
-    public void MakeContent()
+    public void OnNextTurn()
     {
-       
-       // Debug.Log("컨텐츠 활성화");
+        // 턴이 지났음
         CountQuestTurn(); //기존에 있던 퀘스트들 턴 감소
         Quest newQuest = SelectContent(); //새로 추가할 컨텐츠 있는지 체크 
         RealizeQuest(newQuest);
@@ -90,6 +89,7 @@ public class MGContent : Mg<MGContent>
         }
     }
 
+    #region 퀘스트 생성
     private Quest SelectContent()
     {
         //미리 세팅해둔 컨텐츠 테이블에 따라 수행할것
@@ -128,7 +128,9 @@ public class MGContent : Mg<MGContent>
 
         return newQuest;
     }
+    #endregion
 
+    #region 퀘스트 관리
     private void RealizeQuest(Quest _quest)
     {
         if (_quest == null)
@@ -140,13 +142,27 @@ public class MGContent : Mg<MGContent>
         //몬스터 카운트가 있으면 몬스터 생성
         chunk.MakeMonsterToken();
         chunk.MakePin();
-       
+
         //그외 조건 값들이 더있으면 또 수행 
     }
 
-    public void RewardQuest(Quest _quest)
+    public void SuccessQuest(Quest _quest)
     {
-        RewardData _reward = _quest.reward;
+        GiveReward(_quest);
+        RecordeQuest(_quest, true);
+        RemoveQuest(_quest);
+    }
+
+    public void FailQuest(Quest _quest)
+    {
+        GivePenalty(_quest);
+        RecordeQuest(_quest, false);
+        RemoveQuest(_quest);
+    }
+
+    private void GiveReward(Quest _quest)
+    {
+        RewardData _reward = _quest.Reward;
         RewardType rewardType = _reward.RewardType;
         if (rewardType.Equals(RewardType.Capital))
         {
@@ -161,6 +177,18 @@ public class MGContent : Mg<MGContent>
             return;
         }
     }
+
+    private void GivePenalty(Quest _quest)
+    {
+
+    }
+
+    private void RecordeQuest(Quest _quest, bool _result)
+    {
+        m_QuestRecorde.Add((_quest.QuestPid, _result));
+    }
+
+    #endregion
 
     public List<Quest> GetQuestList()
     {

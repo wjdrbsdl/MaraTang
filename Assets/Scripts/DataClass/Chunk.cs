@@ -37,7 +37,7 @@ public class Chunk
     {
         //룰북에서 할까?
         MgMasterData masterData = MgMasterData.GetInstance();
-        QuestCondition condition = Quest.condition;
+        QuestCondition condition = Quest.Condition;
         for (int i = 0; i < condition.monsterCount; i++)
         {
             //위치 잡는 코드 필요 일단은 임시로 
