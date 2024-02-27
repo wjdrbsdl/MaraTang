@@ -70,7 +70,7 @@ public class MgToken : MgGeneric<MgToken>
     {
         for (int i = 0; i < m_tiles.Length; i++)
         {
-            float size = m_rLength * 0.6666f; //1.5°¡ size 1¿¡ ºñ·Ê
+            float size = m_rLength * 0.6666f * 1.1f; //1.5°¡ size 1¿¡ ºñ·Ê
             Vector3 sizeVect = new Vector3(size, size, 1);
             m_tiles[i].transform.localScale = sizeVect;
         }

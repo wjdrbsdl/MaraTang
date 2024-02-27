@@ -1066,8 +1066,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 859622142}
-  m_Father: {fileID: 1657087313}
-  m_RootOrder: 1
+  m_Father: {fileID: 1910184960}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1095,6 +1095,7 @@ MonoBehaviour:
   selectedText: {fileID: 198151390}
   min: 1
   max: 55
+  showcaseType: 5
 --- !u!222 &198151389
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -9710,9 +9711,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 817148753}
-  - {fileID: 198151386}
   m_Father: {fileID: 1910184960}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -11101,6 +11101,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 198151386}
   - {fileID: 1657087313}
   m_Father: {fileID: 813747009}
   m_RootOrder: 4

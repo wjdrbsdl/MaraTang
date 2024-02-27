@@ -15,22 +15,26 @@ public class ShowcaseSlot : SlotBase
         
     }
 
+    //public override void OnLeftClick()
+    //{
+    //    //선택이 안된 상태라면
+    //    if(m_isSelected == false)
+    //    {
+    //        //선택 요청
+    //        bool isSelected = m_shocaseUI.SelectSlot(this);
+    //        if (isSelected)
+    //            m_isSelected = true;
+    //    }
+    //    //선택이 된 상황이라면
+    //    else
+    //    {
+    //        bool isCancled = m_shocaseUI.CancleSlot(this); //캔슬 요청
+    //        m_isSelected = false;
+    //    }
+    //}
     public override void OnLeftClick()
     {
-        //선택이 안된 상태라면
-        if(m_isSelected == false)
-        {
-            //선택 요청
-            bool isSelected = m_shocaseUI.SelectSlot(this);
-            if (isSelected)
-                m_isSelected = true;
-        }
-        //선택이 된 상황이라면
-        else
-        {
-            bool isCancled = m_shocaseUI.CancleSlot(this); //캔슬 요청
-            m_isSelected = false;
-        }
+       m_shocaseUI.TempSelectSlot(this);
     }
 
 }

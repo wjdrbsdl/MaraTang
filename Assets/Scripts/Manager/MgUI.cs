@@ -12,7 +12,7 @@ public class MgUI : MgGeneric<MgUI>
     [SerializeField] private UIEventContent m_eventContentUI;
     [SerializeField] private UITileWorkShop m_tileWorkShopUI;
     [SerializeField] private UICharStats m_charStatUI;
-    [SerializeField] private UIChefUI m_chefUI;
+    [SerializeField] private UIMixer m_chefUI;
 
     [Header("데이터 표기")]
     [SerializeField] private UICapital m_capitalUI;
@@ -104,6 +104,13 @@ public class MgUI : MgGeneric<MgUI>
 
     }
 
+    public void ShowCaseOpen(RectTransform _uiTransform, InputSlot _inputSlot)
+    {
+        //얘를 열고, 그 위치도 조정
+        m_shocaseUI.OpenWindow(_inputSlot);
+        m_shocaseUI.SizeControl(_uiTransform);
+
+    }
 
     #region 활성화 UI 관리
     Stack<UIBase> m_uiStack = new();

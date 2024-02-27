@@ -25,7 +25,7 @@ public class CameraMove : MonoBehaviour
     private void Update()
     {
         ScopeCamera();
-        if (Input.GetKeyDown(KeyCode.F6))
+        if (Input.GetKeyDown(KeyCode.F6) && m_follow != null)
             m_follow.MoveToTarget();
             
     }

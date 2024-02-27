@@ -47,6 +47,33 @@ public class UIShowcase : UIBase
         }
     }
 
+    private InputSlot m_targetSlot;
+    public void OpenWindow(InputSlot _inputSlot)
+    {
+        base.OpenWindow();
+        m_targetSlot = _inputSlot;
+
+        //1. 캐릭터가 보유한 자원 리스트를 가져온다. 
+        Dictionary<Capital, TokenBase> haveCapitals = PlayerCapitalData.g_instance.GetHaveCapitalDic();
+
+        MakeSamplePool<ShowcaseSlot>(ref m_showcaseSlots, m_showcaseSample.gameObject, haveCapitals.Count, m_grid);
+
+        int setCount = 0; //정보 설정한 수
+
+        foreach (KeyValuePair<Capital, TokenBase> item in haveCapitals)
+        {
+            m_showcaseSlots[setCount].gameObject.SetActive(true);
+            m_showcaseSlots[setCount].ShowCaseSet(item.Value, this);
+            setCount += 1; //세팅한 숫자 올리고
+        }
+
+        //세팅 된 숫자부터 그 뒤까진 비활성
+        for (int i = setCount; i < haveCapitals.Count; i++)
+        {
+            m_showcaseSlots[i].gameObject.SetActive(false);
+        }
+    }
+
     public void SizeControl(RectTransform _tran)
     {
         RectTransform caseRectTrans = m_box.GetComponent<RectTransform>();
@@ -59,6 +86,11 @@ public class UIShowcase : UIBase
         caseRectTrans.position = movePos;
     }
    
+    public void TempSelectSlot(ShowcaseSlot _caseSlot)
+    {
+        m_targetSlot.SetShowCase(_caseSlot);
+    }
+
     public bool SelectSlot(ShowcaseSlot _caseSlot)
     {
         //슬랏을 선택했을때 선택 가능한지 여부를 반환
