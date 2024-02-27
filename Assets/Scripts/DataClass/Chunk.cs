@@ -38,12 +38,13 @@ public class Chunk
         //룰북에서 할까?
         MgMasterData masterData = MgMasterData.GetInstance();
         QuestCondition condition = Quest.Condition;
+        List<int> random = GameUtil.GetRandomNum(25, 5);
         for (int i = 0; i < condition.monsterCount; i++)
         {
             //위치 잡는 코드 필요 일단은 임시로 
-            int tempSpawnX = 0;
-            int tempSpawnY = i % 5;
-            int[] spawnCoord = tiles[tempSpawnX, tempSpawnY].GetMapIndex();
+            int ranPos = random[i]; //타일번호를 뽑고 해당 번호를 타일좌표로 반환해야함
+            int[] tilePos = GameUtil.GetXYPosFromIndex(tiles.GetLength(0), ranPos);
+            int[] spawnCoord = tiles[tilePos[0], tilePos[1]].GetMapIndex();
             if(!masterData.CheckPID(EMasterData.CharData, condition.monsterPID))
             {
                 //만약 몬스터 피아이디가 없는거라면 딴걸로 변경

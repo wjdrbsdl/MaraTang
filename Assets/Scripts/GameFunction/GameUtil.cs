@@ -489,6 +489,14 @@ public static class GameUtil
         return randomList;
     }
 
+    public static int[] GetXYPosFromIndex(int _xLength, int _num)
+    {
+        //몇행 몇열인지를 빼기. 
+        int height = _num / _xLength;
+        int width = _num % _xLength;
+        int[] pos = new int[] {width, height};
+        return pos;
+    }
     public static void DropMagnetItem(int[] mapIndex)
     {
         TokenTile tile = GetTileTokenFromMap(mapIndex);

@@ -74,7 +74,8 @@ public class TokenAction : TokenBase
             actionToken.SetStatValue(CharActionStat.MinRatio, 1);
             actionToken.SetStatValue(CharActionStat.RemainCountInTurn, 1);
             actionToken.SetStatValue(CharActionStat.MaxCountInTurn, 1);
-            actionToken.SetStatValue(CharActionStat.NeedActionCount, 2);
+            actionToken.SetStatValue(CharActionStat.NeedActionCount, 0);
+     
         }
         
         return actionToken;
@@ -119,9 +120,14 @@ public class TokenAction : TokenBase
                 //사용 했는데, 현재 쿨이 돌지 않고 있다면
                 if(GetStat(CharActionStat.RemainCool) == 0) //즉 남은 쿨이 0 이라면
                 {
-                    SetStatValue(CharActionStat.RemainCool, GetStat(CharActionStat.CoolTime)); //해당 쿨만큼으로 세팅 
+                    int cool = GetStat(CharActionStat.CoolTime);
+                    //쿨이 있으면 쿨을 돌리고
+                    if (0 < cool)
+                        SetStatValue(CharActionStat.RemainCool, cool); //해당 쿨만큼으로 세팅 
+                    else //쿨이 없다면 무한 사용 횟수
+                        SetStatValue(CharActionStat.RemainCountInTurn, GetStat(CharActionStat.MaxCountInTurn));
                 }
-                
+
             }
            else //남은 횟수의 변화를 줬는데 최대 수치 이상이라면
             {
