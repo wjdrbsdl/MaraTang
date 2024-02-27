@@ -8,7 +8,8 @@ public enum ActionType
 
 public enum CharActionStat
 {
-   MinRange, Range, MinRatio, MaxCountInTurn, RemainCountInTurn, Power, NeedActionEnergy, NeedActionCount, Value2
+   MinRange, Range, MinRatio, MaxCountInTurn, RemainCountInTurn, Power, NeedActionEnergy, NeedActionCount, Value2,
+   CoolTime, RemainCool
 }
 
 public enum TileActionStat
