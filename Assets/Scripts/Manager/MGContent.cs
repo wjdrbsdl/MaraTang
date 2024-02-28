@@ -126,7 +126,7 @@ public class MGContent : Mg<MGContent>
         if (data.PlayTime % 3 == 0)
         {
             int ranChunkNum = Random.Range(0, m_chunkList.Count);
-            return MakeQuest(ranChunkNum, 6, 1, RewardType.Capital);
+            return MakeQuest(ranChunkNum, 6, 1, RewardType.CharStat);
         }
 
         return null;
@@ -192,6 +192,11 @@ public class MGContent : Mg<MGContent>
         {
             Chunk chunk = m_chunkList[_quest.ChunkNum];
             chunk.MakeEventToken();
+            return;
+        }
+        if (rewardType.Equals(RewardType.CharStat))
+        {
+            MgUI.GetInstance().ShowRewardList(_quest.Reward);
             return;
         }
     }

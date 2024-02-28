@@ -9,7 +9,7 @@ public class MgUI : MgGeneric<MgUI>
     [Header("액션")]
     [SerializeField] private UIActionTokenBox m_actionTokenBox;
     [SerializeField] private UIFillContent m_fillContentUI;
-    [SerializeField] private UIEventContent m_eventContentUI;
+    [SerializeField] private UIRewardChoose m_rewardChooseUI;
     [SerializeField] private UITileWorkShop m_tileWorkShopUI;
     [SerializeField] private UICharStats m_charStatUI;
     [SerializeField] private UIMixer m_chefUI;
@@ -64,7 +64,12 @@ public class MgUI : MgGeneric<MgUI>
     public void ShowEventList(List<TokenEvent> _eventTokens)
     {
         OffPlayUI();
-        m_eventContentUI.ShowEventList(_eventTokens);
+        m_rewardChooseUI.ShowEventList(_eventTokens);
+    }
+
+    public void ShowRewardList(RewardData _reward)
+    {
+        m_rewardChooseUI.ShowRewardList(_reward);
     }
     #endregion
 

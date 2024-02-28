@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UIEventContent : UIBase
+public class UIRewardChoose : UIBase
 {
     [SerializeField]
     private EventSlot m_sampleEventSlot;
@@ -22,6 +22,13 @@ public class UIEventContent : UIBase
             m_eventSlots[i].SetSlot(_eventTokens[i]);
             m_eventSlots[i].gameObject.SetActive(true);
         }
+    }
+
+    public void ShowRewardList(RewardData _reward)
+    {
+        Switch(true);
+        List<(int, int)> _rewardList = _reward.RewardsList;
+        RewardType rewardType = _reward.RewardType;
     }
 
     public override void OffWindow()

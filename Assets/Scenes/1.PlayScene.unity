@@ -780,7 +780,7 @@ GameObject:
   - component: {fileID: 161675060}
   - component: {fileID: 161675061}
   m_Layer: 5
-  m_Name: EventContentUI
+  m_Name: RewardChooseUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -822,7 +822,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_window: {fileID: 479520072}
   IsOnType: 0
-  IsStackType: 1
+  IsStackType: 0
   m_sampleEventSlot: {fileID: 664245841}
   m_box: {fileID: 977439549}
   m_eventSlots: []
@@ -1655,7 +1655,7 @@ SpriteRenderer:
   m_SortingLayerID: -1620172761
   m_SortingLayer: 2
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: c06fecf5f5c014aba8e7992f21a0cc8f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1cfc191654aad7847a6de7028e93a03d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
   m_FlipY: 0
@@ -8343,7 +8343,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_actionTokenBox: {fileID: 512212452}
   m_fillContentUI: {fileID: 430619051}
-  m_eventContentUI: {fileID: 161675061}
+  m_rewardChooseUI: {fileID: 161675061}
   m_tileWorkShopUI: {fileID: 876320281}
   m_charStatUI: {fileID: 838283121}
   m_chefUI: {fileID: 1910184959}
