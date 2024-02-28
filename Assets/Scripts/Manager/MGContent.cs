@@ -141,7 +141,7 @@ public class MGContent : Mg<MGContent>
 
         //발현시킬 구역 청크
         m_mainCharChunkNum = GameUtil.GetChunkNum(PlayerManager.GetInstance().GetMainChar().GetMapIndex());
-        Chunk chunk = m_chunkList[_chunkNum]; //플레이어가 있는 청크로 결정
+        Chunk chunk = m_chunkList[_chunkNum];
         chunk.Quest = newQuest;
 
         return newQuest;
@@ -221,6 +221,15 @@ public class MGContent : Mg<MGContent>
     public void RemoveQuest(Quest _quest)
     {
         m_QuestList.Remove(_quest);
+    }
+
+    //선택한 보상을 적용하기 위해 각기 필요한 클래스로 전달하기 
+    public void SelectReward(RewardInfo _rewardInfo)
+    {
+        if (_rewardInfo.RewardType.Equals(RewardType.CharStat))
+        {
+            PlayerManager.GetInstance().GetMainChar().CalStat((CharStat)_rewardInfo.SubIdx, _rewardInfo.Value);
+        }
     }
 }
 
