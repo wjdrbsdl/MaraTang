@@ -38,13 +38,14 @@ public class RuleBook
             int damage = (int)reductedDamage;
             PopupDamage.GetInstance().DamagePop(_target.GetObject().gameObject, damage);
             _target.CalStat(CharStat.CurHp, -damage);
+            MgHud.GetInstance().ShowCharHud(_target);
             if (_target.GetStat(CharStat.CurHp) <= 0)
             {
            //     Debug.Log(_target.GetItemName()+"»ç¸Á Ã¼·Â"+ _target.GetStat(CharStat.CurActionEnergy));
                 _target.Death();
                 return;
             }
-            Revenge(_target);
+            //Revenge(_target);
         }
 
         public void Revenge(TokenChar _defenseChar)

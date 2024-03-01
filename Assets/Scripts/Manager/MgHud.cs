@@ -9,6 +9,11 @@ public class MgHud : MgGeneric<MgHud>
     [SerializeField]
     private Transform m_hudBox;
 
+    private void Start()
+    {
+        InitiSet();
+    }
+
     public void ShowCharHud(TokenChar _char)
     {
         CharHud hud = Instantiate(m_charHud);
