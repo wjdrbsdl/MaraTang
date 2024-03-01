@@ -23,4 +23,15 @@ public class MgSkillFx : MgGeneric<MgSkillFx>
         //3.타이머 설정
         sfx.SetTimer(3f);
     }
+    public void MakeSkillFx(TokenTile _tile, string _code)
+    {
+        //이펙트를 받으면 생성인데
+
+        //1.코드로 맞는 skillSfx를 찾아서 
+        SkillSfx sfx = Instantiate(m_SkillSfx);
+        //2.생성
+        sfx.transform.position = _tile.GetObject().transform.position;
+        //3.타이머 설정
+        sfx.SetTimer(1.3f);
+    }
 }

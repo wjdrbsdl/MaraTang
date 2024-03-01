@@ -70,6 +70,7 @@ public class RuleBook
         int[] targetPos = actionToken.GetTargetPos();
 
         Action effectDelegate = null;
+        Action attackSfx = null;
         IEnumerator animateCoroutine = null;
 
         //2. 공격은 타겟 지점 기준 범위내 적을 선별하여 어택
@@ -80,6 +81,10 @@ public class RuleBook
             //0. 겉으로 드러나는 액션은 1개. 휘두르거나 찌르거나 발사하거나 
             //1. 해당 공격액션의 범위를 설정
             TokenTile targetTile = GameUtil.GetTileTokenFromMap(targetPos);
+            attackSfx = delegate
+            {
+                MgSkillFx.GetInstance().MakeSkillFx(targetTile, "테스트");
+            };
             //2. 범위 내의 타겟을 가져옴
             List<TokenChar> enemies = targetTile.GetCharsInTile();
             //3. 해당 타겟에게 해당 공격의 효과를 적용 
@@ -93,7 +98,7 @@ public class RuleBook
                     attackProgress.ApplyDamage(enemies[i]);
                 }
             };
-            animateCoroutine = co_AttacAction(_playChar, effectDelegate);
+            animateCoroutine = co_AttacAction(_playChar, attackSfx, effectDelegate);
 
         }
         //3. 이동은 타겟 지점 위치로 이동
@@ -139,23 +144,26 @@ public class RuleBook
            _char.GetObject().transform.position += (dir.normalized * GamePlayMaster.GetInstance().m_moveSpeed * Time.deltaTime);
             yield return null;
         }
-
+        if (effectAction != null)
         effectAction();
         GamePlayMaster.GetInstance().DoneCharAction(_char);
     }
 
-    IEnumerator co_AttacAction(TokenChar _char, Action effectAction)
+    IEnumerator co_AttacAction(TokenChar _char, Action attackSfx, Action effectAction)
     {
         //   Debug.Log("이동 코루틴 수행 단계" + m_MaxStep+"/ " + curStep);
         _char.SetState(CharState.Attack);
         SoundManager.GetInstance().PlayEfx(SoundManager.EfxList.Attack);
+        if (attackSfx != null)
+            attackSfx();
         float waitTime = 1f;
         while (waitTime>0)
         {
             waitTime -= Time.deltaTime;
             yield return null;
         }
-        effectAction();
+        if (effectAction != null)
+             effectAction();
         GamePlayMaster.GetInstance().DoneCharAction(_char);
 
     }
