@@ -72,7 +72,9 @@ public class RuleBook
         Action effectDelegate = null;
         Action attackSfx = null;
         IEnumerator animateCoroutine = null;
-
+        //플레이어가 선택한 타겟 타일
+        TokenTile clickedTile = GameUtil.GetTileTokenFromMap(targetPos);
+        GameUtil.LookTargetTile(_playChar, clickedTile);
         //2. 공격은 타겟 지점 기준 범위내 적을 선별하여 어택
         if (actionType == ActionType.Attack)
         {
@@ -80,7 +82,7 @@ public class RuleBook
             //수정본
             //0. 겉으로 드러나는 액션은 1개. 휘두르거나 찌르거나 발사하거나 
             //1. 해당 공격액션의 범위를 설정
-            TokenTile targetTile = GameUtil.GetTileTokenFromMap(targetPos);
+            TokenTile targetTile = clickedTile;
             attackSfx = delegate
             {
                 MgSkillFx.GetInstance().MakeSkillFx(targetTile, "테스트");
@@ -104,7 +106,7 @@ public class RuleBook
         //3. 이동은 타겟 지점 위치로 이동
         else if (actionType == ActionType.Move)
         {
-            TokenTile targetTile = GameUtil.GetTileTokenFromMap(targetPos);
+            TokenTile targetTile = clickedTile;
             effectDelegate = delegate 
             { 
                 Migrate(_playChar, targetTile); 

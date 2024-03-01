@@ -533,6 +533,11 @@ public static class GameUtil
         return randomList;
     }
 
+    public static void LookTargetTile(TokenChar _char, TokenTile _targetTile)
+    {
+        bool isRight = IsRight(_char.GetMapIndex(), _targetTile.GetMapIndex());
+        _char.GetObject().m_charIcon.flipX = isRight;
+    }
  
     public static void DropMagnetItem(int[] mapIndex)
     {
