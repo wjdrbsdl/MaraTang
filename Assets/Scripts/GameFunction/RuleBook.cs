@@ -88,7 +88,8 @@ public class RuleBook
                 TAttackProgress attackProgress = new TAttackProgress(_playChar, actionToken);
                 for (int i = 0; i < enemies.Count; i++)
                 {
-                 //   Debug.Log(_playChar.GetItemName() + "이 " + enemies[i].GetItemName() + "를 공격");
+                    //   Debug.Log(_playChar.GetItemName() + "이 " + enemies[i].GetItemName() + "를 공격");
+            
                     attackProgress.ApplyDamage(enemies[i]);
                 }
             };
@@ -147,6 +148,7 @@ public class RuleBook
     {
         //   Debug.Log("이동 코루틴 수행 단계" + m_MaxStep+"/ " + curStep);
         _char.SetState(CharState.Attack);
+        SoundManager.GetInstance().PlayEfx(SoundManager.EfxList.Attack);
         float waitTime = 1f;
         while (waitTime>0)
         {

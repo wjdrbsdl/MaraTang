@@ -6,11 +6,11 @@ public class SoundManager : MgGeneric<SoundManager>
 {
     public enum EfxList
     {
-        Choose, Cancle, Check
+        Choose, Cancle, Check, Attack
     }
     [SerializeField]
     AudioClip[] m_efxSoundClips;
-    [SerializeField] AudioSource[] m_efxSpeaker;
+    [SerializeField] AudioSource m_efxSpeaker;
 
     public enum BgmList
     {
@@ -35,9 +35,8 @@ public class SoundManager : MgGeneric<SoundManager>
     
     public void PlayEfx(EfxList _efx)
     {
-        AudioSource playSpeaker = m_efxSpeaker[(int)_efx];
-        playSpeaker.clip = m_bgmSoundClips[(int)_efx];
-        playSpeaker.Play();
+        m_efxSpeaker.clip = m_efxSoundClips[(int)_efx];
+        m_efxSpeaker.Play();
         
         //스피커 n개두고 순환 필요
         //우선순위 따라서 먹거나 씹히거나
@@ -46,7 +45,7 @@ public class SoundManager : MgGeneric<SoundManager>
 
     public void PlayEfx(AudioClip _clip)
     {
-        AudioSource playSpeaker = m_efxSpeaker[0];
+        AudioSource playSpeaker = m_efxSpeaker;
         playSpeaker.clip = _clip;
         playSpeaker.Play();
     }
@@ -64,9 +63,6 @@ public class SoundManager : MgGeneric<SoundManager>
 
     public void ResetSfx()
     {
-        for (int i = 0; i < m_efxSpeaker.Length; i++)
-        {
-            m_efxSpeaker[i].Stop();
-        }
+     
     }
 }

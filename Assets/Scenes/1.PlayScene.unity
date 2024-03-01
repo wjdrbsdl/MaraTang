@@ -2702,9 +2702,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60420bfac99b14c4ea9d05c90dfee427, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_efxSoundClips: []
-  m_efxSpeaker:
-  - {fileID: 2093693202}
+  m_efxSoundClips:
+  - {fileID: 8300000, guid: 8fa2049eeb1c54f3789c757d43a98731, type: 3}
+  - {fileID: 8300000, guid: 8fa2049eeb1c54f3789c757d43a98731, type: 3}
+  - {fileID: 8300000, guid: 8fa2049eeb1c54f3789c757d43a98731, type: 3}
+  - {fileID: 8300000, guid: 8fa2049eeb1c54f3789c757d43a98731, type: 3}
+  m_efxSpeaker: {fileID: 0}
   m_bgmSoundClips:
   - {fileID: 8300000, guid: 9e1c4120effdb864d858c075fbd083cb, type: 3}
   m_bgmSpeaker: {fileID: 2058027914}
