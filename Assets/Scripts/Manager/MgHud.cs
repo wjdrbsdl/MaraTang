@@ -6,11 +6,13 @@ public class MgHud : MgGeneric<MgHud>
 {
     //캐릭터 상태 표기 인터페이스
     public CharHud m_charHud;
+    [SerializeField]
+    private Transform m_hudBox;
 
     public void ShowCharHud(TokenChar _char)
     {
         CharHud hud = Instantiate(m_charHud);
-        m_charHud.gameObject.transform.position = _char.GetObject().transform.position + Vector3.down*2f;
+        hud.transform.SetParent(m_hudBox);
         hud.SetHp(_char);
     }
 
