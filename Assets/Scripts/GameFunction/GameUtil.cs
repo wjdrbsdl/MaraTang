@@ -291,6 +291,26 @@ public static class GameUtil
         return pos;
     }
 
+    public static bool IsRight(int[] _curPos, int[] _targetPos)
+    {
+        //보고있는게 오른편인가 
+        bool isRight = false;
+        //좌표 y값이 홀수면 0.5 이동한 보정을 해서 x값의 비교로 오른편인지 판단
+        //1. 0.5 대신 5를 더하기 위해 기존 x값에 10을 곱함
+        int curX = _curPos[0] * 10;
+        //2. 이후 y값이 홀수인지 판단하여 보정값 적용
+        if (_curPos[1] % 2 == 1)
+            curX += 5;
+        //3. 마찬가지
+        int targetX = _targetPos[0] * 10;
+        if (_targetPos[1] % 2 == 1)
+            targetX += 5;
+        //4. x위치값 비교 - 같은경우도 오른편인걸로. 
+        if (curX <= targetX)
+            isRight = true;
+
+        return isRight;
+    }
 
     #endregion
 
