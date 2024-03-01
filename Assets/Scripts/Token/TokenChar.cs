@@ -4,7 +4,8 @@ using UnityEngine;
 
 public enum CharStat
 {
-    MaxActionEnergy, CurActionEnergy, MaxActionCount, CurActionCount, Sight, Strenth, Dexility, Inteligent
+    MaxActionEnergy, CurActionEnergy, MaxActionCount, CurActionCount, Sight, Strenth, Dexility, Inteligent,
+    MaxHp, CurHp
 }
 
 public class TokenChar : TokenBase
@@ -58,6 +59,8 @@ public class TokenChar : TokenBase
         monsterToken.SetStatValue(CharStat.CurActionEnergy, 10);
         monsterToken.SetStatValue(CharStat.MaxActionCount, 2);
         monsterToken.SetStatValue(CharStat.CurActionCount, 2);
+        monsterToken.SetStatValue(CharStat.MaxHp, 200);
+        monsterToken.SetStatValue(CharStat.CurHp, 200);
         monsterToken.SetStatValue(CharStat.Sight, 3);
         monsterToken.m_haveActionList = new List<TokenAction>();
         monsterToken.m_tokenPid = index * 100;
