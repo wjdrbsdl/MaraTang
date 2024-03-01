@@ -71,4 +71,15 @@ public class Chunk
     {
         //해당 청크에서 나간 순간 
     }
+
+    public void Dye(Color _color)
+    {
+        for (int i = 0; i < tiles.GetLength(0); i++)
+        {
+            for (int x = 0; x < tiles.GetLength(1); x++)
+            {
+                tiles[i, x].GetObject().GetComponent<SpriteRenderer>().color = _color;
+            }
+        }
+    }
 }

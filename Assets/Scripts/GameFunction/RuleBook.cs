@@ -10,14 +10,14 @@ public class RuleBook
     private RouteDisplay m_routeDisplayTool = new();
     private Dictionary<int, TokenAction> m_tileActionDic;
     private CapitalRecipe m_capitalRecipe = new();
-    public struct TAttackRecipe
+    public struct TAttackProgress
     {
         public float t_oriignDamage;
         public float t_reductedDamage;
         public TokenChar t_attacker;
         public int t_revengeStep; //공격한 단계
 
-        public TAttackRecipe(TokenChar _attackChar, TokenAction _attackAction, int _revenge = 1)
+        public TAttackProgress(TokenChar _attackChar, TokenAction _attackAction, int _revenge = 1)
         {
             //구조를 만들면서 내부에서 최종피해량 산출
             t_oriignDamage = _attackChar.GetPid() + 1000;
@@ -53,7 +53,7 @@ public class RuleBook
             if (t_revengeStep >= 2)
                 return;
 
-            TAttackRecipe revenge = new TAttackRecipe(_defenseChar, new TokenAction(), t_revengeStep +1);
+            TAttackProgress revenge = new TAttackProgress(_defenseChar, new TokenAction(), t_revengeStep +1);
             revenge.ApplyDamage(t_attacker);
 
         }
@@ -85,11 +85,11 @@ public class RuleBook
             //3. 해당 타겟에게 해당 공격의 효과를 적용 
             effectDelegate = delegate
             {
-                TAttackRecipe attackReceipt = new TAttackRecipe(_playChar, actionToken);
+                TAttackProgress attackProgress = new TAttackProgress(_playChar, actionToken);
                 for (int i = 0; i < enemies.Count; i++)
                 {
                  //   Debug.Log(_playChar.GetItemName() + "이 " + enemies[i].GetItemName() + "를 공격");
-                    attackReceipt.ApplyDamage(enemies[i]);
+                    attackProgress.ApplyDamage(enemies[i]);
                 }
             };
             animateCoroutine = co_AttacAction(_playChar, effectDelegate);

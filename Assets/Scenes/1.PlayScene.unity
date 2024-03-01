@@ -9576,7 +9576,7 @@ MonoBehaviour:
   m_testAuto: 0
   m_camFollow: {fileID: 519420033}
   m_isPlayAnimate: 1
-  TempAdaptActionCount: 1
+  TempAdaptActionCount: 0
   TempAdaptEvent: 0
 --- !u!4 &1653216243
 Transform:

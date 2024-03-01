@@ -53,6 +53,12 @@ public class MGContent : Mg<MGContent>
         MgParsing.GetInstance().GetMasterData(EMasterData.ContentData);
         TileMaker maker = MgToken.GetInstance().m_tileMaker;
         m_chunkList = maker.MakeChunk(maker.DivideChunk(5));
+        Color[] a = { Color.blue, Color.cyan, Color.red, Color.yellow, Color.magenta, Color.green, Color.white };
+        for (int i = 0; i < m_chunkList.Count; i++)
+        {
+            Color b = a[i % a.Length];
+            m_chunkList[i].Dye(b);
+        }
     }
     #endregion
 
@@ -65,7 +71,7 @@ public class MGContent : Mg<MGContent>
         RealizeQuest(newQuest);
     }
 
-    public void AlarmAction(TokenChar _doChar, TokenAction _doAction)
+    public void OnCharAction(TokenChar _doChar, TokenAction _doAction)
     {
         //캐릭이 액션을 수행할때마다 알림 받음 
         if (_doChar.isMainChar == false)
@@ -211,16 +217,15 @@ public class MGContent : Mg<MGContent>
         m_QuestRecorde.Add((_quest.QuestPid, _result));
     }
 
+    public void RemoveQuest(Quest _quest)
+    {
+        m_QuestList.Remove(_quest);
+    }
     #endregion
 
     public List<Quest> GetQuestList()
     {
         return m_QuestList;
-    }
-
-    public void RemoveQuest(Quest _quest)
-    {
-        m_QuestList.Remove(_quest);
     }
 
     //선택한 보상을 적용하기 위해 각기 필요한 클래스로 전달하기 

@@ -281,6 +281,17 @@ public static class GameUtil
         return direction;
     }
 
+    //2차배열을 1자리 _num 인덱스로 찾는경우
+    public static int[] GetXYPosFromIndex(int _xLength, int _num)
+    {
+        //몇행 몇열인지를 빼기. 
+        int height = _num / _xLength;
+        int width = _num % _xLength;
+        int[] pos = new int[] { width, height };
+        return pos;
+    }
+
+
     #endregion
 
     #region 청크 계산
@@ -311,6 +322,11 @@ public static class GameUtil
         return true;
     }
 
+    public static bool IsThereMap(int[] _coord)
+    {
+        return IsThereMap(_coord[0], _coord[1]);
+    }
+
     public static bool RemainActionCount(TokenChar _char)
     {
         bool remain = true;
@@ -323,21 +339,29 @@ public static class GameUtil
 
     public static HideTile GetHideTileFromMap(int[] _index)
     {
+        if (IsThereMap(_index) == false)
+            return null;
         return MgToken.GetInstance().GetHideMaps()[_index[0], _index[1]];
     }
 
     public static TokenTile GetTileTokenFromMap(int[] _index)
     {
+        if (IsThereMap(_index) == false)
+            return null;
         return MgToken.GetInstance().GetMaps()[_index[0], _index[1]];
     }
 
     public static TokenTile GetTileTokenFromMap(TokenChar _char)
     {
+        if (IsThereMap(_char.GetMapIndex()) == false)
+            return null;
         return MgToken.GetInstance().GetMaps()[_char.GetXIndex(), _char.GetYIndex()];
     }
 
     public static ObjectTokenBase GetTokenObjectFromMap(int[] _index)
     {
+        if (IsThereMap(_index) == false)
+            return null;
         return MgToken.GetInstance().GetMaps()[_index[0], _index[1]].GetObject();
     }
 
@@ -489,14 +513,7 @@ public static class GameUtil
         return randomList;
     }
 
-    public static int[] GetXYPosFromIndex(int _xLength, int _num)
-    {
-        //몇행 몇열인지를 빼기. 
-        int height = _num / _xLength;
-        int width = _num % _xLength;
-        int[] pos = new int[] {width, height};
-        return pos;
-    }
+ 
     public static void DropMagnetItem(int[] mapIndex)
     {
         TokenTile tile = GetTileTokenFromMap(mapIndex);
