@@ -53,5 +53,10 @@ public class CharHud : MonoBehaviour
 
         m_hpBar.fillAmount = ratio;
     }
+
+    public void DestroyHud()
+    {
+        Destroy(gameObject);
+    }
     
 }

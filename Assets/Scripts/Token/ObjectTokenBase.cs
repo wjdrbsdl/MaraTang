@@ -11,6 +11,7 @@ public class ObjectTokenBase : MonoBehaviour
     public TokenType m_tokenType;
     [SerializeField]
     public TokenBase m_token; //들어있는 토큰
+    public CharHud m_hud;
     public SpriteRenderer m_charIcon;
     public SpriteRenderer m_actionIcon;
     CharState m_state = CharState.Idle;
@@ -91,6 +92,16 @@ public class ObjectTokenBase : MonoBehaviour
         return null;
     }
 
+    public void SetHud(CharHud _hud)
+    {
+        m_hud = _hud;
+    }
+
+    public CharHud GetHud()
+    {
+        return m_hud;
+    }
+
     public int GetClickPriority()
     {
         //오브젝트의 경우 레이를 쏘기 때문에 여러 오브젝트가 감지 될 수 있음
@@ -116,6 +127,8 @@ public class ObjectTokenBase : MonoBehaviour
 
     public void Death()
     {
+        if (m_hud != null)
+            m_hud.DestroyHud();
         gameObject.SetActive(false);
     }
 }
