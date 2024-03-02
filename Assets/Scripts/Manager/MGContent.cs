@@ -53,12 +53,6 @@ public class MGContent : Mg<MGContent>
         MgParsing.GetInstance().GetMasterData(EMasterData.ContentData);
         TileMaker maker = MgToken.GetInstance().m_tileMaker;
         m_chunkList = maker.MakeChunk(maker.DivideChunk(5));
-        Color[] a = { Color.blue, Color.cyan, Color.red, Color.yellow, Color.magenta, Color.green, Color.white };
-        for (int i = 0; i < m_chunkList.Count; i++)
-        {
-            Color b = a[i % a.Length];
-            m_chunkList[i].Dye(b);
-        }
     }
     #endregion
 

@@ -35,7 +35,7 @@ public class TileMaker : MonoBehaviour
                 int selectMap = SelectTokenEco(noisedMapping[curx, cury]);
 
                 //오브젝트용
-                ObjectTokenBase newTileObject = Instantiate(_mapOrder.t_tiles[selectMap]).GetComponent<ObjectTokenBase>();
+                ObjectTokenBase newTileObject = Instantiate(_mapOrder.t_tile).GetComponent<ObjectTokenBase>();
                 HideTile newHideTile = Instantiate(_mapOrder.t_hideTile).GetComponent<HideTile>();
                 //타일토큰용
                 TokenTile newTokeTileInfo = new TokenTile().MakeTileToken();
@@ -210,8 +210,8 @@ public class TileMaker : MonoBehaviour
                 if (needRevise)
                     yPos += reviseYOffSet; //보정 필요시 수치 더함
 
-                int randomIdx = Random.Range(0, _mapOrder.t_tiles.Length);
-                GameObject newTile = Instantiate(_mapOrder.t_tiles[randomIdx]);
+
+                GameObject newTile = Instantiate(_mapOrder.t_tile);
                 newTile.transform.SetParent(_mapOrder.t_box);
                 newTile.transform.localPosition = new Vector2(xPos, yPos); //박스 안에서 로컬포지션으로 위치 
             }

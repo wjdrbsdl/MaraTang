@@ -7,7 +7,8 @@ public class MgToken : MgGeneric<MgToken>
     #region 맵생성 변수
     [SerializeField]
     public TileMaker m_tileMaker;
-    public GameObject[] m_tiles;
+    public GameObject m_tiles;
+    public Sprite[] m_tilesSprite;
     public Transform m_tileBox;
 
     public Transform m_hideBox;
@@ -16,6 +17,7 @@ public class MgToken : MgGeneric<MgToken>
     public int m_yLength;
     public float m_rLength;
 
+    public float m_padding = 1.05f;
     public int m_seed = 0;
     public float m_noise = 0.25f;
    
@@ -25,19 +27,19 @@ public class MgToken : MgGeneric<MgToken>
         public int t_yLength;
         public float t_rLength;
 
-        public GameObject[] t_tiles; //타일로 깔 샘플 - 필요가없음 나중에 동일 tile로 깔고, 
+        public GameObject t_tile; //타일로 깔 샘플 - 필요가없음 나중에 동일 tile로 깔고, 
         public Transform t_box;
         public GameObject t_hideTile;
         public Transform t_hideBox;
         public int t_seed;
         public float t_noise;
 
-        public TMapBluePrint(int xLength, int yLength, float rLength, int seed, float noise, GameObject[] tiles, Transform tileBox, GameObject hideTile, Transform hideBox)
+        public TMapBluePrint(int xLength, int yLength, float rLength, int seed, float noise, GameObject tile, Transform tileBox, GameObject hideTile, Transform hideBox)
         {
             t_xLength = xLength;
             t_yLength = yLength;
             t_rLength = rLength;
-            t_tiles = tiles;
+            t_tile = tile;
             t_box = tileBox;
             t_seed = seed;
             t_noise = noise;
@@ -65,13 +67,17 @@ public class MgToken : MgGeneric<MgToken>
 
     private void SetTileSize()
     {
-        for (int i = 0; i < m_tiles.Length; i++)
-        {
-            float size = m_rLength * 0.6666f*1.08f; //1.5가 size 1에 비례
-            Vector3 sizeVect = new Vector3(size, size, 1);
-            m_tiles[i].transform.localScale = sizeVect;
-            m_hideTile.transform.localScale = sizeVect;
-        }
+        //for (int i = 0; i < m_tiles.Length; i++)
+        //{
+        //    float size = m_rLength * 0.6666f * m_padding; //1.5가 size 1에 비례
+        //    Vector3 sizeVect = new Vector3(size, size, 1);
+        //    m_tiles[i].transform.localScale = sizeVect;
+        //    m_hideTile.transform.localScale = sizeVect;
+        //}
+        float size = m_rLength * 0.6666f * m_padding; //1.5가 size 1에 비례
+        Vector3 sizeVect = new Vector3(size, size, 1);
+        m_tiles.transform.localScale = sizeVect;
+        m_hideTile.transform.localScale = sizeVect;
     }
 
     public override void ReferenceSet()
