@@ -248,17 +248,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_tileMaker: {fileID: 1308600154}
-  m_tiles:
-  - {fileID: 1291123071}
-  - {fileID: 98963136}
-  - {fileID: 1404208568}
-  - {fileID: 1648710979}
+  m_tiles: {fileID: 98963136}
+  m_tilesSprite: []
   m_tileBox: {fileID: 527118952}
   m_hideBox: {fileID: 1736526529}
   m_hideTile: {fileID: 2119535945}
   m_xLength: 25
   m_yLength: 20
   m_rLength: 2.25
+  m_padding: 1.04
   m_seed: 0
   m_noise: 0.33
   m_monsterBox: {fileID: 1959083408}
@@ -5176,7 +5174,8 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: AllIn1SpriteShader/AllIn1SpriteShader
   m_Shader: {fileID: 4800000, guid: a36b7719ff0465b42ab1407d67672c5f, type: 3}
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - OUTBASE_ON
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -5240,9 +5239,9 @@ Material:
     - _Alpha: 1
     - _AlphaCutoffValue: 0.25
     - _AlphaOutlineBlend: 1
-    - _AlphaOutlineGlow: 5
+    - _AlphaOutlineGlow: 33.8
     - _AlphaOutlineMinAlpha: 0
-    - _AlphaOutlinePower: 1
+    - _AlphaOutlinePower: 0
     - _AlphaRoundThreshold: 0.5
     - _BillboardY: 0
     - _BlurHD: 0
@@ -5331,7 +5330,7 @@ Material:
     - _OutlineDistortAmount: 0.5
     - _OutlineDistortTexXSpeed: 5
     - _OutlineDistortTexYSpeed: 5
-    - _OutlineGlow: 1.5
+    - _OutlineGlow: 1
     - _OutlinePixelWidth: 1
     - _OutlineTexXSpeed: 10
     - _OutlineTexYSpeed: 0
@@ -5381,7 +5380,7 @@ Material:
     - _ZWrite: 0
     - _ZoomUvAmount: 0.5
     m_Colors:
-    - _AlphaOutlineColor: {r: 1, g: 1, b: 1, a: 1}
+    - _AlphaOutlineColor: {r: 0, g: 0, b: 0, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _ColorChangeNewCol: {r: 1, g: 1, b: 0, a: 1}
     - _ColorChangeNewCol2: {r: 1, g: 1, b: 0, a: 1}
@@ -5402,7 +5401,7 @@ Material:
     - _HitEffectColor: {r: 1, g: 1, b: 1, a: 1}
     - _HologramStripeColor: {r: 0, g: 1, b: 1, a: 1}
     - _InnerOutlineColor: {r: 1, g: 0, b: 0, a: 1}
-    - _OutlineColor: {r: 1, g: 1, b: 1, a: 1}
+    - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
     - _OverlayColor: {r: 1, g: 1, b: 1, a: 1}
     - _ShadowColor: {r: 0, g: 0, b: 0, a: 1}
     - _ShineColor: {r: 1, g: 1, b: 1, a: 1}
@@ -6167,11 +6166,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 431370191325124252, guid: bc03ab495d98763458d4b514dfa47b57, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5.6388893
+      value: 14.86
       objectReference: {fileID: 0}
     - target: {fileID: 431370191325124252, guid: bc03ab495d98763458d4b514dfa47b57, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.381422
+      value: 10.8
       objectReference: {fileID: 0}
     - target: {fileID: 431370191325124252, guid: bc03ab495d98763458d4b514dfa47b57, type: 3}
       propertyPath: m_LocalPosition.z
@@ -6289,7 +6288,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 1f5b3d0c32c8341e8bbf75f4859dbca7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4ee91d319886c4e4b8a4155b88bc8e7f, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -7257,11 +7256,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1271090224}
   m_CullTransparentMesh: 1
---- !u!1 &1291123071 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4382253129068172927, guid: e65e78ad81738674ca9fdd0a35f560e1, type: 3}
-  m_PrefabInstance: {fileID: 4382253130327731968}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1291123072 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4382253129068172928, guid: e65e78ad81738674ca9fdd0a35f560e1, type: 3}

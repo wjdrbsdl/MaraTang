@@ -20,7 +20,7 @@ public class RuleBook
         public TAttackProgress(TokenChar _attackChar, TokenAction _attackAction, int _revenge = 1)
         {
             //구조를 만들면서 내부에서 최종피해량 산출
-            t_oriignDamage = _attackChar.GetPid() + 1000;
+            t_oriignDamage = _attackChar.GetPid() + 50;
             t_reductedDamage = t_oriignDamage;
             t_attacker = _attackChar;
             t_revengeStep = _revenge;

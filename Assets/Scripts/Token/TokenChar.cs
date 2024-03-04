@@ -35,9 +35,8 @@ public class TokenChar : TokenBase
         GameUtil.InputMatchValue(ref m_tokenIValues, matchCode, valueCode);
         m_tokenIValues[(int)CharStat.CurActionCount] = m_tokenIValues[(int)CharStat.MaxActionCount];
         m_tokenIValues[(int)CharStat.CurActionEnergy] = m_tokenIValues[(int)CharStat.MaxActionEnergy];
-
-        SetStatValue(CharStat.MaxHp, 1200);
-        SetStatValue(CharStat.CurHp, 1200);
+        m_tokenIValues[(int)CharStat.CurHp] = m_tokenIValues[(int)CharStat.MaxHp];
+        
     }
 
     //복사본 캐릭 생성

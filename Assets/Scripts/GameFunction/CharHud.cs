@@ -49,7 +49,6 @@ public class CharHud : MonoBehaviour
         float curHp = _base.GetStat(CharStat.CurHp);
         float maxHp = _base.GetStat(CharStat.MaxHp);
         float ratio = curHp / maxHp;
-        Debug.Log(curHp + ": " + maxHp + " " + ratio);
 
         m_hpBar.fillAmount = ratio;
     }
