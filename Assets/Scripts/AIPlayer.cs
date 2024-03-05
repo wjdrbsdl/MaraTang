@@ -153,7 +153,7 @@ public class AIPlayer : PlayerRule
             {
                 //적 발견했으면 해당 포문 종료
                 TokenChar enemy = tile.GetCharsInTile()[tileIndex];
-                if (enemy != _char) //자기 자신이 아니면 
+                if (enemy != _char && enemy.IsPlayerChar()) //플레이어 차르인 경우 
                     return enemy;
             }
         }
@@ -222,7 +222,7 @@ public class AIPlayer : PlayerRule
             if(_char.GetXIndex() != coordi[0] || _char.GetYIndex() != coordi[1])
             {
                 //만약 이동 후 좌표가 지금과 다른곳이라면 해당 위치로 좌표 찍고
-                moveAction.SetTargetCoordi(_enemy.GetMapIndex()); //적 위치를 타겟으로 하고 반환
+                moveAction.SetTargetCoordi(coordi); //적 위치를 타겟으로 하고 반환
                 return moveAction;
             }
         }
