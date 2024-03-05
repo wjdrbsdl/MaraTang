@@ -25,6 +25,7 @@ public class AIPlayer : PlayerRule
 
         Announcer.Instance.AnnounceState("AI플레이어 진행");
         //1. 순서대로 조작할 char를 뽑는다 - 이곳에서 액션 행동 카운트까지 남아있는 캐릭터만 받음.
+        Debug.Log(m_turnNumber + "캐릭터 체크");
         TokenChar turnChar =  SelectCharactor(); //행동할 녀석 뽑는걸로 행동 시작
         if(turnChar == null)
         {
@@ -35,8 +36,8 @@ public class AIPlayer : PlayerRule
         }
 
         //2. 사용 가능한 액션 토큰이 있으면 세팅 - 공격, 이동 로직등 
-        SelectActionLogic(turnChar);
-        if(turnChar.GetNextAction() == null)
+        TokenAction nextAction = SelectActionLogic(turnChar);
+        if(nextAction == null)
         {
             //만약 해당 캐릭이 수행가능한 액션이 없으면 다시 캐릭뽑기부터 시작
             SetNextNpcNum(); //차례 번호 넘기고
@@ -44,19 +45,18 @@ public class AIPlayer : PlayerRule
             return;
         }
 
-        //3. 해당 액션 수행을 위한 내용을 채움 
-        FillContentLogic(turnChar);
-        if(turnChar.GetNextActionToken().GetTargetPos() == null)
-        {
-            //만약 해당 캐릭이 해당 액션을 수행 할 수 없는 상황이라면 다음 캐릭터로 넘기진 말고 다시 진행
-            //FillContent 부분에서 해당 액션을 선택하지 못하도록 처리 필요. 
-            PlayTurn();
-            return;
-        }
+        //3. 액션이 있으면 액션 할당하고 
+        turnChar.SetNextAction(nextAction);
 
-        //4.내용까지 채워졌다면 겜마에게 수행하도록 요청 
+        //4.게임 마스터에게 수행하도록 요청 
         GamePlayMaster.GetInstance().PlayCharAction(turnChar);
 
+    }
+
+    private void MarkCantUse(TokenAction _cantAction)
+    {
+        Debug.Log("사용불가 요청");
+        _cantAction.SetStatValue(CharActionStat.RemainCountInTurn, 0);
     }
 
     //5. 게임마스터로 부터 액션 수행 전달받았으면 다시 진행.
@@ -97,18 +97,54 @@ public class AIPlayer : PlayerRule
         
     }
     //3. 캐릭터의 액션 고르기
-    private void SelectActionLogic(TokenChar _char)
+    private TokenAction SelectActionLogic(TokenChar _char)
     {
-        //캐릭터 상태 그밖에 조건등으로 현재 캐릭터가 취해야할 액션을 선택하는 로직
+        //해당 캐릭터가 수행할 수 있는 액션을 골라서 반환 
+        /*
+         * 공통적으로 모든 액션을 취할 때 사용이 가능한지 타겟까지 따져서 반환
+         * 우선은 공격 부터 살피고 끝에 이동 - 추후 캐릭터의 성향, 상태, 액션타입의 추가로 어느 액션타입을 우선 살필지 로직 추가
+         */
+
         _char.ClearNextAction();
-        TokenAction nextAction = null;
+ 
         //캐릭이 자고있는 상태라면 그냥넘김.
         if (_char.GetState().Equals(CharState.Sleep))
-            return;
+            return null;
 
-        int tempEyeSight = 15; //캐릭터의 시야거리
-        List<TokenTile> inRangedTiles = GameUtil.GetTileTokenListInRange(tempEyeSight, _char.GetXIndex(), _char.GetYIndex());
-        bool isEnemyFind = false;
+        //일단 타겟과 사거리를 구함 
+        TokenChar enemy = FindEnemy(_char);
+        //타겟없으면 패스
+        if (enemy == null)
+            return null;
+
+        //1.캐릭터가 가진 액션을 타입별로 나눈다
+        // 액션 타입 종류만큼 배열을 생성
+        List<TokenAction>[] actionTable = new List<TokenAction>[GameUtil.EnumLength(ActionType.Attack)];
+        List<TokenAction> charActionList = _char.GetActionList();
+        for (int i = 0; i < charActionList.Count; i++)
+        {
+            ActionType actionType = charActionList[i].GetActionType();
+            //해당 타입에 이 액션을 넣을건데, 맨 처음넣는 거라 비어있으면 
+            if (actionTable[(int)actionType] == null)
+                actionTable[(int)actionType] = new List<TokenAction>(); //생성
+
+            actionTable[(int)actionType].Add(charActionList[i]); //추가
+        }
+        //2. 먼저 공격 가능한지 본다 
+        TokenAction attactAction = SelectAttack(_char, actionTable[(int)ActionType.Attack], enemy);
+        if (attactAction != null)
+            return attactAction;
+            
+        //마지막으로 이동 액션을 살펴서 반환
+        return SelectMove(_char, actionTable[(int)ActionType.Move], enemy);
+
+    }
+
+    private TokenChar FindEnemy(TokenChar _char)
+    {
+        int tempEyesight = 5;
+        List<TokenTile> inRangedTiles = GameUtil.GetTileTokenListInRange(tempEyesight, _char.GetXIndex(), _char.GetYIndex());
+        
         for (int i = 0; i < inRangedTiles.Count; i++)
         {
             //타일 돌면서 내부 적 확인 
@@ -117,105 +153,138 @@ public class AIPlayer : PlayerRule
             {
                 //적 발견했으면 해당 포문 종료
                 TokenChar enemy = tile.GetCharsInTile()[tileIndex];
-                if(enemy != _char) //자기 자신이 아니면{
-                {
-                    _char.SetTarget(enemy);
-                  //  Debug.Log("적발 견" + enemy.GetXIndex() + ", " + enemy.GetYIndex());
-                    isEnemyFind = true;
-                    break;
-                }
+                if (enemy != _char) //자기 자신이 아니면 
+                    return enemy;
             }
-            if (isEnemyFind)
-                break;
         }
-        //Tokenchar 가 사거리 이내 캐릭터들을 다 파악해놓는다? 최적화 방식 연구 필요
-        
-        //적을 찾은 경우 사거리 이내라면 공격 액션
-        if (isEnemyFind)
-        {
-            //1 찾은 적이 사거리 이내라면 공격 액션 아니라면 이동액션 목적지는 그대로 
-            //대적 행위를 하고 
-            
-            TMapIndex tMapIndex = new TMapIndex(_char, _char.GetTarget());
-            int enemyRange = GameUtil.GetMinRange(tMapIndex);
-            //Debug.Log("몬스터 까지 거리 " + enemyRange);
-            int charRange = 1; //일단 캐릭터의 공격 사거리를 1로 지정
-            nextAction = _char.GetActionList()[1];
-            //사거리 이내면 일단 이동은 하지 않고 다른 조건 파악
-            if (enemyRange <= charRange)
-            {
-                //횟수가 남아있으면 공격 액션을 할당
-                if(nextAction.GetStat(CharActionStat.RemainCountInTurn) >= 1)
-                _char.SetNextAction(nextAction); //사거리이내라면 공격으로
-
-                //없으면 null 로 끝
-                return;
-            }
-           
-        }
-
-        nextAction = _char.GetActionList()[0];
-        //그밖에 행위는 일단 이동으로 - 남은 횟수 세서 할당
-        if(nextAction.GetStat(CharActionStat.RemainCountInTurn) >= 1)
-         _char.SetNextAction(nextAction);
-
-        //수행할 액션 중 남은 횟수가 없으면 null을 반환
-
-
-
+        return null;
     }
-    //4. 캐릭터의 액션 내용 채우기
-    private void FillContentLogic(TokenChar _char)
+
+    private TokenAction SelectAttack(TokenChar _char, List<TokenAction> _attackList, TokenChar _enemy)
     {
-        //선택한 액션에 따라 타겟을 설정하는 부분 
-        //pid 설명에 따라 타겟을 몇개 고를지 - 몇번 타겟이 몇번타겟에게 어떤행동을 하는지등 테이블로 정의해놓기 
+        //만약 공격 리스트가 없다면 null 반환
+        if (_attackList == null)
+            return null;
 
-        TokenAction choiceAction = _char.GetNextActionToken(); //복합 액션이 가능할진 모르지만 일단 첫번째, 그럼 행동 하나로 하자. 
-        ActionType actionType = choiceAction.GetActionType();
-        choiceAction.ClearTarget(); //해당 액션의 내용을 삭제 (타겟리스트)
-        if (actionType == ActionType.Attack)
+        int enemyDistance = GameUtil.GetMinRange(new TMapIndex(_char, _enemy));
+
+        List<int> randomAt = GameUtil.GetRandomNum(_attackList.Count, _attackList.Count);
+        for (int i = 0; i < randomAt.Count; i++)
         {
-            //이동 액션을 제외한 모든 액션은 해당 액션을 취하기 위한 사거리 이내의 적을 발견한 상태일것. 
-        //    Debug.Log("어택 내용 채운다");
-            choiceAction.SetTargetCoordi(_char.GetTarget().GetMapIndex());
+            //뽑은 공격리스트를 돌면서 가능한 공격 액션인지 - 사거리가 되는지 둘다 맞으면 타겟으로 삼고 이동 
+            TokenAction attackAction = _attackList[randomAt[i]];
+            string failMessage = "";
+            //사용 가능한 액션인지 보고
+            if (GamePlayMaster.g_instance.RuleBook.IsAbleAction(_char, attackAction, ref failMessage) == false)
+                continue;
+            //해당 액션 사거리가 적에 닿는지 체크
+            if (attackAction.GetFinalRange(_char) < enemyDistance)
+                continue;
+
+         
+            //액션 내용을 채워서 반환
+            attackAction.ClearTarget(); //타겟 리셋후
+            attackAction.SetTargetCoordi(_enemy.GetMapIndex()); //적 위치를 타겟으로 하고 반환
+
+            return attackAction; //이녀석을 반환
         }
-        else if (actionType == ActionType.Move)
-        {
-        //    Debug.Log("이동 내용 채운다");
-            int tempStopDistance = 0; //목적지 까지 멈추는 거리 0 이면 해당 타일 위로 
-            TokenTile targetTile = new TokenTile(); //목적지 타일 
-            TokenBase charTarget = _char.GetTarget(); //캐릭터가 쫓고있는 타겟이 있는지 확인
-            //1. 타겟이 있는데, 캐릭터 즉 공격 대상이라면, 공격 사거리만큼 스탑 디스턴스 조정
-            if (charTarget != null && charTarget.GetTokenType() == TokenType.Char)
-            {
-                int tempAttackRange = 1; //임시 현재 타겟의 사거리를 1로 조정
-                tempStopDistance = tempAttackRange; //멈출거리 1로 조정
-                targetTile = MgToken.GetInstance().GetMaps()[charTarget.GetXIndex(), charTarget.GetYIndex()]; //해당 타겟이 있는 타일을 목적지로 설정
-                
-            }
-            //2. 따로 타겟이 없으면 범위 내 타일중 이동할 곳 랜덤으로 뽑기
-            else
-            {
-                int tempMoveRange = 2;
-                // 사거리 내부 안의 타일값을 int[]좌표로 가져온후, 해당 인덱스의 tileToken으로 반환
-                List<TokenTile> inRangedTiles = GameUtil.GetTileTokenListInRange(tempMoveRange, _char.GetXIndex(), _char.GetYIndex());
-                int ran = Random.Range(0, inRangedTiles.Count);
-                targetTile = inRangedTiles[ran]; //이동할 타겟을 구했으면, 해당 타겟 까지 가기 위한 중간 타겟을 산출
-            }
-            RouteFindLogic(_char, choiceAction, targetTile, tempStopDistance); //타겟 까지의 루트 타일을 이동 횟수만큼 담아놓음. 
-            _char.SetTarget(null); //타겟을 쫓긴 쫓되 이동을 했다면, 이동후 다시 공격액션에 따라 타겟을 찾으므로 일단 타겟 초기화. 
-        }
+
+        return null;
     }
+
+    private TokenAction SelectMove(TokenChar _char, List<TokenAction> _moveList, TokenChar _enemy)
+    {
+        if (_moveList == null)
+            return null;
+
+        //대상까지 사거리가 1이면 이동 안함 
+        int enemyDistance = GameUtil.GetMinRange(new TMapIndex(_char, _enemy));
+        if (enemyDistance == 1)
+            return null;
+
+        //Debug.Log("타겟 까지 이동");
+        int tempStopDistance = 1; //목적지 까지 멈추는 거리 0 이면 해당 타일 위로 
+        TokenTile targetTile = MgToken.GetInstance().GetMaps()[_enemy.GetXIndex(), _enemy.GetYIndex()];  //목적지 타일 
+
+        //여러가지 이동 수단중에 뽑아서 진행 
+        List<int> randomMove = GameUtil.GetRandomNum(_moveList.Count, _moveList.Count);
+        for (int i = 0; i < randomMove.Count; i++)
+        {
+            //뽑은 공격리스트를 돌면서 가능한 공격 액션인지 - 사거리가 되는지 둘다 맞으면 타겟으로 삼고 이동 
+            TokenAction moveAction = _moveList[randomMove[i]];
+            string failMessage = "";
+            //사용 가능한 액션인지 보고
+            if (GamePlayMaster.g_instance.RuleBook.IsAbleAction(_char, moveAction, ref failMessage) == false)
+                continue;
+
+            //타겟 까지 해당 이동액션으로 이동해봄
+            int[] coordi = RouteFindLogic(_char, moveAction, targetTile, tempStopDistance); 
+            if(_char.GetXIndex() != coordi[0] || _char.GetYIndex() != coordi[1])
+            {
+                //만약 이동 후 좌표가 지금과 다른곳이라면 해당 위치로 좌표 찍고
+                moveAction.SetTargetCoordi(_enemy.GetMapIndex()); //적 위치를 타겟으로 하고 반환
+                return moveAction;
+            }
+        }
+
+        //사용할 이동기가 없으면
+        return null;
+
+      
+    }
+
+    //4. 캐릭터의 액션 내용 채우기 삭제 - 캐릭 액션 선택 단계에서 개별로 내용 채우기 까지 진행
+    //private void FillContentLogic(TokenChar _char)
+    //{
+    //    //선택한 액션에 따라 타겟을 설정하는 부분 
+    //    //pid 설명에 따라 타겟을 몇개 고를지 - 몇번 타겟이 몇번타겟에게 어떤행동을 하는지등 테이블로 정의해놓기 
+
+    //    TokenAction choiceAction = _char.GetNextActionToken(); //복합 액션이 가능할진 모르지만 일단 첫번째, 그럼 행동 하나로 하자. 
+    //    ActionType actionType = choiceAction.GetActionType();
+    //    choiceAction.ClearTarget(); //해당 액션의 내용을 삭제 (타겟리스트)
+    //    if (actionType == ActionType.Attack)
+    //    {
+    //        //이동 액션을 제외한 모든 액션은 해당 액션을 취하기 위한 사거리 이내의 적을 발견한 상태일것. 
+    //    //    Debug.Log("어택 내용 채운다");
+    //        choiceAction.SetTargetCoordi(_char.GetTarget().GetMapIndex());
+    //    }
+    //    else if (actionType == ActionType.Move)
+    //    {
+    //    //    Debug.Log("이동 내용 채운다");
+    //        int tempStopDistance = 0; //목적지 까지 멈추는 거리 0 이면 해당 타일 위로 
+    //        TokenTile targetTile = new TokenTile(); //목적지 타일 
+    //        TokenBase charTarget = _char.GetTarget(); //캐릭터가 쫓고있는 타겟이 있는지 확인
+    //        //1. 타겟이 있는데, 캐릭터 즉 공격 대상이라면, 공격 사거리만큼 스탑 디스턴스 조정
+    //        if (charTarget != null && charTarget.GetTokenType() == TokenType.Char)
+    //        {
+    //            int tempAttackRange = 1; //임시 현재 타겟의 사거리를 1로 조정
+    //            tempStopDistance = tempAttackRange; //멈출거리 1로 조정
+    //            targetTile = MgToken.GetInstance().GetMaps()[charTarget.GetXIndex(), charTarget.GetYIndex()]; //해당 타겟이 있는 타일을 목적지로 설정
+                
+    //        }
+    //        //2. 따로 타겟이 없으면 범위 내 타일중 이동할 곳 랜덤으로 뽑기
+    //        else
+    //        {
+    //            int tempMoveRange = 2;
+    //            // 사거리 내부 안의 타일값을 int[]좌표로 가져온후, 해당 인덱스의 tileToken으로 반환
+    //            List<TokenTile> inRangedTiles = GameUtil.GetTileTokenListInRange(tempMoveRange, _char.GetXIndex(), _char.GetYIndex());
+    //            int ran = Random.Range(0, inRangedTiles.Count);
+    //            targetTile = inRangedTiles[ran]; //이동할 타겟을 구했으면, 해당 타겟 까지 가기 위한 중간 타겟을 산출
+    //        }
+    //        RouteFindLogic(_char, choiceAction, targetTile, tempStopDistance); //타겟 까지의 루트 타일을 이동 횟수만큼 담아놓음. 
+    //        _char.SetTarget(null); //타겟을 쫓긴 쫓되 이동을 했다면, 이동후 다시 공격액션에 따라 타겟을 찾으므로 일단 타겟 초기화. 
+    //    }
+    //}
     //5. 캐릭터가 이동 길 찾기
-    private void RouteFindLogic(TokenChar _char, TokenAction _actionToken, TokenTile _target, int stopDistance = 0)
+
+    private int[] RouteFindLogic(TokenChar _char, TokenAction _moveAction, TokenTile _target, int stopDistance = 0)
     {
         //현재 케릭이, 타겟까지 이동할 루트로 tokenTile을 찾아, 액션 토큰에 삽입. 
 
         int tempMoveCount = 1; //이동횟수 겟 함수
-   
-        TokenTile[,] maps = MgToken.GetInstance().GetMaps();
         TMapIndex mapInfoes = new TMapIndex(_char, _target);
         
+        //캐릭터가 이동가능 거리를 기반으로 한칸씩 로직을 받음 
         for (int i = 1; i <= tempMoveCount; i++)
         {
             //1. 계속 찾을지 체크
@@ -240,12 +309,8 @@ public class AIPlayer : PlayerRule
                 mapInfoes.curY -= gapValue[1];
                 continue;
             }
-            //6. 올바른 좌표라면 이동확정 하고 해당 토큰타일을 추가 
-            //메모리상으로 새로 객체 생성할필요없이 그냥 maps에 있는 클래스를 넣어도 되나? 어차피 참조중인가?
-          
-            int[] targetMap = { mapInfoes.curX, mapInfoes.curY };
-            _actionToken.SetTargetCoordi(targetMap);;
         }
+        return new int[]{ mapInfoes.curX, mapInfoes.curY };
     }
 
     public GamePlayStep GetCurPlayStep()

@@ -137,8 +137,12 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
         }
         TokenAction actionToken = (TokenAction)_token;
         //0. 액션 토큰 사용 조건 확인
-        if (GamePlayMaster.g_instance.RuleBook.IsAbleAction(m_curChar, actionToken) == false)
+        string failMessage = "";
+        if (GamePlayMaster.g_instance.RuleBook.IsAbleAction(m_curChar, actionToken, ref failMessage) == false)
         {
+            if (m_curChar.IsPlayerChar())
+                Announcer.Instance.AnnounceState(failMessage, true);
+
             if (GamePlayMaster.g_instance.TempAdaptActionCount)
                 return;
         }

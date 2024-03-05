@@ -189,26 +189,26 @@ public class RuleBook
         return true;
     }
 
-    public bool IsAbleAction(TokenChar _char, TokenAction _action)
+    public bool IsAbleAction(TokenChar _char, TokenAction _action, ref string _failMessage)
     {
         //1. 액션의 소비 액션 카운트와 비교(액션소비카운트가 0 인 녀석인 경우 true)
         if(_char.GetActionCount() < _action.GetStat(CharActionStat.NeedActionCount))
         {
-            Announcer.Instance.AnnounceState("행동 카운트 부족", true);
+            _failMessage = "행동 카운트 부족";
             return false;
         }
 
         //2. 액션의 소비 에너지
         if (_char.GetStat(CharStat.CurActionEnergy) < _action.GetStat(CharActionStat.NeedActionEnergy))
         {
-            Announcer.Instance.AnnounceState("행동 에너지 부족", true);
+            _failMessage = "행동 에너지 부족";
             return false;
         }
 
         //3. 액션 자체의 사용횟수(한 턴에 사용제한을 둬야하는 경우)
         if (_action.AbleUse() == false)
         {
-            Announcer.Instance.AnnounceState("사용불가 상태 액션", true);
+            _failMessage = "사용불가 상태 액션";
             return false;
         }
 
