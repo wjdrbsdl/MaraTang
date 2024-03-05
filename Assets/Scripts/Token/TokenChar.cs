@@ -28,8 +28,9 @@ public class TokenChar : TokenBase
     //마스터 캐릭 생성
     public TokenChar(List<int[]> matchCode, string[] valueCode)
     {
-        m_tokenPid = int.Parse(valueCode[0]);
-        m_itemName = valueCode[1];
+        m_tokenPid = int.Parse(valueCode[0]); //시트 데이터상 0번째는 pid
+        m_itemName = valueCode[1]; //1은 이름
+        SetAction(ref m_haveActionList, valueCode[2]); //2는 보유 액션 pid
         m_tokenType = TokenType.Char;
         m_tokenIValues = new int[System.Enum.GetValues(typeof(CharStat)).Length];
         GameUtil.InputMatchValue(ref m_tokenIValues, matchCode, valueCode);
@@ -37,6 +38,11 @@ public class TokenChar : TokenBase
         m_tokenIValues[(int)CharStat.CurActionEnergy] = m_tokenIValues[(int)CharStat.MaxActionEnergy];
         m_tokenIValues[(int)CharStat.CurHp] = m_tokenIValues[(int)CharStat.MaxHp];
         
+    }
+
+    private void SetAction(ref List<TokenAction> _haveAction, string actionCode)
+    {
+        string[] actions = actionCode.Split(MgMasterData.DivideChar); 
     }
 
     //복사본 캐릭 생성

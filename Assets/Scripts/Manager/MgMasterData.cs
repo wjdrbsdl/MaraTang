@@ -8,7 +8,8 @@ public class MgMasterData : Mg<MgMasterData>
     private Dictionary<int, TileTypeData> m_tileTypeDataDic;
     private Dictionary<int, TokenChar> m_charDataDic;
     private Dictionary<int, TokenAction> m_tileActionDataDic;
-
+    private Dictionary<int, TokenAction> m_charActionDataDic;
+    public static char DivideChar = '_';
     #region 생성자
     public MgMasterData()
     {
@@ -19,9 +20,12 @@ public class MgMasterData : Mg<MgMasterData>
     public override void InitiSet()
     {
         g_instance = this;
+        
         SetTileTypeData();
-        SetCharData();
         SetTileActionData();
+        SetCharActionData();
+        SetCharData();
+        
     }
 
     public override void ReferenceSet()
@@ -76,6 +80,17 @@ public class MgMasterData : Mg<MgMasterData>
     //    Debug.Log("완료");
     }
 
+    private void SetCharActionData()
+    {
+        m_charActionDataDic = new();
+        ParseData parseData = MgParsing.GetInstance().GetMasterData(EMasterData.CharActionData);
+        for (int i = 0; i < parseData.DbValueList.Count; i++)
+        {
+            TokenAction masterAction = new(parseData.MatchCode, parseData.DbValueList[i]);
+            m_charActionDataDic.Add(masterAction.GetPid(), masterAction);
+        }
+    }
+
     private void SetCharData()
     {
         m_charDataDic = new();
@@ -109,7 +124,7 @@ public class TileTypeData{
     {
         TypePID = int.Parse(_parsingData[0]);
         string ables = _parsingData[1]; //가능한 작업이 나열되어있음
-        string[] divideAble = ables.Trim().Split(" ");
+        string[] divideAble = ables.Trim().Split(MgMasterData.DivideChar);
         AbleTileActionPID = new int[divideAble.Length];
         for (int i = 0; i < divideAble.Length; i++)
         {
