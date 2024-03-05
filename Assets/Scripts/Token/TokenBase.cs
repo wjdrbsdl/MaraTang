@@ -75,6 +75,11 @@ public class TokenBase
         m_object = _obj;
     }
 
+    public void SetSprite(Sprite _sprite)
+    {
+        m_object.SetSprite(_sprite);
+    }
+
     public ObjectTokenBase GetObject()
     {
         return m_object;

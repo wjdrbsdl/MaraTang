@@ -249,12 +249,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_tileMaker: {fileID: 1308600154}
   m_tiles: {fileID: 98963136}
-  m_tilesSprite: []
+  m_tilesSprite:
+  - {fileID: 21300000, guid: 45cac9c14de5c40468374d98098db725, type: 3}
+  - {fileID: 21300000, guid: 96f5b22089751ab46a0cc5f8df569abd, type: 3}
   m_tileBox: {fileID: 527118952}
   m_hideBox: {fileID: 1736526529}
   m_hideTile: {fileID: 2119535945}
   m_xLength: 25
   m_yLength: 20
+  m_chunkLength: 5
   m_rLength: 2.25
   m_padding: 1.04
   m_seed: 0
@@ -367,7 +370,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_tokenType: 0
   m_hud: {fileID: 0}
-  m_charIcon: {fileID: 0}
+  m_charIcon: {fileID: 98963140}
   m_actionIcon: {fileID: 0}
   m_animator: {fileID: 0}
   m_ClickPriority: 0
@@ -1203,7 +1206,7 @@ GameObject:
   m_Component:
   - component: {fileID: 229075014}
   m_Layer: 5
-  m_Name: LoadingBar
+  m_Name: LoadingScene
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1223,7 +1226,7 @@ RectTransform:
   m_Children:
   - {fileID: 1665420537}
   m_Father: {fileID: 1473844561}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -6673,7 +6676,7 @@ RectTransform:
   - {fileID: 459457565}
   - {fileID: 1848434615}
   m_Father: {fileID: 1473844561}
-  m_RootOrder: 2
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -7475,7 +7478,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 7.749978, y: 0}
+  m_AnchoredPosition: {x: 7.749977, y: 0}
   m_SizeDelta: {x: -15.500044, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1350743863
@@ -8472,7 +8475,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 25
+  m_AdditionalShaderChannelsFlag: 1
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -8490,12 +8493,12 @@ RectTransform:
   m_Children:
   - {fileID: 1480831364}
   - {fileID: 813747009}
-  - {fileID: 1191129986}
+  - {fileID: 1754149584}
   - {fileID: 1546573816}
   - {fileID: 138830607}
   - {fileID: 952571744}
+  - {fileID: 1191129986}
   - {fileID: 229075014}
-  - {fileID: 1754149584}
   m_Father: {fileID: 1543266234}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -10610,7 +10613,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1473844561}
-  m_RootOrder: 7
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}

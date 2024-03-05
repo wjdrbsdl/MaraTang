@@ -52,7 +52,9 @@ public class MGContent : Mg<MGContent>
     {
         MgParsing.GetInstance().GetMasterData(EMasterData.ContentData);
         TileMaker maker = MgToken.GetInstance().m_tileMaker;
-        m_chunkList = maker.MakeChunk(maker.DivideChunk(5));
+        m_chunkList = maker.MakeChunk(maker.DivideChunk(MgToken.GetInstance().m_chunkLength));
+        RandomDye();
+        MakeFence();
     }
     #endregion
 
@@ -228,6 +230,49 @@ public class MGContent : Mg<MGContent>
         if (_rewardInfo.RewardType.Equals(RewardType.CharStat))
         {
             PlayerManager.GetInstance().GetMainChar().CalStat((CharStat)_rewardInfo.SubIdx, _rewardInfo.Value);
+        }
+    }
+
+    private void RandomDye()
+    {
+        Color[] a = { Color.blue, Color.cyan, Color.red, Color.yellow, Color.magenta, Color.green, Color.white };
+        for (int i = 0; i < m_chunkList.Count; i++)
+        {
+            Color b = a[i % a.Length];
+            m_chunkList[i].Dye(b);
+        }
+    }
+
+    private void MakeFence()
+    {
+        List<int> ranNum = GameUtil.GetRandomNum(m_chunkList.Count, 3);
+        Sprite fenceSprite = MgToken.GetInstance().m_tilesSprite[1];
+        for (int i = 0; i < ranNum.Count; i++)
+        {
+            Chunk chunk = m_chunkList[ranNum[i]];
+            int xLength = chunk.tiles.GetLength(0);
+            int yLength = chunk.tiles.GetLength(1);
+
+            //외곽인경우만 스프라이트 바꾸기
+            
+            for (int x = 0; x < xLength; x++)
+            {
+                for (int y = 0; y < yLength; y++)
+                {
+                    if(x==0 || x == xLength - 1)
+                    {
+                        //x축이 0이거나 맨 끝인경우 y 0~max 달리고
+                        chunk.tiles[x, y].SetSprite(fenceSprite);
+                    }
+                    else
+                    {
+                        //x값이 1~어느 사이인 경우엔 y 처음과 끝만 색칠하고 해당 열은 패스 
+                        chunk.tiles[x, 0].SetSprite(fenceSprite);
+                        chunk.tiles[x, yLength - 1].SetSprite(fenceSprite);
+                        break;
+                    }
+                }
+            }
         }
     }
 }

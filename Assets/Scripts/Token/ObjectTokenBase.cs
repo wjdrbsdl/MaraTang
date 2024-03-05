@@ -97,6 +97,11 @@ public class ObjectTokenBase : MonoBehaviour
         m_hud = _hud;
     }
 
+    public void SetSprite(Sprite _sprite)
+    {
+        m_charIcon.sprite = _sprite;
+    }
+
     public CharHud GetHud()
     {
         return m_hud;

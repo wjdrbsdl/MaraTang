@@ -15,6 +15,7 @@ public class MgToken : MgGeneric<MgToken>
     public GameObject m_hideTile;
     public int m_xLength;
     public int m_yLength;
+    public int m_chunkLength;
     public float m_rLength;
 
     public float m_padding = 1.05f;
