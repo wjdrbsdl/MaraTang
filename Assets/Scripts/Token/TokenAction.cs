@@ -49,6 +49,18 @@ public class TokenAction : TokenBase
  
     }
 
+    public TokenAction(TokenAction _masterToken)
+    {
+        m_tokenPid = _masterToken.m_tokenPid;
+        m_itemName = _masterToken.m_itemName;
+        m_tokenType = TokenType.Action;
+        int arraySize = _masterToken.m_tokenIValues.Length;
+        m_tokenIValues = new int[arraySize];
+        //마스터 데이터 깊은 복사로 객체 고유 배열 값 생성. 
+        System.Array.Copy(_masterToken.m_tokenIValues, m_tokenIValues, arraySize);
+    }
+
+
     public TokenAction MakeTestAction(ActionType _type)
     {
         TokenAction actionToken = new TokenAction();

@@ -38,11 +38,19 @@ public class TokenChar : TokenBase
         m_tokenIValues[(int)CharStat.CurActionEnergy] = m_tokenIValues[(int)CharStat.MaxActionEnergy];
         m_tokenIValues[(int)CharStat.CurHp] = m_tokenIValues[(int)CharStat.MaxHp];
         
+        
     }
 
     private void SetAction(ref List<TokenAction> _haveAction, string actionCode)
     {
-        string[] actions = actionCode.Split(MgMasterData.DivideChar); 
+        string[] actions = actionCode.Split(MgMasterData.DivideChar);
+        for (int i = 0; i < actions.Length; i++)
+        {
+            int actionPid = int.Parse(actions[i]);
+            TokenAction masterAction = MgMasterData.GetInstance().GetMasterCharAction(actionPid);
+            TokenAction charAction = new TokenAction(masterAction);
+            _haveAction.Add(charAction);
+        }
     }
 
     //복사본 캐릭 생성
@@ -54,7 +62,13 @@ public class TokenChar : TokenBase
         int arraySize = _masterToken.m_tokenIValues.Length;
         m_tokenIValues = new int[arraySize];
         //마스터 데이터 깊은 복사로 객체 고유 배열 값 생성. 
-        System.Array.Copy(_masterToken.m_tokenIValues, m_tokenIValues, arraySize);
+        System.Array.Copy(_masterToken.m_tokenIValues, m_tokenIValues, arraySize); //스텟값 복사
+        //스킬 마스터값 복사
+        for (int i = 0; i < _masterToken.GetActionList().Count; i++)
+        {
+            TokenAction copyAction = new TokenAction(_masterToken.GetActionList()[i]);
+            m_haveActionList.Add(copyAction);
+        }
     }
 
     public static TokenChar MakeTestMonsterToken(string _name, int index)

@@ -44,6 +44,11 @@ public class MgMasterData : Mg<MgMasterData>
         return m_charDataDic[_charPID];
     }
 
+    public TokenAction GetMasterCharAction(int _actionPID)
+    {
+        return m_charActionDataDic[_actionPID];
+    }
+
     public TokenAction GetTileActions(int _actionPID)
     {
         return m_tileActionDataDic[_actionPID];
