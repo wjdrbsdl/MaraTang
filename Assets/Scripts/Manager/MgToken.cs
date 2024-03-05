@@ -161,6 +161,7 @@ public class MgToken : MgGeneric<MgToken>
         ObjectTokenBase monObj = Instantiate(m_monsterObjSample);
         monObj.gameObject.transform.SetParent(m_monsterBox);
         monObj.SetToken(newMonToken, TokenType.Char);
+        m_npcTokens.Add(newMonToken); //생성된 녀석은 npc리스트에 추가; 
         return newMonToken;
     }
 
