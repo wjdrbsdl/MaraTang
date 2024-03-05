@@ -222,6 +222,11 @@ public class MgToken : MgGeneric<MgToken>
     }
     #endregion
 
+    public void RemoveCharToken(TokenChar _removeChar)
+    {
+        m_npcTokens.Remove(_removeChar);
+    }
+
     public void TempPosRandomPlayer(TokenChar _char)
     {
         int ranX = Random.Range(0, m_xLength);

@@ -216,6 +216,8 @@ public class TokenChar : TokenBase
         TokenTile place = GameUtil.GetTileTokenFromMap(GetMapIndex());
         place.RemoveToken(this);
 
+        MgToken.GetInstance().RemoveCharToken(this);
+
         SendQuestCallBack();
         DropItem();
     }
