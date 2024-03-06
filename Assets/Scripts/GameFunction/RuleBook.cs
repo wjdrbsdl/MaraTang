@@ -65,18 +65,19 @@ public class RuleBook
     {
         TokenAction actionToken = _playChar.GetNextActionToken();
         ActionType actionType = actionToken.GetActionType();
-        //1. 액션토큰 횟수 감소
-        actionToken.CalStat(CharActionStat.RemainCountInTurn, -1); //액션토큰의 해당턴에서 가능한 사용 횟수 차감
-    
-        int[] targetPos = actionToken.GetTargetPos();
 
-        Action effectDelegate = null;
-        Action attackSfx = null;
-        IEnumerator animateCoroutine = null;
-        //플레이어가 선택한 타겟 타일
-        TokenTile clickedTile = GameUtil.GetTileTokenFromMap(targetPos);
-        GameUtil.LookTargetTile(_playChar, clickedTile);
-        //2. 공격은 타겟 지점 기준 범위내 적을 선별하여 어택
+        CalActionEnergy(_playChar, actionToken);
+
+        //1. 필요한 행동들 선언
+        Action effectDelegate = null; //액션 사용시 효과
+        Action attackSfx = null; //액션의 스킬 이펙트
+        IEnumerator animateCoroutine = null; //액션 수행 절차
+
+        //2. 플레이어가 선택한 타겟 타일
+        TokenTile clickedTile = GameUtil.GetTileTokenFromMap(actionToken.GetTargetPos()); //타겟 타일
+        GameUtil.LookTargetTile(_playChar, clickedTile); //캐릭터 방향 조정
+
+        //3. 공격은 타겟 지점 기준 범위내 적을 선별하여 어택
         if (actionType == ActionType.Attack)
         {
           //  Debug.Log("어택 내용 수행한다");
@@ -104,7 +105,7 @@ public class RuleBook
             animateCoroutine = co_AttacAction(_playChar, attackSfx, effectDelegate);
 
         }
-        //3. 이동은 타겟 지점 위치로 이동
+        //4. 이동은 타겟 지점 위치로 이동
         else if (actionType == ActionType.Move)
         {
             TokenTile targetTile = clickedTile;
@@ -114,6 +115,8 @@ public class RuleBook
             };
             animateCoroutine = co_MoveAction(_playChar, targetTile, effectDelegate);
         }
+
+        //5. 준비된 예약으로 애니메이션 수행 
         GamePlayMaster.GetInstance().AnimateTokenObject(animateCoroutine, effectDelegate, _playChar);
     }
 
@@ -168,6 +171,20 @@ public class RuleBook
         if (effectAction != null)
              effectAction();
         GamePlayMaster.GetInstance().DoneCharAction(_char);
+
+    }
+
+    private void CalActionEnergy(TokenChar _playChar, TokenAction _action)
+    {
+        //액션을 수행함에 있어 필요한 자원들을 계산하는 곳 
+
+        //1. 해당 캐릭터에서 에너지와 액션 횟수를 감소
+        int needCount = _action.GetStat(CharActionStat.NeedActionCount);
+        _playChar.UseActionCount(needCount);
+        _playChar.UseActionEnergy(_action.GetStat(CharActionStat.NeedActionEnergy));
+
+        //2. 액션의 턴내 사용 횟수 감소 
+        _action.CalStat(CharActionStat.RemainCountInTurn, -1); //액션토큰의 해당턴에서 가능한 사용 횟수 차감
 
     }
 
