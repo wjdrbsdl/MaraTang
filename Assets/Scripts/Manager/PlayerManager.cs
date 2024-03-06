@@ -85,14 +85,11 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
     public void DoubleClickTokenObject(TokenBase _token)
     {
         //더블클릭한 토큰 타입에 따라 UI 세팅
-      //  TokenType tokenType = _token.GetTokenType();
-        m_selectedToken = _token;
-        //if (tokenType.Equals(TokenType.Tile))
-        //{
-        //    m_curTile = (TokenTile)_token;
-        //    m_playGameUI.ShowTileWorkShopUI();
-        //}
-        m_playGameUI.ShowTokenObjectUI(m_selectedToken);
+        if (m_curStep.Equals(GamePlayStep.PlayAction))
+            return;
+
+         m_selectedToken = _token;
+         m_playGameUI.ShowTokenObjectUI(m_selectedToken);
             
     }
 
@@ -169,11 +166,6 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
 
         //플레이어 쪽이 먼저 단계를 바꿔놔야함,
         ChangedPlayerStep(GamePlayStep.PlayAction);//내용을 채워서 액션수행 요청을 할때
-
-        //액션의 실제 수행여부는 상관없이 액션 횟수는 차감
-        int needCount = m_curAction.GetStat(CharActionStat.NeedActionCount);
-        m_curChar.UseActionCount(needCount); 
-        m_curChar.UseActionEnergy(m_curAction.GetStat(CharActionStat.NeedActionEnergy));
         GamePlayMaster.g_instance.PlayCharAction(m_curChar);
         
     }
