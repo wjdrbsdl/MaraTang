@@ -9,7 +9,7 @@ public class MgMasterData : Mg<MgMasterData>
     private Dictionary<int, TokenChar> m_charDataDic;
     private Dictionary<int, TokenAction> m_tileActionDataDic;
     private Dictionary<int, TokenAction> m_charActionDataDic;
-    public static char DivideChar = '_';
+    public static char DIVIDECHAR = '_';
     #region 생성자
     public MgMasterData()
     {
@@ -129,7 +129,7 @@ public class TileTypeData{
     {
         TypePID = int.Parse(_parsingData[0]);
         string ables = _parsingData[1]; //가능한 작업이 나열되어있음
-        string[] divideAble = ables.Trim().Split(MgMasterData.DivideChar);
+        string[] divideAble = ables.Trim().Split(MgMasterData.DIVIDECHAR);
         AbleTileActionPID = new int[divideAble.Length];
         for (int i = 0; i < divideAble.Length; i++)
         {
