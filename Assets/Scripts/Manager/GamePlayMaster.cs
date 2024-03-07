@@ -55,11 +55,8 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
         }
         if (Input.GetKeyDown(KeyCode.F8))
         {
-            if (m_playerMemeber.Equals(PlayerMember.LivePlayer))
-            {
-                m_players[(int)PlayerMember.LivePlayer].EndTurn();
-                Debug.Log("플레이어 턴 종료 선언");
-            }
+            PlayerManager.GetInstance().EndTurn();
+            Debug.Log("플레이어 턴 종료 선언");
         }
     }
 
@@ -259,40 +256,51 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
 
     private void ReadyNextTurn()
     {
-        PopupNextTurn();
-        SettleActionTurn(); //액션 턴 정산
-        EffectEndTurn();
-        SettleWorldTurn(); //월드 턴 변화
+        PopupMessage("턴 종료"); 
+        EffectEndTurn(); //턴이 종료할때 발휘되는 효과나 계산할것들 정산
+        RecoverResource(); //소비되었던 액션 에너지등 회복
+        SettleWorldTurn(); //월드 턴 변화 진행
         SettingPlayerTurn(); //플레이어 턴으로 세팅
         SetPlayDataUI(); //플레이 데이터 갱신
-        EffectStartTurn();
+        EffectStartTurn(); //턴 시작시 발휘되는 효과 적용
+        PopupMessage("턴 시작");
         StartActionTurn(); //액션 턴 시작
     }
-    private void PopupNextTurn()
+    private void PopupMessage(string message)
     {
-        AlarmPopup.GetInstance().PopUpMessage("턴 바꿈");
+        AlarmPopup.GetInstance().PopUpMessage(message);
     }
 
     private void EffectEndTurn()
     {
+        m_playerMemeber = 0;
         //효과 토큰중 턴이 끝날때 발휘 되는 부분 동작
     }
 
-    private void SettleActionTurn()
+
+    private void RecoverResource() 
     {
-        
-       // Debug.Log("행동 횟수 초기화");
+        //턴에 소비되었던 자원들 회복
+        // Debug.Log("행동 횟수 초기화");
         RecoverActionCount();
-      //  Debug.Log("진행한 플레이어 넘버 초기화");
-        m_playerMemeber = 0;
+        RecoverActionEnergy();
     }
+
     private void RecoverActionCount()
     {
        AnnounceState("소비된 액션 카운트 회복");
         for (int i = 0; i < MgToken.GetInstance().GetNpcPlayerList().Count; i++)
         {
-            MgToken.GetInstance().GetNpcPlayerList()[i].RecvoerActionCount(); //
+            MgToken.GetInstance().GetNpcPlayerList()[i].RecoverActionCount(); //
             MgToken.GetInstance().GetNpcPlayerList()[i].RecoverActionTokenCount();
+        }
+    }
+
+    private void RecoverActionEnergy()
+    {
+        for (int i = 0; i < MgToken.GetInstance().GetNpcPlayerList().Count; i++)
+        {
+            MgToken.GetInstance().GetNpcPlayerList()[i].RecoverActionEnergy();
         }
     }
 

@@ -192,7 +192,7 @@ public class TokenChar : TokenBase
         }
     }
 
-    public void RecvoerActionCount()
+    public void RecoverActionCount()
     {
         m_tokenIValues[(int)CharStat.CurActionCount] = m_tokenIValues[(int)CharStat.MaxActionCount];
     }
@@ -200,6 +200,11 @@ public class TokenChar : TokenBase
     public void UseActionCount(int _useCount = 1)
     {
         m_tokenIValues[(int)CharStat.CurActionCount] -= _useCount;
+    }
+
+    public void RecoverActionEnergy()
+    {
+        m_tokenIValues[(int)CharStat.CurActionEnergy] = m_tokenIValues[(int)CharStat.MaxActionEnergy];
     }
 
     public void UseActionEnergy(int _useEnergy = 1)

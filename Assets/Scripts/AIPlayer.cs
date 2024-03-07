@@ -25,7 +25,7 @@ public class AIPlayer : PlayerRule
 
         Announcer.Instance.AnnounceState("AI플레이어 진행");
         //1. 순서대로 조작할 char를 뽑는다 - 이곳에서 액션 행동 카운트까지 남아있는 캐릭터만 받음.
-        Debug.Log(m_turnNumber + "캐릭터 체크");
+  
         TokenChar turnChar =  SelectCharactor(); //행동할 녀석 뽑는걸로 행동 시작
         if(turnChar == null)
         {
@@ -80,6 +80,7 @@ public class AIPlayer : PlayerRule
     //2. 플레이할 캐릭터 뽑기
     private TokenChar SelectCharactor()
     {
+        //Debug.Log(m_turnNumber + "캐릭터 체크");
         if (m_npcList.Count <= m_turnNumber)
         {
             return null;
@@ -109,14 +110,21 @@ public class AIPlayer : PlayerRule
  
         //캐릭이 자고있는 상태라면 그냥넘김.
         if (_char.GetState().Equals(CharState.Sleep))
+        {
+          //  Debug.Log(m_turnNumber + "캐릭 잠");
             return null;
+        }
+            
 
         //일단 타겟과 사거리를 구함 
         TokenChar enemy = FindEnemy(_char);
         //타겟없으면 패스
         if (enemy == null)
+        {
+            //Debug.Log(m_turnNumber + "캐릭 적없음");
             return null;
-
+        }
+        
         //1.캐릭터가 가진 액션을 타입별로 나눈다
         // 액션 타입 종류만큼 배열을 생성
         List<TokenAction>[] actionTable = new List<TokenAction>[GameUtil.EnumLength(ActionType.Attack)];
@@ -133,7 +141,11 @@ public class AIPlayer : PlayerRule
         //2. 먼저 공격 가능한지 본다 
         TokenAction attactAction = SelectAttack(_char, actionTable[(int)ActionType.Attack], enemy);
         if (attactAction != null)
+        {
+          //  Debug.Log(m_turnNumber + " 공격 수행");
             return attactAction;
+        }
+            
             
         //마지막으로 이동 액션을 살펴서 반환
         return SelectMove(_char, actionTable[(int)ActionType.Move], enemy);
@@ -164,7 +176,10 @@ public class AIPlayer : PlayerRule
     {
         //만약 공격 리스트가 없다면 null 반환
         if (_attackList == null)
+        {
+        //    Debug.Log(m_turnNumber + " 공격스킬없음");
             return null;
+        }
 
         int enemyDistance = GameUtil.GetMinRange(new TMapIndex(_char, _enemy));
 
@@ -176,7 +191,11 @@ public class AIPlayer : PlayerRule
             string failMessage = "";
             //사용 가능한 액션인지 보고
             if (GamePlayMaster.g_instance.RuleBook.IsAbleAction(_char, attackAction, ref failMessage) == false)
+            {
+            //    Debug.Log(m_turnNumber + " :"+failMessage);
                 continue;
+            }
+          
             //해당 액션 사거리가 적에 닿는지 체크
             if (attackAction.GetFinalRange(_char) < enemyDistance)
                 continue;
@@ -195,12 +214,18 @@ public class AIPlayer : PlayerRule
     private TokenAction SelectMove(TokenChar _char, List<TokenAction> _moveList, TokenChar _enemy)
     {
         if (_moveList == null)
+        {
+         //   Debug.Log(m_turnNumber + " 이동스킬없음");
             return null;
+        }
 
         //대상까지 사거리가 1이면 이동 안함 
         int enemyDistance = GameUtil.GetMinRange(new TMapIndex(_char, _enemy));
         if (enemyDistance == 1)
+        {
+            Debug.Log(m_turnNumber + " 적과 거리가 1");
             return null;
+        }
 
         //Debug.Log("타겟 까지 이동");
         int tempStopDistance = 1; //목적지 까지 멈추는 거리 0 이면 해당 타일 위로 
@@ -215,7 +240,10 @@ public class AIPlayer : PlayerRule
             string failMessage = "";
             //사용 가능한 액션인지 보고
             if (GamePlayMaster.g_instance.RuleBook.IsAbleAction(_char, moveAction, ref failMessage) == false)
+            {
+            //    Debug.Log(m_turnNumber + " :" + failMessage);
                 continue;
+            }
 
             //타겟 까지 해당 이동액션으로 이동해봄
             int[] coordi = RouteFindLogic(_char, moveAction, targetTile, tempStopDistance); 

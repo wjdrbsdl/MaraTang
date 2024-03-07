@@ -43,6 +43,7 @@ public class TokenAction : TokenBase
     {
         m_tokenPid = int.Parse(valueCode[0]);
         m_itemName = valueCode[1];
+        actionType = (ActionType)(int.Parse(valueCode[2]));
         m_tokenIValues = new int[System.Enum.GetValues(typeof(CharActionStat)).Length];
         GameUtil.InputMatchValue(ref m_tokenIValues, matchCode, valueCode);
         m_tokenIValues[(int)CharActionStat.RemainCountInTurn] = m_tokenIValues[(int)CharActionStat.MaxCountInTurn];
@@ -54,6 +55,7 @@ public class TokenAction : TokenBase
         m_tokenPid = _masterToken.m_tokenPid;
         m_itemName = _masterToken.m_itemName;
         m_tokenType = TokenType.Action;
+        actionType = _masterToken.actionType;
         int arraySize = _masterToken.m_tokenIValues.Length;
         m_tokenIValues = new int[arraySize];
         //마스터 데이터 깊은 복사로 객체 고유 배열 값 생성. 

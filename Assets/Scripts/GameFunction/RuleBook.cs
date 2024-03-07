@@ -211,14 +211,16 @@ public class RuleBook
         //1. 액션의 소비 액션 카운트와 비교(액션소비카운트가 0 인 녀석인 경우 true)
         if(_char.GetActionCount() < _action.GetStat(CharActionStat.NeedActionCount))
         {
-            _failMessage = "행동 카운트 부족";
+            _failMessage = "행동 카운트 부족 \n필요 :" + _char.GetActionCount() + "\n보유:"
+                + _action.GetStat(CharActionStat.NeedActionCount);
             return false;
         }
 
         //2. 액션의 소비 에너지
         if (_char.GetStat(CharStat.CurActionEnergy) < _action.GetStat(CharActionStat.NeedActionEnergy))
         {
-            _failMessage = "행동 에너지 부족";
+            _failMessage = "행동 에너지 부족 \n필요 :"+ _char.GetStat(CharStat.CurActionEnergy) +"\n보유:"
+                + _action.GetStat(CharActionStat.NeedActionEnergy);
             return false;
         }
 
