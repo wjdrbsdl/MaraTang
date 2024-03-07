@@ -5,11 +5,7 @@ using System.Collections.Generic;
 
 public class AIPlayer : PlayerRule
 {
-    public enum Priority
-    {
-        Enemy, Mineral
-    }
-    private List<TokenChar> m_npcList;
+    private List<TokenChar> m_npcList; //mgToken에서 생성된 npcList 참조
     private int m_turnNumber = 0;
 
     public void SetInitial()
@@ -29,9 +25,9 @@ public class AIPlayer : PlayerRule
         TokenChar turnChar =  SelectCharactor(); //행동할 녀석 뽑는걸로 행동 시작
         if(turnChar == null)
         {
-            //---1단계에서 수행할 캐릭터를 뽑지 못했다면 ai 턴종료 선언
-            EndTurn();
+            //---수행할 캐릭터를 뽑지 못했다면 ai 턴종료 선언
             m_turnNumber = 0; //차례 번호 초기화
+            EndTurn();
             return;
         }
 
@@ -53,12 +49,6 @@ public class AIPlayer : PlayerRule
 
     }
 
-    private void MarkCantUse(TokenAction _cantAction)
-    {
-        Debug.Log("사용불가 요청");
-        _cantAction.SetStatValue(CharActionStat.RemainCountInTurn, 0);
-    }
-
     //5. 게임마스터로 부터 액션 수행 전달받았으면 다시 진행.
     public void DoneCharAction(TokenChar _char)
     {
@@ -71,7 +61,7 @@ public class AIPlayer : PlayerRule
     }
     #endregion
 
-    #region 액션 수행 로직
+    #region AI 로직
     //1. 차례번호 올리기
     private void SetNextNpcNum()
     {
@@ -97,7 +87,7 @@ public class AIPlayer : PlayerRule
         
         
     }
-    //3. 캐릭터의 액션 고르기
+    //3. 캐릭터의 액션 고르기 (액션의 내용까지 채움)
     private TokenAction SelectActionLogic(TokenChar _char)
     {
         //해당 캐릭터가 수행할 수 있는 액션을 골라서 반환 
@@ -152,6 +142,7 @@ public class AIPlayer : PlayerRule
 
     }
 
+    #region 액션 선택 로직
     private TokenChar FindEnemy(TokenChar _char)
     {
         int tempEyesight = 5;
@@ -261,50 +252,6 @@ public class AIPlayer : PlayerRule
       
     }
 
-    //4. 캐릭터의 액션 내용 채우기 삭제 - 캐릭 액션 선택 단계에서 개별로 내용 채우기 까지 진행
-    //private void FillContentLogic(TokenChar _char)
-    //{
-    //    //선택한 액션에 따라 타겟을 설정하는 부분 
-    //    //pid 설명에 따라 타겟을 몇개 고를지 - 몇번 타겟이 몇번타겟에게 어떤행동을 하는지등 테이블로 정의해놓기 
-
-    //    TokenAction choiceAction = _char.GetNextActionToken(); //복합 액션이 가능할진 모르지만 일단 첫번째, 그럼 행동 하나로 하자. 
-    //    ActionType actionType = choiceAction.GetActionType();
-    //    choiceAction.ClearTarget(); //해당 액션의 내용을 삭제 (타겟리스트)
-    //    if (actionType == ActionType.Attack)
-    //    {
-    //        //이동 액션을 제외한 모든 액션은 해당 액션을 취하기 위한 사거리 이내의 적을 발견한 상태일것. 
-    //    //    Debug.Log("어택 내용 채운다");
-    //        choiceAction.SetTargetCoordi(_char.GetTarget().GetMapIndex());
-    //    }
-    //    else if (actionType == ActionType.Move)
-    //    {
-    //    //    Debug.Log("이동 내용 채운다");
-    //        int tempStopDistance = 0; //목적지 까지 멈추는 거리 0 이면 해당 타일 위로 
-    //        TokenTile targetTile = new TokenTile(); //목적지 타일 
-    //        TokenBase charTarget = _char.GetTarget(); //캐릭터가 쫓고있는 타겟이 있는지 확인
-    //        //1. 타겟이 있는데, 캐릭터 즉 공격 대상이라면, 공격 사거리만큼 스탑 디스턴스 조정
-    //        if (charTarget != null && charTarget.GetTokenType() == TokenType.Char)
-    //        {
-    //            int tempAttackRange = 1; //임시 현재 타겟의 사거리를 1로 조정
-    //            tempStopDistance = tempAttackRange; //멈출거리 1로 조정
-    //            targetTile = MgToken.GetInstance().GetMaps()[charTarget.GetXIndex(), charTarget.GetYIndex()]; //해당 타겟이 있는 타일을 목적지로 설정
-                
-    //        }
-    //        //2. 따로 타겟이 없으면 범위 내 타일중 이동할 곳 랜덤으로 뽑기
-    //        else
-    //        {
-    //            int tempMoveRange = 2;
-    //            // 사거리 내부 안의 타일값을 int[]좌표로 가져온후, 해당 인덱스의 tileToken으로 반환
-    //            List<TokenTile> inRangedTiles = GameUtil.GetTileTokenListInRange(tempMoveRange, _char.GetXIndex(), _char.GetYIndex());
-    //            int ran = Random.Range(0, inRangedTiles.Count);
-    //            targetTile = inRangedTiles[ran]; //이동할 타겟을 구했으면, 해당 타겟 까지 가기 위한 중간 타겟을 산출
-    //        }
-    //        RouteFindLogic(_char, choiceAction, targetTile, tempStopDistance); //타겟 까지의 루트 타일을 이동 횟수만큼 담아놓음. 
-    //        _char.SetTarget(null); //타겟을 쫓긴 쫓되 이동을 했다면, 이동후 다시 공격액션에 따라 타겟을 찾으므로 일단 타겟 초기화. 
-    //    }
-    //}
-    //5. 캐릭터가 이동 길 찾기
-
     private int[] RouteFindLogic(TokenChar _char, TokenAction _moveAction, TokenTile _target, int stopDistance = 0)
     {
         //현재 케릭이, 타겟까지 이동할 루트로 tokenTile을 찾아, 액션 토큰에 삽입. 
@@ -340,12 +287,14 @@ public class AIPlayer : PlayerRule
         }
         return new int[]{ mapInfoes.curX, mapInfoes.curY };
     }
+    #endregion
+
+    #endregion
 
     public GamePlayStep GetCurPlayStep()
     {
         return GamePlayStep.ChooseChar;
     }
-    #endregion
 }
 
 
