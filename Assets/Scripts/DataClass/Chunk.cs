@@ -7,6 +7,7 @@ public class Chunk
     public TokenTile[,] tiles;
     public int ChunkNum;
     public Quest Quest;
+    public NaviPin m_Pin;
 
     public Chunk() { }
 
@@ -58,8 +59,29 @@ public class Chunk
 
     public void MakePin()
     {
-        NaviPin naviPin = MgNaviPin.GetInstance().GetNaviPin();
-        naviPin.PutPin(tiles[2, 2].GetObject().transform.position);
+        //1. 핀 요구
+        m_Pin = MgNaviPin.GetInstance().RequestNaviPin();
+        //2. 핀 받았으면 설정
+        if(m_Pin != null)
+            m_Pin.SetPinInfo(tiles[2, 2].GetObject().transform.position, ChunkNum);
+    }
+
+    public void RemovePin()
+    {
+        //1.핀 관리자에게 핀 제거 요구
+        MgNaviPin.GetInstance().RemovePin(m_Pin);
+        m_Pin = null;
+    }
+
+    public void ResetQuest()
+    {
+        Quest = null;
+        RemovePin();
+    }
+
+    public void SwitchPin(bool _on)
+    {
+        m_Pin.SwitchPin(_on);
     }
 
     public void OnEnterChunk()

@@ -89,6 +89,7 @@ public class TokenTile : TokenBase
         GameUtil.GetHideTileFromMap(GetMapIndex()).FogOff();
     }
 
+    #region 입장 이벤트
     public TokenEvent GetEneteranceEvent()
     {
         return m_enteranceEvent;
@@ -103,4 +104,5 @@ public class TokenTile : TokenBase
     {
         m_enteranceEvent = null;
     }
+    #endregion
 }

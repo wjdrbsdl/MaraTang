@@ -5,6 +5,7 @@ using UnityEngine;
 public class NaviPin : MonoBehaviour
 {
     public Vector2 naviPoint; //꽂혀있는 곳 
+    public int m_chunkNum; //꽂혀 있는 청크 넘버
     private Camera m_mainCam;
     private void Start()
     {
@@ -16,14 +17,10 @@ public class NaviPin : MonoBehaviour
         Navigate();
     }
 
-    public void PutPin(Vector2 _position)
+    public void SetPinInfo(Vector2 _position, int _chunkNum)
     {
         naviPoint = _position;
-    }
-
-    public void RemovePin()
-    {
-        MgNaviPin.GetInstance().RemovePin(this);
+        m_chunkNum = _chunkNum;
     }
 
     public void SwitchPin(bool _on)
@@ -31,6 +28,7 @@ public class NaviPin : MonoBehaviour
         gameObject.SetActive(_on);
     }
 
+    #region 핀 조정
     private void Navigate()
     {
         //카메라 뷰에 들어와있으면
@@ -75,4 +73,6 @@ public class NaviPin : MonoBehaviour
        // Debug.Log(isIn + " "+screenPoint);
         return isIn;
     }
+    #endregion
+
 }

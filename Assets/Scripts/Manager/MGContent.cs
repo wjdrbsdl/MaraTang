@@ -215,6 +215,9 @@ public class MGContent : Mg<MGContent>
 
     public void RemoveQuest(Quest _quest)
     {
+        //퀘스트 관련 마지막 정리 
+        if (GetChunk(_quest.ChunkNum) != null)
+            GetChunk(_quest.ChunkNum).ResetQuest();
         m_QuestList.Remove(_quest);
     }
     #endregion
@@ -274,6 +277,15 @@ public class MGContent : Mg<MGContent>
                 }
             }
         }
+    }
+
+    public Chunk GetChunk(int _chunkNum)
+    {
+        //청크리스트가 널이거나 idx넘버가 범위 밖이라면 null 반환
+        if (m_chunkList == null || _chunkNum < 0 || m_chunkList.Count <= _chunkNum)
+            return null;
+
+        return m_chunkList[_chunkNum];
     }
 }
 
