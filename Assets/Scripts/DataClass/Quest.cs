@@ -8,7 +8,7 @@ public class Quest
     //클리어조건
     //보상을 명기한 컨텐트
     public int QuestPid = 0; //해당 퀘스트 pid mgContet 리스트에 추가되는 값으로 인덱스용
-    public int RestWoldTurn = 5; //유지되는 기간 
+    public int RestWoldTurn = 15; //유지되는 기간 
     public int ChunkNum = 0;
     public QuestCondition Condition; //수행 조건
     public RewardData Reward; //보상

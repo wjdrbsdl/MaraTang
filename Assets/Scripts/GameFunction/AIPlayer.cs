@@ -214,7 +214,7 @@ public class AIPlayer : PlayerRule
         int enemyDistance = GameUtil.GetMinRange(new TMapIndex(_char, _enemy));
         if (enemyDistance == 1)
         {
-            Debug.Log(m_turnNumber + " 적과 거리가 1");
+            //Debug.Log(m_turnNumber + " 적과 거리가 1");
             return null;
         }
 

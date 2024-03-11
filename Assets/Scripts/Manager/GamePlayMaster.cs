@@ -55,8 +55,8 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
         }
         if (Input.GetKeyDown(KeyCode.F8))
         {
+            //Debug.Log("플레이어 턴 종료 선언");
             PlayerManager.GetInstance().EndTurn();
-            Debug.Log("플레이어 턴 종료 선언");
         }
     }
 

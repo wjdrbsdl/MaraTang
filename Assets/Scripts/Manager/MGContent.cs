@@ -96,10 +96,10 @@ public class MGContent : Mg<MGContent>
     }
 
     #region 퀘스트 생성
-    private List<Chunk> SelectChunk(int _selectCount)
+    private List<Chunk> SelectChunk(int _newQuestCount)
     {
         //퀘스트를 수행할 청크 뽑기
-        List<int> ranChunkIdx = GameUtil.GetRandomNum(m_chunkList.Count, _selectCount);
+        List<int> ranChunkIdx = GameUtil.GetRandomNum(m_chunkList.Count, _newQuestCount);
         List<Chunk> rulletChunk = new();
         for (int i = 0; i < ranChunkIdx.Count; i++)
         {
