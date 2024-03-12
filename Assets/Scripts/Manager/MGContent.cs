@@ -37,6 +37,8 @@ public class MGContent : Mg<MGContent>
     private int m_mainCharChunkNum = 0;
     private List<Chunk> m_chunkList = new List<Chunk>();
 
+    public int m_questCount = 0;
+
     public enum ContentEnum
     {
         진행턴, 발생컨텐츠
@@ -62,7 +64,7 @@ public class MGContent : Mg<MGContent>
     {
         // 턴이 지났음
         CountQuestTurn(); //기존에 있던 퀘스트들 턴 감소
-        List<Chunk> questChunk = SelectChunk(3);
+        List<Chunk> questChunk = SelectChunkList(3);
         Quest newQuest = SelectContent(); //새로 추가할 컨텐츠 있는지 체크 
         RealizeQuest(newQuest);
     }
@@ -96,7 +98,7 @@ public class MGContent : Mg<MGContent>
     }
 
     #region 퀘스트 생성
-    private List<Chunk> SelectChunk(int _newQuestCount)
+    private List<Chunk> SelectChunkList(int _newQuestCount)
     {
         //퀘스트를 수행할 청크 뽑기
         List<int> ranChunkIdx = GameUtil.GetRandomNum(m_chunkList.Count, _newQuestCount);
@@ -137,6 +139,7 @@ public class MGContent : Mg<MGContent>
     private Quest MakeQuest(int _chunkNum, int _monsterPID, int _monsterCount, RewardType _rewardType)
     {
         Quest newQuest = new(_monsterPID, _monsterCount, _rewardType); //퀘스트 문서 생성 
+        m_questCount += 1;
         newQuest.ChunkNum = _chunkNum;
         m_QuestList.Add(newQuest); //리스트에 추가 
                                       //  Debug.Log("몬스터 소환 컨텐츠");
