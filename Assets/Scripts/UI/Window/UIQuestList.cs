@@ -17,6 +17,18 @@ public class UIQuestList : UIBase
         SetInfo(questList);
     }
 
+    public void RefreshList()
+    {
+        //퀘스트 상태가 변했을 때 호출해서 UI 새로 세팅 
+        if (m_window.activeSelf == false)
+            return;
+
+        List<Quest> questList = MGContent.g_instance.GetQuestList();
+        MakeSamplePool<BtnQuestList>(ref m_questSlots, m_questSlotSample.gameObject, questList.Count, m_box);
+
+        SetInfo(questList);
+    }
+
     private void SetInfo(List<Quest> _questList)
     {
 

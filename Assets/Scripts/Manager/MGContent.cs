@@ -23,8 +23,6 @@ public class MGContent : Mg<MGContent>
          * - 해당 지역 몬스터 제거하기 
          * - 해당 지역 점거 하기 
          * - 해당 지역 자원 캐기 등 특정한 이벤트를 발생시키고, 그에 따라 보상을 약속하는 시스템 
-         * 
-     
 
         //기존 발생되었던 녀석은 어떻게? 
         //1. 기존께 강화
@@ -36,9 +34,7 @@ public class MGContent : Mg<MGContent>
     List<(int, bool)> m_QuestRecorde = new(); //과거 퀘스트의 기록
     private int m_mainCharChunkNum = 0;
     private List<Chunk> m_chunkList = new List<Chunk>();
-
     public int m_questCount = 0;
-
     public enum ContentEnum
     {
         진행턴, 발생컨텐츠
@@ -58,16 +54,18 @@ public class MGContent : Mg<MGContent>
     }
     #endregion
 
-    public void OnNextTurn()
+    #region 컨텐츠 연구
+    public void WriteContentWhenNextTurn()
     {
         // 턴이 지났음
         CountQuestTurn(); //기존에 있던 퀘스트들 턴 감소
         List<Chunk> questChunk = SelectChunkList(3);
         Quest newQuest = SelectContent(); //새로 추가할 컨텐츠 있는지 체크 
         RealizeQuest(newQuest);
+        RefreshQuestList();
     }
 
-    public void OnCharAction(TokenChar _doChar, TokenAction _doAction)
+    public void WriteContentWhenCharAction(TokenChar _doChar, TokenAction _doAction)
     {
         //캐릭이 액션을 수행할때마다 알림 받음 
         if (_doChar.isMainChar == false)
@@ -87,13 +85,7 @@ public class MGContent : Mg<MGContent>
         }
     }
 
-    private void CountQuestTurn()
-    {
-        for (int i = 0; i < m_QuestList.Count; i++)
-        {
-            m_QuestList[i].UseTurn();
-        }
-    }
+    #endregion
 
     #region 퀘스트 생성
     private List<Chunk> SelectChunkList(int _newQuestCount)
@@ -214,6 +206,14 @@ public class MGContent : Mg<MGContent>
         m_QuestRecorde.Add((_quest.QuestPid, _result));
     }
 
+    private void CountQuestTurn()
+    {
+        for (int i = 0; i < m_QuestList.Count; i++)
+        {
+            m_QuestList[i].UseTurn();
+        }
+    }
+
     public void RemoveQuest(Quest _quest)
     {
         //퀘스트 관련 마지막 정리 
@@ -223,13 +223,20 @@ public class MGContent : Mg<MGContent>
         //2. 퀘스트 관련 object들 정리
         _quest.CleanQuest();
         m_QuestList.Remove(_quest);
+        RefreshQuestList();
     }
-    #endregion
 
     public List<Quest> GetQuestList()
     {
         return m_QuestList;
     }
+
+    private void RefreshQuestList()
+    {
+        MgUI.GetInstance().RefreshQuestList();
+    }
+    #endregion
+
 
     //선택한 보상을 적용하기 위해 각기 필요한 클래스로 전달하기 
     //보상 관리 매니저 추가 필요. 

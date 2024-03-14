@@ -145,7 +145,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
         CamTraceOff();
         _charToken.SetState(CharState.Idle);
         _charToken.ShowAction(false);
-        MGContent.g_instance.OnCharAction(_charToken, _charToken.GetNextAction());
+        MGContent.g_instance.WriteContentWhenCharAction(_charToken, _charToken.GetNextAction());
         m_players[(int)m_playerMemeber].DoneCharAction(_charToken); //현재 플레이어에게 해당 캐릭터의 액션이 완료되었음을 알린다.
         OccurMoveEvent(_charToken);
     }
@@ -308,7 +308,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     {
         AnnounceState("세계턴 변화 따짐 내용 없음");
         m_playData.PlayTime += 1; //여태 진행한 턴
-        MGContent.g_instance.OnNextTurn();
+        MGContent.g_instance.WriteContentWhenNextTurn();
         //컨텐츠 에서 무언가 발생 
 
     }

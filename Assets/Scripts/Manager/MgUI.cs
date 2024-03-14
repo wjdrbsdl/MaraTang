@@ -99,6 +99,11 @@ public class MgUI : MgGeneric<MgUI>
         m_questListUI.SetQuestList();
     }
 
+    public void RefreshQuestList()
+    {
+        m_questListUI.RefreshList();
+    }
+
     #endregion
 
     public void ShowCaseOpen(RectTransform _uiTransform, Action<List<ShowcaseSlot>> _selectAction, int maxCount)
