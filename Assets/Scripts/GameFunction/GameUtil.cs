@@ -67,9 +67,9 @@ public static class GameUtil
        return GameUtil.GetTileIdxListInRange(_range, _centerX, _centerY, _minRange).ConvertAll(new System.Converter<int[], TokenTile>(GetTileTokenFromMap)); // 사거리 내부 안의 타일 가져오기
     }
 
-    public static List<ObjectTokenBase> GetTokenObjectInRange(int _range, int _centerX, int _centerY, int _minRange = 0)
+    public static List<ObjectTokenBase> GetTileObjectInRange(int _range, int _centerX, int _centerY, int _minRange = 0)
     {
-        return GameUtil.GetTileIdxListInRange(_range, _centerX, _centerY, _minRange).ConvertAll(new System.Converter<int[], ObjectTokenBase>(GetTokenObjectFromMap)); // 사거리 내부 안의 타일 가져오기
+        return GameUtil.GetTileIdxListInRange(_range, _centerX, _centerY, _minRange).ConvertAll(new System.Converter<int[], ObjectTokenBase>(GetTileObjectFromMapCoordi)); // 사거리 내부 안의 타일 가져오기
     }
 
     public static int[] GetTileFromDirect(int _centerY, TileDirection _direction)
@@ -327,6 +327,11 @@ public static class GameUtil
         string define = PlayerSettings.GetScriptingDefineSymbolsForGroup(BuildTargetGroup.Android);
     */
 
+    public static void TestFindTileWithWork(Func<bool> testFunc)
+    {
+        bool isDone = testFunc();
+    }
+
     #region 좌표에 해당하는 타일 얻기
     public static bool IsThereMap(int _x, int _y)
     {
@@ -378,7 +383,7 @@ public static class GameUtil
         return MgToken.GetInstance().GetMaps()[_char.GetXIndex(), _char.GetYIndex()];
     }
 
-    public static ObjectTokenBase GetTokenObjectFromMap(int[] _index)
+    public static ObjectTokenBase GetTileObjectFromMapCoordi(int[] _index)
     {
         if (IsThereMap(_index) == false)
             return null;
