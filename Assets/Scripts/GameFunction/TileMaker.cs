@@ -32,31 +32,30 @@ public class TileMaker : MonoBehaviour
                 bool needRevise = cury % 2 == 1; //홀수번째는 보정이 필요하다
                 float finalX = (needRevise == true)? reviseXpos : originXPos;
 
-                int selectMap = SelectTokenEco(noisedMapping[curx, cury]);
-
-                //오브젝트용
-                ObjectTokenBase newTileObject = Instantiate(_mapOrder.t_tile).GetComponent<ObjectTokenBase>();
+                //1. 타일토큰, 가림토큰, 타일오브젝트 생성
+                TokenTile newTile = new TokenTile().MakeTileToken();
                 HideTile newHideTile = Instantiate(_mapOrder.t_hideTile).GetComponent<HideTile>();
-                //타일토큰용
-                TokenTile newTokeTileInfo = new TokenTile().MakeTileToken();
-
-
-                //서로 참조 세팅
-                newTileObject.SetToken(newTokeTileInfo, TokenType.Tile);
-                newTokeTileInfo.SetMapIndex(curx, cury); //토큰 자체에 자신의 인덱스 넣고
+                ObjectTokenBase newTileObject = Instantiate(_mapOrder.t_tile).GetComponent<ObjectTokenBase>();
                 
-                newMap[curx, cury] = newTokeTileInfo; //맵 배열의 인덱스엔 만들어진 맵을 할당
+                //2. 타일 토큰 정보 세팅                
+                newTile.SetMapIndex(curx, cury); //토큰 자체에 자신의 인덱스 넣고
+                newTile.SetEcoValue(noisedMapping[curx, cury]);
+
+                //3. 타일 오브젝트 세팅
+                newTileObject.SetToken(newTile, TokenType.Tile);
                 newTileObject.transform.SetParent(_mapOrder.t_box);
                 newTileObject.transform.localPosition = new Vector2(finalX, yPos); //박스 안에서 로컬포지션으로 위치 
+                newTile.SetEcoSprite();
 
-                newHideMap[curx, cury] = newHideTile; //맵 배열의 인덱스엔 만들어진 맵을 할당
+                //4. 숨김 타일 세팅
                 newHideTile.transform.SetParent(_mapOrder.t_hideBox);
                 newHideTile.transform.localPosition = new Vector2(finalX, yPos); //박스 안에서 로컬포지션으로 위치 
                 newHideTile.SetTileSprite();
 
-                //환경 자원 Object 생성
-                //if (selectMap.Equals(0))
-                //    ObjTokenManager.GetInstance().RequestObjectToken(newTokeTileInfo);
+                //5. 맵핑 할당
+                newMap[curx, cury] = newTile; //맵 배열의 인덱스엔 만들어진 맵을 할당
+                newHideMap[curx, cury] = newHideTile; //맵 배열의 인덱스엔 만들어진 맵을 할당
+
             }
         }
         MgToken.GetInstance().SetMapTiles(newMap); //만들어진 맵 정보 전달
@@ -168,21 +167,6 @@ public class TileMaker : MonoBehaviour
 
         return box;
     }
-
-    private int SelectTokenEco(float _noiseValue)
-    {
-        int selectMap = 0;
-        if (_noiseValue < 0.33f)
-            selectMap = 0;
-        else if (_noiseValue < 0.66f)
-            selectMap = 1;
-        else
-            selectMap = 2;
-
-        return selectMap;
-    }
-
-
 
     #region 평맵핑
     private void MakeFlatTypeMap(MgToken.TMapBluePrint _mapOrder)

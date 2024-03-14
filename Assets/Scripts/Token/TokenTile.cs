@@ -50,6 +50,28 @@ public class TokenTile : TokenBase
         
         return tileToken;
     }
+
+    public void SetEcoValue(float _ecoValue)
+    {
+        int ecoValue = (int)(_ecoValue * 100f);
+        SetStatValue(TileStat.Height, ecoValue);
+    }
+
+    public void SetEcoSprite()
+    {
+        int ecoValue = GetStat(TileStat.Height);
+
+        int selectEcoMap = 0;
+        if (ecoValue < 33)
+            selectEcoMap = 0;
+        else if (ecoValue < 66)
+            selectEcoMap = 1;
+        else
+            selectEcoMap = 1;
+
+        GetObject().SetSprite( MgToken.GetInstance().m_tilesSprite[selectEcoMap]);
+    }
+
     #endregion
 
     public List<TokenChar> GetCharsInTile()
