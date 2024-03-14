@@ -145,4 +145,12 @@ public class TokenBase
         if (QuestCard != null)
             QuestCard.SendQuestCallBack(this);
     }
+
+    public virtual void Clean()
+    {
+        //해당 token을 아무런 영향없이 제거하는 부분 
+        //1. 토지 - 속한 몬스터 제거, mapIndex에서 제거, 오브젝트 제거
+        //2. 몬스터 - 속해있던 토지에서 제거, 오브젝트 제거
+        //3. 이벤트 - 속해있던 토지에서 제거, 오브젝트 제거 
+    }
 }

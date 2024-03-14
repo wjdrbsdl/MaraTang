@@ -55,8 +55,6 @@ public class MGContent : Mg<MGContent>
         MgParsing.GetInstance().GetMasterData(EMasterData.ContentData);
         TileMaker maker = MgToken.GetInstance().m_tileMaker;
         m_chunkList = maker.MakeChunk(maker.DivideChunk(MgToken.GetInstance().m_chunkLength));
-        RandomDye();
-        MakeFence();
     }
     #endregion
 
@@ -93,7 +91,7 @@ public class MGContent : Mg<MGContent>
     {
         for (int i = 0; i < m_QuestList.Count; i++)
         {
-            m_QuestList[i].RemoveTurn();
+            m_QuestList[i].UseTurn();
         }
     }
 
@@ -219,8 +217,11 @@ public class MGContent : Mg<MGContent>
     public void RemoveQuest(Quest _quest)
     {
         //퀘스트 관련 마지막 정리 
+        //1. 퀘스트 발휘된 구역이 있으면 구역 정리
         if (GetChunk(_quest.ChunkNum) != null)
             GetChunk(_quest.ChunkNum).ResetQuest();
+        //2. 퀘스트 관련 object들 정리
+        _quest.CleanQuest();
         m_QuestList.Remove(_quest);
     }
     #endregion
@@ -231,6 +232,7 @@ public class MGContent : Mg<MGContent>
     }
 
     //선택한 보상을 적용하기 위해 각기 필요한 클래스로 전달하기 
+    //보상 관리 매니저 추가 필요. 
     public void SelectReward(RewardInfo _rewardInfo)
     {
         if (_rewardInfo.RewardType.Equals(RewardType.CharStat))
@@ -249,37 +251,34 @@ public class MGContent : Mg<MGContent>
         }
     }
 
-    private void MakeFence()
+    private void MakeFence(Chunk _fenceChunk)
     {
-        List<int> ranNum = GameUtil.GetRandomNum(m_chunkList.Count, 3);
         Sprite fenceSprite = MgToken.GetInstance().m_tilesSprite[1];
-        for (int i = 0; i < ranNum.Count; i++)
-        {
-            Chunk chunk = m_chunkList[ranNum[i]];
-            int xLength = chunk.tiles.GetLength(0);
-            int yLength = chunk.tiles.GetLength(1);
 
-            //외곽인경우만 스프라이트 바꾸기
-            
-            for (int x = 0; x < xLength; x++)
+        int xLength = _fenceChunk.tiles.GetLength(0);
+        int yLength = _fenceChunk.tiles.GetLength(1);
+
+        //외곽인경우만 스프라이트 바꾸기
+
+        for (int x = 0; x < xLength; x++)
+        {
+            for (int y = 0; y < yLength; y++)
             {
-                for (int y = 0; y < yLength; y++)
+                if (x == 0 || x == xLength - 1)
                 {
-                    if(x==0 || x == xLength - 1)
-                    {
-                        //x축이 0이거나 맨 끝인경우 y 0~max 달리고
-                        chunk.tiles[x, y].SetSprite(fenceSprite);
-                    }
-                    else
-                    {
-                        //x값이 1~어느 사이인 경우엔 y 처음과 끝만 색칠하고 해당 열은 패스 
-                        chunk.tiles[x, 0].SetSprite(fenceSprite);
-                        chunk.tiles[x, yLength - 1].SetSprite(fenceSprite);
-                        break;
-                    }
+                    //x축이 0이거나 맨 끝인경우 y 0~max 달리고
+                    _fenceChunk.tiles[x, y].SetSprite(fenceSprite);
+                }
+                else
+                {
+                    //x값이 1~어느 사이인 경우엔 y 처음과 끝만 색칠하고 해당 열은 패스 
+                    _fenceChunk.tiles[x, 0].SetSprite(fenceSprite);
+                    _fenceChunk.tiles[x, yLength - 1].SetSprite(fenceSprite);
+                    break;
                 }
             }
         }
+
     }
 
     public Chunk GetChunk(int _chunkNum)

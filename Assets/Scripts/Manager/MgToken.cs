@@ -9,6 +9,7 @@ public class MgToken : MgGeneric<MgToken>
     public TileMaker m_tileMaker;
     public GameObject m_tiles;
     public Sprite[] m_tilesSprite;
+    public Sprite[] m_hideSprite;
     public Transform m_tileBox;
 
     public Transform m_hideBox;
@@ -68,13 +69,6 @@ public class MgToken : MgGeneric<MgToken>
 
     private void SetTileSize()
     {
-        //for (int i = 0; i < m_tiles.Length; i++)
-        //{
-        //    float size = m_rLength * 0.6666f * m_padding; //1.5°¡ size 1¿¡ ºñ·Ê
-        //    Vector3 sizeVect = new Vector3(size, size, 1);
-        //    m_tiles[i].transform.localScale = sizeVect;
-        //    m_hideTile.transform.localScale = sizeVect;
-        //}
         float size = m_rLength * 0.6666f * m_padding; //1.5°¡ size 1¿¡ ºñ·Ê
         Vector3 sizeVect = new Vector3(size, size, 1);
         m_tiles.transform.localScale = sizeVect;

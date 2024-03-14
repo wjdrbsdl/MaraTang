@@ -12,7 +12,7 @@ public class BtnQuestList : MonoBehaviour
     public void SetButton(Quest _quest)
     {
         m_quest = _quest;
-        m_statText.text = _quest.QuestPid + "번 진행";
+        m_statText.text = _quest.QuestPid + "번 남은 횟수 "+_quest.RestWoldTurn;
     }
 
     public void OnButtonClick()

@@ -215,15 +215,31 @@ public class TokenChar : TokenBase
 
     public void Death()
     {
+        //0. 오브젝트 정리
         if (m_object != null)
             m_object.Death();
 
-        TokenTile place = GameUtil.GetTileTokenFromMap(GetMapIndex());
-        place.RemoveToken(this);
-
-        MgToken.GetInstance().RemoveCharToken(this);
-
+        //1. 사망시 처리
         SendQuestCallBack();
         DropItem();
+
+        //2. 데이터 참조 제거
+        TokenTile inTile = GameUtil.GetTileTokenFromMap(GetMapIndex());
+        inTile.RemoveToken(this);
+        MgToken.GetInstance().RemoveCharToken(this);
+    }
+
+    public override void Clean()
+    {
+        base.Clean();
+        Debug.Log("캐릭터 정리 들어감");
+        //0. 오브젝트 정리 
+        if (m_object != null)
+            m_object.Death();
+
+        //1. 데이터 참조 제거
+        TokenTile place = GameUtil.GetTileTokenFromMap(GetMapIndex());
+        place.RemoveToken(this);
+        MgToken.GetInstance().RemoveCharToken(this);
     }
 }
