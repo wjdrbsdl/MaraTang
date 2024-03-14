@@ -5,13 +5,13 @@ using UnityEngine;
 public class HideTile : MonoBehaviour
 {
     [SerializeField]
-    private SpriteMask m_mask;
-    public Sprite[] m_sprites;
     public SpriteRenderer m_render;
-    private void Start()
+    
+    public void SetTileSprite()
     {
-        int ran = Random.Range(0, m_sprites.Length);
-        m_render.sprite = m_sprites[ran];
+        Sprite[] sprites = MgToken.GetInstance().m_hideSprite;
+        int ran = Random.Range(0, sprites.Length);
+        m_render.sprite = sprites[ran];
     }
 
     public void MaskOn()
