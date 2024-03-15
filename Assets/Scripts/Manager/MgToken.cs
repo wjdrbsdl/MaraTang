@@ -54,7 +54,7 @@ public class MgToken : MgGeneric<MgToken>
     #endregion
 
     #region 토큰들 - 마스터 토큰과 생성된 토큰 모두 관리 
-    private List<TokenChar> m_npcTokens; //현재 맵에 생성된 npc 토큰들
+    private List<TokenChar> m_charList = new(); //현재 맵에 생성된 캐릭 토큰들
     #endregion
 
     #region 리셋
@@ -64,7 +64,7 @@ public class MgToken : MgGeneric<MgToken>
 
         SetTileSize();
         MakeMap();
-        MakeMonsterToken();
+        MakePlayer();
     }
 
     private void SetTileSize()
@@ -78,9 +78,9 @@ public class MgToken : MgGeneric<MgToken>
     public override void ReferenceSet()
     {
      
-        for (int i = 0; i < m_npcTokens.Count; i++)
+        for (int i = 0; i < m_charList.Count; i++)
         {
-            TokenChar monsterToken = m_npcTokens[i];
+            TokenChar monsterToken = m_charList[i];
             int coordX = monsterToken.GetXIndex();
             int coordY = monsterToken.GetYIndex();
             RuleBook.Migrate(monsterToken, m_tileTokenes[coordX, coordY]); //타일토큰에 캐릭토큰 할당
@@ -131,40 +131,32 @@ public class MgToken : MgGeneric<MgToken>
     [SerializeField] private ObjectTokenBase m_monsterObjSample;
     [SerializeField] private ObjectTokenBase m_eventGO;
     [SerializeField] private List<ObjectTokenBase> m_mosterObject;
-    public void MakeMonsterToken()
+    public void MakePlayer()
     {
-        m_npcTokens = new List<TokenChar>();
-      
-        for (int i = 0; i < 2; i++)
-        {
-            TokenChar monsterToken = TokenChar.MakeTestMonsterToken("호호" +i.ToString(), i);
-            m_mosterObject[i].SetToken(monsterToken, TokenType.Char);
-            m_npcTokens.Add(monsterToken);
-            MakeTestCharActionToken(monsterToken);
-            int ranX = Random.Range(0, m_xLength);
-            int ranY = Random.Range(0, m_yLength);
-            monsterToken.SetMapIndex(ranX, ranY); //좌표값 입력 - 실제 이동은 안된상태
-
-        }
+        int ranX = Random.Range(0, m_xLength);
+        int ranY = Random.Range(0, m_yLength);
+        int playerCharPid = 1;
+        SpawnCharactor(new int[] { ranX, ranY }, playerCharPid, true);
     }
 
-    private TokenChar MakeMonster(int _monsterPId)
+    private TokenChar MakeCharToken(int _monsterPId)
     {
         TokenChar masterDataChar = MgMasterData.GetInstance().GetCharData(_monsterPId);
-        TokenChar newMonToken = new TokenChar(masterDataChar);
-        ObjectTokenBase monObj = Instantiate(m_monsterObjSample);
-        monObj.gameObject.transform.SetParent(m_monsterBox);
-        monObj.SetToken(newMonToken, TokenType.Char);
-        m_npcTokens.Add(newMonToken); //생성된 녀석은 npc리스트에 추가; 
-        return newMonToken;
+        TokenChar newCharToken = new TokenChar(masterDataChar);
+        ObjectTokenBase charObj = Instantiate(m_monsterObjSample);
+        charObj.gameObject.transform.SetParent(m_monsterBox);
+        charObj.SetToken(newCharToken, TokenType.Char);
+        m_charList.Add(newCharToken); //생성된 녀석은 npc리스트에 추가; 
+        return newCharToken;
     }
 
-    public TokenChar SpawnMonster(int[] _position, int _monsterPid)
+    public TokenChar SpawnCharactor(int[] _position, int _charPid, bool _isPlayer = false)
     {
         //좌표에 몬스터 생성
-        TokenChar spawnMonster = MakeMonster(_monsterPid);
-        RuleBook.FirstMigrate(spawnMonster, _position);
-        return spawnMonster;
+        TokenChar spawnCharactor = MakeCharToken(_charPid);
+        spawnCharactor.m_isPlayerChar = _isPlayer;
+        RuleBook.FirstMigrate(spawnCharactor, _position);
+        return spawnCharactor;
     }
 
     public TokenEvent SpawnEvent(TokenTile _tile, int _eventPid)
@@ -196,7 +188,7 @@ public class MgToken : MgGeneric<MgToken>
     #region Get
     public List<TokenChar> GetNpcPlayerList()
     {
-        return m_npcTokens;
+        return m_charList;
     }
 
     public TokenTile[,] GetMaps()
@@ -212,13 +204,13 @@ public class MgToken : MgGeneric<MgToken>
     {
         //임시로 0번째
 
-        return m_npcTokens[0];
+        return m_charList[0];
     }
     #endregion
 
     public void RemoveCharToken(TokenChar _removeChar)
     {
-        m_npcTokens.Remove(_removeChar);
+        m_charList.Remove(_removeChar);
     }
 
     public void TempPosRandomPlayer(TokenChar _char)

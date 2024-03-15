@@ -11,7 +11,7 @@ public enum CharStat
 public class TokenChar : TokenBase
 {
     public bool isMainChar = false;
-    private bool m_isPlayerChar = false;
+    public bool m_isPlayerChar = false;
 
     private CharState m_state = CharState.Idle;
     private List<TokenAction> m_haveActionList = new(); //이 캐릭터가 지니고 있는 액션 토큰들
@@ -150,7 +150,7 @@ public class TokenChar : TokenBase
     public bool IsPlayerChar()
     {
         //나중엔 토큰매니저나 규칙으로 인해 m_isPlayerChar를 바꾸고 지금은 오브젝트에서 당기는걸로
-        m_isPlayerChar = GetObject().m_testPlayerToken;
+        
         return m_isPlayerChar;
     }
     #endregion

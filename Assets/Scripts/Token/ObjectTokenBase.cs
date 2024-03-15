@@ -17,7 +17,7 @@ public class ObjectTokenBase : MonoBehaviour
     CharState m_state = CharState.Idle;
     public Animator m_animator;
     public int m_ClickPriority = 0;
-    public bool m_testPlayerToken = false;
+
 
     public virtual void OnClickObject()
     {

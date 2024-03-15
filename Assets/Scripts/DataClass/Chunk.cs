@@ -51,7 +51,7 @@ public class Chunk
                 //만약 몬스터 피아이디가 없는거라면 딴걸로 변경
                 condition.monsterPID = 2;
             }
-            TokenChar questMonster = MgToken.GetInstance().SpawnMonster(spawnCoord, condition.monsterPID); //몬스터의 경우 사망시에 설치
+            TokenChar questMonster = MgToken.GetInstance().SpawnCharactor(spawnCoord, condition.monsterPID); //몬스터의 경우 사망시에 설치
             questMonster.QuestCard = Quest;
             Quest.TempQuestTokens.Add(questMonster);
         }
