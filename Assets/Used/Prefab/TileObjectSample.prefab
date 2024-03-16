@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4382253129068172930}
   - component: {fileID: 4382253129068172929}
   m_Layer: 0
-  m_Name: TileSample
+  m_Name: TileObjectSample
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -10,6 +10,7 @@ public class MgToken : MgGeneric<MgToken>
     public GameObject m_tiles;
     public Sprite[] m_tilesSprite;
     public Sprite[] m_hideSprite;
+    public Sprite[] m_charSprite;
     public Transform m_tileBox;
 
     public Transform m_hideBox;
@@ -130,7 +131,6 @@ public class MgToken : MgGeneric<MgToken>
     [SerializeField] private Transform m_monsterBox;
     [SerializeField] private ObjectTokenBase m_monsterObjSample;
     [SerializeField] private ObjectTokenBase m_eventGO;
-    [SerializeField] private List<ObjectTokenBase> m_mosterObject;
     public void MakePlayer()
     {
         int ranX = Random.Range(0, m_xLength);
@@ -141,11 +141,19 @@ public class MgToken : MgGeneric<MgToken>
 
     private TokenChar MakeCharToken(int _monsterPId)
     {
+        //1. 마스터 데이터 복사로 새 캐릭 토큰 객체 생성
         TokenChar masterDataChar = MgMasterData.GetInstance().GetCharData(_monsterPId);
         TokenChar newCharToken = new TokenChar(masterDataChar);
+
+        //2. 캐릭 GO 생성
         ObjectTokenBase charObj = Instantiate(m_monsterObjSample);
         charObj.gameObject.transform.SetParent(m_monsterBox);
+
+        //3. Go에 정보 Token 세팅
         charObj.SetToken(newCharToken, TokenType.Char);
+
+        //4. 오브젝트 스프라이트 변경
+        newCharToken.SetSprite();
         m_charList.Add(newCharToken); //생성된 녀석은 npc리스트에 추가; 
         return newCharToken;
     }

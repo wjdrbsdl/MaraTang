@@ -89,6 +89,7 @@ public class TokenChar : TokenBase
         monsterToken.SetState(CharState.Sleep);
         return monsterToken;
     }
+
     #endregion
 
     public void ShowAction(bool isShow)
@@ -109,6 +110,13 @@ public class TokenChar : TokenBase
             return;
 
         m_object.PlayAnimation(_state);
+    }
+
+    public void SetSprite()
+    {
+        //pid에 맞게 objectToken의 스프라이트를 변경
+        int spriteIdx = m_tokenPid - 1;
+        GetObject().SetSprite(MgToken.GetInstance().m_charSprite[spriteIdx]);
     }
 
     public CharState GetState()
