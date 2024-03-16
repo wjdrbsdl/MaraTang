@@ -34,6 +34,12 @@ public class TokenTile : TokenBase
     private TileViewState m_viewState = TileViewState.Fog;
     private TokenEvent m_enteranceEvent; //입장시 발동하는 이벤트가 있는가
 
+    /*타일 상호 순서
+     * 1. 타일에 1 캐릭 존재 - 타캐릭 점유시 입장불가
+     * 2. 이벤트는 해당 타일 입장으로만 발동
+     * 3. 타일 사용은 점유로 가능(타일위에 혹은 해당 영역 보유)하나 이벤트 존재시 사용 불가
+     */
+
     #region 타일생성
     public TokenTile()
     {
