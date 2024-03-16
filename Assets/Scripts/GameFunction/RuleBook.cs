@@ -20,7 +20,7 @@ public class RuleBook
         public TAttackProgress(TokenChar _attackChar, TokenAction _attackAction, int _revenge = 1)
         {
             //구조를 만들면서 내부에서 최종피해량 산출
-            t_oriignDamage = _attackChar.GetPid() + 50;
+            t_oriignDamage = _attackAction.GetStat(CharActionStat.Power);
             t_reductedDamage = t_oriignDamage;
             t_attacker = _attackChar;
             t_revengeStep = _revenge;
@@ -28,7 +28,7 @@ public class RuleBook
 
         public float CalDamageByDefense(TokenChar _defenseChar)
         {
-            float reductedDamage = t_oriignDamage * 0.6f;
+            float reductedDamage = t_oriignDamage * 0.8f;
             return reductedDamage;
         }
 
@@ -211,7 +211,7 @@ public class RuleBook
         //1. 액션의 소비 액션 카운트와 비교(액션소비카운트가 0 인 녀석인 경우 true)
         if(_char.GetActionCount() < _action.GetStat(CharActionStat.NeedActionCount))
         {
-            _failMessage = "행동 카운트 부족 \n필요 :" + _char.GetActionCount() + "\n보유:"
+            _failMessage = "행동 카운트 부족 \n보유 :" + _char.GetActionCount() + "\n필요:"
                 + _action.GetStat(CharActionStat.NeedActionCount);
             return false;
         }
@@ -219,7 +219,7 @@ public class RuleBook
         //2. 액션의 소비 에너지
         if (_char.GetStat(CharStat.CurActionEnergy) < _action.GetStat(CharActionStat.NeedActionEnergy))
         {
-            _failMessage = "행동 에너지 부족 \n필요 :"+ _char.GetStat(CharStat.CurActionEnergy) +"\n보유:"
+            _failMessage = "행동 에너지 부족 \n보유 :"+ _char.GetStat(CharStat.CurActionEnergy) +"\n필요:"
                 + _action.GetStat(CharActionStat.NeedActionEnergy);
             return false;
         }
