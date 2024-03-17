@@ -29,7 +29,7 @@ public class MgUI : MgGeneric<MgUI>
     [SerializeField] private UIShowcase m_shocaseUI;
 
     #region 플레이어 액션
-    public void ShowActionToken()
+    public void ShowCharActionList()
     {
         //플레이어 캐릭터 눌렀을 때
         TokenChar _char = PlayerManager.GetInstance().GetSelectedChar();
@@ -38,6 +38,7 @@ public class MgUI : MgGeneric<MgUI>
 
     public void ShowTokenObjectInfo(TokenBase _token)
     {
+        //토큰 오브젝트 눌렀을때 정보창 띄우기 
         TokenType tokenType = _token.GetTokenType();
 
         if (tokenType.Equals(TokenType.Tile))
@@ -52,7 +53,7 @@ public class MgUI : MgGeneric<MgUI>
         }
     }
 
-    public void ShowCapitalChefUI(CapitalAction subCode, TokenTile _tile, TokenAction _action)
+    public void ShowCapitalWorkShop(CapitalAction subCode, TokenTile _tile, TokenAction _action)
     {
         UIBase openUI = null;
         //재료 관련 작업, 서브 코드에 따라 적당한 UI 호출 

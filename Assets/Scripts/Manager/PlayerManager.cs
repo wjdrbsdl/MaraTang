@@ -33,7 +33,7 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
     {
         //메인 캐릭터 선택된 상태로 시작
         m_curChar = m_mainChar;
-        m_playGameUI.ShowActionToken();
+        m_playGameUI.ShowCharActionList();
         
     }
 
@@ -287,7 +287,7 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
         m_curStep = _step;
         if (m_curStep.Equals(GamePlayStep.ChooseChar))
         {
-            m_playGameUI.ShowActionToken();
+            m_playGameUI.ShowCharActionList();
             GamePlayMaster.g_instance.ResetEmphasize();
             return;
         }

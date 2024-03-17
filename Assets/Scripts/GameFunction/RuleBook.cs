@@ -337,7 +337,7 @@ public class RuleBook
         {
             CapitalAction doCode = (CapitalAction)_action.GetStat(TileActionStat.SubValue);
             //재료 변환 
-            MgUI.GetInstance().ShowCapitalChefUI(doCode, _tile, _action);
+            MgUI.GetInstance().ShowCapitalWorkShop(doCode, _tile, _action);
         }
         else
         {
