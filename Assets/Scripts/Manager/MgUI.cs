@@ -12,7 +12,8 @@ public class MgUI : MgGeneric<MgUI>
     [SerializeField] private UIRewardChoose m_rewardChooseUI;
     [SerializeField] private UITileWorkShop m_tileWorkShopUI;
     [SerializeField] private UICharStats m_charStatUI;
-    [SerializeField] private UIMixer m_mixerUI;
+    [SerializeField] private UICaptailMix m_capitalMixUI;
+    [SerializeField] private UICapitalChange m_capitalChangeUI;
 
     [Header("데이터 표기")]
     [SerializeField] private UICapital m_capitalUI;
@@ -35,7 +36,7 @@ public class MgUI : MgGeneric<MgUI>
         m_actionTokenBox.SetActionSlot(_char);
     }
 
-    public void ShowTokenObjectUI(TokenBase _token)
+    public void ShowTokenObjectInfo(TokenBase _token)
     {
         TokenType tokenType = _token.GetTokenType();
 
@@ -57,13 +58,14 @@ public class MgUI : MgGeneric<MgUI>
         //재료 관련 작업, 서브 코드에 따라 적당한 UI 호출 
         if (subCode.Equals(CapitalAction.ChageCapital))
         {
-
+            m_capitalChangeUI.SetChangeUI(_tile, _action);
+            openUI = m_capitalChangeUI;
             return;
         }
         if (subCode.Equals(CapitalAction.MixCapital))
         {
-            m_mixerUI.SetChefUI(subCode, _tile, _action);
-            openUI = m_miniMapUI;
+            m_capitalMixUI.SetChefUI(_tile, _action);
+            openUI = m_capitalMixUI;
             return;
         }
 

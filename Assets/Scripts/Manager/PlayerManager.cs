@@ -89,7 +89,7 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
             return;
 
          m_selectedToken = _token;
-         m_playGameUI.ShowTokenObjectUI(m_selectedToken);
+         m_playGameUI.ShowTokenObjectInfo(m_selectedToken);
             
     }
 
