@@ -12,7 +12,7 @@ public class MgUI : MgGeneric<MgUI>
     [SerializeField] private UIRewardChoose m_rewardChooseUI;
     [SerializeField] private UITileWorkShop m_tileWorkShopUI;
     [SerializeField] private UICharStats m_charStatUI;
-    [SerializeField] private UIMixer m_chefUI;
+    [SerializeField] private UIMixer m_mixerUI;
 
     [Header("데이터 표기")]
     [SerializeField] private UICapital m_capitalUI;
@@ -41,22 +41,33 @@ public class MgUI : MgGeneric<MgUI>
 
         if (tokenType.Equals(TokenType.Tile))
         {
-            m_uiStack.Push(m_tileWorkShopUI);
+            PushUIStack(m_tileWorkShopUI);
             m_tileWorkShopUI.SetTileWorkShopInfo((TokenTile)_token);
         }
         else if (tokenType.Equals(TokenType.Char))
         {
-            m_uiStack.Push(m_charStatUI);
+            PushUIStack(m_charStatUI);
             m_charStatUI.SetCharStat((TokenChar)_token);
         }
     }
 
     public void ShowCapitalChefUI(CapitalAction subCode, TokenTile _tile, TokenAction _action)
     {
-      
-        m_chefUI.SetChefUI(subCode, _tile, _action);
-      
-        m_uiStack.Push(m_chefUI);
+        UIBase openUI = null;
+        //재료 관련 작업, 서브 코드에 따라 적당한 UI 호출 
+        if (subCode.Equals(CapitalAction.ChageCapital))
+        {
+
+            return;
+        }
+        if (subCode.Equals(CapitalAction.MixCapital))
+        {
+            m_mixerUI.SetChefUI(subCode, _tile, _action);
+            openUI = m_miniMapUI;
+            return;
+        }
+
+        PushUIStack(openUI);
     }
     #endregion
 
@@ -148,6 +159,9 @@ public class MgUI : MgGeneric<MgUI>
 
     public void PushUIStack(UIBase _ui)
     {
+        if (_ui == null)
+            return;
+
         if(m_uiStack.Contains(_ui) == false)
             m_uiStack.Push(_ui);
     }

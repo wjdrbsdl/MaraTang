@@ -329,6 +329,7 @@ public class RuleBook
             Capital capitalCode = (Capital)_action.GetStat(TileActionStat.SubValue);
             int tempAgainValue = 50;
             PlayerCapitalData.g_instance.CalCapital(capitalCode, tempAgainValue);
+            return;
         }
         
         //3 재료 관련 -> 벨류값으로 변환, 합성
