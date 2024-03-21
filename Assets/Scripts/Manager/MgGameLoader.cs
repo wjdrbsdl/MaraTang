@@ -12,21 +12,10 @@ public enum LoadMenuEnum
     New, Continue, Quit, Setting
 }
 
-public class MgGameLoader : MonoBehaviour
-{
-    public static MgGameLoader g_instance;
+public class MgGameLoader : MgGeneric<MgGameLoader>
+{ 
     [SerializeField] private GameLoad m_gameLoad;
     [SerializeField] private GameObject m_loadScene;
-
-    private void Awake()
-    {
-        g_instance = this; 
-    }
-    //void Start()
-    //{
-    //    InitialSystemSetting();
-    //    IntroScene();
-    //}
 
     public void MasterDataLoad()
     {
@@ -95,4 +84,9 @@ public class MgGameLoader : MonoBehaviour
         return m_gameLoad;
     }
     #endregion
+}
+
+public class SaveData
+{
+    
 }

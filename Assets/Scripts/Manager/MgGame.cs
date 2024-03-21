@@ -111,6 +111,8 @@ public class MgGame : MgGeneric<MgGame>
         //2. 데이터 생성 
         InputWorkStep(delegate { m_MasterDataManager = new MgMasterData(); DoneInitiDataManager("기본데이터 생성 끝"); });
         //3. 이후 순서 무관
+        InputWorkStep(delegate { m_loadManager.InitiSet(); DoneInitiDataManager("mg토큰끝"); });
+
         InputWorkStep(delegate { m_tokenManager.InitiSet(); DoneInitiDataManager("mg토큰끝"); });
 
         InputWorkStep(delegate { m_gamePlayMaster.InitiSet(); DoneInitiDataManager("mg엠씨끝"); });
