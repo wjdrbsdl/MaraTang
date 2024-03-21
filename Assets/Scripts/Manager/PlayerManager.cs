@@ -6,8 +6,6 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
 {
     [SerializeField]
     MgUI m_playGameUI; //플레이어의 액션에 관련된 UI
-    [SerializeField]
-    DisplayActionToken m_displayAction;
     [SerializeField]SoundManager m_soundMg;
     private GamePlayStep m_curStep = GamePlayStep.EndTurn; //현재 플레이 단계 
     private TokenChar m_curChar; //현재 선택된 캐릭터
