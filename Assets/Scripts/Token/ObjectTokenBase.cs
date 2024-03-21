@@ -50,23 +50,22 @@ public class ObjectTokenBase : MonoBehaviour
         SyncObjectPosition(m_token.GetXIndex(), m_token.GetYIndex());
     }
 
-    public virtual void SetToken(TokenBase _token, TokenType _tokenType)
+    public virtual void SetObjectToken(TokenBase _token, TokenType _tokenType)
     {
+        //토큰 타입에 따라 
+        //1. 클릭 우선도
+        //2. 렌더링 우선도 
+        //3. token 클래스
         m_tokenType = _tokenType; // 해당 오브젝트의 토큰타입은 보유한 토큰타입으로 설정
         if(_tokenType == TokenType.Char)
         {
             m_token = (TokenChar)_token;
-            m_ClickPriority = 2;
+            m_ClickPriority = 3;
         }
         else if (_tokenType == TokenType.Tile)
         {
             m_token = (TokenTile)_token;
             m_ClickPriority = 1;
-        }
-        else if (_tokenType == TokenType.Action)
-        {
-            m_token = (TokenAction)_token;
-            m_ClickPriority = 3;
         }
         else if (_tokenType == TokenType.Event)
         {

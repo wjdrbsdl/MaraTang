@@ -71,25 +71,6 @@ public class TokenChar : TokenBase
         }
     }
 
-    public static TokenChar MakeTestMonsterToken(string _name, int index)
-    {
-        TokenChar monsterToken = new TokenChar();
-        monsterToken.m_itemName = _name;
-        monsterToken.m_tokenIValues = new int[GameUtil.EnumLength(CharStat.CurActionEnergy)];
-        monsterToken.m_tokenType = TokenType.Char;
-        monsterToken.SetStatValue(CharStat.MaxActionEnergy, 10);
-        monsterToken.SetStatValue(CharStat.CurActionEnergy, 10);
-        monsterToken.SetStatValue(CharStat.MaxActionCount, 2);
-        monsterToken.SetStatValue(CharStat.CurActionCount, 2);
-        monsterToken.SetStatValue(CharStat.MaxHp, 200);
-        monsterToken.SetStatValue(CharStat.CurHp, 200);
-        monsterToken.SetStatValue(CharStat.Sight, 3);
-        monsterToken.m_haveActionList = new List<TokenAction>();
-        monsterToken.m_tokenPid = index * 100;
-        monsterToken.SetState(CharState.Sleep);
-        return monsterToken;
-    }
-
     #endregion
 
     public void ShowAction(bool isShow)

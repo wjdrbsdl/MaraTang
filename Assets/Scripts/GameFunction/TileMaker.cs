@@ -42,7 +42,7 @@ public class TileMaker : MonoBehaviour
                 newTile.SetEcoValue(noisedMapping[curx, cury]);
 
                 //3. 타일 오브젝트 세팅
-                newTileObject.SetToken(newTile, TokenType.Tile);
+                newTileObject.SetObjectToken(newTile, TokenType.Tile);
                 newTileObject.transform.SetParent(_mapOrder.t_box);
                 newTileObject.transform.localPosition = new Vector2(finalX, yPos); //박스 안에서 로컬포지션으로 위치 
                 newTile.SetEcoSprite();

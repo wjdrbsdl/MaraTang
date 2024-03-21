@@ -150,7 +150,7 @@ public class MgToken : MgGeneric<MgToken>
         charObj.gameObject.transform.SetParent(m_monsterBox);
 
         //3. Go에 정보 Token 세팅
-        charObj.SetToken(newCharToken, TokenType.Char);
+        charObj.SetObjectToken(newCharToken, TokenType.Char);
 
         //4. 오브젝트 스프라이트 변경
         newCharToken.SetSprite();
@@ -174,7 +174,7 @@ public class MgToken : MgGeneric<MgToken>
         TokenEvent masterEvent = new TokenEvent(); //임시로 
         TokenEvent spawnEventToken = new TokenEvent(masterEvent);
         ObjectTokenBase eventObj = Instantiate(m_eventGO);
-        eventObj.SetToken(spawnEventToken, TokenType.Event);
+        eventObj.SetObjectToken(spawnEventToken, TokenType.Event);
         spawnEventToken.SetMapIndex(_tile.GetXIndex(), _tile.GetYIndex());
         eventObj.SyncObjectPosition();
         _tile.SetEnteraceEvent(spawnEventToken);

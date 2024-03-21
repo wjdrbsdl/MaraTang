@@ -5,9 +5,9 @@ using UnityEngine;
 public class ObjTokenCapital : ObjectTokenBase
 {
 
-    public override void SetToken(TokenBase _token, TokenType _tokenType)
+    public override void SetObjectToken(TokenBase _token, TokenType _tokenType)
     {
-        base.SetToken(_token, _tokenType);
+        base.SetObjectToken(_token, _tokenType);
         gameObject.SetActive(true);
     }
 }
