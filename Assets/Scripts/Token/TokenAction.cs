@@ -27,7 +27,7 @@ public enum TileActionType
 [System.Serializable]
 public class TokenAction : TokenBase
 {
-    [SerializeField]
+    [SerializeField] 
     private ActionType actionType = ActionType.Move;
     private TokenType actionTarget = TokenType.Tile;
     private int[] m_targetPos; //작용할 위치 

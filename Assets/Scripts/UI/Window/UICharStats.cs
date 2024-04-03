@@ -46,12 +46,12 @@ public class UICharStats : UIBase
 
     private void SetQuestInfo(TokenChar _char)
     {
-        if (_char.QuestCard == null)
+        if (_char.GetQuest() == null)
         {
             m_questInfo.gameObject.SetActive(false);
             return;
         }
         m_questInfo.gameObject.SetActive(true);
-        m_questInfo.SetButton(_char.QuestCard);
+        m_questInfo.SetButton(_char.GetQuest());
     }
 }

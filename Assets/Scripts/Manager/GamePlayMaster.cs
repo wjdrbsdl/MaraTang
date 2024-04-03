@@ -39,13 +39,9 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
         }
         if (Input.GetKeyDown(KeyCode.F6))
         {
-            //for (int i = 0; i < MgToken.GetInstance().GetNpcPlayerList().Count; i++)
-            //{
-            //    TokenChar charToken = MgToken.GetInstance().GetNpcPlayerList()[i];
-            //    MgToken.GetInstance().TempPosRandomPlayer(charToken);
-            //}
-           MgToken.GetInstance().MakeMap(); // 맵 다시만들기
-            FirstStart();
+            //MgToken.GetInstance().MakeMap(); // 맵 다시만들기
+            //FirstStart();
+            MgGameLoader.GetInstance().SaveGame();
         }
         if (Input.GetKeyDown(KeyCode.F7))
         {

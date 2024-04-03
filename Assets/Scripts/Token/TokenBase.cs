@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Newtonsoft.Json;
 
 
 public enum Tier
@@ -16,24 +17,24 @@ public enum TokenType
 public class TokenBase
 {
     #region 데이터 변수
-    [SerializeField]
+    [JsonProperty] protected string m_itemName;
+    [JsonProperty] protected int m_tokenPid;
+    [JsonProperty] protected Tier m_tier;
+
+    [JsonProperty][SerializeField]
     protected int[] m_tokenIValues; //각 토큰마다 사용할 벨류들을 enum으로 선언해서 인덱스로 사용
-    [SerializeField]
+    [JsonProperty][SerializeField]
     protected int m_xIndex = 0;//지도상 행렬 포지션
-    [SerializeField]
+    [JsonProperty][SerializeField]
     protected int m_yIndex = 0; //지도상 행렬 포지션
-    [SerializeField]
+    [JsonProperty][SerializeField]
     protected TokenType m_tokenType;
-    protected int m_tokenPid;
-    protected Tier m_tier;
-    protected string m_itemName;
     #endregion
 
     #region 유니티 변수
     protected ObjectTokenBase m_object;
-    public Sprite TokenImage;
-    public GameObject Prefab; //뭔가 형태를 띄우고 싶을때 쓰는 부분. 
-    public Quest QuestCard;
+    private Quest QuestCard;
+    public int QuestPid = -1;
     #endregion
 
     #region 생성자
@@ -55,11 +56,6 @@ public class TokenBase
     #endregion
 
     #region Get Set
-    public Sprite GetIcon()
-    {
-        return TokenImage;
-    }
-
     public string GetItemName()
     {
         return m_itemName;
@@ -152,5 +148,15 @@ public class TokenBase
         //1. 토지 - 속한 몬스터 제거, mapIndex에서 제거, 오브젝트 제거
         //2. 몬스터 - 속해있던 토지에서 제거, 오브젝트 제거
         //3. 이벤트 - 속해있던 토지에서 제거, 오브젝트 제거 
+    }
+
+    public void SetQuest(Quest _quest)
+    {
+        QuestCard = _quest;
+    }
+
+    public Quest GetQuest()
+    {
+        return QuestCard;
     }
 }

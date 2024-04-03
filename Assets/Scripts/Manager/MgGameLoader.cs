@@ -62,8 +62,7 @@ public class MgGameLoader : MgGeneric<MgGameLoader>
 
     public void SaveGame()
     {
-        m_gameLoad = GameLoad.Load;
-      
+        DBToJson.SaveCharToken(MgToken.GetInstance().GetNpcPlayerList().ToArray(), GameLoad.Load);
     }
 
     private void LoadGame()

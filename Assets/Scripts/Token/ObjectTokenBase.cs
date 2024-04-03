@@ -129,7 +129,7 @@ public class ObjectTokenBase : MonoBehaviour
         m_animator.SetInteger("State", (int)m_state);
     }
 
-    public void Death()
+    public void DestroyObject()
     {
         if (m_hud != null)
             m_hud.DestroyHud();

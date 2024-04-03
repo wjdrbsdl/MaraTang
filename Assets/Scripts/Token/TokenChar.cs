@@ -1,4 +1,5 @@
 using System.Collections;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,8 +14,8 @@ public class TokenChar : TokenBase
     public bool isMainChar = false;
     public bool m_isPlayerChar = false;
 
-    private CharState m_state = CharState.Idle;
-    private List<TokenAction> m_haveActionList = new(); //이 캐릭터가 지니고 있는 액션 토큰들
+    [JsonProperty] private CharState m_state = CharState.Idle;
+    [JsonProperty] private List<TokenAction> m_haveActionList = new(); //이 캐릭터가 지니고 있는 액션 토큰들
     private TokenAction m_nextAction = null;
     private TokenBase m_nextTarget;
     
@@ -206,7 +207,7 @@ public class TokenChar : TokenBase
     {
         //0. 오브젝트 정리
         if (m_object != null)
-            m_object.Death();
+            m_object.DestroyObject();
 
         //1. 사망시 처리
         SendQuestCallBack();
@@ -224,7 +225,7 @@ public class TokenChar : TokenBase
         Debug.Log("캐릭터 정리 들어감");
         //0. 오브젝트 정리 
         if (m_object != null)
-            m_object.Death();
+            m_object.DestroyObject();
 
         //1. 데이터 참조 제거
         TokenTile place = GameUtil.GetTileTokenFromMap(GetMapIndex());

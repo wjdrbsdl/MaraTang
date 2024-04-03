@@ -6,7 +6,7 @@ public class Chunk
 {
     public TokenTile[,] tiles;
     public int ChunkNum;
-    public Quest Quest;
+    public Quest m_Quest;
     public NaviPin m_Pin;
 
     public Chunk() { }
@@ -38,7 +38,7 @@ public class Chunk
     {
         //룰북에서 할까?
         MgMasterData masterData = MgMasterData.GetInstance();
-        QuestCondition condition = Quest.Condition;
+        QuestCondition condition = m_Quest.Condition;
         List<int> random = GameUtil.GetRandomNum(25, 5);
         for (int i = 0; i < condition.monsterCount; i++)
         {
@@ -52,8 +52,9 @@ public class Chunk
                 condition.monsterPID = 2;
             }
             TokenChar questMonster = MgToken.GetInstance().SpawnCharactor(spawnCoord, condition.monsterPID); //몬스터의 경우 사망시에 설치
-            questMonster.QuestCard = Quest;
-            Quest.TempQuestTokens.Add(questMonster);
+            questMonster.SetQuest(m_Quest);
+            questMonster.QuestPid = m_Quest.QuestPid;
+            m_Quest.TempQuestTokens.Add(questMonster);
         }
     }
 
@@ -75,7 +76,7 @@ public class Chunk
 
     public void ResetQuest()
     {
-        Quest = null;
+        m_Quest = null;
         RemovePin();
     }
 

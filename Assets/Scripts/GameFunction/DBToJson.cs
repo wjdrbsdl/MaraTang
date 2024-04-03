@@ -14,12 +14,12 @@ public static class DBToJson
     static ToolJson g_toolJson = new ToolJson();
 
 
-    public static void CharTokenToJson(TokenChar[] _charTokens, GameLoad _gameLoad)
+    public static void SaveCharToken(TokenChar[] _charTokens, GameLoad _gameLoad)
     {
-        CharTokenJson test = new CharTokenJson(_charTokens);
+        CharTokenJson JsonContainer = new CharTokenJson(_charTokens);
         var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Objects };
-        string jj = JsonConvert.SerializeObject(test, Formatting.Indented, settings);
-        g_toolJson.FileSave(JsonName.CharTokenJson.ToString()+"_"+ _gameLoad.ToString(), jj);
+        string jsonData = JsonConvert.SerializeObject(JsonContainer, Formatting.Indented, settings);
+        g_toolJson.FileSave(JsonName.CharTokenJson.ToString()+"_"+ _gameLoad.ToString(), jsonData);
     }
 
 

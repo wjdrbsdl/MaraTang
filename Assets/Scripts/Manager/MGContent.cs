@@ -137,7 +137,7 @@ public class MGContent : Mg<MGContent>
         //발현시킬 구역 청크
         m_mainCharChunkNum = GameUtil.GetChunkNum(PlayerManager.GetInstance().GetMainChar().GetMapIndex());
         Chunk chunk = m_chunkList[_chunkNum];
-        chunk.Quest = newQuest;
+        chunk.m_Quest = newQuest;
 
         return newQuest;
     }
