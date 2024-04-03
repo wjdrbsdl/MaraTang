@@ -42,13 +42,9 @@ public class SlotBase : MonoBehaviour, IDragHandler, IBeginDragHandler, IDropHan
     public virtual void SetSlot(TokenBase _token)
     {
         ClearSlot(); //먼저 비우고나서 진행?
-
         m_token = _token;
-        m_icon.sprite = _token.GetIcon();
-        //SetTier(_token.GetTier());
-        //DisplayCool(0, 1); //icon의 쿨타임 표기를 일단 가득으로 진행. 
-        //m_token.e_coolTimer += DisplayCool; //해당 아이템에만 영향을 받도록 쿨 함수를 넣음
-        
+        m_icon.sprite = GameUtil.GetIconFromResource(_token);
+   
     }
 
     //초기화 
