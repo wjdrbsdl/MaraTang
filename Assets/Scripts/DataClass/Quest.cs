@@ -59,7 +59,9 @@ public class Quest : IOrderCustomer
         TokenBase tokens = _orderReceipt.madeToken;
         if (tokens == null)
             return;
-        tokens.QuestPid = QuestPid;
+
+        tokens.SetQuest(this);
+        TempQuestTokens.Add(tokens);
     }
 
     #endregion
