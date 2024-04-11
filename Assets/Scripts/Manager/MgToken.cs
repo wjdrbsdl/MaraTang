@@ -176,19 +176,20 @@ public class MgToken : MgGeneric<MgToken>
         //1. pid로 원본 값 가져옴
         TokenEvent masterEvent = new TokenEvent(); //임시로 
         //2. 새로운 복사 토큰 생성
-        TokenEvent spawnEventToken = TokenEvent.CopyToken(masterEvent);
+        TokenEvent madeEventToken = TokenEvent.CopyToken(masterEvent);
+        madeEventToken.MakeEventContent();
         //3. 오브젝트 생성
         ObjectTokenBase eventObj = Instantiate(m_eventGO);
         //4. 오브젝트에 토큰 정보 할당
-        eventObj.SetObjectToken(spawnEventToken, TokenType.Event);
+        eventObj.SetObjectToken(madeEventToken, TokenType.Event);
         //5. 토큰 위치 조정
-        spawnEventToken.SetMapIndex(_tile.GetXIndex(), _tile.GetYIndex());
+        madeEventToken.SetMapIndex(_tile.GetXIndex(), _tile.GetYIndex());
         //6. 오브젝트 위치 동기화 
         eventObj.SyncObjectPosition();
         //7. 위치 타일에 이벤트 토큰 할당
-        _tile.SetEnteraceEvent(spawnEventToken);
+        _tile.SetEnteraceEvent(madeEventToken);
         //8. 반환
-        return spawnEventToken;
+        return madeEventToken;
     }
 
     #endregion

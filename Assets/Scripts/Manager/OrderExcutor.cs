@@ -10,6 +10,11 @@ public static class OrderExcutor
         ExcuteOrder(_questCondition.TokenOrder);
     }
 
+    public static void ExcuteOrder(TokenEvent _eventToken)
+    {
+        ExcuteOrder(_eventToken.TokenOrder);
+    }
+
     public static void ExcuteOrder(TTokenOrder _order)
     {
         EOrderType orderType = _order.OrderType;
@@ -49,7 +54,8 @@ public static class OrderExcutor
 
         for (int i = 0; i < tempMakeCount; i++)
         {
-            MgToken.GetInstance().SpawnEvent(tempSpawnPosList[i], tempEventPid);
+          TokenEvent eventToken = MgToken.GetInstance().SpawnEvent(tempSpawnPosList[i], tempEventPid);
+            CallBackOrder(eventToken, _order);
         }
         
 

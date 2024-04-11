@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TokenEvent : TokenBase
+public class TokenEvent : TokenBase, IOrderCustomer
 {
     public int m_selectCount = 0; //선택지 수
-    public TTokenOrder[] m_selectEvent;
+    public TTokenOrder TokenOrder;
     #region 이벤트 토큰 생성
     public TokenEvent()
     {
@@ -44,10 +44,26 @@ public class TokenEvent : TokenBase
     public void ActiveEvent()
     {
         Debug.Log(m_tokenPid + "피아이디 발동");
+        OrderExcutor.ExcuteOrder(this);
     }
 
     public void SelectEvent()
     {
 
+    }
+
+    public void MakeEventContent()
+    {
+        //각자 이벤트 토큰에서 이벤트 만들기? 
+        int tempPid = 2;
+        int tempCount = 3;
+        ESpawnPosType tempSpawnPos = ESpawnPosType.Random;
+        TokenOrder = new TTokenOrder().Spawn(EOrderType.SpawnMonster, tempPid, tempCount, tempSpawnPos, GameUtil.GetMainCharChunkNum());
+        TokenOrder.SetOrderCustomer(this);
+    }
+
+    public void OrderCallBack(OrderReceipt _orderReceipt)
+    {
+        Debug.Log("이벤 토큰에서 주문완료 콜백받음");
     }
 }
