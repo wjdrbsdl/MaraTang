@@ -53,6 +53,7 @@ public struct TTokenOrder
 {
     public EOrderType OrderType;
     public ESpawnPosType SpawnPosType;
+    public IOrderCustomer OrderCustomer;
     public int SubIdx;
     public int Value;
     public int ChunkNum; //아무 지정이 아니면 - 1
@@ -65,6 +66,7 @@ public struct TTokenOrder
         order.Value = _spawnCount;
         order.SpawnPosType = _spawnPosType;
         order.ChunkNum = _chunkNum;
+        OrderCustomer = null;
         return order;
     }
 
@@ -75,6 +77,12 @@ public struct TTokenOrder
         SubIdx = _subIdx;
         Value = _value;
         ChunkNum = _chunkNum;
+        OrderCustomer = null;
+    }
+
+    public void SetOrderCustomer(IOrderCustomer _customer)
+    {
+        OrderCustomer = _customer;
     }
 
 }

@@ -70,7 +70,7 @@ public static class OrderExcutor
             int[] tilePos = GameUtil.GetXYPosFromIndex(madeChunk.tiles.GetLength(0), ranPos);
             int[] spawnCoord = madeChunk.tiles[tilePos[0], tilePos[1]].GetMapIndex();
             TokenChar questMonster = MgToken.GetInstance().SpawnCharactor(spawnCoord, tempEventPid); //몬스터의 경우 사망시에 설치
-
+            CallBackOrder(questMonster, _order);
             //퀘스트에 생성된 부속물을 귀속시키는 부분 
             //현재 order에 퀘스트 할당이 안되있어서 연결이 불가
             
@@ -80,4 +80,19 @@ public static class OrderExcutor
         }
 
     }
+
+    private static void CallBackOrder(TokenBase _token, TTokenOrder _order)
+    {
+        //1. 주문서 고객 정보 있는지 체크
+        IOrderCustomer customer = _order.OrderCustomer;
+        //2. 고객 정보 없으면 종료
+        if (customer == null)
+            return;
+        //3. 완료된 토큰으로 영수증을 만들고
+        OrderReceipt recipt = new();
+        recipt.madeToken = _token;
+        //4. 고객에게 콜백 보냄
+        customer.OrderCallBack(recipt);
+    }
+
 }

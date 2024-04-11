@@ -12,7 +12,7 @@ public enum ERewardType
     CharStat, Capital, ActionToken, EventToken, CharToken
 }
 
-public class Quest 
+public class Quest : IOrderCustomer
 {
     //과제
     //클리어조건
@@ -46,10 +46,22 @@ public class Quest
         ChunkNum = _chunkNum;
         //퀘스트 타입에 맞게 조건서 작성
         Condition = new QuestCondition(_questType, _chunkNum);
+        //퀘스트 조건의 주문서에 콜백 대상으로 자신을 할당 
+        Condition.TokenOrder.SetOrderCustomer(this);
         //보상 타입에 맞게 보상내용 작성
         Reward = new RewardData(_rewardType, _chunkNum); //임시로 자원 보상
         Penalty = new PenaltyData();
     }
+
+    public void OrderCallBack(OrderReceipt _orderReceipt)
+    {
+        //오더익스큐터로 생성된 토큰들을 콜백받으면 거기에 자신을 할당 
+        TokenBase tokens = _orderReceipt.madeToken;
+        if (tokens == null)
+            return;
+        tokens.QuestPid = QuestPid;
+    }
+
     #endregion
 
     public void UseTurn(int _count = 1)
@@ -109,6 +121,8 @@ public class Quest
         }
         return false;
     }
+
+    
 }
 public enum QuestType
 {
