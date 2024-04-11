@@ -62,7 +62,7 @@ public class TokenEvent : TokenBase, IOrderCustomer
         TokenOrder.SetOrderCustomer(this);
     }
 
-    public void OrderCallBack(OrderReceipt _orderReceipt)
+    public void OrderCallBack(OrderReceipt _orderReceipt) //이벤트 토큰 고객
     {
         Debug.Log("이벤 토큰에서 주문완료 콜백받음");
     }

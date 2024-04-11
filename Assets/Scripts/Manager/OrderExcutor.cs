@@ -98,7 +98,7 @@ public static class OrderExcutor
         OrderReceipt recipt = new();
         recipt.madeToken = _token;
         //4. 고객에게 콜백 보냄
-        customer.OrderCallBack(recipt);
+        customer.OrderCallBack(recipt); //고객에게 호출
     }
 
 }
