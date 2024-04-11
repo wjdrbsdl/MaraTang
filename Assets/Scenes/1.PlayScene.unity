@@ -261,9 +261,9 @@ MonoBehaviour:
   m_tileBox: {fileID: 527118952}
   m_hideBox: {fileID: 1736526529}
   m_hideTile: {fileID: 651209315092569854, guid: 202e37cfd7609374ca9aafba480d61f1, type: 3}
-  m_xLength: 42
-  m_yLength: 49
-  m_chunkLength: 7
+  m_xLength: 36
+  m_yLength: 30
+  m_chunkLength: 6
   m_rLength: 2.25
   m_padding: 1.04
   m_seed: 0

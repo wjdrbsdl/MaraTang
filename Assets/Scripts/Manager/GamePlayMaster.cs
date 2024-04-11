@@ -204,7 +204,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     public void SelectEvent(TokenEvent _eventToken)
     {
         AnnounceState("플레이어가 선택한 이벤트는 " + _eventToken.GetPid());
-        RuleBook.AdaptEvent(_eventToken);
+        _eventToken.SelectEvent();
     }
 
     private void OccurMoveEvent(TokenChar _charToken)
@@ -214,20 +214,13 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
         //만약 플레이어 캐릭터가 이동한거라면 해당 위치에서 다시 안개 설정
         FogContorl(_charToken);
 
-        //입장 동시에 발발하는 이벤트가 있으면 수행
+        //1. 입장 이벤트가 있는가
         TokenEvent enterEvent = RuleBook.CheckEnteranceEvent(_charToken.GetMapIndex());
         if (enterEvent != null)
         {
-            RuleBook.PlayEntranceEvent(enterEvent);
+            enterEvent.ActiveEvent();
             return;
         }
-      
-        //Debug.Log("입장 이벤트 없드");
-       
-        //없다면 도착에 따른 확률적 이벤트 수행
-        int setCount = UnityEngine.Random.Range(1, 100);
-        if(setCount >= 90)
-        RuleBook.OnTileArrive(_charToken);
     }
 
     private bool IsPlayerMoveDone(TokenChar _charToken)

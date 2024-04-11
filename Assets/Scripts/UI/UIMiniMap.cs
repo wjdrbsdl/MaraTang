@@ -40,4 +40,10 @@ public class UIMiniMap : UIBase, IPointerClickHandler
         minVector = new Vector2(left.transform.position.x, down.transform.position.y);
     }
 
+    private void MakeMinimapContent()
+    {
+        //타일 값들을 받아와서 맵에 세팅 
+        //왼쪽아래를 0,0 으로 두고(tileSetting과 동일한 방식) 맵을 두는데 그 블록을 뭘로해야하나. 
+
+    }
 }

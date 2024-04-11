@@ -2,6 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum EQuestType
+{
+    SpawnMonster, SpawnEvent
+}
+
+public enum ERewardType
+{
+    CharStat, Capital, ActionToken, EventToken, CharToken
+}
+
 public class Quest 
 {
     //과제
@@ -18,14 +28,26 @@ public class Quest
     #region 생성
     public Quest()
     {
-        Reward = new RewardData(RewardType.None); //임시로 자원 보상
+        Reward = new RewardData(EOrderType.None); //임시로 자원 보상
     }
 
-    public Quest(int _monsterPID, int _monsterCount, RewardType _rewardType)
+    public Quest(int _monsterPID, int _monsterCount, EOrderType _rewardType, int _chunkNum = MGContent.NO_CHUNK_NUM)
     {
         QuestPid = MGContent.g_instance.m_questCount;
+        ChunkNum = _chunkNum;
         Condition = new QuestCondition(_monsterPID, _monsterCount);
-        Reward = new RewardData(_rewardType); //임시로 자원 보상
+        Reward = new RewardData(_rewardType, _chunkNum); //임시로 자원 보상
+        Penalty = new PenaltyData();
+    }
+
+    public Quest(EQuestType _questType, ERewardType _rewardType, int _chunkNum)
+    {
+        QuestPid = MGContent.g_instance.m_questCount;
+        ChunkNum = _chunkNum;
+        //퀘스트 타입에 맞게 조건서 작성
+        Condition = new QuestCondition(_questType, _chunkNum);
+        //보상 타입에 맞게 보상내용 작성
+        Reward = new RewardData(_rewardType, _chunkNum); //임시로 자원 보상
         Penalty = new PenaltyData();
     }
     #endregion
@@ -95,7 +117,9 @@ public enum QuestType
 
 public class QuestCondition
 {
-    //몬스터 관련 조건
+    //퀘스트 조건
+    public EQuestType QuestType;
+    public TTokenOrder TokenOrder;
     public int monsterPID;
     public int monsterCount;
 
@@ -107,6 +131,27 @@ public class QuestCondition
     {
         monsterPID = _monsterPID;
         monsterCount = _monsterCount;
+    }
+
+    public QuestCondition(EQuestType _questType, int _chunkNum)
+    {
+        //퀘스트 타입에 따라서 조건 내용을 채우기 
+        QuestType = _questType;
+        switch (_questType)
+        {
+            //이벤트토큰 생성하는 경우
+            case EQuestType.SpawnEvent:
+                TokenOrder = new TTokenOrder(EOrderType.SpawnEvent,1,1);
+                break;
+            case EQuestType.SpawnMonster:
+                //어떤 몬스터를 얼마나 어떤식으로 소환할지 필요
+                int tempPid = 2;
+                int tempCount = 3;
+                ESpawnPosType tempSpawnPos = ESpawnPosType.Random;
+                TokenOrder = new TTokenOrder().Spawn(EOrderType.SpawnMonster, tempPid, tempCount, tempSpawnPos, _chunkNum);
+                break;
+        }
+        
     }
 
 }

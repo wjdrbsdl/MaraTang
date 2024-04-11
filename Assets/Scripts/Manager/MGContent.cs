@@ -35,6 +35,8 @@ public class MGContent : Mg<MGContent>
     private int m_mainCharChunkNum = 0;
     private List<Chunk> m_chunkList = new List<Chunk>();
     public int m_questCount = 0;
+    public const int NO_CHUNK_NUM = -1;
+
     public enum ContentEnum
     {
         진행턴, 발생컨텐츠
@@ -113,34 +115,51 @@ public class MGContent : Mg<MGContent>
         if(playTime == 1)
         {
             //어디 청크에서 발현시킬지는 따로 산출
-            m_mainCharChunkNum = GameUtil.GetChunkNum(PlayerManager.GetInstance().GetMainChar().GetMapIndex());
-            return MakeQuest(m_mainCharChunkNum, 12, 5, RewardType.TileEvent);
+            m_mainCharChunkNum = GameUtil.GetMainCharChunkNum();
+            return MakeQuest(EQuestType.SpawnEvent, ERewardType.Capital, m_mainCharChunkNum);
         }
 
         if (data.PlayTime % 3 == 0)
         {
             int ranChunkNum = Random.Range(0, m_chunkList.Count);
-            return MakeQuest(ranChunkNum, 6, 1, RewardType.CharStat);
+            return MakeQuest(EQuestType.SpawnMonster, ERewardType.CharStat, ranChunkNum);
+            //  return MakeQuest(ranChunkNum, 6, 1, EOrderType.CharStat); //몬스터 만들기 기존 루트
         }
 
         return null;
     }
 
-    private Quest MakeQuest(int _chunkNum, int _monsterPID, int _monsterCount, RewardType _rewardType)
+    private Quest MakeQuest(int _chunkNum, int _monsterPID, int _monsterCount, EOrderType _rewardType)
     {
-        Quest newQuest = new(_monsterPID, _monsterCount, _rewardType); //퀘스트 문서 생성 
+        Quest newQuest = new(_monsterPID, _monsterCount, _rewardType, _chunkNum); //퀘스트 문서 생성 
         m_questCount += 1;
-        newQuest.ChunkNum = _chunkNum;
         m_QuestList.Add(newQuest); //리스트에 추가 
-                                      //  Debug.Log("몬스터 소환 컨텐츠");
+                                   //  Debug.Log("몬스터 소환 컨텐츠");
 
         //발현시킬 구역 청크
-        m_mainCharChunkNum = GameUtil.GetChunkNum(PlayerManager.GetInstance().GetMainChar().GetMapIndex());
+
+        Chunk chunk = m_chunkList[_chunkNum];
+        chunk.m_Quest = newQuest;
+
+
+
+        return newQuest;
+    }
+
+    private Quest MakeQuest(EQuestType _questType, ERewardType _rewardType, int _chunkNum)
+    {
+        Quest newQuest = new Quest(_questType, _rewardType, _chunkNum);
+        m_questCount += 1;
+        m_QuestList.Add(newQuest); //리스트에 추가 
+  
+        //발현시킬 구역 청크
+
         Chunk chunk = m_chunkList[_chunkNum];
         chunk.m_Quest = newQuest;
 
         return newQuest;
     }
+
     #endregion
 
     #region 퀘스트 관리
@@ -153,8 +172,10 @@ public class MGContent : Mg<MGContent>
         Chunk chunk = m_chunkList[_quest.ChunkNum];
 
         //몬스터 카운트가 있으면 몬스터 생성
-        chunk.MakeMonsterToken();
+     //   chunk.MakeMonsterToken();
         chunk.MakePin();
+
+        OrderExcutor.ExcuteOrder(_quest.Condition);
 
         //그외 조건 값들이 더있으면 또 수행 
     }
@@ -176,22 +197,47 @@ public class MGContent : Mg<MGContent>
     private void GiveReward(Quest _quest)
     {
         RewardData _reward = _quest.Reward;
-        RewardType rewardType = _reward.RewardType;
-        if (rewardType.Equals(RewardType.Capital))
+        RewardMethod rewardMethod = _reward.RewardMethod; //보상 선택방식 - 고정, 선택
+       
+        //만약 선택방식이면 선택 리스트를 표기
+        if (rewardMethod.Equals(RewardMethod.Select))
         {
-            Capital rewardCapital = (Capital)_reward.SubType;
-            PlayerCapitalData.g_instance.CalCapital(rewardCapital, _reward.RewardValue);
+            MgUI.GetInstance().ShowRewardList(_quest.Reward);
             return;
         }
-        if (rewardType.Equals(RewardType.TileEvent))
+
+        ApplyReward(_reward.RewardsList[0]);
+        //고정 방식이면 룰북을 통해서 해당 보상을 수행하도록 진행
+        
+    }
+
+    private void ApplyReward(TTokenOrder _selectReward)
+    {
+        EOrderType rewardType = _selectReward.OrderType; //보상 주 타입
+
+        if (rewardType.Equals(EOrderType.Capital))
         {
-            Chunk chunk = m_chunkList[_quest.ChunkNum];
+            Capital rewardCapital = (Capital)_selectReward.SubIdx;
+            PlayerCapitalData.g_instance.CalCapital(rewardCapital, _selectReward.Value);
+            return;
+        }
+        if (rewardType.Equals(EOrderType.SpawnEvent))
+        {
+            int applyChunkNum = _selectReward.ChunkNum;
+            //만약 적용 구역이 상관없음의 상수라면
+            if (applyChunkNum.Equals(MGContent.NO_CHUNK_NUM))
+            {
+                //플레이어가 있는 구역으로 적용
+                applyChunkNum = GameUtil.GetMainCharChunkNum();
+            }
+
+            Chunk chunk = m_chunkList[applyChunkNum];
             chunk.MakeEventToken();
             return;
         }
-        if (rewardType.Equals(RewardType.CharStat))
+        if (rewardType.Equals(EOrderType.CharStat))
         {
-            MgUI.GetInstance().ShowRewardList(_quest.Reward);
+            PlayerManager.GetInstance().GetMainChar().CalStat((CharStat)_selectReward.SubIdx, _selectReward.Value);
             return;
         }
     }
@@ -240,12 +286,9 @@ public class MGContent : Mg<MGContent>
 
     //선택한 보상을 적용하기 위해 각기 필요한 클래스로 전달하기 
     //보상 관리 매니저 추가 필요. 
-    public void SelectReward(RewardInfo _rewardInfo)
+    public void SelectReward(TTokenOrder _selectReward)
     {
-        if (_rewardInfo.RewardType.Equals(RewardType.CharStat))
-        {
-            PlayerManager.GetInstance().GetMainChar().CalStat((CharStat)_rewardInfo.SubIdx, _rewardInfo.Value);
-        }
+        ApplyReward(_selectReward);
     }
 
     private void RandomDye()

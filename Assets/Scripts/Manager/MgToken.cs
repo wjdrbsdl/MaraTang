@@ -167,17 +167,27 @@ public class MgToken : MgGeneric<MgToken>
         return spawnCharactor;
     }
 
+    public TokenEvent SpawnEvent(int[] _pos, int _eventPid)
+    {
+        return SpawnEvent(GameUtil.GetTileTokenFromMap(_pos), _eventPid);
+    }
     public TokenEvent SpawnEvent(TokenTile _tile, int _eventPid)
     {
-        //원본 파일 가져오기 - 지금은 없음
-        //TokenEvent spawnEvent = MgMasterData.GetInstance()
+        //1. pid로 원본 값 가져옴
         TokenEvent masterEvent = new TokenEvent(); //임시로 
-        TokenEvent spawnEventToken = new TokenEvent(masterEvent);
+        //2. 새로운 복사 토큰 생성
+        TokenEvent spawnEventToken = TokenEvent.CopyToken(masterEvent);
+        //3. 오브젝트 생성
         ObjectTokenBase eventObj = Instantiate(m_eventGO);
+        //4. 오브젝트에 토큰 정보 할당
         eventObj.SetObjectToken(spawnEventToken, TokenType.Event);
+        //5. 토큰 위치 조정
         spawnEventToken.SetMapIndex(_tile.GetXIndex(), _tile.GetYIndex());
+        //6. 오브젝트 위치 동기화 
         eventObj.SyncObjectPosition();
+        //7. 위치 타일에 이벤트 토큰 할당
         _tile.SetEnteraceEvent(spawnEventToken);
+        //8. 반환
         return spawnEventToken;
     }
 

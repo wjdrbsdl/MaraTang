@@ -27,7 +27,7 @@ public class UIRewardChoose : UIBase
     public void ShowRewardList(RewardData _reward)
     {
         Switch(true);
-        List<RewardInfo> rewardList = _reward.RewardsList;
+        List<TTokenOrder> rewardList = _reward.RewardsList;
         
         MakeSamplePool<EventSlot>(ref m_eventSlots, m_sampleEventSlot.gameObject, rewardList.Count, m_box);
         //¿Â∫Ò¿« 1, 2,3, 
@@ -40,7 +40,7 @@ public class UIRewardChoose : UIBase
         SetRewardSlots(rewardList);
     }
 
-    private void SetRewardSlots(List<RewardInfo> _rewardList)
+    private void SetRewardSlots(List<TTokenOrder> _rewardList)
     {
         for (int i = 0; i < _rewardList.Count; i++)
         {

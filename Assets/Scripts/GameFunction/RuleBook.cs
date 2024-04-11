@@ -246,14 +246,7 @@ public class RuleBook
         return true;
     }
     #endregion
-
-    #region 이벤트 발생 
-    public void PlayEntranceEvent(TokenEvent _eneterEvent)
-    {
-        //타일에 이동한 것만으로 발생하는 이벤트
-        Debug.Log("입장시 이벤트 발생");
-    }
-
+   
     public TokenEvent CheckEnteranceEvent(int[] mapCoordi)
     {
         //타일에 즉발용 이벤트가 있는지 확인
@@ -263,34 +256,6 @@ public class RuleBook
 
         return enterEvent;
     }
-
-    public void OnTileArrive(TokenChar _char)
-    {
-        //플레이어 매인 캐릭터가 새로운 타일에 도착한 경우 
-        TokenTile arriveTile = GameUtil.GetTileTokenFromMap(_char);
-
-        //땅 속성값에 따라서 이벤트 발생 
-        TokenEvent event1 = new TokenEvent(1,2);
-        TokenEvent event2 = new TokenEvent(2, 2);
-        TokenEvent event3 = new TokenEvent(3, 2);
-
-        List<TokenEvent> eventList = new List<TokenEvent>() { event1, event2, event3 };
-        if(m_PlayMaster.TempAdaptEvent)
-        PlayerManager.GetInstance().OnTriggerEvent(eventList);
-    }
-
-    #endregion
-
-    #region 이벤트 적용
-    public void AdaptEvent(TokenEvent _event)
-    {
-        //룰북에서 월드 데이터상 등등 이벤트 적용하고
-        //이벤트 발생 -> 플레이어에게 이벤트 선택창 띄움 -> 플레이어가 선택 -> 선택된 이벤트 룰북에 전달 -> 룰북에서 적용 -> 플레이어에게 적용된거알림
-
-        //어차피 AI한텐 안하고 Player만 하니까
-        PlayerManager.GetInstance().DoneAdaptEvent(); //마지막에 이벤트 적용끝났음을 플레이어에게 전달. 
-    }
-    #endregion
 
     #region 타일 액션
     public TokenAction[] RequestTileActions(TokenTile _tile)
