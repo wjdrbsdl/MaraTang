@@ -38,7 +38,7 @@ public static class GameUtil
                 {
                    // Debug.Log((TileDirection)x + "방향으로 " + i + "번 진행");
                    //1. 타일에서 특정방향으로 갈때 상대 좌표값 도출
-                    int[] newTile = GetTileFromDirect(startPoint[1], (TileDirection)direction); 
+                    int[] newTile = GetGapCoordiFromDirect(startPoint[1], (TileDirection)direction); 
 
                     //2. 도출된 상대좌표에 기본 좌표값을 더하면 이동한 절대 좌표가 나옴. 
                     newTile[0] += startPoint[0];
@@ -72,7 +72,7 @@ public static class GameUtil
         return GameUtil.GetTileIdxListInRange(_range, _centerX, _centerY, _minRange).ConvertAll(new System.Converter<int[], ObjectTokenBase>(GetTileObjectFromMapCoordi)); // 사거리 내부 안의 타일 가져오기
     }
 
-    public static int[] GetTileFromDirect(int _centerY, TileDirection _direction)
+    public static int[] GetGapCoordiFromDirect(int _centerY, TileDirection _direction)
     {
         int[] nextTileIndex = new int[2];
         int xPlus = 0;
@@ -115,6 +115,15 @@ public static class GameUtil
         return nextTileIndex;
     }
 
+    public static int[] GetPosFromDirect(int[] _center, TileDirection _direction)
+    {
+        //1. 움직일 좌표
+        int[] directCoordi = GetGapCoordiFromDirect(_center[1], _direction);
+        //2. 움직인 좌표
+        int[] movedCoordi = new int[] { _center[0] + directCoordi[0], _center[1] + directCoordi[1] };
+
+        return movedCoordi;
+    }
     //목적지까지 최단 타일 개수
     public static int GetMinRange(TMapIndex _tMapIndex)
     {
@@ -318,6 +327,11 @@ public static class GameUtil
     public static int GetChunkNum(int[] _coordi)
     {
         return GetTileTokenFromMap(_coordi).ChunkNum;
+    }
+
+    public static int GetMainCharChunkNum()
+    {
+        return GetChunkNum(PlayerManager.GetInstance().GetMainChar().GetMapIndex());
     }
     #endregion
 

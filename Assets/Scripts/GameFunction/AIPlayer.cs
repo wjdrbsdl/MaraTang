@@ -272,7 +272,7 @@ public class AIPlayer : PlayerRule
             TileDirection nextDirect = GameUtil.GetNextTileToGoal(mapInfoes);
 
             //3. 현재 좌표에서 해당 경로로 이동시 상대 좌표를 산출
-            int[] gapValue = GameUtil.GetTileFromDirect(mapInfoes.curY, nextDirect);
+            int[] gapValue = GameUtil.GetGapCoordiFromDirect(mapInfoes.curY, nextDirect);
             //4. 현재 좌표에 상대 좌표를 더해서 이동후 좌표값 계산
             mapInfoes.curX += gapValue[0];
             mapInfoes.curY += gapValue[1];
