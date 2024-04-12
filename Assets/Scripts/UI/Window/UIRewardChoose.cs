@@ -24,14 +24,14 @@ public class UIRewardChoose : UIBase
         }
     }
 
-    public void ShowRewardList(TTokenOrder _tokenOrder)
+    public void ShowItemList(TTokenOrder _tokenOrder)
     {
         Switch(true);
-      
+
         //주문서 방식이 선택 표기인 경우 대상 아이템을 표기해줌. 
-        
-        //MakeSamplePool<EventSlot>(ref m_eventSlots, m_sampleEventSlot.gameObject, rewardList.Count, m_box);
-        //SetRewardSlots(rewardList);
+        int itemCount = _tokenOrder.orderItemList.Count;
+        MakeSamplePool<EventSlot>(ref m_eventSlots, m_sampleEventSlot.gameObject, itemCount, m_box);
+        SetRewardSlots(_tokenOrder.orderItemList);
     }
 
     private void SetRewardSlots(List<TTokenOrder> _rewardList)
@@ -40,6 +40,15 @@ public class UIRewardChoose : UIBase
         {
             m_eventSlots[i].gameObject.SetActive(true);
             m_eventSlots[i].SetSlot(_rewardList[i], this);
+        }
+    }
+
+    private void SetRewardSlots(List<TOrderItem> _ItemList)
+    {
+        for (int i = 0; i < _ItemList.Count; i++)
+        {
+            m_eventSlots[i].gameObject.SetActive(true);
+            m_eventSlots[i].SetSlot(_ItemList[i], this);
         }
     }
 

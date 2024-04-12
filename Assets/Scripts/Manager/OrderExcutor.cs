@@ -30,6 +30,7 @@ public static class OrderExcutor
                 break;
             case EOrderType.CharStat:
                 Debug.Log("보상으로 들어옴");
+                MgUI.GetInstance().ShowItemList(_order);
                 break;
             case EOrderType.Content:
                 break;
@@ -42,6 +43,7 @@ public static class OrderExcutor
         }
     }
 
+    #region 오더 집행
     private static void OrderEventSpawn(TTokenOrder _order)
     {
         List<int> eventList = _order.subIdxList;
@@ -115,5 +117,13 @@ public static class OrderExcutor
         //4. 고객에게 콜백 보냄
         customer.OrderCallBack(recipt); //고객에게 호출
     }
+    #endregion
 
+    #region 오더 아이템 선택시
+    public static void ExcuteOrderItem(TOrderItem _orderItem)
+    {
+        ETokenGroup tokenGroup = (ETokenGroup)_orderItem.MainIdx;
+        Debug.Log(tokenGroup + "계열에 " + _orderItem.SubIdx + "번째 녀석을 " + _orderItem.Value + "만큼 적용");
+    }
+    #endregion
 }

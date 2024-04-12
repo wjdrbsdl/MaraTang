@@ -155,7 +155,7 @@ public class QuestCondition
             case EQuestType.SpawnMonster:
                 //어떤 몬스터를 얼마나 어떤식으로 소환할지 필요
                 int tempPid = 2;
-                int tempCount = 3;
+                int tempCount = 1;
                 TokenOrder = new TTokenOrder().Spawn(EOrderType.SpawnMonster, tempPid, tempCount, tempSpawnPos, _chunkNum);
                 break;
         }

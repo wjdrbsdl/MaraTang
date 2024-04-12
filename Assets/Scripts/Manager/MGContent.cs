@@ -116,7 +116,8 @@ public class MGContent : Mg<MGContent>
         {
             //어디 청크에서 발현시킬지는 따로 산출
             m_mainCharChunkNum = GameUtil.GetMainCharChunkNum();
-            return MakeQuest(EQuestType.SpawnEvent, ERewardType.Capital, m_mainCharChunkNum);
+            return MakeQuest(EQuestType.SpawnMonster, ERewardType.CharStat, m_mainCharChunkNum);
+            //return MakeQuest(EQuestType.SpawnEvent, ERewardType.Capital, m_mainCharChunkNum); //이벤트 만들던 기존 루트
         }
 
         if (data.PlayTime % 3 == 0)
@@ -181,6 +182,7 @@ public class MGContent : Mg<MGContent>
 
     }
 
+    //보상 주문 실행할부분 나중에 excutor나 다른 부분으로 빼야함. 
     private void ApplyReward(TTokenOrder _selectReward)
     {
         EOrderType rewardType = _selectReward.OrderType; //보상 주 타입

@@ -7,6 +7,7 @@ public class EventSlot : SlotBase
     private TokenEvent _eventToken;
     private UIBase _openUI; //소속된곳
     public TTokenOrder TokenOrder;
+    public TOrderItem OrderItem;
     public override void SetSlot(TokenBase _token)
     {
         base.SetSlot(_token);
@@ -19,6 +20,12 @@ public class EventSlot : SlotBase
         _openUI = _ui;
     }
 
+    public void SetSlot(TOrderItem _order, UIBase _ui)
+    {
+        OrderItem = _order;
+        _openUI = _ui;
+    }
+
     public override void ClearSlot()
     {
         base.ClearSlot();
@@ -28,6 +35,7 @@ public class EventSlot : SlotBase
     public override void OnLeftClick()
     {
         _openUI.Switch(false);
-        MGContent.GetInstance().SelectOrder(TokenOrder);
+        //MGContent.GetInstance().SelectOrder(TokenOrder);
+        OrderExcutor.ExcuteOrderItem(OrderItem);
     }
 }

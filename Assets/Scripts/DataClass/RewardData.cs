@@ -102,7 +102,7 @@ public struct TTokenOrder
         TTokenOrder order = new();
         order.subIdxList = new List<int>();
         order.valueList = new List<int>();
-        order.orderItemList = new(orderItemList);
+        order.orderItemList = new List<TOrderItem>(_orderItemList);
         order.OrderType = _type;
         order.SpawnPosType = ESpawnPosType.Random;
         order.ChunkNum = _chunkNum;
