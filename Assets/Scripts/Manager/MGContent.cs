@@ -153,9 +153,6 @@ public class MGContent : Mg<MGContent>
 
         MgUI.GetInstance().ShowQuest(_quest);
         Chunk chunk = m_chunkList[_quest.ChunkNum];
-
-        //몬스터 카운트가 있으면 몬스터 생성
-     //   chunk.MakeMonsterToken();
         chunk.MakePin();
 
         OrderExcutor.ExcuteOrder(_quest.Condition);
@@ -180,18 +177,8 @@ public class MGContent : Mg<MGContent>
     private void GiveReward(Quest _quest)
     {
         RewardData _reward = _quest.Reward;
-        RewardMethod rewardMethod = _reward.RewardMethod; //보상 선택방식 - 고정, 선택
-       
-        //만약 선택방식이면 선택 리스트를 표기
-        if (rewardMethod.Equals(RewardMethod.Select))
-        {
-            MgUI.GetInstance().ShowRewardList(_quest.Reward);
-            return;
-        }
+        OrderExcutor.ExcuteOrder(_reward);
 
-        ApplyReward(_reward.RewardsList[0]);
-        //고정 방식이면 룰북을 통해서 해당 보상을 수행하도록 진행
-        
     }
 
     private void ApplyReward(TTokenOrder _selectReward)
@@ -269,7 +256,7 @@ public class MGContent : Mg<MGContent>
 
     //선택한 보상을 적용하기 위해 각기 필요한 클래스로 전달하기 
     //보상 관리 매니저 추가 필요. 
-    public void SelectReward(TTokenOrder _selectReward)
+    public void SelectOrder(TTokenOrder _selectReward)
     {
         ApplyReward(_selectReward);
     }

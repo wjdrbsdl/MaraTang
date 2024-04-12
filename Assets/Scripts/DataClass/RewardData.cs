@@ -24,18 +24,19 @@ public class RewardData
     public RewardMethod RewardMethod = RewardMethod.Select;
     public ERewardType RewardType;
     public EOrderType OrderType = EOrderType.None;
-    public  List<TTokenOrder> RewardsList;
- 
+    public TTokenOrder RewardOrder;
+
     public RewardData(ERewardType _rewardType, int _chunkNum = MGContent.NO_CHUNK_NUM) //어떠한 데이트가 들어오면 거기에 맞게 보상 설정. 
     {
         RewardType = _rewardType;
-        RewardsList = new();
-        //리워드 타입에 따라, 적용할 pid와 value를 매개변수로 넣어야함 
 
-        //임시로 캐릭 스텟을 보상으로 설정
-        RewardsList.Add(new TTokenOrder().Select(EOrderType.CharStat, (int)CharStat.Dexility, 10, _chunkNum));
-        RewardsList.Add(new TTokenOrder().Select(EOrderType.CharStat, (int)CharStat.Strenth, 10, _chunkNum));
-        RewardsList.Add(new TTokenOrder().Select(EOrderType.CharStat, (int)CharStat.Inteligent, 10, _chunkNum));
+        //어떤 보상식으로 줄진 모르지만 일단 보상아이템 만들고 호출되는부분까지 테스트 
+        TOrderItem charItem = new TOrderItem().WriteCharItem(CharStat.Strenth, 50);
+        TOrderItem capitalItem = new TOrderItem().WriteCapitalItem(Capital.Green, 150);
+        TOrderItem actionItem = new TOrderItem().WriteActionItem(2, 50);
+        List<TOrderItem> orderList = new List<TOrderItem>() { charItem, capitalItem, actionItem};
+
+        RewardOrder = new TTokenOrder().Select(EOrderType.CharStat, orderList, _chunkNum);
     }
 }
 public struct TTokenOrder
@@ -45,6 +46,7 @@ public struct TTokenOrder
     public IOrderCustomer OrderCustomer;
     public int SubIdx;
     public int Value;
+    public List<TOrderItem> orderItemList;
     public List<int> subIdxList;
     public List<int> valueList;
     public int ChunkNum; //아무 지정이 아니면 - 1
@@ -79,28 +81,28 @@ public struct TTokenOrder
     }
 
     //선택
-    public TTokenOrder Select(EOrderType _type, int _subIdx, int _value, int _chunkNum = MGContent.NO_CHUNK_NUM)
+    public TTokenOrder Select(EOrderType _type, TOrderItem orderItem, int _chunkNum = MGContent.NO_CHUNK_NUM)
     {
         TTokenOrder order = new();
-        order.subIdxList = new List<int>(_subIdx);
-        order.subIdxList.Add(_subIdx);
-        order.valueList = new List<int>(_value);
-        order.valueList.Add(_value);
+        order.subIdxList = new();
+        order.valueList = new();
+        order.orderItemList = new();
+
+        order.orderItemList.Add(orderItem);
         order.OrderType = _type;
         order.SpawnPosType = ESpawnPosType.Random;
-        order.SubIdx = _subIdx;
-        order.Value = _value;
+     
         order.ChunkNum = _chunkNum;
         order.OrderCustomer = null;
         
         return order;
     }
-
-    public TTokenOrder Select(EOrderType _type, List<int> _subIdx, List<int> _value, int _chunkNum = MGContent.NO_CHUNK_NUM)
+    public TTokenOrder Select(EOrderType _type, List<TOrderItem> _orderItemList, int _chunkNum = MGContent.NO_CHUNK_NUM)
     {
         TTokenOrder order = new();
-        order.subIdxList = new List<int>(_subIdx);
-        order.valueList = new List<int>(_value);
+        order.subIdxList = new List<int>();
+        order.valueList = new List<int>();
+        order.orderItemList = new(orderItemList);
         order.OrderType = _type;
         order.SpawnPosType = ESpawnPosType.Random;
         order.ChunkNum = _chunkNum;
@@ -114,4 +116,44 @@ public struct TTokenOrder
         OrderCustomer = _customer;
     }
 
+}
+
+public enum ETokenGroup
+{
+    None, CharStat, ActionToken, GamePlay, Capital    
+}
+
+public struct TOrderItem
+{
+    //주문서 내부의 개별 아이템 항목 정보
+    public ETokenGroup MainIdx;
+    public int SubIdx;
+    public int Value;
+
+    public TOrderItem WriteCharItem(CharStat _charIdx, int _value)
+    {
+        TOrderItem item = new();
+        item.MainIdx = ETokenGroup.CharStat;
+        item.SubIdx = (int)_charIdx;
+        item.Value = _value;
+        return item;
+    }
+
+    public TOrderItem WriteActionItem(int _actionPid, int _value)
+    {
+        TOrderItem item = new();
+        item.MainIdx = ETokenGroup.ActionToken;
+        item.SubIdx = _actionPid;
+        item.Value = _value;
+        return item;
+    }
+
+    public TOrderItem WriteCapitalItem(Capital _capitalIdx, int _value)
+    {
+        TOrderItem item = new();
+        item.MainIdx = ETokenGroup.Capital;
+        item.SubIdx = (int)_capitalIdx;
+        item.Value = _value;
+        return item;
+    }
 }

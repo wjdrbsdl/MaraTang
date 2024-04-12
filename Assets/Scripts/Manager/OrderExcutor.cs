@@ -10,6 +10,11 @@ public static class OrderExcutor
         ExcuteOrder(_questCondition.TokenOrder);
     }
 
+    public static void ExcuteOrder(RewardData _reward)
+    {
+        ExcuteOrder(_reward.RewardOrder);
+    }
+
     public static void ExcuteOrder(TokenEvent _eventToken)
     {
         ExcuteOrder(_eventToken.TokenOrder);
@@ -24,6 +29,7 @@ public static class OrderExcutor
             case EOrderType.Capital:
                 break;
             case EOrderType.CharStat:
+                Debug.Log("보상으로 들어옴");
                 break;
             case EOrderType.Content:
                 break;

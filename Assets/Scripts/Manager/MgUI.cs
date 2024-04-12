@@ -81,9 +81,9 @@ public class MgUI : MgGeneric<MgUI>
         m_rewardChooseUI.ShowEventList(_eventTokens);
     }
 
-    public void ShowRewardList(RewardData _reward)
+    public void ShowRewardList(TTokenOrder _orderToken)
     {
-        m_rewardChooseUI.ShowRewardList(_reward);
+        m_rewardChooseUI.ShowRewardList(_orderToken);
     }
     #endregion
 
