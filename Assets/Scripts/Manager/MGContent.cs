@@ -181,44 +181,10 @@ public class MGContent : Mg<MGContent>
         OrderExcutor.ExcuteOrder(_reward);
 
     }
-
-    //보상 주문 실행할부분 나중에 excutor나 다른 부분으로 빼야함. 
-    private void ApplyReward(TTokenOrder _selectReward)
-    {
-        EOrderType rewardType = _selectReward.OrderType; //보상 주 타입
-
-        if (rewardType.Equals(EOrderType.Capital))
-        {
-            Capital rewardCapital = (Capital)_selectReward.SubIdx;
-            PlayerCapitalData.g_instance.CalCapital(rewardCapital, _selectReward.Value);
-            return;
-        }
-        if (rewardType.Equals(EOrderType.SpawnEvent))
-        {
-            int applyChunkNum = _selectReward.ChunkNum;
-            //만약 적용 구역이 상관없음의 상수라면
-            if (applyChunkNum.Equals(MGContent.NO_CHUNK_NUM))
-            {
-                //플레이어가 있는 구역으로 적용
-                applyChunkNum = GameUtil.GetMainCharChunkNum();
-            }
-
-            Chunk chunk = m_chunkList[applyChunkNum];
-            chunk.MakeEventToken();
-            return;
-        }
-        if (rewardType.Equals(EOrderType.CharStat))
-        {
-            PlayerManager.GetInstance().GetMainChar().CalStat((CharStat)_selectReward.SubIdx, _selectReward.Value);
-            return;
-        }
-    }
-
     private void GivePenalty(Quest _quest)
     {
 
     }
-
     private void RecordeQuest(Quest _quest, bool _result)
     {
         m_QuestRecorde.Add((_quest.QuestPid, _result));
@@ -254,14 +220,6 @@ public class MGContent : Mg<MGContent>
         MgUI.GetInstance().RefreshQuestList();
     }
     #endregion
-
-
-    //선택한 보상을 적용하기 위해 각기 필요한 클래스로 전달하기 
-    //보상 관리 매니저 추가 필요. 
-    public void SelectOrder(TTokenOrder _selectReward)
-    {
-        ApplyReward(_selectReward);
-    }
 
     private void RandomDye()
     {

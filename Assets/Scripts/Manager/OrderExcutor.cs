@@ -124,6 +124,34 @@ public static class OrderExcutor
     {
         ETokenGroup tokenGroup = (ETokenGroup)_orderItem.MainIdx;
         Debug.Log(tokenGroup + "계열에 " + _orderItem.SubIdx + "번째 녀석을 " + _orderItem.Value + "만큼 적용");
+
+        EOrderType rewardType = _selectReward.OrderType; //보상 주 타입
+
+        if (rewardType.Equals(EOrderType.Capital))
+        {
+            Capital rewardCapital = (Capital)_selectReward.SubIdx;
+            PlayerCapitalData.g_instance.CalCapital(rewardCapital, _selectReward.Value);
+            return;
+        }
+        if (rewardType.Equals(EOrderType.SpawnEvent))
+        {
+            int applyChunkNum = _selectReward.ChunkNum;
+            //만약 적용 구역이 상관없음의 상수라면
+            if (applyChunkNum.Equals(MGContent.NO_CHUNK_NUM))
+            {
+                //플레이어가 있는 구역으로 적용
+                applyChunkNum = GameUtil.GetMainCharChunkNum();
+            }
+
+            Chunk chunk = m_chunkList[applyChunkNum];
+            chunk.MakeEventToken();
+            return;
+        }
+        if (rewardType.Equals(EOrderType.CharStat))
+        {
+            PlayerManager.GetInstance().GetMainChar().CalStat((CharStat)_selectReward.SubIdx, _selectReward.Value);
+            return;
+        }
     }
     #endregion
 }

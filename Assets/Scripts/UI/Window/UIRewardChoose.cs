@@ -34,15 +34,6 @@ public class UIRewardChoose : UIBase
         SetRewardSlots(_tokenOrder.orderItemList);
     }
 
-    private void SetRewardSlots(List<TTokenOrder> _rewardList)
-    {
-        for (int i = 0; i < _rewardList.Count; i++)
-        {
-            m_eventSlots[i].gameObject.SetActive(true);
-            m_eventSlots[i].SetSlot(_rewardList[i], this);
-        }
-    }
-
     private void SetRewardSlots(List<TOrderItem> _ItemList)
     {
         for (int i = 0; i < _ItemList.Count; i++)

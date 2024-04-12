@@ -14,12 +14,6 @@ public class EventSlot : SlotBase
         _eventToken = (TokenEvent)_token;
     }
 
-    public void SetSlot(TTokenOrder _order, UIBase _ui)
-    {
-        TokenOrder = _order;
-        _openUI = _ui;
-    }
-
     public void SetSlot(TOrderItem _order, UIBase _ui)
     {
         OrderItem = _order;
@@ -35,7 +29,6 @@ public class EventSlot : SlotBase
     public override void OnLeftClick()
     {
         _openUI.Switch(false);
-        //MGContent.GetInstance().SelectOrder(TokenOrder);
         OrderExcutor.ExcuteOrderItem(OrderItem);
     }
 }
