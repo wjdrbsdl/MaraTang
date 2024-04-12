@@ -6,7 +6,6 @@ using UnityEngine;
 public class RewardData 
 {
     public ERewardType RewardType; //보상계열에 따라 주문서 orderType의 방식이 달라지도록? 
-    public EOrderType OrderType = EOrderType.None;
     public TTokenOrder RewardOrder;
 
     public RewardData(ERewardType _rewardType, int _chunkNum = MGContent.NO_CHUNK_NUM) //어떠한 데이트가 들어오면 거기에 맞게 보상 설정. 

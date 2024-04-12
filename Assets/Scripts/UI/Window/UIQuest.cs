@@ -27,7 +27,7 @@ public class UIQuest : UIBase
 
     private void SetRewardInfo(RewardData _reward)
     {
-        string conStr = _reward.OrderType.ToString();
+        string conStr = _reward.RewardOrder.OrderType.ToString();
         m_rewardText.text = conStr;
     }
 }
