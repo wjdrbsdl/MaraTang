@@ -18,7 +18,7 @@ public static class OrderExcutor
     public static void ExcuteOrder(TTokenOrder _order)
     {
         EOrderType orderType = _order.OrderType;
-        Debug.Log(orderType + "주문 들어옴");
+        //Debug.Log(orderType + "주문 들어옴");
         switch (orderType)
         {
             case EOrderType.Capital:
