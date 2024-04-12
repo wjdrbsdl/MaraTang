@@ -38,29 +38,32 @@ public static class OrderExcutor
 
     private static void OrderEventSpawn(TTokenOrder _order)
     {
+        List<int> eventList = _order.subIdxList;
+        List<int> spawnCountList = _order.valueList;
 
-
-        //1. 스폰할 이벤트 타입 
-        int tempEventPid = 1;
-        //2. 스폰할 갯수 
-        int tempMakeCount = 3;
-        //3. 스폰 장소 
-        int[] b = MgToken.GetInstance().GetMainChar().GetMapIndex();
-        int[] rightUp = GameUtil.GetPosFromDirect(b, TileDirection.RightUp);
-        int[] rightDown = GameUtil.GetPosFromDirect(b, TileDirection.RightDown);
-        int[] left = GameUtil.GetPosFromDirect(b, TileDirection.Left);
-        List<int[]> tempSpawnPosList = new List<int[]>();
-        tempSpawnPosList.Add(rightUp);
-        tempSpawnPosList.Add(rightDown);
-        tempSpawnPosList.Add(left);
-
-        for (int i = 0; i < tempMakeCount; i++)
+        for (int orderNum = 0; orderNum < eventList.Count; orderNum++)
         {
-            _order.OrderExcuteCount += 1;
-          TokenEvent eventToken = MgToken.GetInstance().SpawnEvent(tempSpawnPosList[i], tempEventPid);
-            CallBackOrder(eventToken, _order);
+            //1. 스폰할 이벤트 타입 
+            int eventPid = eventList[orderNum];
+            //2. 스폰할 갯수 
+            int spawnCount = spawnCountList[orderNum];
+            //3. 스폰 장소 
+            int[] b = MgToken.GetInstance().GetMainChar().GetMapIndex();
+            int[] rightUp = GameUtil.GetPosFromDirect(b, TileDirection.RightUp);
+            int[] rightDown = GameUtil.GetPosFromDirect(b, TileDirection.RightDown);
+            int[] left = GameUtil.GetPosFromDirect(b, TileDirection.Left);
+            List<int[]> tempSpawnPosList = new List<int[]>();
+            tempSpawnPosList.Add(rightUp);
+            tempSpawnPosList.Add(rightDown);
+            tempSpawnPosList.Add(left);
+
+            for (int i = 0; i < spawnCount; i++)
+            {
+                _order.OrderExcuteCount += 1;
+                TokenEvent eventToken = MgToken.GetInstance().SpawnEvent(tempSpawnPosList[i], eventPid);
+                CallBackOrder(eventToken, _order);
+            }
         }
-        
 
     }
 

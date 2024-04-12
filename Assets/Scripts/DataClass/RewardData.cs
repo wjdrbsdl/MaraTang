@@ -54,8 +54,10 @@ public struct TTokenOrder
     public TTokenOrder Spawn(EOrderType _spawnType, int _spawnPid, int _spawnCount, ESpawnPosType _spawnPosType, int _chunkNum = MGContent.NO_CHUNK_NUM)
     {
         TTokenOrder order = new();
-        order.subIdxList = new List<int>(_spawnPid);
-        order.valueList = new List<int>(_spawnCount);
+        order.subIdxList = new List<int>();
+        order.subIdxList.Add(_spawnPid);
+        order.valueList = new List<int>();
+        order.valueList.Add(_spawnCount);
         order.OrderType = _spawnType;
         order.SubIdx = _spawnPid;
         order.Value = _spawnCount;
@@ -81,7 +83,9 @@ public struct TTokenOrder
     {
         TTokenOrder order = new();
         order.subIdxList = new List<int>(_subIdx);
+        order.subIdxList.Add(_subIdx);
         order.valueList = new List<int>(_value);
+        order.valueList.Add(_value);
         order.OrderType = _type;
         order.SpawnPosType = ESpawnPosType.Random;
         order.SubIdx = _subIdx;
