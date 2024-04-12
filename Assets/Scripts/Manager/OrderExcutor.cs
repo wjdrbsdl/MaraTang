@@ -42,7 +42,7 @@ public static class OrderExcutor
         int tempEventPid = 1;
         //2. 스폰할 갯수 
         int tempMakeCount = 3;
-        //3. 스폰 장수 
+        //3. 스폰 장소 
         int[] b = MgToken.GetInstance().GetMainChar().GetMapIndex();
         int[] rightUp = GameUtil.GetPosFromDirect(b, TileDirection.RightUp);
         int[] rightDown = GameUtil.GetPosFromDirect(b, TileDirection.RightDown);
@@ -63,26 +63,23 @@ public static class OrderExcutor
 
     private static void OrderSpawnMonster(TTokenOrder _order)
     {
-        //1. 스폰할 이벤트 타입 
-        int tempEventPid = _order.SubIdx;
+        //1. 스폰할 몬스터
+        int charPid = _order.SubIdx;
         //2. 스폰할 갯수 
-        int tempMakeCount = _order.Value;
-        //3. 스폰 장소 
-        List<int> randomPosList = GameUtil.GetRandomNum(25, tempMakeCount);
+        int spawnCount = _order.Value;
+        //3. 스폰 장소 - 청크 최대 숫자중, 스폿 카운트 만큼 뽑기 진행
+        List<int> randomPosList = GameUtil.GetRandomNum(25, spawnCount);
+        //4. 구역 뽑기
         Chunk madeChunk = MGContent.GetInstance().GetChunk(_order.ChunkNum);
-        for (int i = 0; i < tempMakeCount; i++)
+        //5. 스폰 진행
+        for (int i = 0; i < spawnCount; i++)
         {
-            int ranPos = randomPosList[i]; //타일번호를 뽑고 해당 번호를 타일좌표로 반환해야함
-            int[] tilePos = GameUtil.GetXYPosFromIndex(madeChunk.tiles.GetLength(0), ranPos);
-            int[] spawnCoord = madeChunk.tiles[tilePos[0], tilePos[1]].GetMapIndex();
-            TokenChar questMonster = MgToken.GetInstance().SpawnCharactor(spawnCoord, tempEventPid); //몬스터의 경우 사망시에 설치
-            CallBackOrder(questMonster, _order);
-            //퀘스트에 생성된 부속물을 귀속시키는 부분 
-            //현재 order에 퀘스트 할당이 안되있어서 연결이 불가
-            
-            //questMonster.SetQuest(m_Quest);
-            //questMonster.QuestPid = m_Quest.QuestPid;
-            //m_Quest.TempQuestTokens.Add(questMonster);
+            int chunkTileNum = randomPosList[i]; //청크 내부에서 해당 타일의 idx
+            int[] tilePos = GameUtil.GetXYPosFromIndex(madeChunk.tiles.GetLength(0), chunkTileNum);//청크 기준으로 좌표 도출 
+            int[] spawnCoord = madeChunk.tiles[tilePos[0], tilePos[1]].GetMapIndex();//청크 좌표를 월드 좌표로 전환
+            TokenChar questMonster = MgToken.GetInstance().SpawnCharactor(spawnCoord, charPid); //월드 좌표로 pid 캐릭 스폰 
+            CallBackOrder(questMonster, _order); //스폰된 몬스터와 주문서로 고객에게 콜백
+            //콜백받은 고객이 해당 부속물에 알아서 남은 작업 진행. 
         }
 
     }
@@ -95,8 +92,7 @@ public static class OrderExcutor
         if (customer == null)
             return;
         //3. 완료된 토큰으로 영수증을 만들고
-        OrderReceipt recipt = new();
-        recipt.madeToken = _token;
+        OrderReceipt recipt = new(_token, _order);
         //4. 고객에게 콜백 보냄
         customer.OrderCallBack(recipt); //고객에게 호출
     }

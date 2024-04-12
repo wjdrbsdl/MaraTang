@@ -13,5 +13,12 @@ public interface IOrderCustomer
 public struct OrderReceipt
 {
     //오더 완료 주문서
-    public TokenBase madeToken;
+    public TokenBase MadeToken;
+    public TTokenOrder Order;
+
+    public OrderReceipt(TokenBase _token, TTokenOrder _order)
+    {
+        MadeToken = _token;
+        Order = _order;
+    }
 }
