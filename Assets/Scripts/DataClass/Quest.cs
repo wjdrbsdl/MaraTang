@@ -28,16 +28,7 @@ public class Quest : IOrderCustomer
     #region 생성
     public Quest()
     {
-        Reward = new RewardData(EOrderType.None); //임시로 자원 보상
-    }
-
-    public Quest(int _monsterPID, int _monsterCount, EOrderType _rewardType, int _chunkNum = MGContent.NO_CHUNK_NUM)
-    {
-        QuestPid = MGContent.g_instance.m_questCount;
-        ChunkNum = _chunkNum;
-        Condition = new QuestCondition(_monsterPID, _monsterCount);
-        Reward = new RewardData(_rewardType, _chunkNum); //임시로 자원 보상
-        Penalty = new PenaltyData();
+       
     }
 
     public Quest(EQuestType _questType, ERewardType _rewardType, int _chunkNum)
@@ -154,17 +145,17 @@ public class QuestCondition
     {
         //퀘스트 타입에 따라서 조건 내용을 채우기 
         QuestType = _questType;
+        ESpawnPosType tempSpawnPos = ESpawnPosType.Random;
         switch (_questType)
         {
             //이벤트토큰 생성하는 경우
             case EQuestType.SpawnEvent:
-                TokenOrder = new TTokenOrder(EOrderType.SpawnEvent,1,1);
+                TokenOrder = new TTokenOrder().Spawn(EOrderType.SpawnEvent,1,3,tempSpawnPos, _chunkNum);
                 break;
             case EQuestType.SpawnMonster:
                 //어떤 몬스터를 얼마나 어떤식으로 소환할지 필요
                 int tempPid = 2;
                 int tempCount = 3;
-                ESpawnPosType tempSpawnPos = ESpawnPosType.Random;
                 TokenOrder = new TTokenOrder().Spawn(EOrderType.SpawnMonster, tempPid, tempCount, tempSpawnPos, _chunkNum);
                 break;
         }

@@ -129,23 +129,6 @@ public class MGContent : Mg<MGContent>
         return null;
     }
 
-    private Quest MakeQuest(int _chunkNum, int _monsterPID, int _monsterCount, EOrderType _rewardType)
-    {
-        Quest newQuest = new(_monsterPID, _monsterCount, _rewardType, _chunkNum); //퀘스트 문서 생성 
-        m_questCount += 1;
-        m_QuestList.Add(newQuest); //리스트에 추가 
-                                   //  Debug.Log("몬스터 소환 컨텐츠");
-
-        //발현시킬 구역 청크
-
-        Chunk chunk = m_chunkList[_chunkNum];
-        chunk.m_Quest = newQuest;
-
-
-
-        return newQuest;
-    }
-
     private Quest MakeQuest(EQuestType _questType, ERewardType _rewardType, int _chunkNum)
     {
         Quest newQuest = new Quest(_questType, _rewardType, _chunkNum);

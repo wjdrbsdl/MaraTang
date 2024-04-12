@@ -64,7 +64,8 @@ public class TokenEvent : TokenBase, IOrderCustomer
 
     public void OrderCallBack(OrderReceipt _orderReceipt) //이벤트 토큰 고객
     {
-        Debug.Log("이벤 토큰에서 주문완료 콜백받음");
+        Debug.Log("이벤 토큰의 콜백 집행 횟수 "+_orderReceipt.Order.OrderExcuteCount);
+        EOrderType orderType = _orderReceipt.Order.OrderType; //진행했던 오더 타입
         //1. 몬스터 생성 주문서 진행시 받은 몬스터에 자신이 속한 퀘스트를 또 연계할 수도있음. 
     }
 }
