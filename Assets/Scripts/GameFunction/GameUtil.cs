@@ -323,6 +323,42 @@ public static class GameUtil
 
     #endregion
 
+    #region 스폰 관련
+    public static List<int[]> GetSpawnPos(ESpawnPosType _spawnPosType, int _spawnCount, int _chunkNum = MGContent.NO_CHUNK_NUM)
+    {
+        List<int[]> spawnPos = new();
+        int chunkNum = _chunkNum;
+        if (chunkNum.Equals(MGContent.NO_CHUNK_NUM))
+        {
+            //만약 없는 청크 구역이라면 매인케릭이 있는 청크로 진행 
+            chunkNum = GetMainCharChunkNum();
+        }
+        switch (_spawnPosType)
+        {
+            case ESpawnPosType.Random: //청크 내부에서 랜덤
+                List<int> randomPosList = GameUtil.GetRandomNum(25, _spawnCount);
+                Chunk madeChunk = MGContent.GetInstance().GetChunk(chunkNum);
+                for (int i = 0; i < randomPosList.Count; i++)
+                {
+                    int chunkTileNum = randomPosList[i]; //청크 내부에서 해당 타일의 idx
+                    int[] tilePos = GameUtil.GetXYPosFromIndex(madeChunk.tiles.GetLength(0), chunkTileNum);//청크 기준으로 좌표 도출 
+                    int[] spawnCoord = madeChunk.tiles[tilePos[0], tilePos[1]].GetMapIndex();//청크 좌표를 월드 좌표로 전환
+                    spawnPos.Add(spawnCoord);
+                }
+                break;
+            case ESpawnPosType.CharRound:
+                int[] b = MgToken.GetInstance().GetMainChar().GetMapIndex();
+                int[] rightUp = GameUtil.GetPosFromDirect(b, TileDirection.RightUp);
+                int[] rightDown = GameUtil.GetPosFromDirect(b, TileDirection.RightDown);
+                int[] left = GameUtil.GetPosFromDirect(b, TileDirection.Left);
+                spawnPos = new List<int[]>() { rightUp, rightDown, left };
+                break;
+        }
+
+        return spawnPos;
+    }
+    #endregion
+
     #region 청크 계산
     public static int GetChunkNum(int[] _coordi)
     {

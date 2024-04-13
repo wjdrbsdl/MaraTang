@@ -145,18 +145,19 @@ public class QuestCondition
     {
         //퀘스트 타입에 따라서 조건 내용을 채우기 
         QuestType = _questType;
-        ESpawnPosType tempSpawnPos = ESpawnPosType.Random;
+        ESpawnPosType spawnPos = ESpawnPosType.Random;
         switch (_questType)
         {
             //이벤트토큰 생성하는 경우
             case EQuestType.SpawnEvent:
-                TokenOrder = new TTokenOrder().Spawn(EOrderType.SpawnEvent,1,3,tempSpawnPos, _chunkNum);
+                spawnPos = ESpawnPosType.CharRound;
+                TokenOrder = new TTokenOrder().Spawn(EOrderType.SpawnEvent, 1, 3,spawnPos, _chunkNum);
                 break;
             case EQuestType.SpawnMonster:
                 //어떤 몬스터를 얼마나 어떤식으로 소환할지 필요
                 int tempPid = 2;
                 int tempCount = 1;
-                TokenOrder = new TTokenOrder().Spawn(EOrderType.SpawnMonster, tempPid, tempCount, tempSpawnPos, _chunkNum);
+                TokenOrder = new TTokenOrder().Spawn(EOrderType.SpawnMonster, tempPid, tempCount, spawnPos, _chunkNum);
                 break;
         }
         
