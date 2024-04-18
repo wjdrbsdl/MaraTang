@@ -56,6 +56,7 @@ public class MgToken : MgGeneric<MgToken>
 
     #region 토큰들 - 마스터 토큰과 생성된 토큰 모두 관리 
     private List<TokenChar> m_charList = new(); //현재 맵에 생성된 캐릭 토큰들
+    private List<TokenEvent> m_eventList = new();
     #endregion
 
     #region 리셋
@@ -230,6 +231,10 @@ public class MgToken : MgGeneric<MgToken>
     public void RemoveCharToken(TokenChar _removeChar)
     {
         m_charList.Remove(_removeChar);
+    }
+    public void RemoveCharToken(TokenEvent _removeEvent)
+    {
+        m_eventList.Remove(_removeEvent);
     }
 
     public void TempPosRandomPlayer(TokenChar _char)
