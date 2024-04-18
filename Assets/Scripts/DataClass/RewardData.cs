@@ -11,7 +11,8 @@ public class RewardData
     public RewardData(ERewardType _rewardType, int _chunkNum = MGContent.NO_CHUNK_NUM) //어떠한 데이트가 들어오면 거기에 맞게 보상 설정. 
     {
         RewardType = _rewardType;
-
+        if (RewardType.Equals(ERewardType.None))
+            return;
         //어떤 보상식으로 줄진 모르지만 일단 보상아이템 만들고 호출되는부분까지 테스트 
         TOrderItem charItem = new TOrderItem().WriteCharItem(CharStat.Strenth, 50);
         TOrderItem capitalItem = new TOrderItem().WriteCapitalItem(Capital.Green, 150);

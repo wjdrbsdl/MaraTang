@@ -117,7 +117,7 @@ public class MGContent : Mg<MGContent>
             //어디 청크에서 발현시킬지는 따로 산출
             m_mainCharChunkNum = GameUtil.GetMainCharChunkNum();
            // return MakeQuest(EQuestType.SpawnMonster, ERewardType.CharStat, m_mainCharChunkNum);
-            return MakeQuest(EQuestType.SpawnEvent, ERewardType.Capital, m_mainCharChunkNum); //이벤트 만들던 기존 루트
+            return MakeQuest(EQuestType.SpawnEvent, ERewardType.None, m_mainCharChunkNum); //이벤트 만들던 기존 루트
         }
 
         if (data.PlayTime % 3 == 0)
