@@ -142,7 +142,7 @@ public class TokenBase
             QuestCard.SendQuestCallBack(this);
     }
 
-    public virtual void Clean()
+    public virtual void CleanToken()
     {
         //해당 token을 아무런 영향없이 제거하는 부분 
         //1. 토지 - 속한 몬스터 제거, mapIndex에서 제거, 오브젝트 제거

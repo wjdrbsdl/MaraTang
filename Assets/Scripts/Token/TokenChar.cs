@@ -219,9 +219,9 @@ public class TokenChar : TokenBase
         MgToken.GetInstance().RemoveCharToken(this);
     }
 
-    public override void Clean()
+    public override void CleanToken()
     {
-        base.Clean();
+        base.CleanToken();
         Debug.Log("캐릭터 정리 들어감");
         //0. 오브젝트 정리 
         if (m_object != null)

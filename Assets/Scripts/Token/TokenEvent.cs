@@ -6,16 +6,18 @@ public class TokenEvent : TokenBase, IOrderCustomer
 {
     public int m_selectCount = 0; //선택지 수
     public TTokenOrder TokenOrder;
+
     #region 이벤트 토큰 생성
     public TokenEvent()
     {
-
+        m_tokenType = TokenType.Event;
     }
 
     //마스터데이터 생성
     public TokenEvent(int pid, int value2)
     {
         m_tokenPid = pid;
+        m_tokenType = TokenType.Event;
     }
     
     //복사본 생성
@@ -23,6 +25,7 @@ public class TokenEvent : TokenBase, IOrderCustomer
     public TokenEvent(TokenEvent _masterToken)
     {
         m_tokenPid = _masterToken.m_tokenPid;
+        m_tokenType = _masterToken.m_tokenType;
     }
 
     public static TokenEvent CopyToken(TokenEvent _origin)
@@ -45,11 +48,34 @@ public class TokenEvent : TokenBase, IOrderCustomer
     {
         Debug.Log(m_tokenPid + "피아이디 발동");
         OrderExcutor.ExcuteOrder(this);
+        SendQuestCallBack();
     }
 
-    public void SelectEvent()
+    public void RemoveEvent()
     {
+        //0. 오브젝트 정리
+        if (m_object != null)
+            m_object.DestroyObject();
 
+        //1. 사망시 처리
+        SendQuestCallBack();
+
+        //2. 데이터 참조 제거
+        TokenTile inTile = GameUtil.GetTileTokenFromMap(GetMapIndex());
+        inTile.DeleteEnterEvent();
+        MgToken.GetInstance().RemoveCharToken(this);
+    }
+
+    public override void CleanToken()
+    {
+        base.CleanToken();
+        //0. 오브젝트 정리
+        if (m_object != null)
+            m_object.DestroyObject();
+        //2. 데이터 참조 제거
+        TokenTile inTile = GameUtil.GetTileTokenFromMap(GetMapIndex());
+        inTile.DeleteEnterEvent();
+        MgToken.GetInstance().RemoveCharToken(this);
     }
 
     public void MakeEventContent()
