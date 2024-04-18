@@ -201,11 +201,6 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     #endregion
 
     #region 이벤트 발생
-    public void SelectEvent(TokenEvent _eventToken)
-    {
-        AnnounceState("플레이어가 선택한 이벤트는 " + _eventToken.GetPid());
-        _eventToken.SelectEvent();
-    }
 
     private void OccurMoveEvent(TokenChar _charToken)
     {

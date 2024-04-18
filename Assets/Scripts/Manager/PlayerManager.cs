@@ -147,15 +147,6 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
 
     }
 
-    public void SelectEventToken(TokenBase _eventToken)
-    {
-        m_soundMg.PlayEfx(eventSelectEFx);
-        TokenEvent eventToken = (TokenEvent)_eventToken;
-        //이벤트 선택 가능여부는 제쳐두고 
-        m_playGameUI.OffPlayUI();
-        GamePlayMaster.g_instance.SelectEvent(eventToken);
-    }
-
     public void ConfirmAction()
     {
         //현재 액션을 수행할것을 확인 누름 
