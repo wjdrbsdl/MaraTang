@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 public interface IOrderCustomer
 {
 
-    public void OrderCallBack(OrderReceipt _orderReceipt);
+    public void OnOrderCallBack(OrderReceipt _orderReceipt);
 }
 
 public struct OrderReceipt

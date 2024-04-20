@@ -88,7 +88,7 @@ public class OrderExcutor
         //3. 완료된 토큰으로 영수증을 만들고
          OrderReceipt recipt = new(_token, _order);
         //4. 고객에게 콜백 보냄
-        customer.OrderCallBack(recipt); //고객에게 호출
+        customer.OnOrderCallBack(recipt); //고객에게 호출
     }
     #endregion
 

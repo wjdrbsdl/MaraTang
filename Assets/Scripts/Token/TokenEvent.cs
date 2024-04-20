@@ -89,7 +89,7 @@ public class TokenEvent : TokenBase, IOrderCustomer
         TokenOrder.SetOrderCustomer(this);
     }
 
-    public void OrderCallBack(OrderReceipt _orderReceipt) //이벤트 토큰 고객
+    public void OnOrderCallBack(OrderReceipt _orderReceipt) //이벤트 토큰 고객
     {
         Debug.Log("이벤 토큰의 콜백 집행 횟수 "+_orderReceipt.Order.OrderExcuteCount);
         EOrderType orderType = _orderReceipt.Order.OrderType; //진행했던 오더 타입
