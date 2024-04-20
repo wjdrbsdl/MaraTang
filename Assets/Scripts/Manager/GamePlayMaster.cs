@@ -62,7 +62,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
         base.InitiSet();
         RuleBook = new();
         RuleBook.m_PlayMaster = this;
-        Announcer play = new(); // 아나운서 초기화 
+        Announcer play = new(); // 아나운서 싱글톤생성
         m_aiPlayer = new();
         m_players = new PlayerRule[2];
         EmphasizeTool = new();
