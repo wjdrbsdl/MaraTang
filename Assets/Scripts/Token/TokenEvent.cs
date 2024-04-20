@@ -47,7 +47,8 @@ public class TokenEvent : TokenBase, IOrderCustomer
     public void ActiveEvent()
     {
         Debug.Log(m_tokenPid + "피아이디 발동");
-        OrderExcutor.ExcuteOrder(this);
+        OrderExcutor orderExcutor = new();
+        orderExcutor.ExcuteOrder(this);
         SendQuestCallBack();
     }
 

@@ -28,11 +28,11 @@ public class UIBase : MonoBehaviour
 
     public void Switch(bool _on)
     {
-        //만약 명명한 상태가 현재 상태랑 동일하다면 0을 반환
+        //만약 명명한 상태가 현재 상태랑 동일하다면 끝
         if (m_window.activeSelf == _on)
             return;
 
-        m_window.SetActive(_on); //아니면 상태를 _on상태로 바꾸고 바꾼값을 반환 
+        m_window.SetActive(_on); //아니면 상태를 선택한 상태로 바꿈
         if (_on == false)
             OffWindow();
         else

@@ -10,7 +10,7 @@ public class ObjectTokenBase : MonoBehaviour
     
     public TokenType m_tokenType;
     [SerializeField]
-    public TokenBase m_token; //들어있는 토큰
+    private TokenBase m_token; //들어있는 토큰
     public CharHud m_hud;
     public SpriteRenderer m_charIcon;
     public SpriteRenderer m_actionIcon;

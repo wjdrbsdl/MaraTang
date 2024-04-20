@@ -1,26 +1,26 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public static class OrderExcutor
+public class OrderExcutor
 {
     //T 주문서내용을 받으면 내용을 해석해서 집행시키는 부분. 
 
-    public static void ExcuteOrder(QuestCondition _questCondition)
+    public void ExcuteOrder(QuestCondition _questCondition)
     {
         ExcuteOrder(_questCondition.TokenOrder);
     }
 
-    public static void ExcuteOrder(RewardData _reward)
+    public void ExcuteOrder(RewardData _reward)
     {
         ExcuteOrder(_reward.RewardOrder);
     }
 
-    public static void ExcuteOrder(TokenEvent _eventToken)
+    public void ExcuteOrder(TokenEvent _eventToken)
     {
         ExcuteOrder(_eventToken.TokenOrder);
     }
 
-    public static void ExcuteOrder(TTokenOrder _order)
+    public void ExcuteOrder(TTokenOrder _order)
     {
         EOrderType orderType = _order.OrderType;
         //Debug.Log(orderType + "주문 들어옴");
@@ -46,7 +46,7 @@ public static class OrderExcutor
 
     #region 오더 집행
  
-    private static void OrderSpawnToken(TTokenOrder _order, EOrderType _spawnType)
+    private void OrderSpawnToken(TTokenOrder _order, EOrderType _spawnType)
     {
         List<int> charList = _order.subIdxList;
         List<int> spawnCountList = _order.valueList;
@@ -78,7 +78,7 @@ public static class OrderExcutor
 
     }
 
-    private static void CallBackOrder(TokenBase _token, TTokenOrder _order)
+    private void CallBackOrder(TokenBase _token, TTokenOrder _order)
     {
         //1. 주문서 고객 정보 있는지 체크
         IOrderCustomer customer = _order.OrderCustomer;
@@ -93,7 +93,7 @@ public static class OrderExcutor
     #endregion
 
     #region 오더 아이템 선택시
-    public static void ExcuteOrderItem(TOrderItem _orderItem)
+    public void ExcuteOrderItem(TOrderItem _orderItem)
     {
         ETokenGroup tokenGroup = (ETokenGroup)_orderItem.MainIdx;
         int orderSubIdx = _orderItem.SubIdx;
