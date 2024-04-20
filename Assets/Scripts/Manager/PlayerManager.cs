@@ -270,19 +270,12 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
         }
         if (m_curStep.Equals(GamePlayStep.FillContent))
         {
-            //내용채우기 단계가 되면
-
             //1. 선택된 캐릭터에 선택되었던 액션을 수행할 액션으로 세팅하고
             m_curChar.SetNextAction(m_curAction);
             //2. 액션 타겟 초기화
             m_curAction.ClearTarget();
-            //3. UI 표기
-            //m_playGameUI.ShowFillContentUI(m_curChar, m_curAction);
-            //m_displayAction.OffActionDisplay();
-
-            //4. 선택한 액션의 타겟 오브젝트 강조 표시
+            //3. 선택한 액션의 범위 타일 표기
             GamePlayMaster.g_instance.EmphasizeTargetTileObject(m_curChar, m_curAction); //기본 이동 거리 세팅 
-
             return;
         }
         if (m_curStep.Equals(GamePlayStep.PlayAction))
@@ -292,7 +285,6 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
         }
         if (m_curStep.Equals(GamePlayStep.EndTurn))
         {
-           // m_curChar = null;
             m_curAction = null;
             GamePlayMaster.g_instance.ResetEmphasize();
             m_playGameUI.OffPlayUI();
