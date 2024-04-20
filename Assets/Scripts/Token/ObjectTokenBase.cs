@@ -77,18 +77,7 @@ public class ObjectTokenBase : MonoBehaviour
 
     public TokenBase GetToken()
     {
-        switch (m_tokenType)
-        {
-            case TokenType.Player:
-                return (TokenChar)m_token;
-            case TokenType.Tile:
-                return (TokenTile)m_token;
-            case TokenType.Action:
-                return (TokenAction)m_token;
-            case TokenType.Char:
-                return (TokenChar)m_token;
-        }
-        return null;
+       return m_token;
     }
 
     public void SetHud(CharHud _hud)
