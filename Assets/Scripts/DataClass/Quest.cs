@@ -47,7 +47,6 @@ public class Quest : IOrderCustomer
     public void OnOrderCallBack(OrderReceipt _orderReceipt) //퀘스트 고객
     {
         //오더익스큐터로 생성된 토큰들을 콜백받으면 거기에 자신을 할당 
-        Debug.Log("퀘스트에서 만든 녀석에게 셋 퀘스트");
         TokenBase tokens = _orderReceipt.MadeToken;
         if (tokens == null)
             return;

@@ -127,6 +127,12 @@ public enum ESpawnPosType
     Random, CharRound
 }
 
+public enum GiveMethod
+{
+    //아이템 지급방식
+    Fixed, Selecet
+}
+
 public enum ETokenGroup
 {
     None, CharStat, ActionToken, GamePlay, Capital

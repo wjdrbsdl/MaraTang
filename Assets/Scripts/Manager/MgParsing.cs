@@ -32,7 +32,7 @@ public class MgParsing : MgGeneric<MgParsing>
     private EMasterData[] dbId = { EMasterData.TileActionData, EMasterData.ContentData, EMasterData.TileType, EMasterData.CharData, 
                                    EMasterData.CharActionData, EMasterData.EventData };
     private System.Enum[] matchTypes = { TileActionStat.NeedActionCount, MGContent.ContentEnum.발생컨텐츠, EMasterData.ContentData, CharStat.CurActionCount, 
-                                    CharActionStat.CoolTime, EventStat.ItemType };
+                                    CharActionStat.CoolTime, EventStat.ETokenType };
     private Dictionary<EMasterData, ParseData> dbContainer = new(); //파싱한값을 그냥 갖고만 있는상태 - 사용하는곳에서 다시 가공 필요. 
  
     public override void InitiSet()
