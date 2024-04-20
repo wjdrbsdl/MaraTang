@@ -117,7 +117,7 @@ public class MgMasterData : Mg<MgMasterData>
     private void SetEventData()
     {
         m_eventDataDic = new();
-        ParseData parseData = MgParsing.GetInstance().GetMasterData(EMasterData.EventData;
+        ParseData parseData = MgParsing.GetInstance().GetMasterData(EMasterData.EventData);
         for (int i = 0; i < parseData.DbValueList.Count; i++)
         {
             TokenEvent masterEvent = new(parseData.MatchCode, parseData.DbValueList[i]);
