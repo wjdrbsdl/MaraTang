@@ -9,6 +9,7 @@ public class MgMasterData : Mg<MgMasterData>
     private Dictionary<int, TokenChar> m_charDataDic;
     private Dictionary<int, TokenAction> m_tileActionDataDic;
     private Dictionary<int, TokenAction> m_charActionDataDic;
+    private Dictionary<int, TokenEvent> m_eventDataDic;
     public static char DIVIDECHAR = '_';
     #region 생성자
     public MgMasterData()
@@ -25,7 +26,7 @@ public class MgMasterData : Mg<MgMasterData>
         SetTileActionData();
         SetCharActionData();
         SetCharData();
-        
+        SetEventData();
     }
 
     public override void ReferenceSet()
@@ -52,6 +53,11 @@ public class MgMasterData : Mg<MgMasterData>
     public TokenAction GetTileActions(int _actionPID)
     {
         return m_tileActionDataDic[_actionPID];
+    }
+
+    public TokenEvent GetEventData(int _eventPID)
+    {
+        return m_eventDataDic[_eventPID];
     }
 
     public bool CheckPID(EMasterData _dataType, int pid)
@@ -106,6 +112,17 @@ public class MgMasterData : Mg<MgMasterData>
             m_charDataDic.Add(masterChar.GetPid(), masterChar);
         }
      //   Debug.Log("캐릭터 마스터 데이터 완료");
+    }
+
+    private void SetEventData()
+    {
+        m_eventDataDic = new();
+        ParseData parseData = MgParsing.GetInstance().GetMasterData(EMasterData.EventData;
+        for (int i = 0; i < parseData.DbValueList.Count; i++)
+        {
+            TokenEvent masterEvent = new(parseData.MatchCode, parseData.DbValueList[i]);
+            m_eventDataDic.Add(masterEvent.GetPid(), masterEvent);
+        }
     }
 
     private void SetTileActionData()

@@ -19,18 +19,26 @@ public class TokenEvent : TokenBase, IOrderCustomer
     }
 
     //마스터데이터 생성
-    public TokenEvent(int pid, int value2)
+    public TokenEvent(List<int[]> matchCode, string[] valueCode)
     {
-        m_tokenPid = pid;
+        m_tokenPid = int.Parse(valueCode[0]); //시트 데이터상 0번째는 pid
+        m_itemName = valueCode[1]; //1은 이름
         m_tokenType = TokenType.Event;
+        m_tokenIValues = new int[System.Enum.GetValues(typeof(EventStat)).Length];
+        GameUtil.InputMatchValue(ref m_tokenIValues, matchCode, valueCode);
     }
-    
+
     //복사본 생성
 
     public TokenEvent(TokenEvent _masterToken)
     {
         m_tokenPid = _masterToken.m_tokenPid;
         m_tokenType = _masterToken.m_tokenType;
+        m_tokenType = TokenType.Event;
+        int arraySize = _masterToken.m_tokenIValues.Length;
+        m_tokenIValues = new int[arraySize];
+        //마스터 데이터 깊은 복사로 객체 고유 배열 값 생성. 
+        System.Array.Copy(_masterToken.m_tokenIValues, m_tokenIValues, arraySize); //스텟값 복사
     }
 
     public static TokenEvent CopyToken(TokenEvent _origin)

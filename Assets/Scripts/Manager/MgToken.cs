@@ -175,7 +175,7 @@ public class MgToken : MgGeneric<MgToken>
     public TokenEvent SpawnEvent(TokenTile _tile, int _eventPid)
     {
         //1. pid로 원본 값 가져옴
-        TokenEvent masterEvent = new TokenEvent(); //임시로 
+        TokenEvent masterEvent = MgMasterData.GetInstance().GetEventData(_eventPid);
         //2. 새로운 복사 토큰 생성
         TokenEvent madeEventToken = TokenEvent.CopyToken(masterEvent);
         madeEventToken.MakeEventContent();
