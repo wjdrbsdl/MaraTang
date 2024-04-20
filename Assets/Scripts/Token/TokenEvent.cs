@@ -33,8 +33,8 @@ public class TokenEvent : TokenBase, IOrderCustomer
     public TokenEvent(TokenEvent _masterToken)
     {
         m_tokenPid = _masterToken.m_tokenPid;
+        m_itemName = _masterToken.m_itemName;
         m_tokenType = _masterToken.m_tokenType;
-        m_tokenType = TokenType.Event;
         int arraySize = _masterToken.m_tokenIValues.Length;
         m_tokenIValues = new int[arraySize];
         //마스터 데이터 깊은 복사로 객체 고유 배열 값 생성. 
