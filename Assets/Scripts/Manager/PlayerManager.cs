@@ -217,24 +217,6 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
     }
     #endregion //플레이어 인터페이스
 
-    #region 이벤트 토큰 관련
-    private GamePlayStep m_preStep = GamePlayStep.SelectAct;
-    public void OnTriggerEvent(List<TokenEvent> _events)
-    {
-        m_preStep = m_curStep; //현재 단계 저장해놓고 
-        ChangedPlayerStep(GamePlayStep.TriggerEvent);
-        m_playGameUI.ShowEventList(_events);
-    }
-    public void DoneAdaptEvent()
-    {
-        //이벤트 적용 후
-        //1. 획득한 자원값 적용
-        ChangedPlayerStep(m_preStep); //이전 스텝으로 돌아가고
-    }
-
-
-    #endregion
-
     public void OnChangePlayData()
     {
         m_playGameUI.ResetPlayData();

@@ -28,7 +28,7 @@ public class MgUI : MgGeneric<MgUI>
 
     [SerializeField] private UIShowcase m_shocaseUI;
 
-    #region 플레이어 액션
+  
     public void ShowCharActionList()
     {
         //플레이어 캐릭터 눌렀을 때
@@ -77,20 +77,11 @@ public class MgUI : MgGeneric<MgUI>
 
         PushUIStack(openUI);
     }
-    #endregion
-
-    #region 이벤트 관련
-    public void ShowEventList(List<TokenEvent> _eventTokens)
-    {
-        OffPlayUI();
-        m_rewardChooseUI.ShowEventList(_eventTokens);
-    }
 
     public void ShowItemList(TTokenOrder _orderToken)
     {
         m_rewardChooseUI.ShowItemList(_orderToken);
     }
-    #endregion
 
     #region 현황 데이터 표기
     public void ResetCapitalInfo(PlayerCapitalData _capitalData)

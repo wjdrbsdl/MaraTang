@@ -11,19 +11,6 @@ public class UIRewardChoose : UIBase
     [SerializeField]
     private EventSlot[] m_eventSlots = new EventSlot[] { };
 
-    public void ShowEventList(List<TokenEvent> _eventTokens)
-    {
-        //이벤트 받은것들을 유아이로 표현
-        Switch(true);
-        MakeSamplePool<EventSlot>(ref m_eventSlots, m_sampleEventSlot.gameObject, _eventTokens.Count, m_box);
-
-        for (int i = 0; i < _eventTokens.Count; i++)
-        {
-            m_eventSlots[i].SetSlot(_eventTokens[i]);
-            m_eventSlots[i].gameObject.SetActive(true);
-        }
-    }
-
     public void ShowItemList(TTokenOrder _tokenOrder)
     {
         Switch(true);
