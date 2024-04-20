@@ -41,16 +41,21 @@ public class MgUI : MgGeneric<MgUI>
         //토큰 오브젝트 눌렀을때 정보창 띄우기 
         TokenType tokenType = _token.GetTokenType();
 
-        if (tokenType.Equals(TokenType.Tile))
+        switch (tokenType)
         {
-            PushUIStack(m_tileWorkShopUI);
-            m_tileWorkShopUI.SetTileWorkShopInfo((TokenTile)_token);
+            case TokenType.Tile:
+                PushUIStack(m_tileWorkShopUI);
+                m_tileWorkShopUI.SetTileWorkShopInfo((TokenTile)_token);
+                break;
+            case TokenType.Char:
+                PushUIStack(m_charStatUI);
+                m_charStatUI.SetCharStat((TokenChar)_token);
+                break;
+            case TokenType.Event:
+                Debug.Log("이벤트 정보 보여주기");
+                break;
         }
-        else if (tokenType.Equals(TokenType.Char))
-        {
-            PushUIStack(m_charStatUI);
-            m_charStatUI.SetCharStat((TokenChar)_token);
-        }
+
     }
 
     public void ShowCapitalWorkShop(CapitalAction subCode, TokenTile _tile, TokenAction _action)
