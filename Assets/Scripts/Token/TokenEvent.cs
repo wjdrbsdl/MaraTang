@@ -2,6 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum EventStat
+{
+    ItemType, ItemPID, ItemValue, GiveMethod
+}
+
 public class TokenEvent : TokenBase, IOrderCustomer
 {
     public int m_selectCount = 0; //선택지 수
