@@ -73,7 +73,7 @@ public class MgParsing : MgGeneric<MgParsing>
                 if (enterDivde[i][0].Equals('#'))
                 {
                  //   Debug.Log(enterDivde[i] + "이후 파싱 중지");
-                    break;
+                    continue;
                 }
                     
 
