@@ -8,6 +8,8 @@ public class Announcer
 
     public Announcer()
     {
+        //맨처음 호출된 녀석이 짱
+        if(Instance == null)
         Instance = this;
     }
 
