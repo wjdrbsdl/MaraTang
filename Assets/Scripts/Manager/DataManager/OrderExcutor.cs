@@ -165,7 +165,7 @@ public struct TTokenOrder
     public int ChunkNum; //아무 지정이 아니면 - 1
     public int OrderExcuteCount;
 
-    public TTokenOrder Spawn(EOrderType _orderType, List<TOrderItem> _charList, ESpawnPosType _spawnPosType, int _chunkNum = MGContent.NO_CHUNK_NUM)
+    public TTokenOrder Spawn(EOrderType _orderType, List<TOrderItem> _charList, ESpawnPosType _spawnPosType, int _chunkNum)
     {
         TTokenOrder order = new();
         order.orderItemList = _charList;
@@ -176,7 +176,7 @@ public struct TTokenOrder
         return order;
     }
 
-    public TTokenOrder Select(EOrderType _type, List<TOrderItem> _orderItemList, int _chunkNum = MGContent.NO_CHUNK_NUM)
+    public TTokenOrder Select(EOrderType _type, List<TOrderItem> _orderItemList, int _chunkNum)
     {
         TTokenOrder order = new();
         order.orderItemList = new List<TOrderItem>(_orderItemList);

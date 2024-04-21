@@ -85,13 +85,9 @@ public class TokenEvent : TokenBase, IOrderCustomer
     public void MakeEventContent(EOrderType _orderType, List<TOrderItem> _itemList)
     {
         //현재 이벤트의 PID와 지정된 값에 따라서 TTokenOrder 생성
-       
-        if (_orderType.Equals(EOrderType.SpawnMonster))
-        {
-            //취급하는 그룹이 캐릭터인경우 - 캐릭터 스폰 주문서로 생성
-            TokenOrder = new TTokenOrder().Spawn(EOrderType.SpawnMonster, _itemList, ESpawnPosType.Random, GameUtil.GetMainCharChunkNum());
-        }
-        
+        //오더 메이커에서 일괄적으로 처리 
+        OrderMaker orderMaker = new();
+        TokenOrder = orderMaker.MakeOrder(_orderType, _itemList, GameUtil.GetMainCharChunkNum());
         TokenOrder.SetOrderCustomer(this);
     }
 

@@ -173,24 +173,23 @@ public class QuestCondition
         //퀘스트 타입에 따라서 조건 내용을 채우기 
         QuestType = _questType;
         ESpawnPosType spawnPos = ESpawnPosType.Random;
+        OrderMaker orderMaker = new();
         switch (_questType)
         {
             //이벤트토큰 생성하는 경우
             case EQuestType.SpawnEvent:
-                spawnPos = ESpawnPosType.CharRound;
-          
+                //이하 OrderItem 정보들은 parsingData에서 가져올것
                 TOrderItem item1 = new TOrderItem((int)ETokenGroup.Event, 1, (int)EOrderType.SpawnEvent);
                 TOrderItem item2 = new TOrderItem((int)ETokenGroup.Event, 1, (int)EOrderType.SpawnEvent);
                 TOrderItem item3 = new TOrderItem((int)ETokenGroup.Event, 1, (int)EOrderType.SpawnEvent);
                 List<TOrderItem> torderItemlist = new List<TOrderItem>() { item1,item2,item3};
-                TokenOrder = new TTokenOrder().Spawn(EOrderType.SpawnEvent, torderItemlist, spawnPos, _chunkNum);
+                TokenOrder = orderMaker.MakeOrder(EOrderType.SpawnEvent, torderItemlist, _chunkNum);
                 break;
             case EQuestType.SpawnMonster:
                 //어떤 몬스터를 얼마나 어떤식으로 소환할지 필요
                 TOrderItem monster1 = new TOrderItem((int)ETokenGroup.Event, 1, 3);
-               
                 List<TOrderItem> monsterOrderItemlist = new List<TOrderItem>() {monster1};
-                TokenOrder = new TTokenOrder().Spawn(EOrderType.SpawnMonster, monsterOrderItemlist, spawnPos, _chunkNum);
+                TokenOrder = orderMaker.MakeOrder(EOrderType.SpawnMonster, monsterOrderItemlist, _chunkNum);
                 break;
         }
         
