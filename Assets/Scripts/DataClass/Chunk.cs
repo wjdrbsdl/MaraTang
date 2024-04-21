@@ -17,23 +17,6 @@ public class Chunk
         ChunkNum = _num;
     }
 
-    public void MakeEventToken()
-    {
-        //수량 임시로 3
-        for (int i = 0; i < 3; i++)
-        {
-            int tempPid = i;
-            int tempValue = i + 1;
-
-            //0. 생성할 땅 찾고
-            int x = 0;
-            int y = i;
-            TokenTile tile = tiles[x, y];
-
-            MgToken.GetInstance().SpawnEvent(tile, tempPid);
-        }
-    }
-
     public void MakePin()
     {
         //1. 핀 요구
