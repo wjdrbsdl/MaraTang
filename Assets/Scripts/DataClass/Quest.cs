@@ -20,6 +20,7 @@ public class Quest : IOrderCustomer
     public int QuestPid = 0; //해당 퀘스트 pid mgContet 리스트에 추가되는 값으로 인덱스용
     public int RestWoldTurn = 3; //유지되는 기간 
     public int ChunkNum = 0;
+    public ContentData ContentData;
     public QuestCondition Condition; //수행 조건
     public RewardData Reward; //보상
     public PenaltyData Penalty;
@@ -31,12 +32,13 @@ public class Quest : IOrderCustomer
        
     }
 
-    public Quest(EQuestType _questType, ERewardType _rewardType, int _chunkNum)
+    public Quest(EQuestType _questType, ERewardType _rewardType, int _chunkNum, ContentData _contentData)
     {
-        QuestPid = MGContent.g_instance.m_questCount;
+        QuestPid = _contentData.ContentPid;
         ChunkNum = _chunkNum;
         //퀘스트 타입에 맞게 조건서 작성
-        Condition = new QuestCondition(_questType, _chunkNum);
+       // Condition = new QuestCondition(_questType, _chunkNum);
+        Condition = new QuestCondition(_contentData, _chunkNum);
         //퀘스트 조건의 주문서에 콜백 대상으로 자신을 할당 
         Condition.TokenOrder.SetOrderCustomer(this);
         //보상 타입에 맞게 보상내용 작성
@@ -193,6 +195,12 @@ public class QuestCondition
                 break;
         }
         
+    }
+
+    public QuestCondition(ContentData _questType, int _chunkNum)
+    {
+        OrderMaker orderMaker = new();
+        TokenOrder = orderMaker.MakeOrder(_questType.ConditionType, _questType.MainItemList, _chunkNum);
     }
 
 }

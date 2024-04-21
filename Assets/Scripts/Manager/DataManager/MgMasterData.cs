@@ -62,6 +62,19 @@ public class MgMasterData : Mg<MgMasterData>
         return m_eventDataDic[_eventPID];
     }
 
+    public ContentData GetContentData(int _contentPID)
+    {
+        return GetDicData<ContentData>(m_contentDataDic, _contentPID);
+    }
+
+    private T1 GetDicData<T1>(Dictionary<int, T1> _dic, int _pid)
+    {
+        if (_dic.ContainsKey(_pid))
+            return _dic[_pid];
+
+        return default(T1);
+    }
+
     public bool CheckPID(EMasterData _dataType, int pid)
     {
         bool isHaveData = false;
