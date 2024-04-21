@@ -41,7 +41,7 @@ public class OrderExcutor
                 ExcuteSpawnMonster(_order);
                 break;
             case EOrderType.SpawnEvent:
-                ExcuteSpawnEvent(_order, orderType);
+                ExcuteSpawnEvent(_order);
                 break;
         }
     }
@@ -77,7 +77,7 @@ public class OrderExcutor
         }
 
     }
-    private void ExcuteSpawnEvent(TTokenOrder _order, EOrderType _spawnType)
+    private void ExcuteSpawnEvent(TTokenOrder _order)
     {
         List<TOrderItem> eventOrderList = _order.orderItemList; //할당된 아이템 
         //1. itemList들을 eventToken에 Count만큼씩 할당
@@ -91,7 +91,9 @@ public class OrderExcutor
             int tokenPid = spawnEventOrder.SubIdx;
             //2. 스폰 장소 
             int[] spawnPos = spawnPosList[orderNum];
-            //3. 스폰 진행
+            //3. 이벤트 타입 - 해당 이벤트 입장시 할당받은 아이템으로 뭘할건지 정하기 
+            int orderType =  spawnEventOrder.Value;
+            //4. 스폰 진행
             _order.OrderExcuteCount += 1; //작업한 수 올리고
             TokenEvent spawnToken = MgToken.GetInstance().SpawnEvent(spawnPos, tokenPid);
 
