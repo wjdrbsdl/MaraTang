@@ -178,7 +178,6 @@ public class MgToken : MgGeneric<MgToken>
         TokenEvent masterEvent = MgMasterData.GetInstance().GetEventData(_eventPid);
         //2. 새로운 복사 토큰 생성
         TokenEvent madeEventToken = TokenEvent.CopyToken(masterEvent);
-        madeEventToken.MakeEventContent();
         //3. 오브젝트 생성
         ObjectTokenBase eventObj = Instantiate(m_eventGO);
         //4. 오브젝트에 토큰 정보 할당

@@ -38,26 +38,27 @@ public class OrderExcutor
                 MgUI.GetInstance().ShowItemList(_order);
                 break;
             case EOrderType.SpawnMonster:
+                ExcuteSpawnMonster(_order);
+                break;
             case EOrderType.SpawnEvent:
-                OrderSpawnToken(_order, orderType);
+                ExcuteSpawnEvent(_order, orderType);
                 break;
         }
     }
 
     #region 오더 집행
  
-    private void OrderSpawnToken(TTokenOrder _order, EOrderType _spawnType)
+    private void ExcuteSpawnMonster(TTokenOrder _order)
     {
-        List<int> charList = _order.subIdxList;
-        List<int> spawnCountList = _order.valueList;
+        List<TOrderItem> charItemList = _order.orderItemList;
         ESpawnPosType spawnPosType = _order.SpawnPosType;
         int chunkNum = _order.ChunkNum;
-        for (int orderNum = 0; orderNum < charList.Count; orderNum++)
+        for (int orderNum = 0; orderNum < charItemList.Count; orderNum++)
         {
             //1. 스폰할 몬스터
-            int tokenPid = charList[orderNum];
+            int tokenPid = charItemList[orderNum].SubIdx;
             //2. 스폰할 갯수 
-            int spawnCount = spawnCountList[orderNum];
+            int spawnCount = charItemList[orderNum].Value;
             //3. 스폰 장소 - 청크 최대 숫자중, 스폿 카운트 만큼 뽑기 진행
             List<int[]> spawnPosList = GameUtil.GetSpawnPos(spawnPosType, spawnCount, chunkNum);
             //4. 스폰 진행
@@ -66,10 +67,9 @@ public class OrderExcutor
                 _order.OrderExcuteCount += 1;
                 int[] spawnCoord = spawnPosList[i];
                 TokenBase spawnToken = null;
-                if(_spawnType.Equals(EOrderType.SpawnMonster))
-                    spawnToken = MgToken.GetInstance().SpawnCharactor(spawnCoord, tokenPid); //월드 좌표로 pid 토큰 스폰 
-                else if (_spawnType.Equals(EOrderType.SpawnEvent))
-                    spawnToken = MgToken.GetInstance().SpawnEvent(spawnCoord, tokenPid);
+              
+                spawnToken = MgToken.GetInstance().SpawnCharactor(spawnCoord, tokenPid); //월드 좌표로 pid 토큰 스폰 
+           
 
                 CallBackOrder(spawnToken, _order); //스폰된 토큰과 주문서로 고객에게 콜백
             }
@@ -77,22 +77,30 @@ public class OrderExcutor
         }
 
     }
-
-    private void CallBackOrder(TokenBase _token, TTokenOrder _order)
+    private void ExcuteSpawnEvent(TTokenOrder _order, EOrderType _spawnType)
     {
-        //1. 주문서 고객 정보 있는지 체크
-        IOrderCustomer customer = _order.OrderCustomer;
-        //2. 고객 정보 없으면 종료
-        if (customer == null)
-            return;
-        //3. 완료된 토큰으로 영수증을 만들고
-         OrderReceipt recipt = new(_token, _order);
-        //4. 고객에게 콜백 보냄
-        customer.OnOrderCallBack(recipt); //고객에게 호출
-    }
-    #endregion
+        List<TOrderItem> eventOrderList = _order.orderItemList; //할당된 아이템 
+        //1. itemList들을 eventToken에 Count만큼씩 할당
+        ESpawnPosType spawnPosType = _order.SpawnPosType;
+        int chunkNum = _order.ChunkNum;
+        List<int[]> spawnPosList = GameUtil.GetSpawnPos(spawnPosType, eventOrderList.Count, chunkNum);
+        for (int orderNum = 0; orderNum < eventOrderList.Count; orderNum++)
+        {
+            TOrderItem spawnEventOrder = eventOrderList[orderNum]; //스폰하려는 이벤트 호출 - pid, value는 내부오더만들때 쓰임
+            //1. 스폰할 이벤트
+            int tokenPid = spawnEventOrder.SubIdx;
+            //2. 스폰 장소 
+            int[] spawnPos = spawnPosList[orderNum];
+            //3. 스폰 진행
+            _order.OrderExcuteCount += 1; //작업한 수 올리고
+            TokenEvent spawnToken = MgToken.GetInstance().SpawnEvent(spawnPos, tokenPid);
 
-    #region 오더 아이템 선택시
+            CallBackOrder(spawnToken, _order); //스폰된 토큰과 주문서로 고객에게 콜백
+
+
+        }
+
+    }
     public void ExcuteOrderItem(TOrderItem _orderItem)
     {
         ETokenGroup tokenGroup = (ETokenGroup)_orderItem.MainIdx;
@@ -110,9 +118,22 @@ public class OrderExcutor
                 break;
             case ETokenGroup.ActionToken:
                 break;
-            
+
         }
     }
+    private void CallBackOrder(TokenBase _token, TTokenOrder _order)
+    {
+        //1. 주문서 고객 정보 있는지 체크
+        IOrderCustomer customer = _order.OrderCustomer;
+        //2. 고객 정보 없으면 종료
+        if (customer == null)
+            return;
+        //3. 완료된 토큰으로 영수증을 만들고
+         OrderReceipt recipt = new(_token, _order);
+        //4. 고객에게 콜백 보냄
+        customer.OnOrderCallBack(recipt); //고객에게 호출
+    }
+    
     #endregion
 }
 
@@ -133,10 +154,7 @@ public enum GiveMethod
     Fixed, Selecet
 }
 
-public enum ETokenGroup
-{
-    None, CharStat, ActionToken, GamePlay, Capital
-}
+
 
 public struct TTokenOrder
 {
@@ -144,59 +162,23 @@ public struct TTokenOrder
     public ESpawnPosType SpawnPosType;
     public IOrderCustomer OrderCustomer;
     public List<TOrderItem> orderItemList;
-    public List<int> subIdxList;
-    public List<int> valueList;
     public int ChunkNum; //아무 지정이 아니면 - 1
     public int OrderExcuteCount;
 
-    //필드에 소환시키는 타입 주문서
-    public TTokenOrder Spawn(EOrderType _spawnType, int _spawnPid, int _spawnCount, ESpawnPosType _spawnPosType, int _chunkNum = MGContent.NO_CHUNK_NUM)
+    public TTokenOrder Spawn(EOrderType _orderType, List<TOrderItem> _charList, ESpawnPosType _spawnPosType, int _chunkNum = MGContent.NO_CHUNK_NUM)
     {
         TTokenOrder order = new();
-        order.subIdxList = new List<int>();
-        order.subIdxList.Add(_spawnPid);
-        order.valueList = new List<int>();
-        order.valueList.Add(_spawnCount);
-        order.OrderType = _spawnType;
-        order.SpawnPosType = _spawnPosType;
-        order.ChunkNum = _chunkNum;
-        OrderCustomer = null;
-        return order;
-    }
-    public TTokenOrder Spawn(EOrderType _spawnType, List<int> _spawnPid, List<int> _spawnCount, ESpawnPosType _spawnPosType, int _chunkNum = MGContent.NO_CHUNK_NUM)
-    {
-        TTokenOrder order = new();
-        order.subIdxList = new List<int>(_spawnPid);
-        order.valueList = new List<int>(_spawnCount);
-        order.OrderType = _spawnType;
+        order.orderItemList = _charList;
+        order.OrderType = _orderType;
         order.SpawnPosType = _spawnPosType;
         order.ChunkNum = _chunkNum;
         OrderCustomer = null;
         return order;
     }
 
-    //선택
-    public TTokenOrder Select(EOrderType _type, TOrderItem orderItem, int _chunkNum = MGContent.NO_CHUNK_NUM)
-    {
-        TTokenOrder order = new();
-        order.subIdxList = new();
-        order.valueList = new();
-        order.orderItemList = new();
-
-        order.orderItemList.Add(orderItem);
-        order.OrderType = _type;
-        order.SpawnPosType = ESpawnPosType.Random;
-
-        order.ChunkNum = _chunkNum;
-        order.OrderCustomer = null;
-
-        return order;
-    }
     public TTokenOrder Select(EOrderType _type, List<TOrderItem> _orderItemList, int _chunkNum = MGContent.NO_CHUNK_NUM)
     {
         TTokenOrder order = new();
-        order.subIdxList = new List<int>();
-        order.valueList = new List<int>();
         order.orderItemList = new List<TOrderItem>(_orderItemList);
         order.OrderType = _type;
         order.SpawnPosType = ESpawnPosType.Random;
@@ -213,12 +195,24 @@ public struct TTokenOrder
 
 }
 
+public enum ETokenGroup
+{
+    None, CharStat, ActionToken, GamePlay, Capital, Charactor, Event
+}
+
 public struct TOrderItem
 {
     //주문서 내부의 개별 아이템 항목 정보
     public ETokenGroup MainIdx;
     public int SubIdx;
     public int Value;
+
+    public TOrderItem (int _tokenGroup, int _subIdx, int _value)
+    {
+        MainIdx = (ETokenGroup)_tokenGroup;
+        SubIdx = _subIdx;
+        Value = _value;
+    }
 
     public TOrderItem WriteCharItem(CharStat _charIdx, int _value)
     {

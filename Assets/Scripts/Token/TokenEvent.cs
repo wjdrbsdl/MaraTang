@@ -82,17 +82,16 @@ public class TokenEvent : TokenBase, IOrderCustomer
         MgToken.GetInstance().RemoveCharToken(this);
     }
 
-    public void MakeEventContent()
+    public void MakeEventContent(EOrderType _orderType, List<TOrderItem> _itemList)
     {
-        //현재 이벤트의 PID와 지정된 값에 따라서 컨텐츠 생성
-        //일단 지정된 itemPid 하나를 제공하는 걸로 
-        ETokenGroup itemGroup = (ETokenGroup)GetStat(EventStat.ETokenType);
-        int itemPID = GetStat(EventStat.ItemPID);
-        GiveMethod giveMethod = (GiveMethod)GetStat(EventStat.GiveMethod);
-        Debug.Log(itemGroup + "의 " + itemPID + "를 " + giveMethod + "방식으로 진행");
-        int tempCount = 3;
-        ESpawnPosType tempSpawnPos = ESpawnPosType.Random;
-        TokenOrder = new TTokenOrder().Spawn(EOrderType.SpawnMonster, itemPID, tempCount, tempSpawnPos, GameUtil.GetMainCharChunkNum());
+        //현재 이벤트의 PID와 지정된 값에 따라서 TTokenOrder 생성
+       
+        if (_orderType.Equals(EOrderType.SpawnMonster))
+        {
+            //취급하는 그룹이 캐릭터인경우 - 캐릭터 스폰 주문서로 생성
+            TokenOrder = new TTokenOrder().Spawn(EOrderType.SpawnMonster, _itemList, ESpawnPosType.Random, GameUtil.GetMainCharChunkNum());
+        }
+        
         TokenOrder.SetOrderCustomer(this);
     }
 
