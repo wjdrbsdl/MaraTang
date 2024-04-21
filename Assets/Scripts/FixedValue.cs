@@ -73,6 +73,7 @@ public static class FixedValue
 
     #region String
     public static string
+        PARSING_DIVIDE = "_",
         MOUSE_LAYER = "Mouse",
         NODE_BUILD_LAYER = "NodeBuild",
         NODE_MOVE_LAYER = "NodeMove",
@@ -82,9 +83,11 @@ public static class FixedValue
         FOLDER_PATH_SKILL_ICON = "SkillIcon/",
         FOLDER_PATH_CROP_PREFEB = "CropPrefeb/",
         FOLDER_PATH_CROP_ICON = "CropIcon/";
+
     #endregion
 
     public static int[,] ABSOLUTE_DIRECTION = { { 0, 1 }, { 1, 0 }, { 0, -1 }, { -1, 0 } }; //상우하좌 순서로, 상대좌표를 정의 해놓음. 
     public static int[] No_PARENT_POS = { -1, -1 };
     public static float[,] ROOT_POS = { { -1,1}};
+
 }

@@ -10,6 +10,7 @@ public class MgMasterData : Mg<MgMasterData>
     private Dictionary<int, TokenAction> m_tileActionDataDic;
     private Dictionary<int, TokenAction> m_charActionDataDic;
     private Dictionary<int, TokenEvent> m_eventDataDic;
+    private Dictionary<int, ContentData> m_contentDataDic;
     public static char DIVIDECHAR = '_';
     #region 생성자
     public MgMasterData()
@@ -27,6 +28,7 @@ public class MgMasterData : Mg<MgMasterData>
         SetCharActionData();
         SetCharData();
         SetEventData();
+        SetContentData();
     }
 
     public override void ReferenceSet()
@@ -122,6 +124,17 @@ public class MgMasterData : Mg<MgMasterData>
         {
             TokenEvent masterEvent = new(parseData.MatchCode, parseData.DbValueList[i]);
             m_eventDataDic.Add(masterEvent.GetPid(), masterEvent);
+        }
+    }
+
+    private void SetContentData()
+    {
+        m_contentDataDic = new();
+        ParseData parseData = MgParsing.GetInstance().GetMasterData(EMasterData.ContentData);
+        for (int i = 0; i < parseData.DbValueList.Count; i++)
+        {
+            ContentData masterContent = new ContentData(parseData.DbValueList[i]);
+            m_contentDataDic.Add(masterContent.ContentPid, masterContent);
         }
     }
 
