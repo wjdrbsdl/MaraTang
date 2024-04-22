@@ -153,11 +153,13 @@ public enum QuestType
 public class QuestCondition : IOrderCustomer
 {
     //퀘스트 조건
+    public int QuestPid;
     public EQuestType QuestType;
     public TTokenOrder TokenOrder;
 
     public QuestCondition(ContentData _questType, int _chunkNum)
     {
+        QuestPid = _questType.ContentPid;
         OrderMaker orderMaker = new();
         TokenOrder = orderMaker.MakeOrder(_questType.ConditionType, _questType.ConditionMainItemList, this, _chunkNum);
     }
@@ -177,12 +179,11 @@ public class QuestCondition : IOrderCustomer
         if (madeToken.GetTokenType().Equals(TokenType.Event))
         {
             Debug.Log("이벤트 타입이므로 조금더 작업필요");
-            //몬스터를 소환하는 걸 만들어서
-            TOrderItem monster1 = new TOrderItem((int)ETokenGroup.Charactor, 2, 3);
-            List<TOrderItem> monsterOrderItemlist = new List<TOrderItem>() { monster1 };
+            int excuteCount = _orderReceipt.Order.OrderExcuteCount; //수행된 작업 - 해당 작업으로 main과 sub itemList 매치
+            List<TOrderItem> SubItemlist = MgMasterData.GetInstance().GetContentData(QuestPid).ConditionSubItemList[excuteCount-1]; //생성된 카운트가 넘어오므로 -1을 해줘야 기존 idx와 매치
             //만들어진 토큰 이벤트로 형변환후
             TokenEvent eventToken = (TokenEvent)madeToken;
-            eventToken.MakeEventContent(EOrderType.SpawnMonster, monsterOrderItemlist);
+            eventToken.MakeEventContent(EOrderType.SpawnMonster, SubItemlist);
         }
     }
 }
