@@ -17,11 +17,8 @@ public class UIQuest : UIBase
 
     private void SetConditionInfo(QuestCondition _condition)
     {
-        string conStr = "";
-        if (_condition.monsterCount > 0)
-        {
-            conStr += _condition.monsterPID + " 몬스터 " + _condition.monsterCount + " 처치";
-        }
+        string conStr = "컨텐츠데이터로 다시 정보 세팅할 필요 있다.";
+  
         m_conditionText.text = conStr;
     }
 
