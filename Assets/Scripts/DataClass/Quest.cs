@@ -171,6 +171,7 @@ public class QuestCondition : IOrderCustomer
         TokenBase madeToken = _orderReceipt.MadeToken;
         if (madeToken == null)
             return;
+        ContentData contentData = MgMasterData.GetInstance().GetContentData(QuestPid);
 
         //컨디션, 페널티 등 각 항문에서 자신의 주문으로 만들어진 토큰들 행태를 추적하며 조건 추적. 
         //madeToken.SetQuest(this);
@@ -178,12 +179,18 @@ public class QuestCondition : IOrderCustomer
 
         if (madeToken.GetTokenType().Equals(TokenType.Event))
         {
-            Debug.Log("이벤트 타입이므로 조금더 작업필요");
+            
             int excuteCount = _orderReceipt.Order.OrderExcuteCount; //수행된 작업 - 해당 작업으로 main과 sub itemList 매치
-            List<TOrderItem> SubItemlist = MgMasterData.GetInstance().GetContentData(QuestPid).ConditionSubItemList[excuteCount-1]; //생성된 카운트가 넘어오므로 -1을 해줘야 기존 idx와 매치
+            EOrderType orderType = (EOrderType)contentData.ConditionMainItemList[excuteCount - 1].Value;
+            Debug.Log("이벤트 타입이므로 조금더 작업필요 " + orderType);
+            //컨텐트 마스터 데이터에 서브 아이템 리스트 값이 없으면 패스 
+            if (contentData.ConditionSubItemList == null || excuteCount - 1 > contentData.ConditionSubItemList.Count)
+                return;
+
+            List<TOrderItem> SubItemlist = contentData.ConditionSubItemList[excuteCount-1]; //생성된 카운트가 넘어오므로 -1을 해줘야 기존 idx와 매치
             //만들어진 토큰 이벤트로 형변환후
             TokenEvent eventToken = (TokenEvent)madeToken;
-            eventToken.MakeEventContent(EOrderType.SpawnMonster, SubItemlist);
+            eventToken.MakeEventContent(orderType, SubItemlist);
         }
     }
 }
