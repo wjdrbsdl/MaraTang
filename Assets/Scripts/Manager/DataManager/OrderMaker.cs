@@ -5,7 +5,7 @@ public class OrderMaker
 {
     //T 주문서내용을 받으면 내용을 해석해서 집행시키는 부분. 
 
-    public TTokenOrder MakeOrder(EOrderType _orderType, List<TOrderItem> _orderItemList, int _chunkNum = MGContent.NO_CHUNK_NUM)
+    public TTokenOrder MakeOrder(EOrderType _orderType, List<TOrderItem> _orderItemList, IOrderCustomer _customer = null, int _chunkNum = MGContent.NO_CHUNK_NUM)
     {
         TTokenOrder madeOrder = new();
 
@@ -22,7 +22,7 @@ public class OrderMaker
                 break;
         }
 
-
+        madeOrder.SetOrderCustomer(_customer);
         return madeOrder;
     }
 

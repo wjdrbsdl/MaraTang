@@ -87,8 +87,7 @@ public class TokenEvent : TokenBase, IOrderCustomer
         //현재 이벤트의 PID와 지정된 값에 따라서 TTokenOrder 생성
         //오더 메이커에서 일괄적으로 처리 
         OrderMaker orderMaker = new();
-        TokenOrder = orderMaker.MakeOrder(_orderType, _itemList, GameUtil.GetMainCharChunkNum());
-        TokenOrder.SetOrderCustomer(this);
+        TokenOrder = orderMaker.MakeOrder(_orderType, _itemList, this, GameUtil.GetMainCharChunkNum());
     }
 
     public void OnOrderCallBack(OrderReceipt _orderReceipt) //이벤트 토큰 고객
