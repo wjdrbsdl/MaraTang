@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class RewardData 
+public class RewardData : IOrderCustomer
 {
     public ERewardType RewardType; //보상계열에 따라 주문서 orderType의 방식이 달라지도록? 
     public TTokenOrder RewardOrder;
@@ -20,5 +20,10 @@ public class RewardData
         List<TOrderItem> orderList = new List<TOrderItem>() { charItem, capitalItem, actionItem};
 
         RewardOrder = new TTokenOrder().Select(EOrderType.ItemSelect, orderList, _chunkNum);
+    }
+
+    public void OnOrderCallBack(OrderReceipt _orderReceipt) //리워드 고객
+    {
+        Debug.Log("리워드 고객");
     }
 }

@@ -12,7 +12,7 @@ public enum ERewardType
    None, CharStat, Capital, ActionToken, EventToken, CharToken
 }
 
-public class Quest : IOrderCustomer
+public class Quest 
 {
     //과제
     //클리어조건
@@ -37,10 +37,7 @@ public class Quest : IOrderCustomer
         QuestPid = _contentData.ContentPid;
         ChunkNum = _chunkNum;
         //퀘스트 타입에 맞게 조건서 작성
-       // Condition = new QuestCondition(_questType, _chunkNum);
         Condition = new QuestCondition(_contentData, _chunkNum);
-        //퀘스트 조건의 주문서에 콜백 대상으로 자신을 할당 
-        Condition.TokenOrder.SetOrderCustomer(this);
         //보상 타입에 맞게 보상내용 작성
         Reward = new RewardData(_rewardType, _chunkNum); //임시로 자원 보상
         Penalty = new PenaltyData();
@@ -81,6 +78,7 @@ public class Quest : IOrderCustomer
     {
         MonsterDie, EventActive
     }
+
     public void SendQuestCallBack(TokenBase _token)
     {
         //각 토큰에서 개별적으로 자신의 상태를 콜백함. 
@@ -152,55 +150,39 @@ public enum QuestType
     Battle, Action, Item
 }
 
-public class QuestCondition
+public class QuestCondition : IOrderCustomer
 {
     //퀘스트 조건
     public EQuestType QuestType;
     public TTokenOrder TokenOrder;
-    public int monsterPID;
-    public int monsterCount;
-
-    //수행해야할 액션 조건
-
-    //득템해야할 아이템 조건
-
-    public QuestCondition(int _monsterPID, int _monsterCount)
-    {
-        monsterPID = _monsterPID;
-        monsterCount = _monsterCount;
-    }
-
-    public QuestCondition(EQuestType _questType, int _chunkNum)
-    {
-        //퀘스트 타입에 따라서 조건 내용을 채우기 
-        QuestType = _questType;
-        ESpawnPosType spawnPos = ESpawnPosType.Random;
-        OrderMaker orderMaker = new();
-        switch (_questType)
-        {
-            //이벤트토큰 생성하는 경우
-            case EQuestType.SpawnEvent:
-                //이하 OrderItem 정보들은 parsingData에서 가져올것
-                TOrderItem item1 = new TOrderItem((int)ETokenGroup.Event, 1, (int)EOrderType.SpawnEvent);
-                TOrderItem item2 = new TOrderItem((int)ETokenGroup.Event, 1, (int)EOrderType.SpawnEvent);
-                TOrderItem item3 = new TOrderItem((int)ETokenGroup.Event, 1, (int)EOrderType.SpawnEvent);
-                List<TOrderItem> torderItemlist = new List<TOrderItem>() { item1,item2,item3};
-                TokenOrder = orderMaker.MakeOrder(EOrderType.SpawnEvent, torderItemlist, _chunkNum);
-                break;
-            case EQuestType.SpawnMonster:
-                //어떤 몬스터를 얼마나 어떤식으로 소환할지 필요
-                TOrderItem monster1 = new TOrderItem((int)ETokenGroup.Event, 1, 3);
-                List<TOrderItem> monsterOrderItemlist = new List<TOrderItem>() {monster1};
-                TokenOrder = orderMaker.MakeOrder(EOrderType.SpawnMonster, monsterOrderItemlist, _chunkNum);
-                break;
-        }
-        
-    }
 
     public QuestCondition(ContentData _questType, int _chunkNum)
     {
         OrderMaker orderMaker = new();
-        TokenOrder = orderMaker.MakeOrder(_questType.ConditionType, _questType.MainItemList, _chunkNum);
+        TokenOrder = orderMaker.MakeOrder(_questType.ConditionType, _questType.ConditionMainItemList, this, _chunkNum);
     }
 
+    public void OnOrderCallBack(OrderReceipt _orderReceipt) //조건 고객
+    {
+        Debug.Log("조건 고객");
+        //오더익스큐터로 생성된 토큰들을 콜백받으면 거기에 자신을 할당 
+        TokenBase madeToken = _orderReceipt.MadeToken;
+        if (madeToken == null)
+            return;
+
+        //컨디션, 페널티 등 각 항문에서 자신의 주문으로 만들어진 토큰들 행태를 추적하며 조건 추적. 
+        //madeToken.SetQuest(this);
+        //QuestTokens.Add(madeToken);
+
+        if (madeToken.GetTokenType().Equals(TokenType.Event))
+        {
+            Debug.Log("이벤트 타입이므로 조금더 작업필요");
+            //몬스터를 소환하는 걸 만들어서
+            TOrderItem monster1 = new TOrderItem((int)ETokenGroup.Charactor, 2, 3);
+            List<TOrderItem> monsterOrderItemlist = new List<TOrderItem>() { monster1 };
+            //만들어진 토큰 이벤트로 형변환후
+            TokenEvent eventToken = (TokenEvent)madeToken;
+            eventToken.MakeEventContent(EOrderType.SpawnMonster, monsterOrderItemlist);
+        }
+    }
 }
