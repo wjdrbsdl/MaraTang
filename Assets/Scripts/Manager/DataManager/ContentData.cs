@@ -8,6 +8,7 @@ public class ContentData
     public EOrderType ConditionType;
     public List<TOrderItem> ConditionMainItemList;
     public List<List<TOrderItem>> ConditionSubItemList;
+    public ERewardType RewardType;
     public List<TOrderItem> RewardMainItemList;
     public List<TOrderItem> RewardSubItemList;
     public List<TOrderItem> PenaltyMainItemList;
