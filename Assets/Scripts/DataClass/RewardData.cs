@@ -22,6 +22,24 @@ public class RewardData : IOrderCustomer
         RewardOrder = new TTokenOrder().Select(EOrderType.ItemSelect, orderList, _chunkNum);
     }
 
+    public RewardData(ContentData _contentData, int _chunkNum = MGContent.NO_CHUNK_NUM) //어떠한 데이트가 들어오면 거기에 맞게 보상 설정. 
+    {
+        RewardType = _contentData.RewardType;
+        if (RewardType.Equals(ERewardType.None))
+            return;
+
+        EOrderType orderType = EOrderType.None;
+        switch (RewardType)
+        {
+            //리워드 타입에 따라서 OrderType 맞춰서 세팅 
+        }
+
+        OrderMaker orderMaker = new();
+        RewardOrder = orderMaker.MakeOrder(orderType, _contentData.RewardMainItemList, this, _chunkNum);
+        
+    }
+
+
     public void OnOrderCallBack(OrderReceipt _orderReceipt) //리워드 고객
     {
         Debug.Log("리워드 고객");
