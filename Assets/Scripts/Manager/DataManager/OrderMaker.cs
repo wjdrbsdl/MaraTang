@@ -20,6 +20,9 @@ public class OrderMaker
             case EOrderType.SpawnMonster:
                 madeOrder = new TTokenOrder().Spawn(EOrderType.SpawnMonster, _orderItemList, spawnPos, _chunkNum);
                 break;
+            default:
+                madeOrder = new TTokenOrder().Select(_orderType, _orderItemList, _chunkNum);
+                break;
         }
 
         madeOrder.SetOrderCustomer(_customer);
