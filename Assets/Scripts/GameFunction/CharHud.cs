@@ -42,12 +42,12 @@ public class CharHud : MonoBehaviour
         return isIn;
     }
 
-    public void SetHp(TokenBase _base)
+    public void SetHp(TokenBase _targetToken)
     {
-        m_token = _base;
-        m_target = _base.GetObject().gameObject;
-        float curHp = _base.GetStat(CharStat.CurHp);
-        float maxHp = _base.GetStat(CharStat.MaxHp);
+        m_token = _targetToken;
+        m_target = _targetToken.GetObject().gameObject;
+        float curHp = _targetToken.GetStat(CharStat.CurHp);
+        float maxHp = _targetToken.GetStat(CharStat.MaxHp);
         float ratio = curHp / maxHp;
 
         m_hpBar.fillAmount = ratio;

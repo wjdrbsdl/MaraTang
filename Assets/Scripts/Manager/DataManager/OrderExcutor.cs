@@ -181,7 +181,7 @@ public struct TTokenOrder
     public TTokenOrder Select(EOrderType _type, List<TOrderItem> _orderItemList, int _chunkNum)
     {
         TTokenOrder order = new();
-        order.orderItemList = new List<TOrderItem>(_orderItemList);
+        order.orderItemList = _orderItemList;
         order.OrderType = _type;
         order.SpawnPosType = ESpawnPosType.Random;
         order.ChunkNum = _chunkNum;
