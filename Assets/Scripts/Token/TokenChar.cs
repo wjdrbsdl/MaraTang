@@ -26,7 +26,7 @@ public class TokenChar : TokenBase
 
     }
 
-    //마스터 캐릭 생성
+    //마스터 캐릭데이터 생성
     public TokenChar(List<int[]> matchCode, string[] valueCode)
     {
         m_tokenPid = int.Parse(valueCode[0]); //시트 데이터상 0번째는 pid
@@ -54,7 +54,7 @@ public class TokenChar : TokenBase
         }
     }
 
-    //복사본 캐릭 생성
+    //복사본 캐릭 생성 : 캐릭터 스폰 시 사용
     public TokenChar(TokenChar _masterToken)
     {
         m_tokenPid = _masterToken.m_tokenPid;
