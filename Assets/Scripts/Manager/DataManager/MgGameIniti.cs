@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MgGame : MgGeneric<MgGame>
+public class MgGameIniti : MgGeneric<MgGameIniti>
 {
     //인게임에서 게임의 시작(로드) 저장 흐름을 제어.
 
@@ -97,39 +97,43 @@ public class MgGame : MgGeneric<MgGame>
     #region 1. 매니저 세팅
     Queue<Action> initiManagerStack; 
 
-    private void InputWorkStep(Action _do)
+    private void InitiDataManager()
+    {
+        //스택 만들고
+        initiManagerStack = new();
+        //순서대로 initi. 
+        //초기화 작업이 비동기로 진행되는 경우 PlayMgInitiWorkStep을 해당 InitiSet에서 별도 호출
+        
+        //1. 데이터 파싱
+        InputDataMGWorkStep(delegate { m_parseManager.InitiSet(); });
+        //2. 마스터 데이터 생성 
+        InputDataMGWorkStep(delegate { m_MasterDataManager = new MgMasterData(); PlayMgInitiWorkStep("기본데이터 생성 끝"); });
+        //3. 이후 순서 무관
+        InputDataMGWorkStep(delegate { m_loadManager.InitiSet(); PlayMgInitiWorkStep("mg로드끝"); });
+
+        InputDataMGWorkStep(delegate { m_tokenManager.InitiSet(); PlayMgInitiWorkStep("mg토큰끝"); });
+
+        InputDataMGWorkStep(delegate { m_gamePlayMaster.InitiSet(); PlayMgInitiWorkStep("mg엠씨끝"); });
+        
+        InputDataMGWorkStep(delegate { m_playerManager.InitiSet(); PlayMgInitiWorkStep("mg플레이어셋끝"); });
+
+        InputDataMGWorkStep(delegate { m_soundManager.InitiSet(); PlayMgInitiWorkStep("mg사운드셋끝"); });
+
+        InputDataMGWorkStep(delegate { m_capitalManager.InitiSet(); PlayMgInitiWorkStep("mg자원셋끝"); });
+
+        InputDataMGWorkStep(delegate { m_naviManager.InitiSet(); PlayMgInitiWorkStep("mg네비셋끝"); });
+
+        InputDataMGWorkStep(delegate { contentManager = new MGContent(); PlayMgInitiWorkStep("컨텐츠 매니저 끝"); });
+
+        PlayMgInitiWorkStep("데이터 매니저 초기화 진행");
+    }
+
+    private void InputDataMGWorkStep(Action _do)
     {
         initiManagerStack.Enqueue(_do);
     }
 
-    private void InitiDataManager()
-    {
-        //
-        initiManagerStack = new();
-        //1. 파싱
-        InputWorkStep(delegate { m_parseManager.InitiSet(); });
-        //2. 데이터 생성 
-        InputWorkStep(delegate { m_MasterDataManager = new MgMasterData(); DoneInitiDataManager("기본데이터 생성 끝"); });
-        //3. 이후 순서 무관
-        InputWorkStep(delegate { m_loadManager.InitiSet(); DoneInitiDataManager("mg토큰끝"); });
-
-        InputWorkStep(delegate { m_tokenManager.InitiSet(); DoneInitiDataManager("mg토큰끝"); });
-
-        InputWorkStep(delegate { m_gamePlayMaster.InitiSet(); DoneInitiDataManager("mg엠씨끝"); });
-        
-        InputWorkStep(delegate { m_playerManager.InitiSet(); DoneInitiDataManager("mg플레이어셋끝"); });
-
-        InputWorkStep(delegate { m_soundManager.InitiSet(); DoneInitiDataManager("mg사운드셋끝"); });
-
-        InputWorkStep(delegate { m_capitalManager.InitiSet(); DoneInitiDataManager("mg자원셋끝"); });
-
-        InputWorkStep(delegate { m_naviManager.InitiSet(); DoneInitiDataManager("mg네비셋끝"); });
-
-        InputWorkStep(delegate { contentManager = new MGContent(); DoneInitiDataManager("컨텐츠 매니저 끝"); });
-
-        DoneInitiDataManager("파싱 시작");
-    }
-    public void DoneInitiDataManager(string message)
+    public void PlayMgInitiWorkStep(string message)
     {
       //  Debug.Log(message);
         if (initiManagerStack.Count >= 1)
