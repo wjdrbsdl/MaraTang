@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using AllIn1SpriteShader;
 public enum CharState
 {
     Idle, Move, Attack, Trace, Sleep
@@ -17,7 +18,7 @@ public class ObjectTokenBase : MonoBehaviour
     CharState m_state = CharState.Idle;
     public Animator m_animator;
     public int m_ClickPriority = 0;
-
+    public AllIn1Shader m_spriteMenu;
 
     public virtual void OnClickObject()
     {
@@ -50,6 +51,7 @@ public class ObjectTokenBase : MonoBehaviour
         SyncObjectPosition(m_token.GetXIndex(), m_token.GetYIndex());
     }
 
+    #region GetSet
     public virtual void SetObjectToken(TokenBase _token, TokenType _tokenType)
     {
         //토큰 타입에 따라 
@@ -101,6 +103,7 @@ public class ObjectTokenBase : MonoBehaviour
         //이 중 tokenType별로 할당된 클릭우선도에 따라 대상을 선택
         return m_ClickPriority;
     }
+    #endregion
 
     public void ShowActionIcon(ActionType _action)
     {
@@ -123,5 +126,10 @@ public class ObjectTokenBase : MonoBehaviour
         if (m_hud != null)
             m_hud.DestroyHud();
         gameObject.SetActive(false);
+    }
+
+    private void EffectCharObjEffect()
+    {
+     //   m_spriteMenu.
     }
 }

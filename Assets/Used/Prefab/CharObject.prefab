@@ -74,6 +74,7 @@ MonoBehaviour:
   m_actionIcon: {fileID: 3567145751671660146}
   m_animator: {fileID: 7595839899288092945}
   m_ClickPriority: 2
+  m_spriteMenu: {fileID: 5368942551661618141}
 --- !u!61 &3567145751458534854
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -111,6 +112,7 @@ GameObject:
   - component: {fileID: 3567145751476781231}
   - component: {fileID: 3567145751476781228}
   - component: {fileID: 3253874252701949117}
+  - component: {fileID: 5368942551661618141}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -153,7 +155,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -206,6 +208,22 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &5368942551661618141
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3567145751476781229}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee158225ee1e59f4791627785501d950, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shaderTypes: 0
+  normalStrength: 5
+  normalSmoothing: 1
+  computingNormal: 0
 --- !u!1 &3567145751671660147
 GameObject:
   m_ObjectHideFlags: 0
