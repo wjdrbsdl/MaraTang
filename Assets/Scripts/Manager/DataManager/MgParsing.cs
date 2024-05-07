@@ -48,7 +48,7 @@ public class MgParsing : MgGeneric<MgParsing>
     private void ParseSheetData()
     {
         StartCoroutine(GameUtil.GetSheetDataCo(docuIDes, sheetIDes,
-         delegate { MgGame.GetInstance().DoneInitiDataManager("ÆÄ½Ì¿Ï·á"); },
+         delegate { MgGameIniti.GetInstance().PlayMgInitiWorkStep("ÆÄ½Ì¿Ï·á"); },
          ClassfyDataBase));
     }
 
