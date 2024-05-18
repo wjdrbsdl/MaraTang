@@ -258,6 +258,12 @@ public class RuleBook
     }
 
     #region 타일 액션
+    public bool AbleOccupy(TokenTile _tile)
+    {
+        int ranIndex = UnityEngine.Random.Range(0, 2);
+        return (ranIndex == 0);
+    }
+
     public TokenAction[] RequestTileActions(TokenTile _tile)
     {
         //해당 타일을 가지고 가능한 액션을 뽑아줌. 
