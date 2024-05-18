@@ -22,4 +22,9 @@ public class BtnTileWorkShop : MonoBehaviour
         //해당 액션을 선택하면 
         PlayerManager.GetInstance().SelectTileAction(m_tile, m_workCode);
     }
+
+    public void SetActive(bool _on)
+    {
+        gameObject.SetActive(_on);
+    }
 }
