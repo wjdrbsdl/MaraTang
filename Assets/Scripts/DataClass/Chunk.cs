@@ -64,4 +64,20 @@ public class Chunk
             }
         }
     }
+
+    public int GetTileCount()
+    {
+        int x = tiles.GetLength(0);
+        int y = tiles.GetLength(1);
+        return x * y;
+    }
+
+    public TokenTile GetTileByIndex(int _index)
+    {
+        //몇행 몇열인지를 빼기. 
+        int xLength = tiles.GetLength(0);
+        int height = _index / xLength;
+        int width = _index % xLength;
+        return tiles[width,height];
+    }
 }
