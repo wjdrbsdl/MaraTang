@@ -11,8 +11,9 @@ public class UITileWorkShop : UIBase
     private BtnTileWorkShop m_workButtonSample;
     [SerializeField]
     private BtnTileWorkShop[] m_workButtones;
+    [SerializeField]
+    private BtnOccupy m_occupyButton; //토지 점령 버튼
 
-    
     public void SetTileWorkShopInfo(TokenTile _tile)
     {
         Switch(true);
@@ -26,6 +27,7 @@ public class UITileWorkShop : UIBase
         //버튼 세팅
         SetButtons(_selectedTile, tileWorks);
 
+        SetOccupyButton(_tile);
     }
 
     //타일 액션을 수행할 수 있는 캐릭이 안에 있어야 가능
@@ -45,13 +47,30 @@ public class UITileWorkShop : UIBase
         
         for (int i = 0; i < setCount; i++)
         {
-            m_workButtones[i].gameObject.SetActive(true);
+            m_workButtones[i].SetActive(true);
             m_workButtones[i].SetButtonInfo(_tile, _workes[i]);
         }
         for (int i = setCount; i < m_workButtones.Length; i++)
         {
-            m_workButtones[i].gameObject.SetActive(false);
+            m_workButtones[i].SetActive(false);
         }
     }
+
+    private void SetOccupyButton(TokenTile _tile)
+    {
+        // 점령 버튼 
+        //1.불가능하면 버튼 끄고 종료
+        if (GamePlayMaster.GetInstance().RuleBook.AbleOccupy(_tile) == false)
+        {
+            m_occupyButton.SetActive(false);
+            return;
+        }
+        //2. 가능하면 버튼 활성화
+        m_occupyButton.SetActive(true);
+        //3. 세팅
+        m_occupyButton.SetButton(_tile); 
+        
+    }
+
 
  }
