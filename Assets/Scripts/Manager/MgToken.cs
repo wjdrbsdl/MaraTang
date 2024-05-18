@@ -23,7 +23,7 @@ public class MgToken : MgGeneric<MgToken>
     public float m_padding = 1.05f;
     public int m_seed = 0;
     public float m_noise = 0.25f;
-   
+    
     public struct TMapBluePrint
     {
         public int t_xLength;
@@ -50,11 +50,10 @@ public class MgToken : MgGeneric<MgToken>
             t_hideTile = hideTile;
         }
     }
+    #endregion
+    #region 토큰들 - 마스터 토큰과 생성된 토큰 모두 관리 
     private TokenTile[,] m_tileTokenes; //현재 맵의 타일 토큰
     private HideTile[,] m_hideTiles;
-    #endregion
-
-    #region 토큰들 - 마스터 토큰과 생성된 토큰 모두 관리 
     private List<TokenChar> m_charList = new(); //현재 맵에 생성된 캐릭 토큰들
     private List<TokenEvent> m_eventList = new();
     #endregion

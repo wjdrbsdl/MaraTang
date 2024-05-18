@@ -128,6 +128,11 @@ public class TokenTile : TokenBase
         }
     }
 
+    public void Dye(Color _color)
+    {
+        GetObject().GetComponent<SpriteRenderer>().color = _color;
+    }
+
     #region 입장 이벤트
     public TokenEvent GetEneteranceEvent()
     {
