@@ -198,6 +198,11 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
         RuleBook.IntenseStat(_char, _stat);
     }
 
+    public void ClickOccupy(TokenTile _tile)
+    {
+        Debug.Log("해당 타일 눌렀다.");
+    }
+
     #endregion
 
     #region 이벤트 발생

@@ -13,7 +13,7 @@ public class BtnOccupy : MonoBehaviour
     }
     public void OnClickOccupy()
     {
-        PlayerManager.GetInstance().SelectOccupyTile(m_tile);
+       GamePlayMaster.GetInstance().ClickOccupy(m_tile);
     }
 
     public void SetActive(bool _on)
