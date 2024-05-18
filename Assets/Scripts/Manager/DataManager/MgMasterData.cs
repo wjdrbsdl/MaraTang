@@ -54,7 +54,7 @@ public class MgMasterData : Mg<MgMasterData>
 
     public TokenAction GetTileActions(int _actionPID)
     {
-        return m_tileActionDataDic[_actionPID];
+        return GetDicData<TokenAction>(m_tileActionDataDic, _actionPID);
     }
 
     public TokenEvent GetEventData(int _eventPID)
