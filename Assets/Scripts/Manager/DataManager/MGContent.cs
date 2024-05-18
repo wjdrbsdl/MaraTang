@@ -53,6 +53,7 @@ public class MGContent : Mg<MGContent>
         MgParsing.GetInstance().GetMasterData(EMasterData.ContentData);
         TileMaker maker = MgToken.GetInstance().m_tileMaker;
         m_chunkList = maker.MakeChunk(maker.DivideChunk(MgToken.GetInstance().m_chunkLength));
+        MakeNation();
     }
     #endregion
 
@@ -264,6 +265,25 @@ public class MGContent : Mg<MGContent>
 
     }
 
+    private void MakeNation()
+    {
+        //1. 생성할 국가 수를 뽑는다
+        int nationCount = 3;
+        //2. 국가 수 만큼 청크를 뽑는다.
+        List<int> randomIdx = GameUtil.GetRandomNum(m_chunkList.Count, nationCount);
+        //3. 청크 내에서 적당한 타일을 수도 타일로 바꾼다. 
+        for (int i = 0; i < nationCount; i++)
+        {
+            int chunkNum = randomIdx[i];
+            Chunk chunk = GetChunk(chunkNum);
+            int chunkTileCount = chunk.GetTileCount();
+            int randomTile = Random.Range(0, chunkTileCount);
+            TokenTile captialTile = chunk.GetTileByIndex(randomTile);
+            Debug.Log(chunkNum + "번 구역의 타일수는 " + chunkTileCount + "그 중 " + randomTile + "번째 타일을 수도화");
+            captialTile.ChangeTileType(TileType.Capital);
+        }
+    }
+
     public Chunk GetChunk(int _chunkNum)
     {
         //청크리스트가 널이거나 idx넘버가 범위 밖이라면 null 반환
@@ -272,5 +292,18 @@ public class MGContent : Mg<MGContent>
 
         return m_chunkList[_chunkNum];
     }
+
+    public int GetTileCountInChunk(int _chunkNum)
+    {
+        Chunk chunk = GetChunk(_chunkNum);
+
+        if (chunk == null)
+            return 0;
+
+        int x = chunk.tiles.GetLength(0);
+        int y = chunk.tiles.GetLength(1);
+        return x * y;
+    }
 }
+
 

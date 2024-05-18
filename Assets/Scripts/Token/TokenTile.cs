@@ -6,7 +6,7 @@ using TMPro;
 #region 타일 enum
 public enum TileType
 {
-    Nomal, Farm, Rock, Bake
+    Nomal, Town, Farm, Rock, Bake, Capital
 }
 
 public enum TileViewState
@@ -115,6 +115,17 @@ public class TokenTile : TokenBase
 
         if(_toState.Equals(TileViewState.Sight))
         GameUtil.GetHideTileFromMap(GetMapIndex()).FogOff();
+    }
+
+    public void ChangeTileType(TileType _tileType)
+    {
+        switch (_tileType)
+        {
+            case TileType.Capital:
+                tileType = _tileType;
+                SetSprite(MgToken.GetInstance().m_tilesSprite[2]);
+                break;
+        }
     }
 
     #region 입장 이벤트
