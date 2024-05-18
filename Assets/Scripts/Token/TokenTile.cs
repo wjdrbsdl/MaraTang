@@ -6,7 +6,7 @@ using TMPro;
 #region ≈∏¿œ enum
 public enum TileType
 {
-    Nomal, Town, Farm, Rock, Bake, Capital
+    Nomal, Town, Farm, Rock, Lake, Capital
 }
 
 public enum TileViewState
