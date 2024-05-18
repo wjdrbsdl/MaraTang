@@ -267,6 +267,9 @@ public class MGContent : Mg<MGContent>
 
     private void MakeNation()
     {
+        // 국가 매니저 초기화
+        MgNation mgNation = new();
+
         //1. 생성할 국가 수를 뽑는다
         int nationCount = 3;
         //2. 국가 수 만큼 청크를 뽑는다.
@@ -274,14 +277,21 @@ public class MGContent : Mg<MGContent>
         //3. 청크 내에서 적당한 타일을 수도 타일로 바꾼다. 
         for (int i = 0; i < nationCount; i++)
         {
+            //만들 구역 넘버
             int chunkNum = randomIdx[i];
             Chunk chunk = GetChunk(chunkNum);
             int chunkTileCount = chunk.GetTileCount();
+            //구역에서 만들 타일 위치 뽑기
             int randomTile = Random.Range(0, chunkTileCount);
-            TokenTile captialTile = chunk.GetTileByIndex(randomTile);
-            Debug.Log(chunkNum + "번 구역의 타일수는 " + chunkTileCount + "그 중 " + randomTile + "번째 타일을 수도화");
-            captialTile.ChangeTileType(TileType.Capital);
+            TokenTile capitalTile = chunk.GetTileByIndex(randomTile);
+            //Debug.Log(chunkNum + "번 구역의 타일수는 " + chunkTileCount + "그 중 " + randomTile + "번째 타일을 수도화");
+            //해당 구역 수도로 변환
+            capitalTile.ChangeTileType(TileType.Capital);
+            //새로운 국가 생성
+            MgNation.GetInstance().MakeNation(capitalTile);
         }
+        //디버그용
+        MgNation.GetInstance().AlarmNations();
     }
 
     public Chunk GetChunk(int _chunkNum)

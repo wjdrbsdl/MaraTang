@@ -249,6 +249,7 @@ MonoBehaviour:
   m_tilesSprite:
   - {fileID: 21300000, guid: 45cac9c14de5c40468374d98098db725, type: 3}
   - {fileID: 21300000, guid: fb79c51d441f6f64197e66a798873f6c, type: 3}
+  - {fileID: 21300000, guid: fa5189ad96980b245b2dbd61fbe67418, type: 3}
   m_hideSprite:
   - {fileID: 21300000, guid: f164718047793fe488a7226f5f35ebbf, type: 3}
   - {fileID: 21300000, guid: beaf8a8548d61ee4f95489d52b55312f, type: 3}
