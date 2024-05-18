@@ -171,7 +171,7 @@ public class TileTypeData{
     public TileTypeData(string[] _parsingData)
     {
         TypePID = int.Parse(_parsingData[0]);
-        string ables = _parsingData[1]; //가능한 작업이 나열되어있음
+        string ables = _parsingData[2]; //가능한 작업이 나열되어있음
         string[] divideAble = ables.Trim().Split(MgMasterData.DIVIDECHAR);
         AbleTileActionPID = new int[divideAble.Length];
         for (int i = 0; i < divideAble.Length; i++)
