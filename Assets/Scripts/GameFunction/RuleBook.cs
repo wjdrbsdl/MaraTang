@@ -292,27 +292,29 @@ public class RuleBook
     {
         TileActionType tileActionType = (TileActionType)_action.GetStat(TileActionStat.TileActionType);
         //tileActionType으로 행태 구별 
-        //1 채집 
-        if (tileActionType.Equals(TileActionType.Harvest))
+
+        switch (tileActionType)
         {
-           // 서브 벨류 -> 캐피탈 인덱스
-            Capital capitalCode = (Capital)_action.GetStat(TileActionStat.SubValue);
-            int tempAgainValue = 50;
-            PlayerCapitalData.g_instance.CalCapital(capitalCode, tempAgainValue);
-            return;
+            case TileActionType.Harvest:
+                Capital capitalCode = (Capital)_action.GetStat(TileActionStat.SubValue);
+                int tempAgainValue = 50;
+                PlayerCapitalData.g_instance.CalCapital(capitalCode, tempAgainValue);
+                break;
+
+            case TileActionType.CapitalChef:
+                CapitalAction doCode = (CapitalAction)_action.GetStat(TileActionStat.SubValue);
+                //재료 변환 
+                MgUI.GetInstance().ShowCapitalWorkShop(doCode, _tile, _action);
+                break;
+
+            case TileActionType.LandUsage:
+                Debug.Log("땅 점령, 땅 변경, 땅 초기화 등 진행");
+                break;
+            default:
+                MgUI.GetInstance().CancleLastUI();
+                break;
         }
-        
-        //3 재료 관련 -> 벨류값으로 변환, 합성
-        if (tileActionType.Equals(TileActionType.CapitalChef))
-        {
-            CapitalAction doCode = (CapitalAction)_action.GetStat(TileActionStat.SubValue);
-            //재료 변환 
-            MgUI.GetInstance().ShowCapitalWorkShop(doCode, _tile, _action);
-        }
-        else
-        {
-            MgUI.GetInstance().CancleLastUI();
-        }
+    
     }
     #endregion
 
