@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MgSetting : MgGeneric<MgSetting>
 {
-    public enum ButtonType
+    public enum SettingButtonType
     {
         다시하기, 앱종료, 사운드조정, 언어선택
     }
