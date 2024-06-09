@@ -58,5 +58,6 @@ public class MgNation : Mg<MgNation>
     {
         Nation nation = m_nationList[nationNum];
         nation.AddTerritory(_tile);
+        nation.ShowTerritory();
     }
 }
