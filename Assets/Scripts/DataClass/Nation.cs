@@ -53,6 +53,9 @@ public class Nation
     public void ManageNation()
     {
         //국가운영 
+        int[] idx = m_capital.GetMapIndex();
+     //   Debug.Log(idx[0] + " " + idx[1] + "번 국가 운영 시작");
+
     }
 
     public void SetCapital(TokenTile _tileToken)
@@ -71,7 +74,7 @@ public class Nation
         {
             TokenTile tile = m_territorryList[i];
             tile.Dye(Color.red);
-            Debug.Log("해당 타일의 타입은 " + tile.GetTileType());
+         //   Debug.Log("해당 타일의 타입은 " + tile.GetTileType());
         }
     }
 }

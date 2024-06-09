@@ -36,7 +36,7 @@ public class MgNation : Mg<MgNation>
         m_nationList.Remove(_nation);
     }
 
-    public void OnTurnStart()
+    public void ManageNationTurn()
     {
         //턴 시작시 국가들 행동 할것
         /*
@@ -47,7 +47,7 @@ public class MgNation : Mg<MgNation>
          * 3. 각 국가마다 정책턴이면 정책 수립
          * 4. 토지 확장 고려 
          */
-        Debug.Log("국가들 턴 시작");
+      //  Debug.Log("국가들 턴 시작" + m_nationList.Count);
         foreach(Nation nation in m_nationList)
         {
             nation.ManageNation();

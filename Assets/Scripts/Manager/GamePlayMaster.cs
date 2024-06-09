@@ -297,8 +297,10 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     {
         AnnounceState("세계턴 변화 따짐 내용 없음");
         m_playData.PlayTime += 1; //여태 진행한 턴
-        MGContent.g_instance.WriteContentWhenNextTurn();
         //컨텐츠 에서 무언가 발생 
+        MGContent.g_instance.WriteContentWhenNextTurn();
+        MgNation.GetInstance().ManageNationTurn();
+       
 
     }
 
