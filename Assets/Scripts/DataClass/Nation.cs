@@ -56,8 +56,22 @@ public class Nation
     {
         //국가운영 
         int[] idx = m_capitalCity.GetMapIndex();
-     //   Debug.Log(idx[0] + " " + idx[1] + "번 국가 운영 시작");
-
+        //   Debug.Log(idx[0] + " " + idx[1] + "번 국가 운영 시작");
+        System.Text.StringBuilder valueReport = new System.Text.StringBuilder();
+        valueReport.Append("총영토 : "+m_territorryList.Count+"수금전 자원\n");
+        for (int i = 0; i < m_resources.Length; i++)
+        {
+           
+            valueReport.Append((Capital)i+": " + m_resources[i]+"\n");
+        }
+        IncomeTerritory(); //영토에서 자원 수급
+        valueReport.Append("수금후 자원\n");
+        for (int i = 0; i < m_resources.Length; i++)
+        {
+         
+            valueReport.Append((Capital)i + ": " + m_resources[i] + "\n");
+        }
+        Debug.Log(valueReport);
     }
 
     public void SetCapitalCity(TokenTile _tileToken)
@@ -77,6 +91,38 @@ public class Nation
             TokenTile tile = m_territorryList[i];
             tile.Dye(Color.red);
          //   Debug.Log("해당 타일의 타입은 " + tile.GetTileType());
+        }
+    }
+
+    private void IncomeTerritory()
+    {
+        //영토 자원 수집
+        for (int i = 0; i < m_territorryList.Count; i++)
+        {
+            TokenTile tile = m_territorryList[i];
+            TileType territory = tile.GetTileType();
+            int incomeValue = tile.GetStat(TileStat.TileEnergy);
+            Capital capital = Capital.None;
+            //테이블로 각 타입에서 얻을 수 있는 자원을 정의해놓기?
+            switch (territory)
+            {
+                case TileType.Nomal:
+                    break;
+                case TileType.Town:
+                    break;
+                case TileType.Farm:
+                    capital = Capital.Food;
+                    break;
+                case TileType.Rock:
+                    break;
+                case TileType.Lake:
+                    break;
+                case TileType.Capital:
+                    break;
+                default:
+                    break;
+            }
+            m_resources[(int)capital] += incomeValue;
         }
     }
 }
