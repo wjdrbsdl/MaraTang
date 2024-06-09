@@ -5,8 +5,9 @@ using UnityEngine;
 
 public class Nation
 {
-    private TokenTile m_capital;
+    private TokenTile m_capitalCity;
     private List<TokenTile> m_territorryList;
+    private int[] m_resources;
 
     #region 국가 생성자
     public Nation()
@@ -14,17 +15,18 @@ public class Nation
         m_territorryList = new();
     }
 
-    public Nation MakeNewNation(TokenTile _capital)
+    public Nation MakeNewNation(TokenTile _capitalCity)
     {
         Nation nation = new();
-        nation.SetCapital(_capital);
-        nation.AddTerritory(_capital);
+        nation.SetCapitalCity(_capitalCity);
+        nation.AddTerritory(_capitalCity);
         //주변 1칸은 기본적으로 해당 국가 영토로 편입
-        List<TokenTile> boundaryTile = GameUtil.GetTileTokenListInRange(1, _capital.GetXIndex(), _capital.GetYIndex(),1);
+        List<TokenTile> boundaryTile = GameUtil.GetTileTokenListInRange(1, _capitalCity.GetXIndex(), _capitalCity.GetYIndex(),1);
         for (int i = 0; i < boundaryTile.Count; i++)
         {
             nation.AddTerritory(boundaryTile[i]);
         }
+        nation.m_resources = new int[GameUtil.EnumLength(Capital.Food)];
         return nation;
     }
 
@@ -53,19 +55,19 @@ public class Nation
     public void ManageNation()
     {
         //국가운영 
-        int[] idx = m_capital.GetMapIndex();
+        int[] idx = m_capitalCity.GetMapIndex();
      //   Debug.Log(idx[0] + " " + idx[1] + "번 국가 운영 시작");
 
     }
 
-    public void SetCapital(TokenTile _tileToken)
+    public void SetCapitalCity(TokenTile _tileToken)
     {
-        m_capital = _tileToken;
+        m_capitalCity = _tileToken;
     }
 
     public TokenTile GetCapital()
     {
-        return m_capital;
+        return m_capitalCity;
     }
 
     public void ShowTerritory()
