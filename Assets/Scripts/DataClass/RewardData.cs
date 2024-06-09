@@ -15,7 +15,7 @@ public class RewardData : IOrderCustomer
             return;
         //어떤 보상식으로 줄진 모르지만 일단 보상아이템 만들고 호출되는부분까지 테스트 
         TOrderItem charItem = new TOrderItem().WriteCharItem(CharStat.Strenth, 50);
-        TOrderItem capitalItem = new TOrderItem().WriteCapitalItem(Capital.Green, 150);
+        TOrderItem capitalItem = new TOrderItem().WriteCapitalItem(Capital.Mineral, 150);
         TOrderItem actionItem = new TOrderItem().WriteActionItem(2, 50);
         List<TOrderItem> orderList = new List<TOrderItem>() { charItem, capitalItem, actionItem};
 

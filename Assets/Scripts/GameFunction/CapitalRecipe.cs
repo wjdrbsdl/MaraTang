@@ -63,7 +63,7 @@ public class CapitalRecipe
 
     private Capital RecipeMixRule(List<Capital> _orderList)
     {
-        Capital tempFinished = Capital.Yellow;
+        Capital tempFinished = Capital.Food;
 
         //투입된 순서로 조합 산출
         tempFinished = _orderList[0]; //일단 첫번째걸로 조합되는걸로

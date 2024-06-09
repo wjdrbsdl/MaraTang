@@ -5,7 +5,7 @@ using UnityEngine;
 
 public enum Capital
 {
-    Yellow, Green, Red, Blue
+    Food, Mineral, Wood, Blue
 }
 
 public enum CapitalStat
