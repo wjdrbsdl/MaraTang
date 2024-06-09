@@ -8,6 +8,7 @@ public class Nation
     private TokenTile m_capital;
     private List<TokenTile> m_territorryList;
 
+    #region 국가 생성자
     public Nation()
     {
         m_territorryList = new();
@@ -31,7 +32,9 @@ public class Nation
     {
         //국가 소멸시 할 작업들. 
     }
+    #endregion
 
+    #region 국가 영토
     public void AddTerritory(TokenTile _tileToken)
     {
         //이미 있는 영토
@@ -44,6 +47,12 @@ public class Nation
     public void RemoveTerritory(TokenTile _tileToken)
     {
         m_territorryList.Remove(_tileToken);
+    }
+    #endregion
+
+    public void ManageNation()
+    {
+        //국가운영 
     }
 
     public void SetCapital(TokenTile _tileToken)
@@ -60,7 +69,9 @@ public class Nation
     {
         for (int i = 1; i < m_territorryList.Count; i++)
         {
-            m_territorryList[i].Dye(Color.red);
+            TokenTile tile = m_territorryList[i];
+            tile.Dye(Color.red);
+            Debug.Log("해당 타일의 타입은 " + tile.GetTileType());
         }
     }
 }

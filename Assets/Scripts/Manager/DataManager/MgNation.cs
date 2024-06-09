@@ -35,4 +35,22 @@ public class MgNation : Mg<MgNation>
         _nation.Destroy();
         m_nationList.Remove(_nation);
     }
+
+    public void OnTurnStart()
+    {
+        //턴 시작시 국가들 행동 할것
+        /*
+         * 1. 점유한 토지에 따른 생산 진행
+         * 1-2. 초과분에 대한 정산
+         * 2. 소비할것 소비 
+         * 2-2. 부족분에 대한 정산
+         * 3. 각 국가마다 정책턴이면 정책 수립
+         * 4. 토지 확장 고려 
+         */
+        Debug.Log("국가들 턴 시작");
+        foreach(Nation nation in m_nationList)
+        {
+            nation.ManageNation();
+        }
+    }
 }
