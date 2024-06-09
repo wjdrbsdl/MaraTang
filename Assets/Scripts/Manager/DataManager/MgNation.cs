@@ -53,4 +53,10 @@ public class MgNation : Mg<MgNation>
             nation.ManageNation();
         }
     }
+
+    public void AddTerritoryToNation(int nationNum, TokenTile _tile)
+    {
+        Nation nation = m_nationList[nationNum];
+        nation.AddTerritory(_tile);
+    }
 }

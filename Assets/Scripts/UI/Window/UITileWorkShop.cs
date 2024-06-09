@@ -68,7 +68,7 @@ public class UITileWorkShop : UIBase
         //2. 가능하면 버튼 활성화
         m_occupyButton.SetActive(true);
         //3. 세팅
-        m_occupyButton.SetButton(_tile); 
+        m_occupyButton.SetButton(_tile, this); 
         
     }
 
