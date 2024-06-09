@@ -85,6 +85,7 @@ public class TokenTile : TokenBase
         return m_inTileCharList;
     }
 
+    #region 캐릭 이동 관련
     public void Migrate(TokenChar _char)
     {
         //이민 시켰으면 소속된 토큰의 지도상 좌표값도 수정
@@ -92,7 +93,7 @@ public class TokenTile : TokenBase
         _char.SetMapIndex(m_xIndex, m_yIndex);
     }
 
-    public void RemoveToken(TokenChar _char)
+    public void RemoveCharToken(TokenChar _char)
     {
         //이주 보냈으면 리스트에서 제거
         m_inTileCharList.Remove(_char);
@@ -107,6 +108,7 @@ public class TokenTile : TokenBase
     {
         ((ObjectTile)m_object).OffRouteNumber();
     }
+    #endregion
 
     public void ChangeViewState(TileViewState _toState)
     {
@@ -131,6 +133,11 @@ public class TokenTile : TokenBase
     public void Dye(Color _color)
     {
         GetObject().GetComponent<SpriteRenderer>().color = _color;
+    }
+
+    public TileType GetTileType()
+    {
+        return tileType;
     }
 
     #region 입장 이벤트

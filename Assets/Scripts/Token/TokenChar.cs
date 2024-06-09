@@ -215,7 +215,7 @@ public class TokenChar : TokenBase
 
         //2. 데이터 참조 제거
         TokenTile inTile = GameUtil.GetTileTokenFromMap(GetMapIndex());
-        inTile.RemoveToken(this);
+        inTile.RemoveCharToken(this);
         MgToken.GetInstance().RemoveCharToken(this);
     }
 
@@ -229,7 +229,7 @@ public class TokenChar : TokenBase
 
         //1. 데이터 참조 제거
         TokenTile place = GameUtil.GetTileTokenFromMap(GetMapIndex());
-        place.RemoveToken(this);
+        place.RemoveCharToken(this);
         MgToken.GetInstance().RemoveCharToken(this);
     }
 }
