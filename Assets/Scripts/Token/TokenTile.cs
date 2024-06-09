@@ -21,7 +21,7 @@ public enum TileAction
 
 public enum TileStat
 {
-    Height
+    Height, TileEnergy
 }
 #endregion
 
@@ -61,6 +61,7 @@ public class TokenTile : TokenBase
     {
         int ecoValue = (int)(_ecoValue * 100f);
         SetStatValue(TileStat.Height, ecoValue);
+        SetStatValue(TileStat.TileEnergy, 30);
     }
 
     public void SetEcoSprite()
