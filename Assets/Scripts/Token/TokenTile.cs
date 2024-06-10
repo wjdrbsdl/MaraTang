@@ -21,7 +21,7 @@ public enum TileAction
 
 public enum TileStat
 {
-    Height, TileEnergy
+   Nation, Height, TileEnergy
 }
 #endregion
 
@@ -62,6 +62,7 @@ public class TokenTile : TokenBase
         int ecoValue = (int)(_ecoValue * 100f);
         SetStatValue(TileStat.Height, ecoValue);
         SetStatValue(TileStat.TileEnergy, 30);
+        SetStatValue(TileStat.Nation, FixedValue.NO_NATION_NUMBER); //-1이 미소속 영토. 
     }
 
     public void SetEcoSprite()
@@ -139,6 +140,11 @@ public class TokenTile : TokenBase
     public TileType GetTileType()
     {
         return tileType;
+    }
+
+    public void SetNation(int _nationNumber)
+    {
+        SetStatValue(TileStat.Nation, _nationNumber);
     }
 
     #region 입장 이벤트
