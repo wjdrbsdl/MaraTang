@@ -92,7 +92,7 @@ public class Nation
         for (int i = 1; i < m_territorryList.Count; i++)
         {
             TokenTile tile = m_territorryList[i];
-            tile.Dye(Color.red);
+            tile.Dye(nationColor[i]);
          //   Debug.Log("해당 타일의 타입은 " + tile.GetTileType());
         }
     }
