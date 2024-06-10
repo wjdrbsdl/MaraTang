@@ -113,7 +113,12 @@ public class MGContent : Mg<MGContent>
         GamePlayData data = GamePlayMaster.GetInstance().GetPlayData();
         int playTime = data.PlayTime;
         ContentData contentMasterData = MgMasterData.GetInstance().GetContentData(playTime);
-        Debug.Log(contentMasterData);
+        if(contentMasterData == null)
+        {
+            Debug.Log("준비된 퀘스트 없음");
+            return null;
+        }
+            
         if(playTime == 1)
         {
             //어디 청크에서 발현시킬지는 따로 산출
