@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Nation
 {
+    private int m_nationNumber;
     private TokenTile m_capitalCity;
     private List<TokenTile> m_territorryList;
     private int[] m_resources;
@@ -16,9 +17,10 @@ public class Nation
         m_territorryList = new();
     }
 
-    public Nation MakeNewNation(TokenTile _capitalCity)
+    public Nation MakeNewNation(TokenTile _capitalCity, int _nationNuber)
     {
         Nation nation = new();
+        nation.m_nationNumber = _nationNuber;
         nation.SetCapitalCity(_capitalCity);
         nation.AddTerritory(_capitalCity);
         //주변 1칸은 기본적으로 해당 국가 영토로 편입
@@ -92,7 +94,7 @@ public class Nation
         for (int i = 1; i < m_territorryList.Count; i++)
         {
             TokenTile tile = m_territorryList[i];
-            tile.Dye(nationColor[i]);
+            tile.Dye(nationColor[m_nationNumber]);
          //   Debug.Log("해당 타일의 타입은 " + tile.GetTileType());
         }
     }
@@ -131,6 +133,7 @@ public class Nation
 
     private void ExpandTerritory()
     {
+        int tempExpandCount = 3; //3개씩 확장하는걸로 
         //4칸까지 확장되가는걸로
         System.Text.StringBuilder valueReport = new System.Text.StringBuilder();
         valueReport.Append("총영토 : " + m_territorryList.Count + "\n");
@@ -146,6 +149,20 @@ public class Nation
             {
                 TokenTile tile = rangeInTile[tileIdx];
                 valueReport.Append(tile.GetXIndex()+", "+tile.GetYIndex()+"좌표 토지 소속은 " + tile.GetStat(TileStat.Nation)+"\n");
+                if (tile.GetStat(TileStat.Nation).Equals(FixedValue.NO_NATION_NUMBER))
+                {
+                    AddTerritory(tile); //무소속이면 해당 타일 편입
+                    tempExpandCount -= 1;
+                    if (tempExpandCount.Equals(0))
+                    {
+                        break;
+                    }
+                }
+            }
+
+            if (tempExpandCount.Equals(0))
+            {
+                break;
             }
         }
         Debug.Log(valueReport);
