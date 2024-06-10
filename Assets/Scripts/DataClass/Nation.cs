@@ -47,6 +47,7 @@ public class Nation
                 return;
 
         m_territorryList.Add(_tileToken);
+        _tileToken.SetNation(m_nationNumber);
     }
 
     public void RemoveTerritory(TokenTile _tileToken)
@@ -165,6 +166,7 @@ public class Nation
                 break;
             }
         }
+        ShowTerritory();
         Debug.Log(valueReport);
     }
 }
