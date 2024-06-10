@@ -171,6 +171,8 @@ public struct TTokenOrder
     {
         TTokenOrder order = new();
         order.orderItemList = _charList;
+        if (order.orderItemList == null)
+            order.orderItemList = new();
         order.OrderType = _orderType;
         order.SpawnPosType = _spawnPosType;
         order.ChunkNum = _chunkNum;
@@ -182,6 +184,8 @@ public struct TTokenOrder
     {
         TTokenOrder order = new();
         order.orderItemList = _orderItemList;
+        if (order.orderItemList == null)
+            order.orderItemList = new();
         order.OrderType = _type;
         order.SpawnPosType = ESpawnPosType.Random;
         order.ChunkNum = _chunkNum;
