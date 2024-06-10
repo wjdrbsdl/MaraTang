@@ -173,6 +173,10 @@ public class MgToken : MgGeneric<MgToken>
     }
     public TokenEvent SpawnEvent(TokenTile _tile, int _eventPid)
     {
+        //0. 없는 위치에 스폰하려고하면 null return
+        if (_tile == null)
+            return null;
+
         //1. pid로 원본 값 가져옴
         TokenEvent masterEvent = MgMasterData.GetInstance().GetEventData(_eventPid);
         //2. 새로운 복사 토큰 생성
