@@ -8,6 +8,7 @@ public class Nation
     private TokenTile m_capitalCity;
     private List<TokenTile> m_territorryList;
     private int[] m_resources;
+    static Color[] nationColor = { Color.red, Color.yellow, Color.black };
 
     #region 국가 생성자
     public Nation()
@@ -72,6 +73,8 @@ public class Nation
             valueReport.Append((Capital)i + ": " + m_resources[i] + "\n");
         }
         Debug.Log(valueReport);
+
+        ExpandTerritory();
     }
 
     public void SetCapitalCity(TokenTile _tileToken)
@@ -124,5 +127,27 @@ public class Nation
             }
             m_resources[(int)capital] += incomeValue;
         }
+    }
+
+    private void ExpandTerritory()
+    {
+        //4칸까지 확장되가는걸로
+        System.Text.StringBuilder valueReport = new System.Text.StringBuilder();
+        valueReport.Append("총영토 : " + m_territorryList.Count + "\n");
+        for (int i = 1; i <= 4; i++)
+        {
+            //1. 수도 도시 주변으로 사거리 내 타일 하나씩 살핌
+            List<TokenTile> rangeInTile = GameUtil.GetTileTokenListInRange(i, m_capitalCity.GetXIndex(), m_capitalCity.GetYIndex(), i);
+            //2. 무소속이면 대상 토지를 편입. 
+
+
+            valueReport.Append(i+"거리 \n");
+            for (int tileIdx = 0; tileIdx < rangeInTile.Count; tileIdx++)
+            {
+                TokenTile tile = rangeInTile[tileIdx];
+                valueReport.Append(tile.GetXIndex()+", "+tile.GetYIndex()+"좌표 토지 소속은 " + tile.GetStat(TileStat.Nation)+"\n");
+            }
+        }
+        Debug.Log(valueReport);
     }
 }
