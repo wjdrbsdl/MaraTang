@@ -6,6 +6,7 @@ using UnityEngine;
 public class Nation
 {
     private int m_nationNumber;
+    private int m_range = 1; //현재 확장된 거리
     private TokenTile m_capitalCity;
     private List<TokenTile> m_territorryList;
     private int[] m_resources;
@@ -59,25 +60,24 @@ public class Nation
     public void ManageNation()
     {
         //국가운영 
-        int[] idx = m_capitalCity.GetMapIndex();
-        //   Debug.Log(idx[0] + " " + idx[1] + "번 국가 운영 시작");
-        System.Text.StringBuilder valueReport = new System.Text.StringBuilder();
-        valueReport.Append("총영토 : "+m_territorryList.Count+"수금전 자원\n");
-        for (int i = 0; i < m_resources.Length; i++)
-        {
+       
+        System.Text.StringBuilder valueReport = new System.Text.StringBuilder(); //영토 정보값
+        //valueReport.Append("총영토 : "+m_territorryList.Count+"수금전 자원\n");
+        //for (int i = 0; i < m_resources.Length; i++)
+        //{
            
-            valueReport.Append((Capital)i+": " + m_resources[i]+"\n");
-        }
-        IncomeTerritory(); //영토에서 자원 수급
-        valueReport.Append("수금후 자원\n");
-        for (int i = 0; i < m_resources.Length; i++)
-        {
+        //    valueReport.Append((Capital)i+": " + m_resources[i]+"\n");
+        //}
+        IncomeTerritoryResource(); //영토에서 자원 수급
+        //valueReport.Append("수금후 자원\n");
+        //for (int i = 0; i < m_resources.Length; i++)
+        //{
          
-            valueReport.Append((Capital)i + ": " + m_resources[i] + "\n");
-        }
-        Debug.Log(valueReport);
+        //    valueReport.Append((Capital)i + ": " + m_resources[i] + "\n");
+        //}
+        //Debug.Log(valueReport);
 
-        ExpandTerritory();
+        ExpandTerritory(); //영토 확장 정책
     }
 
     public void SetCapitalCity(TokenTile _tileToken)
@@ -100,7 +100,7 @@ public class Nation
         }
     }
 
-    private void IncomeTerritory()
+    private void IncomeTerritoryResource()
     {
         //영토 자원 수집
         for (int i = 0; i < m_territorryList.Count; i++)
@@ -138,13 +138,14 @@ public class Nation
         //4칸까지 확장되가는걸로
         System.Text.StringBuilder valueReport = new System.Text.StringBuilder();
         valueReport.Append("총영토 : " + m_territorryList.Count + "\n");
-        for (int i = 1; i <= 4; i++)
+        int startRange = m_range; //시작할 위치 
+        for (int i = startRange; i <= 25; i++)
         {
             //1. 수도 도시 주변으로 사거리 내 타일 하나씩 살핌
             List<TokenTile> rangeInTile = GameUtil.GetTileTokenListInRange(i, m_capitalCity.GetXIndex(), m_capitalCity.GetYIndex(), i);
             //2. 무소속이면 대상 토지를 편입. 
 
-
+            m_range = i; //현재 번창된 사거리 갱신 
             valueReport.Append(i+"거리 \n");
             for (int tileIdx = 0; tileIdx < rangeInTile.Count; tileIdx++)
             {
