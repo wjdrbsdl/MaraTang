@@ -21,7 +21,7 @@ public enum TileAction
 
 public enum TileStat
 {
-   Nation, Height, TileEnergy
+   Nation, Height, Resource, TileEnergy
 }
 #endregion
 
@@ -65,17 +65,21 @@ public class TokenTile : TokenBase
         SetStatValue(TileStat.Nation, FixedValue.NO_NATION_NUMBER); //-1이 미소속 영토. 
     }
 
+    public void SetResourceValue(float _resourceValue)
+    {
+        int resourceValue = (int)(_resourceValue * 100f); //리소스 점수 0~99로 전환
+        SetStatValue(TileStat.Resource, resourceValue); //해당 벨류로 넣음. 
+    }
+
     public void SetEcoSprite()
     {
         int ecoValue = GetStat(TileStat.Height);
 
         int selectEcoMap = 0;
-        if (ecoValue < 33)
-            selectEcoMap = 0;
-        else if (ecoValue < 66)
+        if (ecoValue < 66)
             selectEcoMap = 1;
         else
-            selectEcoMap = 1;
+            selectEcoMap = 0;
 
         GetObject().SetSprite( MgToken.GetInstance().m_tilesSprite[selectEcoMap]);
     }

@@ -20,6 +20,7 @@ public class TileMaker : MonoBehaviour
         float reviseOffSet = xOffSet * 0.5f;
 
         float[,] noisedMapping = MakeNoise(orderXLength, orderYLength, _mapOrder.t_seed, _mapOrder.t_noise, 1f);
+        float[,] resourceMapping = MakeNoise(orderXLength, orderYLength, _mapOrder.t_seed+2, _mapOrder.t_noise, 1f);
 
         for (int curx = 0; curx < orderXLength; curx++)
         {
@@ -40,6 +41,7 @@ public class TileMaker : MonoBehaviour
                 //2. 타일 토큰 정보 세팅                
                 newTile.SetMapIndex(curx, cury); //토큰 자체에 자신의 인덱스 넣고
                 newTile.SetEcoValue(noisedMapping[curx, cury]);
+                newTile.SetResourceValue(resourceMapping[curx, cury]);
 
                 //3. 타일 오브젝트 세팅
                 newTileObject.SetObjectToken(newTile, TokenType.Tile);
