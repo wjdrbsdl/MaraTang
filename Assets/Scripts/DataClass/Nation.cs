@@ -6,6 +6,7 @@ using UnityEngine;
 public class Nation
 {
     private int m_nationNumber;
+    private int m_nationLevel = 1;
     private int m_range = 1; //현재 확장된 거리
     private TokenTile m_capitalCity;
     private List<TokenTile> m_territorryList;
@@ -60,23 +61,7 @@ public class Nation
     public void ManageNation()
     {
         //국가운영 
-       
-        System.Text.StringBuilder valueReport = new System.Text.StringBuilder(); //영토 정보값
-        //valueReport.Append("총영토 : "+m_territorryList.Count+"수금전 자원\n");
-        //for (int i = 0; i < m_resources.Length; i++)
-        //{
-           
-        //    valueReport.Append((Capital)i+": " + m_resources[i]+"\n");
-        //}
         IncomeTerritoryResource(); //영토에서 자원 수급
-        //valueReport.Append("수금후 자원\n");
-        //for (int i = 0; i < m_resources.Length; i++)
-        //{
-         
-        //    valueReport.Append((Capital)i + ": " + m_resources[i] + "\n");
-        //}
-        //Debug.Log(valueReport);
-
         ExpandTerritory(); //영토 확장 정책
     }
 
@@ -127,7 +112,7 @@ public class Nation
         int tempExpandCount = 3; //3개씩 확장하는걸로 
         //4칸까지 확장되가는걸로
         int startRange = m_range; //시작할 위치 
-        for (int i = startRange; i <= 25; i++)
+        for (int i = startRange; i <= m_nationLevel; i++)
         {
             //1. 수도 도시 주변으로 사거리 내 타일 하나씩 살핌
             List<TokenTile> rangeInTile = GameUtil.GetTileTokenListInRange(i, m_capitalCity.GetXIndex(), m_capitalCity.GetYIndex(), i);
