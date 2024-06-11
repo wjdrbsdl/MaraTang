@@ -21,7 +21,7 @@ public enum TileAction
 
 public enum TileStat
 {
-   Nation, Height, Resource, TileEnergy
+   Nation, Height, MainResource, TileEnergy
 }
 #endregion
 
@@ -65,10 +65,34 @@ public class TokenTile : TokenBase
         SetStatValue(TileStat.Nation, FixedValue.NO_NATION_NUMBER); //-1이 미소속 영토. 
     }
 
+    public enum MainResource
+    {
+        Tree, Food, House, Mineral
+    }
     public void SetResourceValue(float _resourceValue)
     {
         int resourceValue = (int)(_resourceValue * 100f); //리소스 점수 0~99로 전환
-        SetStatValue(TileStat.Resource, resourceValue); //해당 벨류로 넣음. 
+        MainResource mainResource = MainResource.Tree;
+        if (resourceValue < 25)
+        {
+            
+        }
+        else if (resourceValue < 50)
+        {
+            mainResource = MainResource.Food;
+        }
+        else if (resourceValue < 75)
+        {
+            mainResource = MainResource.House;
+        }
+        else
+        {
+            mainResource = MainResource.Mineral;
+        }
+        int gradeValue = resourceValue % 25 + 25; //최소값 25에 등급으로 추가
+        Debug.Log(resourceValue + " 해당 용도에서 등급은" + gradeValue);
+        SetStatValue(TileStat.MainResource, (int)mainResource); //해당 벨류로 넣음. 
+        SetStatValue(TileStat.TileEnergy, gradeValue); //해당 벨류로 넣음. 
     }
 
     public void SetEcoSprite()
