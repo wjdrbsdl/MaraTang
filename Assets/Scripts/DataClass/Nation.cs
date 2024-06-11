@@ -99,11 +99,12 @@ public class Nation
     private void CalMineResult(RuleBook.TMineTileResult _mineResult)
     {
         //채집 결과물을 가지고 자원 획득
-        List<(Capital, int)> resourceAmount = _mineResult.GetResourceAmount();
-        for (int i = 0; i < resourceAmount.Count; i++)
+        List<(Capital, int)> mineResult = _mineResult.GetResourceAmount();
+        for (int i = 0; i < mineResult.Count; i++)
         {
-            if (m_nationNumber.Equals(0))
-                Debug.Log(resourceAmount[i].Item1 + "자원 " + resourceAmount[i].Item2 + "만큼 획득");
+            int resourceIdx = (int)mineResult[i].Item1; //Capital로 획득한 자원 enum값
+            int amount = mineResult[i].Item2;
+            m_resources[resourceIdx] += amount;
         }
     }
 
