@@ -20,8 +20,8 @@ public class TileMaker : MonoBehaviour
         float reviseOffSet = xOffSet * 0.5f;
 
         float[,] noisedMapping = MakeNoise(orderXLength, orderYLength, _mapOrder.t_seed, _mapOrder.t_noise, 1f);
-        float[,] resourceMapping = MakeNoise(orderXLength, orderYLength, _mapOrder.t_seed+2, _mapOrder.t_noise, 1f);
-
+        //자원 분배 디버그용
+        int[] resourceMain = new int[GameUtil.EnumLength(TokenTile.MainResource.House)];
         for (int curx = 0; curx < orderXLength; curx++)
         {
             float originXPos = curx * xOffSet; //원점
@@ -41,7 +41,7 @@ public class TileMaker : MonoBehaviour
                 //2. 타일 토큰 정보 세팅                
                 newTile.SetMapIndex(curx, cury); //토큰 자체에 자신의 인덱스 넣고
                 newTile.SetEcoValue(noisedMapping[curx, cury]);
-                newTile.SetResourceValue(resourceMapping[curx, cury]);
+                newTile.SetResourceValue();
 
                 //3. 타일 오브젝트 세팅
                 newTileObject.SetObjectToken(newTile, TokenType.Tile);
@@ -58,10 +58,17 @@ public class TileMaker : MonoBehaviour
                 newMap[curx, cury] = newTile; //맵 배열의 인덱스엔 만들어진 맵을 할당
                 newHideMap[curx, cury] = newHideTile; //맵 배열의 인덱스엔 만들어진 맵을 할당
 
+                //6. 디버그용 메인 리소스 수치 추가
+                int mainResourceIdx = newTile.GetStat(TileStat.MainResource);
+                resourceMain[mainResourceIdx] += 1;
             }
         }
         MgToken.GetInstance().SetMapTiles(newMap); //만들어진 맵 정보 전달
         MgToken.GetInstance().SetHideTiles(newHideMap); //만들어진 맵 정보 전달
+        for (int i = 0; i < resourceMain.Length; i++)
+        {
+            Debug.Log((TokenTile.MainResource)i + "의 총 타일 수 :" + resourceMain[i]);
+        }
     }
 
     public List<int[]> DivideChunk(int _chunkLength)

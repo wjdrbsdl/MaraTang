@@ -69,13 +69,15 @@ public class TokenTile : TokenBase
     {
         Tree, Food, House, Mineral
     }
-    public void SetResourceValue(float _resourceValue)
+
+    public void SetResourceValue()
     {
-        int resourceValue = (int)(_resourceValue * 100f); //리소스 점수 0~99로 전환
-        MainResource mainResource = MainResource.Tree;
+        //int resourceValue = (int)(_resourceValue * 100f); //리소스 점수 0~99로 전환
+        int resourceValue = Random.Range(0, 100);
+        MainResource mainResource = MainResource.Mineral; //최고점 미네랄 기본 설정 
         if (resourceValue < 25)
         {
-            
+            mainResource = MainResource.Tree;
         }
         else if (resourceValue < 50)
         {
@@ -85,12 +87,10 @@ public class TokenTile : TokenBase
         {
             mainResource = MainResource.House;
         }
-        else
-        {
-            mainResource = MainResource.Mineral;
-        }
-        int gradeValue = resourceValue % 25 + 25; //최소값 25에 등급으로 추가
-        Debug.Log(resourceValue + " 해당 용도에서 등급은" + gradeValue);
+
+        int minGradeValue = 25;
+        int gradeValue = resourceValue % 25 + minGradeValue; //최소값 25에 등급으로 추가
+        //Debug.Log(resourceValue + " 해당 용도에서 등급은" + gradeValue);
         SetStatValue(TileStat.MainResource, (int)mainResource); //해당 벨류로 넣음. 
         SetStatValue(TileStat.TileEnergy, gradeValue); //해당 벨류로 넣음. 
     }
