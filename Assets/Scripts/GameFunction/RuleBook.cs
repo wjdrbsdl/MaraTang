@@ -275,8 +275,11 @@ public class RuleBook
     #region 타일 액션
     public bool AbleOccupy(TokenTile _tile)
     {
-        int ranIndex = UnityEngine.Random.Range(0, 2);
-        return (ranIndex == 0);
+        //해당 타일 소속 국가가 없으면 가능
+        if (_tile.GetStat(TileStat.Nation).Equals(FixedValue.NO_NATION_NUMBER))
+            return true;
+
+        return false;
     }
 
     public TokenAction[] RequestTileActions(TokenTile _tile)
@@ -317,9 +320,12 @@ public class RuleBook
         switch (tileActionType)
         {
             case TileActionType.Harvest:
-                Capital capitalCode = (Capital)_action.GetStat(TileActionStat.SubValue);
-                int tempAgainValue = 50;
-                PlayerCapitalData.g_instance.CalCapital(capitalCode, tempAgainValue);
+                List<(Capital, int)> mineResult = GamePlayMaster.GetInstance().RuleBook.MineResource(_tile).GetResourceAmount();
+                for (int i = 0; i < mineResult.Count; i++)
+                {
+                  //  Debug.Log(mineResult[i].Item1 + " 자원 채취" + mineResult[i].Item2);
+                    PlayerCapitalData.g_instance.CalCapital(mineResult[i].Item1, mineResult[i].Item2);
+                }
                 break;
 
             case TileActionType.CapitalChef:
