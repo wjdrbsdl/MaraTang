@@ -25,7 +25,7 @@ public class MgNation : Mg<MgNation>
         {
             Nation nation = m_nationList[i];
             int[] pos = nation.GetCapital().GetMapIndex();
-            Debug.Log("해당 국가의 좌표는 " + pos[0] + "_" + pos[1]);
+           // Debug.Log("해당 국가의 좌표는 " + pos[0] + "_" + pos[1]);
             nation.ShowTerritory();
         }
     }
