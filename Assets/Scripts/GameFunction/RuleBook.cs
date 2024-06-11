@@ -60,6 +60,21 @@ public class RuleBook
         }
     }
 
+    public struct TMineTileResult
+    {
+        List<(Capital, int)> resourceResultList; //각 자원 그리고 그양을 얼마나 캤는지 할당
+
+        public TMineTileResult(List<(Capital, int)> _resourceResultList)
+        {
+            resourceResultList = _resourceResultList;
+        }
+
+        public List<(Capital, int)> GetResourceAmount()
+        {
+            return resourceResultList;
+        }
+    }
+
     #region 액션 수행 절차
     public void ReadCharAction(TokenChar _playChar)
     {
@@ -331,6 +346,41 @@ public class RuleBook
     }
     #endregion
 
+    public TMineTileResult MineResource(TokenTile _tile)
+    {
+        List<(Capital, int)> result = new();
+        TMineTileResult mineResult = new(result);
+
+        TileType territory = _tile.GetTileType();
+        int mainType = _tile.GetStat(TileStat.MainResource);
+        int tileEnegy = _tile.GetStat(TileStat.TileEnergy);
+        
+        //테이블로 각 타입에서 얻을 수 있는 자원을 정의해놓기?
+        switch (territory)
+        {
+            case TileType.Nomal:
+                result.Add((Capital.Food, tileEnegy));
+                result.Add((Capital.Mineral, tileEnegy));
+                result.Add((Capital.Wood, tileEnegy));
+                result.Add((Capital.Person, tileEnegy));
+                break;
+            case TileType.Town:
+                break;
+            case TileType.Farm:
+                break;
+            case TileType.Rock:
+                break;
+            case TileType.Lake:
+                break;
+            case TileType.Capital:
+                break;
+            default:
+                break;
+        }
+
+        return mineResult;
+    }
+
     public void MixCapital(List<(Capital, int)> _resources)
     {
         PlayerCapitalData capitalData = PlayerCapitalData.g_instance;
@@ -356,6 +406,11 @@ public class RuleBook
         capitalData.CalCapital(_input.Item1, -_input.Item2); //사용한만큼 감소 시키고
         (Capital, int) mixed = m_capitalRecipe.ChangeCapital(_input, _outCapital);
         capitalData.CalCapital(mixed.Item1, mixed.Item2); //얻은 만큼 추가 시키고 
+    }
+
+    public void AnnounceCapitalIncome()
+    {
+
     }
 }
 

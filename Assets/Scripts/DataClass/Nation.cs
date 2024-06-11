@@ -106,29 +106,19 @@ public class Nation
         for (int i = 0; i < m_territorryList.Count; i++)
         {
             TokenTile tile = m_territorryList[i];
-            TileType territory = tile.GetTileType();
-            int incomeValue = tile.GetStat(TileStat.TileEnergy);
-            Capital capital = Capital.None;
-            //테이블로 각 타입에서 얻을 수 있는 자원을 정의해놓기?
-            switch (territory)
-            {
-                case TileType.Nomal:
-                    break;
-                case TileType.Town:
-                    break;
-                case TileType.Farm:
-                    capital = Capital.Food;
-                    break;
-                case TileType.Rock:
-                    break;
-                case TileType.Lake:
-                    break;
-                case TileType.Capital:
-                    break;
-                default:
-                    break;
-            }
-            m_resources[(int)capital] += incomeValue;
+            RuleBook.TMineTileResult mineResult = GamePlayMaster.GetInstance().RuleBook.MineResource(tile);
+            CalMineResult(mineResult);
+        }
+    }
+
+    private void CalMineResult(RuleBook.TMineTileResult _mineResult)
+    {
+        //채집 결과물을 가지고 자원 획득
+        List<(Capital, int)> resourceAmount = _mineResult.GetResourceAmount();
+        for (int i = 0; i < resourceAmount.Count; i++)
+        {
+            if (m_nationNumber.Equals(0))
+                Debug.Log(resourceAmount[i].Item1 + "자원 " + resourceAmount[i].Item2 + "만큼 획득");
         }
     }
 
@@ -136,8 +126,6 @@ public class Nation
     {
         int tempExpandCount = 3; //3개씩 확장하는걸로 
         //4칸까지 확장되가는걸로
-        System.Text.StringBuilder valueReport = new System.Text.StringBuilder();
-        valueReport.Append("총영토 : " + m_territorryList.Count + "\n");
         int startRange = m_range; //시작할 위치 
         for (int i = startRange; i <= 25; i++)
         {
@@ -146,11 +134,9 @@ public class Nation
             //2. 무소속이면 대상 토지를 편입. 
 
             m_range = i; //현재 번창된 사거리 갱신 
-            valueReport.Append(i+"거리 \n");
             for (int tileIdx = 0; tileIdx < rangeInTile.Count; tileIdx++)
             {
                 TokenTile tile = rangeInTile[tileIdx];
-                valueReport.Append(tile.GetXIndex()+", "+tile.GetYIndex()+"좌표 토지 소속은 " + tile.GetStat(TileStat.Nation)+"\n");
                 if (tile.GetStat(TileStat.Nation).Equals(FixedValue.NO_NATION_NUMBER))
                 {
                     AddTerritory(tile); //무소속이면 해당 타일 편입
@@ -168,6 +154,5 @@ public class Nation
             }
         }
         ShowTerritory();
-        Debug.Log(valueReport);
     }
 }
