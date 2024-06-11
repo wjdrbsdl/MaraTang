@@ -60,7 +60,7 @@ public class UITileWorkShop : UIBase
     {
         int mainType = _tile.GetStat(TileStat.MainResource);
         int value = _tile.GetStat(TileStat.TileEnergy);
-        Debug.Log((TokenTile.MainResource)mainType+" 해당 용도에서 등급은" + value);
+      //  Debug.Log((TokenTile.MainResource)mainType+" 해당 용도에서 등급은" + value);
     }
 
     private void SetOccupyButton(TokenTile _tile)
