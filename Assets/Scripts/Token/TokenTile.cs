@@ -6,7 +6,7 @@ using TMPro;
 #region 타일 enum
 public enum TileType
 {
-    Nomal, Town, Farm, Rock, Lake, Capital
+    Nomal, Town, Farm, Rock, Lake, Capital, Mountain
 }
 
 public enum TileViewState
@@ -50,19 +50,18 @@ public class TokenTile : TokenBase
         TokenTile tileToken = new TokenTile();
         tileToken.m_tokenIValues = new int[GameUtil.EnumLength(TileStat.Height)];
         tileToken.m_tokenType = TokenType.Tile;
-        int ran = Random.Range(0, 2);
-        if (ran.Equals(1))
-            tileToken.tileType = TileType.Farm;
         
         return tileToken;
     }
 
-    public void SetEcoValue(float _ecoValue)
+    public void SetHeightValue(float _ecoHeight)
     {
-        int ecoValue = (int)(_ecoValue * 100f);
-        SetStatValue(TileStat.Height, ecoValue);
-        SetStatValue(TileStat.TileEnergy, 30);
-        SetStatValue(TileStat.Nation, FixedValue.NO_NATION_NUMBER); //-1이 미소속 영토. 
+        //타일 높이에 따라 강, 노말, 산으로 구별 
+        int tileHeight = (int)(_ecoHeight * 100f);
+        SetStatValue(TileStat.Height, tileHeight);
+        if (tileHeight >= 66)
+            tileType = TileType.Mountain;
+    
     }
 
     public enum MainResource

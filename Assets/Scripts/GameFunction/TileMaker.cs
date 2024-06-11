@@ -40,8 +40,9 @@ public class TileMaker : MonoBehaviour
                 
                 //2. 타일 토큰 정보 세팅                
                 newTile.SetMapIndex(curx, cury); //토큰 자체에 자신의 인덱스 넣고
-                newTile.SetEcoValue(noisedMapping[curx, cury]);
-                newTile.SetResourceValue();
+                newTile.SetHeightValue(noisedMapping[curx, cury]);
+                newTile.SetNation(FixedValue.NO_NATION_NUMBER); //기본 소속없는 국가 번호로 지정
+                newTile.SetResourceValue(); //해당 타일의 메인 자원값 설정
 
                 //3. 타일 오브젝트 세팅
                 newTileObject.SetObjectToken(newTile, TokenType.Tile);
