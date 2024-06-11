@@ -26,8 +26,8 @@ public class UITileWorkShop : UIBase
         MakeSamplePool<BtnTileWorkShop>(ref m_workButtones, m_workButtonSample.gameObject, setCount, m_tileActionBox);
         //버튼 세팅
         SetButtons(_selectedTile, tileWorks);
-
-        SetOccupyButton(_tile);
+        SetResourceInfo(_selectedTile);
+        SetOccupyButton(_selectedTile);
     }
 
     //타일 액션을 수행할 수 있는 캐릭이 안에 있어야 가능
@@ -54,6 +54,13 @@ public class UITileWorkShop : UIBase
         {
             m_workButtones[i].SetActive(false);
         }
+    }
+
+    private void SetResourceInfo(TokenTile _tile)
+    {
+        int mainType = _tile.GetStat(TileStat.MainResource);
+        int value = _tile.GetStat(TileStat.TileEnergy);
+        Debug.Log((TokenTile.MainResource)mainType+" 해당 용도에서 등급은" + value);
     }
 
     private void SetOccupyButton(TokenTile _tile)
