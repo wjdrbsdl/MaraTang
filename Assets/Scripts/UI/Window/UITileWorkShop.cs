@@ -18,6 +18,7 @@ public class UITileWorkShop : UIBase
     {
         Switch(true);
         TokenTile _selectedTile = _tile;
+        Debug.Log(_tile.GetTileType());
         bool inMain = IsInMainChar(_selectedTile);
         //Debug.Log("메인 캐릭 있다 " + inMain);
         TokenAction[] tileWorks = GamePlayMaster.GetInstance().RuleBook.RequestTileActions(_selectedTile);
