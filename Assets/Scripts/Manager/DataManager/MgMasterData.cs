@@ -39,7 +39,8 @@ public class MgMasterData : Mg<MgMasterData>
 
     public TileTypeData GetTileData(int _tileTypeID)
     {
-        return m_tileTypeDataDic[_tileTypeID];
+        //return m_tileTypeDataDic[_tileTypeID];
+        return GetDicData<TileTypeData>(m_tileTypeDataDic, _tileTypeID);
     }
 
     public TokenChar GetCharData(int _charPID)

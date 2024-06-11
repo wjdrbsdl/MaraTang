@@ -290,6 +290,8 @@ public class RuleBook
         int tileType = (int)_tile.tileType;
         //2. pid에 맞는 타일 데이터 가져옴
         TileTypeData tileData = MgMasterData.GetInstance().GetTileData(tileType); //해당 타입의 타일데이터를 가져옴
+        if (tileData == null)
+            return ableList.ToArray();
         //3. 가능한 액션 토큰 배열을 순환
         for (int i = 0; i < tileData.AbleTileActionPID.Length; i++)
         {
