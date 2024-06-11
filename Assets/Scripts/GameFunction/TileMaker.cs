@@ -65,10 +65,12 @@ public class TileMaker : MonoBehaviour
         }
         MgToken.GetInstance().SetMapTiles(newMap); //만들어진 맵 정보 전달
         MgToken.GetInstance().SetHideTiles(newHideMap); //만들어진 맵 정보 전달
-        for (int i = 0; i < resourceMain.Length; i++)
-        {
-            Debug.Log((TokenTile.MainResource)i + "의 총 타일 수 :" + resourceMain[i]);
-        }
+
+        //디버그
+        //for (int i = 0; i < resourceMain.Length; i++)
+        //{
+        //    Debug.Log((TokenTile.MainResource)i + "의 총 타일 수 :" + resourceMain[i]);
+        //}
     }
 
     public List<int[]> DivideChunk(int _chunkLength)
