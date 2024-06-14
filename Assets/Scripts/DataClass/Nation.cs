@@ -11,6 +11,7 @@ public class Nation
     private TokenTile m_capitalCity;
     private List<TokenTile> m_territorryList;
     private int[] m_resources;
+    private List<int> m_doneTech; // 완료한 테크 Pid
     static Color[] nationColor = { Color.red, Color.yellow, Color.black };
 
     #region 국가 생성자
@@ -32,6 +33,7 @@ public class Nation
             nation.AddTerritory(boundaryTile[i]);
         }
         nation.m_resources = new int[GameUtil.EnumLength(Capital.Food)];
+        nation.m_doneTech = new List<int>(); //작업 완료 테크
         return nation;
     }
 
@@ -56,14 +58,6 @@ public class Nation
     {
         m_territorryList.Remove(_tileToken);
     }
-    #endregion
-
-    public void ManageNation()
-    {
-        //국가운영 
-        IncomeTerritoryResource(); //영토에서 자원 수급
-        ExpandTerritory(); //영토 확장 정책
-    }
 
     public void SetCapitalCity(TokenTile _tileToken)
     {
@@ -81,8 +75,17 @@ public class Nation
         {
             TokenTile tile = m_territorryList[i];
             tile.Dye(nationColor[m_nationNumber]);
-         //   Debug.Log("해당 타일의 타입은 " + tile.GetTileType());
+            //   Debug.Log("해당 타일의 타입은 " + tile.GetTileType());
         }
+    }
+
+    #endregion
+
+    public void ManageNation()
+    {
+        //국가운영 
+        IncomeTerritoryResource(); //영토에서 자원 수급
+        ExpandTerritory(); //영토 확장 정책
     }
 
     private void IncomeTerritoryResource()
@@ -141,4 +144,24 @@ public class Nation
         }
         ShowTerritory();
     }
+
+    #region 국가 테크 
+    public void CompleteTech(int _techPid)
+    {
+        m_doneTech.Add(_techPid);
+    }
+
+    public List<int> GetDoneTech()
+    {
+        return m_doneTech;
+    }
+
+    public bool IsDoneTech(int _techPid)
+    {
+        if (m_doneTech.IndexOf(_techPid) >= 0)
+            return true;
+
+        return false;
+    }
+    #endregion
 }
