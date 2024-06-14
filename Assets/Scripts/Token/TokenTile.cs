@@ -175,6 +175,15 @@ public class TokenTile : TokenBase
         SetStatValue(TileStat.Nation, _nationNumber);
     }
 
+    public Nation GetNation()
+    {
+        int nationNum = m_tokenIValues[(int)TileStat.Nation];
+        if (nationNum.Equals(FixedValue.NO_NATION_NUMBER))
+            return null;
+
+        return MgNation.GetInstance().GetNation(m_tokenIValues[(int)TileStat.Nation]);
+    }
+
     #region 입장 이벤트
     public TokenEvent GetEneteranceEvent()
     {
