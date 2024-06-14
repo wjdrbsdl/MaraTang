@@ -148,7 +148,8 @@ public class Nation
     #region 국가 테크 
     public void CompleteTech(int _techPid)
     {
-        m_doneTech.Add(_techPid);
+        if(m_doneTech.IndexOf(_techPid)<0)
+            m_doneTech.Add(_techPid);
     }
 
     public List<int> GetDoneTech()
