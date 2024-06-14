@@ -247,7 +247,7 @@ MonoBehaviour:
   m_tileMaker: {fileID: 1308600154}
   m_tiles: {fileID: 4382253129068172927, guid: e65e78ad81738674ca9fdd0a35f560e1, type: 3}
   m_tilesSprite:
-  - {fileID: 21300000, guid: 45cac9c14de5c40468374d98098db725, type: 3}
+  - {fileID: 21300000, guid: f8068263d25f5554ca776db952c91c75, type: 3}
   - {fileID: 21300000, guid: fb79c51d441f6f64197e66a798873f6c, type: 3}
   - {fileID: 21300000, guid: fa5189ad96980b245b2dbd61fbe67418, type: 3}
   m_hideSprite:
@@ -267,7 +267,7 @@ MonoBehaviour:
   m_chunkLength: 6
   m_rLength: 2.25
   m_padding: 1.04
-  m_seed: 0
+  m_seed: 1
   m_noise: 0.33
   m_monsterBox: {fileID: 1959083408}
   m_monsterObjSample: {fileID: 3567145751458534873, guid: 6b929d847dd832b42adf04be0fb216df, type: 3}
