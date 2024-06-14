@@ -70,6 +70,11 @@ public class MgMasterData : Mg<MgMasterData>
         return GetDicData<ContentData>(m_contentDataDic, _contentPID);
     }
 
+    public Dictionary<int, NationTechTree> GetTechDic()
+    {
+        return m_nationTechDataDic;
+    }
+
     private T1 GetDicData<T1>(Dictionary<int, T1> _dic, int _pid)
     {
         if (_dic.ContainsKey(_pid))
