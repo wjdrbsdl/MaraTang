@@ -70,6 +70,11 @@ public class MgMasterData : Mg<MgMasterData>
         return GetDicData<ContentData>(m_contentDataDic, _contentPID);
     }
 
+    public NationTechTree GetTechData(int _techPID)
+    {
+        return GetDicData<NationTechTree>(m_nationTechDataDic, _techPID);
+    }
+
     public Dictionary<int, NationTechTree> GetTechDic()
     {
         return m_nationTechDataDic;
