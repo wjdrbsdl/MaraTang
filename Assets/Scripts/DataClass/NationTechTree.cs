@@ -23,4 +23,9 @@ public class NationTechTree
         m_techValues = new int[GameUtil.EnumLength(TechTreeStat.Class)];
         GameUtil.InputMatchValue(ref m_techValues, matchCode, valueCode);
     }
+
+    public int GetPid()
+    {
+        return m_techPid;
+    }
 }
