@@ -28,4 +28,14 @@ public class NationTechTree
     {
         return m_techPid;
     }
+
+    public string GetTechName()
+    {
+        return m_techName;
+    }
+
+    public int GetTechValue(TechTreeStat _stat)
+    {
+        return m_techValues[(int)_stat];
+    }
 }

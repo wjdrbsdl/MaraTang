@@ -44,8 +44,8 @@ public class MgUI : MgGeneric<MgUI>
         switch (tokenType)
         {
             case TokenType.Tile:
-                PushUIStack(m_tileWorkShopUI);
-                m_tileWorkShopUI.SetTileWorkShopInfo((TokenTile)_token);
+                TokenTile tileToken = (TokenTile)_token;
+                ShowTileTokenInfo(tileToken);
                 break;
             case TokenType.Char:
                 PushUIStack(m_charStatUI);
@@ -81,6 +81,29 @@ public class MgUI : MgGeneric<MgUI>
     public void ShowItemList(TTokenOrder _orderToken)
     {
         m_rewardChooseUI.ShowItemList(_orderToken);
+    }
+
+    private void ShowTileTokenInfo(TokenTile _tile)
+    {
+        TileType tileType = _tile.GetTileType();
+        if (tileType.Equals(TileType.Capital))
+        {
+            Debug.Log("국가 트리 정보 보여주기");
+            foreach(KeyValuePair<int, NationTechTree> tech in MgMasterData.GetInstance().GetTechDic())
+            {
+                Debug.LogFormat("분류:{0} 이름:{1}, 필요 턴:{2}, 필요 광물:{3}, 필요나무 :{4}", 
+                    tech.Value.GetTechValue(TechTreeStat.Class), 
+                    tech.Value.GetTechName(),
+                    tech.Value.GetTechValue(TechTreeStat.NeedTurn), 
+                    tech.Value.GetTechValue(TechTreeStat.NeedMineral),
+                    tech.Value.GetTechValue(TechTreeStat.NeedWood));
+            }
+        }
+        else
+        {
+            PushUIStack(m_tileWorkShopUI);
+            m_tileWorkShopUI.SetTileWorkShopInfo(_tile);
+        }
     }
 
     #region 현황 데이터 표기
