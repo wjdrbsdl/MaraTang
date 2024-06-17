@@ -327,7 +327,7 @@ public class RuleBook
                 MgUI.GetInstance().CancleLastUI();
                 break;
             case TileActionType.Build:
-                BuildTilee(_tile, subValue);
+                BuildTile(_tile, (TileType)subValue);
                 MgUI.GetInstance().CancleLastUI();
                 break;
 
@@ -342,7 +342,7 @@ public class RuleBook
                 break;
 
             case TileActionType.Destroy:
-                DestoryBuilding(_tile);
+                BuildTile(_tile, TileType.Nomal);
                 MgUI.GetInstance().CancleLastUI();
                 break;
             default:
@@ -362,34 +362,9 @@ public class RuleBook
         }
     }
 
-    private enum BuildTileType
+    private void BuildTile(TokenTile _tile, TileType _tileType)
     {
-        ¹ú¸ñ, ³óÁö, ¸¶À», Ã¤±¼Àå
-    }
-    private void BuildTilee(TokenTile _tile, int _buildNumber)
-    {
-        BuildTileType buildType = (BuildTileType)_buildNumber;
-        switch (buildType)
-        {
-            case BuildTileType.¹ú¸ñ:
-                _tile.ChangeTileType(TileType.WoodLand);
-                    return;
-            case BuildTileType.³óÁö:
-                _tile.ChangeTileType(TileType.Farm);
-                return;
-            case BuildTileType.¸¶À»:
-                _tile.ChangeTileType(TileType.Town);
-                return;
-            case BuildTileType.Ã¤±¼Àå:
-                _tile.ChangeTileType(TileType.Mine);
-                return;
-
-        }
-    }
-
-    private void DestoryBuilding(TokenTile _tile)
-    {
-        _tile.ChangeTileType(TileType.Nomal);
+        _tile.ChangeTileType(_tileType);
     }
     #endregion
 
