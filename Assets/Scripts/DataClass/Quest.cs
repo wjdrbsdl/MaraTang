@@ -166,7 +166,7 @@ public class QuestCondition : IOrderCustomer
 
     public void OnOrderCallBack(OrderReceipt _orderReceipt) //조건 고객
     {
-        Debug.Log("조건 고객");
+        //Debug.Log("조건 고객");
         //오더익스큐터로 생성된 토큰들을 콜백받으면 거기에 자신을 할당 
         TokenBase madeToken = _orderReceipt.MadeToken;
         if (madeToken == null)
