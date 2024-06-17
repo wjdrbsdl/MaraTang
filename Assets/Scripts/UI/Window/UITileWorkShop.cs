@@ -9,6 +9,8 @@ public class UITileWorkShop : UIBase
     [SerializeField]
     private TMP_Text m_statText; //토지 스텟 표기 
     [SerializeField]
+    private TMP_Text m_nationText; //토지 스텟 표기 
+    [SerializeField]
     private Transform m_tileActionBox; //액션 리스트 버튼 담을 장소
     [SerializeField]
     private BtnTileWorkShop m_workButtonSample;
@@ -52,8 +54,22 @@ public class UITileWorkShop : UIBase
         //현재 땅의 스텟 정보를 보여주기 
         MainResource mainResource = (MainResource)_tile.GetStat(TileStat.MainResource);
         int NationNum = _tile.GetStat(TileStat.Nation);
-        string a = string.Format("소속 국가 : {0}\n주요자원 {1} 토지력 {2}", NationNum, mainResource, _tile.GetStat(TileStat.TileEnergy));
-        m_statText.text = a;
+        string tileStat = string.Format("소속 국가 : {0}\n주요자원 {1} 토지력 {2}", NationNum, mainResource, _tile.GetStat(TileStat.TileEnergy));
+        m_statText.text = tileStat;
+
+        m_nationText.text = "";
+        if (_tile.GetTileType().Equals(TileType.Capital))
+        {
+            Nation nation = _tile.GetNation();
+            string nationStat = string.Format("국가 번호 : {0}\n보유 자원 \n" +
+                "{1}:{2} / {3}:{4} / {5}:{6} / {7}:{8}",
+                NationNum,
+                (MainResource)0, nation.GetResourceAmount((MainResource)0),
+                (MainResource)1, nation.GetResourceAmount((MainResource)1),
+                (MainResource)2, nation.GetResourceAmount((MainResource)2),
+                (MainResource)3, nation.GetResourceAmount((MainResource)3));
+            m_nationText.text = nationStat;
+        }
     }
 
     int setCount = 0;
