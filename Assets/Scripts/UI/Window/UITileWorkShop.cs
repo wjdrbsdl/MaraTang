@@ -65,10 +65,10 @@ public class UITileWorkShop : UIBase
             string nationStat = string.Format("국가 번호 : {0}\n보유 자원 \n" +
                 "{1}:{2} / {3}:{4} / {5}:{6} / {7}:{8}",
                 NationNum,
-                (MainResource)0, nation.GetResourceAmount((MainResource)0),
-                (MainResource)1, nation.GetResourceAmount((MainResource)1),
-                (MainResource)2, nation.GetResourceAmount((MainResource)2),
-                (MainResource)3, nation.GetResourceAmount((MainResource)3));
+                (Capital)0, nation.GetResourceAmount((Capital)0),
+                (Capital)1, nation.GetResourceAmount((Capital)1),
+                (Capital)2, nation.GetResourceAmount((Capital)2),
+                (Capital)3, nation.GetResourceAmount((Capital)3));
             m_nationText.text = nationStat;
         }
     }
