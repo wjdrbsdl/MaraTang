@@ -53,8 +53,9 @@ public class UITileWorkShop : UIBase
     {
         //현재 땅의 스텟 정보를 보여주기 
         MainResource mainResource = (MainResource)_tile.GetStat(TileStat.MainResource);
+        TileType tileType = _tile.GetTileType();
         int NationNum = _tile.GetStat(TileStat.Nation);
-        string tileStat = string.Format("소속 국가 : {0}\n주요자원 {1} 토지력 {2}", NationNum, mainResource, _tile.GetStat(TileStat.TileEnergy));
+        string tileStat = string.Format("소속 국가 : {0}\n토지 용도 {1} 토지 적합도 토지력 {2}", NationNum, tileType, mainResource, _tile.GetStat(TileStat.TileEnergy));
         m_statText.text = tileStat;
 
         m_nationText.text = "";
