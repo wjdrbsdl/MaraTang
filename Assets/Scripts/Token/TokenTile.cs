@@ -24,6 +24,11 @@ public enum TileStat
 {
    Nation, Height, MainResource, TileEnergy
 }
+
+public enum MainResource
+{
+    Tree, Food, House, Mineral
+}
 #endregion
 
 public class TokenTile : TokenBase
@@ -65,10 +70,7 @@ public class TokenTile : TokenBase
     
     }
 
-    public enum MainResource
-    {
-        Tree, Food, House, Mineral
-    }
+   
 
     public void SetResourceValue()
     {

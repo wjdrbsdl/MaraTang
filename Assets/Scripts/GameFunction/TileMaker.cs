@@ -21,7 +21,7 @@ public class TileMaker : MonoBehaviour
 
         float[,] noisedMapping = MakeNoise(orderXLength, orderYLength, _mapOrder.t_seed, _mapOrder.t_noise, 1f);
         //자원 분배 디버그용
-        int[] resourceMain = new int[GameUtil.EnumLength(TokenTile.MainResource.House)];
+        int[] resourceMain = new int[GameUtil.EnumLength(MainResource.House)];
         for (int curx = 0; curx < orderXLength; curx++)
         {
             float originXPos = curx * xOffSet; //원점
