@@ -242,7 +242,7 @@ public class MGContent : Mg<MGContent>
 
     private void MakeFence(Chunk _fenceChunk)
     {
-        Sprite fenceSprite = MgToken.GetInstance().m_tilesSprite[1];
+        Sprite fenceSprite = TempSpriteBox.GetInstance().GetSprite(TileType.Nomal);
 
         int xLength = _fenceChunk.tiles.GetLength(0);
         int yLength = _fenceChunk.tiles.GetLength(1);
