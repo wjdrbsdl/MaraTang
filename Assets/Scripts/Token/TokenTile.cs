@@ -7,7 +7,7 @@ using TMPro;
 public enum TileType
 {
     //각 타일의 타입 기본 산, 노말, 강 거기에 용도변경으로 농지,광산, 마을 단계까지 모두 정의 해놓기? 아니면 레벨은 따로"?
-    Nomal, Town, Farm, Mine, WoodLand, Capital, Mountain
+    Nomal, WoodLand, Farm, Town, Mine, Capital, Mountain
 }
 
 public enum TileViewState
@@ -99,6 +99,7 @@ public class TokenTile : TokenBase
 
     public void SetTileSprite()
     {
+        Debug.Log("세팅할 타일 타입" + tileType);
         GetObject().SetSprite( TempSpriteBox.GetInstance().GetSprite(tileType));
     }
 
