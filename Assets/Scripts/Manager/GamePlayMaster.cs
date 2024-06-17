@@ -79,17 +79,18 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>, IOrderCustomer
         //턴 준비
         ReadyNextTurn();
         //처음 시작시 플레이어 메인캐릭터에 카메라 포커스.
-        GamePlayMaster.GetInstance().CamFocus(PlayerManager.GetInstance().GetMainChar());
+        CamFocus(PlayerManager.GetInstance().GetMainChar());
         PlayerManager.GetInstance().FirstStart();
         SelectFirstNation();
     }
 
+    private int TempNationSelectOrderSerialNum = 1;
     private void SelectFirstNation()
     {
         //초기 진행시 발생된 국가들중 플레이어가 시작할 국가를 고르도록 함. 
         int nationNumber = MgNation.GetInstance().GetNationList().Count;
         List<TOrderItem> nationItemList = new();
-        int tempOrderNum = 1; //같은 주문서의 아이템인지 구별하기 위한 시리얼 넘버. 
+        int tempOrderNum = TempNationSelectOrderSerialNum; //같은 주문서의 아이템인지 구별하기 위한 시리얼 넘버. 
         for (int i = 1; i <= nationNumber; i++)
         {
             TOrderItem nationItem = new TOrderItem(ETokenGroup.Nation, i, i); //해당 국가를 아이템으로 생성 
@@ -416,7 +417,23 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>, IOrderCustomer
 
     public void OnOrderCallBack(OrderReceipt _orderReceipt)
     {
-        Debug.Log("선택한 국가 idx "+_orderReceipt.Order.SelectItemNum);
+        TTokenOrder order = _orderReceipt.Order;
+        int orderSerialNum = order.OrderSerialNumber;
+        //나라 선택 주문에 대한 콜백일 경우
+        if (orderSerialNum.Equals(TempNationSelectOrderSerialNum))
+        {
+            //선택한 나라
+            Nation nation = MgNation.GetInstance().GetNation(order.SelectItemNum);
+            //그 나라의 수도 
+            TokenTile nationCapitalTile = nation.GetCapital();
+            //메인 캐릭터
+            TokenChar mainChar = PlayerManager.GetInstance().GetMainChar();
+            //수도위치로 캐릭터 이동
+            RuleBook.Migrate(mainChar, nationCapitalTile);
+            //카메라 포커싱
+            CamFocus(PlayerManager.GetInstance().GetMainChar());
+        }
+        
     }
 }
 
