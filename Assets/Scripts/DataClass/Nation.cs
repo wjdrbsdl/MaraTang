@@ -145,6 +145,11 @@ public class Nation
         ShowTerritory();
     }
 
+    public int GetResourceAmount(MainResource _resource)
+    {
+        return m_resources[(int)_resource];
+    }
+
     #region 국가 테크 
     public void CompleteTech(int _techPid)
     {
