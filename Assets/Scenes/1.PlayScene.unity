@@ -246,10 +246,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_tileMaker: {fileID: 1308600154}
   m_tiles: {fileID: 4382253129068172927, guid: e65e78ad81738674ca9fdd0a35f560e1, type: 3}
-  m_tilesSprite:
-  - {fileID: 21300000, guid: f8068263d25f5554ca776db952c91c75, type: 3}
-  - {fileID: 21300000, guid: fb79c51d441f6f64197e66a798873f6c, type: 3}
-  - {fileID: 21300000, guid: fa5189ad96980b245b2dbd61fbe67418, type: 3}
   m_hideSprite:
   - {fileID: 21300000, guid: f164718047793fe488a7226f5f35ebbf, type: 3}
   - {fileID: 21300000, guid: beaf8a8548d61ee4f95489d52b55312f, type: 3}
@@ -1969,7 +1965,7 @@ RectTransform:
   m_Children:
   - {fileID: 1126352747}
   m_Father: {fileID: 1543266234}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -3369,6 +3365,7 @@ MonoBehaviour:
   m_tierImage: {fileID: 0}
   m_slotType: 0
   m_tipType: 0
+  OrderIdx: 0
 --- !u!114 &664245842
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4986,7 +4983,7 @@ GameObject:
   - component: {fileID: 947372446}
   - component: {fileID: 947372447}
   m_Layer: 0
-  m_Name: GamePresetMg
+  m_Name: GameInitMg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5028,6 +5025,7 @@ MonoBehaviour:
   m_capitalManager: {fileID: 1622518810}
   m_naviManager: {fileID: 2064739236}
   m_playerGameUI: {fileID: 1473844562}
+  m_tempSpriteBox: {fileID: 1824618659}
   m_cutton: {fileID: 1665420536}
 --- !u!1 &952571743
 GameObject:
@@ -7518,7 +7516,7 @@ RectTransform:
   - {fileID: 1191129986}
   - {fileID: 229075014}
   m_Father: {fileID: 1543266234}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -7861,6 +7859,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1824618658}
   - {fileID: 475455793}
   - {fileID: 1473844561}
   - {fileID: 2035375372}
@@ -10158,6 +10157,57 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1823764870}
   m_CullTransparentMesh: 1
+--- !u!1 &1824618657
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1824618658}
+  - component: {fileID: 1824618659}
+  m_Layer: 0
+  m_Name: TempSprite
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1824618658
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1824618657}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1543266234}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1824618659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1824618657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60a443f9ab10a6a4bbd54e0e067ed9b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WoodLand: {fileID: 21300000, guid: 45cac9c14de5c40468374d98098db725, type: 3}
+  FarmLand: {fileID: 21300000, guid: 5aa35be748a3bba4782a0e40a04b0f64, type: 3}
+  TownLand: {fileID: 21300000, guid: f02258d84213387478472d20f6da78de, type: 3}
+  MineralLand: {fileID: 21300000, guid: 96f5b22089751ab46a0cc5f8df569abd, type: 3}
+  NomalLand: {fileID: 21300000, guid: fb79c51d441f6f64197e66a798873f6c, type: 3}
+  MountainLand: {fileID: 21300000, guid: f8068263d25f5554ca776db952c91c75, type: 3}
+  CapitalLand: {fileID: 21300000, guid: fa5189ad96980b245b2dbd61fbe67418, type: 3}
 --- !u!1 &1835124873
 GameObject:
   m_ObjectHideFlags: 0
@@ -11275,7 +11325,7 @@ RectTransform:
   - {fileID: 994071879}
   - {fileID: 323351578}
   m_Father: {fileID: 1543266234}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
