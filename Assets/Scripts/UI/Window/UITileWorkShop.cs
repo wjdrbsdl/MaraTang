@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class UITileWorkShop : UIBase
 {
     //해당 타일의 정보 표기 및 타일에서 할 수 있는 작업을 제공하는 UI
+    [SerializeField]
+    private TMP_Text m_statText; //토지 스텟 표기 
     [SerializeField]
     private Transform m_tileActionBox; //액션 리스트 버튼 담을 장소
     [SerializeField]
@@ -29,6 +32,7 @@ public class UITileWorkShop : UIBase
         SetButtons(_selectedTile, tileWorks);
         SetResourceInfo(_selectedTile);
         SetOccupyButton(_selectedTile);
+        SetTileStat(_selectedTile);
     }
 
     //타일 액션을 수행할 수 있는 캐릭이 안에 있어야 가능
@@ -42,6 +46,16 @@ public class UITileWorkShop : UIBase
         }
         return false;
     }
+
+    private void SetTileStat(TokenTile _tile)
+    {
+        //현재 땅의 스텟 정보를 보여주기 
+        MainResource mainResource = (MainResource)_tile.GetStat(TileStat.MainResource);
+        int NationNum = _tile.GetStat(TileStat.Nation);
+        string a = string.Format("소속 국가 : {0}\n주요자원 {1} 토지력 {2}", NationNum, mainResource, _tile.GetStat(TileStat.TileEnergy));
+        m_statText.text = a;
+    }
+
     int setCount = 0;
     private void SetButtons(TokenTile _tile, TokenAction[] _workes)
     {
