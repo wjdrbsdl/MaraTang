@@ -148,7 +148,7 @@ public class Nation
     #region 국가 테크 
     public void CompleteTech(int _techPid)
     {
-        if(m_doneTech.IndexOf(_techPid)<0)
+        if(IsDoneTech(_techPid) == false) //배우지 않은 녀석이면
             m_doneTech.Add(_techPid);
     }
 
