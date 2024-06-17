@@ -361,9 +361,16 @@ public class RuleBook
             PlayerCapitalData.g_instance.CalCapital(mineResult[i].Item1, mineResult[i].Item2);
         }
     }
+    public int GetTileChangeCost(TileType _tileType)
+    {
+        int cost = MgMasterData.GetInstance().GetTileData((int)_tileType).BuildCost;
+        //  Debug.Log(_tileType+"변경 비용 : "+cost);
+        return cost;
+    }
 
     private void BuildTile(TokenTile _tile, TileType _tileType)
     {
+        GetTileChangeCost(_tileType);
         _tile.ChangeTileType(_tileType);
     }
     #endregion
