@@ -26,6 +26,8 @@ public class MgGameIniti : MgGeneric<MgGameIniti>
     MgNaviPin m_naviManager;
     [SerializeField]
     MgUI m_playerGameUI;
+    [SerializeField]
+    TempSpriteBox m_tempSpriteBox;
 
     MGContent contentManager;
     MgMasterData m_MasterDataManager;
@@ -103,7 +105,9 @@ public class MgGameIniti : MgGeneric<MgGameIniti>
         initiManagerStack = new();
         //순서대로 initi. 
         //초기화 작업이 비동기로 진행되는 경우 PlayMgInitiWorkStep을 해당 InitiSet에서 별도 호출
-        
+
+        InputDataMGWorkStep(delegate { m_tempSpriteBox.InitiSet(); PlayMgInitiWorkStep("mgSprite로드끝"); });
+
         //1. 데이터 파싱
         InputDataMGWorkStep(delegate { m_parseManager.InitiSet(); });
         //2. 마스터 데이터 생성 
