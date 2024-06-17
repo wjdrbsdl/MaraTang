@@ -10,6 +10,8 @@ public enum TechTreeStat
 
 public class NationTechTree
 {
+
+    //국가 기술 하나 정보 
     private int m_techPid;
     private string m_techName;
     private int m_techClass;
