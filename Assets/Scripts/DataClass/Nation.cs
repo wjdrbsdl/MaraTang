@@ -105,7 +105,7 @@ public class Nation
         if (HavePolicy())
         {
             m_mainPolicyCount += 1;
-            Debug.Log("기존 정책 " + m_curMainPolicy + " 유지" + m_mainPolicyCount);
+         //   Debug.Log("기존 정책 " + m_curMainPolicy + " 유지" + m_mainPolicyCount);
             return;
         }
             
@@ -266,12 +266,12 @@ public class Nation
         TokenTile planTile = (TokenTile)m_planToken;
         if (AbleExpand(planTile) == false)
         {
-            Debug.Log("확장 불가능 상태");
+          //  Debug.Log("확장 불가능 상태");
             return;
         }
 
         //확장 가능한 상태라면
-        Debug.Log("영토 확장 정책 수행 완료");
+      //  Debug.Log("영토 확장 정책 수행 완료");
         CalResourceAmount(Capital.Wood, -300);
         AddTerritory(planTile); //계획 토큰을 타일로 전환후 영토 집행
         ShowTerritory();
@@ -303,12 +303,12 @@ public class Nation
         TokenTile planTile = (TokenTile)m_planToken;
         if (AbleManageLand(planTile) == false)
         {
-            Debug.Log("운영 불가능 상태");
+         //   Debug.Log("운영 불가능 상태");
             return;
         }
 
         //변경 가능한 상태라면
-        Debug.Log("영토 운영 정책 수행 완료");
+      //  Debug.Log("영토 운영 정책 수행 완료");
         CalResourceAmount(Capital.Mineral, -300); //비용지불
         planTile.ChangeTileType((TileType)m_planIndex); //플랜 idx 타입으로 토지변경
         ResetPolicy();
@@ -319,17 +319,17 @@ public class Nation
         //만약 현재 타일상태가 누군가의 점유로 바꼈으면 확장 불가 
         if (_tile.GetStat(TileStat.Nation) != m_nationNumber)
         {
-            Debug.Log("국가 귀속 타일이 아님");
+          //  Debug.Log("국가 귀속 타일이 아님");
             return false;
         }
         if (_tile.GetTileType() != TileType.Nomal)
         {
-            Debug.Log("토지 변경 불가능한 상태");
+          //  Debug.Log("토지 변경 불가능한 상태");
             return false;
         }
         if (GetResourceAmount(Capital.Mineral) < 300)
         {
-            Debug.Log("변경 비용 부족");
+         //   Debug.Log("변경 비용 부족");
             return false;
         }
 
