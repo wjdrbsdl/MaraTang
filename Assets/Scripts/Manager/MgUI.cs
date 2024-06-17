@@ -112,11 +112,11 @@ public class MgUI : MgGeneric<MgUI>
             }
                 
         }
-        else
-        {
-            PushUIStack(m_tileWorkShopUI);
-            m_tileWorkShopUI.SetTileWorkShopInfo(_tile);
-        }
+
+
+        PushUIStack(m_tileWorkShopUI);
+        m_tileWorkShopUI.SetTileWorkShopInfo(_tile);
+
     }
 
     #region 현황 데이터 표기
