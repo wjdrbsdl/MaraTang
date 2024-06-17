@@ -99,7 +99,6 @@ public class TokenTile : TokenBase
 
     public void SetTileSprite()
     {
-        Debug.Log("세팅할 타일 타입" + tileType);
         GetObject().SetSprite( TempSpriteBox.GetInstance().GetSprite(tileType));
     }
 

@@ -27,14 +27,14 @@ public class OrderExcutor
         switch (orderType)
         {
             case EOrderType.ItemAdapt:
-                Debug.Log("나열된 아이템들을 적용");
+              //  Debug.Log("나열된 아이템들을 적용");
                 for (int i = 0; i < _order.orderItemList.Count; i++)
                 {
                     ExcuteOrderItem(_order, i);
                 }
                 break;
             case EOrderType.ItemSelect:
-                Debug.Log("보상으로 들어옴");
+              //  Debug.Log("보상으로 들어옴");
                 MgUI.GetInstance().ShowItemList(_order);
                 break;
             case EOrderType.SpawnMonster:
@@ -279,7 +279,7 @@ public struct TOrderItem
 
     public void SetSerialNum(int _serialNum)
     {
-        Debug.Log("시리얼 넘버로 세팅중" + _serialNum);
+     //   Debug.Log("시리얼 넘버로 세팅중" + _serialNum);
         SerialNum = _serialNum;
     }
 }
