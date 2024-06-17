@@ -192,7 +192,7 @@ public class MgMasterData : Mg<MgMasterData>
 public class TileTypeData{
     public int TypePID;
     public int[] AbleTileActionPID;
-
+    public int BuildCost;
     public TileTypeData(string[] _parsingData)
     {
         TypePID = int.Parse(_parsingData[0]);
@@ -203,6 +203,7 @@ public class TileTypeData{
         {
             AbleTileActionPID[i] = int.Parse(divideAble[i]);
         }
+        BuildCost = int.Parse(_parsingData[3]);
     }
 }
 
