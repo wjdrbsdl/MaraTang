@@ -4287,6 +4287,7 @@ MonoBehaviour:
   m_window: {fileID: 1471571217}
   IsOnType: 0
   IsStackType: 1
+  m_statText: {fileID: 1636353980}
   m_tileActionBox: {fileID: 410241338}
   m_workButtonSample: {fileID: 1604524021}
   m_workButtones: []
@@ -7253,7 +7254,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1471571218
 RectTransform:
   m_ObjectHideFlags: 0
