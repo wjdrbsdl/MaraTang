@@ -115,7 +115,7 @@ public class Nation
 
         //어떤류 할지 정하고
         m_curMainPolicy = (MainPolicy)randomPolicy;
-        Debug.Log(m_nationNumber + "국가에서 메인 정책 결정 " + m_curMainPolicy);
+        Announcer.Instance.AnnounceState(m_nationNumber + "국가에서 메인 정책 결정 " + m_curMainPolicy);
 
         //그에 대한 타겟을 정한다
         MakePlan(m_curMainPolicy);
@@ -184,7 +184,7 @@ public class Nation
         if (m_planToken == null)
         {
             ResetPolicy();
-            Debug.Log("확장할 영토를 찾지 못해 정책 초기화");
+           // Debug.Log("확장할 영토를 찾지 못해 정책 초기화");
         }
             
     }
@@ -220,7 +220,7 @@ public class Nation
         if (m_planToken == null)
         {
             ResetPolicy();
-            Debug.Log("운영할 영토를 찾지 못해 정책 초기화");
+          //  Debug.Log("운영할 영토를 찾지 못해 정책 초기화");
         }
     }
     #endregion
@@ -231,14 +231,14 @@ public class Nation
         //수행할 정책 없으면 종료
         if (HavePolicy() == false)
         {
-            Debug.Log("수립된 정책 없음");
+          //  Debug.Log("수립된 정책 없음");
             return;
         }
             
         //수행할 계획 없으면 종료
         if (HavePlanToken() == false)
         {
-            Debug.Log("구체적 계획 없음");
+           // Debug.Log("구체적 계획 없음");
             return;
         }
 
@@ -283,14 +283,14 @@ public class Nation
         //만약 현재 타일상태가 누군가의 점유로 바꼈으면 확장 불가 
         if (_tile.GetStat(TileStat.Nation) != FixedValue.NO_NATION_NUMBER)
         {
-            Debug.Log("미점유상태 타일이 아님");
+         //   Debug.Log("미점유상태 타일이 아님");
             return false;
         }
             
 
         if (GetResourceAmount(Capital.Wood) < 300)
         {
-            Debug.Log("확장 비용 부족");
+          //  Debug.Log("확장 비용 부족");
             return false;
         }
             
@@ -340,11 +340,11 @@ public class Nation
     {
         if(AbleLevelUp() == false)
         { 
-            Debug.Log("레벨업 조건 미충족");
+         //   Debug.Log("레벨업 조건 미충족");
             return;
         }
 
-        Debug.Log("국가 레벨 상승 :" + m_nationLevel+"Lv");
+        Announcer.Instance.AnnounceState("국가 레벨 상승 :" + m_nationLevel+"Lv");
         int needPerson = m_nationLevel * 400;
         int needFood = needPerson * 50;
         CalResourceAmount(Capital.Food, -needFood);
@@ -358,13 +358,13 @@ public class Nation
         int needFood = needPerson * 50;
         if (GetResourceAmount(Capital.Person) < needPerson)
         {
-            Debug.Log("등급상승 만족 인구 부족");
+         //   Debug.Log("등급상승 만족 인구 부족");
             return false;
         }
 
         if (GetResourceAmount(Capital.Food) < needFood)
         {
-            Debug.Log("등급상승 식량 부족");
+          //  Debug.Log("등급상승 식량 부족");
             return false;
         }
         return true;
@@ -387,7 +387,7 @@ public class Nation
         //집행되지 못한 정책의 경우 바꿀지 말지
         if(m_mainPolicyCount >= 3)
         {
-            Debug.Log("정책 유지 3회 이유로 기존 정책 초기화");
+          //  Debug.Log("정책 유지 3회 이유로 기존 정책 초기화");
             ResetPolicy();
         }
     }
