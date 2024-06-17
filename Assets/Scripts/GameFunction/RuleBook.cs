@@ -401,12 +401,28 @@ public class RuleBook
                 result.Add((Capital.Person, tileEnegy));
                 break;
             case TileType.Town:
+                result.Add((Capital.Food, tileEnegy));
+                result.Add((Capital.Mineral, tileEnegy));
+                result.Add((Capital.Wood, tileEnegy));
+                result.Add((Capital.Person, tileEnegy));
                 break;
             case TileType.Farm:
+                result.Add((Capital.Food, tileEnegy));
+                result.Add((Capital.Mineral, tileEnegy));
+                result.Add((Capital.Wood, tileEnegy));
+                result.Add((Capital.Person, tileEnegy));
                 break;
             case TileType.Mine:
+                result.Add((Capital.Food, tileEnegy));
+                result.Add((Capital.Mineral, tileEnegy));
+                result.Add((Capital.Wood, tileEnegy));
+                result.Add((Capital.Person, tileEnegy));
                 break;
             case TileType.WoodLand:
+                result.Add((Capital.Food, tileEnegy*0));
+                result.Add((Capital.Mineral, tileEnegy*1));
+                result.Add((Capital.Wood, (int)(tileEnegy*1.5)));
+                result.Add((Capital.Person, tileEnegy));
                 break;
             case TileType.Capital:
                 break;
