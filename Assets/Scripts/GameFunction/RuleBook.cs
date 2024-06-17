@@ -317,21 +317,22 @@ public class RuleBook
     public void ConductTileAction(TokenTile _tile, TokenAction _action)
     {
         TileActionType tileActionType = (TileActionType)_action.GetStat(TileActionStat.TileActionType);
+        int subValue = _action.GetStat(TileActionStat.SubValue); //해당 타입에서 부차적인 벨류
         //tileActionType으로 행태 구별 
 
         switch (tileActionType)
         {
             case TileActionType.Harvest:
-                List<(Capital, int)> mineResult = GamePlayMaster.GetInstance().RuleBook.MineResource(_tile).GetResourceAmount();
-                for (int i = 0; i < mineResult.Count; i++)
-                {
-                  //  Debug.Log(mineResult[i].Item1 + " 자원 채취" + mineResult[i].Item2);
-                    PlayerCapitalData.g_instance.CalCapital(mineResult[i].Item1, mineResult[i].Item2);
-                }
+                HarvestTile(_tile);
+                MgUI.GetInstance().CancleLastUI();
+                break;
+            case TileActionType.Build:
+                BuildTilee(_tile, subValue);
+                MgUI.GetInstance().CancleLastUI();
                 break;
 
             case TileActionType.CapitalChef:
-                CapitalAction doCode = (CapitalAction)_action.GetStat(TileActionStat.SubValue);
+                CapitalAction doCode = (CapitalAction)subValue;
                 //재료 변환 
                 MgUI.GetInstance().ShowCapitalWorkShop(doCode, _tile, _action);
                 break;
@@ -339,11 +340,56 @@ public class RuleBook
             case TileActionType.LandUsage:
                 Debug.Log("땅 점령, 땅 변경, 땅 초기화 등 진행");
                 break;
+
+            case TileActionType.Destroy:
+                DestoryBuilding(_tile);
+                MgUI.GetInstance().CancleLastUI();
+                break;
             default:
                 MgUI.GetInstance().CancleLastUI();
                 break;
         }
     
+    }
+
+    private void HarvestTile(TokenTile _tile)
+    {
+        List<(Capital, int)> mineResult = GamePlayMaster.GetInstance().RuleBook.MineResource(_tile).GetResourceAmount();
+        for (int i = 0; i < mineResult.Count; i++)
+        {
+            //  Debug.Log(mineResult[i].Item1 + " 자원 채취" + mineResult[i].Item2);
+            PlayerCapitalData.g_instance.CalCapital(mineResult[i].Item1, mineResult[i].Item2);
+        }
+    }
+
+    private enum BuildTileType
+    {
+        벌목, 농지, 마을, 채굴장
+    }
+    private void BuildTilee(TokenTile _tile, int _buildNumber)
+    {
+        BuildTileType buildType = (BuildTileType)_buildNumber;
+        switch (buildType)
+        {
+            case BuildTileType.벌목:
+                _tile.ChangeTileType(TileType.WoodLand);
+                    return;
+            case BuildTileType.농지:
+                _tile.ChangeTileType(TileType.Farm);
+                return;
+            case BuildTileType.마을:
+                _tile.ChangeTileType(TileType.Town);
+                return;
+            case BuildTileType.채굴장:
+                _tile.ChangeTileType(TileType.Mine);
+                return;
+
+        }
+    }
+
+    private void DestoryBuilding(TokenTile _tile)
+    {
+        _tile.ChangeTileType(TileType.Nomal);
     }
     #endregion
 
@@ -376,9 +422,9 @@ public class RuleBook
                 break;
             case TileType.Farm:
                 break;
-            case TileType.Rock:
+            case TileType.Mine:
                 break;
-            case TileType.Lake:
+            case TileType.WoodLand:
                 break;
             case TileType.Capital:
                 break;
