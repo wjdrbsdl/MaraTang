@@ -18,15 +18,17 @@ public class UIRewardChoose : UIBase
         //주문서 방식이 선택 표기인 경우 대상 아이템을 표기해줌. 
         int itemCount = _tokenOrder.orderItemList.Count;
         MakeSamplePool<EventSlot>(ref m_eventSlots, m_sampleEventSlot.gameObject, itemCount, m_box);
-        SetRewardSlots(_tokenOrder.orderItemList);
+        SetRewardSlots(_tokenOrder);
     }
 
-    private void SetRewardSlots(List<TOrderItem> _ItemList)
+    private void SetRewardSlots(TTokenOrder _tokenOrder)
     {
+        List<TOrderItem> _ItemList = _tokenOrder.orderItemList;
         for (int i = 0; i < _ItemList.Count; i++)
         {
+            int itemIdx = i;
             m_eventSlots[i].gameObject.SetActive(true);
-            m_eventSlots[i].SetSlot(_ItemList[i], this);
+            m_eventSlots[i].SetSlot(_tokenOrder, itemIdx, this);
         }
     }
 

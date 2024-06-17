@@ -7,16 +7,17 @@ public class EventSlot : SlotBase
     private TokenEvent _eventToken;
     private UIBase _openUI; //소속된곳
     public TTokenOrder TokenOrder;
-    public TOrderItem OrderItem;
+    public int OrderIdx;
     public override void SetSlot(TokenBase _token)
     {
         base.SetSlot(_token);
         _eventToken = (TokenEvent)_token;
     }
 
-    public void SetSlot(TOrderItem _order, UIBase _ui)
+    public void SetSlot(TTokenOrder _order, int _index, UIBase _ui)
     {
-        OrderItem = _order;
+        TokenOrder = _order;
+        OrderIdx = _index;
         _openUI = _ui;
     }
 
@@ -30,6 +31,6 @@ public class EventSlot : SlotBase
     {
         _openUI.Switch(false);
         OrderExcutor orderExcutor = new();
-        orderExcutor.ExcuteOrderItem(OrderItem);
+        orderExcutor.ExcuteOrderItem(TokenOrder, OrderIdx);
     }
 }
