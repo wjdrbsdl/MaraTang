@@ -338,7 +338,7 @@ public class RuleBook
                 break;
 
             case TileActionType.LandUsage:
-                Debug.Log("땅 점령, 땅 변경, 땅 초기화 등 진행");
+                UseTownFunction(_tile, subValue);
                 break;
 
             case TileActionType.Destroy:
@@ -367,11 +367,15 @@ public class RuleBook
         //  Debug.Log(_tileType+"변경 비용 : "+cost);
         return cost;
     }
-
     private void BuildTile(TokenTile _tile, TileType _tileType)
     {
         GetTileChangeCost(_tileType);
         _tile.ChangeTileType(_tileType);
+    }
+
+    private void UseTownFunction(TokenTile _tile, int _subValue)
+    {
+        Debug.Log(_subValue + "작업 수행 요청");
     }
     #endregion
 
