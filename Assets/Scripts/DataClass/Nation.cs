@@ -5,7 +5,7 @@ using UnityEngine;
 
 public enum MainPolicy
 {
-    None, ExpandLand, ManageLand, Defense, Support
+    None, NationLevelUP, ExpandLand, ManageLand, Defense, Support
 }
 
 public class Nation
@@ -19,6 +19,7 @@ public class Nation
     private List<int> m_doneTech; // 완료한 테크 Pid
     static Color[] nationColor = { Color.red, Color.yellow, Color.black };
     private MainPolicy m_curMainPolicy = MainPolicy.None; //현재 정책 상황
+    private int m_mainPolicyCount = 0;
 
     #region 국가 생성자
     public Nation()
@@ -93,6 +94,7 @@ public class Nation
         IncomeTerritoryResource(); //영토에서 자원 수급
         SelectPolicy(); //정책 수립
         ExcutePolicy(); //정책 수행
+        RemindPolicy();
     }
 
     #region 정책수립
@@ -101,13 +103,19 @@ public class Nation
         //정책 정함
         //기존 정책이 있으면 회의 종료
         if (HavePolicy())
+        {
+            m_mainPolicyCount += 1;
+            Debug.Log("기존 정책 " + m_curMainPolicy + " 유지" + m_mainPolicyCount);
             return;
+        }
+            
 
         //아니면 여기서 정함 일단 랜덤
-        int randomPolicy = Random.Range(1, 3);
+        int randomPolicy = Random.Range(1, 4);
 
         //어떤류 할지 정하고
         m_curMainPolicy = (MainPolicy)randomPolicy;
+        Debug.Log(m_nationNumber + "국가에서 메인 정책 결정 " + m_curMainPolicy);
 
         //그에 대한 타겟을 정한다
         MakePlan(m_curMainPolicy);
@@ -133,6 +141,9 @@ public class Nation
                 break;
             case MainPolicy.ManageLand:
                 FindManageLand();
+                break;
+            case MainPolicy.NationLevelUP:
+                m_planToken = GetCapital();
                 break;
         }
     }
@@ -169,6 +180,13 @@ public class Nation
                 break;
             }
         }
+
+        if (m_planToken == null)
+        {
+            ResetPolicy();
+            Debug.Log("확장할 영토를 찾지 못해 정책 초기화");
+        }
+            
     }
 
     private void FindManageLand()
@@ -199,7 +217,11 @@ public class Nation
             }
 
         }
-
+        if (m_planToken == null)
+        {
+            ResetPolicy();
+            Debug.Log("운영할 영토를 찾지 못해 정책 초기화");
+        }
     }
     #endregion
 
@@ -208,10 +230,17 @@ public class Nation
     {
         //수행할 정책 없으면 종료
         if (HavePolicy() == false)
+        {
+            Debug.Log("수립된 정책 없음");
             return;
+        }
+            
         //수행할 계획 없으면 종료
         if (HavePlanToken() == false)
+        {
+            Debug.Log("구체적 계획 없음");
             return;
+        }
 
         DoPlan();
     }
@@ -223,9 +252,11 @@ public class Nation
             case MainPolicy.ExpandLand:
                 ExpandTerritory();
                 break;
-
             case MainPolicy.ManageLand:
                 ManageTerritory();
+                break;
+            case MainPolicy.NationLevelUP:
+                LevelUp();
                 break;
         }
     }
@@ -240,6 +271,7 @@ public class Nation
         }
 
         //확장 가능한 상태라면
+        Debug.Log("영토 확장 정책 수행 완료");
         CalResourceAmount(Capital.Wood, -300);
         AddTerritory(planTile); //계획 토큰을 타일로 전환후 영토 집행
         ShowTerritory();
@@ -271,11 +303,12 @@ public class Nation
         TokenTile planTile = (TokenTile)m_planToken;
         if (AbleManageLand(planTile) == false)
         {
-            Debug.Log("확장 불가능 상태");
+            Debug.Log("운영 불가능 상태");
             return;
         }
 
         //변경 가능한 상태라면
+        Debug.Log("영토 운영 정책 수행 완료");
         CalResourceAmount(Capital.Mineral, -300); //비용지불
         planTile.ChangeTileType((TileType)m_planIndex); //플랜 idx 타입으로 토지변경
         ResetPolicy();
@@ -302,6 +335,41 @@ public class Nation
 
         return true;
     }
+
+    private void LevelUp()
+    {
+        if(AbleLevelUp() == false)
+        { 
+            Debug.Log("레벨업 조건 미충족");
+            return;
+        }
+
+        Debug.Log("국가 레벨 상승 :" + m_nationLevel+"Lv");
+        int needPerson = m_nationLevel * 400;
+        int needFood = needPerson * 50;
+        CalResourceAmount(Capital.Food, -needFood);
+        m_nationLevel += 1;
+        ResetPolicy();
+    }
+
+    private bool AbleLevelUp()
+    {
+        int needPerson = m_nationLevel * 400;
+        int needFood = needPerson * 50;
+        if (GetResourceAmount(Capital.Person) < needPerson)
+        {
+            Debug.Log("등급상승 만족 인구 부족");
+            return false;
+        }
+
+        if (GetResourceAmount(Capital.Food) < needFood)
+        {
+            Debug.Log("등급상승 식량 부족");
+            return false;
+        }
+        return true;
+    }
+
     #endregion
 
     #region 정책 초기화
@@ -310,8 +378,19 @@ public class Nation
         m_curMainPolicy = MainPolicy.None;
         m_planToken = null;
         m_planIndex = 0;
+        m_mainPolicyCount = 0;
     }
     #endregion
+
+    private void RemindPolicy()
+    {
+        //집행되지 못한 정책의 경우 바꿀지 말지
+        if(m_mainPolicyCount >= 3)
+        {
+            Debug.Log("정책 유지 3회 이유로 기존 정책 초기화");
+            ResetPolicy();
+        }
+    }
 
     #region 국가 자산 관리
 
