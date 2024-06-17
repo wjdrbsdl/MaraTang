@@ -203,7 +203,7 @@ public struct TTokenOrder
 
 public enum ETokenGroup
 {
-    None, CharStat, ActionToken, GamePlay, Capital, Charactor, Event
+    None, CharStat, ActionToken, GamePlay, Capital, Charactor, Event, Nation
 }
 
 public struct TOrderItem
@@ -216,6 +216,13 @@ public struct TOrderItem
     public TOrderItem (int _tokenGroup, int _subIdx, int _value)
     {
         MainIdx = (ETokenGroup)_tokenGroup;
+        SubIdx = _subIdx;
+        Value = _value;
+    }
+
+    public TOrderItem(ETokenGroup _tokenGroup, int _subIdx, int _value)
+    {
+        MainIdx = _tokenGroup;
         SubIdx = _subIdx;
         Value = _value;
     }
