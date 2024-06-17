@@ -24,11 +24,11 @@ public class TempSpriteBox : MgGeneric<TempSpriteBox>
                 return TownLand;
             case TileType.Farm:
                 return FarmLand;
-            case TileType.Rock:
+            case TileType.Mine:
                 return MineralLand;
             case TileType.Mountain:
                 return MountainLand;
-            case TileType.Lake:
+            case TileType.WoodLand:
                 return WoodLand;
         }
         return NomalLand;
