@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class GamePlayMaster : MgGeneric<GamePlayMaster>
+public class GamePlayMaster : MgGeneric<GamePlayMaster>, IOrderCustomer
 {
     public MagnetItem testMangetSample;
     public NaviPin testNaviPin;
@@ -81,6 +81,24 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
         //처음 시작시 플레이어 메인캐릭터에 카메라 포커스.
         GamePlayMaster.GetInstance().CamFocus(PlayerManager.GetInstance().GetMainChar());
         PlayerManager.GetInstance().FirstStart();
+        SelectFirstNation();
+    }
+
+    private void SelectFirstNation()
+    {
+        //초기 진행시 발생된 국가들중 플레이어가 시작할 국가를 고르도록 함. 
+        int nationNumber = MgNation.GetInstance().GetNationList().Count;
+        List<TOrderItem> nationItemList = new();
+        int tempOrderNum = 1; //같은 주문서의 아이템인지 구별하기 위한 시리얼 넘버. 
+        for (int i = 1; i <= nationNumber; i++)
+        {
+            TOrderItem nationItem = new TOrderItem(ETokenGroup.Nation, i, i); //해당 국가를 아이템으로 생성 
+            nationItemList.Add(nationItem);
+        }
+        OrderExcutor excutor = new();
+        TTokenOrder nationSelectOrder = new TTokenOrder().Select(EOrderType.ItemSelect, nationItemList, 0, tempOrderNum);
+        nationSelectOrder.SetOrderCustomer(this);
+        excutor.ExcuteOrder(nationSelectOrder);
     }
     #endregion
 
@@ -395,7 +413,12 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     {
         return m_playData;
     }
- }
+
+    public void OnOrderCallBack(OrderReceipt _orderReceipt)
+    {
+        Debug.Log("선택한 국가 idx "+_orderReceipt.Order.SelectItemNum);
+    }
+}
 
 public enum GamePlayStep
 {
