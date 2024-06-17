@@ -55,7 +55,7 @@ public class UITileWorkShop : UIBase
         MainResource mainResource = (MainResource)_tile.GetStat(TileStat.MainResource);
         TileType tileType = _tile.GetTileType();
         int NationNum = _tile.GetStat(TileStat.Nation);
-        string tileStat = string.Format("소속 국가 : {0}\n토지 용도 {1} 토지 적합도 토지력 {2}", NationNum, tileType, mainResource, _tile.GetStat(TileStat.TileEnergy));
+        string tileStat = string.Format("소속 국가 : {0}\n토지 용도 {1}\n 토지 적합도{2} 토지력 {3}", NationNum, tileType, mainResource, _tile.GetStat(TileStat.TileEnergy));
         m_statText.text = tileStat;
 
         m_nationText.text = "";
