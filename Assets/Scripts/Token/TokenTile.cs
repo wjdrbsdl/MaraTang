@@ -97,17 +97,9 @@ public class TokenTile : TokenBase
         SetStatValue(TileStat.TileEnergy, gradeValue); //해당 벨류로 넣음. 
     }
 
-    public void SetEcoSprite()
+    public void SetTileSprite()
     {
-        int ecoValue = GetStat(TileStat.Height);
-
-        int selectEcoMap = 0;
-        if (ecoValue < 66)
-            selectEcoMap = 1;
-        else
-            selectEcoMap = 0;
-
-        GetObject().SetSprite( MgToken.GetInstance().m_tilesSprite[selectEcoMap]);
+        GetObject().SetSprite( TempSpriteBox.GetInstance().GetSprite(tileType));
     }
 
     #endregion
@@ -153,13 +145,9 @@ public class TokenTile : TokenBase
 
     public void ChangeTileType(TileType _tileType)
     {
-        switch (_tileType)
-        {
-            case TileType.Capital:
-                tileType = _tileType;
-                SetSprite(MgToken.GetInstance().m_tilesSprite[2]);
-                break;
-        }
+        tileType = _tileType;
+        
+        SetTileSprite();
     }
 
     public void Dye(Color _color)

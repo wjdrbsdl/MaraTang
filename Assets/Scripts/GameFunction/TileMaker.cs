@@ -48,7 +48,7 @@ public class TileMaker : MonoBehaviour
                 newTileObject.SetObjectToken(newTile, TokenType.Tile);
                 newTileObject.transform.SetParent(_mapOrder.t_box);
                 newTileObject.transform.localPosition = new Vector2(finalX, yPos); //박스 안에서 로컬포지션으로 위치 
-                newTile.SetEcoSprite();
+                newTile.SetTileSprite();
 
                 //4. 숨김 타일 세팅
                 newHideTile.transform.SetParent(_mapOrder.t_hideBox);
