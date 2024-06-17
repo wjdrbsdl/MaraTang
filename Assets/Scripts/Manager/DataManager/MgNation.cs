@@ -71,4 +71,9 @@ public class MgNation : Mg<MgNation>
 
         return m_nationList[_nationNum];
     }
+
+    public List<Nation> GetNationList()
+    {
+        return m_nationList;
+    }
 }
