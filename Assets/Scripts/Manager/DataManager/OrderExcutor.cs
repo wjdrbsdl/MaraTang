@@ -30,7 +30,7 @@ public class OrderExcutor
                 Debug.Log("나열된 아이템들을 적용");
                 for (int i = 0; i < _order.orderItemList.Count; i++)
                 {
-                    ExcuteOrderItem(_order.orderItemList[i]);
+                    ExcuteOrderItem(_order, i);
                 }
                 break;
             case EOrderType.ItemSelect:
@@ -103,11 +103,13 @@ public class OrderExcutor
         }
 
     }
-    public void ExcuteOrderItem(TOrderItem _orderItem)
+    public void ExcuteOrderItem(TTokenOrder _order, int _selectNum)
     {
-        ETokenGroup tokenGroup = (ETokenGroup)_orderItem.MainIdx;
-        int orderSubIdx = _orderItem.SubIdx;
-        int orderValue = _orderItem.Value;
+        _order.SetSelectedNum(_selectNum);
+        TOrderItem orderItem = _order.orderItemList[_selectNum];
+        ETokenGroup tokenGroup = (ETokenGroup)orderItem.MainIdx;
+        int orderSubIdx = orderItem.SubIdx;
+        int orderValue = orderItem.Value;
         //선택한 아이템이 다시 이벤트 생성 , 몬스터 소환같은거면 어떡함?
         switch (tokenGroup)
         {
@@ -120,8 +122,8 @@ public class OrderExcutor
                 break;
             case ETokenGroup.ActionToken:
                 break;
-
         }
+        CallBackOrder(null, _order);
     }
     private void CallBackOrder(TokenBase _token, TTokenOrder _order)
     {
@@ -135,8 +137,7 @@ public class OrderExcutor
         //4. 고객에게 콜백 보냄
         customer.OnOrderCallBack(recipt); //고객에게 호출
     }
-    
-    #endregion
+       #endregion
 }
 
 public enum EOrderType
@@ -166,8 +167,10 @@ public struct TTokenOrder
     public List<TOrderItem> orderItemList;
     public int ChunkNum; //아무 지정이 아니면 - 1
     public int OrderExcuteCount;
+    public int OrderSerialNumber; //주문서 일련번호 - 한 고객에게 여러 콜백이 들어갈경우, 어떤 퀘스트나, 컨텐츠 에서 나온건지 확인하기 위해서. 
+    public int SelectItemNum; //이번에 선택되었던 아이템 번호
 
-    public TTokenOrder Spawn(EOrderType _orderType, List<TOrderItem> _charList, ESpawnPosType _spawnPosType, int _chunkNum)
+    public TTokenOrder Spawn(EOrderType _orderType, List<TOrderItem> _charList, ESpawnPosType _spawnPosType, int _chunkNum, int _serialNum = 0)
     {
         TTokenOrder order = new();
         order.orderItemList = _charList;
@@ -176,11 +179,13 @@ public struct TTokenOrder
         order.OrderType = _orderType;
         order.SpawnPosType = _spawnPosType;
         order.ChunkNum = _chunkNum;
-        OrderCustomer = null;
+        order.OrderCustomer = null;
+        order.OrderSerialNumber = _serialNum;
+        order.SetSerialNum();
         return order;
     }
 
-    public TTokenOrder Select(EOrderType _type, List<TOrderItem> _orderItemList, int _chunkNum)
+    public TTokenOrder Select(EOrderType _type, List<TOrderItem> _orderItemList, int _chunkNum, int _serialNum = 0)
     {
         TTokenOrder order = new();
         order.orderItemList = _orderItemList;
@@ -190,7 +195,8 @@ public struct TTokenOrder
         order.SpawnPosType = ESpawnPosType.Random;
         order.ChunkNum = _chunkNum;
         order.OrderCustomer = null;
-
+        order.OrderSerialNumber = _serialNum;
+        order.SetSerialNum();
         return order;
     }
 
@@ -198,6 +204,20 @@ public struct TTokenOrder
     {
         OrderCustomer = _customer;
     }
+
+    public void SetSelectedNum(int _selectItemNum)
+    {
+        SelectItemNum = _selectItemNum;
+    }
+
+    private void SetSerialNum()
+    {
+        for (int i = 0; i < orderItemList.Count; i++)
+        {
+            orderItemList[i].SetSerialNum(OrderSerialNumber);
+        }
+    }
+
 
 }
 
@@ -212,12 +232,14 @@ public struct TOrderItem
     public ETokenGroup MainIdx;
     public int SubIdx;
     public int Value;
+    public int SerialNum;
 
     public TOrderItem (int _tokenGroup, int _subIdx, int _value)
     {
         MainIdx = (ETokenGroup)_tokenGroup;
         SubIdx = _subIdx;
         Value = _value;
+        SerialNum = 0;
     }
 
     public TOrderItem(ETokenGroup _tokenGroup, int _subIdx, int _value)
@@ -225,6 +247,7 @@ public struct TOrderItem
         MainIdx = _tokenGroup;
         SubIdx = _subIdx;
         Value = _value;
+        SerialNum = 0;
     }
 
     public TOrderItem WriteCharItem(CharStat _charIdx, int _value)
@@ -252,5 +275,11 @@ public struct TOrderItem
         item.SubIdx = (int)_capitalIdx;
         item.Value = _value;
         return item;
+    }
+
+    public void SetSerialNum(int _serialNum)
+    {
+        Debug.Log("시리얼 넘버로 세팅중" + _serialNum);
+        SerialNum = _serialNum;
     }
 }
