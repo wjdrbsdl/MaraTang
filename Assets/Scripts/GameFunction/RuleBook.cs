@@ -363,7 +363,7 @@ public class RuleBook
     }
     public OrderCostData GetTileChangeCost(TileType _tileType)
     {
-        OrderCostData costData = MgMasterData.GetInstance().GetTileData((int)_tileType).BuildCostList;
+        OrderCostData costData = MgMasterData.GetInstance().GetTileData((int)_tileType).BuildCostData;
         return costData;
     }
     private void BuildTile(TokenTile _tile, TileType _tileType)
