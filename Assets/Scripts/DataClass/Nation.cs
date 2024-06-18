@@ -431,10 +431,7 @@ public class Nation : ITradeCustomer
     public bool CheckInventory(OrderCostData _costData)
     {
         List<TOrderItem> BuildCostList = _costData.GetCostList();
-        if(BuildCostList.Count == 0)
-        {
-            Debug.Log("필요 비용이 없는 상황");
-        }
+      
         for (int i = 0; i < BuildCostList.Count; i++)
         {
             TokenType costType = BuildCostList[i].MainIdx;
@@ -460,10 +457,7 @@ public class Nation : ITradeCustomer
     public void PayInventory(OrderCostData _costData)
     {
         List<TOrderItem> BuildCostList = _costData.GetCostList();
-        if (BuildCostList.Count == 0)
-        {
-            Debug.Log("지불 비용이 없는 상황");
-        }
+  
         for (int i = 0; i < BuildCostList.Count; i++)
         {
             TokenType costType = BuildCostList[i].MainIdx;
