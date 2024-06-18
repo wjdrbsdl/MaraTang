@@ -364,19 +364,14 @@ public class RuleBook
     public OrderCostData GetTileChangeCost(TileType _tileType)
     {
         OrderCostData costData = MgMasterData.GetInstance().GetTileData((int)_tileType).BuildCostList;
-        List<TOrderItem> BuildCostList = costData.GetCostList();
-        for (int i = 0; i < BuildCostList.Count; i++)
-        {
-            Debug.LogFormat("{0}그룹의 {1} 인덱스의 필요수량 {2}", BuildCostList[i].MainIdx, BuildCostList[i].SubIdx, BuildCostList[i].Value);
-        }
-        //  Debug.Log(_tileType+"변경 비용 : "+cost);
         return costData;
     }
     private void BuildTile(TokenTile _tile, TileType _tileType)
     {
-        GetTileChangeCost(_tileType);
-        
-        _tile.ChangeTileType(_tileType);
+        if (MgToken.GetInstance().GetMainChar().CheckInventory(GetTileChangeCost(_tileType)) == true)
+        {
+            _tile.ChangeTileType(_tileType);
+        }
     }
 
     private void UseTownFunction(TokenTile _tile, int _subValue)

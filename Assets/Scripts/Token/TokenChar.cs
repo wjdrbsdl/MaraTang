@@ -9,7 +9,7 @@ public enum CharStat
     MaxHp, CurHp
 }
 
-public class TokenChar : TokenBase
+public class TokenChar : TokenBase, ITradeCustomer
 {
     public bool isMainChar = false;
     public bool m_isPlayerChar = false;
@@ -231,5 +231,42 @@ public class TokenChar : TokenBase
         TokenTile place = GameUtil.GetTileTokenFromMap(GetMapIndex());
         place.RemoveCharToken(this);
         MgToken.GetInstance().RemoveCharToken(this);
+    }
+
+    public bool CheckInventory(OrderCostData _costData)
+    {
+        if(isMainChar == false)
+        {
+            //일단 메인캐릭에서만 진행 몬스터Token과 구별하려면 따로 playerToken 클래스를 생성해야함. 
+            return false;
+        }
+
+        List<TOrderItem> BuildCostList = _costData.GetCostList();
+        for (int i = 0; i < BuildCostList.Count; i++)
+        {
+            Debug.LogFormat("{0}그룹의 {1} 인덱스의 필요수량 {2}", BuildCostList[i].MainIdx, BuildCostList[i].SubIdx, BuildCostList[i].Value);
+            TokenType costType = BuildCostList[i].MainIdx;
+            //각 토큰타입의 지불가능 형태를 따져 불가능하면 바로 false 반환 
+            switch (costType)
+            {
+                case TokenType.Capital:
+                    if(PlayerCapitalData.g_instance.IsEnough((Capital)BuildCostList[i].SubIdx, BuildCostList[i].Value) == false)
+                    {
+                        Debug.Log("부족");
+                      //  return false;
+                    }
+                    break;
+                default:
+                    Debug.Log("고려 파트 아닌 부분");
+                    break;
+            }
+        }
+        
+        return true;
+    }
+
+    public void PayInventory(OrderCostData _costData)
+    {
+        throw new System.NotImplementedException();
     }
 }
