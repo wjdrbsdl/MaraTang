@@ -193,7 +193,7 @@ public class TileTypeData {
     public int TypePID;
     public int[] AbleTileActionPID;
     public int BuildCost;
-    public OrderCostData BuildCostList;
+    public OrderCostData BuildCostData;
     public TileTypeData(string[] _parsingData)
     {
         TypePID = int.Parse(_parsingData[0]);
@@ -211,7 +211,7 @@ public class TileTypeData {
         {
             // CostData =  토큰그룹_pid_수량 으로 구성
             string[] costArray = _parsingData[5].Split(' '); //costData Array 산출
-            BuildCostList = GameUtil.ParseCostDataArray(costArray);
+            BuildCostData = GameUtil.ParseCostDataArray(costArray);
         }
         
     }
