@@ -8,7 +8,7 @@ public enum MainPolicy
     None, NationLevelUP, ExpandLand, ManageLand, Defense, Support
 }
 
-public class Nation
+public class Nation : ITradeCustomer
 {
     private int m_nationNumber;
     private int m_nationLevel = 1;
@@ -327,9 +327,11 @@ public class Nation
           //  Debug.Log("토지 변경 불가능한 상태");
             return false;
         }
-        if (GetResourceAmount(Capital.Mineral) < 300)
+        OrderCostData changeCost = MgMasterData.GetInstance().GetTileData(m_planIndex).BuildCostData;
+        Debug.Log((TileType)m_planIndex + "로 변경하려는 중");
+        if (CheckInventory(changeCost) == false)
         {
-         //   Debug.Log("변경 비용 부족");
+           // Debug.Log("국가 단위 변경 비용 부족");
             return false;
         }
 
@@ -424,6 +426,41 @@ public class Nation
     {
         m_resources[(int)_capital] += _value;
     }
+
+    public bool CheckInventory(OrderCostData _costData)
+    {
+        List<TOrderItem> BuildCostList = _costData.GetCostList();
+        if(BuildCostList.Count == 0)
+        {
+            Debug.Log("필요 비용이 없는 상황");
+        }
+        for (int i = 0; i < BuildCostList.Count; i++)
+        {
+            TokenType costType = BuildCostList[i].MainIdx;
+            //각 토큰타입의 지불가능 형태를 따져 불가능하면 바로 false 반환 
+            switch (costType)
+            {
+                case TokenType.Capital:
+                    Debug.LogFormat("{0}자원 보유: {1}, 요구:{2}", (Capital)BuildCostList[i].SubIdx, GetResourceAmount((Capital)BuildCostList[i].SubIdx), BuildCostList[i].Value);
+                    if (GetResourceAmount((Capital)BuildCostList[i].SubIdx) < BuildCostList[i].Value == true)
+                    {
+                        Debug.Log("국가적 부족이지만 일단 통과");
+                        //  return false;
+                    }
+                    break;
+                default:
+                    Debug.Log("국가적 고려 파트 아닌 부분");
+                    break;
+            }
+        }
+
+        return true;
+    }
+
+    public void PayInventory(OrderCostData _costData)
+    {
+        throw new System.NotImplementedException();
+    }
     #endregion
 
     #region 국가 테크 
@@ -445,5 +482,7 @@ public class Nation
 
         return false;
     }
+
+ 
     #endregion
 }
