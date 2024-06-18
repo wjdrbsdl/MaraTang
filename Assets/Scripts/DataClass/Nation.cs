@@ -329,7 +329,7 @@ public class Nation : ITradeCustomer
             return false;
         }
         OrderCostData changeCost = MgMasterData.GetInstance().GetTileData(m_planIndex).BuildCostData;
-        Debug.Log((TileType)m_planIndex + "로 변경하려는 중");
+      //  Debug.Log((TileType)m_planIndex + "로 변경하려는 중");
         if (CheckInventory(changeCost) == false)
         {
            // Debug.Log("국가 단위 변경 비용 부족");
@@ -439,14 +439,14 @@ public class Nation : ITradeCustomer
             switch (costType)
             {
                 case TokenType.Capital:
-                    Debug.LogFormat("{0}자원 보유: {1}, 요구:{2}", (Capital)BuildCostList[i].SubIdx, GetResourceAmount((Capital)BuildCostList[i].SubIdx), BuildCostList[i].Value);
+                  //  Debug.LogFormat("{0}자원 보유: {1}, 요구:{2}", (Capital)BuildCostList[i].SubIdx, GetResourceAmount((Capital)BuildCostList[i].SubIdx), BuildCostList[i].Value);
                     if (GetResourceAmount((Capital)BuildCostList[i].SubIdx) < BuildCostList[i].Value == true)
                     {
                        return false;
                     }
                     break;
                 default:
-                    Debug.Log("국가적 고려 파트 아닌 부분");
+                  //  Debug.Log("국가적 고려 파트 아닌 부분");
                     break;
             }
         }
@@ -467,11 +467,11 @@ public class Nation : ITradeCustomer
             switch (costType)
             {
                 case TokenType.Capital:
-                    Debug.LogFormat("{0}자원 지불: {1}", (Capital)subIdx, -value);
+                   // Debug.LogFormat("{0}자원 지불: {1}", (Capital)subIdx, -value);
                     CalResourceAmount((Capital)subIdx, -value);
                     break;
                 default:
-                    Debug.Log("국가적 고려 파트 아닌 부분");
+                  //  Debug.Log("국가적 고려 파트 아닌 부분");
                     break;
             }
         }
