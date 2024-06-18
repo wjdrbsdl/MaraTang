@@ -115,7 +115,7 @@ public class MGContent : Mg<MGContent>
         ContentData contentMasterData = MgMasterData.GetInstance().GetContentData(playTime);
         if(contentMasterData == null)
         {
-            Debug.Log("준비된 퀘스트 없음");
+          //  Debug.Log("준비된 퀘스트 없음");
             return null;
         }
             
