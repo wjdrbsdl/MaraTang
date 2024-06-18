@@ -10201,10 +10201,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60a443f9ab10a6a4bbd54e0e067ed9b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WoodLand: {fileID: 21300000, guid: 45cac9c14de5c40468374d98098db725, type: 3}
+  WoodLand: {fileID: 21300000, guid: 6b00b9e7d85609d49b43e4a869ec5d8b, type: 3}
   FarmLand: {fileID: 21300000, guid: 5aa35be748a3bba4782a0e40a04b0f64, type: 3}
-  TownLand: {fileID: 21300000, guid: f02258d84213387478472d20f6da78de, type: 3}
-  MineralLand: {fileID: 21300000, guid: 96f5b22089751ab46a0cc5f8df569abd, type: 3}
+  TownLand: {fileID: 21300000, guid: 5267436962ae9fb41bd79f440120320a, type: 3}
+  MineralLand: {fileID: 21300000, guid: 9c5ce54023362c449a71c9278dc6de4d, type: 3}
   NomalLand: {fileID: 21300000, guid: fb79c51d441f6f64197e66a798873f6c, type: 3}
   MountainLand: {fileID: 21300000, guid: f8068263d25f5554ca776db952c91c75, type: 3}
   CapitalLand: {fileID: 21300000, guid: fa5189ad96980b245b2dbd61fbe67418, type: 3}
