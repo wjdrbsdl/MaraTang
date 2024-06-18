@@ -310,7 +310,7 @@ public class Nation : ITradeCustomer
         //변경 가능한 상태라면
         //  Debug.Log("영토 운영 정책 수행 완료");
         OrderCostData changeCost = MgMasterData.GetInstance().GetTileData(m_planIndex).BuildCostData;
-        PayInventory(changeCost);
+        PayCostData(changeCost);
         planTile.ChangeTileType((TileType)m_planIndex); //플랜 idx 타입으로 토지변경
         ResetPolicy();
     }
@@ -454,7 +454,7 @@ public class Nation : ITradeCustomer
         return true;
     }
 
-    public void PayInventory(OrderCostData _costData)
+    public void PayCostData(OrderCostData _costData)
     {
         List<TOrderItem> BuildCostList = _costData.GetCostList();
   

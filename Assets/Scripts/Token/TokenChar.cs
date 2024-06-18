@@ -265,8 +265,31 @@ public class TokenChar : TokenBase, ITradeCustomer
         return true;
     }
 
-    public void PayInventory(OrderCostData _costData)
+    public void PayCostData(OrderCostData _costData)
     {
-        throw new System.NotImplementedException();
+        if (isMainChar == false)
+        {
+            //일단 메인캐릭에서만 진행 몬스터Token과 구별하려면 따로 playerToken 클래스를 생성해야함. 
+            return;
+        }
+
+        List<TOrderItem> BuildCostList = _costData.GetCostList();
+        for (int i = 0; i < BuildCostList.Count; i++)
+        {
+            TokenType costType = BuildCostList[i].MainIdx;
+            int subIdx = BuildCostList[i].SubIdx;
+            int value = BuildCostList[i].Value;
+            //각 토큰타입의 지불가능 형태를 따져 불가능하면 바로 false 반환 
+            switch (costType)
+            {
+                case TokenType.Capital:
+                    PlayerCapitalData.g_instance.CalCapital((Capital)subIdx, -value);
+                    break;
+                default:
+                    Debug.Log("고려 파트 아닌 부분");
+                    break;
+            }
+        }
+
     }
 }
