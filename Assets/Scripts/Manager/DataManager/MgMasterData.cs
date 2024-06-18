@@ -189,10 +189,11 @@ public class MgMasterData : Mg<MgMasterData>
     #endregion
 }
 
-public class TileTypeData{
+public class TileTypeData {
     public int TypePID;
     public int[] AbleTileActionPID;
     public int BuildCost;
+    public OrderCostData BuildCostList;
     public TileTypeData(string[] _parsingData)
     {
         TypePID = int.Parse(_parsingData[0]);
@@ -204,6 +205,15 @@ public class TileTypeData{
             AbleTileActionPID[i] = int.Parse(divideAble[i]);
         }
         BuildCost = int.Parse(_parsingData[3]);
+
+        int buildCostIdx = 5;
+        if (_parsingData.Length > buildCostIdx)
+        {
+            // CostData =  토큰그룹_pid_수량 으로 구성
+            string[] costArray = _parsingData[5].Split(' '); //costData Array 산출
+            BuildCostList = GameUtil.ParseCostDataArray(costArray);
+        }
+        
     }
 }
 

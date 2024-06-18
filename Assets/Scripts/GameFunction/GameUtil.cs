@@ -537,6 +537,125 @@ public static class GameUtil
 
         doneAct?.Invoke(); //보통은 GameManager에 작업 완료했음을 알림. 
     }
+
+    public static OrderCostData ParseCostDataArray(string[] costArray)
+    {
+        OrderCostData orderCostData = new OrderCostData();
+        
+        for (int i = 0; i < costArray.Length; i++)
+        {
+            string[] divideBuild = costArray[i].Split(MgMasterData.DIVIDECHAR);
+            //[0] : 토큰타입 [1] :항목에서 pid [2] : 수량
+            if (System.Enum.IsDefined(typeof(TokenType), divideBuild[0]))
+            {
+                //재료의 토큰그룹은 파싱.
+                TokenType tokenType = System.Enum.Parse<TokenType>(divideBuild[0]);
+
+                //두번째 pid가 숫자로 되있는지 해당 enum의 문자값으로 되어있는지 확인
+                if (int.TryParse(divideBuild[1], out int enumIndex) == true)
+                {
+                    //바로 pid로 되어있다면
+                    if (int.TryParse(divideBuild[2], out int needAmount) == true)
+                    {
+                        //마지막 수량까지 잘 적혀있으면 데이터에 추가
+                        orderCostData.Add((tokenType, enumIndex, needAmount));
+                    }
+                    //수량이 넣었던 못넣었던 여긴 종료
+                    continue;
+                }
+
+                //enum의 문자값으로 기록되어있으면 index를 산출
+                System.Type findEnum = null;
+                //토큰 타입에 따라 적절한 enum 타입을 정의하고
+                switch (tokenType)
+                {
+                    case TokenType.Capital:
+                        findEnum = typeof(Capital);
+                        break;
+                }
+                if (findEnum == null)
+                {
+                    //적절한 enum 그룹이 없으면 넘김
+                    continue;
+                }
+                //해당 enum타입에서 [1] 값이 있는지 확인
+                if (System.Enum.IsDefined(findEnum, divideBuild[1]))
+                {
+                    //[1] 세부 pid파싱 
+                    int enumPid = (int)System.Enum.Parse(findEnum, (divideBuild[1]));
+                    if (int.TryParse(divideBuild[2], out int needAmount) == true)
+                    {
+                        //마지막 수량까지 잘 적혀있으면 데이터에 추가
+                        orderCostData.Add((tokenType, enumPid, needAmount));
+                    }
+                    continue;
+                }
+            }
+            else
+            {
+                //  Debug.Log(divideBuild[0] + "는 없는 토큰 타입");
+            }
+
+        }
+
+        return orderCostData;
+    }
+
+    public static (TokenType, int, int) ParseCostData(string costData)
+    {
+        //토큰그룹_pid_수량 의 string으로 넘어온 코스트 데이터
+        string[] divideBuild = costData.Split(MgMasterData.DIVIDECHAR);
+        (TokenType, int, int) noneData = (TokenType.None, 0, 0);
+        //[0] : 토큰타입 [1] :항목에서 pid [2] : 수량
+
+        if (System.Enum.IsDefined(typeof(TokenType), divideBuild[0]))
+        {
+            //재료의 토큰그룹은 파싱.
+            TokenType tokenType = System.Enum.Parse<TokenType>(divideBuild[0]);
+
+            //두번째 pid가 숫자로 되있는지 해당 enum의 문자값으로 되어있는지 확인
+            if (int.TryParse(divideBuild[1], out int enumIndex) == true)
+            {
+                //바로 pid로 되어있다면
+                if (int.TryParse(divideBuild[2], out int needAmount) == true)
+                {
+                    //마지막 수량까지 잘 적혀있으면 데이터에 추가
+                    return (tokenType, enumIndex, needAmount);
+                }
+                //수량이 이상하면 넌데이터 리턴
+                return noneData;
+            }
+
+            //enum의 문자값으로 기록되어있으면 index를 산출
+            System.Type findEnum = null;
+            //토큰 타입에 따라 적절한 enum 타입을 정의하고
+            switch (tokenType)
+            {
+                case TokenType.Capital:
+                    findEnum = typeof(Capital);
+                    break;
+            }
+
+            if (findEnum == null)
+            {
+                //적절한 enum 그룹이 없으면 넘김
+                return noneData;
+            }
+            //해당 enum타입에서 [1] 값이 있는지 확인
+            if (System.Enum.IsDefined(findEnum, divideBuild[1]))
+            {
+                //[1] 세부 pid파싱 
+                int enumPid = (int)System.Enum.Parse(findEnum, (divideBuild[1]));
+                if (int.TryParse(divideBuild[2], out int needAmount) == true)
+                {
+                    //마지막 수량까지 잘 적혀있으면 데이터에 추가
+                    return (tokenType, enumPid, needAmount);
+                }
+            }
+        }
+    
+        return noneData;
+    }
     #endregion
 
     #region Token 에셋 로드

@@ -361,15 +361,21 @@ public class RuleBook
             PlayerCapitalData.g_instance.CalCapital(mineResult[i].Item1, mineResult[i].Item2);
         }
     }
-    public int GetTileChangeCost(TileType _tileType)
+    public OrderCostData GetTileChangeCost(TileType _tileType)
     {
-        int cost = MgMasterData.GetInstance().GetTileData((int)_tileType).BuildCost;
+        OrderCostData costData = MgMasterData.GetInstance().GetTileData((int)_tileType).BuildCostList;
+        List<TOrderItem> BuildCostList = costData.GetCostList();
+        for (int i = 0; i < BuildCostList.Count; i++)
+        {
+            Debug.LogFormat("{0}그룹의 {1} 인덱스의 필요수량 {2}", BuildCostList[i].MainIdx, BuildCostList[i].SubIdx, BuildCostList[i].Value);
+        }
         //  Debug.Log(_tileType+"변경 비용 : "+cost);
-        return cost;
+        return costData;
     }
     private void BuildTile(TokenTile _tile, TileType _tileType)
     {
         GetTileChangeCost(_tileType);
+        
         _tile.ChangeTileType(_tileType);
     }
 
