@@ -88,16 +88,16 @@ public class MgUI : MgGeneric<MgUI>
         TileType tileType = _tile.GetTileType();
         if (tileType.Equals(TileType.Capital))
         {
-            Debug.Log("국가 트리 정보 보여주기");
+        //    Debug.Log("국가 트리 정보 보여주기");
             Nation tileNation = _tile.GetNation();
             foreach(KeyValuePair<int, NationTechTree> tech in MgMasterData.GetInstance().GetTechDic())
             {
-                Debug.LogFormat("분류:{0} 이름:{1}, 필요 턴:{2}, 필요 광물:{3}, 필요나무 :{4}", 
-                    tech.Value.GetTechValue(TechTreeStat.Class), 
-                    tech.Value.GetTechName(),
-                    tech.Value.GetTechValue(TechTreeStat.NeedTurn), 
-                    tech.Value.GetTechValue(TechTreeStat.NeedMineral),
-                    tech.Value.GetTechValue(TechTreeStat.NeedWood));
+                //Debug.LogFormat("분류:{0} 이름:{1}, 필요 턴:{2}, 필요 광물:{3}, 필요나무 :{4}", 
+                //    tech.Value.GetTechValue(TechTreeStat.Class), 
+                //    tech.Value.GetTechName(),
+                //    tech.Value.GetTechValue(TechTreeStat.NeedTurn), 
+                //    tech.Value.GetTechValue(TechTreeStat.NeedMineral),
+                //    tech.Value.GetTechValue(TechTreeStat.NeedWood));
 
                 if (tileNation != null)
                     tileNation.CompleteTech(tech.Key);
@@ -107,7 +107,7 @@ public class MgUI : MgGeneric<MgUI>
                 List<int> doneTech = tileNation.GetDoneTech();
                 for (int i = 0; i < doneTech.Count; i++)
                 {
-                    Debug.LogFormat("{0}번 기술 완료 했으며 해당 기술 이름은 {1}", doneTech[i], MgMasterData.GetInstance().GetTechData(doneTech[i]).GetTechName());
+                //    Debug.LogFormat("{0}번 기술 완료 했으며 해당 기술 이름은 {1}", doneTech[i], MgMasterData.GetInstance().GetTechData(doneTech[i]).GetTechName());
                 }
             }
                 
