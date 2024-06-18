@@ -107,20 +107,20 @@ public class OrderExcutor
     {
         _order.SetSelectedNum(_selectNum);
         TOrderItem orderItem = _order.orderItemList[_selectNum];
-        ETokenGroup tokenGroup = (ETokenGroup)orderItem.MainIdx;
+        TokenType tokenGroup = (TokenType)orderItem.MainIdx;
         int orderSubIdx = orderItem.SubIdx;
         int orderValue = orderItem.Value;
         //선택한 아이템이 다시 이벤트 생성 , 몬스터 소환같은거면 어떡함?
         switch (tokenGroup)
         {
-            case ETokenGroup.CharStat:
+            case TokenType.CharStat:
                 PlayerManager.GetInstance().GetMainChar().CalStat((CharStat)orderSubIdx, orderValue);
                 break;
-            case ETokenGroup.Capital:
+            case TokenType.Capital:
                 Capital rewardCapital = (Capital)orderSubIdx;
                 PlayerCapitalData.g_instance.CalCapital(rewardCapital, orderValue);
                 break;
-            case ETokenGroup.ActionToken:
+            case TokenType.Action:
                 break;
         }
         CallBackOrder(null, _order);
@@ -221,28 +221,23 @@ public struct TTokenOrder
 
 }
 
-public enum ETokenGroup
-{
-    None, CharStat, ActionToken, GamePlay, Capital, Charactor, Event, Nation
-}
-
 public struct TOrderItem
 {
     //주문서 내부의 개별 아이템 항목 정보
-    public ETokenGroup MainIdx;
+    public TokenType MainIdx;
     public int SubIdx;
     public int Value;
     public int SerialNum;
 
     public TOrderItem (int _tokenGroup, int _subIdx, int _value)
     {
-        MainIdx = (ETokenGroup)_tokenGroup;
+        MainIdx = (TokenType)_tokenGroup;
         SubIdx = _subIdx;
         Value = _value;
         SerialNum = 0;
     }
 
-    public TOrderItem(ETokenGroup _tokenGroup, int _subIdx, int _value)
+    public TOrderItem(TokenType _tokenGroup, int _subIdx, int _value)
     {
         MainIdx = _tokenGroup;
         SubIdx = _subIdx;
@@ -253,7 +248,7 @@ public struct TOrderItem
     public TOrderItem WriteCharItem(CharStat _charIdx, int _value)
     {
         TOrderItem item = new();
-        item.MainIdx = ETokenGroup.CharStat;
+        item.MainIdx = TokenType.CharStat;
         item.SubIdx = (int)_charIdx;
         item.Value = _value;
         return item;
@@ -262,7 +257,7 @@ public struct TOrderItem
     public TOrderItem WriteActionItem(int _actionPid, int _value)
     {
         TOrderItem item = new();
-        item.MainIdx = ETokenGroup.ActionToken;
+        item.MainIdx = TokenType.Action;
         item.SubIdx = _actionPid;
         item.Value = _value;
         return item;
@@ -271,7 +266,7 @@ public struct TOrderItem
     public TOrderItem WriteCapitalItem(Capital _capitalIdx, int _value)
     {
         TOrderItem item = new();
-        item.MainIdx = ETokenGroup.Capital;
+        item.MainIdx = TokenType.Capital;
         item.SubIdx = (int)_capitalIdx;
         item.Value = _value;
         return item;

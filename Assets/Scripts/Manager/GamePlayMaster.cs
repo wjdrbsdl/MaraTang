@@ -93,7 +93,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>, IOrderCustomer
         int tempOrderNum = TempNationSelectOrderSerialNum; //같은 주문서의 아이템인지 구별하기 위한 시리얼 넘버. 
         for (int i = 1; i <= nationNumber; i++)
         {
-            TOrderItem nationItem = new TOrderItem(ETokenGroup.Nation, i, i); //해당 국가를 아이템으로 생성 
+            TOrderItem nationItem = new TOrderItem(TokenType.Nation, i, i); //해당 국가를 아이템으로 생성 
             nationItemList.Add(nationItem);
         }
         OrderExcutor excutor = new();

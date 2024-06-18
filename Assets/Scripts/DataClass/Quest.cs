@@ -57,7 +57,7 @@ public class Quest
         {
             Debug.Log("이벤트 타입이므로 조금더 작업필요");
             //몬스터를 소환하는 걸 만들어서
-            TOrderItem monster1 = new TOrderItem((int)ETokenGroup.Charactor, 2, 3);
+            TOrderItem monster1 = new TOrderItem((int)TokenType.Char, 2, 3);
             List<TOrderItem> monsterOrderItemlist = new List<TOrderItem>() { monster1 };
             //만들어진 토큰 이벤트로 형변환후
             TokenEvent eventToken = (TokenEvent)madeToken;

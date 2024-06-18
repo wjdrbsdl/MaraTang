@@ -11,7 +11,7 @@ public enum Tier
 
 public enum TokenType
 {
-    Tile, Char, Item, Action, Player, Capital, Event
+    Tile, Char, CharStat, Action, Player, Capital, Event, Nation
 }
 
 public class TokenBase
