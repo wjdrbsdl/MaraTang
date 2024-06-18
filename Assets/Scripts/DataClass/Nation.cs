@@ -308,8 +308,9 @@ public class Nation : ITradeCustomer
         }
 
         //변경 가능한 상태라면
-      //  Debug.Log("영토 운영 정책 수행 완료");
-        CalResourceAmount(Capital.Mineral, -300); //비용지불
+        //  Debug.Log("영토 운영 정책 수행 완료");
+        OrderCostData changeCost = MgMasterData.GetInstance().GetTileData(m_planIndex).BuildCostData;
+        PayInventory(changeCost);
         planTile.ChangeTileType((TileType)m_planIndex); //플랜 idx 타입으로 토지변경
         ResetPolicy();
     }
@@ -444,8 +445,7 @@ public class Nation : ITradeCustomer
                     Debug.LogFormat("{0}자원 보유: {1}, 요구:{2}", (Capital)BuildCostList[i].SubIdx, GetResourceAmount((Capital)BuildCostList[i].SubIdx), BuildCostList[i].Value);
                     if (GetResourceAmount((Capital)BuildCostList[i].SubIdx) < BuildCostList[i].Value == true)
                     {
-                        Debug.Log("국가적 부족이지만 일단 통과");
-                        //  return false;
+                       return false;
                     }
                     break;
                 default:
@@ -459,7 +459,28 @@ public class Nation : ITradeCustomer
 
     public void PayInventory(OrderCostData _costData)
     {
-        throw new System.NotImplementedException();
+        List<TOrderItem> BuildCostList = _costData.GetCostList();
+        if (BuildCostList.Count == 0)
+        {
+            Debug.Log("지불 비용이 없는 상황");
+        }
+        for (int i = 0; i < BuildCostList.Count; i++)
+        {
+            TokenType costType = BuildCostList[i].MainIdx;
+            int subIdx = BuildCostList[i].SubIdx;
+            int value = BuildCostList[i].Value;
+            //각 토큰타입의 지불가능 형태를 따져 불가능하면 바로 false 반환 
+            switch (costType)
+            {
+                case TokenType.Capital:
+                    Debug.LogFormat("{0}자원 지불: {1}", (Capital)subIdx, -value);
+                    CalResourceAmount((Capital)subIdx, -value);
+                    break;
+                default:
+                    Debug.Log("국가적 고려 파트 아닌 부분");
+                    break;
+            }
+        }
     }
     #endregion
 
