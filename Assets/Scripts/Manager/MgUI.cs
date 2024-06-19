@@ -92,25 +92,13 @@ public class MgUI : MgGeneric<MgUI>
             Nation tileNation = _tile.GetNation();
             foreach(KeyValuePair<int, NationTechTree> tech in MgMasterData.GetInstance().GetTechDic())
             {
-                //Debug.LogFormat("분류:{0} 이름:{1}, 필요 턴:{2}, 필요 광물:{3}, 필요나무 :{4}", 
-                //    tech.Value.GetTechValue(TechTreeStat.Class), 
-                //    tech.Value.GetTechName(),
-                //    tech.Value.GetTechValue(TechTreeStat.NeedTurn), 
-                //    tech.Value.GetTechValue(TechTreeStat.NeedMineral),
-                //    tech.Value.GetTechValue(TechTreeStat.NeedWood));
-
+                NationTechTree techTree = tech.Value;
+                OrderCostData researchCostData = techTree.ResearchCostData;
+                Debug.Log(techTree.GetTechName()+"는 학습 가능 여부 "+ tileNation.CheckInventory(researchCostData));
+                
                 if (tileNation != null)
                     tileNation.CompleteTech(tech.Key);
             }
-            if (tileNation != null)
-            {
-                List<int> doneTech = tileNation.GetDoneTech();
-                for (int i = 0; i < doneTech.Count; i++)
-                {
-                //    Debug.LogFormat("{0}번 기술 완료 했으며 해당 기술 이름은 {1}", doneTech[i], MgMasterData.GetInstance().GetTechData(doneTech[i]).GetTechName());
-                }
-            }
-                
         }
 
 
