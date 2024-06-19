@@ -210,8 +210,7 @@ public class TileTypeData {
         if (_parsingData.Length > buildCostIdx)
         {
             // CostData =  토큰그룹_pid_수량 으로 구성
-            string[] costArray = _parsingData[5].Split(' '); //costData Array 산출
-            BuildCostData = GameUtil.ParseCostDataArray(costArray);
+            BuildCostData = GameUtil.ParseCostDataArray(_parsingData, buildCostIdx);
         }
         
     }

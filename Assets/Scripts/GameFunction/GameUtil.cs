@@ -544,10 +544,10 @@ public static class GameUtil
         doneAct?.Invoke(); //보통은 GameManager에 작업 완료했음을 알림. 
     }
 
-    public static OrderCostData ParseCostDataArray(string[] costArray)
+    public static OrderCostData ParseCostDataArray(string[] _parsingData, int _costIndex)
     {
         OrderCostData orderCostData = new OrderCostData();
-        
+        string[] costArray = _parsingData[_costIndex].Split(' ');
         for (int i = 0; i < costArray.Length; i++)
         {
             string[] divideBuild = costArray[i].Split(MgMasterData.DIVIDECHAR);
