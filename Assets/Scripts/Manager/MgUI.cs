@@ -94,13 +94,11 @@ public class MgUI : MgGeneric<MgUI>
             {
                 NationTechTree techTree = tech.Value;
                 OrderCostData researchCostData = techTree.ResearchCostData;
-               // Debug.Log(techTree.GetTechName()+" 학습 가능 여부 "+ tileNation.CheckInventory(researchCostData));
-                
-                if (tileNation != null)
-                    tileNation.CompleteTech(tech.Key);
+                bool isAble = tileNation.CheckInventory(researchCostData);
+                Debug.Log(techTree.GetTechName()+" 학습 가능 여부 "+ isAble);
+      
             }
         }
-
 
         PushUIStack(m_tileWorkShopUI);
         m_tileWorkShopUI.SetTileWorkShopInfo(_tile);
