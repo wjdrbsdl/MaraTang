@@ -435,15 +435,25 @@ public class Nation : ITradeCustomer
         for (int i = 0; i < BuildCostList.Count; i++)
         {
             TokenType costType = BuildCostList[i].MainIdx;
+            int subIndx = BuildCostList[i].SubIdx;
+            int value = BuildCostList[i].Value;
             //각 토큰타입의 지불가능 형태를 따져 불가능하면 바로 false 반환 
             switch (costType)
             {
                 case TokenType.Capital:
-                  //  Debug.LogFormat("{0}자원 보유: {1}, 요구:{2}", (Capital)BuildCostList[i].SubIdx, GetResourceAmount((Capital)BuildCostList[i].SubIdx), BuildCostList[i].Value);
-                    if (GetResourceAmount((Capital)BuildCostList[i].SubIdx) < BuildCostList[i].Value == true)
+                   //Debug.LogFormat("{0}자원 보유: {1}, 요구:{2}", (Capital)BuildCostList[i].SubIdx, GetResourceAmount((Capital)BuildCostList[i].SubIdx), BuildCostList[i].Value);
+                    if (GetResourceAmount((Capital)subIndx) < value == true)
                     {
                        return false;
                     }
+                    break;
+                case TokenType.Content:
+                    //Debug.Log("컨텐츠" + subIndx + "번을 " + value + "만큼 클리어했는지 확인");
+                    break;
+                case TokenType.NationTech:
+                    //Debug.Log("국가기술" + subIndx + "번을 " + value + "레벨만큼 학습했는지 확인"+IsDoneTech(subIndx));
+                    if (IsDoneTech(subIndx) == false)
+                        return false;
                     break;
                 default:
                   //  Debug.Log("국가적 고려 파트 아닌 부분");
