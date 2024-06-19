@@ -451,7 +451,7 @@ public class Nation : ITradeCustomer
                     //Debug.Log("컨텐츠" + subIndx + "번을 " + value + "만큼 클리어했는지 확인");
                     if (MGContent.GetInstance().IsContentDone(subIndx) == false)
                     {
-                        Debug.Log("해당 컨텐츠 클리어 한적 없음");
+                       // Debug.Log("해당 컨텐츠 클리어 한적 없음");
                         return false;
                     }
                     break;
