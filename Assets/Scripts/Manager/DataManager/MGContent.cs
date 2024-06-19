@@ -230,6 +230,14 @@ public class MGContent : Mg<MGContent>
     }
     #endregion
 
+    public bool IsContentDone(int _contentPId)
+    {
+        if (m_QuestRecorde.IndexOf((_contentPId, true)) < 0)
+            return false;
+
+        return true;
+    }
+
     private void RandomDye()
     {
         Color[] a = { Color.blue, Color.cyan, Color.red, Color.yellow, Color.magenta, Color.green, Color.white };
