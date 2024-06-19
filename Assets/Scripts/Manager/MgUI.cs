@@ -95,7 +95,7 @@ public class MgUI : MgGeneric<MgUI>
                 NationTechTree techTree = tech.Value;
                 OrderCostData researchCostData = techTree.ResearchCostData;
                 bool isAble = tileNation.CheckInventory(researchCostData);
-                Debug.Log(techTree.GetTechName()+" 학습 가능 여부 "+ isAble);
+            //    Debug.Log(techTree.GetTechName()+" 학습 가능 여부 "+ isAble);
       
             }
         }
