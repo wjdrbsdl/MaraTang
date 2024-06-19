@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class TechTreeManager
+public class TechTreeSelector
 {
     //국가에서 테크 발전 계획을 수립하기 위해 우선도에 따라 남은 계획을 정렬하여 반환하는곳
     private List<NationTechTree> techTree;
 
-    public TechTreeManager()
+    public TechTreeSelector()
     {
         techTree = MgMasterData.GetInstance().GetTechDic().Select(dic => dic.Value).ToList(); //딕셔너리의 nationTech만 가지고 리스트로 전환
         
