@@ -17,7 +17,7 @@ public class Nation : ITradeCustomer
     private List<TokenTile> m_territorryList;
     private int[] m_resources;
     private List<int> m_doneTech; // 완료한 테크 Pid
-    static Color[] nationColor = { Color.red, Color.yellow, Color.black };
+    static Color[] nationColor = { Color.red, Color.yellow, Color.blue };
     private MainPolicy m_curMainPolicy = MainPolicy.None; //현재 정책 상황
     private int m_mainPolicyCount = 0;
 
@@ -348,8 +348,8 @@ public class Nation : ITradeCustomer
         }
 
         Announcer.Instance.AnnounceState("국가 레벨 상승 :" + m_nationLevel+"Lv");
-        int needPerson = m_nationLevel * 400;
-        int needFood = needPerson * 50;
+        int needPerson = m_nationLevel * 40;
+        int needFood = needPerson;
         CalResourceAmount(Capital.Food, -needFood);
         m_nationLevel += 1;
         ResetPolicy();
@@ -357,8 +357,8 @@ public class Nation : ITradeCustomer
 
     private bool AbleLevelUp()
     {
-        int needPerson = m_nationLevel * 400;
-        int needFood = needPerson * 50;
+        int needPerson = m_nationLevel * 40;
+        int needFood = needPerson;
         if (GetResourceAmount(Capital.Person) < needPerson)
         {
          //   Debug.Log("등급상승 만족 인구 부족");
