@@ -271,6 +271,9 @@ public class Nation : ITradeCustomer
             case MainPolicy.NationLevelUP:
                 LevelUp();
                 break;
+            case MainPolicy.TechTree:
+                Research();
+                break;
         }
     }
 
@@ -291,26 +294,6 @@ public class Nation : ITradeCustomer
         ResetPolicy();
     }
 
-    private bool AbleExpand(TokenTile _tile)
-    {
-        //만약 현재 타일상태가 누군가의 점유로 바꼈으면 확장 불가 
-        if (_tile.GetStat(TileStat.Nation) != FixedValue.NO_NATION_NUMBER)
-        {
-         //   Debug.Log("미점유상태 타일이 아님");
-            return false;
-        }
-            
-
-        if (GetResourceAmount(Capital.Wood) < 300)
-        {
-          //  Debug.Log("확장 비용 부족");
-            return false;
-        }
-            
-
-        return true;
-    }
-
     private void ManageTerritory()
     {
         TokenTile planTile = (TokenTile)m_planToken;
@@ -327,31 +310,7 @@ public class Nation : ITradeCustomer
         planTile.ChangeTileType((TileType)m_planIndex); //플랜 idx 타입으로 토지변경
         ResetPolicy();
     }
-
-    private bool AbleManageLand(TokenTile _tile)
-    {
-        //만약 현재 타일상태가 누군가의 점유로 바꼈으면 확장 불가 
-        if (_tile.GetStat(TileStat.Nation) != m_nationNumber)
-        {
-          //  Debug.Log("국가 귀속 타일이 아님");
-            return false;
-        }
-        if (_tile.GetTileType() != TileType.Nomal)
-        {
-          //  Debug.Log("토지 변경 불가능한 상태");
-            return false;
-        }
-        OrderCostData changeCost = MgMasterData.GetInstance().GetTileData(m_planIndex).BuildCostData;
-      //  Debug.Log((TileType)m_planIndex + "로 변경하려는 중");
-        if (CheckInventory(changeCost) == false)
-        {
-           // Debug.Log("국가 단위 변경 비용 부족");
-            return false;
-        }
-
-        return true;
-    }
-
+    
     private void LevelUp()
     {
         if(AbleLevelUp() == false)
@@ -366,6 +325,69 @@ public class Nation : ITradeCustomer
         CalResourceAmount(Capital.Food, -needFood);
         m_nationLevel += 1;
         ResetPolicy();
+    }
+
+    private void Research()
+    {
+        if(AbleResearch(m_planIndex) == false)
+        {
+            return;
+        }
+
+        Debug.Log(m_planIndex + "번 테크 연구 완료");
+        //1.비용내고
+        OrderCostData costData = MgMasterData.GetInstance().GetTechData(m_planIndex).ResearchCostData;
+        PayCostData(costData);
+        //2.완료 기록하고
+        CompleteTech(m_planIndex);
+        //3.정책 초기화
+        ResetPolicy();
+    }
+
+
+
+    private bool AbleExpand(TokenTile _tile)
+    {
+        //만약 현재 타일상태가 누군가의 점유로 바꼈으면 확장 불가 
+        if (_tile.GetStat(TileStat.Nation) != FixedValue.NO_NATION_NUMBER)
+        {
+            //   Debug.Log("미점유상태 타일이 아님");
+            return false;
+        }
+
+
+        if (GetResourceAmount(Capital.Wood) < 300)
+        {
+            //  Debug.Log("확장 비용 부족");
+            return false;
+        }
+
+
+        return true;
+    }
+
+    private bool AbleManageLand(TokenTile _tile)
+    {
+        //만약 현재 타일상태가 누군가의 점유로 바꼈으면 확장 불가 
+        if (_tile.GetStat(TileStat.Nation) != m_nationNumber)
+        {
+            //  Debug.Log("국가 귀속 타일이 아님");
+            return false;
+        }
+        if (_tile.GetTileType() != TileType.Nomal)
+        {
+            //  Debug.Log("토지 변경 불가능한 상태");
+            return false;
+        }
+        OrderCostData changeCost = MgMasterData.GetInstance().GetTileData(m_planIndex).BuildCostData;
+        //  Debug.Log((TileType)m_planIndex + "로 변경하려는 중");
+        if (CheckInventory(changeCost) == false)
+        {
+            // Debug.Log("국가 단위 변경 비용 부족");
+            return false;
+        }
+
+        return true;
     }
 
     private bool AbleLevelUp()
@@ -384,6 +406,13 @@ public class Nation : ITradeCustomer
             return false;
         }
         return true;
+    }
+
+    private bool AbleResearch(int _techPid)
+    {
+        OrderCostData costData = MgMasterData.GetInstance().GetTechData(_techPid).ResearchCostData;
+
+        return CheckInventory(costData);
     }
 
     #endregion
