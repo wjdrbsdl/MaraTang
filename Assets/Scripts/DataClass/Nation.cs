@@ -334,7 +334,7 @@ public class Nation : ITradeCustomer
             return;
         }
 
-        Debug.Log(m_planIndex + "번 테크 연구 완료");
+     //   Debug.Log(m_planIndex + "번 테크 연구 완료");
         //1.비용내고
         OrderCostData costData = MgMasterData.GetInstance().GetTechData(m_planIndex).ResearchCostData;
         PayCostData(costData);
