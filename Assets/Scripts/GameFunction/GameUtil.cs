@@ -125,6 +125,12 @@ public static class GameUtil
         return movedCoordi;
     }
     //목적지까지 최단 타일 개수
+    public static int GetMinRange(TokenBase _fromToken, TokenBase _toToken)
+    {
+        TMapIndex mapIndex = new TMapIndex(_fromToken, _toToken);
+        return GetMinRange(mapIndex);
+    }
+
     public static int GetMinRange(TMapIndex _tMapIndex)
     {
         int minY = Mathf.Abs(_tMapIndex.curY - _tMapIndex.toY); //최소 움직여야하는 Y 값 
