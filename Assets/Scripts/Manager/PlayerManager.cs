@@ -13,7 +13,7 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
     private TokenAction m_curAction;
     private TokenChar m_mainChar = null; //메인 캐릭터
     private PlayerCapitalData m_playerCapitalData = new(); //플레이어의 자원 정보
-
+    public bool m_autoEnd = true; //가능한 액션이 없으면 자동 종료 되는 부분 
     [Header("Efx 별도 확보")]
     [SerializeField]
     AudioClip actionSelectEFx;
@@ -188,8 +188,7 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
         //3. 만약 자동 주행이라면 바로 종료 
         if (GamePlayMaster.g_instance.m_testAuto)
         {
-            Debug.Log("리얼 플레이어 자동 턴 종료 선언");
-            EndTurn();
+            EndTurn(); //Debug.Log("리얼 플레이어 자동 턴 종료 선언");
         }
     }
 
@@ -201,7 +200,7 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
 
     private void AutoEnd()
     {
-        if (m_mainChar.GetStat(CharStat.CurActionCount) == 0)
+        if (m_mainChar.GetStat(CharStat.CurActionCount) == 0 && m_autoEnd == true)
             EndTurn();
     }
 
