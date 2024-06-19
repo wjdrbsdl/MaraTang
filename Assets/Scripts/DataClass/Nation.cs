@@ -5,7 +5,7 @@ using UnityEngine;
 
 public enum MainPolicy
 {
-    None, NationLevelUP, ExpandLand, ManageLand, Defense, Support
+    None, NationLevelUP, ExpandLand, ManageLand, TechTree, Support
 }
 
 public class Nation : ITradeCustomer
@@ -19,7 +19,9 @@ public class Nation : ITradeCustomer
     private List<int> m_doneTech; // 완료한 테크 Pid
     static Color[] nationColor = { Color.red, Color.yellow, Color.blue };
     private MainPolicy m_curMainPolicy = MainPolicy.None; //현재 정책 상황
-    private int m_mainPolicyCount = 0;
+    private int m_holdPolicyCount = 0; //현재 정책 유지된 턴
+    private TokenBase m_planToken;
+    private int m_planIndex = FixedValue.No_INDEX_NUMBER;  //메인 정책당 구체적인 계획의 인덱스
 
     #region 국가 생성자
     public Nation()
@@ -104,7 +106,7 @@ public class Nation : ITradeCustomer
         //기존 정책이 있으면 회의 종료
         if (HavePolicy())
         {
-            m_mainPolicyCount += 1;
+            m_holdPolicyCount += 1;
          //   Debug.Log("기존 정책 " + m_curMainPolicy + " 유지" + m_mainPolicyCount);
             return;
         }
@@ -129,7 +131,7 @@ public class Nation : ITradeCustomer
 
     private bool HavePlanToken()
     {
-        return m_planToken != null;
+        return !(m_planToken == null && m_planIndex == FixedValue.No_INDEX_NUMBER);
     }
 
     private void MakePlan(MainPolicy _mainPolicy)
@@ -145,11 +147,13 @@ public class Nation : ITradeCustomer
             case MainPolicy.NationLevelUP:
                 m_planToken = GetCapital();
                 break;
+            case MainPolicy.TechTree:
+                SelectTechTree();
+                break;
         }
     }
 
-    private TokenBase m_planToken;
-    private int m_planIndex;  //메인 정책당 구체적인 계획의 인덱스
+  
     private void FindExpandLand()
     {
         int findExpandCount = 1; //3개씩 확장하는걸로 
@@ -223,6 +227,12 @@ public class Nation : ITradeCustomer
           //  Debug.Log("운영할 영토를 찾지 못해 정책 초기화");
         }
     }
+
+    private void SelectTechTree()
+    {
+        //다음 연구할 기술을 선택. 
+    }
+
     #endregion
 
     #region 정책 수행
@@ -380,15 +390,15 @@ public class Nation : ITradeCustomer
     {
         m_curMainPolicy = MainPolicy.None;
         m_planToken = null;
-        m_planIndex = 0;
-        m_mainPolicyCount = 0;
+        m_planIndex = FixedValue.No_INDEX_NUMBER;
+        m_holdPolicyCount = 0;
     }
     #endregion
 
     private void RemindPolicy()
     {
         //집행되지 못한 정책의 경우 바꿀지 말지
-        if(m_mainPolicyCount >= 3)
+        if(m_holdPolicyCount >= 3)
         {
           //  Debug.Log("정책 유지 3회 이유로 기존 정책 초기화");
             ResetPolicy();
