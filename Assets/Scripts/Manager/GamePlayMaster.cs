@@ -342,9 +342,10 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>, IOrderCustomer
 
     }
 
+    public float startTermTime = 0.3f;
     private void StartActionTurn()
     {
-        Invoke(nameof(NoticeTurnPlayer), 0.2f); //다시 진행
+        Invoke(nameof(NoticeTurnPlayer), startTermTime); //다시 진행
     }
     #endregion
 
