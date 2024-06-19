@@ -181,13 +181,16 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
     public void PlayTurn()
     {
         PopupDamage.GetInstance().DamagePop(m_mainChar.GetObject().gameObject, 10);
+        //1. 안개 적용하고
+        GamePlayMaster.GetInstance().FogContorl(m_mainChar);
+        //2. 플레이어 상태 선택으로 변경
+        ChangedPlayerStep(GamePlayStep.ChooseChar); 
+        //3. 만약 자동 주행이라면 바로 종료 
         if (GamePlayMaster.g_instance.m_testAuto)
         {
             Debug.Log("리얼 플레이어 자동 턴 종료 선언");
             EndTurn();
         }
-        GamePlayMaster.GetInstance().FogContorl(m_mainChar);
-        ChangedPlayerStep(GamePlayStep.ChooseChar);
     }
 
     public void DoneCharAction(TokenChar _char)
