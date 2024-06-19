@@ -449,6 +449,11 @@ public class Nation : ITradeCustomer
                     break;
                 case TokenType.Content:
                     //Debug.Log("컨텐츠" + subIndx + "번을 " + value + "만큼 클리어했는지 확인");
+                    if (MGContent.GetInstance().IsContentDone(subIndx) == false)
+                    {
+                        Debug.Log("해당 컨텐츠 클리어 한적 없음");
+                        return false;
+                    }
                     break;
                 case TokenType.NationTech:
                     //Debug.Log("국가기술" + subIndx + "번을 " + value + "레벨만큼 학습했는지 확인"+IsDoneTech(subIndx));
