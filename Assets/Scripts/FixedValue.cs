@@ -6,7 +6,9 @@ public static class FixedValue
 {
     #region Int
     public static int
-        NO_NATION_NUMBER = -1
+        NO_NATION_NUMBER = -1,
+        No_INDEX_NUMBER = -1
+        
          ;
     #endregion
 
