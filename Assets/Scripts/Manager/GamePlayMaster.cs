@@ -14,7 +14,6 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>, IOrderCustomer
     }
     public float m_moveSpeed = 0.5f;
     public const float c_movePrecision = 0.1f; //움직임 정밀도
-    public Sprite[] m_testActionIcon;
     public bool m_testAuto = true;
 
     private GamePlayData m_playData = new();
@@ -405,7 +404,8 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>, IOrderCustomer
         Announcer.Instance.AnnounceState(message);
     }
 
-    public bool TempAdaptActionCount = false;
+    public bool AdaptActionCountRestrict = false;
+    public bool AdaptInTileForAct = false; //해당 타일에 있어야 작업이 가능하게 
     public bool TempAdaptEvent = false;
 
     #endregion

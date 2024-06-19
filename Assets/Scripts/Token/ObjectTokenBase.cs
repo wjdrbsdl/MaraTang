@@ -107,7 +107,7 @@ public class ObjectTokenBase : MonoBehaviour
 
     public void ShowActionIcon(ActionType _action)
     {
-        m_actionIcon.sprite = GamePlayMaster.g_instance.m_testActionIcon[(int)_action];
+        m_actionIcon.sprite = TempSpriteBox.GetInstance().CapitalLand;
         m_actionIcon.gameObject.SetActive(true);
     }
     public void OffActionIcon()

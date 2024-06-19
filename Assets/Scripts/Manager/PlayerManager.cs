@@ -138,7 +138,7 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
             if (m_curChar.IsPlayerChar())
                 Announcer.Instance.AnnounceState(failMessage, true);
 
-            if (GamePlayMaster.g_instance.TempAdaptActionCount)
+            if (GamePlayMaster.g_instance.AdaptActionCountRestrict)
                 return;
         }
         //1. 현재 액션으로 할당하고, 단계 변화
