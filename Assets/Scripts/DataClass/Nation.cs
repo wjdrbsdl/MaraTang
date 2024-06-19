@@ -113,7 +113,7 @@ public class Nation : ITradeCustomer
             
 
         //아니면 여기서 정함 일단 랜덤
-        int randomPolicy = Random.Range(1, 4);
+        int randomPolicy = Random.Range(1, (int)MainPolicy.Support);
 
         //어떤류 할지 정하고
         m_curMainPolicy = (MainPolicy)randomPolicy;
@@ -231,6 +231,9 @@ public class Nation : ITradeCustomer
     private void SelectTechTree()
     {
         //다음 연구할 기술을 선택. 
+        TechTreeSelector treeManager = new(); //매니저 생성하고 
+        m_planIndex = treeManager.GetTechPidByNotDone(m_doneTech);
+       // Debug.Log("다음 연구 테크pid는" + m_planIndex + "로 결정");
     }
 
     #endregion
