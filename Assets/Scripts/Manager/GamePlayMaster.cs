@@ -324,7 +324,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>, IOrderCustomer
 
     private void ResetNationTurn()
     {
-        m_turnNationNumber = 0;
+        MgNation.GetInstance().ResetNationNum();
     }
 
     private void ResetPlayerTurn()

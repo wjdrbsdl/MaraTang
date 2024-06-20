@@ -53,6 +53,11 @@ public class MgNation : Mg<MgNation>
         nation.ShowTerritory();
     }
 
+    public void ResetNationNum()
+    {
+        m_turnNationNumber = 0;
+    }
+
     public Nation GetNation(int _nationNum)
     {
         //국가 넘버가 0보다 작거나, 국가 수보다 크거나 같으면 없는 국가 - 국가 생성 순서로 국가 번호를 넣기 때문에.
