@@ -8869,13 +8869,12 @@ MonoBehaviour:
   testMangetSample: {fileID: 4823927384914364228, guid: 6f92de07b7f9178458ba0d3a0b60670d, type: 3}
   testNaviPin: {fileID: 1003702659785373538, guid: 4f3ce1904dc74c846bc72778633b5db2, type: 3}
   m_moveSpeed: 5
-  m_testActionIcon:
-  - {fileID: 21300000, guid: a8a524439af76b34488b1bb0efbc18af, type: 3}
-  - {fileID: 21300000, guid: f8078f2cd2e93484c8a1dd3c359ffe0d, type: 3}
   m_testAuto: 0
   m_camFollow: {fileID: 519420033}
   m_isPlayAnimate: 1
-  TempAdaptActionCount: 0
+  startTermTime: 0.4
+  AdaptActionCountRestrict: 0
+  AdaptInTileForAct: 0
   TempAdaptEvent: 0
 --- !u!4 &1653216243
 Transform:
@@ -9578,7 +9577,7 @@ GameObject:
   - component: {fileID: 1735261670}
   - component: {fileID: 1735261669}
   m_Layer: 0
-  m_Name: UserMg
+  m_Name: PlayerMg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9598,6 +9597,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_playGameUI: {fileID: 1473844562}
   m_soundMg: {fileID: 528832907}
+  m_autoEnd: 1
   actionSelectEFx: {fileID: 8300000, guid: 1bc1921b6b6cc42368638ee7139fa8bc, type: 3}
   eventSelectEFx: {fileID: 8300000, guid: 217d76589b4c247d5ac50f6c6df18195, type: 3}
 --- !u!4 &1735261670
