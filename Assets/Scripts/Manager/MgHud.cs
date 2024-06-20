@@ -11,7 +11,7 @@ public class MgHud : MgGeneric<MgHud>
 
     private void Start()
     {
-        InitiSet();
+        ManageInitiSet();
     }
 
     public void ShowCharHud(TokenChar _char)

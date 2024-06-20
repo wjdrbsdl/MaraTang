@@ -7,7 +7,7 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
     [SerializeField]
     MgUI m_playGameUI; //플레이어의 액션에 관련된 UI
     [SerializeField]SoundManager m_soundMg;
-    private GamePlayStep m_curStep = GamePlayStep.EndCharTurn; //현재 플레이 단계 
+    private CharTurnStep m_curStep = CharTurnStep.EndCharTurn; //현재 플레이 단계 
     private TokenChar m_curChar; //현재 선택된 캐릭터
     private TokenTile m_curTile; //현재 선택한 땅
     private TokenAction m_curAction;
@@ -20,9 +20,9 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
     [SerializeField]
     AudioClip eventSelectEFx;
 
-    public override void InitiSet()
+    public override void ManageInitiSet()
     {
-        base.InitiSet();
+        base.ManageInitiSet();
         m_mainChar = MgToken.GetInstance().GetMainChar();
         m_mainChar.isMainChar = true;
     }
@@ -47,10 +47,10 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
         // Debug.Log(m_step + "에 " + tokenType + "눌림");
         switch (m_curStep)
         {
-            case GamePlayStep.ChooseChar:
-            case GamePlayStep.SelectCharAct:
+            case CharTurnStep.ChooseChar:
+            case CharTurnStep.SelectCharAct:
                 //액션을 골라서 타겟을 고르는 상태가 아니라면 
-                ChangedPlayerStep(GamePlayStep.ChooseChar); //일단 기본 아무것도 안고른 상태로 돌리고
+                ChangedPlayerStep(CharTurnStep.ChooseChar); //일단 기본 아무것도 안고른 상태로 돌리고
                 if (tokenType == TokenType.Char) //만약 _token 타입이 캐릭이라면 해당 캐릭고른걸로
                 {
                     //게임마스터에게 얘 골랐다고 전달 - 액션 지니고 있어야하네 
@@ -60,11 +60,11 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
                     {
                         m_curChar = charToken;
                         GamePlayMaster.g_instance.EmphasizeTarget(m_curChar);
-                        ChangedPlayerStep(GamePlayStep.SelectCharAct);
+                        ChangedPlayerStep(CharTurnStep.SelectCharAct);
                     }
                 }
                 break;
-            case GamePlayStep.FillCharActiContent:
+            case CharTurnStep.FillCharActiContent:
                 //누른게 타일이던 그 위의 오브젝트던 일단 위치로 변환해서
                 
                 if (GamePlayMaster.g_instance.RuleBook.IsInRangeTarget(m_curChar, m_curAction, _token) == false)
@@ -83,7 +83,7 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
     public void DoubleClickTokenObject(TokenBase _token)
     {
         //더블클릭한 토큰 타입에 따라 UI 세팅
-        if (m_curStep.Equals(GamePlayStep.PlayCharAction))
+        if (m_curStep.Equals(CharTurnStep.PlayCharAction))
             return;
 
          m_selectedToken = _token;
@@ -103,14 +103,14 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
         }
 
         //2. 없다면 조작중인 상태의 롤벡으로 진행
-        if (m_curStep.Equals(GamePlayStep.SelectCharAct))
+        if (m_curStep.Equals(CharTurnStep.SelectCharAct))
         {
-            ChangedPlayerStep(GamePlayStep.ChooseChar);
+            ChangedPlayerStep(CharTurnStep.ChooseChar);
             return;
         }
-        if (m_curStep.Equals(GamePlayStep.FillCharActiContent))
+        if (m_curStep.Equals(CharTurnStep.FillCharActiContent))
         {
-            ChangedPlayerStep(GamePlayStep.SelectCharAct);
+            ChangedPlayerStep(CharTurnStep.SelectCharAct);
             return;
         }
     }
@@ -122,9 +122,9 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
         //Debug.Log("액션 고름");
         m_soundMg.PlayEfx(actionSelectEFx);
         if(
-          (m_curStep.Equals(GamePlayStep.ChooseChar) ||
-          m_curStep.Equals(GamePlayStep.SelectCharAct)|| 
-          m_curStep.Equals(GamePlayStep.FillCharActiContent)) 
+          (m_curStep.Equals(CharTurnStep.ChooseChar) ||
+          m_curStep.Equals(CharTurnStep.SelectCharAct)|| 
+          m_curStep.Equals(CharTurnStep.FillCharActiContent)) 
            == false)
         {
             //현재 상태가 캐릭터 선택이나 액션 고르는 단계가 아니면 작용 안됨. 
@@ -143,7 +143,7 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
         }
         //1. 현재 액션으로 할당하고, 단계 변화
         m_curAction = actionToken;
-        ChangedPlayerStep(GamePlayStep.FillCharActiContent);//액션토큰을 골랐으면 내용채우기 단계로
+        ChangedPlayerStep(CharTurnStep.FillCharActiContent);//액션토큰을 골랐으면 내용채우기 단계로
 
     }
 
@@ -154,7 +154,7 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
             return;
 
         //플레이어 쪽이 먼저 단계를 바꿔놔야함,
-        ChangedPlayerStep(GamePlayStep.PlayCharAction);//내용을 채워서 액션수행 요청을 할때
+        ChangedPlayerStep(CharTurnStep.PlayCharAction);//내용을 채워서 액션수행 요청을 할때
         GamePlayMaster.g_instance.PlayCharAction(m_curChar);
         
     }
@@ -184,7 +184,7 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
         //1. 안개 적용하고
         GamePlayMaster.GetInstance().FogContorl(m_mainChar);
         //2. 플레이어 상태 선택으로 변경
-        ChangedPlayerStep(GamePlayStep.ChooseChar); 
+        ChangedPlayerStep(CharTurnStep.ChooseChar); 
         //3. 만약 자동 주행이라면 바로 종료 
         if (GamePlayMaster.g_instance.m_testAuto)
         {
@@ -194,7 +194,7 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
 
     public void DoneCharAction(TokenChar _char)
     {
-        ChangedPlayerStep(GamePlayStep.ChooseChar);//액션 수행이 되었으면 다시 캐릭선택상태로
+        ChangedPlayerStep(CharTurnStep.ChooseChar);//액션 수행이 되었으면 다시 캐릭선택상태로
         AutoEnd();
     }
 
@@ -206,14 +206,14 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
 
     public void EndTurn()
     {
-        if (m_curStep.Equals(GamePlayStep.EndCharTurn))
+        if (m_curStep.Equals(CharTurnStep.EndCharTurn))
             return;
 
-        ChangedPlayerStep(GamePlayStep.EndCharTurn);
+        ChangedPlayerStep(CharTurnStep.EndCharTurn);
         GamePlayMaster.g_instance.EndPlayerTurn();
     }
 
-    public GamePlayStep GetCurPlayStep()
+    public CharTurnStep GetCurPlayStep()
     {
         return m_curStep;
     }
@@ -254,23 +254,23 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
     #endregion
 
     //플레이어 스텝 단계가 바뀐경우, 그 상태에 필요한 초기 세팅(값들, ui들)
-    private void ChangedPlayerStep(GamePlayStep _step)
+    private void ChangedPlayerStep(CharTurnStep _step)
     {
         //스텝이 바뀌었을 때 기본적인 세팅을 하기 
         m_curStep = _step;
-        if (m_curStep.Equals(GamePlayStep.ChooseChar))
+        if (m_curStep.Equals(CharTurnStep.ChooseChar))
         {
             m_playGameUI.ShowCharActionList();
             GamePlayMaster.g_instance.ResetEmphasize();
             return;
         }
-        if (m_curStep.Equals(GamePlayStep.SelectCharAct))
+        if (m_curStep.Equals(CharTurnStep.SelectCharAct))
         {
             m_curAction = null;
             GamePlayMaster.g_instance.ResetEmphasize();
             return;
         }
-        if (m_curStep.Equals(GamePlayStep.FillCharActiContent))
+        if (m_curStep.Equals(CharTurnStep.FillCharActiContent))
         {
             //1. 선택된 캐릭터에 선택되었던 액션을 수행할 액션으로 세팅하고
             m_curChar.SetNextAction(m_curAction);
@@ -280,12 +280,12 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
             GamePlayMaster.g_instance.EmphasizeTargetTileObject(m_curChar, m_curAction); //기본 이동 거리 세팅 
             return;
         }
-        if (m_curStep.Equals(GamePlayStep.PlayCharAction))
+        if (m_curStep.Equals(CharTurnStep.PlayCharAction))
         {
             m_playGameUI.OffPlayUI();
             return;
         }
-        if (m_curStep.Equals(GamePlayStep.EndCharTurn))
+        if (m_curStep.Equals(CharTurnStep.EndCharTurn))
         {
             m_curAction = null;
             GamePlayMaster.g_instance.ResetEmphasize();

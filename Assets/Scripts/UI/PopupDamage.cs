@@ -12,7 +12,7 @@ public class PopupDamage : MgGeneric<PopupDamage>
     public float upPos = 2f;
     private void Start()
     {
-        InitiSet();
+        ManageInitiSet();
     }
 
     public void DamagePop(GameObject _object, int _deal, int a)

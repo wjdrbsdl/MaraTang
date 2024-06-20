@@ -20,9 +20,9 @@ public class SoundManager : MgGeneric<SoundManager>
     AudioClip[] m_bgmSoundClips;
     [SerializeField] AudioSource m_bgmSpeaker;
 
-    public override void InitiSet()
+    public override void ManageInitiSet()
     {
-        base.InitiSet();
+        base.ManageInitiSet();
         g_instance = this;
         PlayBGM(BgmList.Base);
     }

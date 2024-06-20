@@ -20,6 +20,8 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>, IOrderCustomer
 
     [SerializeField]
     private CameraFollow m_camFollow;
+    private int m_turnNationNumber = 0; //현재 차례 국가 넘버 
+    private CharTurnStep m_playStep = CharTurnStep.ChooseNation;
     private PlayerMember m_playerMemeber = PlayerMember.LivePlayer; // 0번 플레이어, 1번 AI
     private PlayerRule[] m_players;
     private AIPlayer m_aiPlayer;
@@ -56,9 +58,9 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>, IOrderCustomer
     }
 
     #region 초기화 및 시작
-    public override void InitiSet()
+    public override void ManageInitiSet()
     {
-        base.InitiSet();
+        base.ManageInitiSet();
         RuleBook = new();
         RuleBook.m_PlayMaster = this;
         Announcer play = new(); // 아나운서 싱글톤생성
@@ -67,7 +69,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>, IOrderCustomer
         EmphasizeTool = new();
     }
 
-    public void FirstStart()
+    public void GameInitialSetting()
     {
       //  Debug.Log("처음 시작");
         m_aiPlayer.SetInitial(); //mgtoken이 토큰 다 만들고 나서 진행해야함.
@@ -81,6 +83,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>, IOrderCustomer
         CamFocus(PlayerManager.GetInstance().GetMainChar());
         PlayerManager.GetInstance().FirstStart();
         SelectFirstNation();
+        DoneStep(GamePlayStep.GameInitialSetting); //게임 초기 세팅 끝나면 호출
     }
 
     private int TempNationSelectOrderSerialNum = 1;
@@ -106,6 +109,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>, IOrderCustomer
     //게임마스터는 플레이어들이 턴종료때까지 대기, 수행할 캐릭터 액션토큰을 정해서 요구하면 해당 액션을 수행해주는 역할 
 
     //1. 해당 차례 플레이어에게 액션 수행하라고 전달
+    public bool TracePlayChar = false;
     public void NoticeTurnPlayer()
     {
         //플레이어 여러명이 있다고 가정하고 순서대로 진행 - 현재는 1.나 2.AI 로 진행 
@@ -113,7 +117,8 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>, IOrderCustomer
         m_players[turn].PlayTurn();
 
         //해당 플레이턴이 될때 카메라 고정을 풀거나, 하도록
-       //CamFocus(MgToken.GetInstance().GetNpcPlayerList()[turn]);
+        if(TracePlayChar == true)
+        CamFocus(MgToken.GetInstance().GetNpcPlayerList()[turn]);
 
     }
 
@@ -173,7 +178,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>, IOrderCustomer
         if ((int)PlayerMember.AI < cur)
         {
             //만약 ai 턴이 끝난것이라면
-            ReadyNextTurn(); //해당 턴 종료로 다음턴 준비
+            DoneStep(GamePlayStep.CharTurn); //EndPlayTurn에서 모든 캐릭 턴 끝나면 호출
             return;
         }
 
@@ -257,24 +262,20 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>, IOrderCustomer
     #endregion
 
     #region 턴 정산
-    /*
-     *  턴 넘김 순서 
-        플레이어 턴 변화에 대한 수행
-        오브젝트들 턴 변화에 대한 액션 변화 수행
-     */
-
     private void ReadyNextTurn()
     {
         PopupMessage("턴 종료"); 
         EffectEndTurn(); //턴이 종료할때 발휘되는 효과나 계산할것들 정산
         RecoverResource(); //소비되었던 액션 에너지등 회복
         SettleWorldTurn(); //월드 턴 변화 진행
-        SettingPlayerTurn(); //플레이어 턴으로 세팅
-        SetPlayDataUI(); //플레이 데이터 갱신
+        ResetNationTurn(); //국가 집행순서 세팅
+        ResetPlayerTurn(); //플레이어 턴으로 세팅
+        ResetPlayDataUI(); //플레이 데이터 갱신
         EffectStartTurn(); //턴 시작시 발휘되는 효과 적용
-        PopupMessage("턴 시작");
-        StartActionTurn(); //액션 턴 시작
+        DoneStep(GamePlayStep.ReadyNextTurn); //ReadyNextTurn()에서 턴 정산 끝나면 호출 
+     
     }
+
     private void PopupMessage(string message)
     {
         AlarmPopup.GetInstance().PopUpMessage(message);
@@ -285,7 +286,6 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>, IOrderCustomer
         m_playerMemeber = 0;
         //효과 토큰중 턴이 끝날때 발휘 되는 부분 동작
     }
-
 
     private void RecoverResource() 
     {
@@ -324,41 +324,69 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>, IOrderCustomer
 
     }
 
-    private void SetPlayDataUI()
+    private void ResetNationTurn()
     {
-        AnnounceState("플레이 데이터 갱신");
-        PlayerManager.GetInstance().OnChangePlayData();
+        m_turnNationNumber = 0;
     }
 
-    private void SettingPlayerTurn()
+    private void ResetPlayerTurn()
     {
         //AI 턴까지 끝나면 다시 리얼플레이어 턴으로 초기화 해서 시작 
         m_playerMemeber = PlayerMember.LivePlayer; //처음 유저로 플레이어 코드 변경. 
-        
+    }
+
+    private void ResetPlayDataUI()
+    {
+        AnnounceState("플레이 데이터 갱신");
+        PlayerManager.GetInstance().OnChangePlayData();
     }
 
     private void EffectStartTurn()
     {
 
     }
+
+    private void ResetPlayStep(CharTurnStep _step  = CharTurnStep.ChooseNation)
+    {
+        m_playStep = CharTurnStep.ChooseNation;
+    }
     #endregion
 
     #region 턴 시작
     public float startTermTime = 0.3f;
     
-    private void StartTurn()
+     public void DoneStep(GamePlayStep _step)
     {
-        //해당 턴을 시작 
-        //1. 국가 정책 부터 
-        //2. 플레이어 토큰들 진행 
+        switch(_step)
+        {
+            case GamePlayStep.GameInitialSetting:
+                StartCharTurn(); //플레이 턴 부터 시작. 
+                break;
+            case GamePlayStep.ReadyNextTurn:
+                //다음차례 준비 끝나면 국가 부터 시작
+                StartNationTurn();
+                break;
+            case GamePlayStep.NationTurn:
+                StartCharTurn();
+                break;
+            case GamePlayStep.CharTurn:
+                ReadyNextTurn();
+                break;
+        }
     }
 
-    private void StartActionTurn()
+    private void StartNationTurn()
     {
-        Invoke(nameof(NoticeTurnPlayer), startTermTime); //다시 진행
+        //국가 매니저를 통해 국가 행동을 진행
+        MgNation.GetInstance().ManageNationTurn();
+        //국가 매니저에서 국가 행동이 끝나면 겜플레이 마스터에게 국가 행동이 끝났음을 콜백?
+    }
+
+    private void StartCharTurn()
+    {
+        Invoke(nameof(NoticeTurnPlayer), startTermTime); //캐릭터 액션 턴 시작
     }
     #endregion
-
 
     #region 부가 편의 기능
     public void FogContorl(TokenChar _char)
@@ -410,7 +438,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>, IOrderCustomer
     }
     #endregion
 
-    public void AnnounceState(string message)
+    private void AnnounceState(string message)
     {
         //  Debug.Log(message);
         Announcer.Instance.AnnounceState(message);
@@ -449,10 +477,17 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>, IOrderCustomer
     }
 }
 
+//게임 전체 관점에서 단계
 public enum GamePlayStep
 {
+    GameInitialSetting, NationTurn, CharTurn, ReadyNextTurn
+}
+
+//캐릭터 차례 진행 단계
+public enum CharTurnStep
+{
     //게임마스터가 게임을 진행하면서 현재 스텝을 정의 
-    ChooseNaition, SelectNationPolicy,
+    ChooseNation, SelectNationPolicy,
     ChooseChar, SelectCharAct, FillCharActiContent, PlayCharAction, EndCharTurn
 }
 

@@ -58,9 +58,9 @@ public class MgToken : MgGeneric<MgToken>
     #endregion
 
     #region ¸®¼Â
-    public override void InitiSet()
+    public override void ManageInitiSet()
     {
-        base.InitiSet();
+        base.ManageInitiSet();
 
         SetTileSize();
         MakeMap();

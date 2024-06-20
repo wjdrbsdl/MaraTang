@@ -8,7 +8,7 @@ public class MgSkillFx : MgGeneric<MgSkillFx>
 
     void Start()
     {
-        InitiSet();
+        ManageInitiSet();
     }
 
 

@@ -35,9 +35,9 @@ public class MgParsing : MgGeneric<MgParsing>
                                     CharActionStat.CoolTime, EventStat.ETokenType, TechTreeStat.Class };
     private Dictionary<EMasterData, ParseData> dbContainer = new(); //파싱한값을 그냥 갖고만 있는상태 - 사용하는곳에서 다시 가공 필요. 
  
-    public override void InitiSet()
+    public override void ManageInitiSet()
     {
-        base.InitiSet();
+        base.ManageInitiSet();
         ParseSheetData();
     }
     public ParseData GetMasterData(EMasterData _dataId)

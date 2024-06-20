@@ -13,7 +13,7 @@ public class AlarmPopup : MgGeneric<AlarmPopup>
 
     private void Start()
     {
-        InitiSet();
+        ManageInitiSet();
     }
 
     private void Update()

@@ -8,7 +8,7 @@ public class MgCharScript : MgGeneric<MgCharScript>
 
     private void Awake()
     {
-        InitiSet();
+        ManageInitiSet();
     }
 
     public void PlayScript(TokenBase _talker, string _text)

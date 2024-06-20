@@ -290,9 +290,9 @@ public class AIPlayer : PlayerRule
 
     #endregion
 
-    public GamePlayStep GetCurPlayStep()
+    public CharTurnStep GetCurPlayStep()
     {
-        return GamePlayStep.ChooseChar;
+        return CharTurnStep.ChooseChar;
     }
 }
 
@@ -308,5 +308,5 @@ public interface PlayerRule
 
     public void EndTurn();
 
-    public GamePlayStep GetCurPlayStep();
+    public CharTurnStep GetCurPlayStep();
 }

@@ -106,26 +106,26 @@ public class MgGameIniti : MgGeneric<MgGameIniti>
         //순서대로 initi. 
         //초기화 작업이 비동기로 진행되는 경우 PlayMgInitiWorkStep을 해당 InitiSet에서 별도 호출
 
-        InputDataMGWorkStep(delegate { m_tempSpriteBox.InitiSet(); PlayMgInitiWorkStep("mgSprite로드끝"); });
+        InputDataMGWorkStep(delegate { m_tempSpriteBox.ManageInitiSet(); PlayMgInitiWorkStep("mgSprite로드끝"); });
 
         //1. 데이터 파싱
-        InputDataMGWorkStep(delegate { m_parseManager.InitiSet(); });
+        InputDataMGWorkStep(delegate { m_parseManager.ManageInitiSet(); });
         //2. 마스터 데이터 생성 
         InputDataMGWorkStep(delegate { m_MasterDataManager = new MgMasterData(); PlayMgInitiWorkStep("기본데이터 생성 끝"); });
         //3. 이후 순서 무관
-        InputDataMGWorkStep(delegate { m_loadManager.InitiSet(); PlayMgInitiWorkStep("mg로드끝"); });
+        InputDataMGWorkStep(delegate { m_loadManager.ManageInitiSet(); PlayMgInitiWorkStep("mg로드끝"); });
 
-        InputDataMGWorkStep(delegate { m_tokenManager.InitiSet(); PlayMgInitiWorkStep("mg토큰끝"); });
+        InputDataMGWorkStep(delegate { m_tokenManager.ManageInitiSet(); PlayMgInitiWorkStep("mg토큰끝"); });
 
-        InputDataMGWorkStep(delegate { m_gamePlayMaster.InitiSet(); PlayMgInitiWorkStep("mg엠씨끝"); });
+        InputDataMGWorkStep(delegate { m_gamePlayMaster.ManageInitiSet(); PlayMgInitiWorkStep("mg엠씨끝"); });
         
-        InputDataMGWorkStep(delegate { m_playerManager.InitiSet(); PlayMgInitiWorkStep("mg플레이어셋끝"); });
+        InputDataMGWorkStep(delegate { m_playerManager.ManageInitiSet(); PlayMgInitiWorkStep("mg플레이어셋끝"); });
 
-        InputDataMGWorkStep(delegate { m_soundManager.InitiSet(); PlayMgInitiWorkStep("mg사운드셋끝"); });
+        InputDataMGWorkStep(delegate { m_soundManager.ManageInitiSet(); PlayMgInitiWorkStep("mg사운드셋끝"); });
 
-        InputDataMGWorkStep(delegate { m_capitalManager.InitiSet(); PlayMgInitiWorkStep("mg자원셋끝"); });
+        InputDataMGWorkStep(delegate { m_capitalManager.ManageInitiSet(); PlayMgInitiWorkStep("mg자원셋끝"); });
 
-        InputDataMGWorkStep(delegate { m_naviManager.InitiSet(); PlayMgInitiWorkStep("mg네비셋끝"); });
+        InputDataMGWorkStep(delegate { m_naviManager.ManageInitiSet(); PlayMgInitiWorkStep("mg네비셋끝"); });
 
         InputDataMGWorkStep(delegate { contentManager = new MGContent(); PlayMgInitiWorkStep("컨텐츠 매니저 끝"); });
 
@@ -190,7 +190,7 @@ public class MgGameIniti : MgGeneric<MgGameIniti>
     }
     private void InitiUIManager()
     {
-        m_playerGameUI.InitiSet();
+        m_playerGameUI.ManageInitiSet();
        doneSetUIPart = true;
         SetGame();
     }
@@ -201,7 +201,7 @@ public class MgGameIniti : MgGeneric<MgGameIniti>
     private void PlayGame()
     {
         //4. 게임플레이가 플레이 진행
-        m_gamePlayMaster.FirstStart();
+        m_gamePlayMaster.GameInitialSetting();
         m_cutton.SetActive(false);
     }
 
