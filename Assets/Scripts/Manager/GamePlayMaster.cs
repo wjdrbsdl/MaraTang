@@ -345,10 +345,6 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>, IOrderCustomer
 
     }
 
-    private void ResetPlayStep(CharTurnStep _step  = CharTurnStep.ChooseNation)
-    {
-        m_playStep = CharTurnStep.ChooseNation;
-    }
     #endregion
 
     #region ≈œ Ω√¿€
