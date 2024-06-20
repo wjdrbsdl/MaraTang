@@ -20,7 +20,6 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>, IOrderCustomer
 
     [SerializeField]
     private CameraFollow m_camFollow;
-    private int m_turnNationNumber = 0; //현재 차례 국가 넘버 
     private PlayerMember m_playerMemeber = PlayerMember.LivePlayer; // 0번 플레이어, 1번 AI
     private PlayerRule[] m_players;
     private AIPlayer m_aiPlayer;

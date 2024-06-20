@@ -6,6 +6,7 @@ using UnityEngine;
 public class MgNation : Mg<MgNation>
 {
     private List<Nation> m_nationList;
+    private int m_turnNationNumber = 0; //현재 차례 국가 넘버 
 
     #region 국가 생성 파괴
     public MgNation()
