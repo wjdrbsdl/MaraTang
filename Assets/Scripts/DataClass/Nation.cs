@@ -8,6 +8,11 @@ public enum MainPolicy
     None, NationLevelUP, ExpandLand, ManageLand, TechTree, Support
 }
 
+public enum NationManageStep
+{
+   ManageStart, Income, SelectPolicy, ExcutePolicy, RemindPolicy
+}
+
 public class Nation : ITradeCustomer
 {
     private int m_nationNumber;
@@ -90,13 +95,42 @@ public class Nation : ITradeCustomer
 
     #endregion
 
-    public void ManageNation()
+    private void EndTurn()
     {
-        //국가운영 
-        IncomeTerritoryResource(); //영토에서 자원 수급
-        SelectPolicy(); //정책 수립
-        ExcutePolicy(); //정책 수행
-        RemindPolicy();
+        MgNation.GetInstance().EndNationTurn();
+    }
+
+    public void ReportToGameMaster(NationManageStep _step)
+    {
+        //플레이 마스터에서 플레이어의 확인이나 결정을 대기했다가 DoneReport로 재진행 
+        GamePlayMaster.GetInstance().ReportNationStep(_step, this);
+    }
+
+    public void DoneReport(NationManageStep _step)
+    {
+        switch (_step)
+        {
+            case NationManageStep.ManageStart:
+              //  Debug.Log(m_nationNumber + "번 국가 수입정산 진행");
+                IncomeTerritoryResource();
+                DoneReport(NationManageStep.Income); //보고필요가 없는건 바로 다음 단계 보고 끝난걸로 진행 
+                break;
+            case NationManageStep.Income:
+              //  Debug.Log(m_nationNumber + "번 결정하고 보고");
+                SelectPolicy(); //정책결정하고
+                ReportToGameMaster(NationManageStep.SelectPolicy); //정책 결정한거 보고하고
+                break;
+            case NationManageStep.SelectPolicy:
+             //   Debug.Log(m_nationNumber + "번 집행하고 보고");
+                ExcutePolicy(); //집행하고
+                ReportToGameMaster(NationManageStep.ExcutePolicy); //집행한거 보고하고
+                break;
+            case NationManageStep.ExcutePolicy:
+             //   Debug.Log(m_nationNumber + "번 상기하고 턴종료");
+                RemindPolicy(); //상기하고
+                EndTurn(); //턴종료
+                break;
+        }
     }
 
     #region 정책수립

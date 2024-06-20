@@ -75,8 +75,8 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>, IOrderCustomer
         //플레이어 할당
         m_players[0] = PlayerManager.GetInstance();
         m_players[1] = m_aiPlayer;
-        //턴 준비
-        ReadyNextTurn();
+        //세계의 시작만 세팅 
+        SettleWorldTurn(); //월드 턴 변화 진행
         //처음 시작시 플레이어 메인캐릭터에 카메라 포커스.
         CamFocus(PlayerManager.GetInstance().GetMainChar());
         PlayerManager.GetInstance().FirstStart();
@@ -317,9 +317,6 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>, IOrderCustomer
         m_playData.PlayTime += 1; //여태 진행한 턴
         //컨텐츠 에서 무언가 발생 
         MGContent.g_instance.WriteContentWhenNextTurn();
-        MgNation.GetInstance().ManageNationTurn();
-       
-
     }
 
     private void ResetNationTurn()
@@ -379,6 +376,26 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>, IOrderCustomer
     private void StartCharTurn()
     {
         Invoke(nameof(NoticeTurnPlayer), startTermTime); //캐릭터 액션 턴 시작
+    }
+    #endregion
+
+    #region 국가 운영
+    private Action nationCallBack;
+    public void ReportNationStep(NationManageStep _step, Nation _nation)
+    {
+        //해당 스텝에 따라 UI표기같은거 진행. 
+        nationCallBack = delegate
+        {
+            Debug.Log("텀 이후 리포트 반환");
+            _nation.DoneReport(_step);
+        }; 
+        Invoke(nameof(CallBackNationReport), startTermTime);
+    }
+
+    private void CallBackNationReport()
+    {
+        if(nationCallBack != null)
+        nationCallBack();
     }
     #endregion
 

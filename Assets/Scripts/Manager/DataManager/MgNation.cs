@@ -28,22 +28,35 @@ public class MgNation : Mg<MgNation>
     }
     #endregion
 
+    //턴 시작시 국가들 행동 할것
+    /*
+     * 1. 점유한 토지에 따른 생산 진행
+     * 1-2. 초과분에 대한 정산
+     * 2. 소비할것 소비 
+     * 2-2. 부족분에 대한 정산
+     * 3. 각 국가마다 정책턴이면 정책 수립
+     * 4. 토지 확장 고려 
+     */
+
     public void ManageNationTurn()
     {
-        //턴 시작시 국가들 행동 할것
-        /*
-         * 1. 점유한 토지에 따른 생산 진행
-         * 1-2. 초과분에 대한 정산
-         * 2. 소비할것 소비 
-         * 2-2. 부족분에 대한 정산
-         * 3. 각 국가마다 정책턴이면 정책 수립
-         * 4. 토지 확장 고려 
-         */
-      //  Debug.Log("국가들 턴 시작" + m_nationList.Count);
-        foreach(Nation nation in m_nationList)
+        m_nationList[m_turnNationNumber].DoneReport(NationManageStep.ManageStart);
+    }
+
+    public void EndNationTurn()
+    {
+        //턴 진행중이던 국가로부터 자신의 턴이 끝났음을 전달 받으면
+        int nationCount = m_nationList.Count;
+        m_turnNationNumber += 1; //다음 진행 국가를 뽑고 할 놈이 남았는지 확인
+        if (nationCount <= m_turnNationNumber)
         {
-            nation.ManageNation();
+            //국가턴이 종료된 상황
+            GamePlayMaster.GetInstance().DoneStep(GamePlayStep.NationTurn); //EndPlayTurn에서 모든 캐릭 턴 끝나면 호출
+            return;
         }
+
+        //그게 아니라면
+        ManageNationTurn(); //다시 매니저 진행
     }
 
     public void AddTerritoryToNation(int nationNum, TokenTile _tile)
