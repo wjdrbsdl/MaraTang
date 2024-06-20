@@ -256,7 +256,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>, IOrderCustomer
 
     #endregion
 
-    #region 턴 정산 부분
+    #region 턴 정산
     /*
      *  턴 넘김 순서 
         플레이어 턴 변화에 대한 수행
@@ -341,13 +341,24 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>, IOrderCustomer
     {
 
     }
+    #endregion
 
+    #region 턴 시작
     public float startTermTime = 0.3f;
+    
+    private void StartTurn()
+    {
+        //해당 턴을 시작 
+        //1. 국가 정책 부터 
+        //2. 플레이어 토큰들 진행 
+    }
+
     private void StartActionTurn()
     {
         Invoke(nameof(NoticeTurnPlayer), startTermTime); //다시 진행
     }
     #endregion
+
 
     #region 부가 편의 기능
     public void FogContorl(TokenChar _char)
@@ -441,7 +452,8 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>, IOrderCustomer
 public enum GamePlayStep
 {
     //게임마스터가 게임을 진행하면서 현재 스텝을 정의 
-    ChooseChar, SelectAct, FillContent, CheckDecision, PlayAction, TriggerEvent, EndTurn
+    ChooseNaition, SelectNationPolicy,
+    ChooseChar, SelectCharAct, FillCharActiContent, PlayCharAction, EndCharTurn
 }
 
 public class GamePlayData
