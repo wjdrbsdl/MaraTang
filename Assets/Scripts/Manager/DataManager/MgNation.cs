@@ -7,6 +7,7 @@ public class MgNation : Mg<MgNation>
 {
     private List<Nation> m_nationList;
 
+    #region 국가 생성 파괴
     public MgNation()
     {
         g_instance = this;
@@ -19,22 +20,12 @@ public class MgNation : Mg<MgNation>
         m_nationList.Add(newNation);
     }
 
-    public void AlarmNations()
-    {
-        for (int i = 0; i < m_nationList.Count; i++)
-        {
-            Nation nation = m_nationList[i];
-            int[] pos = nation.GetCapital().GetMapIndex();
-           // Debug.Log("해당 국가의 좌표는 " + pos[0] + "_" + pos[1]);
-            nation.ShowTerritory();
-        }
-    }
-
     public void DestroyNation(Nation _nation)
     {
         _nation.Destroy();
         m_nationList.Remove(_nation);
     }
+    #endregion
 
     public void ManageNationTurn()
     {

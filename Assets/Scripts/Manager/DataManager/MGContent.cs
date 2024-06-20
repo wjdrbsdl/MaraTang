@@ -303,8 +303,6 @@ public class MGContent : Mg<MGContent>
             //새로운 국가 생성
             MgNation.GetInstance().MakeNation(capitalTile, i);
         }
-        //디버그용
-        MgNation.GetInstance().AlarmNations();
     }
 
     public Chunk GetChunk(int _chunkNum)
