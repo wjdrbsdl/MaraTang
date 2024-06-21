@@ -42,6 +42,15 @@ public class NationPolicy
     public void SendNationCallBack(TokenBase _token)
     {
         Debug.Log("공격 받았음을 전달 받음");
+    }
+
+    public void Remind()
+    {
+        //국가 턴이 종료 될 때 해당 안건을 되돌아보며 턴 진행, 필요 턴 진행했을때 조건 고려, 취소, 변경등을 고려. 
+    }
+
+    public void Done()
+    {
 
     }
 }
