@@ -38,7 +38,7 @@ public class TempSpriteBox : MgGeneric<TempSpriteBox>
     public Sprite GetCharSprite(int _pid)
     {
         if (_pid < 0 || Chares.Length <= _pid)
-            return Chares[0];
+            return Chares[1];
         return Chares[_pid];
     }
 }
