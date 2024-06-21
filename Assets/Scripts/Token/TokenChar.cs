@@ -222,6 +222,15 @@ public class TokenChar : TokenBase, ITradeCustomer
         MgToken.GetInstance().RemoveCharToken(this);
     }
 
+    public NationPolicy NationPolicy;
+    protected override void SendQuestCallBack()
+    {
+        base.SendQuestCallBack();
+        if (NationPolicy != null)
+            NationPolicy.SendNationCallBack(this);
+
+    }
+
     public override void CleanToken()
     {
         base.CleanToken();

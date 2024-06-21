@@ -32,11 +32,17 @@ public class NationPolicy
                 Nation nation = MgNation.GetInstance().GetNation(m_nationNum);
                 //그 나라의 수도 
                 TokenTile nationCapitalTile = nation.GetCapital();
-                m_worker = MgToken.GetInstance().SpawnCharactor(nationCapitalTile.GetMapIndex(), 5, true); //
+                m_worker = MgToken.GetInstance().SpawnCharactor(nationCapitalTile.GetMapIndex(), 5); //
+                m_worker.NationPolicy = this;
                 Debug.Log("일꾼 생성");
                 break;
         }
     }
 
+    public void SendNationCallBack(TokenBase _token)
+    {
+        Debug.Log("공격 받았음을 전달 받음");
+
+    }
 }
 

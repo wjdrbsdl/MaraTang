@@ -136,7 +136,7 @@ public class TokenBase
         GameUtil.DropMagnetItem(GetMapIndex());
     }
 
-    public void SendQuestCallBack()
+    protected virtual void SendQuestCallBack()
     {
         if (QuestCard != null)
             QuestCard.SendQuestCallBack(this);
