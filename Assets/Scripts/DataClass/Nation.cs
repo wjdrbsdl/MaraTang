@@ -13,6 +13,11 @@ public enum NationManageStep
    ManageStart, Income, SelectPolicy, ExcutePolicy, RemindPolicy
 }
 
+public enum NationStat
+{
+     Happy
+}
+
 public class Nation : ITradeCustomer
 {
     private int m_nationNumber;
@@ -95,6 +100,7 @@ public class Nation : ITradeCustomer
 
     #endregion
 
+    #region 국가 행동 진행
     private void EndTurn()
     {
         MgNation.GetInstance().EndNationTurn();
@@ -132,6 +138,7 @@ public class Nation : ITradeCustomer
                 break;
         }
     }
+    #endregion
 
     #region 정책수립
     private void SelectPolicy()
@@ -155,7 +162,6 @@ public class Nation : ITradeCustomer
 
         //그에 대한 타겟을 정한다
         MakePlan(m_curMainPolicy);
-        
     }
 
     private bool HavePolicy()
@@ -289,6 +295,9 @@ public class Nation : ITradeCustomer
             return;
         }
 
+        //업무를 수행할 policy 클래스를 생성 - 필요재원을 지불하고 필요조건(턴)이 지났을 때, 완료(확률적)으로 판별 해서 결과 도출 .
+        //NationPolicy nationPolicy = new NationPolicy(m_curMainPolicy, m_planToken, m_planIndex, m_nationNumber);
+        //nationPolicy.Excute();
         DoPlan();
     }
 
