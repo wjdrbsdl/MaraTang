@@ -8871,6 +8871,7 @@ MonoBehaviour:
   m_moveSpeed: 5
   m_testAuto: 0
   m_camFollow: {fileID: 519420033}
+  TracePlayChar: 0
   m_isPlayAnimate: 1
   startTermTime: 0.4
   AdaptActionCountRestrict: 0
@@ -10208,6 +10209,11 @@ MonoBehaviour:
   NomalLand: {fileID: 21300000, guid: fb79c51d441f6f64197e66a798873f6c, type: 3}
   MountainLand: {fileID: 21300000, guid: f8068263d25f5554ca776db952c91c75, type: 3}
   CapitalLand: {fileID: 21300000, guid: fa5189ad96980b245b2dbd61fbe67418, type: 3}
+  Chares:
+  - {fileID: 21300000, guid: 3a404185faeed8a40a38b5058ca16f73, type: 3}
+  - {fileID: 21300000, guid: b663b10e8ea068545b3564262d6dac89, type: 3}
+  - {fileID: 21300000, guid: f7e5d4b49a43776468c0770bee60b4d4, type: 3}
+  - {fileID: 21300000, guid: b663b10e8ea068545b3564262d6dac89, type: 3}
 --- !u!1 &1835124873
 GameObject:
   m_ObjectHideFlags: 0
