@@ -47,12 +47,12 @@ public class MgMasterData : Mg<MgMasterData>
 
     public TokenChar GetCharData(int _charPID)
     {
-        return m_charDataDic[_charPID];
+        return GetDicData<TokenChar>(m_charDataDic, _charPID);
     }
 
     public TokenAction GetMasterCharAction(int _actionPID)
     {
-        return m_charActionDataDic[_actionPID];
+        return GetDicData<TokenAction>(m_charActionDataDic, _actionPID);
     }
 
     public TokenAction GetTileActions(int _actionPID)
@@ -62,7 +62,7 @@ public class MgMasterData : Mg<MgMasterData>
 
     public TokenEvent GetEventData(int _eventPID)
     {
-        return m_eventDataDic[_eventPID];
+        return GetDicData<TokenEvent>(m_eventDataDic, _eventPID);
     }
 
     public ContentData GetContentData(int _contentPID)
