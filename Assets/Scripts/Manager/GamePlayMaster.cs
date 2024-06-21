@@ -386,7 +386,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>, IOrderCustomer
         //해당 스텝에 따라 UI표기같은거 진행. 
         nationCallBack = delegate
         {
-            Debug.Log("텀 이후 리포트 반환");
+            //Debug.Log("텀 이후 리포트 반환");
             _nation.DoneReport(_step);
         }; 
         Invoke(nameof(CallBackNationReport), startTermTime);
