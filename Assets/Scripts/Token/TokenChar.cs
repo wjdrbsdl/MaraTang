@@ -49,6 +49,9 @@ public class TokenChar : TokenBase, ITradeCustomer
         {
             int actionPid = int.Parse(actions[i]);
             TokenAction masterAction = MgMasterData.GetInstance().GetMasterCharAction(actionPid);
+            //정의되지 않은 액션이라면 넘김. 
+            if (masterAction == null)
+                continue;
             TokenAction charAction = new TokenAction(masterAction);
             _haveAction.Add(charAction);
         }
@@ -98,7 +101,7 @@ public class TokenChar : TokenBase, ITradeCustomer
     {
         //pid에 맞게 objectToken의 스프라이트를 변경
         int spriteIdx = m_tokenPid - 1;
-        GetObject().SetSprite(MgToken.GetInstance().m_charSprite[spriteIdx]);
+        GetObject().SetSprite(TempSpriteBox.GetInstance().GetCharSprite(spriteIdx));
     }
 
     public CharState GetState()
