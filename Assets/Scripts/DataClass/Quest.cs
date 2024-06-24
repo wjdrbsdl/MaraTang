@@ -42,29 +42,6 @@ public class Quest
         Reward = new RewardData(_rewardType, _chunkNum); //임시로 자원 보상
         Penalty = new PenaltyData();
     }
-
-    public void OnOrderCallBack(OrderReceipt _orderReceipt) //퀘스트 고객
-    {
-        //오더익스큐터로 생성된 토큰들을 콜백받으면 거기에 자신을 할당 
-        TokenBase madeToken = _orderReceipt.MadeToken;
-        if (madeToken == null)
-            return;
-
-        madeToken.SetQuest(this);
-        QuestTokens.Add(madeToken);
-
-        if (madeToken.GetTokenType().Equals(TokenType.Event))
-        {
-            Debug.Log("이벤트 타입이므로 조금더 작업필요");
-            //몬스터를 소환하는 걸 만들어서
-            TOrderItem monster1 = new TOrderItem((int)TokenType.Char, 2, 3);
-            List<TOrderItem> monsterOrderItemlist = new List<TOrderItem>() { monster1 };
-            //만들어진 토큰 이벤트로 형변환후
-            TokenEvent eventToken = (TokenEvent)madeToken;
-            eventToken.MakeEventContent(EOrderType.SpawnMonster, monsterOrderItemlist);
-        }
-    }
-
     #endregion
 
     public void UseTurn(int _count = 1)

@@ -5,30 +5,6 @@ using UnityEngine;
 
 public class MGContent : Mg<MGContent>
 {
-    /*
-     * 게임에 컨텐츠를 풀어 놓는 곳 
-     * 1. 어느 컨텐츠를 풀지 정하고 
-     * 2. 그 컨텐츠 타입에 맞는 퀘스트를 생성하고 
-     * 3. 어디에 풀지 구역을 정한뒤 
-     * 4. 퀘스트를 수행
-     * -------------------------------------------------------------
-     * 1. 어느 컨텐츠를 할지 정하고 - 몇개, 어느 타입
-     * 2. 퀘스트 수행할 청크를 그 수만큼 뽑고 
-     * 3. 해당 청크 내부에서 전달받은 타입으로 퀘스트를 생성하고
-     * 4. 퀘스트를 수행 
-     * --------------------------------------------------------------
-     *  //진행도나 무언가에 따라서 컨텐츠 발생
-
-        /*컨텐츠는 
-         * - 해당 지역 몬스터 제거하기 
-         * - 해당 지역 점거 하기 
-         * - 해당 지역 자원 캐기 등 특정한 이벤트를 발생시키고, 그에 따라 보상을 약속하는 시스템 
-
-        //기존 발생되었던 녀석은 어떻게? 
-        //1. 기존께 강화
-        //2. 기존께 소멸
-        //3. 기존꺼 유지 
-     */
     #region 변수
     private List<Quest> m_QuestList = new List<Quest>();
     List<(int, bool)> m_QuestRecorde = new(); //과거 퀘스트의 기록
@@ -238,46 +214,6 @@ public class MGContent : Mg<MGContent>
         return true;
     }
 
-    private void RandomDye()
-    {
-        Color[] a = { Color.blue, Color.cyan, Color.red, Color.yellow, Color.magenta, Color.green, Color.white };
-        for (int i = 0; i < m_chunkList.Count; i++)
-        {
-            Color b = a[i % a.Length];
-            m_chunkList[i].Dye(b);
-        }
-    }
-
-    private void MakeFence(Chunk _fenceChunk)
-    {
-        Sprite fenceSprite = TempSpriteBox.GetInstance().GetSprite(TileType.Nomal);
-
-        int xLength = _fenceChunk.tiles.GetLength(0);
-        int yLength = _fenceChunk.tiles.GetLength(1);
-
-        //외곽인경우만 스프라이트 바꾸기
-
-        for (int x = 0; x < xLength; x++)
-        {
-            for (int y = 0; y < yLength; y++)
-            {
-                if (x == 0 || x == xLength - 1)
-                {
-                    //x축이 0이거나 맨 끝인경우 y 0~max 달리고
-                    _fenceChunk.tiles[x, y].SetSprite(fenceSprite);
-                }
-                else
-                {
-                    //x값이 1~어느 사이인 경우엔 y 처음과 끝만 색칠하고 해당 열은 패스 
-                    _fenceChunk.tiles[x, 0].SetSprite(fenceSprite);
-                    _fenceChunk.tiles[x, yLength - 1].SetSprite(fenceSprite);
-                    break;
-                }
-            }
-        }
-
-    }
-
     private void MakeNation()
     {
         // 국가 매니저 초기화
@@ -314,17 +250,7 @@ public class MGContent : Mg<MGContent>
         return m_chunkList[_chunkNum];
     }
 
-    public int GetTileCountInChunk(int _chunkNum)
-    {
-        Chunk chunk = GetChunk(_chunkNum);
-
-        if (chunk == null)
-            return 0;
-
-        int x = chunk.tiles.GetLength(0);
-        int y = chunk.tiles.GetLength(1);
-        return x * y;
-    }
+ 
 }
 
 

@@ -375,6 +375,18 @@ public static class GameUtil
     {
         return GetChunkNum(PlayerManager.GetInstance().GetMainChar().GetMapIndex());
     }
+
+    public static int GetTileCountInChunk(int _chunkNum)
+    {
+        Chunk chunk = MGContent.GetInstance().GetChunk(_chunkNum);
+
+        if (chunk == null)
+            return 0;
+
+        int x = chunk.tiles.GetLength(0);
+        int y = chunk.tiles.GetLength(1);
+        return x * y;
+    }
     #endregion
 
     /*
@@ -718,6 +730,36 @@ public static class GameUtil
         Vector3 dropPosition = tile.GetObject().gameObject.transform.position; // 위치 뽑고
         MagnetItem magnetItem = MonoBehaviour.Instantiate(GamePlayMaster.GetInstance().testMangetSample);
         magnetItem.SetMagnetInfo(dropPosition);
+    }
+
+    private static void MakeFence(Chunk _fenceChunk)
+    {
+        Sprite fenceSprite = TempSpriteBox.GetInstance().GetSprite(TileType.Nomal);
+
+        int xLength = _fenceChunk.tiles.GetLength(0);
+        int yLength = _fenceChunk.tiles.GetLength(1);
+
+        //외곽인경우만 스프라이트 바꾸기
+
+        for (int x = 0; x < xLength; x++)
+        {
+            for (int y = 0; y < yLength; y++)
+            {
+                if (x == 0 || x == xLength - 1)
+                {
+                    //x축이 0이거나 맨 끝인경우 y 0~max 달리고
+                    _fenceChunk.tiles[x, y].SetSprite(fenceSprite);
+                }
+                else
+                {
+                    //x값이 1~어느 사이인 경우엔 y 처음과 끝만 색칠하고 해당 열은 패스 
+                    _fenceChunk.tiles[x, 0].SetSprite(fenceSprite);
+                    _fenceChunk.tiles[x, yLength - 1].SetSprite(fenceSprite);
+                    break;
+                }
+            }
+        }
+
     }
 }
 
