@@ -32,14 +32,14 @@ public class Quest
        
     }
 
-    public Quest(EQuestType _questType, ERewardType _rewardType, int _chunkNum, ContentData _contentData)
+    public Quest(ContentData _contentData, int _chunkNum)
     {
         QuestPid = _contentData.ContentPid;
         ChunkNum = _chunkNum;
         //퀘스트 타입에 맞게 조건서 작성
         Condition = new QuestCondition(_contentData, _chunkNum);
         //보상 타입에 맞게 보상내용 작성
-        Reward = new RewardData(_rewardType, _chunkNum); //임시로 자원 보상
+        Reward = new RewardData(_contentData, _chunkNum); //임시로 자원 보상
         Penalty = new PenaltyData();
     }
     #endregion

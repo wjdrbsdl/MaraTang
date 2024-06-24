@@ -100,22 +100,22 @@ public class MGContent : Mg<MGContent>
             //어디 청크에서 발현시킬지는 따로 산출
             m_mainCharChunkNum = GameUtil.GetMainCharChunkNum();
            // return MakeQuest(EQuestType.SpawnMonster, ERewardType.CharStat, m_mainCharChunkNum);
-            return MakeQuest(EQuestType.SpawnEvent, ERewardType.None, m_mainCharChunkNum, contentMasterData); //이벤트 만들던 기존 루트
+            return MakeQuest(contentMasterData, m_mainCharChunkNum); //이벤트 만들던 기존 루트
         }
 
         if (data.PlayTime % 3 == 0)
         {
             int ranChunkNum = Random.Range(0, m_chunkList.Count);
-            return MakeQuest(EQuestType.SpawnMonster, ERewardType.CharStat, ranChunkNum, contentMasterData);
+            return MakeQuest( contentMasterData, ranChunkNum);
             //  return MakeQuest(ranChunkNum, 6, 1, EOrderType.CharStat); //몬스터 만들기 기존 루트
         }
 
         return null;
     }
 
-    private Quest MakeQuest(EQuestType _questType, ERewardType _rewardType, int _chunkNum, ContentData _contentMasterData)
+    private Quest MakeQuest(ContentData _contentMasterData, int _chunkNum)
     {
-        Quest newQuest = new Quest(_questType, _rewardType, _chunkNum, _contentMasterData);
+        Quest newQuest = new Quest(_contentMasterData, _chunkNum);
         m_questCount += 1;
         m_QuestList.Add(newQuest); //리스트에 추가 
   
