@@ -27,11 +27,8 @@ public class NationTechTree
         GameUtil.InputMatchValue(ref m_techValues, matchCode, _parsingData);
         //학습 비용 적어놓은 칸이 있으면
         int costIndex = 4; //구글 sheet상 열 인덱스
-        if (_parsingData.Length > costIndex)
-        {
-            ResearchCostData = GameUtil.ParseCostDataArray(_parsingData, costIndex);
+        ResearchCostData = GameUtil.ParseCostDataArray(_parsingData, costIndex);
 
-        }
     }
 
     public int GetPid()

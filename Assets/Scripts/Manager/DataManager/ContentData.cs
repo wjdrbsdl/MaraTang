@@ -19,46 +19,37 @@ public class ContentData
         ContentPid = int.Parse(_parsingData[0]);
         ConditionType = (EOrderType)int.Parse(_parsingData[1]);
 
-        //컨디션 데이터가 없으면 패쓰? 이럴린 없는데
-        if (_parsingData.Length < 3)
-            return;
-
+        //1. 컨디션의 매인 아이템 리스트 파싱
+        int mainItemListIdx = 2;
         ConditionMainItemList = new();
-        string[] itemOrderSplit = _parsingData[2].Split(" ");
-        for (int i = 0; i < itemOrderSplit.Length; i++)
-        {
-            string[] itemSplit = itemOrderSplit[i].Split(FixedValue.PARSING_DIVIDE);
-            //0_1_2 로 구성 0은 tokenGroup, 1은 pid, 2는 벨류
-            TOrderItem newItem = new(int.Parse(itemSplit[0]), int.Parse(itemSplit[1]), int.Parse(itemSplit[2]));
-            ConditionMainItemList.Add(newItem);
-        }
+        GameUtil.ParseOrderItemList(ConditionMainItemList, _parsingData, mainItemListIdx);
+      
 
-        if (_parsingData.Length < 4)
-            return;
-
+        //1. 컨디션의 서브 아이템 리스트 파싱
+        int subItemListIdx = 3;
         ConditionSubItemList = new();
-        //1. 엔터로 분할
-        string[] subitemOrderSplit = _parsingData[3].Split(" ");
-        for (int i = 0; i < subitemOrderSplit.Length; i++)
+        if ( subItemListIdx < _parsingData.Length)
         {
-            //2. Main 1개에 들어갈 Sub들의 분할
-            string[] lineSplit = subitemOrderSplit[i].Split("/");
-            List<TOrderItem> lineList = new();
-            for (int x = 0; x < lineSplit.Length; x++)
+            //재료가 한줄마다 있는게 아닌, 한줄에 여러 리스트가 나열되어 있어서 한번더 split해야함. 
+            //1. 엔터로 분할
+            string[] subitemOrderSplit = _parsingData[3].Split(" ");
+            for (int i = 0; i < subitemOrderSplit.Length; i++)
             {
-                //3. sub 한줄의 한 당락씩 아이템 구조 생성
-                string[] itemSplit = lineSplit[x].Split(FixedValue.PARSING_DIVIDE);
-                //0_1_2 로 구성 0은 tokenGroup, 1은 pid, 2는 벨류
-                TOrderItem newItem = new(int.Parse(itemSplit[0]), int.Parse(itemSplit[1]), int.Parse(itemSplit[2]));
-
-                //4. 라인리스트에 추가
-                lineList.Add(newItem);
+                //2. Main 1개에 들어갈 Sub들의 분할
+                string[] lineSplit = subitemOrderSplit[i].Split("/");
+                List<TOrderItem> lineList = new();
+                for (int x = 0; x < lineSplit.Length; x++)
+                {
+                    TOrderItem newItem = GameUtil.ParseOrderItem(lineSplit[x]);
+                    if (newItem.IsVaridTokenType())
+                    {
+                        lineList.Add(newItem);
+                    }
+                }
+                ConditionSubItemList.Add(lineList);
             }
-            //5. 라인리스트를 전체 서브 리스트에 추가 
-            ConditionSubItemList.Add(lineList);
 
-            
         }
-
+   
     }
 }

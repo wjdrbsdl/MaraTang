@@ -559,70 +559,41 @@ public static class GameUtil
     public static OrderCostData ParseCostDataArray(string[] _parsingData, int _costIndex)
     {
         OrderCostData orderCostData = new OrderCostData();
+        //파싱 데이터 배열 해당 index에 자료가 있는지 체크 없으면 반환. 
+        if(_parsingData.Length <= _costIndex)
+        {
+            return orderCostData;
+        }
         string[] costArray = _parsingData[_costIndex].Split(' '); //아이템 리스트를 항목으로 구별
         for (int i = 0; i < costArray.Length; i++)
         {
-
-            #region 기존 하나씩 하던부분
-            //string[] divideBuild = costArray[i].Split(MgMasterData.DIVIDECHAR);
-            ////[0] : 토큰타입 [1] :항목에서 pid [2] : 수량
-            //if (System.Enum.IsDefined(typeof(TokenType), divideBuild[0]))
-            //{
-            //    //재료의 토큰그룹은 파싱.
-            //    TokenType tokenType = System.Enum.Parse<TokenType>(divideBuild[0]);
-
-            //    //두번째 pid가 숫자로 되있는지 해당 enum의 문자값으로 되어있는지 확인
-            //    if (int.TryParse(divideBuild[1], out int enumIndex) == true)
-            //    {
-            //        //바로 pid로 되어있다면
-            //        if (int.TryParse(divideBuild[2], out int needAmount) == true)
-            //        {
-            //            //마지막 수량까지 잘 적혀있으면 데이터에 추가
-            //            TOrderItem orderItem = new TOrderItem(tokenType, enumIndex, needAmount);
-            //            orderCostData.Add(orderItem);
-            //        }
-            //        //수량이 넣었던 못넣었던 여긴 종료
-            //        continue;
-            //    }
-
-            //    //enum의 문자값으로 기록되어있으면 index를 산출
-            //    System.Type findEnum = null;
-            //    //토큰 타입에 따라 적절한 enum 타입을 정의하고
-            //    switch (tokenType)
-            //    {
-            //        case TokenType.Capital:
-            //            findEnum = typeof(Capital);
-            //            break;
-            //    }
-            //    if (findEnum == null)
-            //    {
-            //        //적절한 enum 그룹이 없으면 넘김
-            //        continue;
-            //    }
-            //    //해당 enum타입에서 [1] 값이 있는지 확인
-            //    if (System.Enum.IsDefined(findEnum, divideBuild[1]))
-            //    {
-            //        //[1] 세부 pid파싱 
-            //        int enumPid = (int)System.Enum.Parse(findEnum, (divideBuild[1]));
-            //        if (int.TryParse(divideBuild[2], out int needAmount) == true)
-            //        {
-            //            //마지막 수량까지 잘 적혀있으면 데이터에 추가
-            //            TOrderItem orderItem = new TOrderItem(tokenType, enumPid, needAmount);
-            //            orderCostData.Add(orderItem);
-            //        }
-            //        continue;
-            //    }
-            //}
-            #endregion
             TOrderItem orderItem = ParseOrderItem(costArray[i]);  //[0] : 토큰타입 [1] :항목에서 pid [2] : 수량 으로 이뤄진 문자를 보내 Torder로 변환.
-            if (orderItem.GetTokenType().Equals(TokenType.None))
+            if (orderItem.IsVaridTokenType())
             {
-                continue; //잘못된 아이템 재료면 넘기고
+                orderCostData.Add(orderItem); //유효한 재료면 추가
             }
-            orderCostData.Add(orderItem); //유효한 재료면 추가하고
         }
 
         return orderCostData;
+    }
+
+    public static void ParseOrderItemList(List<TOrderItem> _itemList, string[] _parsingData, int _costIndex)
+    {
+        //파싱 데이터 배열에 해당 index가 없으면 취소. 
+        if (_parsingData.Length <= _costIndex)
+        {
+            return;
+        }
+        string[] costArray = _parsingData[_costIndex].Split(' '); //아이템 리스트를 항목으로 구별
+        for (int i = 0; i < costArray.Length; i++)
+        {
+            TOrderItem orderItem = ParseOrderItem(costArray[i]);  //[0] : 토큰타입 [1] :항목에서 pid [2] : 수량 으로 이뤄진 문자를 보내 Torder로 변환.
+            if (orderItem.IsVaridTokenType())
+            {
+                _itemList.Add(orderItem); //유효한 재료면 추가
+            }
+        }
+
     }
 
     public static TOrderItem ParseOrderItem(string costData)
