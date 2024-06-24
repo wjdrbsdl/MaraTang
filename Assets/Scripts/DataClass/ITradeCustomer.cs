@@ -26,6 +26,14 @@ public struct OrderCostData
         }
     }
 
+    public void Add(TOrderItem _orderItem)
+    {
+        if (costList == null)
+            costList = new();
+        
+        costList.Add(_orderItem);
+    }
+
     public void Add((TokenType, int, int) _costData)
     {
         if (costList == null)

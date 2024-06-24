@@ -519,7 +519,7 @@ public class Nation : ITradeCustomer
       
         for (int i = 0; i < BuildCostList.Count; i++)
         {
-            TokenType costType = BuildCostList[i].MainIdx;
+            TokenType costType = BuildCostList[i].Tokentype;
             int subIndx = BuildCostList[i].SubIdx;
             int value = BuildCostList[i].Value;
             //각 토큰타입의 지불가능 형태를 따져 불가능하면 바로 false 반환 
@@ -560,7 +560,7 @@ public class Nation : ITradeCustomer
   
         for (int i = 0; i < BuildCostList.Count; i++)
         {
-            TokenType costType = BuildCostList[i].MainIdx;
+            TokenType costType = BuildCostList[i].Tokentype;
             int subIdx = BuildCostList[i].SubIdx;
             int value = BuildCostList[i].Value;
             //각 토큰타입의 지불가능 형태를 따져 불가능하면 바로 false 반환 

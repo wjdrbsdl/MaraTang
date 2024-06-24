@@ -256,8 +256,8 @@ public class TokenChar : TokenBase, ITradeCustomer
         List<TOrderItem> BuildCostList = _costData.GetCostList();
         for (int i = 0; i < BuildCostList.Count; i++)
         {
-            Debug.LogFormat("{0}그룹의 {1} 인덱스의 필요수량 {2}", BuildCostList[i].MainIdx, BuildCostList[i].SubIdx, BuildCostList[i].Value);
-            TokenType costType = BuildCostList[i].MainIdx;
+            Debug.LogFormat("{0}그룹의 {1} 인덱스의 필요수량 {2}", BuildCostList[i].Tokentype, BuildCostList[i].SubIdx, BuildCostList[i].Value);
+            TokenType costType = BuildCostList[i].Tokentype;
             //각 토큰타입의 지불가능 형태를 따져 불가능하면 바로 false 반환 
             switch (costType)
             {
@@ -288,7 +288,7 @@ public class TokenChar : TokenBase, ITradeCustomer
         List<TOrderItem> BuildCostList = _costData.GetCostList();
         for (int i = 0; i < BuildCostList.Count; i++)
         {
-            TokenType costType = BuildCostList[i].MainIdx;
+            TokenType costType = BuildCostList[i].Tokentype;
             int subIdx = BuildCostList[i].SubIdx;
             int value = BuildCostList[i].Value;
             //각 토큰타입의 지불가능 형태를 따져 불가능하면 바로 false 반환 

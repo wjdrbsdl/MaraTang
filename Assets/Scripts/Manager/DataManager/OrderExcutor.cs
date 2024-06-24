@@ -107,7 +107,7 @@ public class OrderExcutor
     {
         _order.SetSelectedNum(_selectNum);
         TOrderItem orderItem = _order.orderItemList[_selectNum];
-        TokenType tokenGroup = (TokenType)orderItem.MainIdx;
+        TokenType tokenGroup = (TokenType)orderItem.Tokentype;
         int orderSubIdx = orderItem.SubIdx;
         int orderValue = orderItem.Value;
         //선택한 아이템이 다시 이벤트 생성 , 몬스터 소환같은거면 어떡함?
@@ -224,14 +224,14 @@ public struct TTokenOrder
 public struct TOrderItem
 {
     //주문서 내부의 개별 아이템 항목 정보
-    public TokenType MainIdx;
+    public TokenType Tokentype;
     public int SubIdx;
     public int Value;
     public int SerialNum;
 
     public TOrderItem (int _tokenGroup, int _subIdx, int _value)
     {
-        MainIdx = (TokenType)_tokenGroup;
+        Tokentype = (TokenType)_tokenGroup;
         SubIdx = _subIdx;
         Value = _value;
         SerialNum = 0;
@@ -239,7 +239,7 @@ public struct TOrderItem
 
     public TOrderItem(TokenType _tokenGroup, int _subIdx, int _value)
     {
-        MainIdx = _tokenGroup;
+        Tokentype = _tokenGroup;
         SubIdx = _subIdx;
         Value = _value;
         SerialNum = 0;
@@ -248,7 +248,7 @@ public struct TOrderItem
     public TOrderItem WriteCharItem(CharStat _charIdx, int _value)
     {
         TOrderItem item = new();
-        item.MainIdx = TokenType.CharStat;
+        item.Tokentype = TokenType.CharStat;
         item.SubIdx = (int)_charIdx;
         item.Value = _value;
         return item;
@@ -257,7 +257,7 @@ public struct TOrderItem
     public TOrderItem WriteActionItem(int _actionPid, int _value)
     {
         TOrderItem item = new();
-        item.MainIdx = TokenType.Action;
+        item.Tokentype = TokenType.Action;
         item.SubIdx = _actionPid;
         item.Value = _value;
         return item;
@@ -266,7 +266,7 @@ public struct TOrderItem
     public TOrderItem WriteCapitalItem(Capital _capitalIdx, int _value)
     {
         TOrderItem item = new();
-        item.MainIdx = TokenType.Capital;
+        item.Tokentype = TokenType.Capital;
         item.SubIdx = (int)_capitalIdx;
         item.Value = _value;
         return item;
@@ -276,5 +276,10 @@ public struct TOrderItem
     {
      //   Debug.Log("시리얼 넘버로 세팅중" + _serialNum);
         SerialNum = _serialNum;
+    }
+
+    public TokenType GetTokenType()
+    {
+        return Tokentype;
     }
 }
