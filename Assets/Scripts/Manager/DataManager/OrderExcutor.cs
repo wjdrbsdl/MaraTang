@@ -161,15 +161,19 @@ public enum GiveMethod
 
 public struct TTokenOrder
 {
+    //토큰 생성, 선택등의 작업을 진행하는곳
+
+    //작업을 위해 필요한 변수
     public EOrderType OrderType;
     public ESpawnPosType SpawnPosType;
     public IOrderCustomer OrderCustomer;
-    public List<TOrderItem> orderItemList;
+    public List<TOrderItem> orderItemList; //토큰 타입, 서브pid, 수량(밸류)로 묶은 orderItem.
     public int ChunkNum; //아무 지정이 아니면 - 1
-    public int OrderExcuteCount;
+    public int OrderExcuteCount; //집행한 수 - 단계로변경 필요?
     public int OrderSerialNumber; //주문서 일련번호 - 한 고객에게 여러 콜백이 들어갈경우, 어떤 퀘스트나, 컨텐츠 에서 나온건지 확인하기 위해서. 
     public int SelectItemNum; //이번에 선택되었던 아이템 번호
 
+    #region 주문서 생성
     public TTokenOrder Spawn(EOrderType _orderType, List<TOrderItem> _charList, ESpawnPosType _spawnPosType, int _chunkNum, int _serialNum = 0)
     {
         TTokenOrder order = new();
@@ -217,7 +221,7 @@ public struct TTokenOrder
             orderItemList[i].SetSerialNum(OrderSerialNumber);
         }
     }
-
+    #endregion
 
 }
 
