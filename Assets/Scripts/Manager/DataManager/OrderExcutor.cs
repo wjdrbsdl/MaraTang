@@ -278,8 +278,8 @@ public struct TOrderItem
         SerialNum = _serialNum;
     }
 
-    public TokenType GetTokenType()
+    public bool IsVaridTokenType()
     {
-        return Tokentype;
+        return Tokentype.Equals(TokenType.None)==false;
     }
 }
