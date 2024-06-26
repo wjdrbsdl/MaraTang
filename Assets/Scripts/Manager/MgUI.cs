@@ -13,6 +13,7 @@ public class MgUI : MgGeneric<MgUI>
     [SerializeField] private UICharStats m_charStatUI;
     [SerializeField] private UICaptailMix m_capitalMixUI;
     [SerializeField] private UICapitalChange m_capitalChangeUI;
+    [SerializeField] private UISelectItem m_selectItemUI;
 
     [Header("데이터 표기")]
     [SerializeField] private UICapital m_capitalUI;
@@ -80,6 +81,11 @@ public class MgUI : MgGeneric<MgUI>
     public void ShowItemList(TTokenOrder _orderToken)
     {
         m_rewardChooseUI.ShowItemList(_orderToken);
+    }
+
+    public void ShowSelectList(SelectItemInfo _itemInfo)
+    {
+        m_selectItemUI.SetSelectedInfo(_itemInfo);
     }
 
     private void ShowTileTokenInfo(TokenTile _tile)
