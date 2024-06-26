@@ -14,6 +14,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>, IOrderCustomer
     }
     public float m_moveSpeed = 0.5f;
     public const float c_movePrecision = 0.1f; //움직임 정밀도
+    public bool m_testCheckPlayerInventory = false; //플레이어 인벤 체크하느냐 
     public bool m_testAuto = true;
 
     private GamePlayData m_playData = new();

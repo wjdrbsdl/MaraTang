@@ -51,8 +51,9 @@ public class PlayerCapitalData : ITradeCustomer
                 case TokenType.Capital:
                     if (IsEnough((Capital)BuildCostList[i].SubIdx, BuildCostList[i].Value) == false)
                     {
-                        Debug.Log("부족");
-                        //  return false;
+                        Debug.Log("부족 겜마스터 인벤체크 여부 변수값에 따라 체크");
+                        if(GamePlayMaster.GetInstance().m_testCheckPlayerInventory == true)
+                             return false;
                     }
                     break;
                 default:
