@@ -48,6 +48,9 @@ public class UISelectItem : UIBase, ISelectCustomer
     public void OnSelectCallBack(int _slotIndex)
     {
         m_selectInfo.AddChooseItem(_slotIndex);
+        //다시 정보 리셋 
+        SetSlots();
+        SetSelectSlots();
     }
 
 }
