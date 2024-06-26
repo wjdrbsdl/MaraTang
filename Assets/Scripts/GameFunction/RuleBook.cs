@@ -374,7 +374,7 @@ public class RuleBook
     }
     private void BuildTile(TokenTile _tile, TileType _tileType)
     {
-        if (PlayerManager.GetInstance().CheckInventory(GetTileChangeCost(_tileType)) == true)
+        if (PlayerCapitalData.g_instance.CheckInventory(GetTileChangeCost(_tileType)) == true)
         {
             _tile.ChangeTileType(_tileType);
         }
@@ -393,7 +393,7 @@ public class RuleBook
                 _capitalList.Add((Capital.Food, 50));
                 _capitalList.Add((Capital.Mineral, 50));
                 _capitalList.Add((Capital.Person, 50));
-             //   OrderCostData _costData = _playerCapital.GetTrade(_capitalList);
+               // OrderCostData _costData = _playerCapital.GetTrade(_capitalList);
                 break;
         }
     }
@@ -465,18 +465,18 @@ public class RuleBook
 
     public void MixCapital(List<(Capital, int)> _resources)
     {
-        PlayerManager player = PlayerManager.GetInstance();
+        PlayerCapitalData playerCapital = PlayerCapitalData.g_instance;
         OrderCostData costData = new OrderCostData(_resources);
-        if (player.CheckInventory(costData) == false)
+        if (playerCapital.CheckInventory(costData) == false)
         {
             Announcer.Instance.AnnounceState("합성 재료 부족", true);
             return;
         }
-        player.PayCostData(costData);//사용한만큼 감소 시키고
+        playerCapital.PayCostData(costData);//사용한만큼 감소 시키고
         (Capital, int) mixed = m_capitalRecipe.MixCapital(_resources);
         OrderCostData mixedData = new OrderCostData(mixed);
         bool isPay = false; //지불이 아님
-        player.PayCostData(mixedData, isPay); //얻은 만큼 추가 시키고 
+        playerCapital.PayCostData(mixedData, isPay); //얻은 만큼 추가 시키고 
     }
 
     public void ChangeCapital((Capital, int) _input, Capital _outCapital)

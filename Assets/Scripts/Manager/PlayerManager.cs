@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule, ITradeCustomer
+public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
 {
     [SerializeField]
     MgUI m_playGameUI; //플레이어의 액션에 관련된 UI
@@ -294,54 +294,4 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule, ITradeCustome
         }
     }
 
-    public bool CheckInventory(OrderCostData _costData)
-    {
-        List<TOrderItem> BuildCostList = _costData.GetCostList();
-        for (int i = 0; i < BuildCostList.Count; i++)
-        {
-            Debug.LogFormat("{0}그룹의 {1} 인덱스의 필요수량 {2}", BuildCostList[i].Tokentype, BuildCostList[i].SubIdx, BuildCostList[i].Value);
-            TokenType costType = BuildCostList[i].Tokentype;
-            //각 토큰타입의 지불가능 형태를 따져 불가능하면 바로 false 반환 
-            switch (costType)
-            {
-                case TokenType.Capital:
-                    if (m_playerCapitalData.IsEnough((Capital)BuildCostList[i].SubIdx, BuildCostList[i].Value) == false)
-                    {
-                        Debug.Log("부족");
-                        //  return false;
-                    }
-                    break;
-                default:
-                    Debug.Log("고려 파트 아닌 부분");
-                    break;
-            }
-        }
-
-        return true;
-    }
-
-    public void PayCostData(OrderCostData _costData, bool _isPay = true)
-    {
-        List<TOrderItem> BuildCostList = _costData.GetCostList();
-        for (int i = 0; i < BuildCostList.Count; i++)
-        {
-            TokenType costType = BuildCostList[i].Tokentype;
-            int subIdx = BuildCostList[i].SubIdx;
-            int value = -BuildCostList[i].Value;
-            if (_isPay == false)
-                value *= -1; //지불이 아니라 받는거면 +로 전환
-
-            //각 토큰타입의 지불가능 형태를 따져 불가능하면 바로 false 반환 
-            switch (costType)
-            {
-                case TokenType.Capital:
-                    m_playerCapitalData.CalCapital((Capital)subIdx, value);
-                    break;
-                default:
-                    Debug.Log("고려 파트 아닌 부분");
-                    break;
-            }
-        }
-
-    }
 }
