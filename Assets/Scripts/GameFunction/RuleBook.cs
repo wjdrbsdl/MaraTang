@@ -374,7 +374,7 @@ public class RuleBook
     }
     private void BuildTile(TokenTile _tile, TileType _tileType)
     {
-        if (MgToken.GetInstance().GetMainChar().CheckInventory(GetTileChangeCost(_tileType)) == true)
+        if (PlayerManager.GetInstance().CheckInventory(GetTileChangeCost(_tileType)) == true)
         {
             _tile.ChangeTileType(_tileType);
         }
@@ -383,7 +383,20 @@ public class RuleBook
     private void UseTownFunction(TokenTile _tile, int _subValue)
     {
         Debug.Log(_subValue + "작업 수행 요청");
+        TownFuction townFuction = (TownFuction)_subValue;
+        switch (townFuction)
+        {
+            case TownFuction.GiveMoney:
+           
+                break;
+        }
     }
+
+    public enum TownFuction
+    {
+       GiveMoney = 1
+    }
+
     #endregion
 
     #region 캐릭 스텟 강화
