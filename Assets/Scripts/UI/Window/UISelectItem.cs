@@ -68,7 +68,6 @@ public class UISelectItem : UIBase, ISelectCustomer
     public void OnChangeValueCallBack(int _slotIndex, int _value)
     {
         //해당 값이 바뀐 경우. 
-        Debug.Log("변경 되었다고 콜백");
         int max = m_selectInfo.ItemList[_slotIndex].Value; //기존의 값이 최댓값
         int min = 1;
         int final = Mathf.Clamp(_value, min, max);
