@@ -81,19 +81,27 @@ public class RuleBookTileAction
         switch (townFuction)
         {
             case TownFuction.GiveMoney:
-                PlayerCapitalData _playerCapital = PlayerCapitalData.g_instance;
-                //플레이어가 지불할 자원과 수를 가지고 코스트데이터를 생성
-                List<(Capital, int)> _capitalList = new();
-                _capitalList.Add((Capital.Food, 50));
-                _capitalList.Add((Capital.Mineral, 50));
-                _capitalList.Add((Capital.Person, 50));
-                OrderCostData _costData = _playerCapital.GetTradeOrder(_capitalList);
-
-                Nation targetNation = _tile.GetNation();
-                _playerCapital.PayCostData(_costData);
-                targetNation.PayCostData(_costData, false); //얻는걸로 진행 
+                GiveMoney(_tile);
                 break;
         }
+    }
+
+    private void GiveMoney(TokenTile _tile)
+    {
+
+        return;
+
+        PlayerCapitalData _playerCapital = PlayerCapitalData.g_instance;
+        //플레이어가 지불할 자원과 수를 가지고 코스트데이터를 생성
+        List<(Capital, int)> _capitalList = new();
+        _capitalList.Add((Capital.Food, 50));
+        _capitalList.Add((Capital.Mineral, 50));
+        _capitalList.Add((Capital.Person, 50));
+        OrderCostData _costData = _playerCapital.GetTradeOrder(_capitalList);
+
+        Nation targetNation = _tile.GetNation();
+        _playerCapital.PayCostData(_costData);
+        targetNation.PayCostData(_costData, false); //얻는걸로 진행 
     }
 
     public enum TownFuction
