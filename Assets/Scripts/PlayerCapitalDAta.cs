@@ -67,18 +67,6 @@ public class PlayerCapitalData
         MgUI.GetInstance().ResetCapitalInfo(this);
     }
 
-    public void CalValue(List<(Capital, int)> _tradeList, bool isGain = true)
-    {
-        int gain = 1; //È¹µæ
-        if (isGain == false)
-            gain = -1; //¼Òºñ
-
-        for (int i = 0; i < _tradeList.Count; i++)
-        {
-            CalCapital(_tradeList[i].Item1, gain*_tradeList[i].Item2);
-        }
-    }
-
     public Dictionary<Capital, TokenBase> GetHaveCapitalDic()
     {
         return m_dicCapital;
@@ -95,14 +83,4 @@ public class PlayerCapitalData
         return true;
     }
 
-    public bool IsEnough(List<(Capital, int)> _needList)
-    {
-        for (int i = 0; i < _needList.Count; i++)
-        {
-            if (IsEnough(_needList[i].Item1, _needList[i].Item2) == false)
-                return false;
-        }
-
-        return true;
-    }
 }
