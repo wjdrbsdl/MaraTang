@@ -382,8 +382,8 @@ public class RuleBook
 
     private void UseTownFunction(TokenTile _tile, int _subValue)
     {
-        Debug.Log(_subValue + "작업 수행 요청");
         TownFuction townFuction = (TownFuction)_subValue;
+        Debug.Log(townFuction + "작업 수행 요청");
         switch (townFuction)
         {
             case TownFuction.GiveMoney:
