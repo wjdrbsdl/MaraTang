@@ -8,7 +8,6 @@ public class MgUI : MgGeneric<MgUI>
 {
     [Header("액션")]
     [SerializeField] private UIActionTokenBox m_actionTokenBox;
-    [SerializeField] private UIFillContent m_fillContentUI;
     [SerializeField] private UIRewardChoose m_rewardChooseUI;
     [SerializeField] private UITileWorkShop m_tileWorkShopUI;
     [SerializeField] private UICharStats m_charStatUI;
