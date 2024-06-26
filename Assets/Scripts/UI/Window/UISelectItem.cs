@@ -16,6 +16,7 @@ public class UISelectItem : UIBase, ISelectCustomer
   
     public void SetSelectedInfo(SelectItemInfo _selectInfo)
     {
+        base.OpenWindow();
         m_selectInfo = _selectInfo;
         //1. 아이템 수만큼 showSlot을 생성
         MakeSamplePool<SelectSlot>(ref m_selectSlots, m_showSlotSample.gameObject, m_selectInfo.ShowItemList.Count, m_grid);
