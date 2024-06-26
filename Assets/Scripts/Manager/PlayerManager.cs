@@ -320,19 +320,22 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule, ITradeCustome
         return true;
     }
 
-    public void PayCostData(OrderCostData _costData)
+    public void PayCostData(OrderCostData _costData, bool _isPay = true)
     {
         List<TOrderItem> BuildCostList = _costData.GetCostList();
         for (int i = 0; i < BuildCostList.Count; i++)
         {
             TokenType costType = BuildCostList[i].Tokentype;
             int subIdx = BuildCostList[i].SubIdx;
-            int value = BuildCostList[i].Value;
+            int value = -BuildCostList[i].Value;
+            if (_isPay == false)
+                value *= -1; //지불이 아니라 받는거면 +로 전환
+
             //각 토큰타입의 지불가능 형태를 따져 불가능하면 바로 false 반환 
             switch (costType)
             {
                 case TokenType.Capital:
-                    m_playerCapitalData.CalCapital((Capital)subIdx, -value);
+                    m_playerCapitalData.CalCapital((Capital)subIdx, value);
                     break;
                 default:
                     Debug.Log("고려 파트 아닌 부분");

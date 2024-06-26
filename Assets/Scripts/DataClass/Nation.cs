@@ -554,7 +554,7 @@ public class Nation : ITradeCustomer
         return true;
     }
 
-    public void PayCostData(OrderCostData _costData)
+    public void PayCostData(OrderCostData _costData, bool _isPay = true)
     {
         List<TOrderItem> BuildCostList = _costData.GetCostList();
   
@@ -562,13 +562,15 @@ public class Nation : ITradeCustomer
         {
             TokenType costType = BuildCostList[i].Tokentype;
             int subIdx = BuildCostList[i].SubIdx;
-            int value = BuildCostList[i].Value;
+            int value = -BuildCostList[i].Value;
+            if (_isPay == false)
+                value *= -1;
             //각 토큰타입의 지불가능 형태를 따져 불가능하면 바로 false 반환 
             switch (costType)
             {
                 case TokenType.Capital:
                    // Debug.LogFormat("{0}자원 지불: {1}", (Capital)subIdx, -value);
-                    CalResourceAmount((Capital)subIdx, -value);
+                    CalResourceAmount((Capital)subIdx, value);
                     break;
                 default:
                   //  Debug.Log("국가적 고려 파트 아닌 부분");

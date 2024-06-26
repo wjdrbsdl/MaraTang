@@ -9,7 +9,7 @@ public interface ITradeCustomer
     //국가, 메인캐릭터 등 거래 주체가 되는 클래스에서 상속을 받아 지불을 위한 함수를 구현
     //TOrderItem의 TokenType에 따라 Capital이라면 메인캐릭터는 PlayerData에서 가져와서 체크하고 Nation은 m_capital 데이터로 진행하는 방식
     public bool CheckInventory(OrderCostData _costData);
-    public void PayCostData(OrderCostData _costData);
+    public void PayCostData(OrderCostData _costData, bool _isPay = true);
 }
 
 public struct OrderCostData
