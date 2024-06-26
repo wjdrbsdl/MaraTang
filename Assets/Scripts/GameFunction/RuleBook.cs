@@ -393,7 +393,11 @@ public class RuleBook
                 _capitalList.Add((Capital.Food, 50));
                 _capitalList.Add((Capital.Mineral, 50));
                 _capitalList.Add((Capital.Person, 50));
-               // OrderCostData _costData = _playerCapital.GetTrade(_capitalList);
+                OrderCostData _costData = _playerCapital.GetTradeOrder(_capitalList);
+
+                Nation targetNation = _tile.GetNation();
+                _playerCapital.PayCostData(_costData);
+                targetNation.PayCostData(_costData, false); //얻는걸로 진행 
                 break;
         }
     }
