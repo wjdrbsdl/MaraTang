@@ -62,7 +62,11 @@ public class UISelectItem : UIBase, ISelectCustomer
 
     public void OnConfirm()
     {
-        
+        if(m_selectInfo != null)
+        m_selectInfo.Confirm();
+
+        Switch(false);
+        m_selectInfo = null;
     }
 }
 
