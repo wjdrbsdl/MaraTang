@@ -27,7 +27,7 @@ public class Nation : ITradeCustomer
     private List<TokenTile> m_territorryList;
     private int[] m_resources;
     private List<int> m_doneTech; // 완료한 테크 Pid
-    static Color[] nationColor = { Color.red, Color.yellow, Color.blue };
+    private Color[] nationColor = { Color.red, Color.yellow, Color.blue };
     private MainPolicy m_curMainPolicy = MainPolicy.None; //현재 정책 상황
     private int m_holdPolicyCount = 0; //현재 정책 유지된 턴
     private TokenBase m_planToken;
