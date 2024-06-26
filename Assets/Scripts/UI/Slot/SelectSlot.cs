@@ -15,7 +15,7 @@ public class SelectSlot : SlotBase
         callBackCustomer = _customer;
         slotIndex = _index;
         selectedText.text = ((Capital)_item.SubIdx).ToString();
-        selectedText.text = _item.Value.ToString();
+        selectedValue.text = _item.Value.ToString();
     }
 
     public void SetSelectState()
