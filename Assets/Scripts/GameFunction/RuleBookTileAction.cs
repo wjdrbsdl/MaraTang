@@ -77,7 +77,7 @@ public class RuleBookTileAction
     private void UseTownFunction(TokenTile _tile, int _subValue)
     {
         TownFuction townFuction = (TownFuction)_subValue;
-        Debug.Log(townFuction + "작업 수행 요청");
+        //Debug.Log(townFuction + "작업 수행 요청");
         switch (townFuction)
         {
             case TownFuction.GiveMoney:
@@ -89,7 +89,7 @@ public class RuleBookTileAction
     private void OpenSelectUI(TokenTile _tile)
     {
         List<TOrderItem> itemList = PlayerCapitalData.g_instance.GetItemList();
-        SelectItemInfo selectItemInfo = new SelectItemInfo(itemList);
+        SelectItemInfo selectItemInfo = new SelectItemInfo(itemList, false);
         selectItemInfo.SetGiver(PlayerCapitalData.g_instance);
         selectItemInfo.SetTaker(_tile.GetNation());
         Action confirmAction = delegate
@@ -99,18 +99,6 @@ public class RuleBookTileAction
         selectItemInfo.SetAction(confirmAction);
         MgUI.GetInstance().ShowSelectList(selectItemInfo);
         return;
-
-        PlayerCapitalData _playerCapital = PlayerCapitalData.g_instance;
-        //플레이어가 지불할 자원과 수를 가지고 코스트데이터를 생성
-        List<(Capital, int)> _capitalList = new();
-        _capitalList.Add((Capital.Food, 50));
-        _capitalList.Add((Capital.Mineral, 50));
-        _capitalList.Add((Capital.Person, 50));
-        OrderCostData _costData = new OrderCostData(_playerCapital.GetItemList());
-
-        Nation targetNation = _tile.GetNation();
-        _playerCapital.PayCostData(_costData);
-        targetNation.PayCostData(_costData, false); //얻는걸로 진행 
     }
 
     private void GiveMoney(SelectItemInfo _selectInfo)

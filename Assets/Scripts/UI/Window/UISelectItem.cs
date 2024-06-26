@@ -29,11 +29,13 @@ public class UISelectItem : UIBase, ISelectCustomer
     private void SetSlots()
     {
         int itemCount = m_selectInfo.ItemList.Count;
+      
         for (int i = 0; i < itemCount; i++)
         {
             TOrderItem orderItem = m_selectInfo.ItemList[i]; //정보 표기할 아이템 
             ISelectCustomer customer = this;
             int index = i;
+            
             m_selectSlots[i].gameObject.SetActive(true);
             m_selectSlots[i].SetSlot(orderItem, customer, index);
         }
@@ -45,10 +47,12 @@ public class UISelectItem : UIBase, ISelectCustomer
 
     private void SetSelectSlots()
     {
+        bool isFixed = m_selectInfo.IsFixedValue;
         for (int i = 0; i < m_selectInfo.SelectedIndex.Count; i++)
         {
             int slotIndex = m_selectInfo.SelectedIndex[i];
-            m_selectSlots[slotIndex].SetSelectState();
+            int selectValue = m_selectInfo.SelectedValue[i];
+            m_selectSlots[slotIndex].SetSelectState(selectValue, isFixed);
         }
     }
 
@@ -60,6 +64,22 @@ public class UISelectItem : UIBase, ISelectCustomer
         SetSelectSlots();
     }
 
+
+    public void OnChangeValueCallBack(int _slotIndex, int _value)
+    {
+        //해당 값이 바뀐 경우. 
+        Debug.Log("변경 되었다고 콜백");
+        int max = m_selectInfo.ItemList[_slotIndex].Value; //기존의 값이 최댓값
+        int min = 1;
+        int final = Mathf.Clamp(_value, min, max);
+        if(final != _value)
+        {
+            //입력된 값이 다르면, 입력된값을 변경 시킴
+            m_selectSlots[_slotIndex].SetSelectValue(final); //직접 text 변경한건 재 콜백이 일어나지 않음.
+        }
+        m_selectInfo.SetSelectValue(_slotIndex, final);
+    }
+
     public void OnConfirm()
     {
         if(m_selectInfo != null)
@@ -68,5 +88,6 @@ public class UISelectItem : UIBase, ISelectCustomer
         Switch(false);
         m_selectInfo = null;
     }
+
 }
 

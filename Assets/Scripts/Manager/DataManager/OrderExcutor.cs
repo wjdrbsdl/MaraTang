@@ -282,6 +282,11 @@ public struct TOrderItem
         SerialNum = _serialNum;
     }
 
+    public void SetValue(int _value)
+    {
+        Value = _value;
+    }
+
     public bool IsVaridTokenType()
     {
         return Tokentype.Equals(TokenType.None)==false;
