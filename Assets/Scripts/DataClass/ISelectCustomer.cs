@@ -7,4 +7,6 @@ using System.Threading.Tasks;
 public interface ISelectCustomer
 {
     public void OnSelectCallBack(int _slotIndex);
+
+    public void OnConfirm();
 }

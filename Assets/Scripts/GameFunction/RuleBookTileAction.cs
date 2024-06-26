@@ -81,15 +81,22 @@ public class RuleBookTileAction
         switch (townFuction)
         {
             case TownFuction.GiveMoney:
-                GiveMoney(_tile);
+                OpenSelectUI(_tile);
                 break;
         }
     }
 
-    private void GiveMoney(TokenTile _tile)
+    private void OpenSelectUI(TokenTile _tile)
     {
         List<TOrderItem> itemList = PlayerCapitalData.g_instance.GetItemList();
         SelectItemInfo selectItemInfo = new SelectItemInfo(itemList);
+        selectItemInfo.SetGiver(PlayerCapitalData.g_instance);
+        selectItemInfo.SetTaker(_tile.GetNation());
+        Action confirmAction = delegate
+        {
+            GiveMoney(selectItemInfo);
+        };
+        selectItemInfo.SetAction(confirmAction);
         MgUI.GetInstance().ShowSelectList(selectItemInfo);
         return;
 
@@ -106,6 +113,14 @@ public class RuleBookTileAction
         targetNation.PayCostData(_costData, false); //얻는걸로 진행 
     }
 
+    private void GiveMoney(SelectItemInfo _selectInfo)
+    {
+        List<TOrderItem> selectItem = _selectInfo.GetSelectList(); ;
+        OrderCostData costData = new OrderCostData(selectItem);
+        _selectInfo.Giver.PayCostData(costData);
+        _selectInfo.Taker.PayCostData(costData, false);
+        
+    }
     public enum TownFuction
     {
         GiveMoney = 1

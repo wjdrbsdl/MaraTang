@@ -13,7 +13,7 @@ public class UISelectItem : UIBase, ISelectCustomer
     [SerializeField]
     private SelectSlot[] m_selectSlots;
     private SelectItemInfo m_selectInfo;
-  
+   
     public void SetSelectedInfo(SelectItemInfo _selectInfo)
     {
         base.OpenWindow();
@@ -60,5 +60,9 @@ public class UISelectItem : UIBase, ISelectCustomer
         SetSelectSlots();
     }
 
+    public void OnConfirm()
+    {
+        
+    }
 }
 

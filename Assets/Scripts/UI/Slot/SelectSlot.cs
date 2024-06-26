@@ -26,6 +26,8 @@ public class SelectSlot : SlotBase
     public override void OnLeftClick()
     {
         base.OnLeftClick();
+        if(callBackCustomer != null)
         callBackCustomer.OnSelectCallBack(slotIndex);
     }
+
 }
