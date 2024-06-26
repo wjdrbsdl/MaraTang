@@ -33,6 +33,11 @@ public struct OrderCostData
         costList.Add(costData);
     }
 
+    public OrderCostData(List<TOrderItem> _itemList)
+    {
+        costList = _itemList;
+    }
+
     public void Add(TOrderItem _orderItem)
     {
         if (costList == null)

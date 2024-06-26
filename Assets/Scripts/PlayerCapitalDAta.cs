@@ -135,11 +135,14 @@ public class PlayerCapitalData : ITradeCustomer
         return true;
     }
 
-    public OrderCostData GetTradeOrder(List<(Capital, int)> _orderList)
+    public List<TOrderItem> GetItemList()
     {
-        //플레이어가 전달할 자원을 선택하면 코스트데이터로 만들어서 반환
-        OrderCostData tradeData = new OrderCostData(_orderList);
-        return tradeData;
+        List<TOrderItem> list = new();
+        foreach (var item in m_dicCapital)
+        {
+            TOrderItem capitalItem = new TOrderItem(TokenType.Capital, (int)item.Key, item.Value.GetStat(CapitalStat.Amount));
+            list.Add(capitalItem);
+        }
+        return list;
     }
-
 }

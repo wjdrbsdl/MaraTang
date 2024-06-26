@@ -88,7 +88,9 @@ public class RuleBookTileAction
 
     private void GiveMoney(TokenTile _tile)
     {
-
+        List<TOrderItem> itemList = PlayerCapitalData.g_instance.GetItemList();
+        SelectItemInfo selectItemInfo = new SelectItemInfo(itemList);
+        MgUI.GetInstance().ShowSelectList(selectItemInfo);
         return;
 
         PlayerCapitalData _playerCapital = PlayerCapitalData.g_instance;
@@ -97,7 +99,7 @@ public class RuleBookTileAction
         _capitalList.Add((Capital.Food, 50));
         _capitalList.Add((Capital.Mineral, 50));
         _capitalList.Add((Capital.Person, 50));
-        OrderCostData _costData = _playerCapital.GetTradeOrder(_capitalList);
+        OrderCostData _costData = new OrderCostData(_playerCapital.GetItemList());
 
         Nation targetNation = _tile.GetNation();
         _playerCapital.PayCostData(_costData);
