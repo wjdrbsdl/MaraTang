@@ -387,7 +387,13 @@ public class RuleBook
         switch (townFuction)
         {
             case TownFuction.GiveMoney:
-           
+                PlayerCapitalData _playerCapital = PlayerCapitalData.g_instance;
+                //플레이어가 지불할 자원과 수를 가지고 코스트데이터를 생성
+                List<(Capital, int)> _capitalList = new();
+                _capitalList.Add((Capital.Food, 50));
+                _capitalList.Add((Capital.Mineral, 50));
+                _capitalList.Add((Capital.Person, 50));
+             //   OrderCostData _costData = _playerCapital.GetTrade(_capitalList);
                 break;
         }
     }
@@ -459,16 +465,18 @@ public class RuleBook
 
     public void MixCapital(List<(Capital, int)> _resources)
     {
-        PlayerCapitalData capitalData = PlayerCapitalData.g_instance;
-
-        if (capitalData.IsEnough(_resources) == false)
+        PlayerManager player = PlayerManager.GetInstance();
+        OrderCostData costData = new OrderCostData(_resources);
+        if (player.CheckInventory(costData) == false)
         {
             Announcer.Instance.AnnounceState("합성 재료 부족", true);
             return;
         }
-        capitalData.CalValue(_resources, false); //사용한만큼 감소 시키고
+        player.PayCostData(costData);//사용한만큼 감소 시키고
         (Capital, int) mixed = m_capitalRecipe.MixCapital(_resources);
-        capitalData.CalCapital(mixed.Item1, mixed.Item2); //얻은 만큼 추가 시키고 
+        OrderCostData mixedData = new OrderCostData(mixed);
+        bool isPay = false; //지불이 아님
+        player.PayCostData(mixedData, isPay); //얻은 만큼 추가 시키고 
     }
 
     public void ChangeCapital((Capital, int) _input, Capital _outCapital)

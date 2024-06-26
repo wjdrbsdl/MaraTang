@@ -16,14 +16,21 @@ public struct OrderCostData
 {
     List<TOrderItem> costList;
 
-    public OrderCostData(List<(TokenType, int, int)> _costList)
+    public OrderCostData(List<(Capital, int)> _costList)
     {
         costList = new();
         for (int i = 0; i < _costList.Count; i++)
         {
-            TOrderItem costData = new TOrderItem(_costList[i].Item1, _costList[i].Item2, _costList[i].Item3);
+            TOrderItem costData = new TOrderItem((int)TokenType.Capital, (int)_costList[i].Item1, _costList[i].Item2);
             costList.Add(costData);
         }
+    }
+
+    public OrderCostData((Capital, int) _cost)
+    {
+        costList = new();
+        TOrderItem costData = new TOrderItem((int)TokenType.Capital, (int)_cost.Item1, _cost.Item2);
+        costList.Add(costData);
     }
 
     public void Add(TOrderItem _orderItem)
@@ -32,15 +39,6 @@ public struct OrderCostData
             costList = new();
         
         costList.Add(_orderItem);
-    }
-
-    public void Add((TokenType, int, int) _costData)
-    {
-        if (costList == null)
-            costList = new();
-
-        TOrderItem orderItemCost = new TOrderItem(_costData.Item1, _costData.Item2, _costData.Item3);
-        costList.Add(orderItemCost);
     }
 
     public List<TOrderItem> GetCostList()
