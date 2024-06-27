@@ -13,7 +13,9 @@ public class UISelectItem : UIBase, ISelectCustomer
     [SerializeField]
     private SelectSlot[] m_selectSlots;
     private SelectItemInfo m_selectInfo;
-   
+
+    //SelectItemInfo 정보값을 표기, SelectSlot으로부터 입력을 받으며 진행. 
+    #region 슬랏으로 정보 표기
     public void SetSelectedInfo(SelectItemInfo _selectInfo)
     {
         base.OpenWindow();
@@ -55,7 +57,9 @@ public class UISelectItem : UIBase, ISelectCustomer
             m_selectSlots[slotIndex].SetSelectState(selectValue, isFixed);
         }
     }
+    #endregion
 
+    #region 선택클래스에 정보 입력 
     public void OnSelectCallBack(int _slotIndex)
     {
         m_selectInfo.AddChooseItem(_slotIndex);
@@ -63,7 +67,6 @@ public class UISelectItem : UIBase, ISelectCustomer
         SetSlots();
         SetSelectSlots();
     }
-
 
     public void OnChangeValueCallBack(int _slotIndex, int _value)
     {
@@ -87,6 +90,6 @@ public class UISelectItem : UIBase, ISelectCustomer
         Switch(false);
         m_selectInfo = null;
     }
-
+    #endregion
 }
 

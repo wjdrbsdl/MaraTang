@@ -38,7 +38,7 @@ public class SelectSlot : SlotBase
 
     public void SetSelectValue(int _value)
     {
-        Debug.Log(_value + "로 인풋값을 수정");
+    //    Debug.Log(_value + "로 인풋값을 수정");
         tmpInput.text = _value.ToString();
     }
 
