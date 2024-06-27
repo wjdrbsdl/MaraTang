@@ -8,8 +8,6 @@ public class MgToken : MgGeneric<MgToken>
     [SerializeField]
     public TileMaker m_tileMaker;
     public GameObject m_tiles;
-    public Sprite[] m_hideSprite;
-    public Sprite[] m_charSprite;
     public Transform m_tileBox;
 
     public Transform m_hideBox;

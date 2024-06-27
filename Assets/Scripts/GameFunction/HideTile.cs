@@ -9,7 +9,7 @@ public class HideTile : MonoBehaviour
     
     public void SetTileSprite()
     {
-        Sprite[] sprites = MgToken.GetInstance().m_hideSprite;
+        Sprite[] sprites = TempSpriteBox.GetInstance().GetHideSprites();
         int ran = Random.Range(0, sprites.Length);
         m_render.sprite = sprites[ran];
     }

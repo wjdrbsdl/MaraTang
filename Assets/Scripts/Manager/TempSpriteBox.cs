@@ -13,6 +13,7 @@ public class TempSpriteBox : MgGeneric<TempSpriteBox>
     public Sprite CapitalLand;
 
     public Sprite[] Chares;
+    public Sprite[] HideTiles;
     public Sprite GetSprite(TileType _type)
     {
         switch (_type)
@@ -33,6 +34,11 @@ public class TempSpriteBox : MgGeneric<TempSpriteBox>
                 return WoodLand;
         }
         return NomalLand;
+    }
+
+    public Sprite[] GetHideSprites()
+    {
+        return HideTiles;
     }
 
     public Sprite GetCharSprite(int _pid)
