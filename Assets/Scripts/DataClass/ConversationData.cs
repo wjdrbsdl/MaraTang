@@ -40,6 +40,11 @@ public class ConversationGroup
     private Dictionary<int, ConversationData> ConversationDataDic;
     private ConversationTheme Theme;
 
+    public ConversationGroup()
+    {
+        ConversationDataDic = new();
+    }
+
     public ConversationGroup(ConversationTheme _theme)
     {
         Theme = _theme;
