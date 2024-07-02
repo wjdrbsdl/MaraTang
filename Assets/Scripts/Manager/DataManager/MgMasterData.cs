@@ -206,8 +206,12 @@ public class MgMasterData : Mg<MgMasterData>
         {
             string[] conversationParsingLine = parseContainer.DbValueList[i];
             string themeStr = conversationParsingLine[0]; //db상 0 번째에 테마 작성
-            ConversationTheme theme = (ConversationTheme)System.Enum.Parse(typeof(ConversationTheme), themeStr);
-            if(m_conversationGroupDic.ContainsKey((int)theme) == false)
+            if(System.Enum.TryParse<ConversationTheme>(themeStr, out ConversationTheme theme) == false)
+            {
+                //정의 되지 않은 Theme 이면 생성하지말고 넘김
+                continue;
+            }
+            if (m_conversationGroupDic.ContainsKey((int)theme) == false)
             {
                 //해당 테마 대화 그룹이 없으면 새로 생성
                 ConversationGroup group = new ConversationGroup(theme);
