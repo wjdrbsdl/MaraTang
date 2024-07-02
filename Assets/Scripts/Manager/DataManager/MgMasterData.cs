@@ -12,6 +12,7 @@ public class MgMasterData : Mg<MgMasterData>
     private Dictionary<int, TokenEvent> m_eventDataDic;
     private Dictionary<int, ContentData> m_contentDataDic;
     private Dictionary<int, NationTechTree> m_nationTechDataDic;
+    private Dictionary<int, ConversationData> m_conversationGroupDic;
     public static char DIVIDECHAR = '_';
     #region 생성자
     public MgMasterData()
@@ -31,6 +32,7 @@ public class MgMasterData : Mg<MgMasterData>
         SetEventData();
         SetContentData();
         SetNationTechData();
+        SetConversationData();
     }
 
     public override void ReferenceSet()
@@ -183,6 +185,16 @@ public class MgMasterData : Mg<MgMasterData>
         {
             NationTechTree nationTechData = new NationTechTree(parseContainer.MatchCode, parseContainer.DbValueList[i]);
             m_nationTechDataDic.Add(nationTechData.GetPid(), nationTechData);
+        }
+    }
+
+    private void SetConversationData()
+    {
+        m_conversationGroupDic = new();
+        for (int i = 0; i < 10; i++)
+        {
+            ConversationData conversationData = new ConversationData(i, "테스트 대사"+i.ToString());
+            m_conversationGroupDic.Add(i, conversationData);
         }
     }
 
