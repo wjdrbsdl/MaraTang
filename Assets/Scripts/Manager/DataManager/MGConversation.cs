@@ -10,12 +10,13 @@ public class MGConversation : Mg<MGConversation>
         g_instance = this;
     }
 
-    public List<TOrderItem> GetSentenceItems(ConversationTheme _theme, int _start, int _end)
+    public List<TOrderItem> GetSentenceItemList(ConversationTheme _theme, int _start, int _end)
     {
         List<TOrderItem> sentenceList = new List<TOrderItem>();
         for (int pid = _start; pid <= _end; pid++)
         {
             ConversationData conversation = GetConversationData(_theme, pid);
+            Debug.Log("뽑아온 대화 pid" + conversation.GetPid()+"요구한 pid "+pid);
             TOrderItem sentenceItem = new TOrderItem(_theme, conversation);
             sentenceList.Add(sentenceItem);
         }
@@ -23,7 +24,7 @@ public class MGConversation : Mg<MGConversation>
         return sentenceList;
     }
 
-    public ConversationData GetConversationData(ConversationTheme _theme, int _pid)
+    private ConversationData GetConversationData(ConversationTheme _theme, int _pid)
     {
       return  MgMasterData.GetInstance().GetConversationData(_theme, _pid);
     }
