@@ -12,7 +12,7 @@ public class MgMasterData : Mg<MgMasterData>
     private Dictionary<int, TokenEvent> m_eventDataDic;
     private Dictionary<int, ContentData> m_contentDataDic;
     private Dictionary<int, NationTechTree> m_nationTechDataDic;
-    private Dictionary<int, ConversationData> m_conversationGroupDic;
+    private Dictionary<ConversationTheme, ConversationGroup> m_conversationGroupDic;
     public static char DIVIDECHAR = '_';
     #region 생성자
     public MgMasterData()
@@ -190,11 +190,22 @@ public class MgMasterData : Mg<MgMasterData>
 
     private void SetConversationData()
     {
+        ParseData parseContainer = MgParsing.GetInstance().GetMasterData(EMasterData.Conversation);
         m_conversationGroupDic = new();
         for (int i = 0; i < 10; i++)
         {
-            ConversationData conversationData = new ConversationData(i, "테스트 대사"+i.ToString());
-            m_conversationGroupDic.Add(i, conversationData);
+            string[] conversationParsingLine = parseContainer.DbValueList[i];
+            string themeStr = conversationParsingLine[0]; //db상 0 번째에 테마 작성
+            ConversationTheme theme = (ConversationTheme)System.Enum.Parse(typeof(ConversationTheme), themeStr);
+            if(m_conversationGroupDic.ContainsKey(theme) == false)
+            {
+                //해당 테마 대화 그룹이 없으면 새로 생성
+                ConversationGroup group = new ConversationGroup(theme);
+                m_conversationGroupDic.Add(theme, group);
+            }
+            //이후 세부 대화 데이터를 만들어서 그그룹에 추가 
+            ConversationData conversationData = new ConversationData(parseContainer.DbValueList[i]);
+            m_conversationGroupDic[theme].AddConversationData(conversationData);
         }
     }
 
