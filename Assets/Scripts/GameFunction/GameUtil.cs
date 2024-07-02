@@ -629,6 +629,9 @@ public static class GameUtil
                 case TokenType.Capital:
                     findEnum = typeof(Capital);
                     break;
+                case TokenType.Event:
+                    findEnum = typeof(EventType);
+                    break;
             }
 
             if (findEnum == null)

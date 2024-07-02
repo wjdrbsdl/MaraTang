@@ -7,6 +7,11 @@ public enum EventStat
     ETokenType, ItemPID, ItemValue, GiveMethod
 }
 
+public enum EventType
+{
+    SpawnMonster, Script
+}
+
 public class TokenEvent : TokenBase, IOrderCustomer
 {
     public int m_selectCount = 0; //선택지 수
