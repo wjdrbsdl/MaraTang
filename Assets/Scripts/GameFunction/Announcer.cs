@@ -25,6 +25,6 @@ public class Announcer
     {
         TokenBase chart = PlayerManager.GetInstance().GetMainChar();
         if(isShow)
-        MgCharScript.GetInstance().PlayScript(chart, message);
+        MgCharDisplay.GetInstance().PlayScript(chart, message);
     }
 }

@@ -2,7 +2,7 @@
 using UnityEngine;
 using DamageNumbersPro;
 
-public class MgCharScript : MgGeneric<MgCharScript>
+public class MgCharDisplay : MgGeneric<MgCharDisplay>
 {
     public DamageNumberMesh m_texture;
 
