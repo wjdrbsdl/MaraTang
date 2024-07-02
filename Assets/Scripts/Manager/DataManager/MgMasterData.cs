@@ -12,7 +12,7 @@ public class MgMasterData : Mg<MgMasterData>
     private Dictionary<int, TokenEvent> m_eventDataDic;
     private Dictionary<int, ContentData> m_contentDataDic;
     private Dictionary<int, NationTechTree> m_nationTechDataDic;
-    private Dictionary<ConversationTheme, ConversationGroup> m_conversationGroupDic;
+    private Dictionary<int, ConversationGroup> m_conversationGroupDic;
     public static char DIVIDECHAR = '_';
     #region 생성자
     public MgMasterData()
@@ -75,6 +75,16 @@ public class MgMasterData : Mg<MgMasterData>
     public NationTechTree GetTechData(int _techPID)
     {
         return GetDicData<NationTechTree>(m_nationTechDataDic, _techPID);
+    }
+
+    public ConversationGroup GetThemConversation(ConversationTheme _theme)
+    {
+        return GetDicData<ConversationGroup>(m_conversationGroupDic, (int)_theme);
+    }
+
+    public ConversationData GetConversationData(ConversationTheme _theme, int _pid)
+    {
+        return GetDicData<ConversationGroup>(m_conversationGroupDic, (int)_theme).GetConversationData(_pid);
     }
 
     public Dictionary<int, NationTechTree> GetTechDic()
@@ -192,20 +202,20 @@ public class MgMasterData : Mg<MgMasterData>
     {
         ParseData parseContainer = MgParsing.GetInstance().GetMasterData(EMasterData.Conversation);
         m_conversationGroupDic = new();
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < parseContainer.DbValueList.Count; i++)
         {
             string[] conversationParsingLine = parseContainer.DbValueList[i];
             string themeStr = conversationParsingLine[0]; //db상 0 번째에 테마 작성
             ConversationTheme theme = (ConversationTheme)System.Enum.Parse(typeof(ConversationTheme), themeStr);
-            if(m_conversationGroupDic.ContainsKey(theme) == false)
+            if(m_conversationGroupDic.ContainsKey((int)theme) == false)
             {
                 //해당 테마 대화 그룹이 없으면 새로 생성
                 ConversationGroup group = new ConversationGroup(theme);
-                m_conversationGroupDic.Add(theme, group);
+                m_conversationGroupDic.Add((int)theme, group);
             }
             //이후 세부 대화 데이터를 만들어서 그그룹에 추가 
             ConversationData conversationData = new ConversationData(parseContainer.DbValueList[i]);
-            m_conversationGroupDic[theme].AddConversationData(conversationData);
+            m_conversationGroupDic[(int)theme].AddConversationData(conversationData);
         }
     }
 
