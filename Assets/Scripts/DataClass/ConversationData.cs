@@ -61,6 +61,9 @@ public class ConversationGroup
 
     public void AddConversationData(ConversationData _data)
     {
-        ConversationDataDic.Add(_data.GetPid(), _data);
+        if(ConversationDataDic.ContainsKey(_data.GetPid())== false)
+        {
+            ConversationDataDic.Add(_data.GetPid(), _data);
+        }
     }
 }
