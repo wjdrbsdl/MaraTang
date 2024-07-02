@@ -11,11 +11,11 @@ public class UIConversation : UIBase
     private Image m_talkerImage;
     [SerializeField]
     private TMP_Text m_talkerText;
-    private CharStat[] m_showStat = {CharStat.Strenth, CharStat.Dexility, CharStat.Inteligent };
 
-    public void SetConversation(TokenChar _char)
+    public void SetConversation(ConversationData _conversation)
     {
         Switch(true);
-  
+
+        m_talkerText.text = _conversation.GetScript();
     }
 }

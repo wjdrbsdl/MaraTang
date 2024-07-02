@@ -14,4 +14,8 @@ public class ConversationData
         ScriptData = _script;
     }
 
+    public string GetScript()
+    {
+        return ScriptData;
+    }
 }
