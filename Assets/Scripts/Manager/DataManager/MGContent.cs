@@ -23,6 +23,7 @@ public class MGContent : Mg<MGContent>
     public MGContent()
     {
         g_instance = this;
+        MGConversation converSation = new MGConversation();
     }
     public override void ReferenceSet()
     {

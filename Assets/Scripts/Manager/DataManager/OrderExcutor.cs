@@ -249,6 +249,14 @@ public struct TOrderItem
         SerialNum = 0;
     }
 
+    public TOrderItem(ConversationTheme _theme, ConversationData _covnersation)
+    {
+        Tokentype = TokenType.Conversation;
+        SubIdx = (int)_theme;
+        Value = _covnersation.GetPid();
+        SerialNum = 0;
+    }
+
     public TOrderItem WriteCharItem(CharStat _charIdx, int _value)
     {
         TOrderItem item = new();
