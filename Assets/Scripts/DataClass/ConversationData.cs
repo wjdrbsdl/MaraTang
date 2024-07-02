@@ -2,6 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum ConversationTheme
+{
+    Tutorial, YesOrNot
+}
+
 public class ConversationData
 {
     private int Pid; //대사 식별번호
