@@ -13,15 +13,33 @@ public class SelectItemInfo
     public List<int> SelectedIndex; //선택한 리스트
     public List<int> SelectedValue; //선택한 수량
     private Action ConfirmAction;
+
+    #region 클래스 생성부분
     public SelectItemInfo(List<TOrderItem> _showList, bool _isFixedValue)
     {
         //만들려는 아이템 리스트를가지고 클래스 생성
         ItemList = _showList;
-        
+
         IsFixedValue = _isFixedValue; //고정 벨류면 선택한 아이템의 최종 수량으로 아니면 선택한 값으로 
         SelectedIndex = new List<int>(); //선택한 인덱스
         SelectedValue = new List<int>(); //선택한 수량 - FixedValue가 false일때만 입력받음. 
     }
+
+    public void SetAction(Action _action)
+    {
+        ConfirmAction = _action;
+    }
+
+    public void SetGiver(ITradeCustomer _giver)
+    {
+        Giver = _giver;
+    }
+
+    public void SetTaker(ITradeCustomer _taker)
+    {
+        Taker = _taker;
+    }
+    #endregion
 
     public void AddChooseItem(int _itemIndex)
     {
@@ -44,6 +62,8 @@ public class SelectItemInfo
         SelectedValue[inListIndex] = _value;
     }
 
+    #region 정보 가져오기
+
     public List<TOrderItem> GetSelectList()
     {
         List<TOrderItem> selectList = new List<TOrderItem>();
@@ -61,24 +81,10 @@ public class SelectItemInfo
         return selectList;
     }
 
-    public void SetAction(Action _action)
-    {
-        ConfirmAction = _action;
-    }
-
-    public void SetGiver(ITradeCustomer _giver)
-    {
-        Giver = _giver;
-    }
-
-    public void SetTaker(ITradeCustomer _taker)
-    {
-        Taker = _taker;
-    }
-
     public void Confirm()
     {
         if (ConfirmAction != null)
             ConfirmAction();
     }
+    #endregion
 }
