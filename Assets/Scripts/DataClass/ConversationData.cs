@@ -9,7 +9,7 @@ public enum ConversationTheme
 
 public enum ConversationStat
 {
-    Pid, Sentenece
+    Pid, Sentenece, Choose
 }
 
 public class ConversationData
