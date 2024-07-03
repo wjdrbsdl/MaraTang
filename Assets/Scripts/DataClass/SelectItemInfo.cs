@@ -4,7 +4,7 @@ using System;
 using UnityEngine;
 
 
-public class SelectItemInfo
+public class SelectItemInfo : ISelectCustomer
 {
     public bool IsFixedValue = false;
     public ITradeCustomer Giver;
@@ -12,6 +12,7 @@ public class SelectItemInfo
     public List<TOrderItem> ItemList; //보여주려는 아이템리스트
     public List<int> SelectedIndex; //선택한 리스트
     public List<int> SelectedValue; //선택한 수량
+    public UISelectItem SelectUI; //선택 입력을 받을 UI
     private Action ConfirmAction;
 
     #region 클래스 생성부분
@@ -93,5 +94,32 @@ public class SelectItemInfo
         //보여주기 방식
         //MgUI.GetInstance().등으로 자기가 보여주려는 방식으로 진행
          MgUI.GetInstance().ShowTextSelectList(this);
+    }
+
+    public void OnSelectCallBack(int _slotIndex)
+    {
+        Debug.Log("셀렉인포 클래스를 통해서 선택 콜백");
+        AddChooseItem(_slotIndex);
+        //다시 정보 리셋 
+        SelectUI.ResetSlot();
+    }
+
+    public void OnChangeValueCallBack(int _slotIndex, int _value)
+    {
+        Debug.Log("셀렉인포 클래스를 통해서 변화 콜백");
+        int max = ItemList[_slotIndex].Value; //기존의 값이 최댓값
+        int min = 1;
+        int final = Mathf.Clamp(_value, min, max);
+        if (final != _value)
+        {
+            //입력된 값이 다르면, 입력된값을 변경 시킴
+            SelectUI.SetSelectValue(_slotIndex, final); //직접 text 변경한건 재 콜백이 일어나지 않음.
+        }
+        SetSelectValue(_slotIndex, final);
+    }
+
+    public void OnConfirm()
+    {
+     
     }
 }

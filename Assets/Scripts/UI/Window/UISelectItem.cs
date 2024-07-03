@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class UISelectItem : UIBase, ISelectCustomer
+public class UISelectItem : UIBase
 {
     //해당 플레이어가 지닌 자원을 종류 수량을 선택하는 부분. 
     [SerializeField]
@@ -20,11 +20,18 @@ public class UISelectItem : UIBase, ISelectCustomer
     {
         base.OpenWindow();
         m_selectInfo = _selectInfo;
+        _selectInfo.SelectUI = this;
         //1. 아이템 수만큼 showSlot을 생성
         MakeSamplePool<SelectSlot>(ref m_selectSlots, m_showSlotSample.gameObject, m_selectInfo.ItemList.Count, m_grid);
         //2. 리스트대로 슬랏에 표기
         SetSlots();
         //3. 선택한 아이템들은 따로 추가 표기
+        SetSelectSlots();
+    }
+
+    public void ResetSlot()
+    {
+        SetSlots();
         SetSelectSlots();
     }
 
@@ -35,11 +42,11 @@ public class UISelectItem : UIBase, ISelectCustomer
         for (int i = 0; i < itemCount; i++)
         {
             TOrderItem orderItem = m_selectInfo.ItemList[i]; //정보 표기할 아이템 
-            ISelectCustomer customer = this;
+            //ISelectCustomer customer = this;
             int index = i;
             
             m_selectSlots[i].gameObject.SetActive(true);
-            m_selectSlots[i].SetSlot(orderItem, customer, index);
+            m_selectSlots[i].SetSlot(orderItem, m_selectInfo, index);
         }
         for (int i = itemCount; i < m_selectSlots.Length; i++)
         {
@@ -57,33 +64,15 @@ public class UISelectItem : UIBase, ISelectCustomer
             m_selectSlots[slotIndex].SetSelectState(selectValue, isFixed);
         }
     }
-    #endregion
 
-    #region 선택클래스에 정보 입력 
-    public void OnSelectCallBack(int _slotIndex)
+    public void SetSelectValue(int _slotIndex, int _value)
     {
-        m_selectInfo.AddChooseItem(_slotIndex);
-        //다시 정보 리셋 
-        SetSlots();
-        SetSelectSlots();
-    }
-
-    public void OnChangeValueCallBack(int _slotIndex, int _value)
-    {
-        //해당 값이 바뀐 경우. 
-        int max = m_selectInfo.ItemList[_slotIndex].Value; //기존의 값이 최댓값
-        int min = 1;
-        int final = Mathf.Clamp(_value, min, max);
-        if(final != _value)
-        {
-            //입력된 값이 다르면, 입력된값을 변경 시킴
-            m_selectSlots[_slotIndex].SetSelectValue(final); //직접 text 변경한건 재 콜백이 일어나지 않음.
-        }
-        m_selectInfo.SetSelectValue(_slotIndex, final);
+        m_selectSlots[_slotIndex].SetSelectValue(_value); //직접 text 변경한건 재 콜백이 일어나지 않음.
     }
 
     public void OnConfirm()
     {
+        //UI 버튼으로 호출 
         if(m_selectInfo != null)
         m_selectInfo.Confirm();
 
