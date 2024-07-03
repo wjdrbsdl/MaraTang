@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System;
 
 public class MGConversation : Mg<MGConversation>
 {
@@ -29,6 +29,17 @@ public class MGConversation : Mg<MGConversation>
     private ConversationData GetConversationData(ConversationTheme _theme, int _pid)
     {
       return  MgMasterData.GetInstance().GetConversationData(_theme, _pid);
+    }
+
+    //대화 선택창을 요구하고 싶으면 mgConversation으로 요청
+    public void AskTextSelect(ConversationTheme _theme, int _start, int _end, Action _confirmAction = null, ITradeCustomer _giver = null, ITradeCustomer _taker = null)
+    {
+        List<TOrderItem> senetenceItems = MGConversation.GetInstance().GetSentenceItemList(_theme, _start, _end);
+        SelectItemInfo selectInfo = new SelectItemInfo(senetenceItems, true);
+        selectInfo.SetAction(_confirmAction);
+        selectInfo.SetGiver(_giver);
+        selectInfo.SetTaker(_taker);
+        selectInfo.ShowScript();
     }
 }
 

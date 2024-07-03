@@ -97,7 +97,7 @@ public class RuleBookTileAction
             GiveMoney(selectItemInfo);
         };
         selectItemInfo.SetAction(confirmAction);
-        MgUI.GetInstance().ShowSelectList(selectItemInfo);
+        MgUI.GetInstance().ShowIconSelectList(selectItemInfo);
         return;
     }
 
@@ -109,6 +109,12 @@ public class RuleBookTileAction
         _selectInfo.Taker.PayCostData(costData, false);
         
     }
+
+    private void TempSaySentence()
+    {
+        MGConversation.GetInstance().AskTextSelect(ConversationTheme.Choose, 1, 4);
+    }
+
     public enum TownFuction
     {
         GiveMoney = 1
