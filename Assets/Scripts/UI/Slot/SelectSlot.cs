@@ -20,9 +20,35 @@ public class SelectSlot : SlotBase
     {
         callBackCustomer = _customer;
         slotIndex = _index;
+        DetailSet(_item);
+        tmpInput.gameObject.SetActive(false); //일단 오프
+    }
+
+    private void DetailSet(TOrderItem _item)
+    {
+        //보여주려는 아이템 타입에 따라 세팅하는거 
+        TokenType type = _item.Tokentype;
+        switch (type)
+        {
+            case TokenType.Conversation:
+                SetText(_item);
+                break;
+            default:
+                SetIcon(_item);
+                break;
+        }
+    }
+
+    private void SetText(TOrderItem _item)
+    {
+        ConversationData sentenece = MgMasterData.GetInstance().GetConversationData((ConversationTheme)_item.SubIdx, _item.Value);
+        selectedValue.text = sentenece.GetScript();
+    }
+
+    private void SetIcon(TOrderItem _item)
+    {
         selectedText.text = ((Capital)_item.SubIdx).ToString();
         selectedValue.text = _item.Value.ToString();
-        tmpInput.gameObject.SetActive(false); //일단 오프
     }
 
     public void SetSelectState(int _selectValue, bool _isFixed)
