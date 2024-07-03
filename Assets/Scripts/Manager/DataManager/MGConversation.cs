@@ -18,7 +18,7 @@ public class MGConversation : Mg<MGConversation>
             ConversationData conversation = GetConversationData(_theme, pid);
             if (conversation == null)
                 continue;
-            Debug.Log("뽑아온 대화 pid" + conversation.GetPid()+"요구한 pid "+pid);
+           // Debug.Log("뽑아온 대화 pid" + conversation.GetPid()+"요구한 pid "+pid);
             TOrderItem sentenceItem = new TOrderItem(_theme, conversation);
             sentenceList.Add(sentenceItem);
         }
