@@ -92,13 +92,6 @@ public class SelectItemInfo
     {
         //보여주기 방식
         //MgUI.GetInstance().등으로 자기가 보여주려는 방식으로 진행
-        List<TOrderItem> sentenceList = ItemList;
-        for (int i = 0; i < sentenceList.Count; i++)
-        {
-            TOrderItem sentenceItem = sentenceList[i];
-            ConversationData sentenece = MgMasterData.GetInstance().GetConversationData((ConversationTheme)sentenceItem.SubIdx, sentenceItem.Value);
-            Debug.Log(sentenece.GetScript());
-        }
-        MgUI.GetInstance().ShowTextSelectList(this);
+         MgUI.GetInstance().ShowTextSelectList(this);
     }
 }
