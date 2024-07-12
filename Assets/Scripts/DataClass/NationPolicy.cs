@@ -11,6 +11,7 @@ public class NationPolicy
     private int m_planIndex = FixedValue.No_INDEX_NUMBER;  //메인 정책당 구체적인 계획의 인덱스
     private TokenChar m_worker; //노동자
     private int m_nationNum;
+    private bool m_complete = false;
 
     //안건 정보를 담아 생성
     public NationPolicy(MainPolicy _mainPolicy, int _nationNum)
@@ -60,11 +61,22 @@ public class NationPolicy
         {
             //해당 정책 포기해볼까. 
         }
+        m_holdPolicyCount += 1;
+        TokenTile tile = (TokenTile)m_planToken;
+        switch (m_curMainPolicy)
+        {
+            case MainPolicy.ManageLand:
+                Debug.LogFormat("{0},{1}번 땅을 {2} 번 유형으로 {3} 턴 째 개척 진행중", tile.GetXIndex(), tile.GetYIndex(), m_planIndex, m_holdPolicyCount);
+                break;
+            default:
+                Debug.LogFormat("{0}번 타입 진행중 " + m_curMainPolicy.ToString());
+                break;
+        }
     }
 
     public void Done()
     {
-
+        m_complete = true;
     }
 
     #region GetSet
@@ -96,6 +108,11 @@ public class NationPolicy
     public int GetNaionNum()
     {
         return m_nationNum;
+    }
+
+    public bool IsDone()
+    {
+        return m_complete;
     }
     #endregion
 }

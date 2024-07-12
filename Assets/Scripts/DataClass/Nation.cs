@@ -194,16 +194,23 @@ public class Nation : ITradeCustomer
             for (int tileIdx = 0; tileIdx < rangeInTile.Count; tileIdx++)
             {
                 TokenTile tile = rangeInTile[tileIdx];
-                if (tile.GetStat(TileStat.Nation).Equals(FixedValue.NO_NATION_NUMBER))
+                //무국적 땅이 아니면 넘김
+                if (tile.GetStat(TileStat.Nation).Equals(FixedValue.NO_NATION_NUMBER) == false)
+                    continue;
+
+                //정책 대상이면 넘김
+                if (tile.GetPolicy() != null)
+                    continue;
+
+                TokenBase planToken = tile; //확장가능한 땅이면 타겟 지정
+                _policy.SetPlanToken(planToken); //정책 대상으로 넣고
+                tile.SetPolicy(_policy);
+                findExpandCount -= 1;
+                if (findExpandCount.Equals(0))
                 {
-                    TokenBase planToken = tile; //무소속이면 해당 타일 편입
-                    _policy.SetPlanToken(planToken);
-                    findExpandCount -= 1;
-                    if (findExpandCount.Equals(0))
-                    {
-                        break;
-                    }
+                    break;
                 }
+
             }
 
             if (findExpandCount.Equals(0))
@@ -231,6 +238,10 @@ public class Nation : ITradeCustomer
                 if (tile.GetStat(TileStat.Nation).Equals(m_nationNumber) == false)
                     continue;
 
+                //이미 정책 대상 토지면 패스
+                if (tile.GetPolicy() != null)
+                    continue;
+
                 //용도가 노말이 아니면 패스 
                 if (tile.GetTileType().Equals(TileType.Nomal) == false)
                     continue;
@@ -240,6 +251,7 @@ public class Nation : ITradeCustomer
                 int planIndex = Random.Range((int)TileType.WoodLand, (int)TileType.Capital); //벌목장부터 광산까지 중 뽑기 
                 _policy.SetPlanToken(planToken);
                 _policy.SetPlanIndex(planIndex);
+                tile.SetPolicy(_policy);
                 return;
             }
 
@@ -302,7 +314,7 @@ public class Nation : ITradeCustomer
         }
         if (isComplete)
         {
-            RemovePolicy(_policy);
+            _policy.Done();
         }
     }
 
@@ -451,7 +463,17 @@ public class Nation : ITradeCustomer
 
     private void RemindPolicy()
     {
-   
+        List<NationPolicy> removeList = new();
+        for (int i = 0; i < m_policyList.Count; i++)
+        {
+            NationPolicy policy = m_policyList[i];
+            if (policy.IsDone())
+                removeList.Add(policy);
+        }
+        for (int removeCount = 0; removeCount < removeList.Count; removeCount++)
+        {
+            RemovePolicy(removeList[removeCount]);
+        }
     }
 
     #region 국가 자산 관리
