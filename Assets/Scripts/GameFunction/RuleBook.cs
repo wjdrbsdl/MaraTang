@@ -11,6 +11,7 @@ public class RuleBook
     private Dictionary<int, TokenAction> m_tileActionDic;
     private CapitalRecipe m_capitalRecipe = new();
     private RuleBookTileAction m_tileActionPart;
+   
     public struct TAttackProgress
     {
         public float t_oriignDamage;
@@ -267,8 +268,7 @@ public class RuleBook
 
         return true;
     }
-    #endregion
-   
+
     public TokenEvent CheckEnteranceEvent(int[] mapCoordi)
     {
         //타일에 즉발용 이벤트가 있는지 확인
@@ -278,6 +278,7 @@ public class RuleBook
 
         return enterEvent;
     }
+    #endregion
 
     #region 타일 액션
     public bool AbleOccupy(TokenTile _tile)
@@ -335,6 +336,7 @@ public class RuleBook
     }
     #endregion
 
+    #region 자원 규칙
     public TMineTileResult MineResource(TokenTile _tile)
     {
         List<(Capital, int)> result = new();
@@ -414,11 +416,8 @@ public class RuleBook
         (Capital, int) mixed = m_capitalRecipe.ChangeCapital(_input, _outCapital);
         capitalData.CalCapital(mixed.Item1, mixed.Item2); //얻은 만큼 추가 시키고 
     }
+    #endregion
 
-    public void AnnounceCapitalIncome()
-    {
-
-    }
 }
 
 public enum CapitalAction
