@@ -13,6 +13,15 @@ public class NationPolicy
     private int m_nationNum;
 
     //안건 정보를 담아 생성
+    public NationPolicy(MainPolicy _mainPolicy, int _nationNum)
+    {
+        m_curMainPolicy = _mainPolicy;
+        m_nationNum = _nationNum;
+        m_holdPolicyCount = 0;
+        m_planToken = null;
+        m_planIndex = FixedValue.No_INDEX_NUMBER;
+    }
+
     public NationPolicy(MainPolicy _mainPolicy, TokenBase _planToken, int _planIndex, int _nationNum)
     {
         m_curMainPolicy = _mainPolicy;
@@ -57,5 +66,37 @@ public class NationPolicy
     {
 
     }
+
+    #region GetSet
+    public MainPolicy GetMainPolicy()
+    {
+        return m_curMainPolicy;
+    }
+
+    public TokenBase GetPlanToken()
+    {
+        return m_planToken;
+    }
+
+    public void SetPlanToken(TokenBase _planToken)
+    {
+        m_planToken = _planToken;
+    }
+
+    public int GetPlanIndex()
+    {
+        return m_planIndex;
+    }
+
+    public void SetPlanIndex(int _planIndex)
+    {
+        m_planIndex = _planIndex;
+    }
+
+    public int GetNaionNum()
+    {
+        return m_nationNum;
+    }
+    #endregion
 }
 

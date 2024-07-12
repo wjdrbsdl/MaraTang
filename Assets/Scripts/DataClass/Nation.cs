@@ -28,10 +28,7 @@ public class Nation : ITradeCustomer
     private int[] m_resources;
     private List<int> m_doneTech; // 완료한 테크 Pid
     private Color[] nationColor = { Color.red, Color.yellow, Color.blue };
-    private MainPolicy m_curMainPolicy = MainPolicy.None; //현재 정책 상황
-    private int m_holdPolicyCount = 0; //현재 정책 유지된 턴
-    private TokenBase m_planToken;
-    private int m_planIndex = FixedValue.No_INDEX_NUMBER;  //메인 정책당 구체적인 계획의 인덱스
+    private List<NationPolicy> m_policyList = new(); //진행할 정책들
 
     #region 국가 생성자
     public Nation()
@@ -144,57 +141,46 @@ public class Nation : ITradeCustomer
     private void SelectPolicy()
     {
         //정책 정함
-        //기존 정책이 있으면 회의 종료
-        if (HavePolicy())
-        {
-            m_holdPolicyCount += 1;
-         //   Debug.Log("기존 정책 " + m_curMainPolicy + " 유지" + m_mainPolicyCount);
-            return;
-        }
-            
-
-        //아니면 여기서 정함 일단 랜덤
+     
         int randomPolicy = Random.Range(1, (int)MainPolicy.Support);
 
         //어떤류 할지 정하고
-        m_curMainPolicy = (MainPolicy)randomPolicy;
-        Announcer.Instance.AnnounceState(m_nationNumber + "국가에서 메인 정책 결정 " + m_curMainPolicy);
-
+        MainPolicy mainTheme = (MainPolicy)randomPolicy;
+        //Announcer.Instance.AnnounceState(m_nationNumber + "국가에서 메인 정책 결정 " + m_curMainPolicy);
+        NationPolicy policy = new NationPolicy(mainTheme, m_nationNumber); //주요정책안으로 정책 형성
         //그에 대한 타겟을 정한다
-        MakePlan(m_curMainPolicy);
+        //MakePlan(m_curMainPolicy);
+        MakePlan(policy); //세부 계획 수립
     }
 
-    private bool HavePolicy()
+    private void MakePlan(NationPolicy _policy)
     {
-        return m_curMainPolicy.Equals(MainPolicy.None) == false;
-    }
-
-    private bool HavePlanToken()
-    {
-        return !(m_planToken == null && m_planIndex == FixedValue.No_INDEX_NUMBER);
-    }
-
-    private void MakePlan(MainPolicy _mainPolicy)
-    {
-        switch (_mainPolicy)
+        MainPolicy mainPolicy = _policy.GetMainPolicy();
+        switch (mainPolicy)
         {
             case MainPolicy.ExpandLand:
-                FindExpandLand();
+                FindExpandLand(_policy);
                 break;
             case MainPolicy.ManageLand:
-                FindManageLand();
+                FindManageLand(_policy);
                 break;
             case MainPolicy.NationLevelUP:
-                m_planToken = GetCapital();
+                TokenBase planToken = GetCapital();
+                _policy.SetPlanToken(planToken);
                 break;
             case MainPolicy.TechTree:
-                SelectTechTree();
+                SelectTechTree(_policy);
                 break;
+        }
+        //정책 세부 계획 수립후
+        if(_policy.GetPlanIndex() != FixedValue.No_INDEX_NUMBER || _policy.GetPlanToken() != null)
+        {
+            //계획이 설정되었으면
+            AddPolicy(_policy);
         }
     }
 
-  
-    private void FindExpandLand()
+    private void FindExpandLand(NationPolicy _policy)
     {
         int findExpandCount = 1; //3개씩 확장하는걸로 
         int startRange = m_range; //시작할 위치 현재 뻗어간 영토 거리
@@ -210,7 +196,8 @@ public class Nation : ITradeCustomer
                 TokenTile tile = rangeInTile[tileIdx];
                 if (tile.GetStat(TileStat.Nation).Equals(FixedValue.NO_NATION_NUMBER))
                 {
-                    m_planToken = tile; //무소속이면 해당 타일 편입
+                    TokenBase planToken = tile; //무소속이면 해당 타일 편입
+                    _policy.SetPlanToken(planToken);
                     findExpandCount -= 1;
                     if (findExpandCount.Equals(0))
                     {
@@ -225,15 +212,9 @@ public class Nation : ITradeCustomer
             }
         }
 
-        if (m_planToken == null)
-        {
-            ResetPolicy();
-           // Debug.Log("확장할 영토를 찾지 못해 정책 초기화");
-        }
-            
     }
 
-    private void FindManageLand()
+    private void FindManageLand(NationPolicy _policy)
     {
         int endRange = m_range; //최종 살펴볼 위치
         for (int i = 1; i <= endRange; i++)
@@ -255,111 +236,116 @@ public class Nation : ITradeCustomer
                     continue;
 
                 //내땅중에 용도가 nomal인 땅을 찾았다면
-                m_planToken = tile;
-                m_planIndex = Random.Range((int)TileType.WoodLand, (int)TileType.Capital); //벌목장부터 광산까지 중 뽑기 
+                TokenBase planToken = tile;
+                int planIndex = Random.Range((int)TileType.WoodLand, (int)TileType.Capital); //벌목장부터 광산까지 중 뽑기 
+                _policy.SetPlanToken(planToken);
+                _policy.SetPlanIndex(planIndex);
                 return;
             }
 
         }
-        if (m_planToken == null)
-        {
-            ResetPolicy();
-          //  Debug.Log("운영할 영토를 찾지 못해 정책 초기화");
-        }
+
     }
 
-    private void SelectTechTree()
+    private void SelectTechTree(NationPolicy _policy)
     {
         //다음 연구할 기술을 선택. 
         TechTreeSelector treeManager = new(); //매니저 생성하고 
-        m_planIndex = treeManager.GetTechPidByNotDone(m_doneTech);
-       // Debug.Log("다음 연구 테크pid는" + m_planIndex + "로 결정");
+        int planIndex = treeManager.GetTechPidByNotDone(m_doneTech);
+        _policy.SetPlanIndex(planIndex);
+        // Debug.Log("다음 연구 테크pid는" + m_planIndex + "로 결정");
+    }
+    #endregion
+
+    #region 정책 추가 제거
+    private void AddPolicy(NationPolicy _policy)
+    {
+        m_policyList.Add(_policy);
     }
 
+    private void RemovePolicy(NationPolicy _policy)
+    {
+        m_policyList.Remove(_policy);
+    }
     #endregion
 
     #region 정책 수행
     private void ExcutePolicy()
     {
-        //수행할 정책 없으면 종료
-        if (HavePolicy() == false)
+        for (int i = 0; i < m_policyList.Count; i++)
         {
-          //  Debug.Log("수립된 정책 없음");
-            return;
+            NationPolicy policy = m_policyList[i];
+            DoPlan(policy);
         }
-            
-        //수행할 계획 없으면 종료
-        if (HavePlanToken() == false)
-        {
-           // Debug.Log("구체적 계획 없음");
-            return;
-        }
-
-        //업무를 수행할 policy 클래스를 생성 - 필요재원을 지불하고 필요조건(턴)이 지났을 때, 완료(확률적)으로 판별 해서 결과 도출 .
-        //NationPolicy nationPolicy = new NationPolicy(m_curMainPolicy, m_planToken, m_planIndex, m_nationNumber);
-        //nationPolicy.Excute();
-        DoPlan();
     }
 
-    private void DoPlan()
+    private void DoPlan(NationPolicy _policy)
     {
-        switch (m_curMainPolicy)
+        TokenBase planToken = _policy.GetPlanToken();
+        int planIndex = _policy.GetPlanIndex();
+        bool isComplete = false;
+        MainPolicy policy = _policy.GetMainPolicy();
+        switch (policy)
         {
             case MainPolicy.ExpandLand:
-                ExpandTerritory();
+                isComplete = ExpandTerritory(planToken);
                 break;
             case MainPolicy.ManageLand:
-                ManageTerritory();
+                isComplete = ManageTerritory(planToken, planIndex);
                 break;
             case MainPolicy.NationLevelUP:
-                LevelUp();
+                isComplete = LevelUp();
                 break;
             case MainPolicy.TechTree:
-                Research();
+                isComplete = Research(planIndex);
                 break;
+        }
+        if (isComplete)
+        {
+            RemovePolicy(_policy);
         }
     }
 
-    private void ExpandTerritory()
+    private bool ExpandTerritory(TokenBase _planToken)
     {
-        TokenTile planTile = (TokenTile)m_planToken;
+        TokenTile planTile = (TokenTile)_planToken;
         if (AbleExpand(planTile) == false)
         {
           //  Debug.Log("확장 불가능 상태");
-            return;
+            return false;
         }
 
         //확장 가능한 상태라면
-      //  Debug.Log("영토 확장 정책 수행 완료");
+        //Debug.Log("영토 확장 정책 수행 완료");
         CalResourceAmount(Capital.Wood, -300);
         AddTerritory(planTile); //계획 토큰을 타일로 전환후 영토 집행
         ShowTerritory();
-        ResetPolicy();
+        return true;
     }
 
-    private void ManageTerritory()
+    private bool ManageTerritory(TokenBase _planToken, int _planIndex)
     {
-        TokenTile planTile = (TokenTile)m_planToken;
-        if (AbleManageLand(planTile) == false)
+        TokenTile planTile = (TokenTile)_planToken;
+        if (AbleManageLand(planTile, _planIndex, m_nationNumber) == false)
         {
          //   Debug.Log("운영 불가능 상태");
-            return;
+            return false;
         }
 
         //변경 가능한 상태라면
         //  Debug.Log("영토 운영 정책 수행 완료");
-        OrderCostData changeCost = MgMasterData.GetInstance().GetTileData(m_planIndex).BuildCostData;
+        OrderCostData changeCost = MgMasterData.GetInstance().GetTileData(_planIndex).BuildCostData;
         PayCostData(changeCost);
-        planTile.ChangeTileType((TileType)m_planIndex); //플랜 idx 타입으로 토지변경
-        ResetPolicy();
+        planTile.ChangeTileType((TileType)_planIndex); //플랜 idx 타입으로 토지변경
+        return true;
     }
     
-    private void LevelUp()
+    private bool LevelUp()
     {
         if(AbleLevelUp() == false)
         { 
          //   Debug.Log("레벨업 조건 미충족");
-            return;
+            return false;
         }
 
         Announcer.Instance.AnnounceState("국가 레벨 상승 :" + m_nationLevel+"Lv");
@@ -367,27 +353,25 @@ public class Nation : ITradeCustomer
         int needFood = needPerson;
         CalResourceAmount(Capital.Food, -needFood);
         m_nationLevel += 1;
-        ResetPolicy();
+        return true;
     }
 
-    private void Research()
+    private bool Research(int _planIndex)
     {
-        if(AbleResearch(m_planIndex) == false)
+        if(AbleResearch(_planIndex) == false)
         {
-            return;
+            return false;
         }
 
      //   Debug.Log(m_planIndex + "번 테크 연구 완료");
         //1.비용내고
-        OrderCostData costData = MgMasterData.GetInstance().GetTechData(m_planIndex).ResearchCostData;
+        OrderCostData costData = MgMasterData.GetInstance().GetTechData(_planIndex).ResearchCostData;
         PayCostData(costData);
         //2.완료 기록하고
-        CompleteTech(m_planIndex);
-        //3.정책 초기화
-        ResetPolicy();
+        CompleteTech(_planIndex);
+        
+        return true;
     }
-
-
 
     private bool AbleExpand(TokenTile _tile)
     {
@@ -409,10 +393,10 @@ public class Nation : ITradeCustomer
         return true;
     }
 
-    private bool AbleManageLand(TokenTile _tile)
+    private bool AbleManageLand(TokenTile _tile, int _nationNumber, int _planIndex)
     {
         //만약 현재 타일상태가 누군가의 점유로 바꼈으면 확장 불가 
-        if (_tile.GetStat(TileStat.Nation) != m_nationNumber)
+        if (_tile.GetStat(TileStat.Nation) != _nationNumber)
         {
             //  Debug.Log("국가 귀속 타일이 아님");
             return false;
@@ -422,7 +406,7 @@ public class Nation : ITradeCustomer
             //  Debug.Log("토지 변경 불가능한 상태");
             return false;
         }
-        OrderCostData changeCost = MgMasterData.GetInstance().GetTileData(m_planIndex).BuildCostData;
+        OrderCostData changeCost = MgMasterData.GetInstance().GetTileData(_planIndex).BuildCostData;
         //  Debug.Log((TileType)m_planIndex + "로 변경하려는 중");
         if (CheckInventory(changeCost) == false)
         {
@@ -453,31 +437,21 @@ public class Nation : ITradeCustomer
 
     private bool AbleResearch(int _techPid)
     {
+        //마스터데이터에 없는 테크번호면 실패
+        if(MgMasterData.GetInstance().GetTechData(_techPid) == null)
+        {
+            return false;
+        }
         OrderCostData costData = MgMasterData.GetInstance().GetTechData(_techPid).ResearchCostData;
-
         return CheckInventory(costData);
     }
 
     #endregion
 
-    #region 정책 초기화
-    private void ResetPolicy()
-    {
-        m_curMainPolicy = MainPolicy.None;
-        m_planToken = null;
-        m_planIndex = FixedValue.No_INDEX_NUMBER;
-        m_holdPolicyCount = 0;
-    }
-    #endregion
 
     private void RemindPolicy()
     {
-        //집행되지 못한 정책의 경우 바꿀지 말지
-        if(m_holdPolicyCount >= 3)
-        {
-          //  Debug.Log("정책 유지 3회 이유로 기존 정책 초기화");
-            ResetPolicy();
-        }
+   
     }
 
     #region 국가 자산 관리
@@ -602,4 +576,9 @@ public class Nation : ITradeCustomer
 
  
     #endregion
+
+    public List<NationPolicy> GetNationPolicyList()
+    {
+        return m_policyList;
+    }
 }
