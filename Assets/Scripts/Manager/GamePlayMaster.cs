@@ -82,7 +82,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>, IOrderCustomer
         CamFocus(PlayerManager.GetInstance().GetMainChar());
         PlayerManager.GetInstance().FirstStart();
         SelectFirstNation();
-        DoneStep(GamePlayStep.GameInitialSetting); //게임 초기 세팅 끝나면 호출
+        //DoneStep(GamePlayStep.GameInitialSetting); //게임 초기 세팅 끝나면 호출
     }
 
     private int TempNationSelectOrderSerialNum = 1;
@@ -484,6 +484,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>, IOrderCustomer
             RuleBook.Migrate(mainChar, nationCapitalTile);
             //카메라 포커싱
             CamFocus(PlayerManager.GetInstance().GetMainChar());
+            DoneStep(GamePlayStep.GameInitialSetting); //게임 초기 세팅 이후 국가 선택까지 마치면 초기 세팅 끝. 
         }
         
     }
