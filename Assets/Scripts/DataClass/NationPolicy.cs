@@ -90,6 +90,11 @@ public class NationPolicy
         return m_planToken;
     }
 
+    public int GetHoldCount()
+    {
+        return m_holdPolicyCount;
+    }
+
     public void SetPlanToken(TokenBase _planToken)
     {
         m_planToken = _planToken;

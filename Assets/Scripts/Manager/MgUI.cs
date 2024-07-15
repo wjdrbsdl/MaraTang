@@ -17,6 +17,7 @@ public class MgUI : MgGeneric<MgUI>
     [SerializeField] private UISelectItem m_selectTextUI;
 
     [Header("데이터 표기")]
+    [SerializeField] private UINationPolicy m_policyUI;
     [SerializeField] private UICapital m_capitalUI;
     [SerializeField] private UITokenSnapInfo m_snapInfoUI;
     [SerializeField] private UIPlayData m_playDataUI;
@@ -94,6 +95,11 @@ public class MgUI : MgGeneric<MgUI>
         m_selectTextUI.SetSelectedInfo(_itemInfo);
     }
 
+    public void ShowNationPolicy(Nation _nation)
+    {
+        m_policyUI.SetNationPolicy(_nation);
+    }
+
     private void ShowTileTokenInfo(TokenTile _tile)
     {
         TileType tileType = _tile.GetTileType();
@@ -109,6 +115,13 @@ public class MgUI : MgGeneric<MgUI>
             //    Debug.Log(techTree.GetTechName()+" 학습 가능 여부 "+ isAble);
       
             }
+            List<NationPolicy> policyList = tileNation.GetNationPolicyList();
+            for (int i = 0; i < policyList.Count; i++)
+            {
+                NationPolicy policy= policyList[i];
+                policy.Remind();
+            }
+            ShowNationPolicy(tileNation);
         }
 
         PushUIStack(m_tileWorkShopUI);
