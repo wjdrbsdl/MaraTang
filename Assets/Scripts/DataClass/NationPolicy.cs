@@ -69,7 +69,7 @@ public class NationPolicy
                 Debug.LogFormat("{0},{1}번 땅을 {2} 번 유형으로 {3} 턴 째 개척 진행중", tile.GetXIndex(), tile.GetYIndex(), m_planIndex, m_holdPolicyCount);
                 break;
             default:
-                Debug.LogFormat("{0}번 타입 진행중 " + m_curMainPolicy.ToString());
+                Debug.LogFormat("{0}번 타입 진행중 ", m_curMainPolicy.ToString());
                 break;
         }
     }
