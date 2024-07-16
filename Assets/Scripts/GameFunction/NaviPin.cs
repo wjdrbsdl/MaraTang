@@ -6,6 +6,7 @@ public class NaviPin : MonoBehaviour
 {
     public Vector2 naviPoint; //꽂혀있는 곳 
     public int m_chunkNum; //꽂혀 있는 청크 넘버
+    public Sprite m_sprite;
     private Camera m_mainCam;
     private void Start()
     {
@@ -21,6 +22,12 @@ public class NaviPin : MonoBehaviour
     {
         naviPoint = _position;
         m_chunkNum = _chunkNum;
+    }
+
+    public void SetTileWorkPin(Vector2 _position, MainPolicy _policyType)
+    {
+        naviPoint = _position;
+        m_sprite = TempSpriteBox.GetInstance().GetPolicySprite(_policyType);
     }
 
     public void SwitchPin(bool _on)
