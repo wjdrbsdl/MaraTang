@@ -115,12 +115,7 @@ public class MgUI : MgGeneric<MgUI>
             //    Debug.Log(techTree.GetTechName()+" 학습 가능 여부 "+ isAble);
       
             }
-            List<NationPolicy> policyList = tileNation.GetNationPolicyList();
-            for (int i = 0; i < policyList.Count; i++)
-            {
-                NationPolicy policy= policyList[i];
-                policy.Remind();
-            }
+       
             ShowNationPolicy(tileNation);
         }
 
