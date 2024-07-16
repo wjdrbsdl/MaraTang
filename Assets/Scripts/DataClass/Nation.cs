@@ -280,7 +280,9 @@ public class Nation : ITradeCustomer
     {
         m_policyList.Remove(_policy);
     }
+    #endregion
 
+    #region 정책 표기 핀
     private void ShowPolicyPin(NationPolicy _policy)
     {
         MgNaviPin.GetInstance().ShowPolicyPin(_policy);   
@@ -479,7 +481,11 @@ public class Nation : ITradeCustomer
         {
             NationPolicy policy = m_policyList[i];
             if (policy.IsDone())
+            {
+                policy.Reset();
                 removeList.Add(policy);
+            }
+                
         }
         for (int removeCount = 0; removeCount < removeList.Count; removeCount++)
         {
