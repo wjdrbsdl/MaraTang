@@ -32,6 +32,7 @@ public class TokenBase
     #endregion
 
     #region 유니티 변수
+    public NationPolicy m_policy;
     protected ObjectTokenBase m_object;
     private Quest QuestCard;
     public int QuestPid = -1;
@@ -86,6 +87,20 @@ public class TokenBase
         return m_tokenType;
     }
 
+    public void SetPolicy(NationPolicy _policy)
+    {
+        m_policy = _policy; //정책 대상 지정
+    }
+
+    public NationPolicy GetPolicy()
+    {
+        return m_policy;
+    }
+
+    public void ResetPolicy()
+    {
+        m_policy = null;
+    }
     #endregion
 
     #region 스텟 배열 적용하는 부분

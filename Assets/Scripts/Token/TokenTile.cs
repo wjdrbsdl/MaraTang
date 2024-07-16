@@ -39,7 +39,7 @@ public class TokenTile : TokenBase
     public int ChunkNum;
     private TileViewState m_viewState = TileViewState.Fog;
     private TokenEvent m_enteranceEvent; //입장시 발동하는 이벤트가 있는가
-    public NationPolicy m_policy;
+  
 
     /*타일 상호 순서
      * 1. 타일에 1 캐릭 존재 - 타캐릭 점유시 입장불가
@@ -175,20 +175,6 @@ public class TokenTile : TokenBase
         return MgNation.GetInstance().GetNation(m_tokenIValues[(int)TileStat.Nation]);
     }
 
-    public void SetPolicy(NationPolicy _policy)
-    {
-        m_policy = _policy; //정책 대상 지정
-    }
-
-    public NationPolicy GetPolicy()
-    {
-        return m_policy;
-    }
-
-    public void ResetPolicy()
-    {
-        m_policy = null;
-    }
 
     #region 입장 이벤트
     public TokenEvent GetEneteranceEvent()

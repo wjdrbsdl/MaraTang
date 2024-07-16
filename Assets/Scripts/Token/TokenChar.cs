@@ -222,12 +222,11 @@ public class TokenChar : TokenBase
         MgToken.GetInstance().RemoveCharToken(this);
     }
 
-    public NationPolicy NationPolicy;
     protected override void SendQuestCallBack()
     {
         base.SendQuestCallBack();
-        if (NationPolicy != null)
-            NationPolicy.SendNationCallBack(this);
+        if (m_policy != null)
+            m_policy.SendNationCallBack(this);
 
     }
 
