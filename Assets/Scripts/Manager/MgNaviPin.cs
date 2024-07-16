@@ -61,6 +61,11 @@ public class MgNaviPin : MgGeneric<MgNaviPin>
 
         List<NaviPin> pinLIst = m_policyPinDic[_policy];
         //해당 핀들 제거하는 거 진행하고
+        for (int i = 0; i < pinLIst.Count; i++)
+        {
+            NaviPin pin = pinLIst[i];
+            pin.DestroyPin();
+        }
 
         m_policyPinDic.Remove(_policy); //딕션에서 삭제
     }

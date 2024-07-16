@@ -35,6 +35,11 @@ public class NaviPin : MonoBehaviour
         gameObject.SetActive(_on);
     }
 
+    public void DestroyPin()
+    {
+        Destroy(gameObject);
+    }
+
     #region ÇÉ Á¶Á¤
     private void Navigate()
     {
