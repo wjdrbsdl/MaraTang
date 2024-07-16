@@ -29,19 +29,18 @@ public class MgNaviPin : MgGeneric<MgNaviPin>
         {
             case MainPolicy.ExpandLand:
             case MainPolicy.ManageLand:
-                TokenTile targetTile = (TokenTile)_policy.GetPlanToken();
-                int planIndex = _policy.GetPlanIndex();
-                NaviPin pin = RequestTileWorkPin(targetTile, planIndex);
-                AddPolicyPinList(_policy, pin);
+                MakePolicyPin(_policy);
                 break;
         }
     }
 
-    public NaviPin RequestTileWorkPin(TokenTile _pinPosTile, int _workType)
+    public void MakePolicyPin(NationPolicy _policy)
     {
+        TokenTile targetTile = (TokenTile)_policy.GetPlanToken();
+        int planIndex = _policy.GetPlanIndex();
         NaviPin naviPin = Instantiate(m_pinSample);
-        naviPin.SetPinInfo(_pinPosTile.GetObject().gameObject.transform.position, _workType);
-        return naviPin;
+        naviPin.SetTileWorkPin(targetTile.GetObject().gameObject.transform.position, _policy.GetMainPolicy());
+        AddPolicyPinList(_policy, naviPin);
     }
 
     public void RemovePin(NaviPin _pin)
