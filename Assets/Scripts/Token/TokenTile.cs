@@ -100,7 +100,7 @@ public class TokenTile : TokenBase
 
     public void SetTileSprite()
     {
-        GetObject().SetSprite( TempSpriteBox.GetInstance().GetSprite(tileType));
+        GetObject().SetSprite( TempSpriteBox.GetInstance().GetTileSprite(tileType));
     }
 
     #endregion

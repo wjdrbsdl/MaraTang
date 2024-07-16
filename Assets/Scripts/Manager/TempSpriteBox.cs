@@ -12,9 +12,13 @@ public class TempSpriteBox : MgGeneric<TempSpriteBox>
     public Sprite MountainLand;
     public Sprite CapitalLand;
 
+    public Sprite ExpandLandPin;
+    public Sprite ManageLandPin;
+    public Sprite DefaultPin;
+
     public Sprite[] Chares;
     public Sprite[] HideTiles;
-    public Sprite GetSprite(TileType _type)
+    public Sprite GetTileSprite(TileType _type)
     {
         switch (_type)
         {
@@ -46,5 +50,19 @@ public class TempSpriteBox : MgGeneric<TempSpriteBox>
         if (_pid < 0 || Chares.Length <= _pid)
             return Chares[1];
         return Chares[_pid];
+    }
+
+    public Sprite GetPolicySprite(MainPolicy _policy)
+    {
+        switch (_policy)
+        {
+            case MainPolicy.ExpandLand:
+                return ExpandLandPin;
+            case MainPolicy.ManageLand:
+                return ManageLandPin;
+            default:
+                return DefaultPin;
+
+        }
     }
 }

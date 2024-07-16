@@ -714,7 +714,7 @@ public static class GameUtil
 
     private static void MakeFence(Chunk _fenceChunk)
     {
-        Sprite fenceSprite = TempSpriteBox.GetInstance().GetSprite(TileType.Nomal);
+        Sprite fenceSprite = TempSpriteBox.GetInstance().GetTileSprite(TileType.Nomal);
 
         int xLength = _fenceChunk.tiles.GetLength(0);
         int yLength = _fenceChunk.tiles.GetLength(1);
