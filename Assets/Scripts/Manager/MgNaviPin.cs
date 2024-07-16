@@ -7,7 +7,7 @@ public class MgNaviPin : MgGeneric<MgNaviPin>
     public NaviPin m_pinSample;
     public int m_pinMaxCount = 3;
     private List<NaviPin> m_pinLIst = new();
-    private List<NaviPin> m_tileWorkPinList = new();
+    private Dictionary<NationPolicy, List<NaviPin>> m_policyPinDic = new();
     public NaviPin RequestNaviPin()
     {
         if (m_pinMaxCount <= m_pinLIst.Count)
@@ -21,11 +21,27 @@ public class MgNaviPin : MgGeneric<MgNaviPin>
         return naviPin;
     }
 
-    public void RequestTileWorkPin(TokenTile _pinPosTile, int _workType)
+    public void ShowPolicyPin(NationPolicy _policy)
+    {
+        //정책과 관련된 핀 표기 
+        MainPolicy mainPolicy = _policy.GetMainPolicy();
+        switch (mainPolicy)
+        {
+            case MainPolicy.ExpandLand:
+            case MainPolicy.ManageLand:
+                TokenTile targetTile = (TokenTile)_policy.GetPlanToken();
+                int planIndex = _policy.GetPlanIndex();
+                NaviPin pin = RequestTileWorkPin(targetTile, planIndex);
+                AddPolicyPinList(_policy, pin);
+                break;
+        }
+    }
+
+    public NaviPin RequestTileWorkPin(TokenTile _pinPosTile, int _workType)
     {
         NaviPin naviPin = Instantiate(m_pinSample);
-        m_tileWorkPinList.Add(naviPin);
         naviPin.SetPinInfo(_pinPosTile.GetObject().gameObject.transform.position, _workType);
+        return naviPin;
     }
 
     public void RemovePin(NaviPin _pin)
@@ -36,5 +52,30 @@ public class MgNaviPin : MgGeneric<MgNaviPin>
 
         m_pinLIst.Remove(_pin);
         Destroy(_pin.gameObject);
+    }
+
+    public void RemovePolicyPinList(NationPolicy _policy)
+    {
+        //정책 관련된 핀 제거
+        if (m_policyPinDic.ContainsKey(_policy) == false)
+            return;
+
+        List<NaviPin> pinLIst = m_policyPinDic[_policy];
+        //해당 핀들 제거하는 거 진행하고
+
+        m_policyPinDic.Remove(_policy); //딕션에서 삭제
+    }
+
+    private void AddPolicyPinList(NationPolicy _policy, NaviPin _pin)
+    {
+        //정책과 관련된 핀 리스트 추가 
+        if (m_policyPinDic.ContainsKey(_policy))
+        {
+            m_policyPinDic[_policy].Add(_pin);
+            return;
+        }
+        List<NaviPin> pinList = new();
+        m_policyPinDic.Add(_policy, pinList);
+        m_policyPinDic[_policy].Add(_pin);
     }
 }

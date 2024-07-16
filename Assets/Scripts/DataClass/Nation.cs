@@ -177,6 +177,7 @@ public class Nation : ITradeCustomer
         {
             //계획이 설정되었으면
             AddPolicy(_policy);
+            ShowPolicyPin(_policy);
         }
     }
 
@@ -278,6 +279,16 @@ public class Nation : ITradeCustomer
     private void RemovePolicy(NationPolicy _policy)
     {
         m_policyList.Remove(_policy);
+    }
+
+    private void ShowPolicyPin(NationPolicy _policy)
+    {
+        MgNaviPin.GetInstance().ShowPolicyPin(_policy);   
+    }
+
+    private void RemovePolicyPin(NationPolicy _policy)
+    {
+        MgNaviPin.GetInstance().RemovePolicyPinList(_policy);
     }
     #endregion
 
@@ -472,6 +483,7 @@ public class Nation : ITradeCustomer
         }
         for (int removeCount = 0; removeCount < removeList.Count; removeCount++)
         {
+            RemovePolicyPin(removeList[removeCount]);
             RemovePolicy(removeList[removeCount]);
         }
     }
