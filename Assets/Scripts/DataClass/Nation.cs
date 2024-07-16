@@ -276,8 +276,18 @@ public class Nation : ITradeCustomer
         m_policyList.Add(_policy);
     }
 
+    private void RemovePolicy(List<NationPolicy> _ploicyList)
+    {
+        for (int i = 0; i < _ploicyList.Count; i++)
+        {
+            RemovePolicy(_ploicyList[i]);
+        }
+    }
+
     private void RemovePolicy(NationPolicy _policy)
     {
+        _policy.Reset(); //정책 내부적으로 리셋 - tokenBase에 할당된 policy null등 진행 
+        RemovePolicyPin(_policy);
         m_policyList.Remove(_policy);
     }
     #endregion
@@ -481,16 +491,11 @@ public class Nation : ITradeCustomer
             NationPolicy policy = m_policyList[i];
             if (policy.IsDone())
             {
-                policy.Reset();
                 removeList.Add(policy);
             }
                 
         }
-        for (int removeCount = 0; removeCount < removeList.Count; removeCount++)
-        {
-            RemovePolicyPin(removeList[removeCount]);
-            RemovePolicy(removeList[removeCount]);
-        }
+        RemovePolicy(removeList);
     }
 
     #region 국가 자산 관리
@@ -625,6 +630,7 @@ public class Nation : ITradeCustomer
     public void SuggestPolicyCancle(NationPolicy _policy)
     {
         Debug.Log(_policy.GetMainPolicy() + "취소 제안");
+        RemovePolicy(_policy);
     }
     #endregion
 }
