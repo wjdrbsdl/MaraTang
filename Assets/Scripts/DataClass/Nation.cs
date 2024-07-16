@@ -473,7 +473,6 @@ public class Nation : ITradeCustomer
 
     #endregion
 
-
     private void RemindPolicy()
     {
         List<NationPolicy> removeList = new();
@@ -621,4 +620,11 @@ public class Nation : ITradeCustomer
     {
         return m_policyList;
     }
+
+    #region 제안받기
+    public void SuggestPolicyCancle(NationPolicy _policy)
+    {
+        Debug.Log(_policy.GetMainPolicy() + "취소 제안");
+    }
+    #endregion
 }
