@@ -46,6 +46,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   naviPoint: {x: 0, y: 0}
+  m_chunkNum: 0
+  m_spriteRender: {fileID: 1003702659785373541}
 --- !u!212 &1003702659785373541
 SpriteRenderer:
   m_ObjectHideFlags: 0
