@@ -626,11 +626,26 @@ public class Nation : ITradeCustomer
         return m_policyList;
     }
 
+    enum SuggestCode
+    {
+        Add, Cancle
+    }
     #region 제안받기
     public void SuggestPolicyCancle(NationPolicy _policy)
     {
         Debug.Log(_policy.GetMainPolicy() + "취소 제안");
-        RemovePolicy(_policy);
+        ConsiderSuggest(_policy, SuggestCode.Cancle);
+    }
+
+    private void ConsiderSuggest(NationPolicy _policy, SuggestCode _suggestCode)
+    {
+        //제안 방식에 따라 정책을 평가해서 받을지 말지? 
+        switch (_suggestCode)
+        {
+            case SuggestCode.Cancle:
+                RemovePolicy(_policy);
+                break;
+        }
     }
     #endregion
 }
