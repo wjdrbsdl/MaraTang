@@ -26,7 +26,7 @@ public class Nation : ITradeCustomer
     private TokenTile m_capitalCity;
     private List<TokenTile> m_territorryList;
     private int[] m_resources;
-    private List<int> m_doneTech; // 완료한 테크 Pid
+    private NationTechPart techPart;
     private Color[] nationColor = { Color.red, Color.yellow, Color.blue };
     private List<NationPolicy> m_policyList = new(); //진행할 정책들
 
@@ -49,7 +49,7 @@ public class Nation : ITradeCustomer
             nation.AddTerritory(boundaryTile[i]);
         }
         nation.m_resources = new int[GameUtil.EnumLength(Capital.Food)];
-        nation.m_doneTech = new List<int>(); //작업 완료 테크
+        nation.techPart = new NationTechPart();
         return nation;
     }
 
@@ -264,7 +264,7 @@ public class Nation : ITradeCustomer
     {
         //다음 연구할 기술을 선택. 
         TechTreeSelector treeManager = new(); //매니저 생성하고 
-        int planIndex = treeManager.GetTechPidByNotDone(m_doneTech);
+        int planIndex = treeManager.GetTechPidByNotDone(techPart.GetTechList());
         _policy.SetPlanIndex(planIndex);
         // Debug.Log("다음 연구 테크pid는" + m_planIndex + "로 결정");
     }
@@ -601,24 +601,13 @@ public class Nation : ITradeCustomer
     #region 국가 테크 
     public void CompleteTech(int _techPid)
     {
-        if(IsDoneTech(_techPid) == false) //배우지 않은 녀석이면
-            m_doneTech.Add(_techPid);
-    }
-
-    public List<int> GetDoneTech()
-    {
-        return m_doneTech;
+        techPart.CompleteTech(_techPid);
     }
 
     public bool IsDoneTech(int _techPid)
     {
-        if (m_doneTech.IndexOf(_techPid) >= 0)
-            return true;
-
-        return false;
+        return techPart.IsDoneTech(_techPid);
     }
-
- 
     #endregion
 
     public List<NationPolicy> GetNationPolicyList()
