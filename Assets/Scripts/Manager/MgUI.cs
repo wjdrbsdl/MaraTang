@@ -107,9 +107,9 @@ public class MgUI : MgGeneric<MgUI>
         {
         //    Debug.Log("국가 트리 정보 보여주기");
             Nation tileNation = _tile.GetNation();
-            foreach(KeyValuePair<int, NationTechTree> tech in MgMasterData.GetInstance().GetTechDic())
+            foreach(KeyValuePair<int, NationTechData> tech in MgMasterData.GetInstance().GetTechDic())
             {
-                NationTechTree techTree = tech.Value;
+                NationTechData techTree = tech.Value;
                 TItemListData researchCostData = techTree.ResearchCostData;
                 bool isAble = tileNation.CheckInventory(researchCostData);
                 //    Debug.Log(techTree.GetTechName()+" 학습 가능 여부 "+ isAble);
@@ -118,7 +118,7 @@ public class MgUI : MgGeneric<MgUI>
                 List<TOrderItem> effectList = effectData.GetItemList();
                 for (int i = 0; i < effectList.Count; i++)
                 {
-
+                    Debug.LogFormat("{0}번 타입의 {1}번 류를 {2}만큼 상승", effectList[i].Tokentype, effectList[i].SubIdx, effectList[i].Value);
                 }
             }
        

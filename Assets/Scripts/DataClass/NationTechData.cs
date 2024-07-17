@@ -8,7 +8,7 @@ public enum TechTreeStat
     Class, NeedTurn, NeedWood, NeedMineral
 }
 
-public class NationTechTree
+public class NationTechData
 {
 
     //국가 기술 하나 정보 
@@ -19,7 +19,7 @@ public class NationTechTree
     public TItemListData ResearchCostData;
     public TItemListData TechEffectData;
 
-    public NationTechTree(List<int[]> matchCode, string[] _parsingData)
+    public NationTechData(List<int[]> matchCode, string[] _parsingData)
     {
         m_techPid = int.Parse(_parsingData[0]);
         m_techName = _parsingData[1];

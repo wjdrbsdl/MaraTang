@@ -11,7 +11,7 @@ public class MgMasterData : Mg<MgMasterData>
     private Dictionary<int, TokenAction> m_charActionDataDic;
     private Dictionary<int, TokenEvent> m_eventDataDic;
     private Dictionary<int, ContentData> m_contentDataDic;
-    private Dictionary<int, NationTechTree> m_nationTechDataDic;
+    private Dictionary<int, NationTechData> m_nationTechDataDic;
     private Dictionary<int, ConversationGroup> m_conversationGroupDic;
     public static char DIVIDECHAR = '_';
     #region 생성자
@@ -72,9 +72,9 @@ public class MgMasterData : Mg<MgMasterData>
         return GetDicData<ContentData>(m_contentDataDic, _contentPID);
     }
 
-    public NationTechTree GetTechData(int _techPID)
+    public NationTechData GetTechData(int _techPID)
     {
-        return GetDicData<NationTechTree>(m_nationTechDataDic, _techPID);
+        return GetDicData<NationTechData>(m_nationTechDataDic, _techPID);
     }
 
     public ConversationGroup GetThemConversation(ConversationTheme _theme)
@@ -87,7 +87,7 @@ public class MgMasterData : Mg<MgMasterData>
         return GetDicData<ConversationGroup>(m_conversationGroupDic, (int)_theme).GetConversationData(_pid);
     }
 
-    public Dictionary<int, NationTechTree> GetTechDic()
+    public Dictionary<int, NationTechData> GetTechDic()
     {
         return m_nationTechDataDic;
     }
@@ -193,7 +193,7 @@ public class MgMasterData : Mg<MgMasterData>
         m_nationTechDataDic = new();
         for (int i = 0; i < parseContainer.DbValueList.Count; i++)
         {
-            NationTechTree nationTechData = new NationTechTree(parseContainer.MatchCode, parseContainer.DbValueList[i]);
+            NationTechData nationTechData = new NationTechData(parseContainer.MatchCode, parseContainer.DbValueList[i]);
             m_nationTechDataDic.Add(nationTechData.GetPid(), nationTechData);
         }
     }
