@@ -15,7 +15,7 @@ public enum NationManageStep
 
 public enum NationStat
 {
-     Happy
+     Happy, CleanFlat, CleanRatio
 }
 
 public class Nation : ITradeCustomer
@@ -26,7 +26,7 @@ public class Nation : ITradeCustomer
     private TokenTile m_capitalCity;
     private List<TokenTile> m_territorryList;
     private int[] m_resources;
-    private NationTechPart techPart;
+    public NationTechPart TechPart;
     private Color[] nationColor = { Color.red, Color.yellow, Color.blue };
     private List<NationPolicy> m_policyList = new(); //진행할 정책들
 
@@ -49,7 +49,7 @@ public class Nation : ITradeCustomer
             nation.AddTerritory(boundaryTile[i]);
         }
         nation.m_resources = new int[GameUtil.EnumLength(Capital.Food)];
-        nation.techPart = new NationTechPart();
+        nation.TechPart = new NationTechPart();
         return nation;
     }
 
@@ -264,7 +264,7 @@ public class Nation : ITradeCustomer
     {
         //다음 연구할 기술을 선택. 
         TechTreeSelector treeManager = new(); //매니저 생성하고 
-        int planIndex = treeManager.GetTechPidByNotDone(techPart.GetTechList());
+        int planIndex = treeManager.GetTechPidByNotDone(TechPart.GetTechList());
         _policy.SetPlanIndex(planIndex);
         // Debug.Log("다음 연구 테크pid는" + m_planIndex + "로 결정");
     }
@@ -403,7 +403,7 @@ public class Nation : ITradeCustomer
         TItemListData costData = MgMasterData.GetInstance().GetTechData(_planIndex).ResearchCostData;
         PayCostData(costData);
         //2.완료 기록하고
-        CompleteTech(_planIndex);
+        TechPart.CompleteTech(_planIndex);
         
         return true;
     }
@@ -560,7 +560,7 @@ public class Nation : ITradeCustomer
                     break;
                 case TokenType.NationTech:
                     //Debug.Log("국가기술" + subIndx + "번을 " + value + "레벨만큼 학습했는지 확인"+IsDoneTech(subIndx));
-                    if (IsDoneTech(subIndx) == false)
+                    if (TechPart.IsDoneTech(subIndx) == false)
                         return false;
                     break;
                 default:
@@ -595,18 +595,6 @@ public class Nation : ITradeCustomer
                     break;
             }
         }
-    }
-    #endregion
-
-    #region 국가 테크 
-    public void CompleteTech(int _techPid)
-    {
-        techPart.CompleteTech(_techPid);
-    }
-
-    public bool IsDoneTech(int _techPid)
-    {
-        return techPart.IsDoneTech(_techPid);
     }
     #endregion
 
