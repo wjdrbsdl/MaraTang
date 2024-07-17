@@ -35,7 +35,7 @@ public class NationTechPart
     public void CalTechEffect()
     {
         //테크 효과 torderItem 으로 모아놓은곳. 
-        int[] nationStatValues = new int[GameUtil.EnumLength(typeof(NationStat))];
+        int[] nationStatValues = GameUtil.EnumLengthArray(typeof(NationStat));
         for (int i = 0; i < m_doneTech.Count; i++)
         {
             NationTechData techData = MgMasterData.GetInstance().GetTechData(m_doneTech[i]); //테크pid로 마스터 데이터 가져옴
@@ -64,6 +64,11 @@ public class NationTechPart
         //벨류 배열을 가지고 다시 TOrderItem List로 반환
         TItemListData makeItemListData = new TItemListData(_nationStatValues, TokenType.NationStat);
         m_nationStatEffectList = makeItemListData.GetItemList();
+
+        for (int i = 0; i < m_nationStatEffectList.Count; i++)
+        {
+            Debug.LogFormat("{0}번 타입의 {1}번 류를 {2}만큼 상승", m_nationStatEffectList[i].Tokentype, m_nationStatEffectList[i].SubIdx, m_nationStatEffectList[i].Value);
+        }
     }
 
 

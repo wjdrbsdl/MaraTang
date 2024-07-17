@@ -486,12 +486,10 @@ public static class GameUtil
         return enumLength;
     }
 
-    public static int EnumLength(Type _enumValue)
+    public static int[] EnumLengthArray(Type _enumValue)
     {
-        int enumLength = (int)System.Enum.GetValues(_enumValue).Length;
-
-         Debug.Log(_enumValue +"±æÀÌ´Â "+enumLength);
-        return enumLength;
+        int[] enumLengthArray = new int[(int)System.Enum.GetValues(_enumValue).Length];
+        return enumLengthArray;
     }
 
     public static string[] ParseEnumStrings(System.Enum _enumValue)
