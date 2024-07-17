@@ -38,6 +38,17 @@ public struct TItemListData
         costList = _itemList;
     }
 
+    //각 tokenType의 enum에 따라 생성된 배열 밸류를 다시 ToderItemList로 돌리는 함수
+    public TItemListData(int[] _values, TokenType _tokenType)
+    {
+        costList = new();
+        for (int i = 0; i < _values.Length; i++)
+        {
+            TOrderItem item = new TOrderItem(_tokenType, i, _values[i]);
+            costList.Add(item);
+        }
+    }
+
     public void Add(TOrderItem _orderItem)
     {
         if (costList == null)
