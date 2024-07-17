@@ -47,19 +47,6 @@ public class MgGameLoader : MgGeneric<MgGameLoader>
 
     }
 
-    private void InitialSystemSetting()
-    {
- 
-    }
-
-    private void IntroScene()
-    {
-        Camera.main.orthographicSize = 3.7f;
-  
-        m_loadScene.SetActive(true);
-        SystemPause.g_instance.Pause(PauseReason.Intro);
-    }
-
     public void SaveGame()
     {
         DBToJson.SaveCharToken(MgToken.GetInstance().GetNpcPlayerList().ToArray(), GameLoad.Load);
