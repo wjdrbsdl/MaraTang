@@ -17,6 +17,7 @@ public class NationTechTree
     private int m_techClass;
     private int[] m_techValues;
     public OrderCostData ResearchCostData;
+    public OrderCostData TechEffectData;
 
     public NationTechTree(List<int[]> matchCode, string[] _parsingData)
     {
@@ -28,7 +29,8 @@ public class NationTechTree
         //학습 비용 적어놓은 칸이 있으면
         int costIndex = 4; //구글 sheet상 열 인덱스
         ResearchCostData = GameUtil.ParseCostDataArray(_parsingData, costIndex);
-
+        int effectIndex = 5;
+        TechEffectData = GameUtil.ParseCostDataArray(_parsingData, effectIndex);
     }
 
     public int GetPid()
