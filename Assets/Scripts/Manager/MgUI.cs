@@ -110,10 +110,16 @@ public class MgUI : MgGeneric<MgUI>
             foreach(KeyValuePair<int, NationTechTree> tech in MgMasterData.GetInstance().GetTechDic())
             {
                 NationTechTree techTree = tech.Value;
-                OrderCostData researchCostData = techTree.ResearchCostData;
+                TItemListData researchCostData = techTree.ResearchCostData;
                 bool isAble = tileNation.CheckInventory(researchCostData);
-            //    Debug.Log(techTree.GetTechName()+" 학습 가능 여부 "+ isAble);
-      
+                //    Debug.Log(techTree.GetTechName()+" 학습 가능 여부 "+ isAble);
+
+                TItemListData effectData = techTree.TechEffectData;
+                List<TOrderItem> effectList = effectData.GetItemList();
+                for (int i = 0; i < effectList.Count; i++)
+                {
+
+                }
             }
        
             ShowNationPolicy(tileNation);

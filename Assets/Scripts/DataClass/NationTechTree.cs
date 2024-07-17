@@ -16,8 +16,8 @@ public class NationTechTree
     private string m_techName;
     private int m_techClass;
     private int[] m_techValues;
-    public OrderCostData ResearchCostData;
-    public OrderCostData TechEffectData;
+    public TItemListData ResearchCostData;
+    public TItemListData TechEffectData;
 
     public NationTechTree(List<int[]> matchCode, string[] _parsingData)
     {

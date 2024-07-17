@@ -230,7 +230,7 @@ public class TileTypeData {
     public int TypePID;
     public int[] AbleTileActionPID;
     public int BuildCost;
-    public OrderCostData BuildCostData;
+    public TItemListData BuildCostData;
     public TileTypeData(string[] _parsingData)
     {
         TypePID = int.Parse(_parsingData[0]);

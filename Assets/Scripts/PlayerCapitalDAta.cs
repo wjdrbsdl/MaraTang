@@ -38,9 +38,9 @@ public class PlayerCapitalData : ITradeCustomer
     }
     #endregion
 
-    public bool CheckInventory(OrderCostData _costData)
+    public bool CheckInventory(TItemListData _costData)
     {
-        List<TOrderItem> BuildCostList = _costData.GetCostList();
+        List<TOrderItem> BuildCostList = _costData.GetItemList();
         for (int i = 0; i < BuildCostList.Count; i++)
         {
             Debug.LogFormat("{0}그룹의 {1} 인덱스의 필요수량 {2}", BuildCostList[i].Tokentype, BuildCostList[i].SubIdx, BuildCostList[i].Value);
@@ -65,9 +65,9 @@ public class PlayerCapitalData : ITradeCustomer
         return true;
     }
 
-    public void PayCostData(OrderCostData _costData, bool _isPay = true)
+    public void PayCostData(TItemListData _costData, bool _isPay = true)
     {
-        List<TOrderItem> BuildCostList = _costData.GetCostList();
+        List<TOrderItem> BuildCostList = _costData.GetItemList();
         for (int i = 0; i < BuildCostList.Count; i++)
         {
             TokenType costType = BuildCostList[i].Tokentype;

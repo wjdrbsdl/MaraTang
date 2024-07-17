@@ -369,7 +369,7 @@ public class Nation : ITradeCustomer
 
         //변경 가능한 상태라면
         //  Debug.Log("영토 운영 정책 수행 완료");
-        OrderCostData changeCost = MgMasterData.GetInstance().GetTileData(_planIndex).BuildCostData;
+        TItemListData changeCost = MgMasterData.GetInstance().GetTileData(_planIndex).BuildCostData;
         PayCostData(changeCost);
         planTile.ChangeTileType((TileType)_planIndex); //플랜 idx 타입으로 토지변경
         return true;
@@ -400,7 +400,7 @@ public class Nation : ITradeCustomer
 
      //   Debug.Log(m_planIndex + "번 테크 연구 완료");
         //1.비용내고
-        OrderCostData costData = MgMasterData.GetInstance().GetTechData(_planIndex).ResearchCostData;
+        TItemListData costData = MgMasterData.GetInstance().GetTechData(_planIndex).ResearchCostData;
         PayCostData(costData);
         //2.완료 기록하고
         CompleteTech(_planIndex);
@@ -441,7 +441,7 @@ public class Nation : ITradeCustomer
             //  Debug.Log("토지 변경 불가능한 상태");
             return false;
         }
-        OrderCostData changeCost = MgMasterData.GetInstance().GetTileData(_planIndex).BuildCostData;
+        TItemListData changeCost = MgMasterData.GetInstance().GetTileData(_planIndex).BuildCostData;
         //  Debug.Log((TileType)m_planIndex + "로 변경하려는 중");
         if (CheckInventory(changeCost) == false)
         {
@@ -477,7 +477,7 @@ public class Nation : ITradeCustomer
         {
             return false;
         }
-        OrderCostData costData = MgMasterData.GetInstance().GetTechData(_techPid).ResearchCostData;
+        TItemListData costData = MgMasterData.GetInstance().GetTechData(_techPid).ResearchCostData;
         return CheckInventory(costData);
     }
 
@@ -531,9 +531,9 @@ public class Nation : ITradeCustomer
         m_resources[(int)_capital] += _value;
     }
 
-    public bool CheckInventory(OrderCostData _costData)
+    public bool CheckInventory(TItemListData _costData)
     {
-        List<TOrderItem> BuildCostList = _costData.GetCostList();
+        List<TOrderItem> BuildCostList = _costData.GetItemList();
       
         for (int i = 0; i < BuildCostList.Count; i++)
         {
@@ -572,9 +572,9 @@ public class Nation : ITradeCustomer
         return true;
     }
 
-    public void PayCostData(OrderCostData _costData, bool _isPay = true)
+    public void PayCostData(TItemListData _costData, bool _isPay = true)
     {
-        List<TOrderItem> BuildCostList = _costData.GetCostList();
+        List<TOrderItem> BuildCostList = _costData.GetItemList();
   
         for (int i = 0; i < BuildCostList.Count; i++)
         {

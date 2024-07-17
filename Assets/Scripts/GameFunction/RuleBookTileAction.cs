@@ -60,9 +60,9 @@ public class RuleBookTileAction
         }
     }
 
-    public OrderCostData GetTileChangeCost(TileType _tileType)
+    public TItemListData GetTileChangeCost(TileType _tileType)
     {
-        OrderCostData costData = MgMasterData.GetInstance().GetTileData((int)_tileType).BuildCostData;
+        TItemListData costData = MgMasterData.GetInstance().GetTileData((int)_tileType).BuildCostData;
         return costData;
     }
 
@@ -104,7 +104,7 @@ public class RuleBookTileAction
     private void GiveMoney(SelectItemInfo _selectInfo)
     {
         List<TOrderItem> selectItem = _selectInfo.GetSelectList(); ;
-        OrderCostData costData = new OrderCostData(selectItem);
+        TItemListData costData = new TItemListData(selectItem);
         _selectInfo.Giver.PayCostData(costData);
         _selectInfo.Taker.PayCostData(costData, false);
         

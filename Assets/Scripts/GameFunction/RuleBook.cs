@@ -391,7 +391,7 @@ public class RuleBook
     public void MixCapital(List<(Capital, int)> _resources)
     {
         PlayerCapitalData playerCapital = PlayerCapitalData.g_instance;
-        OrderCostData costData = new OrderCostData(_resources);
+        TItemListData costData = new TItemListData(_resources);
         if (playerCapital.CheckInventory(costData) == false)
         {
             Announcer.Instance.AnnounceState("합성 재료 부족", true);
@@ -399,7 +399,7 @@ public class RuleBook
         }
         playerCapital.PayCostData(costData);//사용한만큼 감소 시키고
         (Capital, int) mixed = m_capitalRecipe.MixCapital(_resources);
-        OrderCostData mixedData = new OrderCostData(mixed);
+        TItemListData mixedData = new TItemListData(mixed);
         bool isPay = false; //지불이 아님
         playerCapital.PayCostData(mixedData, isPay); //얻은 만큼 추가 시키고 
     }

@@ -556,9 +556,9 @@ public static class GameUtil
         doneAct?.Invoke(); //보통은 GameManager에 작업 완료했음을 알림. 
     }
 
-    public static OrderCostData ParseCostDataArray(string[] _parsingData, int _costIndex)
+    public static TItemListData ParseCostDataArray(string[] _parsingData, int _costIndex)
     {
-        OrderCostData orderCostData = new OrderCostData();
+        TItemListData orderCostData = new TItemListData();
         //파싱 데이터 배열 해당 index에 자료가 있는지 체크 없으면 반환. 
         if(_parsingData.Length <= _costIndex)
         {
