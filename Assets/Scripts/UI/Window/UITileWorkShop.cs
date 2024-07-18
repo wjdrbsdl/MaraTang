@@ -79,7 +79,7 @@ public class UITileWorkShop : UIBase
 
     private void SetPlace(TokenTile _selectedTile)
     {
-        int[] place = MgMasterData.GetInstance().GetTileData(_selectedTile.GetPid()).Places;
+        int[] place = MgMasterData.GetInstance().GetTileData((int)_selectedTile.GetTileType()).Places;
         MakeSamplePool<BtnPlace>(ref m_placeButtones, m_placeButtonSample.gameObject, place.Length, m_placeBox);
         //버튼 세팅
         SetPlaceButtons(place);
