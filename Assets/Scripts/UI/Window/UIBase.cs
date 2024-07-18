@@ -53,9 +53,15 @@ public class UIBase : MonoBehaviour
         MgUI.GetInstance().PushUIStack(this); //해당 유아이를 넣어보자. 
     }
 
-    public virtual void OpenWindow()
+    public virtual void RequestOpen()
     {
         Switch(true);
+    }
+
+    public virtual void ReqeustOff()
+    {
+        //다른사정없으면 기본적으로 스위치 종료. 
+        Switch(false);
     }
 
     #region UI Slot 셋팅

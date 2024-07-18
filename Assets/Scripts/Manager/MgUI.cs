@@ -30,7 +30,7 @@ public class MgUI : MgGeneric<MgUI>
 
     [SerializeField] private UIShowcase m_shocaseUI;
 
-  
+    #region 인터페이스 오픈
     public void ShowCharActionList()
     {
         //플레이어 캐릭터 눌렀을 때
@@ -125,6 +125,8 @@ public class MgUI : MgGeneric<MgUI>
 
     }
 
+    #endregion
+
     #region 현황 데이터 표기
     public void ResetCapitalInfo(PlayerCapitalData _capitalData)
     {
@@ -194,7 +196,7 @@ public class MgUI : MgGeneric<MgUI>
         {
             //마지막 UI를 꺼내서 취소 -> 취소 버튼으로 취소 가능한지 여부는 알아서 판단
             UIBase ui = m_uiStack.Peek();
-            ui.Switch(false); //끌때는 최종 offWindow()가 호출 override로 각 UI에서 상황 따져서 종료, 종료한다면 PopUIStack() 호출 할것. 
+            ui.ReqeustOff();
         }
     }
 
