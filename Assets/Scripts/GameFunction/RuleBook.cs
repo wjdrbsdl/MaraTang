@@ -290,12 +290,12 @@ public class RuleBook
         return false;
     }
 
-    public TokenAction[] RequestTileActions(TokenTile _tile)
+    public TokenAction[] RequestTileActions(TileType _tileType)
     {
         //해당 타일을 가지고 가능한 액션을 뽑아줌. 
         List<TokenAction> ableList = new List<TokenAction>();
         //1.해당 타일의 pid를 확인
-        int tileType = (int)_tile.tileType;
+        int tileType = (int)_tileType;
         //2. pid에 맞는 타일 데이터 가져옴
         TileTypeData tileData = MgMasterData.GetInstance().GetTileData(tileType); //해당 타입의 타일데이터를 가져옴
         if (tileData == null)

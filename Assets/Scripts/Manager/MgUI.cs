@@ -114,19 +114,14 @@ public class MgUI : MgGeneric<MgUI>
                 bool isAble = tileNation.CheckInventory(researchCostData);
                 //    Debug.Log(techTree.GetTechName()+" 학습 가능 여부 "+ isAble);
 
-                TItemListData effectData = techTree.TechEffectData;
-                List<TOrderItem> effectList = effectData.GetItemList();
-                for (int i = 0; i < effectList.Count; i++)
-                {
-                    Debug.LogFormat("{0}번 타입의 {1}번 류를 {2}만큼 상승", effectList[i].Tokentype, effectList[i].SubIdx, effectList[i].Value);
-                }
+                tileNation.TechPart.CompleteTech(techTree.GetPid());
             }
-       
-            ShowNationPolicy(tileNation);
+            tileNation.TechPart.CalTechEffect();
+           // ShowNationPolicy(tileNation);
         }
 
         PushUIStack(m_tileWorkShopUI);
-        m_tileWorkShopUI.SetTileWorkShopInfo(_tile);
+        m_tileWorkShopUI.SetTileWorkShopInfo(_tile, _tile.GetTileType());
 
     }
 

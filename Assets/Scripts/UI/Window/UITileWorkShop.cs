@@ -28,41 +28,32 @@ public class UITileWorkShop : UIBase
     private BtnOccupy m_occupyButton; //토지 점령 버튼
     private int setCount = 0;
 
-    public void SetTileWorkShopInfo(TokenTile _tile)
+
+    public void SetTileWorkShopInfo(TokenTile _tile, TileType _tileType)
     {
         Switch(true);
         TokenTile _selectedTile = _tile;
        // Debug.Log(_tile.GetTileType());
-        bool inMain = IsInMainChar(_selectedTile);
+      
         //Debug.Log("메인 캐릭 있다 " + inMain);
-        SetTileWorkAction(_selectedTile);
-        SetPlace(_selectedTile);
+        SetTileWorkAction(_selectedTile, _tileType);
+        SetPlace(_selectedTile, _tileType);
         SetResourceInfo(_selectedTile);
         SetOccupyButton(_selectedTile);
         SetTileStat(_selectedTile);
     }
 
-    //타일 액션을 수행할 수 있는 캐릭이 안에 있어야 가능
-    private bool IsInMainChar(TokenTile _tile)
+    #region UI 세팅
+    private void SetTileWorkAction(TokenTile _selectedTile, TileType _tileType)
     {
-        List<TokenChar> chars = _tile.GetCharsInTile();
-        for (int i = 0; i < chars.Count; i++)
-        {
-            if (chars[i].isMainChar)
-                return true;
-        }
-        return false;
-    }
-
-    private void SetTileWorkAction(TokenTile _selectedTile)
-    {
-        TokenAction[] tileWorks = GamePlayMaster.GetInstance().RuleBook.RequestTileActions(_selectedTile);
+        TokenAction[] tileWorks = GamePlayMaster.GetInstance().RuleBook.RequestTileActions(_tileType);
         setCount = tileWorks.Length;
         //사용하는 만큼 버튼 활성화 
         MakeSamplePool<BtnTileWorkShop>(ref m_workButtones, m_workButtonSample.gameObject, setCount, m_tileActionBox);
         //버튼 세팅
         SetActionButtons(_selectedTile, tileWorks);
     }
+
     private void SetActionButtons(TokenTile _tile, TokenAction[] _workes)
     {
 
@@ -77,21 +68,21 @@ public class UITileWorkShop : UIBase
         }
     }
 
-    private void SetPlace(TokenTile _selectedTile)
+    private void SetPlace(TokenTile _selectedTile, TileType _tileType)
     {
-        int[] place = MgMasterData.GetInstance().GetTileData((int)_selectedTile.GetTileType()).Places;
+        int[] place = MgMasterData.GetInstance().GetTileData((int)_tileType).Places;
         MakeSamplePool<BtnPlace>(ref m_placeButtones, m_placeButtonSample.gameObject, place.Length, m_placeBox);
         //버튼 세팅
-        SetPlaceButtons(place);
+        SetPlaceButtons(_selectedTile, place);
     }
 
-    private void SetPlaceButtons(int[] _place)
+    private void SetPlaceButtons(TokenTile _selectedTile, int[] _place)
     {
         //입장 가능한 장소를 버튼으로 만들어서 정렬
         for (int i = 0; i < _place.Length; i++)
         {
             m_placeButtones[i].SetActive(true);
-            m_placeButtones[i].SetButton((TileType)_place[i], this);
+            m_placeButtones[i].SetButton(_selectedTile, (TileType)_place[i], this);
         }
         for (int dontUse = _place.Length; dontUse < m_placeButtones.Length; dontUse++)
         {
@@ -99,7 +90,6 @@ public class UITileWorkShop : UIBase
         }
     }
     
-
     private void SetResourceInfo(TokenTile _tile)
     {
         int mainType = _tile.GetStat(TileStat.MainResource);
@@ -146,6 +136,12 @@ public class UITileWorkShop : UIBase
         m_occupyButton.SetButton(_tile, this); 
         
     }
+    #endregion
 
+    public void EnterPlace(TokenTile _tile, TileType _tileType)
+    {
+        //해당 장소에서 다른 장소로 이동시 
+        SetTileWorkShopInfo(_tile, _tileType);
+    }
 
- }
+}
