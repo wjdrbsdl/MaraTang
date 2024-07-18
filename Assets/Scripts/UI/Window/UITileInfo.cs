@@ -147,9 +147,10 @@ public class UITileInfo : UIBase
 
     public void EnterPlace(TokenTile _tile, TileType _tileType)
     {
-        //해당 장소에서 다른 장소로 이동시 
+        //이미 UI가 켜진 해당 장소에서 내부 장소로 이동시 
         //1. 현재 위치를 스택에 추가 
-        m_placeStack.Push(m_curType); 
+        m_placeStack.Push(m_curType);
+        //2. 들어갈 장소로 다시 타일 정보 세팅 
         SetTileInfo(_tile, _tileType);
     }
 
@@ -170,4 +171,10 @@ public class UITileInfo : UIBase
         SetTileInfo(m_curTile, priorPlace);
     }
 
+    public void ForceOut()
+    {
+        //강제 아웃시
+        m_placeStack.Clear();
+        Switch(false);
+    }
 }
