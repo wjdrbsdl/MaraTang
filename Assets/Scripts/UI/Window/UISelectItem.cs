@@ -18,7 +18,7 @@ public class UISelectItem : UIBase
     #region 슬랏으로 정보 표기
     public void SetSelectedInfo(SelectItemInfo _selectInfo)
     {
-        base.OpenWindow();
+        Switch(true);
         m_selectInfo = _selectInfo;
         _selectInfo.SelectUI = this;
         //1. 아이템 수만큼 showSlot을 생성
