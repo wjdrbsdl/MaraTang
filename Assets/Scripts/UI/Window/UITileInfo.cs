@@ -5,6 +5,7 @@ using TMPro;
 
 public class UITileInfo : UIBase
 {
+    #region 변수
     //해당 타일의 정보 표기 및 타일에서 할 수 있는 작업을 제공하는 UI
     [SerializeField]
     private TMP_Text m_statText; //토지 스텟 표기 
@@ -27,31 +28,35 @@ public class UITileInfo : UIBase
     [SerializeField]
     private BtnOccupy m_occupyButton; //토지 점령 버튼
     private int setCount = 0;
+    #endregion
 
-
+    Stack<TileType> m_placeStack = new(); //입장한 로드 
+    TileType m_curType = TileType.Nomal;
+    TokenTile m_curTile = null;
     public void SetTileInfo(TokenTile _tile, TileType _tileType)
     {
         Switch(true);
-        TokenTile _selectedTile = _tile;
+        m_curTile = _tile;
+        m_curType = _tileType;
        // Debug.Log(_tile.GetTileType());
       
         //Debug.Log("메인 캐릭 있다 " + inMain);
-        SetTileAction(_selectedTile, _tileType);
-        SetPlace(_selectedTile, _tileType);
-        SetResourceInfo(_selectedTile);
-        SetOccupyButton(_selectedTile);
-        SetTileStat(_selectedTile);
+        SetTileAction();
+        SetPlace();
+        SetResourceInfo();
+        SetOccupyButton();
+        SetTileStat();
     }
 
     #region UI 세팅
-    private void SetTileAction(TokenTile _selectedTile, TileType _tileType)
+    private void SetTileAction()
     {
-        TokenAction[] tileWorks = GamePlayMaster.GetInstance().RuleBook.RequestTileActions(_tileType);
+        TokenAction[] tileWorks = GamePlayMaster.GetInstance().RuleBook.RequestTileActions(m_curType);
         setCount = tileWorks.Length;
         //사용하는 만큼 버튼 활성화 
         MakeSamplePool<BtnTileWorkShop>(ref m_workButtones, m_workButtonSample.gameObject, setCount, m_tileActionBox);
         //버튼 세팅
-        SetActionButtons(_selectedTile, tileWorks);
+        SetActionButtons(m_curTile, tileWorks);
     }
 
     private void SetActionButtons(TokenTile _tile, TokenAction[] _workes)
@@ -68,12 +73,12 @@ public class UITileInfo : UIBase
         }
     }
 
-    private void SetPlace(TokenTile _selectedTile, TileType _tileType)
+    private void SetPlace()
     {
-        int[] place = MgMasterData.GetInstance().GetTileData((int)_tileType).Places;
+        int[] place = MgMasterData.GetInstance().GetTileData((int)m_curType).Places;
         MakeSamplePool<BtnPlace>(ref m_placeButtones, m_placeButtonSample.gameObject, place.Length, m_placeBox);
         //버튼 세팅
-        SetPlaceButtons(_selectedTile, place);
+        SetPlaceButtons(m_curTile, place);
     }
 
     private void SetPlaceButtons(TokenTile _selectedTile, int[] _place)
@@ -90,15 +95,16 @@ public class UITileInfo : UIBase
         }
     }
     
-    private void SetResourceInfo(TokenTile _tile)
+    private void SetResourceInfo()
     {
-        int mainType = _tile.GetStat(TileStat.MainResource);
-        int value = _tile.GetStat(TileStat.TileEnergy);
+        int mainType = m_curTile.GetStat(TileStat.MainResource);
+        int value = m_curTile.GetStat(TileStat.TileEnergy);
       //  Debug.Log((TokenTile.MainResource)mainType+" 해당 용도에서 등급은" + value);
     }
 
-    private void SetTileStat(TokenTile _tile)
+    private void SetTileStat()
     {
+        TokenTile _tile = m_curTile;
         //현재 땅의 스텟 정보를 보여주기 
         MainResource mainResource = (MainResource)_tile.GetStat(TileStat.MainResource);
         TileType tileType = _tile.GetTileType();
@@ -121,8 +127,9 @@ public class UITileInfo : UIBase
         }
     }
 
-    private void SetOccupyButton(TokenTile _tile)
+    private void SetOccupyButton()
     {
+        TokenTile _tile = m_curTile;
         // 점령 버튼 
         //1.불가능하면 버튼 끄고 종료
         if (GamePlayMaster.GetInstance().RuleBook.AbleOccupy(_tile) == false)
@@ -141,7 +148,26 @@ public class UITileInfo : UIBase
     public void EnterPlace(TokenTile _tile, TileType _tileType)
     {
         //해당 장소에서 다른 장소로 이동시 
+        //1. 현재 위치를 스택에 추가 
+        m_placeStack.Push(m_curType); 
         SetTileInfo(_tile, _tileType);
+    }
+
+    public override void ReqeustOff()
+    {
+        OutPlace();
+    }
+
+    public void OutPlace()
+    {
+        if(m_placeStack.Count == 0)
+        {
+            //돌아갈 장소가 없으면 uioff
+            Switch(false);
+            return;
+        }
+        TileType priorPlace = m_placeStack.Pop();
+        SetTileInfo(m_curTile, priorPlace);
     }
 
 }

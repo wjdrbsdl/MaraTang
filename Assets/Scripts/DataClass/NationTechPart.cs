@@ -67,7 +67,7 @@ public class NationTechPart
 
         for (int i = 0; i < m_nationStatEffectList.Count; i++)
         {
-            Debug.LogFormat("{0}번 타입의 {1}번 류를 {2}만큼 상승", m_nationStatEffectList[i].Tokentype, m_nationStatEffectList[i].SubIdx, m_nationStatEffectList[i].Value);
+           // Debug.LogFormat("{0}번 타입의 {1}번 류를 {2}만큼 상승", m_nationStatEffectList[i].Tokentype, m_nationStatEffectList[i].SubIdx, m_nationStatEffectList[i].Value);
         }
     }
 
