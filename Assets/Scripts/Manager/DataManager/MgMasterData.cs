@@ -229,8 +229,8 @@ public class MgMasterData : Mg<MgMasterData>
 public class TileTypeData {
     public int TypePID;
     public int[] AbleTileActionPID;
-    public int BuildCost;
     public TItemListData BuildCostData;
+    public int[] Places;
     public TileTypeData(string[] _parsingData)
     {
         TypePID = int.Parse(_parsingData[0]);
@@ -241,15 +241,28 @@ public class TileTypeData {
         {
             AbleTileActionPID[i] = int.Parse(divideAble[i]);
         }
-        BuildCost = int.Parse(_parsingData[3]);
 
-        int buildCostIdx = 5;
+        int buildCostIdx = 3;
         if (_parsingData.Length > buildCostIdx)
         {
             // CostData =  토큰그룹_pid_수량 으로 구성
             BuildCostData = GameUtil.ParseCostDataArray(_parsingData, buildCostIdx);
         }
-        
+
+        int subSpaceIdx = 4;
+        Places = new int[] { };
+        if (_parsingData.Length > subSpaceIdx)
+        {
+            string subables = _parsingData[subSpaceIdx]; //가능한 작업이 나열되어있음
+            string[] subAble = subables.Trim().Split(MgMasterData.DIVIDECHAR);
+            Places = new int[subAble.Length];
+            for (int i = 0; i < subAble.Length; i++)
+            {
+                Places[i] = int.Parse(subAble[i]);
+                Debug.Log("가능한 서브 건물 " + Places[i]);
+            }
+        }
+
     }
 }
 
