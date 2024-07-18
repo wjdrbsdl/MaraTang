@@ -686,6 +686,20 @@ public static class GameUtil
     }
     #endregion
 
+    public static bool IsInMainChar(TokenTile _tile)
+    {
+        //해당 타일에 메인케릭이 있는지 체크 
+
+        List<TokenChar> chars = _tile.GetCharsInTile();
+        for (int i = 0; i < chars.Count; i++)
+        {
+            if (chars[i].isMainChar)
+                return true;
+        }
+        return false;
+
+    }
+
     public static List<int> GetRandomNum(int _length, int _randomCount)
     {
         //범위에서 랜덤으로 숫자 count만큼 뽑기
