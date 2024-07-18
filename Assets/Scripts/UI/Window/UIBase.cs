@@ -43,7 +43,7 @@ public class UIBase : MonoBehaviour
 
     public virtual void OffWindow()
     {
-
+        MgUI.GetInstance().PopUIStack();
     }
 
     public virtual void OnWindow()
