@@ -35,7 +35,7 @@ public class TechTreeSelector
     {
         for (int i = 0; i < techTree.Count; i++)
         {
-            int treeClass = techTree[i].GetTechValue(TechTreeStat.Class);
+            int treeClass = techTree[i].GetTechClass();
             //다른 클래스면 넘기고
             if (treeClass.Equals(_class) == false)
                 continue;

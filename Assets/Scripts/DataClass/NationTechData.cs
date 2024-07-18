@@ -5,7 +5,7 @@ using UnityEngine;
 
 public enum TechTreeStat
 {
-    Class, NeedTurn, NeedWood, NeedMineral
+    Class, NeedTurn
 }
 
 public class NationTechData
@@ -15,7 +15,7 @@ public class NationTechData
     private int m_techPid;
     private string m_techName;
     private int m_techClass;
-    private int[] m_techValues;
+
     public TItemListData ResearchCostData;
     public TItemListData TechEffectData;
 
@@ -24,8 +24,6 @@ public class NationTechData
         m_techPid = int.Parse(_parsingData[0]);
         m_techName = _parsingData[1];
         m_techClass = (int.Parse(_parsingData[2]));
-        m_techValues = new int[GameUtil.EnumLength(TechTreeStat.Class)];
-        GameUtil.InputMatchValue(ref m_techValues, matchCode, _parsingData);
         //학습 비용 적어놓은 칸이 있으면
         int costIndex = 4; //구글 sheet상 열 인덱스
         ResearchCostData = GameUtil.ParseCostDataArray(_parsingData, costIndex);
@@ -43,8 +41,8 @@ public class NationTechData
         return m_techName;
     }
 
-    public int GetTechValue(TechTreeStat _stat)
+    public int GetTechClass()
     {
-        return m_techValues[(int)_stat];
+        return m_techClass;
     }
 }
