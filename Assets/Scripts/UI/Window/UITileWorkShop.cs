@@ -16,8 +16,17 @@ public class UITileWorkShop : UIBase
     private BtnTileWorkShop m_workButtonSample;
     [SerializeField]
     private BtnTileWorkShop[] m_workButtones;
+
+    [SerializeField]
+    private Transform m_placeBox; //액션 리스트 버튼 담을 장소
+    [SerializeField]
+    private BtnPlace m_placeButtonSample;
+    [SerializeField]
+    private BtnPlace[] m_placeButtones;
+
     [SerializeField]
     private BtnOccupy m_occupyButton; //토지 점령 버튼
+    private int setCount = 0;
 
     public void SetTileWorkShopInfo(TokenTile _tile)
     {
@@ -26,12 +35,8 @@ public class UITileWorkShop : UIBase
        // Debug.Log(_tile.GetTileType());
         bool inMain = IsInMainChar(_selectedTile);
         //Debug.Log("메인 캐릭 있다 " + inMain);
-        TokenAction[] tileWorks = GamePlayMaster.GetInstance().RuleBook.RequestTileActions(_selectedTile);
-        setCount = tileWorks.Length;
-        //사용하는 만큼 버튼 활성화 
-        MakeSamplePool<BtnTileWorkShop>(ref m_workButtones, m_workButtonSample.gameObject, setCount, m_tileActionBox);
-        //버튼 세팅
-        SetButtons(_selectedTile, tileWorks);
+        SetTileWorkAction(_selectedTile);
+        SetPlace(_selectedTile);
         SetResourceInfo(_selectedTile);
         SetOccupyButton(_selectedTile);
         SetTileStat(_selectedTile);
@@ -47,6 +52,59 @@ public class UITileWorkShop : UIBase
                 return true;
         }
         return false;
+    }
+
+    private void SetTileWorkAction(TokenTile _selectedTile)
+    {
+        TokenAction[] tileWorks = GamePlayMaster.GetInstance().RuleBook.RequestTileActions(_selectedTile);
+        setCount = tileWorks.Length;
+        //사용하는 만큼 버튼 활성화 
+        MakeSamplePool<BtnTileWorkShop>(ref m_workButtones, m_workButtonSample.gameObject, setCount, m_tileActionBox);
+        //버튼 세팅
+        SetActionButtons(_selectedTile, tileWorks);
+    }
+    private void SetActionButtons(TokenTile _tile, TokenAction[] _workes)
+    {
+
+        for (int i = 0; i < setCount; i++)
+        {
+            m_workButtones[i].SetActive(true);
+            m_workButtones[i].SetButtonInfo(_tile, _workes[i]);
+        }
+        for (int i = setCount; i < m_workButtones.Length; i++)
+        {
+            m_workButtones[i].SetActive(false);
+        }
+    }
+
+    private void SetPlace(TokenTile _selectedTile)
+    {
+        int[] place = MgMasterData.GetInstance().GetTileData(_selectedTile.GetPid()).Places;
+        MakeSamplePool<BtnPlace>(ref m_placeButtones, m_placeButtonSample.gameObject, place.Length, m_placeBox);
+        //버튼 세팅
+        SetPlaceButtons(place);
+    }
+
+    private void SetPlaceButtons(int[] _place)
+    {
+        //입장 가능한 장소를 버튼으로 만들어서 정렬
+        for (int i = 0; i < _place.Length; i++)
+        {
+            m_placeButtones[i].SetActive(true);
+            m_placeButtones[i].SetButton((TileType)_place[i], this);
+        }
+        for (int dontUse = _place.Length; dontUse < m_placeButtones.Length; dontUse++)
+        {
+            m_placeButtones[dontUse].SetActive(false);
+        }
+    }
+    
+
+    private void SetResourceInfo(TokenTile _tile)
+    {
+        int mainType = _tile.GetStat(TileStat.MainResource);
+        int value = _tile.GetStat(TileStat.TileEnergy);
+      //  Debug.Log((TokenTile.MainResource)mainType+" 해당 용도에서 등급은" + value);
     }
 
     private void SetTileStat(TokenTile _tile)
@@ -71,28 +129,6 @@ public class UITileWorkShop : UIBase
                 (Capital)3, nation.GetResourceAmount((Capital)3));
             m_nationText.text = nationStat;
         }
-    }
-
-    int setCount = 0;
-    private void SetButtons(TokenTile _tile, TokenAction[] _workes)
-    {
-        
-        for (int i = 0; i < setCount; i++)
-        {
-            m_workButtones[i].SetActive(true);
-            m_workButtones[i].SetButtonInfo(_tile, _workes[i]);
-        }
-        for (int i = setCount; i < m_workButtones.Length; i++)
-        {
-            m_workButtones[i].SetActive(false);
-        }
-    }
-
-    private void SetResourceInfo(TokenTile _tile)
-    {
-        int mainType = _tile.GetStat(TileStat.MainResource);
-        int value = _tile.GetStat(TileStat.TileEnergy);
-      //  Debug.Log((TokenTile.MainResource)mainType+" 해당 용도에서 등급은" + value);
     }
 
     private void SetOccupyButton(TokenTile _tile)
