@@ -9,7 +9,7 @@ public class MgUI : MgGeneric<MgUI>
     [Header("액션")]
     [SerializeField] private UIActionTokenBox m_actionTokenBox;
     [SerializeField] private UIRewardChoose m_rewardChooseUI;
-    [SerializeField] private UITileWorkShop m_tileWorkShopUI;
+    [SerializeField] private UITileInfo m_tileWorkShopUI;
     [SerializeField] private UICharStats m_charStatUI;
     [SerializeField] private UICaptailMix m_capitalMixUI;
     [SerializeField] private UICapitalChange m_capitalChangeUI;
@@ -121,7 +121,7 @@ public class MgUI : MgGeneric<MgUI>
         }
 
         PushUIStack(m_tileWorkShopUI);
-        m_tileWorkShopUI.SetTileWorkShopInfo(_tile, _tile.GetTileType());
+        m_tileWorkShopUI.SetTileInfo(_tile, _tile.GetTileType());
 
     }
 

@@ -7,10 +7,10 @@ public class BtnPlace : MonoBehaviour
 {
     private TokenTile m_tile;
     private TileType m_tileType;
-    private UITileWorkShop m_tileInfoUI;
+    private UITileInfo m_tileInfoUI;
     [SerializeField] private TMP_Text m_placeText;
 
-    public void SetButton(TokenTile _tile, TileType _tileType, UITileWorkShop _motherUI)
+    public void SetButton(TokenTile _tile, TileType _tileType, UITileInfo _motherUI)
     {
         m_tile = _tile;
         m_tileType = _tileType;

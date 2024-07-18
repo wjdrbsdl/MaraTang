@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class UITileWorkShop : UIBase
+public class UITileInfo : UIBase
 {
     //해당 타일의 정보 표기 및 타일에서 할 수 있는 작업을 제공하는 UI
     [SerializeField]
@@ -29,14 +29,14 @@ public class UITileWorkShop : UIBase
     private int setCount = 0;
 
 
-    public void SetTileWorkShopInfo(TokenTile _tile, TileType _tileType)
+    public void SetTileInfo(TokenTile _tile, TileType _tileType)
     {
         Switch(true);
         TokenTile _selectedTile = _tile;
        // Debug.Log(_tile.GetTileType());
       
         //Debug.Log("메인 캐릭 있다 " + inMain);
-        SetTileWorkAction(_selectedTile, _tileType);
+        SetTileAction(_selectedTile, _tileType);
         SetPlace(_selectedTile, _tileType);
         SetResourceInfo(_selectedTile);
         SetOccupyButton(_selectedTile);
@@ -44,7 +44,7 @@ public class UITileWorkShop : UIBase
     }
 
     #region UI 세팅
-    private void SetTileWorkAction(TokenTile _selectedTile, TileType _tileType)
+    private void SetTileAction(TokenTile _selectedTile, TileType _tileType)
     {
         TokenAction[] tileWorks = GamePlayMaster.GetInstance().RuleBook.RequestTileActions(_tileType);
         setCount = tileWorks.Length;
@@ -141,7 +141,7 @@ public class UITileWorkShop : UIBase
     public void EnterPlace(TokenTile _tile, TileType _tileType)
     {
         //해당 장소에서 다른 장소로 이동시 
-        SetTileWorkShopInfo(_tile, _tileType);
+        SetTileInfo(_tile, _tileType);
     }
 
 }
