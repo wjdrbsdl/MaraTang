@@ -40,16 +40,16 @@ public class PlayerCapitalData : ITradeCustomer
 
     public bool CheckInventory(TItemListData _costData)
     {
-        List<TOrderItem> BuildCostList = _costData.GetItemList();
-        for (int i = 0; i < BuildCostList.Count; i++)
+        List<TOrderItem> CostList = _costData.GetItemList();
+        for (int i = 0; i < CostList.Count; i++)
         {
-            Debug.LogFormat("{0}그룹의 {1} 인덱스의 필요수량 {2}", BuildCostList[i].Tokentype, BuildCostList[i].SubIdx, BuildCostList[i].Value);
-            TokenType costType = BuildCostList[i].Tokentype;
+          //  Debug.LogFormat("{0}그룹의 {1} 인덱스의 필요수량 {2}", CostList[i].Tokentype, CostList[i].SubIdx, CostList[i].Value);
+            TokenType costType = CostList[i].Tokentype;
             //각 토큰타입의 지불가능 형태를 따져 불가능하면 바로 false 반환 
             switch (costType)
             {
                 case TokenType.Capital:
-                    if (IsEnough((Capital)BuildCostList[i].SubIdx, BuildCostList[i].Value) == false)
+                    if (IsEnough((Capital)CostList[i].SubIdx, CostList[i].Value) == false)
                     {
                         Debug.Log("부족 겜마스터 인벤체크 여부 변수값에 따라 체크");
                         if(GamePlayMaster.GetInstance().m_testCheckPlayerInventory == true)
@@ -57,7 +57,7 @@ public class PlayerCapitalData : ITradeCustomer
                     }
                     break;
                 default:
-                    Debug.Log("고려 파트 아닌 부분");
+                    Debug.LogError("없는 case 토큰타입");
                     break;
             }
         }
