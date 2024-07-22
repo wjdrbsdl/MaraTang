@@ -12972,6 +12972,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: beaf8a8548d61ee4f95489d52b55312f, type: 3}
   - {fileID: 21300000, guid: 100afbdb4b471244bbbbfd5cc02e5144, type: 3}
   - {fileID: 21300000, guid: c8bb9b6788f51aa4a9c8898aa975da4a, type: 3}
+  ActionSlotFrame: {fileID: 21300000, guid: c99634f2b238d440b9b16c06abed4347, type: 3}
+  ActionSlotBackGround: {fileID: 21300000, guid: c2bdd4b29e21a43c296e7d7c09e5752a, type: 3}
 --- !u!1 &1828322848
 GameObject:
   m_ObjectHideFlags: 0

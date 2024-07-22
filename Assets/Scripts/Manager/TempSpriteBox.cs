@@ -18,6 +18,10 @@ public class TempSpriteBox : MgGeneric<TempSpriteBox>
 
     public Sprite[] Chares;
     public Sprite[] HideTiles;
+
+    public Sprite ActionSlotFrame;
+    public Sprite ActionSlotBackGround;
+        
     public Sprite GetTileSprite(TileType _type)
     {
         switch (_type)
