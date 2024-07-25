@@ -87,14 +87,6 @@ public class TokenEvent : TokenBase, IOrderCustomer
         MgToken.GetInstance().RemoveCharToken(this);
     }
 
-    public void MakeEventContent(EOrderType _orderType, List<TOrderItem> _itemList)
-    {
-        //현재 이벤트의 PID와 지정된 값에 따라서 TTokenOrder 생성
-        //오더 메이커에서 일괄적으로 처리 
-        OrderMaker orderMaker = new();
-        TokenOrder = orderMaker.MakeOrder(_orderType, _itemList, this, GameUtil.GetMainCharChunkNum());
-    }
-
     public void OnOrderCallBack(OrderReceipt _orderReceipt) //이벤트 토큰 고객
     {
         Debug.Log("이벤 토큰의 콜백 집행 횟수 "+_orderReceipt.Order.OrderExcuteCount);
