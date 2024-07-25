@@ -39,17 +39,6 @@ public class ContentData
             StageInfo stageInfo = new StageInfo(curStep, situAdapValues[arrayIndex], situationDivdes[arrayIndex], rewardDivdes[arrayIndex], penaltyDivdes[arrayIndex]);
             StageDic.Add(curStep, stageInfo);
         }
-
-        foreach(KeyValuePair<int, StageInfo> a in StageDic)
-        {
-            StageInfo stage = a.Value;
-            List<TOrderItem> itemList = stage.SituationList;
-            for (int i = 0; i < itemList.Count; i++)
-            {
-                TOrderItem item = itemList[i];
-                Debug.LogFormat("{0}타입의 {1}서브 {2} 밸류로 상황 진행", item.Tokentype, item.SubIdx, item.Value);
-            }
-        }
      
     }
 }
