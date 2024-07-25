@@ -15,7 +15,7 @@ public class MGContent : Mg<MGContent>
 
     public enum ContentEnum
     {
-        진행턴, 발생컨텐츠
+        WorldTurnMatch, Clear, ClearCount, 발생컨텐츠
     }
     #endregion
 
@@ -84,48 +84,63 @@ public class MGContent : Mg<MGContent>
 
     private Quest SelectContent()
     {
-        //미리 세팅해둔 컨텐츠 테이블에 따라 수행할것
+        //존재하는 모든 컨텐츠들의 발동조건을 따져서 수행 
 
-        //임시로 3턴 마다 몬스터 퀘스트 수행하도록 
-        GamePlayData data = GamePlayMaster.GetInstance().GetPlayData();
-        int playTime = data.PlayTime;
-        ContentData contentMasterData = MgMasterData.GetInstance().GetContentData(playTime);
-        if(contentMasterData == null)
+        Dictionary<int, ContentData> contentDic = MgMasterData.GetInstance().GetContentDataDic();
+        foreach(KeyValuePair<int, ContentData> pair in contentDic)
         {
-          //  Debug.Log("준비된 퀘스트 없음");
-            return null;
-        }
-            
-        if(playTime == 1)
-        {
-            //어디 청크에서 발현시킬지는 따로 산출
-            m_mainCharChunkNum = GameUtil.GetMainCharChunkNum();
-           // return MakeQuest(EQuestType.SpawnMonster, ERewardType.CharStat, m_mainCharChunkNum);
-            return MakeQuest(contentMasterData, m_mainCharChunkNum); //이벤트 만들던 기존 루트
-        }
-
-        if (data.PlayTime % 3 == 0)
-        {
-            int ranChunkNum = Random.Range(0, m_chunkList.Count);
-            return MakeQuest( contentMasterData, ranChunkNum);
-            //  return MakeQuest(ranChunkNum, 6, 1, EOrderType.CharStat); //몬스터 만들기 기존 루트
+            ContentData curContent = pair.Value;
+            //모든 컨텐츠의 발동조건을 살핌. 
+            if (IsSatisfyAct(curContent.ActConditionList))
+            {
+                //만약 발동조건이 충족한 컨텐츠가 발견되면 
+                int tempChunkNum = 1;
+                return new Quest(curContent, tempChunkNum);
+            }
         }
 
         return null;
     }
 
-    private Quest MakeQuest(ContentData _contentMasterData, int _chunkNum)
+    private bool IsSatisfyAct(List<TOrderItem> _conditionList)
     {
-        Quest newQuest = new Quest(_contentMasterData, _chunkNum);
-        m_questCount += 1;
-        m_QuestList.Add(newQuest); //리스트에 추가 
-  
-        //발현시킬 구역 청크
+        //
+        for (int i = 0; i < _conditionList.Count; i++)
+        {
+            TOrderItem conditionInfo = _conditionList[i]; 
+            TokenType condtionType = conditionInfo.Tokentype;
+            switch (condtionType)
+            {
+                case TokenType.Content:
+                    ContentEnum contentCase = (ContentEnum)conditionInfo.SubIdx;
+                    bool isOk = IsSatisfyCase(contentCase, conditionInfo.Value);
+                    if(isOk == false)
+                    {
+                        return false;
+                    }
+                    break;
+            }
 
-        Chunk chunk = m_chunkList[_chunkNum];
-        chunk.m_Quest = newQuest;
+        }
 
-        return newQuest;
+        return true;
+    }
+
+    private bool IsSatisfyCase(ContentEnum _contentCase, int _value)
+    {
+        Debug.Log(_contentCase + "가 " + _value.ToString() + " 한지 컨텐츠 케이스 조건 확인");
+        switch (_contentCase)
+        {
+            case ContentEnum.WorldTurnMatch:
+                GamePlayData data = GamePlayMaster.GetInstance().GetPlayData();
+                int playTime = data.PlayTime;
+                if(playTime == _value)
+                {
+                    return true;
+                }
+                break;
+        }
+        return false;
     }
 
     #endregion
@@ -136,6 +151,11 @@ public class MGContent : Mg<MGContent>
         if (_quest == null)
             return;
 
+        ContentData contentData = MgMasterData.GetInstance().GetContentData(_quest.QuestPid);
+        StageInfo stage = contentData.StageDic[_quest.CurStep];
+        TTokenOrder order = new TTokenOrder(stage.SituationList, stage.SituAdapCount, _quest);
+        OrderExcutor excutor = new OrderExcutor();
+        excutor.ExcuteOrder(order);
         MgUI.GetInstance().ShowQuest(_quest);
         Chunk chunk = m_chunkList[_quest.ChunkNum];
         chunk.MakePin();

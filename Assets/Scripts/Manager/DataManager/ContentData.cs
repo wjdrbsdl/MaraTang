@@ -10,30 +10,33 @@ public class ContentData
 
     public ContentData(string[] _parsingData)
     {
-       // ContentPid = int.Parse(_parsingData[0]);
+        ContentPid = int.Parse(_parsingData[0]);
         //ConditionType = (EOrderType)int.Parse(_parsingData[1]);
         ActConditionList = new(); //발동조건
         int condtionIdx = 1;
         GameUtil.ParseOrderItemList(ActConditionList, _parsingData, condtionIdx);
         //1. 컨디션의 매인 아이템 리스트 파싱
 
-        int stepIdx = 2;
+        int stepIdx = condtionIdx + 1;
         if (_parsingData.Length <= stepIdx)
             return;
-
         int totalStep = _parsingData[stepIdx].Split(FixedValue.PARSING_LINE_DIVIDE).Length; //단계 수 구함 - 각 단계마다 stage 인포 정해져있음
-        int situationIdx = 3;
+        int situAdaptCount = stepIdx + 1;
+        int situationIdx = situAdaptCount + 1;
+        int rewardIdx = situationIdx + 2;
+        int penaltyIdx = rewardIdx + 2;
+
+        string[] situAdapValues = _parsingData[situAdaptCount].Split(FixedValue.PARSING_LINE_DIVIDE);
         string[] situationDivdes = _parsingData[situationIdx].Split(FixedValue.PARSING_LINE_DIVIDE);
-        int rewardIdx = 5;
         string[] rewardDivdes = _parsingData[rewardIdx].Split(FixedValue.PARSING_LINE_DIVIDE);
-        int penaltyIdx = 7;
         string[] penaltyDivdes = _parsingData[penaltyIdx].Split(FixedValue.PARSING_LINE_DIVIDE);
 
 
         StageDic = new();
         for (int curStep = 1; curStep <= totalStep; curStep++)
         {
-            StageInfo stageInfo = new StageInfo(curStep, situationDivdes[curStep-1], rewardDivdes[curStep-1], penaltyDivdes[curStep-1]);
+            int arrayIndex = curStep - 1;
+            StageInfo stageInfo = new StageInfo(curStep, situAdapValues[arrayIndex], situationDivdes[arrayIndex], rewardDivdes[arrayIndex], penaltyDivdes[arrayIndex]);
             StageDic.Add(curStep, stageInfo);
         }
 
@@ -53,15 +56,18 @@ public class ContentData
 
 public class StageInfo
 {
+    public int SituAdapCount;
     public List<TOrderItem> SituationList; //컨텐츠 수행 상황 리스트
     public List<TOrderItem> RewardList;
     public List<TOrderItem> PenaltyList;
     public int StageNum;
-    public StageInfo(int _stageNum, string _sitautionStrData, string _rewardStrData, string _penaltyStrData)
+    public StageInfo(int _stageNum, string _situAdapStr, string _sitautionStrData, string _rewardStrData, string _penaltyStrData)
     {
         StageNum = _stageNum;
-        SituationList = new();
         bool nonDataAdd = true;
+
+        SituAdapCount = int.Parse(_situAdapStr); //상황조성 조건 중 적용할 수
+        SituationList = new();
         GameUtil.ParseOrderItemList(SituationList, _sitautionStrData, nonDataAdd);
         RewardList = new();
         GameUtil.ParseOrderItemList(RewardList, _rewardStrData, nonDataAdd);

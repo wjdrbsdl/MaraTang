@@ -72,6 +72,11 @@ public class MgMasterData : Mg<MgMasterData>
         return GetDicData<ContentData>(m_contentDataDic, _contentPID);
     }
 
+    public Dictionary<int, ContentData> GetContentDataDic()
+    {
+        return m_contentDataDic;
+    }
+
     public NationTechData GetTechData(int _techPID)
     {
         return GetDicData<NationTechData>(m_nationTechDataDic, _techPID);

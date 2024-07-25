@@ -4,8 +4,6 @@ using UnityEngine;
 public class OrderExcutor
 {
     //T 주문서내용을 받으면 내용을 해석해서 집행시키는 부분. 
-
-
     public void ExcuteOrder(TokenEvent _eventToken)
     {
         ExcuteOrder(_eventToken.TokenOrder);
@@ -13,90 +11,23 @@ public class OrderExcutor
 
     public void ExcuteOrder(TTokenOrder _order)
     {
-        EOrderType orderType = _order.OrderType;
-        //Debug.Log(orderType + "주문 들어옴");
-        switch (orderType)
+        int orderCount = _order.orderItemList.Count;
+        if (orderCount == _order.AdaptItemCount || _order.AdaptItemCount == 0) //0은 마스터데이터에서 임시로 모두 적용할거라고 임시로 약속한 값 
         {
-            case EOrderType.ItemAdapt:
-              //  Debug.Log("나열된 아이템들을 적용");
-                for (int i = 0; i < _order.orderItemList.Count; i++)
-                {
-                    ExcuteOrderItem(_order, i);
-                }
-                break;
-            case EOrderType.ItemSelect:
-              //  Debug.Log("보상으로 들어옴");
-                MgUI.GetInstance().ShowItemList(_order);
-                break;
-            case EOrderType.SpawnMonster:
-                ExcuteSpawnMonster(_order);
-                break;
-            case EOrderType.SpawnEvent:
-                ExcuteSpawnEvent(_order);
-                break;
-        }
-    }
-
-    #region 오더 집행
- 
-    private void ExcuteSpawnMonster(TTokenOrder _order)
-    {
-        List<TOrderItem> charItemList = _order.orderItemList;
-        ESpawnPosType spawnPosType = _order.SpawnPosType;
-        int chunkNum = _order.ChunkNum;
-        for (int orderNum = 0; orderNum < charItemList.Count; orderNum++)
-        {
-            //1. 스폰할 몬스터
-            int tokenPid = charItemList[orderNum].SubIdx;
-            //2. 스폰할 갯수 
-            int spawnCount = charItemList[orderNum].Value;
-            //3. 스폰 장소 - 청크 최대 숫자중, 스폿 카운트 만큼 뽑기 진행
-            List<int[]> spawnPosList = GameUtil.GetSpawnPos(spawnPosType, spawnCount, chunkNum);
-            //4. 스폰 진행
-            for (int i = 0; i < spawnCount; i++)
+            //주문수와 적용 수가 같으면 모두 그대로 적용
+            for (int i = 0; i < orderCount; i++)
             {
-                _order.OrderExcuteCount += 1;
-                int[] spawnCoord = spawnPosList[i];
-                TokenBase spawnToken = null;
-              
-                spawnToken = MgToken.GetInstance().SpawnCharactor(spawnCoord, tokenPid); //월드 좌표로 pid 토큰 스폰 
-           
-
-                CallBackOrder(spawnToken, _order); //스폰된 토큰과 주문서로 고객에게 콜백
+                ExcuteOrderItem(_order, i);
             }
-
+            return;
         }
-
+        MgUI.GetInstance().ShowItemList(_order);
+    
     }
-    private void ExcuteSpawnEvent(TTokenOrder _order)
-    {
-        List<TOrderItem> eventOrderList = _order.orderItemList; //할당된 아이템 
-        //1. itemList들을 eventToken에 Count만큼씩 할당
-        ESpawnPosType spawnPosType = _order.SpawnPosType;
-        int chunkNum = _order.ChunkNum;
-        List<int[]> spawnPosList = GameUtil.GetSpawnPos(spawnPosType, eventOrderList.Count, chunkNum);
-        for (int orderNum = 0; orderNum < eventOrderList.Count; orderNum++)
-        {
-            TOrderItem spawnEventOrder = eventOrderList[orderNum]; //스폰하려는 이벤트 호출 - pid, value는 내부오더만들때 쓰임
-            //1. 스폰할 이벤트
-            int tokenPid = spawnEventOrder.SubIdx;
-            //2. 스폰 장소 
-            int[] spawnPos = spawnPosList[orderNum];
-            //3. 이벤트 타입 - 해당 이벤트 입장시 할당받은 아이템으로 뭘할건지 정하기 
-            int orderType =  spawnEventOrder.Value;
-            //4. 스폰 진행
-            _order.OrderExcuteCount += 1; //작업한 수 올리고
-            TokenEvent spawnToken = MgToken.GetInstance().SpawnEvent(spawnPos, tokenPid);
-
-            CallBackOrder(spawnToken, _order); //스폰된 토큰과 주문서로 고객에게 콜백
-
-
-        }
-
-    }
+ 
+   
     public void ExcuteOrderItem(TTokenOrder _order, int _selectNum)
     {
-        _order.SetSelectedNum(_selectNum);
         TOrderItem orderItem = _order.orderItemList[_selectNum];
         TokenType tokenGroup = (TokenType)orderItem.Tokentype;
         int orderSubIdx = orderItem.SubIdx;
@@ -104,6 +35,10 @@ public class OrderExcutor
         //선택한 아이템이 다시 이벤트 생성 , 몬스터 소환같은거면 어떡함?
         switch (tokenGroup)
         {
+            case TokenType.Char:
+               // Debug.Log("몬스터 소환");
+                ExcuteSpawnMonster(_order, orderItem);
+                return;
             case TokenType.CharStat:
                 PlayerManager.GetInstance().GetMainChar().CalStat((CharStat)orderSubIdx, orderValue);
                 break;
@@ -113,9 +48,37 @@ public class OrderExcutor
                 break;
             case TokenType.Action:
                 break;
+            case TokenType.Conversation:
+               // Debug.Log("대화 요청");
+                break;
         }
         CallBackOrder(null, _order);
     }
+
+    private void ExcuteSpawnMonster(TTokenOrder _order, TOrderItem _monterOrder)
+    {
+        ESpawnPosType spawnPosType = _order.SpawnPosType;
+        int chunkNum = _order.ChunkNum;
+
+        //1. 스폰할 몬스터
+        int tokenPid = _monterOrder.SubIdx;
+        //2. 스폰할 갯수 
+        int spawnCount = _monterOrder.Value;
+        //3. 스폰 장소 - 청크 최대 숫자중, 스폿 카운트 만큼 뽑기 진행
+        List<int[]> spawnPosList = GameUtil.GetSpawnPos(spawnPosType, spawnCount, chunkNum);
+        //4. 스폰 진행
+        for (int i = 0; i < spawnCount; i++)
+        {
+            _order.OrderExcuteCount += 1;
+            int[] spawnCoord = spawnPosList[i];
+            TokenBase spawnToken = MgToken.GetInstance().SpawnCharactor(spawnCoord, tokenPid); //월드 좌표로 pid 토큰 스폰 
+                                                                                               // Debug.Log(tokenPid + "몬스터 소환");
+
+            CallBackOrder(spawnToken, _order); //스폰된 토큰과 주문서로 고객에게 콜백
+        }
+
+    }
+
     private void CallBackOrder(TokenBase _token, TTokenOrder _order)
     {
         //1. 주문서 고객 정보 있는지 체크
@@ -128,7 +91,7 @@ public class OrderExcutor
         //4. 고객에게 콜백 보냄
         customer.OnOrderCallBack(recipt); //고객에게 호출
     }
-       #endregion
+     
 }
 
 public enum EOrderType
@@ -155,23 +118,32 @@ public struct TTokenOrder
     //토큰 생성, 선택등의 작업을 진행하는곳
 
     //작업을 위해 필요한 변수
-    public EOrderType OrderType;
     public ESpawnPosType SpawnPosType;
     public IOrderCustomer OrderCustomer;
     public List<TOrderItem> orderItemList; //토큰 타입, 서브pid, 수량(밸류)로 묶은 orderItem.
     public int ChunkNum; //아무 지정이 아니면 - 1
     public int OrderExcuteCount; //집행한 수 - 단계로변경 필요?
     public int OrderSerialNumber; //주문서 일련번호 - 한 고객에게 여러 콜백이 들어갈경우, 어떤 퀘스트나, 컨텐츠 에서 나온건지 확인하기 위해서. 
-    public int SelectItemNum; //이번에 선택되었던 아이템 번호
+    public int AdaptItemCount; //적용할 아이템 수 - 0이면 모두, 그 외에는 선택 요청해서 진행 
 
     #region 주문서 생성
+    public TTokenOrder(List<TOrderItem> _orderList, int _selectCount, IOrderCustomer _customer)
+    {
+        SpawnPosType = ESpawnPosType.Random;
+        OrderCustomer = _customer;
+        orderItemList = _orderList;
+        ChunkNum = 1;
+        OrderExcuteCount = 0;
+        OrderSerialNumber = 1;
+        AdaptItemCount = _selectCount;
+    }
+
     public TTokenOrder Spawn(EOrderType _orderType, List<TOrderItem> _charList, ESpawnPosType _spawnPosType, int _chunkNum, int _serialNum = 0)
     {
         TTokenOrder order = new();
         order.orderItemList = _charList;
         if (order.orderItemList == null)
             order.orderItemList = new();
-        order.OrderType = _orderType;
         order.SpawnPosType = _spawnPosType;
         order.ChunkNum = _chunkNum;
         order.OrderCustomer = null;
@@ -186,7 +158,6 @@ public struct TTokenOrder
         order.orderItemList = _orderItemList;
         if (order.orderItemList == null)
             order.orderItemList = new();
-        order.OrderType = _type;
         order.SpawnPosType = ESpawnPosType.Random;
         order.ChunkNum = _chunkNum;
         order.OrderCustomer = null;
@@ -202,7 +173,7 @@ public struct TTokenOrder
 
     public void SetSelectedNum(int _selectItemNum)
     {
-        SelectItemNum = _selectItemNum;
+        AdaptItemCount = _selectItemNum;
     }
 
     private void SetSerialNum()

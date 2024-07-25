@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Quest 
+public class Quest : IOrderCustomer
 {
     //과제
     //클리어조건
@@ -23,7 +23,8 @@ public class Quest
     public Quest(ContentData _contentData, int _chunkNum)
     {
         QuestPid = _contentData.ContentPid;
-        ChunkNum = _chunkNum;
+        ContentData = _contentData;
+       ChunkNum = _chunkNum;
 
     }
     #endregion
@@ -104,6 +105,9 @@ public class Quest
         return false;
     }
 
-    
+    public void OnOrderCallBack(OrderReceipt _orderReceipt)
+    {
+     
+    }
 }
 

@@ -475,7 +475,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>, IOrderCustomer
         if (orderSerialNum.Equals(TempNationSelectOrderSerialNum))
         {
             //선택한 나라
-            Nation nation = MgNation.GetInstance().GetNation(order.SelectItemNum);
+            Nation nation = MgNation.GetInstance().GetNation(order.AdaptItemCount);
             //그 나라의 수도 
             TokenTile nationCapitalTile = nation.GetCapital();
             //메인 캐릭터
