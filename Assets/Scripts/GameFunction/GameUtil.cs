@@ -562,7 +562,8 @@ public static class GameUtil
         doneAct?.Invoke(); //보통은 GameManager에 작업 완료했음을 알림. 
     }
 
-    public static TItemListData ParseCostDataArray(string[] _parsingData, int _costIndex)
+    #region TOderItem 변환
+    public static TItemListData ParseCostDataArray(string[] _parsingData, int _costIndex, bool _noneDataAdd = false)
     {
         TItemListData orderCostData = new TItemListData();
         //파싱 데이터 배열 해당 index에 자료가 있는지 체크 없으면 반환. 
@@ -574,7 +575,7 @@ public static class GameUtil
         for (int i = 0; i < costArray.Length; i++)
         {
             TOrderItem orderItem = ParseOrderItem(costArray[i]);  //[0] : 토큰타입 [1] :항목에서 pid [2] : 수량 으로 이뤄진 문자를 보내 Torder로 변환.
-            if (orderItem.IsVaridTokenType())
+            if (_noneDataAdd == true || orderItem.IsVaridTokenType())
             {
                 orderCostData.Add(orderItem); //유효한 재료면 추가
             }
@@ -583,7 +584,7 @@ public static class GameUtil
         return orderCostData;
     }
 
-    public static void ParseOrderItemList(List<TOrderItem> _itemList, string[] _parsingData, int _costIndex)
+    public static void ParseOrderItemList(List<TOrderItem> _itemList, string[] _parsingData, int _costIndex, bool _noneDataAdd = false)
     {
         //파싱 된 열을 통째로 전달시 
         if (_parsingData.Length <= _costIndex)
@@ -594,7 +595,7 @@ public static class GameUtil
         for (int i = 0; i < costArray.Length; i++)
         {
             TOrderItem orderItem = ParseOrderItem(costArray[i]);  //[0] : 토큰타입 [1] :항목에서 pid [2] : 수량 으로 이뤄진 문자를 보내 Torder로 변환.
-            if (orderItem.IsVaridTokenType())
+            if (_noneDataAdd == true || orderItem.IsVaridTokenType())
             {
                 _itemList.Add(orderItem); //유효한 재료면 추가
             }
@@ -602,14 +603,14 @@ public static class GameUtil
 
     }
 
-    public static void ParseOrderItemList(List<TOrderItem> _itemList, string _parsingStrData)
+    public static void ParseOrderItemList(List<TOrderItem> _itemList, string _parsingStrData, bool _noneDataAdd = false)
     {
        // 해당 열을 직접 전달시
         string[] costArray = _parsingStrData.Split(FixedValue.PARSING_LIST_DIVIDE); //아이템 리스트를 항목으로 구별
         for (int i = 0; i < costArray.Length; i++)
         {
             TOrderItem orderItem = ParseOrderItem(costArray[i]);  //[0] : 토큰타입 [1] :항목에서 pid [2] : 수량 으로 이뤄진 문자를 보내 Torder로 변환.
-            if (orderItem.IsVaridTokenType())
+            if (_noneDataAdd == true || orderItem.IsVaridTokenType()) //넌데이터라도 추가 요청했거나 유효한 거면 추가 
             {
                 _itemList.Add(orderItem); //유효한 재료면 추가
             }
@@ -683,6 +684,7 @@ public static class GameUtil
     
         return noneData;
     }
+    #endregion
     #endregion
 
     #region Token 에셋 로드
