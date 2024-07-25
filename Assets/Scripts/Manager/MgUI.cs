@@ -95,6 +95,11 @@ public class MgUI : MgGeneric<MgUI>
         m_selectTextUI.SetSelectedInfo(_itemInfo);
     }
 
+    public void ShowText(ConversationData _scriptData)
+    {
+        Debug.Log(_scriptData.GetScript());
+    }
+
     public void ShowNationPolicy(Nation _nation)
     {
         m_policyUI.SetNationPolicy(_nation);

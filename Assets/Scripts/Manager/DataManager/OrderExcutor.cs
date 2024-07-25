@@ -43,13 +43,14 @@ public class OrderExcutor
                 PlayerManager.GetInstance().GetMainChar().CalStat((CharStat)orderSubIdx, orderValue);
                 break;
             case TokenType.Capital:
-                Capital rewardCapital = (Capital)orderSubIdx;
-                PlayerCapitalData.g_instance.CalCapital(rewardCapital, orderValue);
+                Capital capitalType = (Capital)orderSubIdx;
+                PlayerCapitalData.g_instance.CalCapital(capitalType, orderValue);
                 break;
             case TokenType.Action:
                 break;
             case TokenType.Conversation:
-               // Debug.Log("대화 요청");
+                // Debug.Log("대화 요청");
+                MGConversation.GetInstance().ShowConverSation(orderItem);
                 break;
         }
         CallBackOrder(null, _order);

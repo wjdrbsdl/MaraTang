@@ -41,6 +41,12 @@ public class MGConversation : Mg<MGConversation>
         selectInfo.SetTaker(_taker);
         selectInfo.ShowScript();
     }
+    
+    public void ShowConverSation(TOrderItem _scriptItem)
+    {
+        ConversationData scriptData = GetConversationData((ConversationTheme)_scriptItem.SubIdx, _scriptItem.Value);
+        MgUI.GetInstance().ShowText(scriptData);
+    }
 }
 
 
