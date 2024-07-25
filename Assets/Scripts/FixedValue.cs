@@ -24,7 +24,7 @@ public static class FixedValue
         ;
 
     public static char
-        PARSING_LINE = ' ',
+        PARSING_LINE_DIVIDE = ' ',
         PARSING_LIST_DIVIDE = '/'
         ;
     #endregion
