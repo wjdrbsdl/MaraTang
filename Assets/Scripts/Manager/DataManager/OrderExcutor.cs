@@ -128,62 +128,19 @@ public struct TTokenOrder
     public int AdaptItemCount; //적용할 아이템 수 - 0이면 모두, 그 외에는 선택 요청해서 진행 
 
     #region 주문서 생성
-    public TTokenOrder(List<TOrderItem> _orderList, int _selectCount, IOrderCustomer _customer)
+    public TTokenOrder(List<TOrderItem> _orderList, int _selectCount, int _serialNum = 0, IOrderCustomer _customer = null)
     {
         SpawnPosType = ESpawnPosType.Random;
-        OrderCustomer = _customer;
         orderItemList = _orderList;
+        if (orderItemList == null)
+            orderItemList = new();
         ChunkNum = 1;
         OrderExcuteCount = 0;
-        OrderSerialNumber = 1;
+        OrderSerialNumber = _serialNum;
         AdaptItemCount = _selectCount;
-    }
-
-    public TTokenOrder Spawn(EOrderType _orderType, List<TOrderItem> _charList, ESpawnPosType _spawnPosType, int _chunkNum, int _serialNum = 0)
-    {
-        TTokenOrder order = new();
-        order.orderItemList = _charList;
-        if (order.orderItemList == null)
-            order.orderItemList = new();
-        order.SpawnPosType = _spawnPosType;
-        order.ChunkNum = _chunkNum;
-        order.OrderCustomer = null;
-        order.OrderSerialNumber = _serialNum;
-        order.SetSerialNum();
-        return order;
-    }
-
-    public TTokenOrder Select(EOrderType _type, List<TOrderItem> _orderItemList, int _chunkNum, int _serialNum = 0)
-    {
-        TTokenOrder order = new();
-        order.orderItemList = _orderItemList;
-        if (order.orderItemList == null)
-            order.orderItemList = new();
-        order.SpawnPosType = ESpawnPosType.Random;
-        order.ChunkNum = _chunkNum;
-        order.OrderCustomer = null;
-        order.OrderSerialNumber = _serialNum;
-        order.SetSerialNum();
-        return order;
-    }
-
-    public void SetOrderCustomer(IOrderCustomer _customer)
-    {
         OrderCustomer = _customer;
     }
 
-    public void SetSelectedNum(int _selectItemNum)
-    {
-        AdaptItemCount = _selectItemNum;
-    }
-
-    private void SetSerialNum()
-    {
-        for (int i = 0; i < orderItemList.Count; i++)
-        {
-            orderItemList[i].SetSerialNum(OrderSerialNumber);
-        }
-    }
     #endregion
 
 }

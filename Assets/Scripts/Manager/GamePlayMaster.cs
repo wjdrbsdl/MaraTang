@@ -98,8 +98,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>, IOrderCustomer
             nationItemList.Add(nationItem);
         }
         OrderExcutor excutor = new();
-        TTokenOrder nationSelectOrder = new TTokenOrder().Select(EOrderType.ItemSelect, nationItemList, 0, tempOrderNum);
-        nationSelectOrder.SetOrderCustomer(this);
+        TTokenOrder nationSelectOrder = new TTokenOrder(nationItemList, 1, tempOrderNum, this);
         excutor.ExcuteOrder(nationSelectOrder);
     }
     #endregion

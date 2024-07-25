@@ -10,7 +10,7 @@ public class MGContent : Mg<MGContent>
     List<(int, bool)> m_QuestRecorde = new(); //과거 퀘스트의 기록
     private int m_mainCharChunkNum = 0;
     private List<Chunk> m_chunkList = new List<Chunk>();
-    public int m_questCount = 0;
+    public int m_madeQuestCount = 0;
     public const int NO_CHUNK_NUM = -1;
 
     public enum ContentEnum
@@ -153,7 +153,7 @@ public class MGContent : Mg<MGContent>
 
         ContentData contentData = MgMasterData.GetInstance().GetContentData(_quest.QuestPid);
         StageInfo stage = contentData.StageDic[_quest.CurStep];
-        TTokenOrder order = new TTokenOrder(stage.SituationList, stage.SituAdapCount, _quest);
+        TTokenOrder order = new TTokenOrder(stage.SituationList, stage.SituAdapCount, m_madeQuestCount, _quest);
         OrderExcutor excutor = new OrderExcutor();
         excutor.ExcuteOrder(order);
         MgUI.GetInstance().ShowQuest(_quest);
