@@ -662,6 +662,9 @@ public static class GameUtil
                 case TokenType.NationStat:
                     findEnum = typeof(NationStat);
                     break;
+                case TokenType.Conversation:
+                    findEnum = typeof(ConversationTheme);
+                    break;
             }
 
             if (findEnum == null)
