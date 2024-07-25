@@ -172,6 +172,8 @@ public class MgMasterData : Mg<MgMasterData>
         for (int i = 0; i < parseData.DbValueList.Count; i++)
         {
             ContentData masterContent = new ContentData(parseData.DbValueList[i]);
+            //중복 pid 방지
+            if(m_contentDataDic.ContainsKey(masterContent.ContentPid) == false)
             m_contentDataDic.Add(masterContent.ContentPid, masterContent);
         }
     }
