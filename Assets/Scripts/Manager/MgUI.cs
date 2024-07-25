@@ -15,6 +15,7 @@ public class MgUI : MgGeneric<MgUI>
     [SerializeField] private UICapitalChange m_capitalChangeUI;
     [SerializeField] private UISelectItem m_selectItemUI;
     [SerializeField] private UISelectItem m_selectTextUI;
+    [SerializeField] private UIScript m_scriptUI;
 
     [Header("데이터 표기")]
     [SerializeField] private UINationPolicy m_policyUI;
@@ -95,9 +96,14 @@ public class MgUI : MgGeneric<MgUI>
         m_selectTextUI.SetSelectedInfo(_itemInfo);
     }
 
-    public void ShowText(ConversationData _scriptData)
+    public void ShowScript(ConversationData _scriptData)
     {
-        Debug.Log(_scriptData.GetScript());
+        m_scriptUI.SetScript(_scriptData);
+    }
+
+    public void SetScriptCustomer(ISelectCustomer _selectCustomer)
+    {
+        m_scriptUI.SetCustomer(_selectCustomer);
     }
 
     public void ShowNationPolicy(Nation _nation)

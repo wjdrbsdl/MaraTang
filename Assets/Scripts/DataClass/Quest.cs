@@ -107,12 +107,18 @@ public class Quest : IOrderCustomer, ISelectCustomer
 
     public void OnOrderCallBack(OrderReceipt _orderReceipt)
     {
-     
+        TOrderItem doneItem = _orderReceipt.DoneItem;
+
+        if (doneItem.Tokentype.Equals(TokenType.Conversation))
+        {
+            MgUI.GetInstance().SetScriptCustomer(this);
+        }
     }
 
     public void OnSelectCallBack(int _slotIndex)
     {
-     
+        //대답용 인터페이스를 팔 필요가 있는듯? 아닌데 퀘스트 보상 선택같은 선택이 필요할때도 있는데 흠 
+        Debug.Log("플레이어가 누른 버튼 " + (Answer)_slotIndex);
     }
 
     public void OnChangeValueCallBack(int _slotIndex, int _value)
