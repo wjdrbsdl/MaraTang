@@ -11,20 +11,20 @@ public class UIQuest : UIBase
     public void SetQuestInfo(Quest quest)
     {
         Switch(true);
-        SetConditionInfo(quest.Condition);
-        SetRewardInfo(quest.Reward);
+        SetConditionInfo(quest);
+        SetRewardInfo(quest);
     }
 
-    private void SetConditionInfo(QuestCondition _condition)
+    private void SetConditionInfo(Quest quest)
     {
         string conStr = "컨텐츠데이터로 다시 정보 세팅할 필요 있다.";
   
         m_conditionText.text = conStr;
     }
 
-    private void SetRewardInfo(RewardData _reward)
+    private void SetRewardInfo(Quest quest)
     {
-        string conStr = _reward.RewardOrder.OrderType.ToString();
+        string conStr = "컨텐츠데이터로 다시 정보 세팅할 필요 있다.";
         m_rewardText.text = conStr;
     }
 }

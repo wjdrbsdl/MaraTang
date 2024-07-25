@@ -140,10 +140,6 @@ public class MGContent : Mg<MGContent>
         Chunk chunk = m_chunkList[_quest.ChunkNum];
         chunk.MakePin();
 
-        OrderExcutor orderExcutor = new();
-        orderExcutor.ExcuteOrder(_quest.Condition);
-
-        //그외 조건 값들이 더있으면 또 수행 
     }
 
     public void SuccessQuest(Quest _quest)
@@ -162,9 +158,8 @@ public class MGContent : Mg<MGContent>
 
     private void GiveReward(Quest _quest)
     {
-        RewardData _reward = _quest.Reward;
         OrderExcutor orderExcutor = new();
-        orderExcutor.ExcuteOrder(_reward);
+      //  orderExcutor.ExcuteOrder();
 
     }
     private void GivePenalty(Quest _quest)
@@ -180,7 +175,7 @@ public class MGContent : Mg<MGContent>
     {
         for (int i = 0; i < m_QuestList.Count; i++)
         {
-            m_QuestList[i].UseTurn();
+            m_QuestList[i].FlowTurn();
         }
     }
 

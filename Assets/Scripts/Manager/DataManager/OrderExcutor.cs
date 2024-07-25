@@ -5,15 +5,6 @@ public class OrderExcutor
 {
     //T 주문서내용을 받으면 내용을 해석해서 집행시키는 부분. 
 
-    public void ExcuteOrder(QuestCondition _questCondition)
-    {
-        ExcuteOrder(_questCondition.TokenOrder);
-    }
-
-    public void ExcuteOrder(RewardData _reward)
-    {
-        ExcuteOrder(_reward.RewardOrder);
-    }
 
     public void ExcuteOrder(TokenEvent _eventToken)
     {

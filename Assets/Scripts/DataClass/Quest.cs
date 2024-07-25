@@ -2,16 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum EQuestType
-{
-    SpawnMonster, SpawnEvent
-}
-
-public enum ERewardType
-{
-   None, CharStat, Capital, ActionToken, EventToken, CharToken
-}
-
 public class Quest 
 {
     //과제
@@ -20,10 +10,8 @@ public class Quest
     public int QuestPid = 0; //해당 퀘스트 pid mgContet 리스트에 추가되는 값으로 인덱스용
     public int RestWoldTurn = 3; //유지되는 기간 
     public int ChunkNum = 0;
+    public int CurStep = 1;
     public ContentData ContentData;
-    public QuestCondition Condition; //수행 조건
-    public RewardData Reward; //보상
-    public PenaltyData Penalty;
     public List<TokenBase> QuestTokens = new(); //퀘스트에 관련된 토큰들 
 
     #region 생성
@@ -36,15 +24,11 @@ public class Quest
     {
         QuestPid = _contentData.ContentPid;
         ChunkNum = _chunkNum;
-        //퀘스트 타입에 맞게 조건서 작성
-        Condition = new QuestCondition(_contentData, _chunkNum);
-        //보상 타입에 맞게 보상내용 작성
-        Reward = new RewardData(_contentData, _chunkNum); //임시로 자원 보상
-        Penalty = new PenaltyData();
+
     }
     #endregion
 
-    public void UseTurn(int _count = 1)
+    public void FlowTurn(int _count = 1)
     {
         RestWoldTurn -= 1;
         if (RestWoldTurn == 0)
@@ -122,52 +106,4 @@ public class Quest
 
     
 }
-public enum QuestType
-{
-    Battle, Action, Item
-}
 
-public class QuestCondition : IOrderCustomer
-{
-    //퀘스트 조건
-    public int QuestPid;
-    public EQuestType QuestType;
-    public TTokenOrder TokenOrder;
-
-    public QuestCondition(ContentData _questType, int _chunkNum)
-    {
-        QuestPid = _questType.ContentPid;
-        OrderMaker orderMaker = new();
-        TokenOrder = orderMaker.MakeOrder(_questType.ConditionType, _questType.ConditionMainItemList, this, _chunkNum);
-    }
-
-    public void OnOrderCallBack(OrderReceipt _orderReceipt) //조건 고객
-    {
-        //Debug.Log("조건 고객");
-        //오더익스큐터로 생성된 토큰들을 콜백받으면 거기에 자신을 할당 
-        TokenBase madeToken = _orderReceipt.MadeToken;
-        if (madeToken == null)
-            return;
-        ContentData contentData = MgMasterData.GetInstance().GetContentData(QuestPid);
-
-        //컨디션, 페널티 등 각 항문에서 자신의 주문으로 만들어진 토큰들 행태를 추적하며 조건 추적. 
-        //madeToken.SetQuest(this);
-        //QuestTokens.Add(madeToken);
-
-        if (madeToken.GetTokenType().Equals(TokenType.Event))
-        {
-            
-            int excuteCount = _orderReceipt.Order.OrderExcuteCount; //수행된 작업 - 해당 작업으로 main과 sub itemList 매치
-            EOrderType orderType = (EOrderType)contentData.ConditionMainItemList[excuteCount - 1].Value;
-            Debug.Log("이벤트 타입이므로 조금더 작업필요 " + orderType);
-            //컨텐트 마스터 데이터에 서브 아이템 리스트 값이 없으면 패스 
-            if (contentData.ConditionSubItemList == null || excuteCount - 1 > contentData.ConditionSubItemList.Count)
-                return;
-
-            List<TOrderItem> SubItemlist = contentData.ConditionSubItemList[excuteCount-1]; //생성된 카운트가 넘어오므로 -1을 해줘야 기존 idx와 매치
-            //만들어진 토큰 이벤트로 형변환후
-            TokenEvent eventToken = (TokenEvent)madeToken;
-            eventToken.MakeEventContent(orderType, SubItemlist);
-        }
-    }
-}
