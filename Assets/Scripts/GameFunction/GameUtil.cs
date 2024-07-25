@@ -585,12 +585,27 @@ public static class GameUtil
 
     public static void ParseOrderItemList(List<TOrderItem> _itemList, string[] _parsingData, int _costIndex)
     {
-        //파싱 데이터 배열에 해당 index가 없으면 취소. 
+        //파싱 된 열을 통째로 전달시 
         if (_parsingData.Length <= _costIndex)
         {
             return;
         }
         string[] costArray = _parsingData[_costIndex].Split(FixedValue.PARSING_LIST_DIVIDE); //아이템 리스트를 항목으로 구별
+        for (int i = 0; i < costArray.Length; i++)
+        {
+            TOrderItem orderItem = ParseOrderItem(costArray[i]);  //[0] : 토큰타입 [1] :항목에서 pid [2] : 수량 으로 이뤄진 문자를 보내 Torder로 변환.
+            if (orderItem.IsVaridTokenType())
+            {
+                _itemList.Add(orderItem); //유효한 재료면 추가
+            }
+        }
+
+    }
+
+    public static void ParseOrderItemList(List<TOrderItem> _itemList, string _parsingStrData)
+    {
+       // 해당 열을 직접 전달시
+        string[] costArray = _parsingStrData.Split(FixedValue.PARSING_LIST_DIVIDE); //아이템 리스트를 항목으로 구별
         for (int i = 0; i < costArray.Length; i++)
         {
             TOrderItem orderItem = ParseOrderItem(costArray[i]);  //[0] : 토큰타입 [1] :항목에서 pid [2] : 수량 으로 이뤄진 문자를 보내 Torder로 변환.
@@ -608,6 +623,11 @@ public static class GameUtil
         string[] divideType = costData.Split(FixedValue.PARSING_TYPE_DIVIDE);
         TOrderItem noneData = new TOrderItem(TokenType.None, 0, 0);
         //[0] : 토큰타입 [1] :항목에서 pid [2] : 수량
+        if(divideType.Length != 3)
+        {
+            //규격에 맞지 않는 경우엔 리턴 
+            return noneData;
+        }
 
         if (System.Enum.IsDefined(typeof(TokenType), divideType[0]))
         {
