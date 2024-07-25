@@ -570,7 +570,7 @@ public static class GameUtil
         {
             return orderCostData;
         }
-        string[] costArray = _parsingData[_costIndex].Split(' '); //아이템 리스트를 항목으로 구별
+        string[] costArray = _parsingData[_costIndex].Split(FixedValue.PARSING_AND); //아이템 리스트를 항목으로 구별
         for (int i = 0; i < costArray.Length; i++)
         {
             TOrderItem orderItem = ParseOrderItem(costArray[i]);  //[0] : 토큰타입 [1] :항목에서 pid [2] : 수량 으로 이뤄진 문자를 보내 Torder로 변환.
@@ -590,7 +590,7 @@ public static class GameUtil
         {
             return;
         }
-        string[] costArray = _parsingData[_costIndex].Split(' '); //아이템 리스트를 항목으로 구별
+        string[] costArray = _parsingData[_costIndex].Split(FixedValue.PARSING_AND); //아이템 리스트를 항목으로 구별
         for (int i = 0; i < costArray.Length; i++)
         {
             TOrderItem orderItem = ParseOrderItem(costArray[i]);  //[0] : 토큰타입 [1] :항목에서 pid [2] : 수량 으로 이뤄진 문자를 보내 Torder로 변환.

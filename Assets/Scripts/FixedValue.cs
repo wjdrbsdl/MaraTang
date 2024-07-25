@@ -23,6 +23,9 @@ public static class FixedValue
         PARSING_DIVIDE = "_"
         ;
 
+    public static char
+        PARSING_AND = '/'
+        ;
     #endregion
 
 }
