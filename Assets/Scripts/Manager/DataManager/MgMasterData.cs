@@ -13,7 +13,7 @@ public class MgMasterData : Mg<MgMasterData>
     private Dictionary<int, ContentData> m_contentDataDic;
     private Dictionary<int, NationTechData> m_nationTechDataDic;
     private Dictionary<int, ConversationGroup> m_conversationGroupDic;
-    public static char DIVIDECHAR = '_';
+
     #region 생성자
     public MgMasterData()
     {
@@ -172,7 +172,7 @@ public class MgMasterData : Mg<MgMasterData>
         for (int i = 0; i < parseData.DbValueList.Count; i++)
         {
             ContentData masterContent = new ContentData(parseData.DbValueList[i]);
-            //중복 pid 방지
+            //중복 
             if(m_contentDataDic.ContainsKey(masterContent.ContentPid) == false)
             m_contentDataDic.Add(masterContent.ContentPid, masterContent);
         }
@@ -237,7 +237,7 @@ public class TileTypeData {
     {
         TypePID = int.Parse(_parsingData[0]);
         string ables = _parsingData[2]; //가능한 작업이 나열되어있음
-        string[] divideAble = ables.Trim().Split(MgMasterData.DIVIDECHAR);
+        string[] divideAble = ables.Trim().Split(FixedValue.PARSING_LIST_DIVIDE);
         AbleTileActionPID = new int[divideAble.Length];
         for (int i = 0; i < divideAble.Length; i++)
         {
@@ -256,7 +256,7 @@ public class TileTypeData {
         if (_parsingData.Length > subSpaceIdx)
         {
             string subables = _parsingData[subSpaceIdx]; //가능한 작업이 나열되어있음
-            string[] subAble = subables.Trim().Split(MgMasterData.DIVIDECHAR);
+            string[] subAble = subables.Trim().Split(FixedValue.PARSING_LIST_DIVIDE);
             Places = new int[subAble.Length];
             for (int i = 0; i < subAble.Length; i++)
             {

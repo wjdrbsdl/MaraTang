@@ -27,7 +27,7 @@ public struct ParseData
 public class MgParsing : MgGeneric<MgParsing>
 {
     private static string docuIDes =  "19xXN_chVCf-ZEsvAly-j-c69gjok0HIKYMaFcAk1Lqg";
-    private string[] sheetIDes = { "0" , "85445904", "1971334673", "1134768741",
+    private string[] sheetIDes = { "0" , "1960523724", "1971334673", "1134768741",
                                     "1603700320", "2001512146","218824529","1858334671" };
     private EMasterData[] dbId = { EMasterData.TileActionData, EMasterData.ContentData, EMasterData.TileType, EMasterData.CharData, 
                                    EMasterData.CharActionData, EMasterData.EventData, EMasterData.NationTechTree, EMasterData.Conversation };

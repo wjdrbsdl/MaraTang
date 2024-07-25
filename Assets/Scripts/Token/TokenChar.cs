@@ -44,7 +44,7 @@ public class TokenChar : TokenBase
 
     private void SetAction(ref List<TokenAction> _haveAction, string actionCode)
     {
-        string[] actions = actionCode.Split(MgMasterData.DIVIDECHAR);
+        string[] actions = actionCode.Split(FixedValue.PARSING_LIST_DIVIDE);
         for (int i = 0; i < actions.Length; i++)
         {
             int actionPid = int.Parse(actions[i]);

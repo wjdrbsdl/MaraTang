@@ -20,11 +20,12 @@ public static class FixedValue
   
     #region String
     public static string
-        PARSING_DIVIDE = "_"
+        PARSING_TYPE_DIVIDE = "_"
         ;
 
     public static char
-        PARSING_AND = '/'
+        PARSING_LINE = ' ',
+        PARSING_LIST_DIVIDE = '/'
         ;
     #endregion
 

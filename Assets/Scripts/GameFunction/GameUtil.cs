@@ -570,7 +570,7 @@ public static class GameUtil
         {
             return orderCostData;
         }
-        string[] costArray = _parsingData[_costIndex].Split(FixedValue.PARSING_AND); //아이템 리스트를 항목으로 구별
+        string[] costArray = _parsingData[_costIndex].Split(FixedValue.PARSING_LIST_DIVIDE); //아이템 리스트를 항목으로 구별
         for (int i = 0; i < costArray.Length; i++)
         {
             TOrderItem orderItem = ParseOrderItem(costArray[i]);  //[0] : 토큰타입 [1] :항목에서 pid [2] : 수량 으로 이뤄진 문자를 보내 Torder로 변환.
@@ -590,7 +590,7 @@ public static class GameUtil
         {
             return;
         }
-        string[] costArray = _parsingData[_costIndex].Split(FixedValue.PARSING_AND); //아이템 리스트를 항목으로 구별
+        string[] costArray = _parsingData[_costIndex].Split(FixedValue.PARSING_LIST_DIVIDE); //아이템 리스트를 항목으로 구별
         for (int i = 0; i < costArray.Length; i++)
         {
             TOrderItem orderItem = ParseOrderItem(costArray[i]);  //[0] : 토큰타입 [1] :항목에서 pid [2] : 수량 으로 이뤄진 문자를 보내 Torder로 변환.
@@ -605,20 +605,20 @@ public static class GameUtil
     public static TOrderItem ParseOrderItem(string costData)
     {
         //토큰그룹_pid_수량 의 string으로 넘어온 코스트 데이터
-        string[] divideBuild = costData.Split(MgMasterData.DIVIDECHAR);
+        string[] divideType = costData.Split(FixedValue.PARSING_TYPE_DIVIDE);
         TOrderItem noneData = new TOrderItem(TokenType.None, 0, 0);
         //[0] : 토큰타입 [1] :항목에서 pid [2] : 수량
 
-        if (System.Enum.IsDefined(typeof(TokenType), divideBuild[0]))
+        if (System.Enum.IsDefined(typeof(TokenType), divideType[0]))
         {
             //재료의 토큰그룹은 파싱.
-            TokenType tokenType = System.Enum.Parse<TokenType>(divideBuild[0]);
+            TokenType tokenType = System.Enum.Parse<TokenType>(divideType[0]);
 
             //두번째 pid가 숫자로 되있는지 해당 enum의 문자값으로 되어있는지 확인
-            if (int.TryParse(divideBuild[1], out int enumIndex) == true)
+            if (int.TryParse(divideType[1], out int enumIndex) == true)
             {
                 //바로 pid로 되어있다면
-                if (int.TryParse(divideBuild[2], out int needAmount) == true)
+                if (int.TryParse(divideType[2], out int needAmount) == true)
                 {
                     //마지막 수량까지 잘 적혀있으면 데이터에 추가
                     return new TOrderItem(tokenType, enumIndex, needAmount);
@@ -649,11 +649,11 @@ public static class GameUtil
                 return noneData;
             }
             //해당 enum타입에서 [1] 값이 있는지 확인
-            if (System.Enum.IsDefined(findEnum, divideBuild[1]))
+            if (System.Enum.IsDefined(findEnum, divideType[1]))
             {
                 //[1] 세부 pid파싱 
-                int enumPid = (int)System.Enum.Parse(findEnum, (divideBuild[1]));
-                if (int.TryParse(divideBuild[2], out int needAmount) == true)
+                int enumPid = (int)System.Enum.Parse(findEnum, (divideType[1]));
+                if (int.TryParse(divideType[2], out int needAmount) == true)
                 {
                     //마지막 수량까지 잘 적혀있으면 데이터에 추가
                     return new TOrderItem(tokenType, enumPid, needAmount);
