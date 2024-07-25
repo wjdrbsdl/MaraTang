@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Quest : IOrderCustomer
+public class Quest : IOrderCustomer, ISelectCustomer
 {
     //과제
     //클리어조건
@@ -108,6 +108,21 @@ public class Quest : IOrderCustomer
     public void OnOrderCallBack(OrderReceipt _orderReceipt)
     {
      
+    }
+
+    public void OnSelectCallBack(int _slotIndex)
+    {
+     
+    }
+
+    public void OnChangeValueCallBack(int _slotIndex, int _value)
+    {
+        
+    }
+
+    public void OnConfirm()
+    {
+ 
     }
 }
 
