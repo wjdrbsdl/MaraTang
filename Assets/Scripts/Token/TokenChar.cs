@@ -18,7 +18,7 @@ public class TokenChar : TokenBase
     [JsonProperty] private List<TokenAction> m_haveActionList = new(); //이 캐릭터가 지니고 있는 액션 토큰들
     private TokenAction m_nextAction = null;
     private TokenBase m_nextTarget;
-    
+    private TokenCharMood m_mood;
 
     #region 캐릭 토큰 생성부분
     public TokenChar()
@@ -75,6 +75,10 @@ public class TokenChar : TokenBase
         }
     }
 
+    public void MakeMood()
+    {
+        m_mood = new TokenCharMood();
+    }
     #endregion
 
     public void ShowAction(bool isShow)
