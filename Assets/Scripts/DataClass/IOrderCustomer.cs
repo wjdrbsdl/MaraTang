@@ -15,10 +15,11 @@ public struct OrderReceipt
     //오더 완료 주문서
     public TokenBase MadeToken;
     public TTokenOrder Order;
-
-    public OrderReceipt(TokenBase _token, TTokenOrder _order)
+    public TOrderItem DoneItem;
+    public OrderReceipt(TokenBase _token, TTokenOrder _order, TOrderItem _doneItem)
     {
         MadeToken = _token;
         Order = _order;
+        DoneItem = _doneItem;
     }
 }

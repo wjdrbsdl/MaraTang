@@ -35,6 +35,7 @@ public class OrderExcutor
         //선택한 아이템이 다시 이벤트 생성 , 몬스터 소환같은거면 어떡함?
         switch (tokenGroup)
         {
+            //개별적으로 CallBack을 보내는 경우는 return.
             case TokenType.Char:
                // Debug.Log("몬스터 소환");
                 ExcuteSpawnMonster(_order, orderItem);
@@ -53,7 +54,7 @@ public class OrderExcutor
                 MGConversation.GetInstance().ShowConverSation(orderItem);
                 break;
         }
-        CallBackOrder(null, _order);
+        CallBackOrder(null, _order, orderItem);
     }
 
     private void ExcuteSpawnMonster(TTokenOrder _order, TOrderItem _monterOrder)
@@ -75,12 +76,12 @@ public class OrderExcutor
             TokenBase spawnToken = MgToken.GetInstance().SpawnCharactor(spawnCoord, tokenPid); //월드 좌표로 pid 토큰 스폰 
                                                                                                // Debug.Log(tokenPid + "몬스터 소환");
 
-            CallBackOrder(spawnToken, _order); //스폰된 토큰과 주문서로 고객에게 콜백
+            CallBackOrder(spawnToken, _order, _monterOrder); //스폰된 토큰과 주문서로 고객에게 콜백
         }
 
     }
 
-    private void CallBackOrder(TokenBase _token, TTokenOrder _order)
+    private void CallBackOrder(TokenBase _token, TTokenOrder _order, TOrderItem _doenItem)
     {
         //1. 주문서 고객 정보 있는지 체크
         IOrderCustomer customer = _order.OrderCustomer;
@@ -88,7 +89,7 @@ public class OrderExcutor
         if (customer == null)
             return;
         //3. 완료된 토큰으로 영수증을 만들고
-         OrderReceipt recipt = new(_token, _order);
+         OrderReceipt recipt = new(_token, _order, _doenItem);
         //4. 고객에게 콜백 보냄
         customer.OnOrderCallBack(recipt); //고객에게 호출
     }
