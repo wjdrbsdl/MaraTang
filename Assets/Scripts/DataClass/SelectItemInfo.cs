@@ -118,8 +118,4 @@ public class SelectItemInfo : ISelectCustomer
         SetSelectValue(_slotIndex, final);
     }
 
-    public void OnConfirm()
-    {
-     
-    }
 }
