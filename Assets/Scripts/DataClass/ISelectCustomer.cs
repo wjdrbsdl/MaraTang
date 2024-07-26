@@ -9,5 +9,5 @@ public interface ISelectCustomer
     public void OnSelectCallBack(int _slotIndex);
 
     public void OnChangeValueCallBack(int _slotIndex, int _value);
-    public void OnConfirm();
+
 }
