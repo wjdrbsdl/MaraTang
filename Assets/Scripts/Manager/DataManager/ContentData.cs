@@ -46,7 +46,7 @@ public class ContentData
         //foreach (KeyValuePair<int, StageInfo> a in StageDic)
         //{
         //    StageInfo stage = a.Value;
-        //    List<TOrderItem> itemList = stage.SuccesConList;
+        //    List<TOrderItem> itemList = stage.SituationList;
         //    for (int i = 0; i < itemList.Count; i++)
         //    {
         //        TOrderItem item = itemList[i];
