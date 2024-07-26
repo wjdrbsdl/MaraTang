@@ -31,7 +31,7 @@ public class MgParsing : MgGeneric<MgParsing>
                                     "1603700320", "2001512146","218824529","1858334671" };
     private EMasterData[] dbId = { EMasterData.TileActionData, EMasterData.ContentData, EMasterData.TileType, EMasterData.CharData, 
                                    EMasterData.CharActionData, EMasterData.EventData, EMasterData.NationTechTree, EMasterData.Conversation };
-    private System.Enum[] matchTypes = { TileActionStat.NeedActionCount, MGContent.ContentEnum.발생컨텐츠, EMasterData.ContentData, CharStat.CurActionCount, 
+    private System.Enum[] matchTypes = { TileActionStat.NeedActionCount, ContentEnum.발생컨텐츠, EMasterData.ContentData, CharStat.CurActionCount, 
                                     CharActionStat.CoolTime, EventStat.ETokenType, TechTreeStat.Class, ConversationStat.Pid };
     private Dictionary<EMasterData, ParseData> dbContainer = new(); //파싱한값을 그냥 갖고만 있는상태 - 사용하는곳에서 다시 가공 필요. 
  
