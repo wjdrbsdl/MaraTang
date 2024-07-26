@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum ConversationTheme
 {
-    Tutorial, YesOrNot, Choose
+    Tutorial, Check, Choose
 }
 
 public enum ConversationStat
