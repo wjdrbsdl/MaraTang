@@ -8,6 +8,7 @@ public class Quest : IOrderCustomer
     //클리어조건
     //보상을 명기한 컨텐트
     public int QuestPid = 0; //content pid
+    public int SerialNum = 0;
     public int RestWoldTurn = 3; //유지되는 기간 
     public int ChunkNum = 0;
     public int CurStep = 1;
@@ -28,6 +29,16 @@ public class Quest : IOrderCustomer
 
     }
     #endregion
+    public void RealizeStage()
+    {
+        ContentData contentData = MgMasterData.GetInstance().GetContentData(QuestPid);
+        StageInfo stage = contentData.StageDic[CurStep];
+        TTokenOrder order = new TTokenOrder(stage.SituationList, stage.SituAdapCount, SerialNum, this);
+        OrderExcutor excutor = new OrderExcutor();
+        excutor.ExcuteOrder(order);
+        MgUI.GetInstance().ShowQuest(this);
+    
+    }
 
     public void FlowTurn(int _count = 1)
     {
@@ -74,7 +85,14 @@ public class Quest : IOrderCustomer
 
     public void ClearStage()
     {
-        StageInfo stageInfo = MgMasterData.GetInstance().GetContentData(QuestPid).StageDic[CurStep];
+        ContentData content = MgMasterData.GetInstance().GetContentData(QuestPid);
+        StageInfo stageInfo = content.StageDic[CurStep];
+        int nextStep = stageInfo.SuccesStep;
+        if (content.StageDic.ContainsKey(nextStep))
+        {
+            CurStep = nextStep;
+            RealizeStage();
+        }
     }
 
     public void CleanQuest()

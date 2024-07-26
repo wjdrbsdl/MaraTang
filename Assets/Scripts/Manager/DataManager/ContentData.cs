@@ -14,7 +14,7 @@ public class ContentData
         //ConditionType = (EOrderType)int.Parse(_parsingData[1]);
         ActConditionList = new(); //발동조건
         int condtionIdx = 1;
-        GameUtil.ParseOrderItemList(ActConditionList, _parsingData, condtionIdx);
+        GameUtil.ParseOrderItemList(ActConditionList, _parsingData, condtionIdx, true);
         //1. 컨디션의 매인 아이템 리스트 파싱
 
         int stepIdx = condtionIdx + 1;
@@ -63,8 +63,8 @@ public class StageInfo
     public int SituAdapCount;
     public List<TOrderItem> SituationList; //컨텐츠 수행 상황 리스트
     public List<TOrderItem> SuccesConList;
-    public List<TOrderItem> RewardList;
-    public List<TOrderItem> PenaltyList;
+    public int SuccesStep; //성공시 이동할 Stage 기록
+    public int PenaltyStep; //실패시 이동할 Stage 기록
     public int StageNum;
     public StageInfo(int _stageNum, string _situAdapStr, string _sitautionStrData, string _succesConStr, string _rewardStrData, string _penaltyStrData)
     {
@@ -76,9 +76,15 @@ public class StageInfo
         GameUtil.ParseOrderItemList(SituationList, _sitautionStrData, nonDataAdd);
         SuccesConList = new();
         GameUtil.ParseOrderItemList(SuccesConList, _succesConStr, nonDataAdd);
-        RewardList = new();
-        GameUtil.ParseOrderItemList(RewardList, _rewardStrData, nonDataAdd);
-        PenaltyList = new();
-        GameUtil.ParseOrderItemList(PenaltyList, _penaltyStrData, nonDataAdd);
+ 
+        if (int.TryParse(_rewardStrData, out int rewardStep))
+        {
+            SuccesStep = rewardStep;
+        }
+        if (int.TryParse(_penaltyStrData, out int penaltyStep))
+        {
+            PenaltyStep = penaltyStep;
+        }
+        
     }
 }

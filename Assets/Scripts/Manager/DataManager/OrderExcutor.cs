@@ -53,6 +53,9 @@ public class OrderExcutor
                 // Debug.Log("대화 요청");
                 MGConversation.GetInstance().ShowCheckScript(orderItem);
                 break;
+            case TokenType.None:
+                Debug.Log("아무것도 하지 않는다");
+                break;
         }
         CallBackOrder(null, _order, orderItem);
     }

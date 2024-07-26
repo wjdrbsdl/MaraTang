@@ -119,6 +119,11 @@ public class MGContent : Mg<MGContent>
                         return false;
                     }
                     break;
+
+                    //잘못된 케이스 데이터인 경우 실행되지 않도록 세팅 
+                default:
+                    return false;
+
             }
 
         }
@@ -150,13 +155,7 @@ public class MGContent : Mg<MGContent>
     {
         if (_quest == null)
             return;
-
-        ContentData contentData = MgMasterData.GetInstance().GetContentData(_quest.QuestPid);
-        StageInfo stage = contentData.StageDic[_quest.CurStep];
-        TTokenOrder order = new TTokenOrder(stage.SituationList, stage.SituAdapCount, m_madeQuestCount, _quest);
-        OrderExcutor excutor = new OrderExcutor();
-        excutor.ExcuteOrder(order);
-        MgUI.GetInstance().ShowQuest(_quest);
+        _quest.RealizeStage();
         Chunk chunk = m_chunkList[_quest.ChunkNum];
         chunk.MakePin();
 
