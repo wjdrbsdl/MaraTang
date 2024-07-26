@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
+public enum ContentEnum
+{
+    WorldTurnMatch, Clear, ClearCount, 발생컨텐츠
+}
+
 public class MGContent : Mg<MGContent>
 {
     #region 변수
@@ -12,11 +17,7 @@ public class MGContent : Mg<MGContent>
     private List<Chunk> m_chunkList = new List<Chunk>();
     public int m_madeQuestCount = 0;
     public const int NO_CHUNK_NUM = -1;
-
-    public enum ContentEnum
-    {
-        WorldTurnMatch, Clear, ClearCount, 발생컨텐츠
-    }
+   
     #endregion
 
     #region 초기화
