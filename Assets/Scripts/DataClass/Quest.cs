@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Quest : IOrderCustomer, ISelectCustomer
+public class Quest : IOrderCustomer
 {
     //과제
     //클리어조건
     //보상을 명기한 컨텐트
-    public int QuestPid = 0; //해당 퀘스트 pid mgContet 리스트에 추가되는 값으로 인덱스용
+    public int QuestPid = 0; //content pid
     public int RestWoldTurn = 3; //유지되는 기간 
     public int ChunkNum = 0;
     public int CurStep = 1;
@@ -62,6 +62,21 @@ public class Quest : IOrderCustomer, ISelectCustomer
         FindCallBackCode(_token, resultCode);
     }
 
+    public void SelectConfirmEvent(SelectItemInfo _selectItemInfo)
+    {
+        StageInfo stageInfo = MgMasterData.GetInstance().GetContentData(QuestPid).StageDic[CurStep];
+        if ((ConversationTheme)stageInfo.SuccesConList[0].SubIdx == ConversationTheme.Check)
+        {
+            Debug.Log("대화중에 그냥 확인만 누르면 성공 간주로서 통과");
+            ClearStage();
+        }
+    }
+
+    public void ClearStage()
+    {
+        StageInfo stageInfo = MgMasterData.GetInstance().GetContentData(QuestPid).StageDic[CurStep];
+    }
+
     public void CleanQuest()
     {
         //퀘스트 부산물 정리하는 부분
@@ -111,24 +126,15 @@ public class Quest : IOrderCustomer, ISelectCustomer
 
         if (doneItem.Tokentype.Equals(TokenType.Conversation))
         {
-            MgUI.GetInstance().SetScriptCustomer(this);
+            SelectItemInfo selectInfo = new SelectItemInfo(null, false);
+            System.Action confirmAction = delegate
+            {
+                SelectConfirmEvent(selectInfo);
+            };
+            selectInfo.SetAction(confirmAction);
+            MgUI.GetInstance().SetScriptCustomer(selectInfo);
         }
     }
 
-    public void OnSelectCallBack(int _slotIndex)
-    {
-        //대답용 인터페이스를 팔 필요가 있는듯? 아닌데 퀘스트 보상 선택같은 선택이 필요할때도 있는데 흠 
-        Debug.Log("플레이어가 누른 버튼 " + (Answer)_slotIndex);
-    }
-
-    public void OnChangeValueCallBack(int _slotIndex, int _value)
-    {
-        
-    }
-
-    public void OnConfirm()
-    {
- 
-    }
 }
 
