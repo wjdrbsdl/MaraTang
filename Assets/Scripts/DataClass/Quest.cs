@@ -85,6 +85,7 @@ public class Quest : IOrderCustomer
 
     public void ClearStage()
     {
+        ResetSituation();
         ContentData content = MgMasterData.GetInstance().GetContentData(QuestPid);
         StageInfo stageInfo = content.StageDic[CurStep];
         int nextStep = stageInfo.SuccesStep;
@@ -92,6 +93,17 @@ public class Quest : IOrderCustomer
         {
             CurStep = nextStep;
             RealizeStage();
+        }
+    }
+
+    public void ResetSituation()
+    {
+        StageInfo stageInfo = ContentData.StageDic[CurStep];
+        TOrderItem doneItem = stageInfo.SituationList[0];
+        if (doneItem.Tokentype.Equals(TokenType.OnEvent))
+        {
+            Debug.Log("추가했던 이벤트 제거");
+            PlayerManager.GetInstance().OnChangedPlace.RemoveListener(CharPlaceCheck);
         }
     }
 
@@ -151,8 +163,26 @@ public class Quest : IOrderCustomer
             };
             selectInfo.SetAction(confirmAction);
             MgUI.GetInstance().SetScriptCustomer(selectInfo);
+            return;
+        }
+        if (doneItem.Tokentype.Equals(TokenType.OnEvent))
+        {
+            Debug.Log("onEvent 조건으로 플레이변환에 이벤트 추가");
+            PlayerManager.GetInstance().OnChangedPlace.AddListener(CharPlaceCheck);
         }
     }
 
+    public void CharPlaceCheck()
+    {
+        StageInfo stage = ContentData.StageDic[CurStep];
+        TOrderItem place = stage.SuccesConList[0];
+        Debug.Log("플레이어 어디 입장" + PlayerManager.GetInstance().GetHeroPlace() + "목표" + (TileType)place.Value);
+        if (place.Value == (int)PlayerManager.GetInstance().GetHeroPlace())
+        {
+            Debug.Log("원하는 장소에 입장 성공");
+            ClearStage();
+        }
+
+    }
 }
 
