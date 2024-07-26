@@ -21,7 +21,7 @@ public struct TItemListData
         costList = new();
         for (int i = 0; i < _costList.Count; i++)
         {
-            TOrderItem costData = new TOrderItem((int)TokenType.Capital, (int)_costList[i].Item1, _costList[i].Item2);
+            TOrderItem costData = new TOrderItem(TokenType.Capital, (int)_costList[i].Item1, _costList[i].Item2);
             costList.Add(costData);
         }
     }
@@ -29,7 +29,7 @@ public struct TItemListData
     public TItemListData((Capital, int) _cost)
     {
         costList = new();
-        TOrderItem costData = new TOrderItem((int)TokenType.Capital, (int)_cost.Item1, _cost.Item2);
+        TOrderItem costData = new TOrderItem(TokenType.Capital, (int)_cost.Item1, _cost.Item2);
         costList.Add(costData);
     }
 
