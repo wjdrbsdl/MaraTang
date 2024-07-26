@@ -38,6 +38,7 @@ public class UITileInfo : UIBase
         Switch(true);
         m_curTile = _tile;
         m_curType = _tileType;
+        PlayerManager.GetInstance().SetHeroPlace(_tileType);
        // Debug.Log(_tile.GetTileType());
       
         //Debug.Log("메인 캐릭 있다 " + inMain);
@@ -176,5 +177,11 @@ public class UITileInfo : UIBase
         //강제 아웃시
         m_placeStack.Clear();
         Switch(false);
+    }
+
+    public override void OffWindow()
+    {
+        base.OffWindow();
+        PlayerManager.GetInstance().SetHeroPlace(TileType.Nomal);
     }
 }

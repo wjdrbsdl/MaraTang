@@ -665,6 +665,12 @@ public static class GameUtil
                 case TokenType.Conversation:
                     findEnum = typeof(ConversationTheme);
                     break;
+                case TokenType.Content:
+                    findEnum = typeof(ContentEnum);
+                    break;
+                case TokenType.OnEvent:
+                    findEnum = typeof(OnEventEnum);
+                    break;
             }
 
             if (findEnum == null)

@@ -9,9 +9,14 @@ public enum Tier
     Nomal, Magic, Rare, Unique, Legend
 }
 
+public enum OnEventEnum
+{
+    OnPlaceChange
+}
+
 public enum TokenType
 {
-    Tile, Char, CharStat, Action, Player, Capital, Event, Nation, None, Content, NationTech, Conversation, NationStat
+    Tile, Char, CharStat, Action, Player, Capital, Event, Nation, None, Content, NationTech, Conversation, NationStat, OnEvent
 }
 
 public class TokenBase

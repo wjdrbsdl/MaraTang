@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
 {
@@ -13,6 +14,7 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
     private TokenAction m_curAction;
     private TokenChar m_mainChar = null; //메인 캐릭터
     private PlayerCapitalData m_playerCapitalData = new(); //플레이어의 자원 정보
+    private TileType m_playerPlace = TileType.Nomal;
     public bool m_autoEnd = true; //가능한 액션이 없으면 자동 종료 되는 부분 
     [Header("Efx 별도 확보")]
     [SerializeField]
@@ -224,6 +226,19 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
         m_playGameUI.ResetPlayData();
     }
 
+    public UnityEvent OnChangedPlace;
+    public void SetHeroPlace(TileType _tile)
+    {
+        //플레이어가 입장한 곳 
+        m_playerPlace = _tile;
+        if (OnChangedPlace != null)
+            OnChangedPlace.Invoke();
+    }
+
+    public TileType GetHeroPlace()
+    {
+        return m_playerPlace;
+    }
 
     #region 플레이어 할당된 Token 가져오기
     public TokenChar GetMainChar()
