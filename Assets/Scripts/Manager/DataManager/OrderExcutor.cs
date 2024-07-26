@@ -51,7 +51,7 @@ public class OrderExcutor
                 break;
             case TokenType.Conversation:
                 // Debug.Log("대화 요청");
-                MGConversation.GetInstance().ShowConverSation(orderItem);
+                MGConversation.GetInstance().ShowCheckScript(orderItem);
                 break;
         }
         CallBackOrder(null, _order, orderItem);

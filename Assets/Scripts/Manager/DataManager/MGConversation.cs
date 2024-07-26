@@ -32,7 +32,7 @@ public class MGConversation : Mg<MGConversation>
     }
 
     //대화 선택창을 요구하고 싶으면 mgConversation으로 요청
-    public void AskTextSelect(ConversationTheme _theme, int _start, int _end, Action _confirmAction = null, ITradeCustomer _giver = null, ITradeCustomer _taker = null)
+    public void ShowSelectScript(ConversationTheme _theme, int _start, int _end, Action _confirmAction = null, ITradeCustomer _giver = null, ITradeCustomer _taker = null)
     {
         List<TOrderItem> senetenceItems = GetSentenceItemList(_theme, _start, _end);
         SelectItemInfo selectInfo = new SelectItemInfo(senetenceItems, true);
@@ -42,7 +42,7 @@ public class MGConversation : Mg<MGConversation>
         selectInfo.ShowScript();
     }
     
-    public void ShowConverSation(TOrderItem _scriptItem)
+    public void ShowCheckScript(TOrderItem _scriptItem)
     {
         ConversationData scriptData = GetConversationData((ConversationTheme)_scriptItem.SubIdx, _scriptItem.Value);
         MgUI.GetInstance().ShowScript(scriptData);

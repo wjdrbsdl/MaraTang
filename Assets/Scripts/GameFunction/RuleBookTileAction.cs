@@ -112,7 +112,7 @@ public class RuleBookTileAction
 
     private void TempSaySentence()
     {
-        MGConversation.GetInstance().AskTextSelect(ConversationTheme.Choose, 1, 4);
+        MGConversation.GetInstance().ShowSelectScript(ConversationTheme.Choose, 1, 4);
     }
 
     public enum TownFuction
