@@ -13,7 +13,7 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
     private TokenTile m_curTile; //현재 선택한 땅
     private TokenAction m_curAction;
     private TokenChar m_mainChar = null; //메인 캐릭터
-    private PlayerCapitalData m_playerCapitalData = new(); //플레이어의 자원 정보
+
     private TileType m_playerPlace = TileType.Nomal;
     public bool m_autoEnd = true; //가능한 액션이 없으면 자동 종료 되는 부분 
     [Header("Efx 별도 확보")]
@@ -25,6 +25,7 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
     public override void ManageInitiSet()
     {
         base.ManageInitiSet();
+        new PlayerCapitalData();
         m_mainChar = MgToken.GetInstance().GetMainChar();
         m_mainChar.isMainChar = true;
     }
