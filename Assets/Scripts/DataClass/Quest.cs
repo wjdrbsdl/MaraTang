@@ -4,15 +4,11 @@ using UnityEngine;
 
 public class Quest : IOrderCustomer
 {
-    //과제
-    //클리어조건
-    //보상을 명기한 컨텐트
     public int ContentPid = 0; //content pid
     public int SerialNum = 0;
     public int RestWoldTurn = 3; //유지되는 기간 
     public int ChunkNum = 0;
     public int CurStep = 1;
-    public List<TokenBase> QuestTokens = new(); //퀘스트에 관련된 토큰들 
     public CurStageData CurStageData;
 
     #region 생성
@@ -54,33 +50,16 @@ public class Quest : IOrderCustomer
         MonsterDie, EventActive
     }
 
-    public void SendQuestCallBack(TokenBase _token)
-    {
-        //각 토큰에서 개별적으로 자신의 상태를 콜백함. 
-        QuestCode resultCode = QuestCode.MonsterDie;
-        TokenType type = _token.GetTokenType();
-
-        //1. 토큰 타입에 따라 현재 토큰의 상태에 따라 콜백 코드를 생성
-        if (type.Equals(TokenType.Char))
-        {
-            //몬스터의 경우 토큰의 상태에 따라 코드를 만들어서 전달 - 즉 죽었을 경우, 어떤 상태의 경우등에 따라 코드를 정의 해놔야함.
-            resultCode = QuestCode.MonsterDie;
-        }
-        else if (type.Equals(TokenType.Event))
-        {
-            Debug.Log("이벤트 입장 했음 알림" + QuestTokens.IndexOf(_token));
-            resultCode = QuestCode.EventActive;
-        }
-        //2. 생성된 코드를 토큰과 함께 전달
-        FindCallBackCode(_token, resultCode);
-    }
-
     public void ClearStage()
     {
         Debug.LogFormat("시리얼 넘버{0} 퀘 {1}스테이지 클리어 됨", SerialNum, CurStep);
         ResetSituation();
         int nextStep = CurStageData.SuccesStep;
         CurStep = nextStep;
+        if(CurStep == 0)
+        {
+            MGContent.GetInstance().SuccessQuest(this);
+        }
         RealizeStage();
     }
 
@@ -89,49 +68,6 @@ public class Quest : IOrderCustomer
         Debug.LogFormat("시리얼 넘버{0} 퀘 {1}스테이지 리셋", SerialNum, CurStep);
         StageMasterData stageInfo = MgMasterData.GetInstance().GetStageData(ContentPid, CurStep);
         TOrderItem doneItem = stageInfo.SituationList[0];
-    }
-
-    public void CleanQuest()
-    {
-        //퀘스트 부산물 정리하는 부분
-        //1. 사냥 퀘스트의 경우 남은 몬스터에 대한 정리 
-        for (int i = 0; i < QuestTokens.Count; i++)
-        {
-            QuestTokens[i].CleanToken();
-        }
-    }
-
-    private void FindCallBackCode(TokenBase _token, QuestCode _concludeCode)
-    {
-        //전달받은 코드와 토큰으로 해당 퀘스트에 어떻게 적용할지 정의
-   
-        //현재는 몬스터 사망으로 잡아야할 몬스터 리스트에서 제거하는 중
-        if(_concludeCode.Equals(QuestCode.MonsterDie))
-           QuestTokens.Remove(_token);
-        else if (_concludeCode.Equals(QuestCode.EventActive))
-        {
-            //이벤트 퀘스트의 경우 하나라도 수행되었으면 성공처리
-            MGContent.GetInstance().SuccessQuest(this); //
-            return;
-        }
-
-        bool isComplete = CheckQuestComplete();
-        //퀘스트 평가중 성공했다면
-        if (isComplete)
-        {
-            MGContent.GetInstance().SuccessQuest(this);
-        }
-            
-    }
-
-    private bool CheckQuestComplete()
-    {
-        //토큰의 호출시 마다 결과 코드를 기록하고 퀘스트 완료 여부를 체크한다. 
-        if (QuestTokens.Count == 0)
-        {
-            return true;
-        }
-        return false;
     }
 
     public void OnOrderCallBack(OrderReceipt _orderReceipt)
@@ -200,7 +136,7 @@ public class CurStageData
             //1. 현재 조건 상태의 TokenType과 동일한지부터 체크 
             if(_adaptItem.Tokentype != curCondtion.Tokentype)
             {
-                Debug.LogFormat("{0}타입이 다름", _adaptItem.Tokentype);
+                Debug.LogFormat("적용 타입 {0}, 조건 타입 {1}으로 타입이 다름", _adaptItem.Tokentype, curCondtion.Tokentype);
                 continue;
             }
                 
@@ -209,6 +145,9 @@ public class CurStageData
             {
                 case TokenType.Char: //몬스터의 경우 목표 몬스터 처치시 현재 상태 value 1 상승
                     AdaptHunt(_adaptItem, curCondtion, i);
+                    break;
+                case TokenType.Action:
+                    AdaptActionLv(i);
                     break;
                 default:
                     AdaptValue(_adaptItem, curCondtion, i);
@@ -228,6 +167,26 @@ public class CurStageData
             return;
         }
      }
+    private void AdaptActionLv(int _index)
+    {
+        TOrderItem needAction = CurConList[_index]; //조건값 복사
+        List<TokenAction> actionList = PlayerManager.GetInstance().GetPlayerActionList();
+        int needActionPid = needAction.SubIdx;
+        Debug.Log(_index+"번째 조건인"+needActionPid+"를 보유했는지 체크 현재 보유 유무는 "+needAction.Value);
+        //일단 레벨보단 보유로 진행
+        for (int i = 0; i < actionList.Count; i++)
+        {
+            int actionPid = actionList[i].GetPid();
+            
+            if (needActionPid == actionPid)
+            {
+                needAction.SetValue(1); //동일한 스킬이 존재하면 해당 조건 벨류 1로 적용
+                CurConList[_index] = needAction;
+                Debug.LogFormat("필요한 스킬 pid{0}이 존재해서 현재 조건 value를 {1}로 수정",actionPid, CurConList[_index].Value);
+            }
+                
+        }
+    }
     private void AdaptValue(TOrderItem _adaptItem, TOrderItem _curRecord, int _index)
     {
         //단순히 최근 값을 현재 상태로 적용하면 되는 경우 
@@ -257,7 +216,8 @@ public class CurStageData
             switch (conditionType)
             {
                 case TokenType.Char: //몬스터의 경우 목표 몬스터 처치시 현재 상태 value 1 상승
-                    isPass = IsEnoughHunt(i);
+                case TokenType.Action:
+                    isPass = IsEnoughValue(i);
                     break;
                 default:
                     isPass = IsMatch(i);
@@ -274,7 +234,7 @@ public class CurStageData
         }
         return true;
     }
-    private bool IsEnoughHunt(int _index)
+    private bool IsEnoughValue(int _index)
     {
         if (SuccesConList[_index].Value <= CurConList[_index].Value)
             return true;

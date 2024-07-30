@@ -158,8 +158,7 @@ public class TokenBase
 
     protected virtual void SendQuestCallBack()
     {
-        if (QuestCard != null)
-            QuestCard.SendQuestCallBack(this);
+
     }
 
     public virtual void CleanToken()
