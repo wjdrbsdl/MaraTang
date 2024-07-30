@@ -26,5 +26,8 @@ public class UIScript : UIBase
     {
         if (m_select != null)
             m_select.Confirm();
+
+        Switch(false);
+        m_select = null;
     }
 }
