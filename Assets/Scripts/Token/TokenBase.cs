@@ -173,7 +173,7 @@ public class TokenBase
     public void SetQuest(Quest _quest)
     {
         QuestCard = _quest;
-        QuestPid = _quest.QuestPid;
+        QuestPid = _quest.ContentPid;
     }
 
     public Quest GetQuest()

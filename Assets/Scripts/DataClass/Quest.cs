@@ -7,7 +7,7 @@ public class Quest : IOrderCustomer
     //과제
     //클리어조건
     //보상을 명기한 컨텐트
-    public int QuestPid = 0; //content pid
+    public int ContentPid = 0; //content pid
     public int SerialNum = 0;
     public int RestWoldTurn = 3; //유지되는 기간 
     public int ChunkNum = 0;
@@ -23,16 +23,17 @@ public class Quest : IOrderCustomer
 
     public Quest(ContentMasterData _contentData, int _chunkNum)
     {
-        QuestPid = _contentData.ContentPid;
+        ContentPid = _contentData.ContentPid;
         ContentData = _contentData;
-       ChunkNum = _chunkNum;
+        ChunkNum = _chunkNum;
+        SerialNum = MGContent.GetInstance().GetSerialNum();
 
     }
     #endregion
 
     public void RealizeStage()
     {
-        StageMasterData stage = MgMasterData.GetInstance().GetStageData(QuestPid, CurStep);
+        StageMasterData stage = MgMasterData.GetInstance().GetStageData(ContentPid, CurStep);
         TTokenOrder order = new TTokenOrder(stage.SituationList, stage.SituAdapCount, SerialNum, this);
         OrderExcutor excutor = new OrderExcutor();
         excutor.ExcuteOrder(order);
@@ -75,7 +76,7 @@ public class Quest : IOrderCustomer
 
     public void SelectConfirmEvent(SelectItemInfo _selectItemInfo)
     {
-        StageMasterData stageInfo = MgMasterData.GetInstance().GetContentData(QuestPid).StageDic[CurStep];
+        StageMasterData stageInfo = MgMasterData.GetInstance().GetContentData(ContentPid).StageDic[CurStep];
         if ((ConversationEnum)stageInfo.SuccesConList[0].SubIdx == ConversationEnum.Check)
         {
             Debug.Log("대화중에 그냥 확인만 누르면 성공 간주로서 통과");
@@ -86,7 +87,7 @@ public class Quest : IOrderCustomer
     public void ClearStage()
     {
         ResetSituation();
-        StageMasterData stageInfo = MgMasterData.GetInstance().GetStageData(QuestPid, CurStep);
+        StageMasterData stageInfo = MgMasterData.GetInstance().GetStageData(ContentPid, CurStep);
         int nextStep = stageInfo.SuccesStep;
         CurStep = nextStep;
         RealizeStage();

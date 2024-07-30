@@ -14,7 +14,7 @@ public class MGContent : Mg<MGContent>
     List<(int, bool)> m_QuestRecorde = new(); //과거 퀘스트의 기록
     private int m_mainCharChunkNum = 0;
     private List<Chunk> m_chunkList = new List<Chunk>();
-    public int m_madeQuestCount = 0;
+    public int m_curSerialNum = 0; //컨텐츠등을 만들때마다 생성 
     public const int NO_CHUNK_NUM = -1;
 
     #endregion
@@ -187,7 +187,7 @@ public class MGContent : Mg<MGContent>
     }
     private void RecordeQuest(Quest _quest, bool _result)
     {
-        m_QuestRecorde.Add((_quest.QuestPid, _result));
+        m_QuestRecorde.Add((_quest.ContentPid, _result));
     }
 
     private void CountQuestTurn()
@@ -220,6 +220,14 @@ public class MGContent : Mg<MGContent>
         MgUI.GetInstance().RefreshQuestList();
     }
     #endregion
+
+    public int GetSerialNum()
+    {
+        //
+        int serial = m_curSerialNum;
+        m_curSerialNum += 1;
+        return serial;
+    }
 
     public bool IsContentDone(int _contentPId)
     {
@@ -286,10 +294,9 @@ public class MGContent : Mg<MGContent>
                 break;
         }
         
+        //퀘스트에 최근 액션 적용
         for (int i = 0; i < m_QuestList.Count; i++)
         {
-            
-
             Quest quest = m_QuestList[i];
             List<TOrderItem> conditionList = quest.ContentData.StageDic[quest.CurStep].SuccesConList; //성공조건들 뺌
             TOrderItem origin = conditionList[0];

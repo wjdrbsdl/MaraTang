@@ -12,7 +12,7 @@ public class BtnQuestList : MonoBehaviour
     public void SetButton(Quest _quest)
     {
         m_quest = _quest;
-        m_statText.text = _quest.QuestPid + "¹ø ³²Àº È½¼ö "+_quest.RestWoldTurn;
+        m_statText.text = _quest.ContentPid + "¹ø ³²Àº È½¼ö "+_quest.RestWoldTurn;
     }
 
     public void OnButtonClick()

@@ -7,6 +7,7 @@ using UnityEngine;
 public class SelectItemInfo : ISelectCustomer
 {
     public bool IsFixedValue = false;
+    public int SerialNum = FixedValue.No_INDEX_NUMBER; //사용안할때는 none 넘버로 
     public ITradeCustomer Giver;
     public ITradeCustomer Taker;
     public List<TOrderItem> ItemList; //보여주려는 아이템리스트
@@ -29,6 +30,11 @@ public class SelectItemInfo : ISelectCustomer
     public void SetAction(Action _action)
     {
         ConfirmAction = _action;
+    }
+
+    public void SetSerial(int _serialNum)
+    {
+        SerialNum = _serialNum;
     }
 
     public void SetGiver(ITradeCustomer _giver)
