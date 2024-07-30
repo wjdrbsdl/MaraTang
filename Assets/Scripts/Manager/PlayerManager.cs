@@ -232,7 +232,7 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
     {
         //플레이어가 입장한 곳 
         m_playerPlace = _tile;
-        TOrderItem placeItem = new TOrderItem(TokenType.OnEvent, (int)OnEventEnum.OnPlaceChange, (int)_tile);
+        TOrderItem placeItem = new TOrderItem(TokenType.OnChange, (int)OnChangeEnum.OnPlaceChange, (int)_tile);
         MGContent.GetInstance().SendActionCode(placeItem);
     }
 

@@ -668,8 +668,8 @@ public static class GameUtil
                 case TokenType.Content:
                     findEnum = typeof(ContentEnum);
                     break;
-                case TokenType.OnEvent:
-                    findEnum = typeof(OnEventEnum);
+                case TokenType.OnChange:
+                    findEnum = typeof(OnChangeEnum);
                     break;
             }
 
