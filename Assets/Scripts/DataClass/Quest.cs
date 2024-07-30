@@ -195,6 +195,7 @@ public class CurStageData
             //1. 현재 조건 상태의 TokenType과 동일한지부터 체크 
             if(_adaptItem.Tokentype != curCondtion.Tokentype)
             {
+                Debug.LogFormat("{0}타입이 다름", _adaptItem.Tokentype);
                 continue;
             }
                 
@@ -219,6 +220,7 @@ public class CurStageData
             TOrderItem newCurCondition = _curRecord;
             newCurCondition.SetValue(_curRecord.Value + 1);
             CurConList[_index] = newCurCondition; //조건 상황이 변했으면 새로 할당
+            return;
         }
      }
     private void AdaptValue(TOrderItem _adaptItem, TOrderItem _curRecord, int _index)
@@ -229,7 +231,9 @@ public class CurStageData
         {
             //그냥 할당
             CurConList[_index] = _adaptItem;
+            return;
         }
+        Debug.LogFormat("{0}타입 적용할 sub{1}가 다름",_adaptItem.Tokentype,_adaptItem.SubIdx);
     }
     #endregion
 
