@@ -97,7 +97,7 @@ public class SelectItemInfo : ISelectCustomer
 
         List<TOrderItem> selectedList = GetSelectList();
 
-        TOrderItem confirmItem = new TOrderItem(TokenType.Conversation, (int)ConversationEnum.Response, 0); //확인용 item 생성
+        TOrderItem confirmItem = new TOrderItem(TokenType.Conversation, (int)ConversationEnum.Response, (int)ResponseEnum.Check); //확인용 item 생성
         selectedList.Add(confirmItem);
         for (int i = 0; i < selectedList.Count; i++)
         {
