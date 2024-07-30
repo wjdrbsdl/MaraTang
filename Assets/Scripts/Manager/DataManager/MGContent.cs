@@ -281,7 +281,7 @@ public class MGContent : Mg<MGContent>
         //1. 새로운 컨텐츠 조건 해방으로 추가될 컨텐츠가 있는지
         //2. 수행중인 퀘스트에 어떤영향을 미치는지 판단 
         //* 현재 있는 3개 값만으로 분류가 불가해질경우, 추가 변수 설정이 필요. 
-            
+        Debug.LogFormat("{0}번 타입 {1}서브 {2} 벨류 액션 전달", _orderItem.Tokentype, _orderItem.SubIdx, _orderItem.Value);
         //퀘스트 클리어 여부 체크 
         for (int i = 0; i < m_QuestList.Count; i++)
         {
