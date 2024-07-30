@@ -31,6 +31,7 @@ public class Quest : IOrderCustomer
 
     public void RealizeStage()
     {
+        Debug.Log(CurStep + "단계 구현화 진행");
         StageMasterData stage = MgMasterData.GetInstance().GetStageData(ContentPid, CurStep);
         CurStageData = new CurStageData(stage);
         TTokenOrder order = new TTokenOrder(stage.SituationList, stage.SituAdapCount, SerialNum, this);
@@ -76,7 +77,7 @@ public class Quest : IOrderCustomer
 
     public void ClearStage()
     {
-      //  Debug.LogFormat("시리얼 넘버{0} 퀘 {1}스테이지 클리어 됨", SerialNum, CurStep);
+        Debug.LogFormat("시리얼 넘버{0} 퀘 {1}스테이지 클리어 됨", SerialNum, CurStep);
         ResetSituation();
         int nextStep = CurStageData.SuccesStep;
         CurStep = nextStep;
@@ -85,6 +86,7 @@ public class Quest : IOrderCustomer
 
     public void ResetSituation()
     {
+        Debug.LogFormat("시리얼 넘버{0} 퀘 {1}스테이지 리셋", SerialNum, CurStep);
         StageMasterData stageInfo = MgMasterData.GetInstance().GetStageData(ContentPid, CurStep);
         TOrderItem doneItem = stageInfo.SituationList[0];
     }
@@ -173,7 +175,10 @@ public class CurStageData
         {
             TOrderItem conditionItem = SuccesConList[i];
             TokenType conditionType = conditionItem.Tokentype;
-            TOrderItem curConItem = new TOrderItem(conditionType, conditionItem.SubIdx, 0); //조건의 value를 0으로 해서 진행
+            int intialValue = FixedValue.No_VALUE; //초기값은 기본적으로 노 벨류, 조건의 value가 0인경우도 있어서 -1을 기본 세팅. 
+            if (conditionType.Equals(TokenType.Char))
+                intialValue = 0; //몬스터의경우 0 => 몬스터의경우 value가 잡은 몬스터 수이므로 0 부터 시작. 
+            TOrderItem curConItem = new TOrderItem(conditionType, conditionItem.SubIdx, intialValue); //조건의 value를 0으로 해서 진행
 
             CurConList.Add(curConItem);
             CurPassRecordList.Add(false);
@@ -226,11 +231,13 @@ public class CurStageData
     private void AdaptValue(TOrderItem _adaptItem, TOrderItem _curRecord, int _index)
     {
         //단순히 최근 값을 현재 상태로 적용하면 되는 경우 
+        Debug.LogFormat("적용하려는 Adapt 대상이 {0}타입에 sub{1}인지 체크 기존 밸류는{2}", _curRecord.Tokentype, _curRecord.SubIdx,_curRecord.Value);
         //subIdx 확인후 
         if (_curRecord.SubIdx == _adaptItem.SubIdx)
         {
             //그냥 할당
             CurConList[_index] = _adaptItem;
+            Debug.LogFormat("{0}타입 적용할 sub{1}에 {2}로 값 적용\n적용후 값{3}", _adaptItem.Tokentype, _adaptItem.SubIdx, _adaptItem.Value, CurConList[_index].Value);
             return;
         }
         Debug.LogFormat("{0}타입 적용할 sub{1}가 다름",_adaptItem.Tokentype,_adaptItem.SubIdx);
