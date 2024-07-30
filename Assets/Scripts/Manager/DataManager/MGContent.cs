@@ -104,13 +104,14 @@ public class MGContent : Mg<MGContent>
 
     private bool IsSatisfyAct(List<TOrderItem> _conditionList)
     {
-        //
+        //컨텐츠 발동 조건에 충족하는지 체크
         for (int i = 0; i < _conditionList.Count; i++)
         {
             TOrderItem conditionInfo = _conditionList[i]; 
             TokenType condtionType = conditionInfo.Tokentype;
             switch (condtionType)
             {
+                //각 케이스별로 조건 체크 
                 case TokenType.Content:
                     ContentEnum contentCase = (ContentEnum)conditionInfo.SubIdx;
                     bool isOk = IsSatisfyCase(contentCase, conditionInfo.Value);
@@ -283,24 +284,16 @@ public class MGContent : Mg<MGContent>
 
         //* 현재 있는 3개 값만으로 분류가 불가해질경우, 추가 변수 설정이 필요. 
         
-        TokenType actionType = _orderItem.Tokentype;
-        switch (actionType)
-        {
-            case TokenType.OnEvent:
-                Debug.Log(actionType + "류 " + (OnEventEnum)_orderItem.SubIdx + "서브 " + _orderItem.Value + "전달");
-                break;
-            case TokenType.Conversation:
-                Debug.Log(actionType + "류 " + (ConversationEnum)_orderItem.SubIdx + "서브 " + _orderItem.Value + "전달");
-                break;
-        }
-        
+            
         //퀘스트에 최근 액션 적용
         for (int i = 0; i < m_QuestList.Count; i++)
         {
             Quest quest = m_QuestList[i];
-            List<TOrderItem> conditionList = quest.ContentData.StageDic[quest.CurStep].SuccesConList; //성공조건들 뺌
-            TOrderItem origin = conditionList[0];
-            
+            quest.CurStageData.AdaptCondtion(_orderItem); //각 퀘스트에 새로운 상태를 적용하고
+            bool isCompelete = quest.CurStageData.CheckCondition(); //해당 퀘스트의 스테이지가 클리어되었는지 확인
+            Debug.LogFormat("시리얼 넘버{0} 퀘 {1}스테이지 클리어 여부{2}", quest.SerialNum, quest.CurStep, isCompelete);
+            if(isCompelete)
+            quest.ClearStage();
         }
 
     }

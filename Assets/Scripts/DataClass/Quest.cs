@@ -12,8 +12,8 @@ public class Quest : IOrderCustomer
     public int RestWoldTurn = 3; //유지되는 기간 
     public int ChunkNum = 0;
     public int CurStep = 1;
-    public ContentMasterData ContentData;
     public List<TokenBase> QuestTokens = new(); //퀘스트에 관련된 토큰들 
+    public CurStageData CurStageData;
 
     #region 생성
     public Quest()
@@ -24,21 +24,21 @@ public class Quest : IOrderCustomer
     public Quest(ContentMasterData _contentData, int _chunkNum)
     {
         ContentPid = _contentData.ContentPid;
-        ContentData = _contentData;
         ChunkNum = _chunkNum;
         SerialNum = MGContent.GetInstance().GetSerialNum();
-
     }
     #endregion
 
     public void RealizeStage()
     {
         StageMasterData stage = MgMasterData.GetInstance().GetStageData(ContentPid, CurStep);
+        CurStageData = new CurStageData(stage);
         TTokenOrder order = new TTokenOrder(stage.SituationList, stage.SituAdapCount, SerialNum, this);
         OrderExcutor excutor = new OrderExcutor();
         excutor.ExcuteOrder(order);
-        MgUI.GetInstance().ShowQuest(this);
-    
+        Debug.LogWarning("새 퀘스트 알람 닫아놓음");
+        //MgUI.GetInstance().ShowQuest(this);
+      //  Debug.LogFormat("시리얼 넘버{0} 퀘 {1}스테이지 발동 됨", SerialNum, CurStep);
     }
 
     public void FlowTurn(int _count = 1)
@@ -74,34 +74,19 @@ public class Quest : IOrderCustomer
         FindCallBackCode(_token, resultCode);
     }
 
-    public void SelectConfirmEvent(SelectItemInfo _selectItemInfo)
-    {
-        StageMasterData stageInfo = MgMasterData.GetInstance().GetContentData(ContentPid).StageDic[CurStep];
-        if ((ConversationEnum)stageInfo.SuccesConList[0].SubIdx == ConversationEnum.Check)
-        {
-            Debug.Log("대화중에 그냥 확인만 누르면 성공 간주로서 통과");
-            ClearStage();
-        }
-    }
-
     public void ClearStage()
     {
+      //  Debug.LogFormat("시리얼 넘버{0} 퀘 {1}스테이지 클리어 됨", SerialNum, CurStep);
         ResetSituation();
-        StageMasterData stageInfo = MgMasterData.GetInstance().GetStageData(ContentPid, CurStep);
-        int nextStep = stageInfo.SuccesStep;
+        int nextStep = CurStageData.SuccesStep;
         CurStep = nextStep;
         RealizeStage();
     }
 
     public void ResetSituation()
     {
-        StageMasterData stageInfo = ContentData.StageDic[CurStep];
+        StageMasterData stageInfo = MgMasterData.GetInstance().GetStageData(ContentPid, CurStep);
         TOrderItem doneItem = stageInfo.SituationList[0];
-        if (doneItem.Tokentype.Equals(TokenType.OnEvent))
-        {
-            Debug.Log("추가했던 이벤트 제거");
-            PlayerManager.GetInstance().OnChangedPlace.RemoveListener(CharPlaceCheck);
-        }
     }
 
     public void CleanQuest()
@@ -154,33 +139,11 @@ public class Quest : IOrderCustomer
         if (doneItem.Tokentype.Equals(TokenType.Conversation))
         {
             SelectItemInfo selectInfo = new SelectItemInfo(null, false);
-            System.Action confirmAction = delegate
-            {
-                SelectConfirmEvent(selectInfo);
-            };
-            selectInfo.SetAction(confirmAction);
             MgUI.GetInstance().SetScriptCustomer(selectInfo);
             return;
         }
-        if (doneItem.Tokentype.Equals(TokenType.OnEvent))
-        {
-            Debug.Log("onEvent 조건으로 플레이변환에 이벤트 추가");
-            PlayerManager.GetInstance().OnChangedPlace.AddListener(CharPlaceCheck);
-        }
     }
 
-    public void CharPlaceCheck()
-    {
-        StageMasterData stage = ContentData.StageDic[CurStep];
-        TOrderItem place = stage.SuccesConList[0];
-        Debug.Log("플레이어 어디 입장" + PlayerManager.GetInstance().GetHeroPlace() + "목표" + (TileType)place.Value);
-        if (place.Value == (int)PlayerManager.GetInstance().GetHeroPlace())
-        {
-            Debug.Log("원하는 장소에 입장 성공");
-            ClearStage();
-        }
-
-    }
 }
 
 public class CurStageData
@@ -194,5 +157,126 @@ public class CurStageData
     //5. 보상을 선택한다. 
     //6. 중도 포기한다. 
     //7. 실패 조건을 충족했다. 
+    public List<TOrderItem> SuccesConList; //맞추려는 조건
+    public List<TOrderItem> CurConList; //현재 진행 상황
+    public List<bool> CurPassRecordList; //현재 달성 상황
+    public int SuccesStep; //성공시 이동할 Stage 기록
+    public int PenaltyStep; //실패시 이동할 Stage 기록
+    public int StageNum;
 
+    public CurStageData(StageMasterData _stageMasterData)
+    {
+        SuccesConList = _stageMasterData.SuccesConList; //성공조건은 마스터 그대로
+        CurConList = new List<TOrderItem>(); //현재 상황은 새로 새팅
+        CurPassRecordList = new List<bool>();
+        for (int i = 0; i < SuccesConList.Count; i++)
+        {
+            TOrderItem conditionItem = SuccesConList[i];
+            TokenType conditionType = conditionItem.Tokentype;
+            TOrderItem curConItem = new TOrderItem(conditionType, conditionItem.SubIdx, 0); //조건의 value를 0으로 해서 진행
+
+            CurConList.Add(curConItem);
+            CurPassRecordList.Add(false);
+        }
+        SuccesStep = _stageMasterData.SuccesStep;
+        PenaltyStep = _stageMasterData.PenaltyStep;
+        StageNum = _stageMasterData.StageNum;
+    }
+
+
+    #region 액션을 현재 상태에 반영
+    public void AdaptCondtion(TOrderItem _adaptItem)
+    {
+        //새 item을 현재 상태에 적용
+        TokenType adaptType = _adaptItem.Tokentype;
+        for (int i = 0; i < CurPassRecordList.Count; i++)
+        {
+            TOrderItem curCondtion = CurConList[i]; //현재 상태
+            //1. 현재 조건 상태의 TokenType과 동일한지부터 체크 
+            if(_adaptItem.Tokentype != curCondtion.Tokentype)
+            {
+                continue;
+            }
+                
+            //2. 수행된 토큰타입에 따라 개별 적용 진행
+            switch (adaptType)
+            {
+                case TokenType.Char: //몬스터의 경우 목표 몬스터 처치시 현재 상태 value 1 상승
+                    AdaptHunt(_adaptItem, curCondtion, i);
+                    break;
+                default:
+                    AdaptValue(_adaptItem, curCondtion, i);
+                    break;
+            }
+
+        }
+    }
+    private void AdaptHunt(TOrderItem _huntMonItem, TOrderItem _curRecord, int _index)
+    {
+        //잡은 몬스터와 잡아야하는 몬스터 pid가 동일하면 현재 조건에 +1
+        if(_curRecord.SubIdx == _huntMonItem.SubIdx)
+        {
+            TOrderItem newCurCondition = _curRecord;
+            newCurCondition.SetValue(_curRecord.Value + 1);
+            CurConList[_index] = newCurCondition; //조건 상황이 변했으면 새로 할당
+        }
+     }
+    private void AdaptValue(TOrderItem _adaptItem, TOrderItem _curRecord, int _index)
+    {
+        //단순히 최근 값을 현재 상태로 적용하면 되는 경우 
+        //subIdx 확인후 
+        if (_curRecord.SubIdx == _adaptItem.SubIdx)
+        {
+            //그냥 할당
+            CurConList[_index] = _adaptItem;
+        }
+    }
+    #endregion
+
+    #region 현재 상태가 성공 상태에 도달했는지 체크
+    public bool CheckCondition()
+    {
+        //현재 상태와 목표 상태를 각 토큰타입에 따라 벨류를 따져봄
+        for (int i = 0; i < CurPassRecordList.Count; i++)
+        {
+            TOrderItem curCondtion = CurConList[i]; //현재 상태
+            TokenType conditionType = curCondtion.Tokentype;
+            bool isPass = false; //개별 성공 여부
+            //수행된 조건 타입에 따라 현재 조건 상태를 변화
+            switch (conditionType)
+            {
+                case TokenType.Char: //몬스터의 경우 목표 몬스터 처치시 현재 상태 value 1 상승
+                    isPass = IsEnoughHunt(i);
+                    break;
+                default:
+                    isPass = IsMatch(i);
+                    break;
+            }
+            //따진 후 성공여부 체크 
+            CurPassRecordList[i] = isPass;
+        }
+
+        for (int i = 0; i < CurPassRecordList.Count; i++)
+        {
+            if (CurPassRecordList[i] == false)
+                return false;
+        }
+        return true;
+    }
+    private bool IsEnoughHunt(int _index)
+    {
+        if (SuccesConList[_index].Value <= CurConList[_index].Value)
+            return true;
+
+        return false;
+    }
+    private bool IsMatch(int _index)
+    {
+        //조건값과 현재값이 동일하면 되는 경우 
+        if (SuccesConList[_index].Value == CurConList[_index].Value)
+            return true;
+
+        return false;
+    }
+    #endregion
 }
