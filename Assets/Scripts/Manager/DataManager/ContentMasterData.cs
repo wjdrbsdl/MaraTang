@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class ContentData
+public class ContentMasterData
 {
     //컨텐츠 데이터로 퀘스트 조건, 페널티, 보상안등의 정보를 담고 있음. 
     public int ContentPid;
     public List<TOrderItem> ActConditionList; //컨텐츠 발동조건 리스트
-    public Dictionary<int, StageInfo> StageDic; //컨텐츠 각 단계 내용
+    public Dictionary<int, StageMasterData> StageDic = new (); //컨텐츠 각 단계 내용
 
-    public ContentData(string[] _parsingData)
+    public ContentMasterData(string[] _parsingData)
     {
         ContentPid = int.Parse(_parsingData[0]);
         //ConditionType = (EOrderType)int.Parse(_parsingData[1]);
@@ -33,12 +33,10 @@ public class ContentData
         string[] rewardDivdes = _parsingData[rewardIdx].Split(FixedValue.PARSING_LINE_DIVIDE);
         string[] penaltyDivdes = _parsingData[penaltyIdx].Split(FixedValue.PARSING_LINE_DIVIDE);
 
-
-        StageDic = new();
         for (int curStep = 1; curStep <= totalStep; curStep++)
         {
             int arrayIndex = curStep - 1;
-            StageInfo stageInfo = new StageInfo(curStep, situAdapValues[arrayIndex], situationDivides[arrayIndex], succesDivides[arrayIndex],
+            StageMasterData stageInfo = new StageMasterData(curStep, situAdapValues[arrayIndex], situationDivides[arrayIndex], succesDivides[arrayIndex],
                                                         rewardDivdes[arrayIndex], penaltyDivdes[arrayIndex]);
             StageDic.Add(curStep, stageInfo);
         }
@@ -56,9 +54,17 @@ public class ContentData
         //}
 
     }
+
+    public StageMasterData GetStageData(int _stageStep)
+    {
+        if (StageDic.ContainsKey(_stageStep))
+            return StageDic[_stageStep];
+
+        return default(StageMasterData);
+    }
 }
 
-public class StageInfo
+public class StageMasterData
 {
     public int SituAdapCount;
     public List<TOrderItem> SituationList; //컨텐츠 수행 상황 리스트
@@ -66,7 +72,7 @@ public class StageInfo
     public int SuccesStep; //성공시 이동할 Stage 기록
     public int PenaltyStep; //실패시 이동할 Stage 기록
     public int StageNum;
-    public StageInfo(int _stageNum, string _situAdapStr, string _sitautionStrData, string _succesConStr, string _rewardStrData, string _penaltyStrData)
+    public StageMasterData(int _stageNum, string _situAdapStr, string _sitautionStrData, string _succesConStr, string _rewardStrData, string _penaltyStrData)
     {
         StageNum = _stageNum;
         bool nonDataAdd = true;
@@ -88,3 +94,4 @@ public class StageInfo
         
     }
 }
+

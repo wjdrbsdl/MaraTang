@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public enum ContentEnum
 {
     WorldTurnMatch, Clear, ClearCount, 발생컨텐츠
@@ -17,7 +16,7 @@ public class MGContent : Mg<MGContent>
     private List<Chunk> m_chunkList = new List<Chunk>();
     public int m_madeQuestCount = 0;
     public const int NO_CHUNK_NUM = -1;
-   
+
     #endregion
 
     #region 초기화
@@ -87,10 +86,10 @@ public class MGContent : Mg<MGContent>
     {
         //존재하는 모든 컨텐츠들의 발동조건을 따져서 수행 
 
-        Dictionary<int, ContentData> contentDic = MgMasterData.GetInstance().GetContentDataDic();
-        foreach(KeyValuePair<int, ContentData> pair in contentDic)
+        Dictionary<int, ContentMasterData> contentDic = MgMasterData.GetInstance().GetContentDataDic();
+        foreach(KeyValuePair<int, ContentMasterData> pair in contentDic)
         {
-            ContentData curContent = pair.Value;
+            ContentMasterData curContent = pair.Value;
             //모든 컨텐츠의 발동조건을 살핌. 
             if (IsSatisfyAct(curContent.ActConditionList))
             {
@@ -159,7 +158,7 @@ public class MGContent : Mg<MGContent>
         _quest.RealizeStage();
         Chunk chunk = m_chunkList[_quest.ChunkNum];
         chunk.MakePin();
-
+        m_QuestList.Add(_quest);
     }
 
     public void SuccessQuest(Quest _quest)
@@ -266,7 +265,38 @@ public class MGContent : Mg<MGContent>
         return m_chunkList[_chunkNum];
     }
 
- 
+    public void SendActionCode(TOrderItem _orderItem)
+    {
+
+        //플레이어 액션 후 결과물을 보고
+        //결과물 따라서 
+        //1. 새로운 컨텐츠 조건 해방으로 추가될 컨텐츠가 있는지
+        //2. 수행중인 퀘스트에 어떤영향을 미치는지 판단 
+
+        //* 현재 있는 3개 값만으로 분류가 불가해질경우, 추가 변수 설정이 필요. 
+        
+        TokenType actionType = _orderItem.Tokentype;
+        switch (actionType)
+        {
+            case TokenType.OnEvent:
+                Debug.Log(actionType + "류 " + (OnEventEnum)_orderItem.SubIdx + "서브 " + _orderItem.Value + "전달");
+                break;
+            case TokenType.Conversation:
+                Debug.Log(actionType + "류 " + (ConversationEnum)_orderItem.SubIdx + "서브 " + _orderItem.Value + "전달");
+                break;
+        }
+        
+        for (int i = 0; i < m_QuestList.Count; i++)
+        {
+            
+
+            Quest quest = m_QuestList[i];
+            List<TOrderItem> conditionList = quest.ContentData.StageDic[quest.CurStep].SuccesConList; //성공조건들 뺌
+            TOrderItem origin = conditionList[0];
+            
+        }
+
+    }
 }
 
 

@@ -10,7 +10,7 @@ public class MgMasterData : Mg<MgMasterData>
     private Dictionary<int, TokenAction> m_tileActionDataDic;
     private Dictionary<int, TokenAction> m_charActionDataDic;
     private Dictionary<int, TokenEvent> m_eventDataDic;
-    private Dictionary<int, ContentData> m_contentDataDic;
+    private Dictionary<int, ContentMasterData> m_contentDataDic;
     private Dictionary<int, NationTechData> m_nationTechDataDic;
     private Dictionary<int, ConversationGroup> m_conversationGroupDic;
 
@@ -67,12 +67,18 @@ public class MgMasterData : Mg<MgMasterData>
         return GetDicData<TokenEvent>(m_eventDataDic, _eventPID);
     }
 
-    public ContentData GetContentData(int _contentPID)
+    public ContentMasterData GetContentData(int _contentPID)
     {
-        return GetDicData<ContentData>(m_contentDataDic, _contentPID);
+        return GetDicData<ContentMasterData>(m_contentDataDic, _contentPID);
     }
 
-    public Dictionary<int, ContentData> GetContentDataDic()
+    public StageMasterData GetStageData(int _contentPID, int _stageStep)
+    {
+        ContentMasterData contentData = GetDicData<ContentMasterData>(m_contentDataDic, _contentPID);
+        return contentData.GetStageData(_stageStep);
+    }
+
+    public Dictionary<int, ContentMasterData> GetContentDataDic()
     {
         return m_contentDataDic;
     }
@@ -82,12 +88,12 @@ public class MgMasterData : Mg<MgMasterData>
         return GetDicData<NationTechData>(m_nationTechDataDic, _techPID);
     }
 
-    public ConversationGroup GetThemConversation(ConversationTheme _theme)
+    public ConversationGroup GetThemConversation(ConversationEnum _theme)
     {
         return GetDicData<ConversationGroup>(m_conversationGroupDic, (int)_theme);
     }
 
-    public ConversationData GetConversationData(ConversationTheme _theme, int _pid)
+    public ConversationData GetConversationData(ConversationEnum _theme, int _pid)
     {
         return GetDicData<ConversationGroup>(m_conversationGroupDic, (int)_theme).GetConversationData(_pid);
     }
@@ -176,7 +182,7 @@ public class MgMasterData : Mg<MgMasterData>
         ParseData parseData = MgParsing.GetInstance().GetMasterData(EMasterData.ContentData);
         for (int i = 0; i < parseData.DbValueList.Count; i++)
         {
-            ContentData masterContent = new ContentData(parseData.DbValueList[i]);
+            ContentMasterData masterContent = new ContentMasterData(parseData.DbValueList[i]);
             //중복 
             if(m_contentDataDic.ContainsKey(masterContent.ContentPid) == false)
             m_contentDataDic.Add(masterContent.ContentPid, masterContent);
@@ -213,7 +219,7 @@ public class MgMasterData : Mg<MgMasterData>
         {
             string[] conversationParsingLine = parseContainer.DbValueList[i];
             string themeStr = conversationParsingLine[0]; //db상 0 번째에 테마 작성
-            if(System.Enum.TryParse<ConversationTheme>(themeStr, out ConversationTheme theme) == false)
+            if(System.Enum.TryParse<ConversationEnum>(themeStr, out ConversationEnum theme) == false)
             {
                 //정의 되지 않은 Theme 이면 생성하지말고 넘김
                 continue;

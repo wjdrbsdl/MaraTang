@@ -10,7 +10,7 @@ public class MGConversation : Mg<MGConversation>
         g_instance = this;
     }
 
-    public List<TOrderItem> GetSentenceItemList(ConversationTheme _theme, int _start, int _end)
+    public List<TOrderItem> GetSentenceItemList(ConversationEnum _theme, int _start, int _end)
     {
         List<TOrderItem> sentenceList = new List<TOrderItem>();
         for (int pid = _start; pid <= _end; pid++)
@@ -26,13 +26,13 @@ public class MGConversation : Mg<MGConversation>
         return sentenceList;
     }
 
-    private ConversationData GetConversationData(ConversationTheme _theme, int _pid)
+    private ConversationData GetConversationData(ConversationEnum _theme, int _pid)
     {
       return  MgMasterData.GetInstance().GetConversationData(_theme, _pid);
     }
 
     //대화 선택창을 요구하고 싶으면 mgConversation으로 요청
-    public void ShowSelectScript(ConversationTheme _theme, int _start, int _end, Action _confirmAction = null, ITradeCustomer _giver = null, ITradeCustomer _taker = null)
+    public void ShowSelectScript(ConversationEnum _theme, int _start, int _end, Action _confirmAction = null, ITradeCustomer _giver = null, ITradeCustomer _taker = null)
     {
         List<TOrderItem> senetenceItems = GetSentenceItemList(_theme, _start, _end);
         SelectItemInfo selectInfo = new SelectItemInfo(senetenceItems, true);
@@ -44,7 +44,7 @@ public class MGConversation : Mg<MGConversation>
     
     public void ShowCheckScript(TOrderItem _scriptItem)
     {
-        ConversationData scriptData = GetConversationData((ConversationTheme)_scriptItem.SubIdx, _scriptItem.Value);
+        ConversationData scriptData = GetConversationData((ConversationEnum)_scriptItem.SubIdx, _scriptItem.Value);
         MgUI.GetInstance().ShowScript(scriptData);
     }
 }

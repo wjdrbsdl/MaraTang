@@ -157,14 +157,6 @@ public struct TOrderItem
     public int Value;
     public int SerialNum;
 
-    public TOrderItem (int _tokenGroup, int _subIdx, int _value)
-    {
-        Tokentype = (TokenType)_tokenGroup;
-        SubIdx = _subIdx;
-        Value = _value;
-        SerialNum = 0;
-    }
-
     public TOrderItem(TokenType _tokenGroup, int _subIdx, int _value)
     {
         Tokentype = _tokenGroup;
@@ -173,39 +165,12 @@ public struct TOrderItem
         SerialNum = 0;
     }
 
-    public TOrderItem(ConversationTheme _theme, ConversationData _covnersation)
+    public TOrderItem(ConversationEnum _theme, ConversationData _covnersation)
     {
         Tokentype = TokenType.Conversation;
         SubIdx = (int)_theme;
         Value = _covnersation.GetPid();
         SerialNum = 0;
-    }
-
-    public TOrderItem WriteCharItem(CharStat _charIdx, int _value)
-    {
-        TOrderItem item = new();
-        item.Tokentype = TokenType.CharStat;
-        item.SubIdx = (int)_charIdx;
-        item.Value = _value;
-        return item;
-    }
-
-    public TOrderItem WriteActionItem(int _actionPid, int _value)
-    {
-        TOrderItem item = new();
-        item.Tokentype = TokenType.Action;
-        item.SubIdx = _actionPid;
-        item.Value = _value;
-        return item;
-    }
-
-    public TOrderItem WriteCapitalItem(Capital _capitalIdx, int _value)
-    {
-        TOrderItem item = new();
-        item.Tokentype = TokenType.Capital;
-        item.SubIdx = (int)_capitalIdx;
-        item.Value = _value;
-        return item;
     }
 
     public void SetSerialNum(int _serialNum)
@@ -217,6 +182,7 @@ public struct TOrderItem
     public void SetValue(int _value)
     {
         Value = _value;
+   
     }
 
     public bool IsVaridTokenType()

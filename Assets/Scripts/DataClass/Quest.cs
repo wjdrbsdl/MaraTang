@@ -12,7 +12,7 @@ public class Quest : IOrderCustomer
     public int RestWoldTurn = 3; //유지되는 기간 
     public int ChunkNum = 0;
     public int CurStep = 1;
-    public ContentData ContentData;
+    public ContentMasterData ContentData;
     public List<TokenBase> QuestTokens = new(); //퀘스트에 관련된 토큰들 
 
     #region 생성
@@ -21,7 +21,7 @@ public class Quest : IOrderCustomer
        
     }
 
-    public Quest(ContentData _contentData, int _chunkNum)
+    public Quest(ContentMasterData _contentData, int _chunkNum)
     {
         QuestPid = _contentData.ContentPid;
         ContentData = _contentData;
@@ -29,10 +29,10 @@ public class Quest : IOrderCustomer
 
     }
     #endregion
+
     public void RealizeStage()
     {
-        ContentData contentData = MgMasterData.GetInstance().GetContentData(QuestPid);
-        StageInfo stage = contentData.StageDic[CurStep];
+        StageMasterData stage = MgMasterData.GetInstance().GetStageData(QuestPid, CurStep);
         TTokenOrder order = new TTokenOrder(stage.SituationList, stage.SituAdapCount, SerialNum, this);
         OrderExcutor excutor = new OrderExcutor();
         excutor.ExcuteOrder(order);
@@ -75,8 +75,8 @@ public class Quest : IOrderCustomer
 
     public void SelectConfirmEvent(SelectItemInfo _selectItemInfo)
     {
-        StageInfo stageInfo = MgMasterData.GetInstance().GetContentData(QuestPid).StageDic[CurStep];
-        if ((ConversationTheme)stageInfo.SuccesConList[0].SubIdx == ConversationTheme.Check)
+        StageMasterData stageInfo = MgMasterData.GetInstance().GetContentData(QuestPid).StageDic[CurStep];
+        if ((ConversationEnum)stageInfo.SuccesConList[0].SubIdx == ConversationEnum.Check)
         {
             Debug.Log("대화중에 그냥 확인만 누르면 성공 간주로서 통과");
             ClearStage();
@@ -86,19 +86,15 @@ public class Quest : IOrderCustomer
     public void ClearStage()
     {
         ResetSituation();
-        ContentData content = MgMasterData.GetInstance().GetContentData(QuestPid);
-        StageInfo stageInfo = content.StageDic[CurStep];
+        StageMasterData stageInfo = MgMasterData.GetInstance().GetStageData(QuestPid, CurStep);
         int nextStep = stageInfo.SuccesStep;
-        if (content.StageDic.ContainsKey(nextStep))
-        {
-            CurStep = nextStep;
-            RealizeStage();
-        }
+        CurStep = nextStep;
+        RealizeStage();
     }
 
     public void ResetSituation()
     {
-        StageInfo stageInfo = ContentData.StageDic[CurStep];
+        StageMasterData stageInfo = ContentData.StageDic[CurStep];
         TOrderItem doneItem = stageInfo.SituationList[0];
         if (doneItem.Tokentype.Equals(TokenType.OnEvent))
         {
@@ -174,7 +170,7 @@ public class Quest : IOrderCustomer
 
     public void CharPlaceCheck()
     {
-        StageInfo stage = ContentData.StageDic[CurStep];
+        StageMasterData stage = ContentData.StageDic[CurStep];
         TOrderItem place = stage.SuccesConList[0];
         Debug.Log("플레이어 어디 입장" + PlayerManager.GetInstance().GetHeroPlace() + "목표" + (TileType)place.Value);
         if (place.Value == (int)PlayerManager.GetInstance().GetHeroPlace())
@@ -186,3 +182,16 @@ public class Quest : IOrderCustomer
     }
 }
 
+public class CurStageData
+{
+    //스테이지 클리어를 위한 정보를 기록
+
+    //1. 해당 건물에 입장했는가 - 단일조건
+    //2. 몬스터를 잡았는가 - 다수 조건
+    //3. 대화 확인을 했는가 - 단일 조건 
+    //4. 재료를 몇개 모아서 건넨다
+    //5. 보상을 선택한다. 
+    //6. 중도 포기한다. 
+    //7. 실패 조건을 충족했다. 
+
+}
