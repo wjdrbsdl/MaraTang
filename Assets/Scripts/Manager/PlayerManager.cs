@@ -232,8 +232,8 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
     {
         //플레이어가 입장한 곳 
         m_playerPlace = _tile;
-        if (OnChangedPlace != null)
-            OnChangedPlace.Invoke();
+        TOrderItem placeItem = new TOrderItem(TokenType.OnEvent, (int)OnEventEnum.OnPlaceChange, (int)_tile);
+        MGContent.GetInstance().SendActionCode(placeItem);
     }
 
     public TileType GetHeroPlace()
