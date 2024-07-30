@@ -9,7 +9,7 @@ public class Quest : IOrderCustomer
     public int RestWoldTurn = 3; //유지되는 기간 
     public int ChunkNum = 0;
     public int CurStep = 1;
-    public CurStageData CurStageData;
+    public CurStageData CurStageData; //현재 스테이지 진행 정보, 달성 정보 수행하는 곳. 
 
     #region 생성
     public Quest()
@@ -25,6 +25,14 @@ public class Quest : IOrderCustomer
     }
     #endregion
 
+    public void FlowTurn(int _count = 1)
+    {
+        RestWoldTurn -= 1;
+        if (RestWoldTurn == 0)
+            MGContent.GetInstance().FailQuest(this);
+    }
+
+    #region 스테이지 진행
     public void RealizeStage()
     {
         Debug.Log(CurStep + "단계 구현화 진행");
@@ -36,18 +44,6 @@ public class Quest : IOrderCustomer
         Debug.LogWarning("새 퀘스트 알람 닫아놓음");
         //MgUI.GetInstance().ShowQuest(this);
       //  Debug.LogFormat("시리얼 넘버{0} 퀘 {1}스테이지 발동 됨", SerialNum, CurStep);
-    }
-
-    public void FlowTurn(int _count = 1)
-    {
-        RestWoldTurn -= 1;
-        if (RestWoldTurn == 0)
-            MGContent.GetInstance().FailQuest(this);
-    }
-
-    private enum QuestCode
-    {
-        MonsterDie, EventActive
     }
 
     public void ClearStage()
@@ -69,7 +65,7 @@ public class Quest : IOrderCustomer
         StageMasterData stageInfo = MgMasterData.GetInstance().GetStageData(ContentPid, CurStep);
         TOrderItem doneItem = stageInfo.SituationList[0];
     }
-
+ 
     public void OnOrderCallBack(OrderReceipt _orderReceipt)
     {
         TOrderItem doneItem = _orderReceipt.DoneItem;
@@ -81,6 +77,7 @@ public class Quest : IOrderCustomer
             return;
         }
     }
+    #endregion
 
 }
 
