@@ -227,18 +227,12 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
         m_playGameUI.ResetPlayData();
     }
 
-    public UnityEvent OnChangedPlace;
     public void SetHeroPlace(TileType _tile)
     {
         //플레이어가 입장한 곳 
         m_playerPlace = _tile;
         TOrderItem placeItem = new TOrderItem(TokenType.OnChange, (int)OnChangeEnum.OnPlaceChange, (int)_tile);
         MGContent.GetInstance().SendActionCode(placeItem);
-    }
-
-    public TileType GetHeroPlace()
-    {
-        return m_playerPlace;
     }
 
     #region 플레이어 할당된 Token 가져오기
