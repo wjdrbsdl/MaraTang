@@ -304,4 +304,9 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
         }
     }
 
+    public List<TokenAction> GetPlayerActionList()
+    {
+        return m_mainChar.GetActionList();
+    }
+
 }
