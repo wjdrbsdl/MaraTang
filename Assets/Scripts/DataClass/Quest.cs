@@ -55,6 +55,7 @@ public class Quest : IOrderCustomer
         if(CurStep == 0)
         {
             MGContent.GetInstance().SuccessQuest(this);
+            return;
         }
         RealizeStage();
     }

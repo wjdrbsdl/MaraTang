@@ -164,28 +164,16 @@ public class MGContent : Mg<MGContent>
 
     public void SuccessQuest(Quest _quest)
     {
-        GiveReward(_quest);
         RecordeQuest(_quest, true);
         RemoveQuest(_quest);
     }
 
     public void FailQuest(Quest _quest)
     {
-        GivePenalty(_quest);
         RecordeQuest(_quest, false);
         RemoveQuest(_quest);
     }
 
-    private void GiveReward(Quest _quest)
-    {
-        OrderExcutor orderExcutor = new();
-      //  orderExcutor.ExcuteOrder();
-
-    }
-    private void GivePenalty(Quest _quest)
-    {
-
-    }
     private void RecordeQuest(Quest _quest, bool _result)
     {
         m_QuestRecorde.Add((_quest.ContentPid, _result));
@@ -206,7 +194,6 @@ public class MGContent : Mg<MGContent>
         if (GetChunk(_quest.ChunkNum) != null)
             GetChunk(_quest.ChunkNum).ResetQuest();
         //2. 퀘스트 관련 object들 정리
-        _quest.CleanQuest();
         m_QuestList.Remove(_quest);
         RefreshQuestList();
     }
