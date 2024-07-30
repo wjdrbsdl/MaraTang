@@ -31,6 +31,7 @@ public class MgUI : MgGeneric<MgUI>
 
     [SerializeField] private UIShowcase m_shocaseUI;
 
+    [SerializeField] private Transform m_uiCase; //UI들 띄울장소 여기서 최근 열린애가 젤 위로 올라오도록 세팅. 
     #region 인터페이스 오픈
     public void ShowCharActionList()
     {
@@ -218,8 +219,15 @@ public class MgUI : MgGeneric<MgUI>
 
         if(m_uiStack.Contains(_ui) == false)
             m_uiStack.Push(_ui);
+
+        SortFirst(_ui);
     }
 
+    private void SortFirst(UIBase _ui)
+    {
+        _ui.gameObject.transform.SetParent(m_uiCase); //케이스 위치로 옮기고
+        _ui.transform.SetAsLastSibling();
+    }
     public void PopUIStack()
     {
         if(m_uiStack.Count >=1)
