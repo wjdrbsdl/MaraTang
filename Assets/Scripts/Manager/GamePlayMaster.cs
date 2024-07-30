@@ -45,8 +45,12 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>, IOrderCustomer
         }
         if (Input.GetKeyDown(KeyCode.F7))
         {
-           
-            MgUI.GetInstance().ShowQuestList();
+
+            //  MgUI.GetInstance().ShowQuestList();
+            int randomSkill = UnityEngine.Random.Range(1, 3);
+            Debug.Log(randomSkill + "½ºÅ³ ½Àµæ");
+            TOrderItem aquireSkill = new TOrderItem(TokenType.Action, randomSkill, 1);
+            MGContent.GetInstance().SendActionCode(aquireSkill);
 
         }
         if (Input.GetKeyDown(KeyCode.F8))
