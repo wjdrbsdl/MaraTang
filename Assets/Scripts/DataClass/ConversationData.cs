@@ -9,7 +9,7 @@ public enum ConversationEnum
 
 public enum ResponseEnum
 {
-    Check
+    Check, Cancle
 } 
 
 public enum ConversationStat

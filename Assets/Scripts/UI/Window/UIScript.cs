@@ -30,4 +30,15 @@ public class UIScript : UIBase
         Switch(false);
         m_select = null;
     }
+
+    public override void ReqeustOff()
+    {
+        //취소 요청을 받았을 때 얘는 취소 안되는데 일단은 취소되는걸로 테스트
+        if (m_select != null)
+            m_select.Cancle();
+
+        Switch(false);
+        m_select = null;
+
+    }
 }
