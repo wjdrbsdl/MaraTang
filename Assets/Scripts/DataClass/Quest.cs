@@ -151,6 +151,7 @@ public class CurStageData
                     AdaptValue(_adaptItem, curCondtion, i);
                     break;
             }
+            //3. 만약 조건 하나에 적용했다면 나머지 조건은 안봐도 됨. 그러려면 Adapt의 여부를 반환받아야함. 
 
         }
     }
@@ -188,16 +189,16 @@ public class CurStageData
     private void AdaptValue(TOrderItem _adaptItem, TOrderItem _curRecord, int _index)
     {
         //단순히 최근 값을 현재 상태로 적용하면 되는 경우 
-        Debug.LogFormat("적용하려는 Adapt 대상이 {0}타입에 sub{1}인지 체크 기존 밸류는{2}", _curRecord.Tokentype, _curRecord.SubIdx,_curRecord.Value);
+      //  Debug.LogFormat("적용하려는 Adapt 대상이 {0}타입에 sub{1}인지 체크 기존 밸류는{2}", _curRecord.Tokentype, _curRecord.SubIdx,_curRecord.Value);
         //subIdx 확인후 
         if (_curRecord.SubIdx == _adaptItem.SubIdx)
         {
             //그냥 할당
             CurConList[_index] = _adaptItem;
-            Debug.LogFormat("{0}타입 적용할 sub{1}에 {2}로 값 적용\n적용후 값{3}", _adaptItem.Tokentype, _adaptItem.SubIdx, _adaptItem.Value, CurConList[_index].Value);
+          //  Debug.LogFormat("{0}타입 적용할 sub{1}에 {2}로 값 적용\n적용후 값{3}", _adaptItem.Tokentype, _adaptItem.SubIdx, _adaptItem.Value, CurConList[_index].Value);
             return;
         }
-        Debug.LogFormat("{0}타입 적용할 sub{1}가 다름",_adaptItem.Tokentype,_adaptItem.SubIdx);
+      //  Debug.LogFormat("{0}타입 적용할 sub{1}가 다름",_adaptItem.Tokentype,_adaptItem.SubIdx);
     }
     #endregion
 
