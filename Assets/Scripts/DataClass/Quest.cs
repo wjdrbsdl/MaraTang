@@ -134,28 +134,31 @@ public class CurStageData
             //1. 현재 조건 상태의 TokenType과 동일한지부터 체크 
             if(_adaptItem.Tokentype != curCondtion.Tokentype)
             {
-                Debug.LogFormat("적용 타입 {0}, 조건 타입 {1}으로 타입이 다름", _adaptItem.Tokentype, curCondtion.Tokentype);
+               // Debug.LogFormat("적용 타입 {0}, 조건 타입 {1}으로 타입이 다름", _adaptItem.Tokentype, curCondtion.Tokentype);
                 continue;
             }
-                
-            //2. 수행된 토큰타입에 따라 개별 적용 진행
+
+            //2. 토큰타입에 따라 개별적으로 진행
+            bool isAdapt = false;
             switch (adaptType)
             {
-                case TokenType.Char: //몬스터의 경우 목표 몬스터 처치시 현재 상태 value 1 상승
-                    AdaptHunt(_adaptItem, curCondtion, i);
+                case TokenType.Char: //몬스터는 목표 pid(sub) 처치시 value 1 상승
+                    isAdapt = RequestAdaptHunt(_adaptItem, curCondtion, i);
                     break;
-                case TokenType.Action:
-                    AdaptActionLv(i);
+                case TokenType.Action: //pid 보유시 해당 액션 레벨을 value 로 적용(adapt된 토큰타입은 상관없음)
+                    isAdapt = RequestAdaptActionLv(i);
                     break;
-                default:
-                    AdaptValue(_adaptItem, curCondtion, i);
+                default: //그외 입력된 값으로 조건값을 바꾸면 되는 경우 통합
+                    isAdapt = RequestAdaptValue(_adaptItem, curCondtion, i);
                     break;
             }
-            //3. 만약 조건 하나에 적용했다면 나머지 조건은 안봐도 됨. 그러려면 Adapt의 여부를 반환받아야함. 
+            //3. 만약 조건 중 어느 하나에 적용했다면 나머지 조건은 안봐도 됨. 그러려면 Adapt의 여부를 반환받아야함. 
+            if (isAdapt)
+                break;
 
         }
     }
-    private void AdaptHunt(TOrderItem _huntMonItem, TOrderItem _curRecord, int _index)
+    private bool RequestAdaptHunt(TOrderItem _huntMonItem, TOrderItem _curRecord, int _index)
     {
         //잡은 몬스터와 잡아야하는 몬스터 pid가 동일하면 현재 조건에 +1
         if(_curRecord.SubIdx == _huntMonItem.SubIdx)
@@ -163,15 +166,20 @@ public class CurStageData
             TOrderItem newCurCondition = _curRecord;
             newCurCondition.SetValue(_curRecord.Value + 1);
             CurConList[_index] = newCurCondition; //조건 상황이 변했으면 새로 할당
-            return;
+            return true;
         }
+        return false;
      }
-    private void AdaptActionLv(int _index)
+    private bool RequestAdaptActionLv(int _index)
     {
+        //1. 내 현재 액션의 레벨을 가져와 현재조건 갱신 
+        //2. 그러므로 어떤 조건이 입력될지는 상관없음. 
+        //3. 현재 따지는 조건이 뭔지 알아야하므로 index는 필요 
+
         TOrderItem needAction = CurConList[_index]; //조건값 복사
         List<TokenAction> actionList = PlayerManager.GetInstance().GetPlayerActionList();
         int needActionPid = needAction.SubIdx;
-        Debug.Log(_index+"번째 조건인"+needActionPid+"를 보유했는지 체크 현재 보유 유무는 "+needAction.Value);
+        //Debug.Log(_index+"번째 조건인"+needActionPid+"를 보유했는지 체크 현재 보유 유무는 "+needAction.Value);
         //일단 레벨보단 보유로 진행
         for (int i = 0; i < actionList.Count; i++)
         {
@@ -179,14 +187,16 @@ public class CurStageData
             
             if (needActionPid == actionPid)
             {
-                needAction.SetValue(1); //동일한 스킬이 존재하면 해당 조건 벨류 1로 적용
+                needAction.SetValue(1); //동일한 스킬이 존재하면 해당 조건 벨류 1로 적용 - 현재 액션의 레벨값은 존재하지 않아서 일단 1로 진행
                 CurConList[_index] = needAction;
-                Debug.LogFormat("필요한 스킬 pid{0}이 존재해서 현재 조건 value를 {1}로 수정",actionPid, CurConList[_index].Value);
+                //Debug.LogFormat("필요한 스킬 pid{0}이 존재해서 현재 조건 value를 {1}로 수정",actionPid, CurConList[_index].Value);
+                return true; 
             }
                 
         }
+        return false;
     }
-    private void AdaptValue(TOrderItem _adaptItem, TOrderItem _curRecord, int _index)
+    private bool RequestAdaptValue(TOrderItem _adaptItem, TOrderItem _curRecord, int _index)
     {
         //단순히 최근 값을 현재 상태로 적용하면 되는 경우 
       //  Debug.LogFormat("적용하려는 Adapt 대상이 {0}타입에 sub{1}인지 체크 기존 밸류는{2}", _curRecord.Tokentype, _curRecord.SubIdx,_curRecord.Value);
@@ -196,8 +206,9 @@ public class CurStageData
             //그냥 할당
             CurConList[_index] = _adaptItem;
           //  Debug.LogFormat("{0}타입 적용할 sub{1}에 {2}로 값 적용\n적용후 값{3}", _adaptItem.Tokentype, _adaptItem.SubIdx, _adaptItem.Value, CurConList[_index].Value);
-            return;
+            return true;
         }
+        return false;
       //  Debug.LogFormat("{0}타입 적용할 sub{1}가 다름",_adaptItem.Tokentype,_adaptItem.SubIdx);
     }
     #endregion
