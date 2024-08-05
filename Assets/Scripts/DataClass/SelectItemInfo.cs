@@ -111,6 +111,7 @@ public class SelectItemInfo : ISelectCustomer
         TOrderItem cancleResponse = new TOrderItem(TokenType.Conversation, (int)ConversationEnum.Response, (int)ResponseEnum.Cancle); //확인용 item 생성
         MGContent.GetInstance().SendActionCode(cancleResponse);
     }
+
     public void ShowScript()
     {
         //보여주기 방식
