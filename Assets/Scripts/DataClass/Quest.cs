@@ -93,6 +93,7 @@ public class CurStageData
     //5. 보상을 선택한다. 
     //6. 중도 포기한다. 
     //7. 실패 조건을 충족했다. 
+    public int SuccesNeedCount = 0; //필요 충족 수 
     public List<TOrderItem> SuccesConList; //맞추려는 조건
     public List<TOrderItem> CurConList; //현재 진행 상황
     public List<bool> CurPassRecordList; //현재 달성 상황
@@ -102,9 +103,19 @@ public class CurStageData
 
     public CurStageData(StageMasterData _stageMasterData)
     {
+        SuccesNeedCount = _stageMasterData.SuccedNeedCount;
         SuccesConList = _stageMasterData.SuccesConList; //성공조건은 마스터 그대로
         CurConList = new List<TOrderItem>(); //현재 상황은 새로 새팅
         CurPassRecordList = new List<bool>();
+        InitValue(); //현재 상태 초기값 설정
+        InitCheck(); //현재 상태 체크
+        SuccesStep = _stageMasterData.SuccesStep;
+        PenaltyStep = _stageMasterData.PenaltyStep;
+        StageNum = _stageMasterData.StageNum;
+    }
+
+    private void InitValue()
+    {
         for (int i = 0; i < SuccesConList.Count; i++)
         {
             TOrderItem conditionItem = SuccesConList[i];
@@ -117,9 +128,22 @@ public class CurStageData
             CurConList.Add(curConItem);
             CurPassRecordList.Add(false);
         }
-        SuccesStep = _stageMasterData.SuccesStep;
-        PenaltyStep = _stageMasterData.PenaltyStep;
-        StageNum = _stageMasterData.StageNum;
+    }
+
+    private void InitCheck()
+    {
+        //생성과 동시에 조건 체크 할 부분 - 학습, 보유, 클리어 등 추가 액션이 아니라 현재 상태로 판별이 가능한 조건의 경우는 현재 스테이지 생성과 동시에 판별가능
+        for (int i = 0; i < CurConList.Count; i++)
+        {
+            TOrderItem condition = CurConList[i];
+            switch (condition.Tokentype)
+            {
+                case TokenType.Action:
+                    Debug.Log("조건 선행 체크 플레이어 액션");
+                    RequestAdaptActionLv(i);
+                    break;
+            }
+        }
     }
 
 
@@ -147,6 +171,9 @@ public class CurStageData
                     break;
                 case TokenType.Action: //pid 보유시 해당 액션 레벨을 value 로 적용(adapt된 토큰타입은 상관없음)
                     isAdapt = RequestAdaptActionLv(i);
+                    break;
+                case TokenType.Conversation: //pid 보유시 해당 액션 레벨을 value 로 적용(adapt된 토큰타입은 상관없음)
+                    isAdapt = RequestAdaptResponse(_adaptItem);
                     break;
                 default: //그외 입력된 값으로 조건값을 바꾸면 되는 경우 통합
                     isAdapt = RequestAdaptValue(_adaptItem, curCondtion, i);
@@ -179,7 +206,7 @@ public class CurStageData
         TOrderItem needAction = CurConList[_index]; //조건값 복사
         List<TokenAction> actionList = PlayerManager.GetInstance().GetPlayerActionList();
         int needActionPid = needAction.SubIdx;
-        //Debug.Log(_index+"번째 조건인"+needActionPid+"를 보유했는지 체크 현재 보유 유무는 "+needAction.Value);
+        Debug.Log(_index+"번째 조건인"+needActionPid+"를 보유했는지 체크 현재 보유 유무는 "+needAction.Value);
         //일단 레벨보단 보유로 진행
         for (int i = 0; i < actionList.Count; i++)
         {
@@ -193,6 +220,22 @@ public class CurStageData
                 return true; 
             }
                 
+        }
+        return false;
+    }
+    private bool RequestAdaptResponse(TOrderItem _response)
+    {
+        //확인, 취소 등의 응답이 들어왔을 때 조건 충족
+        //1 해당 응답과 성공 조건을 비교해서 값이 같은 index의 현재 조건값을 변경
+        for (int i = 0; i < SuccesConList.Count; i++)
+        {
+            TOrderItem successItem = SuccesConList[i];
+            if(successItem.SubIdx == _response.SubIdx && successItem.Value == _response.Value)
+            {
+                //성공 조건중 일치하는 응답이 있으면, 현재 조건의 index 값을 성공조건으로 할당 
+                CurConList[i] = successItem;
+                return true;
+            }
         }
         return false;
     }
@@ -217,8 +260,10 @@ public class CurStageData
     public bool CheckCondition()
     {
         //현재 상태와 목표 상태를 각 토큰타입에 따라 벨류를 따져봄
+        int passCount = 0; //통과한수
         for (int i = 0; i < CurPassRecordList.Count; i++)
         {
+            CurPassRecordList[i] = false; //기존 성공값은 false로 돌리고 진행 
             TOrderItem curCondtion = CurConList[i]; //현재 상태
             TokenType conditionType = curCondtion.Tokentype;
             bool isPass = false; //개별 성공 여부
@@ -235,14 +280,16 @@ public class CurStageData
             }
             //따진 후 성공여부 체크 
             CurPassRecordList[i] = isPass;
+            if (isPass)
+                passCount += 1;
         }
-
-        for (int i = 0; i < CurPassRecordList.Count; i++)
+        Debug.LogFormat("필요수{0} 충족수{1} 조건수{2}", SuccesNeedCount, passCount, CurPassRecordList.Count);
+        if (SuccesNeedCount <= passCount)
         {
-            if (CurPassRecordList[i] == false)
-                return false;
+            
+            return true;
         }
-        return true;
+        return false;
     }
     private bool IsEnoughValue(int _index)
     {

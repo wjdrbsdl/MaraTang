@@ -23,15 +23,15 @@ public class ContentMasterData
         int totalStep = _parsingData[stepIdx].Split(FixedValue.PARSING_LINE_DIVIDE).Length; //단계 수 구함 - 각 단계마다 stage 인포 정해져있음
         int situAdaptCountIdx = stepIdx + 1; //조건 적용할 수 - 이게 왜 필요했지
         int situationIdx = situAdaptCountIdx + 1; //상황 조성
-        int succesNeedCount = situationIdx + 1; //성공에 필요한 수
-        int succesConditionIdx = situationIdx + 1; //성공 조건들
+        int succesNeedCountIdx = situationIdx + 1; //성공에 필요한 수
+        int succesConditionIdx = succesNeedCountIdx + 1; //성공 조건들
         int rewardIdx = succesConditionIdx + 1; //성공시 갈 스텝
         //실패 조건들 미구현
         int penaltyIdx = rewardIdx + 2; //실패시 갈 스텝
 
         string[] situAdapValues = _parsingData[situAdaptCountIdx].Split(FixedValue.PARSING_LINE_DIVIDE);
         string[] situationDivides = _parsingData[situationIdx].Split(FixedValue.PARSING_LINE_DIVIDE);
-        string[] successNeedDivdes = _parsingData[succesNeedCount].Split(FixedValue.PARSING_LINE_DIVIDE);
+        string[] successNeedDivdes = _parsingData[succesNeedCountIdx].Split(FixedValue.PARSING_LINE_DIVIDE);
         string[] succesDivides = _parsingData[succesConditionIdx].Split(FixedValue.PARSING_LINE_DIVIDE);
         string[] rewardDivdes = _parsingData[rewardIdx].Split(FixedValue.PARSING_LINE_DIVIDE);
         string[] penaltyDivdes = _parsingData[penaltyIdx].Split(FixedValue.PARSING_LINE_DIVIDE);
@@ -89,8 +89,8 @@ public class StageMasterData
         SuccedNeedCount = int.Parse(_succesNeedCountStr);
         SuccesConList = new();
         GameUtil.ParseOrderItemList(SuccesConList, _succesConStr, nonDataAdd);
- 
-        if (int.TryParse(_rewardStrData, out int rewardStep))
+        
+         if (int.TryParse(_rewardStrData, out int rewardStep))
         {
             SuccesStep = rewardStep;
         }
