@@ -309,4 +309,20 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
         return m_mainChar.GetActionList();
     }
 
+    public int GetPlayerActionLevel(int _actionPid)
+    {
+        int level = FixedValue.No_VALUE; //기본 노벨류
+        List<TokenAction> actionList = GetPlayerActionList();
+        int findActionPid = _actionPid;
+        for (int i = 0; i < actionList.Count; i++)
+        {
+            int haveActionPid = actionList[i].GetPid();
+            if (findActionPid == haveActionPid)
+            {
+                return 1;
+            }
+
+        }
+        return level;
+    }
 }

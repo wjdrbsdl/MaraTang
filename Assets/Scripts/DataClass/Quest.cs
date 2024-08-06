@@ -121,8 +121,16 @@ public class CurStageData
             TOrderItem conditionItem = SuccesConList[i];
             TokenType conditionType = conditionItem.Tokentype;
             int intialValue = FixedValue.No_VALUE; //초기값은 기본적으로 노 벨류, 조건의 value가 0인경우도 있어서 -1을 기본 세팅. 
-            if (conditionType.Equals(TokenType.Char))
-                intialValue = 0; //몬스터의경우 0 => 몬스터의경우 value가 잡은 몬스터 수이므로 0 부터 시작. 
+            switch (conditionType)
+            {
+                case TokenType.Char:
+                    intialValue = 0; //몬스터의경우 0 => 몬스터의경우 value가 잡은 몬스터 수이므로 0 부터 시작. 
+                    break;
+                case TokenType.Action:
+                    intialValue = PlayerManager.GetInstance().GetPlayerActionLevel(conditionItem.SubIdx); 
+                    break;
+            }
+            
             TOrderItem curConItem = new TOrderItem(conditionType, conditionItem.SubIdx, intialValue); //조건의 value를 0으로 해서 진행
 
             CurConList.Add(curConItem);
@@ -132,18 +140,7 @@ public class CurStageData
 
     private void InitCheck()
     {
-        //생성과 동시에 조건 체크 할 부분 - 학습, 보유, 클리어 등 추가 액션이 아니라 현재 상태로 판별이 가능한 조건의 경우는 현재 스테이지 생성과 동시에 판별가능
-        for (int i = 0; i < CurConList.Count; i++)
-        {
-            TOrderItem condition = CurConList[i];
-            switch (condition.Tokentype)
-            {
-                case TokenType.Action:
-                    Debug.Log("조건 선행 체크 플레이어 액션");
-                    RequestAdaptActionLv(i);
-                    break;
-            }
-        }
+      
     }
 
 
@@ -170,7 +167,7 @@ public class CurStageData
                     isAdapt = RequestAdaptHunt(_adaptItem, curCondtion, i);
                     break;
                 case TokenType.Action: //pid 보유시 해당 액션 레벨을 value 로 적용(adapt된 토큰타입은 상관없음)
-                    isAdapt = RequestAdaptActionLv(i);
+                    isAdapt = RequestAdaptActionLv(_adaptItem, curCondtion, i);
                     break;
                 case TokenType.Conversation: //pid 보유시 해당 액션 레벨을 value 로 적용(adapt된 토큰타입은 상관없음)
                     isAdapt = RequestAdaptResponse(_adaptItem);
@@ -197,29 +194,20 @@ public class CurStageData
         }
         return false;
      }
-    private bool RequestAdaptActionLv(int _index)
+    private bool RequestAdaptActionLv(TOrderItem _studyAction, TOrderItem _curRecord, int _index)
     {
-        //1. 내 현재 액션의 레벨을 가져와 현재조건 갱신 
-        //2. 그러므로 어떤 조건이 입력될지는 상관없음. 
-        //3. 현재 따지는 조건이 뭔지 알아야하므로 index는 필요 
-
-        TOrderItem needAction = CurConList[_index]; //조건값 복사
-        List<TokenAction> actionList = PlayerManager.GetInstance().GetPlayerActionList();
-        int needActionPid = needAction.SubIdx;
-        Debug.Log(_index+"번째 조건인"+needActionPid+"를 보유했는지 체크 현재 보유 유무는 "+needAction.Value);
-        //일단 레벨보단 보유로 진행
-        for (int i = 0; i < actionList.Count; i++)
+        //확인하려는 action Pid가 맞으면 플레이어 레벨 적용 
+        //1. 스킬 pid 확인
+        if (_curRecord.SubIdx == _studyAction.SubIdx) 
         {
-            int actionPid = actionList[i].GetPid();
-            
-            if (needActionPid == actionPid)
-            {
-                needAction.SetValue(1); //동일한 스킬이 존재하면 해당 조건 벨류 1로 적용 - 현재 액션의 레벨값은 존재하지 않아서 일단 1로 진행
-                CurConList[_index] = needAction;
-                //Debug.LogFormat("필요한 스킬 pid{0}이 존재해서 현재 조건 value를 {1}로 수정",actionPid, CurConList[_index].Value);
-                return true; 
-            }
-                
+            TOrderItem newCurCondition = _curRecord; //새로 생성
+            //2. 레벨 가져옴
+            int actionLevel = PlayerManager.GetInstance().GetPlayerActionLevel(_studyAction.SubIdx);
+            //3. 레벨 세팅
+            newCurCondition.SetValue(actionLevel); 
+            //4. 조건에 새로 세팅
+            CurConList[_index] = newCurCondition; //조건 상황이 변했으면 새로 할당
+            return true;
         }
         return false;
     }
