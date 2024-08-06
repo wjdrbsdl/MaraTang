@@ -334,5 +334,8 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
             return;
         TokenAction charAction = new TokenAction(masterAction);
         m_mainChar.AddActionToken(charAction);
+
+        TOrderItem aquireSkill = new TOrderItem(TokenType.Action, _actionPid, 1);
+        MGContent.GetInstance().SendActionCode(aquireSkill);
     }
 }
