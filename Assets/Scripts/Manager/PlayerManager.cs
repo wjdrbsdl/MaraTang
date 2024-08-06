@@ -325,4 +325,14 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
         }
         return level;
     }
+
+    public void StudyPlayerAction(int _actionPid)
+    {
+        TokenAction masterAction = MgMasterData.GetInstance().GetMasterCharAction(_actionPid);
+        //정의되지 않은 액션이라면 넘김. 
+        if (masterAction == null)
+            return;
+        TokenAction charAction = new TokenAction(masterAction);
+        m_mainChar.AddActionToken(charAction);
+    }
 }
