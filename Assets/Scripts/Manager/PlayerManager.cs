@@ -328,6 +328,12 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
 
     public void StudyPlayerAction(int _actionPid)
     {
+        int level = GetPlayerActionLevel(_actionPid);
+        if (level != FixedValue.No_VALUE)
+        {
+            Debug.Log("이미 습득 한 액션");
+            return; 
+        }
         TokenAction masterAction = MgMasterData.GetInstance().GetMasterCharAction(_actionPid);
         //정의되지 않은 액션이라면 넘김. 
         if (masterAction == null)
