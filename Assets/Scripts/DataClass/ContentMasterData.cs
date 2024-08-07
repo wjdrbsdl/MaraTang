@@ -27,13 +27,17 @@ public class ContentMasterData
         int succesConditionIdx = succesNeedCountIdx + 1; //성공 조건들
         int rewardIdx = succesConditionIdx + 1; //성공시 갈 스텝
         //실패 조건들 미구현
-        int penaltyIdx = rewardIdx + 2; //실패시 갈 스텝
+        int failNeedCountIdx = rewardIdx + 1; //성공에 필요한 수
+        int failConditionIdx = failNeedCountIdx + 1; //성공 조건들
+        int penaltyIdx = failConditionIdx + 1; //실패시 갈 스텝
 
         string[] situAdapValues = _parsingData[situAdaptCountIdx].Split(FixedValue.PARSING_LINE_DIVIDE);
         string[] situationDivides = _parsingData[situationIdx].Split(FixedValue.PARSING_LINE_DIVIDE);
         string[] successNeedDivdes = _parsingData[succesNeedCountIdx].Split(FixedValue.PARSING_LINE_DIVIDE);
         string[] succesDivides = _parsingData[succesConditionIdx].Split(FixedValue.PARSING_LINE_DIVIDE);
         string[] rewardDivdes = _parsingData[rewardIdx].Split(FixedValue.PARSING_LINE_DIVIDE);
+        string[] failNeedDivdes = _parsingData[failNeedCountIdx].Split(FixedValue.PARSING_LINE_DIVIDE);
+        string[] failDivides = _parsingData[failConditionIdx].Split(FixedValue.PARSING_LINE_DIVIDE);
         string[] penaltyDivdes = _parsingData[penaltyIdx].Split(FixedValue.PARSING_LINE_DIVIDE);
 
         for (int curStep = 1; curStep <= totalStep; curStep++)
@@ -41,6 +45,7 @@ public class ContentMasterData
             int arrayIndex = curStep - 1;
             StageMasterData stageInfo = new StageMasterData(curStep, situAdapValues[arrayIndex], situationDivides[arrayIndex],
                                                         successNeedDivdes[arrayIndex], succesDivides[arrayIndex],
+                                                        failNeedDivdes[arrayIndex], failDivides[arrayIndex],
                                                         rewardDivdes[arrayIndex], penaltyDivdes[arrayIndex]);
             StageDic.Add(curStep, stageInfo);
         }
@@ -74,21 +79,27 @@ public class StageMasterData
     public List<TOrderItem> SituationList; //컨텐츠 수행 상황 리스트
     public int SuccedNeedCount;
     public List<TOrderItem> SuccesConList;
+    public int FailNeedCount;
+    public List<TOrderItem> FailConList;
     public int SuccesStep; //성공시 이동할 Stage 기록
     public int PenaltyStep; //실패시 이동할 Stage 기록
     public int StageNum;
     public StageMasterData(int _stageNum, string _situAdapStr, string _sitautionStrData, 
                            string _succesNeedCountStr, string _succesConStr,
+                           string _failNeedCountStr, string _failConStr,
                            string _rewardStrData, string _penaltyStrData)
     {
         StageNum = _stageNum;
-        bool nonDataAdd = true;
+        bool noneDataAdd = true;
         SituAdapCount = int.Parse(_situAdapStr); //상황조성 조건 중 적용할 수
         SituationList = new();
-        GameUtil.ParseOrderItemList(SituationList, _sitautionStrData, nonDataAdd);
+        GameUtil.ParseOrderItemList(SituationList, _sitautionStrData, noneDataAdd);
         SuccedNeedCount = int.Parse(_succesNeedCountStr);
         SuccesConList = new();
-        GameUtil.ParseOrderItemList(SuccesConList, _succesConStr, nonDataAdd);
+        GameUtil.ParseOrderItemList(SuccesConList, _succesConStr);
+        FailNeedCount = int.Parse(_failNeedCountStr);
+        FailConList = new();
+        GameUtil.ParseOrderItemList(FailConList, _failConStr);
         
          if (int.TryParse(_rewardStrData, out int rewardStep))
         {
