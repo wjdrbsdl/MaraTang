@@ -76,7 +76,7 @@ public class Quest : IOrderCustomer
 
     public void ResetSituation()
     {
-        Debug.LogFormat("시리얼 넘버{0} 퀘 {1}스테이지 리셋", SerialNum, CurStep);
+   //     Debug.LogFormat("시리얼 넘버{0} 퀘 {1}스테이지 리셋", SerialNum, CurStep);
         StageMasterData stageInfo = MgMasterData.GetInstance().GetStageData(ContentPid, CurStep);
         TOrderItem doneItem = stageInfo.SituationList[0];
     }
