@@ -38,8 +38,8 @@ public class UIScript : UIBase
         SelectItemInfo scriptInfo = m_select; //미리 받아놓고
         m_select = null; //초기화 진행
 
-        //1. 먼저 취소를 진행해버리면 취소 진행으로 다시 이 대화창이 SetScript로 진행이됨. 그리고 위의 스위치 오프나 null이 진행되어 버그발생
-        //2. 그래서 먼저 초기화후 취소 진행 
+        //위에서 먼저 초기화를 해놓지 않으면
+        //취소로 다른 스크립이 호출 되는 경우 새로 SetScript()로 세팅된 스크립트 창이 종료되버림
         if (scriptInfo != null)
             scriptInfo.Cancle();
 
