@@ -9,6 +9,7 @@ public class MgMasterData : Mg<MgMasterData>
     private Dictionary<int, TokenChar> m_charDataDic;
     private Dictionary<int, TokenAction> m_tileActionDataDic;
     private Dictionary<int, TokenAction> m_charActionDataDic;
+    private List<int> m_charActionList;
     private Dictionary<int, TokenEvent> m_eventDataDic;
     private Dictionary<int, ContentMasterData> m_contentDataDic;
     private Dictionary<int, NationTechData> m_nationTechDataDic;
@@ -55,6 +56,11 @@ public class MgMasterData : Mg<MgMasterData>
     public TokenAction GetMasterCharAction(int _actionPID)
     {
         return GetDicData<TokenAction>(m_charActionDataDic, _actionPID);
+    }
+
+    public List<int> GetCharActionList()
+    {
+        return m_charActionList;
     }
 
     public TokenAction GetTileActions(int _actionPID)
@@ -145,11 +151,13 @@ public class MgMasterData : Mg<MgMasterData>
     private void SetCharActionData()
     {
         m_charActionDataDic = new();
+        m_charActionList = new();
         ParseData parseData = MgParsing.GetInstance().GetMasterData(EMasterData.CharActionData);
         for (int i = 0; i < parseData.DbValueList.Count; i++)
         {
             TokenAction masterAction = new(parseData.MatchCode, parseData.DbValueList[i]);
             m_charActionDataDic.Add(masterAction.GetPid(), masterAction);
+            m_charActionList.Add(masterAction.GetPid());
         }
     }
 
