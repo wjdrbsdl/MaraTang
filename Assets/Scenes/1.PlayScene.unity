@@ -2666,7 +2666,7 @@ GameObject:
   - component: {fileID: 430619050}
   - component: {fileID: 430619051}
   m_Layer: 5
-  m_Name: IconSelectUI
+  m_Name: SelectItemUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
