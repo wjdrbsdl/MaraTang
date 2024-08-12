@@ -23,7 +23,7 @@ public class UIStudyAction : UIBase
         //2. 숫자만큼 슬롯 생성
         MakeSamplePool<StudySlot>(ref m_studySlots, m_studySlotSample.gameObject, actionCount, m_grid);
         //3. 각 슬롯 마다 세팅
-    
+        SetSlots(actionList);
     }
 
     private void SetSlots(List<int> _actionList)
@@ -33,7 +33,10 @@ public class UIStudyAction : UIBase
             int actionPid = _actionList[i];
             m_studySlots[i].SetAction(actionPid);
         }
-        
+        for (int i = _actionList.Count; i < m_studySlots.Length; i++)
+        {
+            m_studySlots[i].gameObject.SetActive(false);
+        }
     }
 
 }
