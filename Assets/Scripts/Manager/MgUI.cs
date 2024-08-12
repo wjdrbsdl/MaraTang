@@ -13,9 +13,10 @@ public class MgUI : MgGeneric<MgUI>
     [SerializeField] private UICharStats m_charStatUI;
     [SerializeField] private UICaptailMix m_capitalMixUI;
     [SerializeField] private UICapitalChange m_capitalChangeUI;
-    [SerializeField] private UISelectItem m_selectItemUI;
-    [SerializeField] private UISelectItem m_selectTextUI;
-    [SerializeField] private UIScript m_scriptUI;
+    [SerializeField] private UISelectItem m_selectItemUI; //아이템 선택
+    [SerializeField] private UISelectItem m_selectTextUI; //플레이어 대사 선택
+    [SerializeField] private UIScript m_scriptUI; //npc 대사
+    [SerializeField] private UIStudyAction m_studyUI; //학습
 
     [Header("데이터 표기")]
     [SerializeField] private UINationPolicy m_policyUI;
@@ -137,6 +138,10 @@ public class MgUI : MgGeneric<MgUI>
 
     }
 
+    public void ShowStudyInfo(TokenTile _tile)
+    {
+        m_studyUI.SetStudyInfo(_tile);
+    }
     #endregion
 
     #region 현황 데이터 표기

@@ -83,6 +83,9 @@ public class RuleBookTileAction
             case TownFuction.GiveMoney:
                 OpenSelectUI(_tile);
                 break;
+            case TownFuction.StudyAction:
+                MgUI.GetInstance().ShowStudyInfo(_tile);
+                break;
         }
     }
 
@@ -110,14 +113,9 @@ public class RuleBookTileAction
         
     }
 
-    private void TempSaySentence()
-    {
-        MGConversation.GetInstance().ShowSelectScript(ConversationEnum.Choose, 1, 4);
-    }
-
     public enum TownFuction
     {
-        GiveMoney = 1
+        GiveMoney = 1, StudyAction
     }
 
 }
