@@ -134,7 +134,7 @@ public class MGContent : Mg<MGContent>
 
     private bool IsSatisfyCase(ContentEnum _contentCase, int _value)
     {
-        Debug.Log(_contentCase + "가 " + _value.ToString() + " 한지 컨텐츠 케이스 조건 확인");
+       // Debug.Log(_contentCase + "가 " + _value.ToString() + " 한지 컨텐츠 케이스 조건 확인");
         switch (_contentCase)
         {
             case ContentEnum.WorldTurnMatch:

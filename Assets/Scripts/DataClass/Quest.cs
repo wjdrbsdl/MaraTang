@@ -353,7 +353,7 @@ public class CurStageData
             }
             //7. 다음 성공 조건 루프 
         }
-        Debug.LogFormat("필요수{0} 충족수{1} 조건수{2}", SuccesNeedCount, passCount, SuccesConList.Count);
+     //  Debug.LogFormat("필요수{0} 충족수{1} 조건수{2}", SuccesNeedCount, passCount, SuccesConList.Count);
         if (SuccesNeedCount <= passCount)
         {
             return true;
@@ -403,7 +403,7 @@ public class CurStageData
             }
             //7. 다음 성공 조건 루프 
         }
-        Debug.LogFormat("실패 필요수{0} 충족수{1} 조건수{2}", FailNeedCount, failCount, FailConList.Count);
+     //   Debug.LogFormat("실패 필요수{0} 충족수{1} 조건수{2}", FailNeedCount, failCount, FailConList.Count);
         if (FailNeedCount <= failCount)
         {
             return true;
