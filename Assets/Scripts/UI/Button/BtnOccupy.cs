@@ -16,7 +16,7 @@ public class BtnOccupy : MonoBehaviour
     public void OnClickOccupy()
     {
        GamePlayMaster.GetInstance().ClickOccupy(m_tile);
-        m_motherUI.Switch(false);
+        m_motherUI.UISwitch(false);
     }
 
     public void SetActive(bool _on)

@@ -35,7 +35,7 @@ public class UITileInfo : UIBase
     TokenTile m_curTile = null;
     public void SetTileInfo(TokenTile _tile, TileType _tileType)
     {
-        Switch(true);
+        UISwitch(true);
         m_curTile = _tile;
         m_curType = _tileType;
         PlayerManager.GetInstance().SetHeroPlace(_tileType);
@@ -165,7 +165,7 @@ public class UITileInfo : UIBase
         if(m_placeStack.Count == 0)
         {
             //돌아갈 장소가 없으면 uioff
-            Switch(false);
+            UISwitch(false);
             return;
         }
         TileType priorPlace = m_placeStack.Pop();
@@ -176,7 +176,7 @@ public class UITileInfo : UIBase
     {
         //강제 아웃시
         m_placeStack.Clear();
-        Switch(false);
+        UISwitch(false);
     }
 
     public override void OffWindow()

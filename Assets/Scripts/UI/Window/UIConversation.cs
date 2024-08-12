@@ -14,7 +14,7 @@ public class UIConversation : UIBase
 
     public void SetConversation(ConversationData _conversation)
     {
-        Switch(true);
+        UISwitch(true);
 
         m_talkerText.text = _conversation.GetScript();
     }

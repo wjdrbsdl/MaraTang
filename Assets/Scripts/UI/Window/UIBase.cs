@@ -26,7 +26,7 @@ public class UIBase : MonoBehaviour
             OffWindow();
    }
 
-    public void Switch(bool _on)
+    public void UISwitch(bool _on)
     {
         //만약 명명한 상태가 현재 상태랑 동일하다면 끝
         if (m_window.activeSelf == _on)
@@ -55,13 +55,13 @@ public class UIBase : MonoBehaviour
 
     public virtual void RequestOpen()
     {
-        Switch(true);
+        UISwitch(true);
     }
 
     public virtual void ReqeustOff()
     {
         //다른사정없으면 기본적으로 스위치 종료. 
-        Switch(false);
+        UISwitch(false);
     }
 
     #region UI Slot 셋팅

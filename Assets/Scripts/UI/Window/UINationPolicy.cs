@@ -10,7 +10,7 @@ public class UINationPolicy : UIBase
 
     public void SetNationPolicy(Nation _nation)
     {
-        Switch(!m_window.activeSelf);
+        UISwitch(!m_window.activeSelf);
         List<NationPolicy> policyList = _nation.GetNationPolicyList();
         MakeSamplePool<PolicySlot>(ref m_policySlots, m_slotSample.gameObject, policyList.Count, m_gridBox);
         SetInfo(policyList);

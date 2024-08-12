@@ -14,7 +14,7 @@ public class UICapital : UIBase
 
     public void ResetCapitalInfo(PlayerCapitalData _capitalData)
     {
-        Switch(true);
+        UISwitch(true);
 
         //기본 자원수
         int captialTypeCount = System.Enum.GetValues(typeof(Capital)).Length;

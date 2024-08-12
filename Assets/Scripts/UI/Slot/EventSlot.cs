@@ -29,7 +29,7 @@ public class EventSlot : SlotBase
 
     public override void OnLeftClick()
     {
-        _openUI.Switch(false);
+        _openUI.UISwitch(false);
         OrderExcutor orderExcutor = new();
         orderExcutor.ExcuteOrderItem(TokenOrder, OrderIdx);
     }

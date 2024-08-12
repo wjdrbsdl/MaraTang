@@ -13,7 +13,7 @@ public class UIRewardChoose : UIBase
 
     public void ShowItemList(TTokenOrder _tokenOrder)
     {
-        Switch(true);
+        UISwitch(true);
 
         //주문서 방식이 선택 표기인 경우 대상 아이템을 표기해줌. 
         int itemCount = _tokenOrder.orderItemList.Count;

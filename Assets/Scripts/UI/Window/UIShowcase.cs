@@ -20,7 +20,7 @@ public class UIShowcase : UIBase
 
     public void OpenWindow(Action<List<ShowcaseSlot>> _selecttAction, int _selectMaxCount)
     {
-        Switch(true);
+        UISwitch(true);
         //0. 요청한 스타일 할당
         m_selectAction = _selecttAction;
         m_selectMaxCount = _selectMaxCount;
@@ -50,7 +50,7 @@ public class UIShowcase : UIBase
     private InputSlot m_targetSlot;
     public void OpenWindow(InputSlot _inputSlot)
     {
-        Switch(true);
+        UISwitch(true);
         m_targetSlot = _inputSlot;
 
         //1. 캐릭터가 보유한 자원 리스트를 가져온다. 

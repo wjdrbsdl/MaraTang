@@ -10,7 +10,7 @@ public class UIQuest : UIBase
 
     public void SetQuestInfo(Quest quest)
     {
-        Switch(true);
+        UISwitch(true);
         SetConditionInfo(quest);
         SetRewardInfo(quest);
     }

@@ -14,7 +14,7 @@ public class UIActionTokenBox : UIBase
 
     public void SetActionSlot(TokenChar _charToken)
     {
-        Switch(true);
+        UISwitch(true);
         //Debug.Log(_charToken.GetItemName() + "액션 토큰 세팅해보기");
 
         List<TokenAction> actionList = _charToken.GetActionList();

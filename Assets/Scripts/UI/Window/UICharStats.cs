@@ -19,7 +19,7 @@ public class UICharStats : UIBase
 
     public void SetCharStat(TokenChar _char)
     {
-        Switch(true);
+        UISwitch(true);
   
         setCount = m_showStat.Length;
         //사용하는 만큼 버튼 활성화 

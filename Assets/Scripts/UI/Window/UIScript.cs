@@ -11,7 +11,7 @@ public class UIScript : UIBase
 
     public void SetScript(ConversationData _scriptData)
     {
-        Switch(true);
+        UISwitch(true);
         string script = _scriptData.GetScript();
         m_scriptText.text = script;
         m_select = null;
@@ -27,14 +27,14 @@ public class UIScript : UIBase
         if (m_select != null)
             m_select.Confirm();
 
-        Switch(false);
+        UISwitch(false);
         m_select = null;
     }
 
     public override void ReqeustOff()
     {
         //취소 요청을 받았을 때 얘는 취소 안되는데 일단은 취소되는걸로 테스트
-        Switch(false);
+        UISwitch(false);
         SelectItemInfo scriptInfo = m_select; //미리 받아놓고
         m_select = null; //초기화 진행
 
