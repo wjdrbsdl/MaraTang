@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StudySlot : SlotBase
+public class StudySlot : MonoBehaviour
 {
     private int m_actionPid; //할당된 스킬 pid
 
     public void SetAction(int _pid)
     {
-        gameObject.SetActive(true);
         m_actionPid = _pid;
         //1. 액션 정보 표기 
 
