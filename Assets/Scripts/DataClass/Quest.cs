@@ -9,7 +9,7 @@ public class Quest : IOrderCustomer
     public int RestWoldTurn = 3; //유지되는 기간 
     public int ChunkNum = 0;
     public int CurStep = 1;
-    public CurStageData CurStageData; //현재 스테이지 진행 정보, 달성 정보 수행하는 곳. 
+    public ConditionChecker CurStageData; //현재 스테이지 진행 정보, 달성 정보 수행하는 곳. 
 
     #region 생성
     public Quest()
@@ -37,7 +37,7 @@ public class Quest : IOrderCustomer
     {
         Debug.Log(CurStep + "단계 구현화 진행");
         StageMasterData stage = MgMasterData.GetInstance().GetStageData(ContentPid, CurStep);
-        CurStageData = new CurStageData(stage);
+        CurStageData = new ConditionChecker(stage);
         TTokenOrder order = new TTokenOrder(stage.SituationList, stage.SituAdapCount, SerialNum, this);
         OrderExcutor excutor = new OrderExcutor();
         excutor.ExcuteOrder(order);
@@ -50,7 +50,7 @@ public class Quest : IOrderCustomer
     {
         Debug.LogFormat("시리얼 넘버{0} 퀘 {1}스테이지 클리어 됨", SerialNum, CurStep);
         ResetSituation();
-        int nextStep = CurStageData.SuccesStep;
+        int nextStep = MgMasterData.GetInstance().GetStageData(ContentPid, CurStep).SuccesStep; //현재스테이지 정보에서 성공시 스텝 넘버 빼옴
         CurStep = nextStep;
         if(CurStep == 0)
         {
@@ -64,7 +64,7 @@ public class Quest : IOrderCustomer
     {
         Debug.LogFormat("시리얼 넘버{0} 퀘 {1}스테이지 실패 됨", SerialNum, CurStep);
         ResetSituation();
-        int nextStep = CurStageData.PenaltyStep;
+        int nextStep = MgMasterData.GetInstance().GetStageData(ContentPid, CurStep).PenaltyStep; //현재스테이지 정보에서 실패시 스텝 넘버 빼옴
         CurStep = nextStep;
         if (CurStep == 0)
         {
@@ -96,7 +96,7 @@ public class Quest : IOrderCustomer
 
 }
 
-public class CurStageData
+public class ConditionChecker
 {
     //스테이지 클리어를 위한 정보를 기록
 
@@ -112,11 +112,8 @@ public class CurStageData
     public int FailNeedCount = 0;
     public List<TOrderItem> FailConList;
     public List<TOrderItem> CurConList; //현재 진행 상황
-    public int SuccesStep; //성공시 이동할 Stage 기록
-    public int PenaltyStep; //실패시 이동할 Stage 기록
-    public int StageNum;
 
-    public CurStageData(StageMasterData _stageMasterData)
+    public ConditionChecker(StageMasterData _stageMasterData)
     {
         SuccesNeedCount = _stageMasterData.SuccedNeedCount;
         SuccesConList = _stageMasterData.SuccesConList; //성공조건은 마스터 그대로
@@ -124,11 +121,7 @@ public class CurStageData
         FailConList = _stageMasterData.FailConList;
         CurConList = new List<TOrderItem>(); //현재 상황은 새로 새팅
         InitCurConditionValue(); //현재 상태 초기값 설정
-       // Debug.Log("최종 추가된 조건 수" + CurConList.Count);
-        InitCheck(); //현재 상태 체크
-        SuccesStep = _stageMasterData.SuccesStep;
-        PenaltyStep = _stageMasterData.PenaltyStep;
-        StageNum = _stageMasterData.StageNum;
+        InitCheck(); //시작시 성공 여부 체크 
     }
 
     private void InitCurConditionValue()
