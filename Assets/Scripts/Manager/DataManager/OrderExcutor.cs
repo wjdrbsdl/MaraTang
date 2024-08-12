@@ -21,11 +21,11 @@ public class OrderExcutor
             }
             return;
         }
+        //숫자가 다른경우는 선택형으로 뽑기 UI 출력 
         MgUI.GetInstance().ShowItemList(_order);
     
     }
  
-   
     public void ExcuteOrderItem(TTokenOrder _order, int _selectNum)
     {
         TOrderItem orderItem = _order.orderItemList[_selectNum];
@@ -99,6 +99,16 @@ public class OrderExcutor
      
 }
 
+public class OrderCustomExcutor
+{
+    //주문서를 개별적인 방법으로 처리해야하는 경우 별도 함수 모아놓고 진행 
+
+    private void SetNationPlace()
+    {
+        //처음 나라 선택했을 때 나라 위치 
+    }
+}
+
 public enum EOrderType
 {
     None, ItemAdapt, ItemSelect, SpawnMonster, SpawnEvent
@@ -109,14 +119,6 @@ public enum ESpawnPosType
     //무언갈 스폰할때 타입 
     Random, CharRound
 }
-
-public enum GiveMethod
-{
-    //아이템 지급방식
-    Fixed, Selecet
-}
-
-
 
 public struct TTokenOrder
 {

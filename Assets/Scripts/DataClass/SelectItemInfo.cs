@@ -90,6 +90,7 @@ public class SelectItemInfo : ISelectCustomer
 
     #endregion
 
+    #region 확인 취소
     public void Confirm()
     {
         if (ConfirmAction != null)
@@ -111,6 +112,7 @@ public class SelectItemInfo : ISelectCustomer
         TOrderItem cancleResponse = new TOrderItem(TokenType.Conversation, (int)ConversationEnum.Response, (int)ResponseEnum.Cancle); //확인용 item 생성
         MGContent.GetInstance().SendActionCode(cancleResponse);
     }
+    #endregion
 
     public void ShowScript()
     {
@@ -119,6 +121,7 @@ public class SelectItemInfo : ISelectCustomer
          MgUI.GetInstance().ShowTextSelectList(this);
     }
 
+    #region 선택 콜백
     public void OnSelectCallBack(int _slotIndex)
     {
         Debug.Log("셀렉인포 클래스를 통해서 선택 콜백");
@@ -140,5 +143,5 @@ public class SelectItemInfo : ISelectCustomer
         }
         SetSelectValue(_slotIndex, final);
     }
-
+    #endregion
 }
