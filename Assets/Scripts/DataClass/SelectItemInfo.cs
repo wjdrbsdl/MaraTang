@@ -4,7 +4,7 @@ using System;
 using UnityEngine;
 
 
-public class SelectItemInfo : ISelectCustomer
+public class SelectItemInfo
 {
     public bool IsFixedValue = false;
     public int SerialNum = FixedValue.No_INDEX_NUMBER; //사용안할때는 none 넘버로 

@@ -9,16 +9,16 @@ public class SelectSlot : SlotBase
     public TMP_Text selectedText; //나중에 아이콘으로 대체될부분
     public TMP_Text selectedValue;
     public TMP_InputField tmpInput; //수량 입력부분
-    private ISelectCustomer callBackCustomer;
+    private SelectItemInfo selectInfo;
     private int slotIndex;
 
     private void Awake()
     {
         tmpInput.onEndEdit.AddListener(ChangeText);
     }
-    public void SetSlot(TOrderItem _item, ISelectCustomer _customer, int _index)
+    public void SetSlot(TOrderItem _item, SelectItemInfo _selectInfo, int _index)
     {
-        callBackCustomer = _customer;
+        selectInfo = _selectInfo;
         slotIndex = _index;
         DetailSet(_item);
         tmpInput.gameObject.SetActive(false); //일단 오프
@@ -72,13 +72,13 @@ public class SelectSlot : SlotBase
     public override void OnLeftClick()
     {
         base.OnLeftClick();
-        if(callBackCustomer != null)
-        callBackCustomer.OnSelectCallBack(slotIndex);
+        if(selectInfo != null)
+        selectInfo.OnSelectCallBack(slotIndex);
     }
 
     public void ChangeText(string _text)
     {
-        if (callBackCustomer != null)
-            callBackCustomer.OnChangeValueCallBack(slotIndex, int.Parse(_text));
+        if (selectInfo != null)
+            selectInfo.OnChangeValueCallBack(slotIndex, int.Parse(_text));
     }
 }
