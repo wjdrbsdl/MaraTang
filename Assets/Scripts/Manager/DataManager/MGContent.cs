@@ -65,6 +65,14 @@ public class MGContent : Mg<MGContent>
         }
     }
 
+    public void CheckNextQuest()
+    {
+        //성공이나 실패 컨텐츠 상태값이 바뀐경우 연계 되는 퀘스트가 있는지 보고 실행하는 용도. 
+        Quest newQuest = SelectContent(); //새로 추가할 컨텐츠 있는지 체크 
+        RealizeQuest(newQuest);
+        RefreshQuestList();
+    }
+
     #endregion
 
     #region 퀘스트 생성
@@ -90,6 +98,11 @@ public class MGContent : Mg<MGContent>
         foreach(KeyValuePair<int, ContentMasterData> pair in contentDic)
         {
             ContentMasterData curContent = pair.Value;
+            if (IsContentDone(curContent.ContentPid))
+            {
+                Debug.Log(curContent.ContentPid + "완료한 컨텐츠는 패쓰");
+                continue;
+            }
             //모든 컨텐츠의 발동조건을 살핌. 
             if (IsSatisfyAct(curContent.ActConditionList))
             {
@@ -145,6 +158,14 @@ public class MGContent : Mg<MGContent>
                     return true;
                 }
                 break;
+            case ContentEnum.Clear:
+                //벨류는 컨텐츠pid
+                Debug.Log(_value + "클리어 했는지 체크"+ IsContentDone(_value));
+                if (IsContentDone(_value))
+                {
+                    return true;
+                }
+                break;
         }
         return false;
     }
@@ -166,16 +187,19 @@ public class MGContent : Mg<MGContent>
     {
         RecordeQuest(_quest, true);
         RemoveQuest(_quest);
+        CheckNextQuest();
     }
 
     public void FailQuest(Quest _quest)
     {
         RecordeQuest(_quest, false);
         RemoveQuest(_quest);
+        CheckNextQuest();
     }
 
     private void RecordeQuest(Quest _quest, bool _result)
     {
+        Debug.Log(_quest.ContentPid + "번 컨텐츠 성공");
         m_QuestRecorde.Add((_quest.ContentPid, _result));
     }
 
