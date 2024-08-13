@@ -35,7 +35,7 @@ public class Quest : IOrderCustomer
     #region 스테이지 진행
     public void RealizeStage()
     {
-        Debug.Log(CurStep + "단계 구현화 진행");
+     //   Debug.Log(CurStep + "단계 구현화 진행");
         StageMasterData stage = MgMasterData.GetInstance().GetStageData(ContentPid, CurStep);
         CurStageData = new ConditionChecker(stage);
         TTokenOrder order = new TTokenOrder(stage.SituationList, stage.SituAdapCount, SerialNum, this);
@@ -270,22 +270,7 @@ public class ConditionChecker
         }
         return false;
     }
-    private bool RequestAdaptResponse(TOrderItem _response)
-    {
-        //확인, 취소 등의 응답이 들어왔을 때 조건 충족
-        //1 해당 응답과 성공 조건을 비교해서 값이 같은 index의 현재 조건값을 변경
-        for (int i = 0; i < SuccesConList.Count; i++)
-        {
-            TOrderItem successItem = SuccesConList[i];
-            if(successItem.SubIdx == _response.SubIdx && successItem.Value == _response.Value)
-            {
-                //성공 조건중 일치하는 응답이 있으면, 현재 조건의 index 값을 성공조건으로 할당 
-                CurConList[i] = successItem;
-                return true;
-            }
-        }
-        return false;
-    }
+
     private bool RequestAdaptValue(TOrderItem _adaptItem, TOrderItem _curRecord, int _index)
     {
         //단순히 최근 값을 현재 상태로 적용하면 되는 경우 
@@ -295,7 +280,7 @@ public class ConditionChecker
         {
             //그냥 할당
             CurConList[_index] = _adaptItem;
-            Debug.LogFormat("{0}타입 적용할 sub{1}에 {2}로 값 적용\n적용후 값{3}", _adaptItem.Tokentype, _adaptItem.SubIdx, _adaptItem.Value, CurConList[_index].Value);
+           // Debug.LogFormat("{0}타입 적용할 sub{1}에 {2}로 값 적용\n적용후 값{3}", _adaptItem.Tokentype, _adaptItem.SubIdx, _adaptItem.Value, CurConList[_index].Value);
             return true;
         }
         return false;
