@@ -84,7 +84,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
         //처음 시작시 플레이어 메인캐릭터에 카메라 포커스.
         CamFocus(PlayerManager.GetInstance().GetMainChar());
         PlayerManager.GetInstance().FirstStart();
-        //DoneStep(GamePlayStep.GameInitialSetting); //게임 초기 세팅 끝나면 호출
+    
     }
     #endregion
 
@@ -462,6 +462,9 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
         RuleBook.Migrate(mainChar, nationCapitalTile);
         //카메라 포커싱
         CamFocus(PlayerManager.GetInstance().GetMainChar());
+        //초기 나라 선택하는 컨텐츠 부분이후 턴이 시작되어야함. 이부분을 
+        //CharMoveToCapital()을 호출해서 병행중인데 해당 함수에 던Step기능이 있으면 안됨. 수정 필요. 
+        Debug.LogWarning("CharMoveToCapital()을 호출해서 병행중인데 해당 함수에 던Step기능이 있으면 안됨. 수정 필요. ");
         DoneStep(GamePlayStep.GameInitialSetting); //게임 초기 세팅 이후 국가 선택까지 마치면 초기 세팅 끝. 
     }
 
