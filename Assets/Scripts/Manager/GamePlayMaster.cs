@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class GamePlayMaster : MgGeneric<GamePlayMaster>, IOrderCustomer
+public class GamePlayMaster : MgGeneric<GamePlayMaster>
 {
     public MagnetItem testMangetSample;
     public NaviPin testNaviPin;
@@ -84,25 +84,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>, IOrderCustomer
         //처음 시작시 플레이어 메인캐릭터에 카메라 포커스.
         CamFocus(PlayerManager.GetInstance().GetMainChar());
         PlayerManager.GetInstance().FirstStart();
-        SelectFirstNation();
         //DoneStep(GamePlayStep.GameInitialSetting); //게임 초기 세팅 끝나면 호출
-    }
-
-    private int TempNationSelectOrderSerialNum = 1;
-    private void SelectFirstNation()
-    {
-        //초기 진행시 발생된 국가들중 플레이어가 시작할 국가를 고르도록 함. 
-        int nationNumber = MgNation.GetInstance().GetNationList().Count;
-        List<TOrderItem> nationItemList = new();
-        int tempOrderNum = TempNationSelectOrderSerialNum; //같은 주문서의 아이템인지 구별하기 위한 시리얼 넘버. 
-        for (int i = 1; i <= nationNumber; i++)
-        {
-            TOrderItem nationItem = new TOrderItem(TokenType.Nation, i, i); //해당 국가를 아이템으로 생성 
-            nationItemList.Add(nationItem);
-        }
-        OrderExcutor excutor = new();
-        TTokenOrder nationSelectOrder = new TTokenOrder(nationItemList, 1, tempOrderNum, this);
-        excutor.ExcuteOrder(nationSelectOrder);
     }
     #endregion
 
@@ -469,27 +451,20 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>, IOrderCustomer
         return m_playData;
     }
 
-    public void OnOrderCallBack(OrderReceipt _orderReceipt)
+    public void CharMoveToCapital(int _nationNum)
     {
-        TTokenOrder order = _orderReceipt.Order;
-        int orderSerialNum = order.OrderSerialNumber;
-        //나라 선택 주문에 대한 콜백일 경우
-        if (orderSerialNum.Equals(TempNationSelectOrderSerialNum))
-        {
-            //선택한 나라
-            Nation nation = MgNation.GetInstance().GetNation(order.AdaptItemCount);
-            //그 나라의 수도 
-            TokenTile nationCapitalTile = nation.GetCapital();
-            //메인 캐릭터
-            TokenChar mainChar = PlayerManager.GetInstance().GetMainChar();
-            //수도위치로 캐릭터 이동
-            RuleBook.Migrate(mainChar, nationCapitalTile);
-            //카메라 포커싱
-            CamFocus(PlayerManager.GetInstance().GetMainChar());
-            DoneStep(GamePlayStep.GameInitialSetting); //게임 초기 세팅 이후 국가 선택까지 마치면 초기 세팅 끝. 
-        }
-        
+        Nation nation = MgNation.GetInstance().GetNation(_nationNum);
+        //그 나라의 수도 
+        TokenTile nationCapitalTile = nation.GetCapital();
+        //메인 캐릭터
+        TokenChar mainChar = PlayerManager.GetInstance().GetMainChar();
+        //수도위치로 캐릭터 이동
+        RuleBook.Migrate(mainChar, nationCapitalTile);
+        //카메라 포커싱
+        CamFocus(PlayerManager.GetInstance().GetMainChar());
+        DoneStep(GamePlayStep.GameInitialSetting); //게임 초기 세팅 이후 국가 선택까지 마치면 초기 세팅 끝. 
     }
+
 }
 
 //게임 전체 관점에서 단계
