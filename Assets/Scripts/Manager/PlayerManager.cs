@@ -309,6 +309,15 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
         return m_mainChar.GetActionList();
     }
 
+    public bool IsStudyAction(int _actionPid)
+    {
+        int level = GetPlayerActionLevel(_actionPid);
+        if (level != FixedValue.No_VALUE)
+            return true;
+
+        return false;
+    }
+
     public int GetPlayerActionLevel(int _actionPid)
     {
         int level = FixedValue.No_VALUE; //기본 노벨류
