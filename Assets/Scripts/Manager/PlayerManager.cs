@@ -335,22 +335,30 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
         return level;
     }
 
-    public void StudyPlayerAction(int _actionPid)
+    public bool StudyPlayerAction(int _actionPid)
     {
-        int level = GetPlayerActionLevel(_actionPid);
-        if (level != FixedValue.No_VALUE)
+        //1. 학습한건지 체크
+        if (IsStudyAction(_actionPid) == true)
         {
             Debug.Log("이미 습득 한 액션");
-            return; 
+            return false; 
         }
+
         TokenAction masterAction = MgMasterData.GetInstance().GetMasterCharAction(_actionPid);
-        //정의되지 않은 액션이라면 넘김. 
+        //2. 존재하는 스킬인지 체크
         if (masterAction == null)
-            return;
+            return false;
+        
+        //3. 비용 체크
+
+        //4. 스킬 할당
         TokenAction charAction = new TokenAction(masterAction);
         m_mainChar.AddActionToken(charAction);
 
+        //5. 학습 코드 전달
         TOrderItem aquireSkill = new TOrderItem(TokenType.Action, _actionPid, 1);
         MGContent.GetInstance().SendActionCode(aquireSkill);
+
+        return true;
     }
 }

@@ -19,8 +19,15 @@ public class StudySlot : SlotBase
 
     public void OnClick()
     {
-        TokenAction action = MgMasterData.GetInstance().GetMasterCharAction(m_actionPid);
-        Debug.Log(action.GetItemName() + "학습 ");
+        bool doneStudy = PlayerManager.GetInstance().StudyPlayerAction(m_actionPid);
+        if (doneStudy)
+        {
+            Debug.Log("학습함");
+        }
+        else
+        {
+            Debug.Log("학습 못함");
+        }
     }
 }
 
