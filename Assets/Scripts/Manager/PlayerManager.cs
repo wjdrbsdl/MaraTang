@@ -355,6 +355,9 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
         TokenAction charAction = new TokenAction(masterAction);
         m_mainChar.AddActionToken(charAction);
 
+        //5. 액션 슬롯 ui 갱신
+        m_playGameUI.ShowCharActionList();
+
         //5. 학습 코드 전달
         TOrderItem aquireSkill = new TOrderItem(TokenType.Action, _actionPid, 1);
         MGContent.GetInstance().SendActionCode(aquireSkill);
