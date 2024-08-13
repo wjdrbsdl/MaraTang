@@ -674,6 +674,9 @@ public static class GameUtil
                 case TokenType.Custom:
                     findEnum = typeof(CustomEnum);
                     break;
+                case TokenType.Nation:
+                    findEnum = typeof(NationEnum);
+                    break;
             }
 
             if (findEnum == null)
@@ -690,6 +693,10 @@ public static class GameUtil
                 {
                     //마지막 수량까지 잘 적혀있으면 데이터에 추가
                     return new TOrderItem(tokenType, enumPid, needAmount);
+                }
+                if (divideType[2].Equals(FixedValue.PARSING_VALUE_ALL))
+                {
+                    return new TOrderItem(tokenType, enumPid, FixedValue.ALL);
                 }
             }
         }

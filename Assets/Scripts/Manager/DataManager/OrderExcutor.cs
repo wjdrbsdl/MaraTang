@@ -53,9 +53,11 @@ public class OrderExcutor
                 // Debug.Log("대화 요청");
                 MGConversation.GetInstance().ShowCheckScript(orderItem);
                 break;
-            case TokenType.Custom:
-                OrderCustomExcutor customExcutor = new();
-                customExcutor.CustomExucute(orderSubIdx, orderValue);
+            case TokenType.Nation:
+                if(orderSubIdx == (int)NationEnum.Move)
+                {
+                    GamePlayMaster.GetInstance().CharMoveToCapital(orderValue);
+                }
                 break;
             case TokenType.None:
                 Debug.Log("아무것도 하지 않는다");
@@ -162,8 +164,32 @@ public struct TTokenOrder
         OrderSerialNumber = _serialNum;
         AdaptItemCount = _selectCount;
         OrderCustomer = _customer;
+        CheckAllValue();
     }
 
+    //마스터 데이터에서 실시간 조건이 필요한 경우 Value에 All을 넣어서 파악
+    private void CheckAllValue()
+    {
+        for (int i = 0; i < orderItemList.Count; i++)
+        {
+            TOrderItem curItem = orderItemList[i];
+            if (curItem.Value == FixedValue.ALL)
+            {
+                int curIdx = i;
+                TokenType type = curItem.Tokentype;
+                if (type.Equals(TokenType.Nation))
+                {
+                    int nationNumber = MgNation.GetInstance().GetNationList().Count;
+                    orderItemList.RemoveAt(curIdx); //All 벨류 아이템을 제거
+                    for (int nationIdx = 0; nationIdx < nationNumber; nationIdx++)
+                    {
+                        TOrderItem nationItem = new TOrderItem(TokenType.Nation, curItem.SubIdx, nationIdx); //해당 국가를 아이템으로 생성 
+                        orderItemList.Insert(curIdx, nationItem); //해당 idx부터 벨류가 정해진 아이템을 추가 
+                    }
+                }
+            }
+        }
+    }
     #endregion
 
 }
