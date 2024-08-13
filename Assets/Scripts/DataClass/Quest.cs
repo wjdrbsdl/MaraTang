@@ -48,7 +48,7 @@ public class Quest : IOrderCustomer
 
     public void ClearStage()
     {
-        Debug.LogFormat("시리얼 넘버{0} 퀘 {1}스테이지 클리어 됨", SerialNum, CurStep);
+      //  Debug.LogFormat("시리얼 넘버{0} 퀘 {1}스테이지 클리어 됨", SerialNum, CurStep);
         ResetSituation();
         int nextStep = MgMasterData.GetInstance().GetStageData(ContentPid, CurStep).SuccesStep; //현재스테이지 정보에서 성공시 스텝 넘버 빼옴
         CurStep = nextStep;
@@ -62,7 +62,7 @@ public class Quest : IOrderCustomer
 
     public void FailStage()
     {
-        Debug.LogFormat("시리얼 넘버{0} 퀘 {1}스테이지 실패 됨", SerialNum, CurStep);
+      //  Debug.LogFormat("시리얼 넘버{0} 퀘 {1}스테이지 실패 됨", SerialNum, CurStep);
         ResetSituation();
         int nextStep = MgMasterData.GetInstance().GetStageData(ContentPid, CurStep).PenaltyStep; //현재스테이지 정보에서 실패시 스텝 넘버 빼옴
         CurStep = nextStep;
