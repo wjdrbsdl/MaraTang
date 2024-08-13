@@ -32,5 +32,7 @@ public class EventSlot : SlotBase
         _openUI.UISwitch(false);
         OrderExcutor orderExcutor = new();
         orderExcutor.ExcuteOrderItem(TokenOrder, OrderIdx);
+        Debug.LogWarning("임시로 슬롯 선택시에 응답 0번 호출. 선택 수에 따른 선택 미비, 확인 전달 구현 필요");
+        MGContent.GetInstance().SendActionCode(new TOrderItem(TokenType.Conversation, (int)ConversationEnum.Response, 0));
     }
 }
