@@ -660,7 +660,7 @@ public static class GameUtil
                     findEnum = typeof(EventType);
                     break;
                 case TokenType.NationStat:
-                    findEnum = typeof(NationStat);
+                    findEnum = typeof(NationStatEnum);
                     break;
                 case TokenType.Conversation:
                     findEnum = typeof(ConversationEnum);
@@ -670,6 +670,9 @@ public static class GameUtil
                     break;
                 case TokenType.OnChange:
                     findEnum = typeof(OnChangeEnum);
+                    break;
+                case TokenType.Custom:
+                    findEnum = typeof(CustomEnum);
                     break;
             }
 

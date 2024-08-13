@@ -24,7 +24,7 @@ public class NaviPin : MonoBehaviour
         m_chunkNum = _chunkNum;
     }
 
-    public void SetTileWorkPin(Vector2 _position, MainPolicy _policyType)
+    public void SetTileWorkPin(Vector2 _position, MainPolicyEnum _policyType)
     {
         naviPoint = _position;
         m_spriteRender.sprite = TempSpriteBox.GetInstance().GetPolicySprite(_policyType);

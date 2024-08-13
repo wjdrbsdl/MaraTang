@@ -384,7 +384,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>, IOrderCustomer
 
     #region 국가 운영
     private Action nationCallBack;
-    public void ReportNationStep(NationManageStep _step, Nation _nation)
+    public void ReportNationStep(NationManageStepEnum _step, Nation _nation)
     {
         //해당 스텝에 따라 UI표기같은거 진행. 
         nationCallBack = delegate

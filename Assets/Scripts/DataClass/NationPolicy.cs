@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class NationPolicy
 {
-    private MainPolicy m_curMainPolicy = MainPolicy.None; //현재 정책 상황
+    private MainPolicyEnum m_curMainPolicy = MainPolicyEnum.None; //현재 정책 상황
     private int m_holdPolicyCount = 0; //현재 정책 유지된 턴
     private TokenBase m_planToken; //목적지
     private int m_planIndex = FixedValue.No_INDEX_NUMBER;  //메인 정책당 구체적인 계획의 인덱스
@@ -14,7 +14,7 @@ public class NationPolicy
     private bool m_complete = false;
 
     //안건 정보를 담아 생성
-    public NationPolicy(MainPolicy _mainPolicy, int _nationNum)
+    public NationPolicy(MainPolicyEnum _mainPolicy, int _nationNum)
     {
         m_curMainPolicy = _mainPolicy;
         m_nationNum = _nationNum;
@@ -34,7 +34,7 @@ public class NationPolicy
     }
 
     #region GetSet
-    public MainPolicy GetMainPolicy()
+    public MainPolicyEnum GetMainPolicy()
     {
         return m_curMainPolicy;
     }

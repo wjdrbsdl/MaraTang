@@ -24,11 +24,11 @@ public class MgNaviPin : MgGeneric<MgNaviPin>
     public void ShowPolicyPin(NationPolicy _policy)
     {
         //정책과 관련된 핀 표기 
-        MainPolicy mainPolicy = _policy.GetMainPolicy();
+        MainPolicyEnum mainPolicy = _policy.GetMainPolicy();
         switch (mainPolicy)
         {
-            case MainPolicy.ExpandLand:
-            case MainPolicy.ManageLand:
+            case MainPolicyEnum.ExpandLand:
+            case MainPolicyEnum.ManageLand:
                 MakePolicyPin(_policy);
                 break;
         }

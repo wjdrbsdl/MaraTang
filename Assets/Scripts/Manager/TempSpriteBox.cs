@@ -56,13 +56,13 @@ public class TempSpriteBox : MgGeneric<TempSpriteBox>
         return Chares[_pid];
     }
 
-    public Sprite GetPolicySprite(MainPolicy _policy)
+    public Sprite GetPolicySprite(MainPolicyEnum _policy)
     {
         switch (_policy)
         {
-            case MainPolicy.ExpandLand:
+            case MainPolicyEnum.ExpandLand:
                 return ExpandLandPin;
-            case MainPolicy.ManageLand:
+            case MainPolicyEnum.ManageLand:
                 return ManageLandPin;
             default:
                 return DefaultPin;

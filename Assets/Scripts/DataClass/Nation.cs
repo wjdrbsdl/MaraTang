@@ -3,17 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public enum MainPolicy
+public enum NationEnum
+{
+    //국가 관련 db 짤때 
+    Move
+}
+
+public enum MainPolicyEnum
 {
     None, NationLevelUP, ExpandLand, ManageLand, TechTree, Support
 }
 
-public enum NationManageStep
+public enum NationManageStepEnum
 {
    ManageStart, Income, SelectPolicy, ExcutePolicy, RemindPolicy
 }
 
-public enum NationStat
+public enum NationStatEnum
 {
      Happy, CleanFlat, CleanRatio
 }
@@ -103,32 +109,32 @@ public class Nation : ITradeCustomer
         MgNation.GetInstance().EndNationTurn();
     }
 
-    public void ReportToGameMaster(NationManageStep _step)
+    public void ReportToGameMaster(NationManageStepEnum _step)
     {
         //플레이 마스터에서 플레이어의 확인이나 결정을 대기했다가 DoneReport로 재진행 
         GamePlayMaster.GetInstance().ReportNationStep(_step, this);
     }
 
-    public void DoneReport(NationManageStep _step)
+    public void DoneReport(NationManageStepEnum _step)
     {
         switch (_step)
         {
-            case NationManageStep.ManageStart:
+            case NationManageStepEnum.ManageStart:
               //  Debug.Log(m_nationNumber + "번 국가 수입정산 진행");
                 IncomeTerritoryResource();
-                DoneReport(NationManageStep.Income); //보고필요가 없는건 바로 다음 단계 보고 끝난걸로 진행 
+                DoneReport(NationManageStepEnum.Income); //보고필요가 없는건 바로 다음 단계 보고 끝난걸로 진행 
                 break;
-            case NationManageStep.Income:
+            case NationManageStepEnum.Income:
               //  Debug.Log(m_nationNumber + "번 결정하고 보고");
                 SelectPolicy(); //정책결정하고
-                ReportToGameMaster(NationManageStep.SelectPolicy); //정책 결정한거 보고하고
+                ReportToGameMaster(NationManageStepEnum.SelectPolicy); //정책 결정한거 보고하고
                 break;
-            case NationManageStep.SelectPolicy:
+            case NationManageStepEnum.SelectPolicy:
              //   Debug.Log(m_nationNumber + "번 집행하고 보고");
                 ExcutePolicy(); //집행하고
-                ReportToGameMaster(NationManageStep.ExcutePolicy); //집행한거 보고하고
+                ReportToGameMaster(NationManageStepEnum.ExcutePolicy); //집행한거 보고하고
                 break;
-            case NationManageStep.ExcutePolicy:
+            case NationManageStepEnum.ExcutePolicy:
              //   Debug.Log(m_nationNumber + "번 상기하고 턴종료");
                 RemindPolicy(); //상기하고
                 EndTurn(); //턴종료
@@ -142,10 +148,10 @@ public class Nation : ITradeCustomer
     {
         //정책 정함
      
-        int randomPolicy = Random.Range(1, (int)MainPolicy.Support);
+        int randomPolicy = Random.Range(1, (int)MainPolicyEnum.Support);
 
         //어떤류 할지 정하고
-        MainPolicy mainTheme = (MainPolicy)randomPolicy;
+        MainPolicyEnum mainTheme = (MainPolicyEnum)randomPolicy;
         //Announcer.Instance.AnnounceState(m_nationNumber + "국가에서 메인 정책 결정 " + m_curMainPolicy);
         NationPolicy policy = new NationPolicy(mainTheme, m_nationNumber); //주요정책안으로 정책 형성
         //그에 대한 타겟을 정한다
@@ -155,20 +161,20 @@ public class Nation : ITradeCustomer
 
     private void MakePlan(NationPolicy _policy)
     {
-        MainPolicy mainPolicy = _policy.GetMainPolicy();
+        MainPolicyEnum mainPolicy = _policy.GetMainPolicy();
         switch (mainPolicy)
         {
-            case MainPolicy.ExpandLand:
+            case MainPolicyEnum.ExpandLand:
                 FindExpandLand(_policy);
                 break;
-            case MainPolicy.ManageLand:
+            case MainPolicyEnum.ManageLand:
                 FindManageLand(_policy);
                 break;
-            case MainPolicy.NationLevelUP:
+            case MainPolicyEnum.NationLevelUP:
                 TokenBase planToken = GetCapital();
                 _policy.SetPlanToken(planToken);
                 break;
-            case MainPolicy.TechTree:
+            case MainPolicyEnum.TechTree:
                 SelectTechTree(_policy);
                 break;
         }
@@ -319,19 +325,19 @@ public class Nation : ITradeCustomer
         TokenBase planToken = _policy.GetPlanToken();
         int planIndex = _policy.GetPlanIndex();
         bool isComplete = false;
-        MainPolicy policy = _policy.GetMainPolicy();
+        MainPolicyEnum policy = _policy.GetMainPolicy();
         switch (policy)
         {
-            case MainPolicy.ExpandLand:
+            case MainPolicyEnum.ExpandLand:
                 isComplete = ExpandTerritory(planToken);
                 break;
-            case MainPolicy.ManageLand:
+            case MainPolicyEnum.ManageLand:
                 isComplete = ManageTerritory(planToken, planIndex);
                 break;
-            case MainPolicy.NationLevelUP:
+            case MainPolicyEnum.NationLevelUP:
                 isComplete = LevelUp();
                 break;
-            case MainPolicy.TechTree:
+            case MainPolicyEnum.TechTree:
                 isComplete = Research(planIndex);
                 break;
         }

@@ -53,6 +53,10 @@ public class OrderExcutor
                 // Debug.Log("대화 요청");
                 MGConversation.GetInstance().ShowCheckScript(orderItem);
                 break;
+            case TokenType.Custom:
+                OrderCustomExcutor customExcutor = new();
+                customExcutor.CustomExucute(orderSubIdx, orderValue);
+                break;
             case TokenType.None:
                 Debug.Log("아무것도 하지 않는다");
                 break;
@@ -99,11 +103,24 @@ public class OrderExcutor
      
 }
 
+public enum CustomEnum
+{
+    Content
+}
+
 public class OrderCustomExcutor
 {
     //주문서를 개별적인 방법으로 처리해야하는 경우 별도 함수 모아놓고 진행 
 
-    private void SetNationPlace()
+    public void CustomExucute(int _subIdx, int _value)
+    {
+        if(_subIdx == (int)CustomEnum.Content)
+        {
+            SetNationPlace(_value);
+        }
+    }
+
+    private void SetNationPlace(int _nationIdx)
     {
         //처음 나라 선택했을 때 나라 위치 
     }

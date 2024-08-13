@@ -40,7 +40,7 @@ public class MgNation : Mg<MgNation>
 
     public void ManageNationTurn()
     {
-        m_nationList[m_turnNationNumber].DoneReport(NationManageStep.ManageStart);
+        m_nationList[m_turnNationNumber].DoneReport(NationManageStepEnum.ManageStart);
     }
 
     public void EndNationTurn()

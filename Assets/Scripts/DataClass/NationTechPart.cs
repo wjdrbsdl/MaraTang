@@ -35,7 +35,7 @@ public class NationTechPart
     public void CalTechEffect()
     {
         //테크 효과 torderItem 으로 모아놓은곳. 
-        int[] nationStatValues = GameUtil.EnumLengthArray(typeof(NationStat));
+        int[] nationStatValues = GameUtil.EnumLengthArray(typeof(NationStatEnum));
         for (int i = 0; i < m_doneTech.Count; i++)
         {
             NationTechData techData = MgMasterData.GetInstance().GetTechData(m_doneTech[i]); //테크pid로 마스터 데이터 가져옴
