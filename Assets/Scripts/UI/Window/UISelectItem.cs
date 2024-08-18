@@ -74,7 +74,13 @@ public class UISelectItem : UIBase
     {
         //UI 버튼으로 호출 
         if(m_selectInfo != null)
-        m_selectInfo.Confirm();
+        {
+            bool ableConfirm = m_selectInfo.Confirm();
+            //컨펌 반려 먹었으면 빠꾸
+            if (ableConfirm == false)
+                return;
+        }
+        
 
         UISwitch(false);
         m_selectInfo = null;

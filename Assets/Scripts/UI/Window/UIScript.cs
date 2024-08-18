@@ -24,8 +24,14 @@ public class UIScript : UIBase
 
     public void BtnConfirm()
     {
+        //UI 버튼으로 호출 
         if (m_select != null)
-            m_select.Confirm();
+        {
+            bool ableConfirm = m_select.Confirm();
+            //컨펌 반려 먹었으면 빠꾸
+            if (ableConfirm == false)
+                return;
+        }
 
         UISwitch(false);
         m_select = null;
