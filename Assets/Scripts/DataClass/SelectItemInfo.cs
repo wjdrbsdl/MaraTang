@@ -7,6 +7,8 @@ using UnityEngine;
 public class SelectItemInfo
 {
     public bool IsFixedValue = false;
+    public int MaxSelectCount = 0; //최대 선택수
+    public int MinSelectCount = 0; //최소 선택수
     public int SerialNum = FixedValue.No_INDEX_NUMBER; //사용안할때는 none 넘버로 
     public ITradeCustomer Giver;
     public ITradeCustomer Taker;
@@ -17,7 +19,7 @@ public class SelectItemInfo
     private Action ConfirmAction;
 
     #region 클래스 생성부분
-    public SelectItemInfo(List<TOrderItem> _showList, bool _isFixedValue)
+    public SelectItemInfo(List<TOrderItem> _showList, bool _isFixedValue, int _minSelectCount, int _maxSelectCount)
     {
         //만들려는 아이템 리스트를가지고 클래스 생성
         ItemList = _showList;
@@ -25,6 +27,8 @@ public class SelectItemInfo
         IsFixedValue = _isFixedValue; //고정 벨류면 선택한 아이템의 최종 수량으로 아니면 선택한 값으로 
         SelectedIndex = new List<int>(); //선택한 인덱스
         SelectedValue = new List<int>(); //선택한 수량 - FixedValue가 false일때만 입력받음. 
+        MinSelectCount = _minSelectCount;
+        MaxSelectCount = _maxSelectCount;
     }
 
     public void SetAction(Action _action)
@@ -58,9 +62,15 @@ public class SelectItemInfo
             SelectedValue.RemoveAt(inListIndex);
             return;
         }
-        //없던거라면 인덱스 추가하고
+        //없던거라면 선택수 체크
+        if(MaxSelectCount <= SelectedIndex.Count)
+        {
+            //최대 선택수 이상이면 추가 불가
+            return;
+        }
+        //추가 가능하면 인덱스 추가하고
         SelectedIndex.Add(_itemIndex);
-        SelectedValue.Add(1); //최솟값으로 넣음
+        SelectedValue.Add(1); //최솟값으로 넣어둠
     }
 
     public void SetSelectValue(int _selectindex, int _value)
@@ -91,13 +101,22 @@ public class SelectItemInfo
     #endregion
 
     #region 확인 취소
-    public void Confirm()
+    public bool Confirm()
     {
+        if(SelectedIndex.Count < MinSelectCount)
+        {
+            //최소 선택해야하는 수보다 선택된게 작으면 컨펌 불가
+            Debug.Log("최소 " + MinSelectCount + "는 선택해야함");
+            return false; //컨펌 반려
+        }
+
         if (ConfirmAction != null)
             ConfirmAction();
 
         TOrderItem confirmItem = new TOrderItem(TokenType.Conversation, (int)ConversationEnum.Response, (int)ResponseEnum.Check); //확인용 item 생성
         MGContent.GetInstance().SendActionCode(confirmItem);
+
+        return true; //컨펌 됨
     }
 
     public void Cancle()

@@ -87,7 +87,7 @@ public class Quest : IOrderCustomer
 
         if (doneItem.Tokentype.Equals(TokenType.Conversation))
         {
-            SelectItemInfo selectInfo = new SelectItemInfo(null, false);
+            SelectItemInfo selectInfo = new SelectItemInfo(null, false, 0, 0); //선택지가 없는 녀석은 그냥 0
             MgUI.GetInstance().SetScriptCustomer(selectInfo);
             return;
         }

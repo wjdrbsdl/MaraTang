@@ -23,7 +23,9 @@ public class OrderExcutor
             return;
         }
         //숫자가 다른경우는 선택형으로 뽑기 UI 출력 
-        SelectItemInfo selectInfo = new SelectItemInfo(_order.orderItemList, true); //선택받기 위해서 선택정보 생성
+        int minSelect = 1; //최소 선택수 일단 1
+        int maxSelect = _order.AdaptItemCount; //최대 선택수는 적용하려는 수치
+        SelectItemInfo selectInfo = new SelectItemInfo(_order.orderItemList, true, minSelect, maxSelect); //선택받기 위해서 선택정보 생성
         Action confirmAction = delegate
         {
             ExcuteSelectItem(_order, selectInfo);
