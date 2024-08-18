@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class OrderExcutor
@@ -22,7 +23,13 @@ public class OrderExcutor
             return;
         }
         //숫자가 다른경우는 선택형으로 뽑기 UI 출력 
-        MgUI.GetInstance().ShowItemList(_order);
+        SelectItemInfo selectInfo = new SelectItemInfo(_order.orderItemList, true); //선택받기 위해서 선택정보 생성
+        Action confirmAction = delegate
+        {
+            ExcuteSelectItem(_order, selectInfo);
+        };
+        selectInfo.SetAction(confirmAction);
+        MgUI.GetInstance().ShowItemList(_order, selectInfo);
     
     }
  
@@ -64,6 +71,16 @@ public class OrderExcutor
                 break;
         }
         CallBackOrder(null, _order, orderItem);
+    }
+
+    public void ExcuteSelectItem(TTokenOrder _order, SelectItemInfo _selectInfo)
+    {
+        Debug.Log("컨펌 누르고 진행");
+        List<int> selectList = _selectInfo.SelectedIndex;
+        for (int i = 0; i < selectList.Count; i++)
+        {
+            ExcuteOrderItem(_order, selectList[i]);
+        }
     }
 
     private void ExcuteSpawnMonster(TTokenOrder _order, TOrderItem _monterOrder)
