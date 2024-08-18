@@ -40,4 +40,9 @@ public class UIRewardChoose : UIBase
             m_eventSlots[i].gameObject.SetActive(false);
         }
     }
+
+    public void Confirm()
+    {
+
+    }
 }
