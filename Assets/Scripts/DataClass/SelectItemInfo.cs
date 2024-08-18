@@ -96,15 +96,8 @@ public class SelectItemInfo
         if (ConfirmAction != null)
             ConfirmAction();
 
-        List<TOrderItem> selectedList = GetSelectList();
-
         TOrderItem confirmItem = new TOrderItem(TokenType.Conversation, (int)ConversationEnum.Response, (int)ResponseEnum.Check); //확인용 item 생성
-        selectedList.Add(confirmItem);
-        for (int i = 0; i < selectedList.Count; i++)
-        {
-            MGContent.GetInstance().SendActionCode(selectedList[i]);
-        }
-        
+        MGContent.GetInstance().SendActionCode(confirmItem);
     }
 
     public void Cancle()
