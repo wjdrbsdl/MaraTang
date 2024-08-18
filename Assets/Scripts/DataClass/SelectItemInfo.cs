@@ -136,7 +136,7 @@ public class SelectItemInfo
     #region 선택 콜백
     public void OnSelectCallBack(int _slotIndex)
     {
-        Debug.Log("셀렉인포 클래스를 통해서 선택 콜백");
+      //  Debug.Log("셀렉인포 클래스를 통해서 선택 콜백");
         AddChooseItem(_slotIndex);
         //다시 정보 리셋 
         SelectUI.ResetSlot();
@@ -150,10 +150,10 @@ public class SelectItemInfo
         int final = Mathf.Clamp(_value, min, max);
         if (final != _value)
         {
-            //입력된 값이 다르면, 입력된값을 변경 시킴
+            //입력된 값이 다르면, UI상 입력된값을 변경 시킴
             SelectUI.SetSelectValue(_slotIndex, final); //직접 text 변경한건 재 콜백이 일어나지 않음.
         }
-        SetSelectValue(_slotIndex, final);
+        SetSelectValue(_slotIndex, final); //데이터상 값 변경
     }
     #endregion
 }
