@@ -21,7 +21,7 @@ public class SelectSlot : SlotBase
         selectInfo = _selectInfo;
         slotIndex = _index;
         DetailSet(_item);
-        tmpInput.gameObject.SetActive(false); //일단 오프
+        tmpInput.gameObject.SetActive(false); //수량 입력 받는 부분 오프
     }
 
     private void DetailSet(TOrderItem _item)
