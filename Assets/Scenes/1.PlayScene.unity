@@ -1169,7 +1169,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 161675059}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bd8d780e549e9bd45a2c136bea8b0860, type: 3}
   m_Name: 
@@ -8239,8 +8239,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2136994770}
-        m_TargetAssemblyTypeName: UIScript, Assembly-CSharp
-        m_MethodName: BtnConfirm
+        m_TargetAssemblyTypeName: UISelectBase, Assembly-CSharp
+        m_MethodName: OnConfirm
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
