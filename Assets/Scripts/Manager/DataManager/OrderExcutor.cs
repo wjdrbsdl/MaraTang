@@ -69,7 +69,7 @@ public class OrderExcutor
                 }
                 break;
             case TokenType.None:
-                Debug.Log("아무것도 하지 않는다");
+                Debug.Log("아무것도 하지 않는 주문");
                 break;
         }
         CallBackOrder(null, _order, orderItem);
