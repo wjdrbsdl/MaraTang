@@ -31,7 +31,7 @@ public class OrderExcutor
             ExcuteSelectItem(_order, selectInfo);
         };
         selectInfo.SetAction(confirmAction);
-        MgUI.GetInstance().ShowItemList(_order, selectInfo);
+        MgUI.GetInstance().ShowItemList(selectInfo);
     
     }
  

@@ -8,7 +8,6 @@ public class MgUI : MgGeneric<MgUI>
 {
     [Header("액션")]
     [SerializeField] private UIActionTokenBox m_actionTokenBox;
-    [SerializeField] private UIRewardChoose m_rewardChooseUI;
     [SerializeField] private UISelectItem m_rewardSelectItemUI; //아이템 선택
     [SerializeField] private UITileInfo m_tileWorkShopUI;
     [SerializeField] private UICharStats m_charStatUI;
@@ -84,9 +83,8 @@ public class MgUI : MgGeneric<MgUI>
         PushUIStack(openUI);
     }
 
-    public void ShowItemList(TTokenOrder _orderToken, SelectItemInfo _selectInfo)
+    public void ShowItemList(SelectItemInfo _selectInfo)
     {
-       // m_rewardChooseUI.ShowItemList(_orderToken);
         m_rewardSelectItemUI.SetSelectedInfo(_selectInfo);
     }
 
