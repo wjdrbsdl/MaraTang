@@ -73,7 +73,7 @@ public class SelectSlot : SlotBase
     {
         base.OnLeftClick();
         if(selectInfo != null)
-        selectInfo.OnSelectCallBack(slotIndex);
+        selectInfo.OnSelectItem(slotIndex); //아이템 선택시
     }
 
     public void ChangeText(string _text)
