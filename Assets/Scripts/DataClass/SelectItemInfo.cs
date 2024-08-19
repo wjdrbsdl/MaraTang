@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class SelectItemInfo
 {
+    private bool ableCancle = false; //해당 선택지를 취소할 수있는건가. 
     public bool IsFixedValue = false;
     public int MaxSelectCount = 0; //최대 선택수
     public int MinSelectCount = 0; //최소 선택수
@@ -19,7 +20,7 @@ public class SelectItemInfo
     private Action ConfirmAction;
 
     #region 클래스 생성부분
-    public SelectItemInfo(List<TOrderItem> _showList, bool _isFixedValue, int _minSelectCount, int _maxSelectCount)
+    public SelectItemInfo(List<TOrderItem> _showList, bool _isFixedValue, int _minSelectCount, int _maxSelectCount, bool _ableCancle = false)
     {
         //만들려는 아이템 리스트를가지고 클래스 생성
         ItemList = _showList;
@@ -29,6 +30,7 @@ public class SelectItemInfo
         SelectedValue = new List<int>(); //선택한 수량 - FixedValue가 false일때만 입력받음. 
         MinSelectCount = _minSelectCount;
         MaxSelectCount = _maxSelectCount;
+        ableCancle = _ableCancle;
     }
 
     public void SetAction(Action _action)
@@ -101,22 +103,31 @@ public class SelectItemInfo
     #endregion
 
     #region 확인 취소
-    public bool Confirm()
+    public bool AbleConfirm()
     {
-        if(SelectedIndex.Count < MinSelectCount)
+        if (SelectedIndex.Count < MinSelectCount)
         {
             //최소 선택해야하는 수보다 선택된게 작으면 컨펌 불가
             Debug.Log("최소 " + MinSelectCount + "는 선택해야함");
-            return false; //컨펌 반려
+            return false; //컨펌 불가
         }
 
+
+        return true; //컨펌 가능
+    }
+
+    public void Confirm()
+    {
         if (ConfirmAction != null)
             ConfirmAction();
 
         TOrderItem confirmItem = new TOrderItem(TokenType.Conversation, (int)ConversationEnum.Response, (int)ResponseEnum.Check); //확인용 item 생성
         MGContent.GetInstance().SendActionCode(confirmItem);
+    }
 
-        return true; //컨펌 됨
+    public bool AbleCancle()
+    {
+        return ableCancle;
     }
 
     public void Cancle()
@@ -134,7 +145,7 @@ public class SelectItemInfo
     }
 
     #region 선택 콜백
-    public void OnSelectCallBack(int _slotIndex)
+    public void OnSelectItem(int _slotIndex)
     {
       //  Debug.Log("셀렉인포 클래스를 통해서 선택 콜백");
         AddChooseItem(_slotIndex);
