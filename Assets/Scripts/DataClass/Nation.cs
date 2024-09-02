@@ -21,7 +21,7 @@ public enum NationManageStepEnum
 
 public enum NationStatEnum
 {
-     Happy, CleanFlat, CleanRatio
+     Happy, CleanFlat, CleanRatio, 성실, 안정
 }
 
 public class Nation : ITradeCustomer
