@@ -88,7 +88,27 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     }
     #endregion
 
-    #region 액션 수행
+    #region 국가 턴 수행
+    private Action nationCallBack;
+    public void ReportNationStep(NationManageStepEnum _step, Nation _nation)
+    {
+        //해당 스텝에 따라 UI표기같은거 진행. 
+        nationCallBack = delegate
+        {
+            //Debug.Log("텀 이후 리포트 반환");
+            _nation.DoneReport(_step);
+        };
+        Invoke(nameof(CallBackNationReport), startTermTime);
+    }
+
+    private void CallBackNationReport()
+    {
+        if (nationCallBack != null)
+            nationCallBack();
+    }
+    #endregion
+
+    #region 캐릭터 턴 수행
     //게임마스터는 플레이어들이 턴종료때까지 대기, 수행할 캐릭터 액션토큰을 정해서 요구하면 해당 액션을 수행해주는 역할 
 
     //1. 해당 차례 플레이어에게 액션 수행하라고 전달
@@ -213,7 +233,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
 
     #endregion
 
-    #region 이벤트 발생
+    #region 이동 후 처리
 
     private void OccurMoveEvent(TokenChar _charToken)
     {
@@ -233,7 +253,6 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
 
     private bool IsPlayerMoveDone(TokenChar _charToken)
     {
-        //플레이어의 메인 캐릭터면서 최근한 행동이 Move인 경우 이벤트 발생
         if (_charToken.isMainChar == false)
             return false;
         if (_charToken.GetNextActionToken().GetActionType().Equals(ActionType.Move) == false)
@@ -259,10 +278,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
      
     }
 
-    private void PopupMessage(string message)
-    {
-        AlarmPopup.GetInstance().PopUpMessage(message);
-    }
+   
 
     private void EffectEndTurn()
     {
@@ -364,26 +380,6 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     }
     #endregion
 
-    #region 국가 운영
-    private Action nationCallBack;
-    public void ReportNationStep(NationManageStepEnum _step, Nation _nation)
-    {
-        //해당 스텝에 따라 UI표기같은거 진행. 
-        nationCallBack = delegate
-        {
-            //Debug.Log("텀 이후 리포트 반환");
-            _nation.DoneReport(_step);
-        }; 
-        Invoke(nameof(CallBackNationReport), startTermTime);
-    }
-
-    private void CallBackNationReport()
-    {
-        if(nationCallBack != null)
-        nationCallBack();
-    }
-    #endregion
-
     #region 부가 편의 기능
     public void FogContorl(TokenChar _char)
     {
@@ -433,6 +429,11 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
         m_camFollow.TraceOnOff(false);
     }
     #endregion
+
+    private void PopupMessage(string message)
+    {
+        AlarmPopup.GetInstance().PopUpMessage(message);
+    }
 
     private void AnnounceState(string message)
     {
