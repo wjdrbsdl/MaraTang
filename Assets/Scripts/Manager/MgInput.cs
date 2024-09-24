@@ -21,6 +21,7 @@ public class MgInput : MonoBehaviour
  
     Vector2 priorMousePosition = new Vector2();
     KeyCode[] inputNum = { KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Alpha4, KeyCode.Alpha5 };
+    KeyCode mainCharCam = KeyCode.Space;
 
     private void Update()
     {
@@ -203,7 +204,10 @@ public class MgInput : MonoBehaviour
                 PlayerManager.GetInstance().InputActionSlot(i);
             }
         }
-        
+        if (Input.GetKeyDown(mainCharCam))
+        {
+            GamePlayMaster.GetInstance().CamFocusMainChar();
+        }
     }
     #endregion
 

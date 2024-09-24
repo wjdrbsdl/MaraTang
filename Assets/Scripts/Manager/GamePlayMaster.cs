@@ -82,7 +82,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
         //세계의 시작만 세팅 
         SettleWorldTurn(); //월드 턴 변화 진행
         //처음 시작시 플레이어 메인캐릭터에 카메라 포커스.
-        CamFocus(PlayerManager.GetInstance().GetMainChar());
+        CamFocusMainChar();
         PlayerManager.GetInstance().FirstStart();
     
     }
@@ -412,6 +412,11 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     #endregion
 
     #region 카메라 조정
+    public void CamFocusMainChar()
+    {
+        CamFocus(PlayerManager.GetInstance().GetMainChar());
+    }
+
     public void CamFocus(TokenChar _char)
     {
         //해당 으로 포커스
@@ -462,7 +467,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
         //수도위치로 캐릭터 이동
         RuleBook.Migrate(mainChar, nationCapitalTile);
         //카메라 포커싱
-        CamFocus(PlayerManager.GetInstance().GetMainChar());
+        CamFocusMainChar();
         //초기 나라 선택하는 컨텐츠 부분이후 턴이 시작되어야함. 이부분을 
         //CharMoveToCapital()을 호출해서 병행중인데 해당 함수에 던Step기능이 있으면 안됨. 수정 필요. 
         Debug.LogWarning("CharMoveToCapital()을 호출해서 병행중인데 해당 함수에 던Step기능이 있으면 안됨. 수정 필요. ");
