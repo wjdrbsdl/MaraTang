@@ -41,7 +41,7 @@ public class MGContent : Mg<MGContent>
         CountQuestTurn(); //기존에 있던 퀘스트들 턴 감소
         List<Chunk> questChunk = SelectChunkList(3);
         Quest newQuest = SelectContent(); //새로 추가할 컨텐츠 있는지 체크 
-        RealizeQuest(newQuest);
+        RealizeQuest(newQuest); //컨텐츠 추가시 
         RefreshQuestList();
     }
 
@@ -69,7 +69,7 @@ public class MGContent : Mg<MGContent>
     {
         //성공이나 실패 컨텐츠 상태값이 바뀐경우 연계 되는 퀘스트가 있는지 보고 실행하는 용도. 
         Quest newQuest = SelectContent(); //새로 추가할 컨텐츠 있는지 체크 
-        RealizeQuest(newQuest);
+        RealizeQuest(newQuest); //연계 퀘스트 
         RefreshQuestList();
     }
 
@@ -187,7 +187,7 @@ public class MGContent : Mg<MGContent>
     #endregion
 
     #region 퀘스트 관리
-    private void RealizeQuest(Quest _quest)
+    public void RealizeQuest(Quest _quest)
     {
         if (_quest == null)
             return;
