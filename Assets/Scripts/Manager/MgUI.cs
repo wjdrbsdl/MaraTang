@@ -4,6 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
+public enum UICodeEnum
+{
+    Guild = 1
+}
+
 public class MgUI : MgGeneric<MgUI>
 {
     [Header("액션")]
@@ -36,6 +41,19 @@ public class MgUI : MgGeneric<MgUI>
 
     [SerializeField] private Transform m_uiCase; //UI들 띄울장소 여기서 최근 열린애가 젤 위로 올라오도록 세팅. 
     #region 인터페이스 오픈
+
+    public void OpenByUICode(UICodeEnum _uiCode)
+    {
+        switch (_uiCode)
+        {
+            case UICodeEnum.Guild:
+                Debug.Log("길드창 오픈");
+                break;
+            default:
+                Debug.Log("없는 오픈");
+                break;
+        }
+    }
     public void ShowCharActionList()
     {
         //플레이어 캐릭터 눌렀을 때

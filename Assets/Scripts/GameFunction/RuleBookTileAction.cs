@@ -43,6 +43,9 @@ public class RuleBookTileAction
                 BuildTile(_tile, TileType.Nomal);
                 MgUI.GetInstance().CancleLastUI();
                 break;
+            case TileActionType.UIOpen:
+                MgUI.GetInstance().OpenByUICode((UICodeEnum)subValue);
+                    break;
             default:
                 MgUI.GetInstance().CancleLastUI();
                 break;

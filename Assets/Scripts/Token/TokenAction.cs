@@ -19,7 +19,7 @@ public enum TileActionStat
 
 public enum TileActionType
 {
-    Harvest = 1, Build, CapitalChef, LandUsage, Destroy
+    Harvest = 1, Build, CapitalChef, LandUsage, Destroy, UIOpen
 }
 
 
