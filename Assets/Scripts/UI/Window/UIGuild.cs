@@ -25,8 +25,6 @@ public class UIGuild : UIBase
 
         m_curQuest = MGContent.GetInstance().RequestGuildQuest();
         m_curQuest.SerialNum = Random.Range(0, 100);
-        StageMasterData stage = MgMasterData.GetInstance().GetStageData(m_curQuest.ContentPid, m_curQuest.CurStep);
-        m_curQuest.CurStageData = new CurrentStageData(stage);
         CurrentStageData curCondition = m_curQuest.CurStageData;
         TOrderItem newCondition = curCondition.SuccesConList[0];
         newCondition.SubIdx = 2;

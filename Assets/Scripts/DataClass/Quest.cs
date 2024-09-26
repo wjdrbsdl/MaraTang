@@ -21,6 +21,9 @@ public class Quest : IOrderCustomer
     {
         ContentPid = _contentData.ContentPid;
         ChunkNum = _chunkNum;
+        //단계의 스테이지도 추가
+        StageMasterData stage = MgMasterData.GetInstance().GetStageData(ContentPid, CurStep);
+        CurStageData = new CurrentStageData(stage);
         SerialNum = MGContent.GetInstance().GetSerialNum();
     }
     #endregion
@@ -36,9 +39,7 @@ public class Quest : IOrderCustomer
     public void RealizeStage()
     {
      //   Debug.Log(CurStep + "단계 구현화 진행");
-        StageMasterData stage = MgMasterData.GetInstance().GetStageData(ContentPid, CurStep);
-        CurStageData = new CurrentStageData(stage);
-        TTokenOrder order = new TTokenOrder(stage.SituationList, stage.SituAdapCount, SerialNum, this);
+        TTokenOrder order = new TTokenOrder(CurStageData.SituationList, CurStageData.SituAdapCount, SerialNum, this);
         OrderExcutor excutor = new OrderExcutor();
         excutor.ExcuteOrder(order);
         Debug.LogWarning("새 퀘스트 알람 닫아놓음");
@@ -107,6 +108,9 @@ public class CurrentStageData
     //5. 보상을 선택한다. 
     //6. 중도 포기한다. 
     //7. 실패 조건을 충족했다. 
+    
+    public List<TOrderItem> SituationList;
+    public int SituAdapCount = 0;
     public int SuccesNeedCount = 0; //필요 충족 수 
     public List<TOrderItem> SuccesConList; //맞추려는 조건
     public int FailNeedCount = 0;
@@ -115,6 +119,8 @@ public class CurrentStageData
 
     public CurrentStageData(StageMasterData _stageMasterData)
     {
+        SituationList = CopyList(_stageMasterData.SituationList);
+        SituAdapCount = _stageMasterData.SituAdapCount;
         SuccesNeedCount = _stageMasterData.SuccedNeedCount;
         SuccesConList = CopyList(_stageMasterData.SuccesConList); //성공조건은 마스터 그대로
         FailNeedCount = _stageMasterData.FailNeedCount;
