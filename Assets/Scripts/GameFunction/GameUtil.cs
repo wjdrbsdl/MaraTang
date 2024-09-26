@@ -551,11 +551,12 @@ public static class GameUtil
             {
 
                 process?.Invoke(false, curWork, null);
-                yield break;
-
             }
-
-            process?.Invoke(true, curWork, req.downloadHandler.text);
+            else
+            {
+                process?.Invoke(true, curWork, req.downloadHandler.text);
+            }
+            
             curWork += 1;
         }
 

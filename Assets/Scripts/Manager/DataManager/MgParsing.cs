@@ -17,10 +17,13 @@ public struct ParseData
         DbValueList = _dbValues;
     }
 
-    public string[] ExportValues(int _idx)
+    public void NullCheck()
     {
-        //해당 인덱스의 스트링 배열만 인출 
-        return DbValueList[_idx];
+        if(MatchCode == null)
+        {
+            MatchCode = new();
+            DbValueList = new();
+        }
     }
 }
 
@@ -28,7 +31,7 @@ public class MgParsing : MgGeneric<MgParsing>
 {
     private static string docuIDes =  "19xXN_chVCf-ZEsvAly-j-c69gjok0HIKYMaFcAk1Lqg";
     private string[] sheetIDes = { "0" , "1960523724", "1971334673", "1134768741",
-                                    "1603700320", "2001512146","218824529","1858334671" };
+                                    "1603700320", "200151216","218824529","1858334671" };
     private EMasterData[] dbId = { EMasterData.TileActionData, EMasterData.ContentData, EMasterData.TileType, EMasterData.CharData, 
                                    EMasterData.CharActionData, EMasterData.EventData, EMasterData.NationTechTree, EMasterData.Conversation };
     private System.Enum[] matchTypes = { TileActionStat.NeedActionCount, ContentEnum.발생컨텐츠, EMasterData.ContentData, CharStat.CurActionCount, 
@@ -42,14 +45,18 @@ public class MgParsing : MgGeneric<MgParsing>
     }
     public ParseData GetMasterData(EMasterData _dataId)
     {
-        return dbContainer[_dataId];
+        dbContainer.TryGetValue(_dataId, out ParseData _parseData);
+        _parseData.NullCheck();
+        return _parseData;
     }
 
     private void ParseSheetData()
     {
-        StartCoroutine(GameUtil.GetSheetDataCo(docuIDes, sheetIDes,
+        StartCoroutine(
+            GameUtil.GetSheetDataCo(docuIDes, sheetIDes,
          delegate { MgGameIniti.GetInstance().PlayMgInitiWorkStep("파싱완료"); },
-         ClassfyDataBase));
+         ClassfyDataBase)
+            );
     }
 
     private void ClassfyDataBase(bool _successLoad, int _index, string message)
@@ -87,7 +94,7 @@ public class MgParsing : MgGeneric<MgParsing>
             
         }
         else
-            Debug.Log("실패");
+            Debug.Log(matchTypes[_index]+ "파싱 실패");
     }
 
  
