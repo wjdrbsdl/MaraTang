@@ -21,7 +21,13 @@ public class UIGuild : UIBase
         //2. 나라 주변 몬스터
         //3. 그냥 현재 진행상태에서 자원, 몬스터를 찾고 물리쳐달라는 퀘스트를 생성. 
         Debug.Log("길드퀘스트 생성");
-        Quest guildQuest = new Quest();
-        MGContent.GetInstance().
+        Quest guildQuest = MGContent.GetInstance().RequestGuildQuest();
+        ConditionChecker curCondition = guildQuest.CurStageData;
+        for(int i = 0; i < curCondition.SuccesConList.Count; i++)
+        {
+            TOrderItem conditionItem = curCondition.SuccesConList[i];
+            Debug.Log(conditionItem.Tokentype +" : "+ conditionItem.SubIdx + " "+ conditionItem.Value );
+        }
+
     }
 }

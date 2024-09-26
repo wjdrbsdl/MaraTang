@@ -90,6 +90,20 @@ public class MGContent : Mg<MGContent>
         return rulletChunk;
     }
 
+    public Quest RequestGuildQuest()
+    {
+        Dictionary<int, ContentMasterData> contentDic = MgMasterData.GetInstance().GetContentDataDic();
+        int guildQuestId = 3;
+        int tempChunkNum = 1;
+        if (contentDic.ContainsKey(guildQuestId))
+        {
+            ContentMasterData guildQuest = contentDic[guildQuestId];
+            return new Quest(guildQuest, tempChunkNum);
+        }
+
+        return null;
+    }
+
     private Quest SelectContent()
     {
         //존재하는 모든 컨텐츠들의 발동조건을 따져서 수행 
