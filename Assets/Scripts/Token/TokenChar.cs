@@ -152,8 +152,12 @@ public class TokenChar : TokenBase
         return m_isPlayerChar;
     }
 
-    public GuildCard GetGuildID()
+    public GuildCard GetGuildCard()
     {
+        if(m_guildID == null)
+        {
+            m_guildID = new GuildCard();
+        }
         return m_guildID;
     }
     #endregion

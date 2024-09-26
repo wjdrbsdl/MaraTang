@@ -34,6 +34,9 @@ public class MgUI : MgGeneric<MgUI>
     [SerializeField] private UIQuest m_questUI;
     [SerializeField] private UIQuestList m_questListUI;
 
+    [Header("유아이작업")]
+    [SerializeField] private UIGuild m_guildUI;
+
     [Header("컷씬")]
     [SerializeField] private UICutScene m_cutScene;
 
@@ -47,7 +50,7 @@ public class MgUI : MgGeneric<MgUI>
         switch (_uiCode)
         {
             case UICodeEnum.Guild:
-                Debug.Log("길드창 오픈");
+                m_guildUI.SetGuildInfo();
                 break;
             default:
                 Debug.Log("없는 오픈");
