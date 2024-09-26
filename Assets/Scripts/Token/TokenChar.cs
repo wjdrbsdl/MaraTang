@@ -19,6 +19,7 @@ public class TokenChar : TokenBase
     private TokenAction m_nextAction = null;
     private TokenBase m_nextTarget;
     private TokenCharMood m_mood;
+    private GuildCard m_guildID;
 
     #region 캐릭 토큰 생성부분
     public TokenChar()
@@ -150,9 +151,19 @@ public class TokenChar : TokenBase
         
         return m_isPlayerChar;
     }
+
+    public GuildCard GetGuildID()
+    {
+        return m_guildID;
+    }
     #endregion
 
     #region Set
+    public void SetGuildID(GuildCard _guildID)
+    {
+        m_guildID = _guildID;
+    }
+
     public void SetNextAction(TokenAction _action)
     {
         m_nextAction = (_action);
