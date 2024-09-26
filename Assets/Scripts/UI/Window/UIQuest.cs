@@ -18,8 +18,9 @@ public class UIQuest : UIBase
     private void SetConditionInfo(Quest quest)
     {
         string conStr = "컨텐츠데이터로 다시 정보 세팅할 필요 있다.";
-  
-        m_conditionText.text = conStr;
+        CurrentStageData stageInfo = quest.CurStageData;
+        TOrderItem condition = stageInfo.SuccesConList[0];
+        m_conditionText.text = quest.SerialNum+"시리얼"+ condition.Tokentype + "의 " + ((Capital)condition.SubIdx) + " 를" + condition.Value + "만큼";
     }
 
     private void SetRewardInfo(Quest quest)

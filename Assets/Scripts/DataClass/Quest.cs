@@ -9,7 +9,7 @@ public class Quest : IOrderCustomer
     public int RestWoldTurn = 3; //유지되는 기간 
     public int ChunkNum = 0;
     public int CurStep = 1;
-    public ConditionChecker CurStageData; //현재 스테이지 진행 정보, 달성 정보 수행하는 곳. 
+    public CurrentStageData CurStageData; //현재 스테이지 진행 정보, 달성 정보 수행하는 곳. 
 
     #region 생성
     public Quest()
@@ -37,7 +37,7 @@ public class Quest : IOrderCustomer
     {
      //   Debug.Log(CurStep + "단계 구현화 진행");
         StageMasterData stage = MgMasterData.GetInstance().GetStageData(ContentPid, CurStep);
-        CurStageData = new ConditionChecker(stage);
+        CurStageData = new CurrentStageData(stage);
         TTokenOrder order = new TTokenOrder(stage.SituationList, stage.SituAdapCount, SerialNum, this);
         OrderExcutor excutor = new OrderExcutor();
         excutor.ExcuteOrder(order);
@@ -96,7 +96,7 @@ public class Quest : IOrderCustomer
 
 }
 
-public class ConditionChecker
+public class CurrentStageData
 {
     //스테이지 클리어를 위한 정보를 기록
 
@@ -113,16 +113,27 @@ public class ConditionChecker
     public List<TOrderItem> FailConList;
     public List<TOrderItem> CurConList; //현재 진행 상황
 
-    public ConditionChecker(StageMasterData _stageMasterData)
+    public CurrentStageData(StageMasterData _stageMasterData)
     {
         SuccesNeedCount = _stageMasterData.SuccedNeedCount;
-        SuccesConList = _stageMasterData.SuccesConList; //성공조건은 마스터 그대로
+        SuccesConList = CopyList(_stageMasterData.SuccesConList); //성공조건은 마스터 그대로
         FailNeedCount = _stageMasterData.FailNeedCount;
-        FailConList = _stageMasterData.FailConList;
+        FailConList = CopyList(_stageMasterData.FailConList);
         CurConList = new List<TOrderItem>(); //현재 상황은 새로 새팅
         InitCurConditionValue(); //현재 상태 초기값 설정
         InitCheck(); //시작시 성공 여부 체크 
     }
+
+    private List<TOrderItem> CopyList(List<TOrderItem> _origin)
+    {
+        List<TOrderItem> _copy = new List<TOrderItem>();
+        for(int i = 0; i < _origin.Count; i++)
+        {
+            _copy.Add(_origin[i]);
+        }
+        return _copy;
+    }
+
 
     private void InitCurConditionValue()
     {
