@@ -11485,6 +11485,7 @@ MonoBehaviour:
   m_selectTextUI: {fileID: 766198751}
   m_scriptUI: {fileID: 2136994770}
   m_studyUI: {fileID: 1357387190}
+  m_turnEndButton: {fileID: 138830606}
   m_policyUI: {fileID: 895351283}
   m_capitalUI: {fileID: 554083608}
   m_snapInfoUI: {fileID: 568904226}

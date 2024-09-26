@@ -18,6 +18,8 @@ public class MgUI : MgGeneric<MgUI>
     [SerializeField] private UIScript m_scriptUI; //npc 대사
     [SerializeField] private UIStudyAction m_studyUI; //학습
 
+    [SerializeField] private GameObject m_turnEndButton;
+
     [Header("데이터 표기")]
     [SerializeField] private UINationPolicy m_policyUI;
     [SerializeField] private UICapital m_capitalUI;
@@ -248,4 +250,9 @@ public class MgUI : MgGeneric<MgUI>
         }
     }
     #endregion
+
+    public void TurnEndButtonOnOff(bool _on)
+    {
+        m_turnEndButton.SetActive(_on);
+    }
 }

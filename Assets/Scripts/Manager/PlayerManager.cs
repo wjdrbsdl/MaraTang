@@ -183,6 +183,7 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
     #region 플레이어 턴 수행 인터페이스
     public void PlayTurn()
     {
+        MgUI.GetInstance().TurnEndButtonOnOff(true);
         PopupDamage.GetInstance().DamagePop(m_mainChar.GetObject().gameObject, 10);
         //1. 안개 적용하고
         GamePlayMaster.GetInstance().FogContorl(m_mainChar);
@@ -213,6 +214,7 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
             return;
 
         ChangedPlayerStep(CharTurnStep.EndCharTurn);
+        MgUI.GetInstance().TurnEndButtonOnOff(false);
         GamePlayMaster.g_instance.EndPlayerTurn();
     }
 
