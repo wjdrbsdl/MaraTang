@@ -132,6 +132,14 @@ public class CurrentStageData
         InitCheck(); //시작시 성공 여부 체크 
     }
 
+    public void ResetCurCondtion()
+    {
+        //기존 스테이지 조건값을 바꾼경우 현재상태 값을 재탐색
+        CurConList = new List<TOrderItem>();
+        InitCurConditionValue(); //현재 상태 초기값 설정
+        InitCheck(); //시작시 성공 여부 체크 
+    }
+
     private List<TOrderItem> CopyList(List<TOrderItem> _origin)
     {
         List<TOrderItem> _copy = new List<TOrderItem>();

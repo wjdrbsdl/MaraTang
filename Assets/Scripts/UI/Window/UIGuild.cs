@@ -30,7 +30,7 @@ public class UIGuild : UIBase
         newCondition.SubIdx = 2;
         newCondition.Value = Random.Range(0, 100);
         curCondition.SuccesConList[0] = newCondition;
-
+        m_curQuest.CurStageData.ResetCurCondtion();
         MGContent.GetInstance().RealizeQuest(m_curQuest);
     }
 }
