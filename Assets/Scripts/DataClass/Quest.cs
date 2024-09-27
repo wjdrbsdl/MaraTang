@@ -343,6 +343,7 @@ public class CurrentStageData
                 {
                     case TokenType.Char: //몬스터의 경우 목표 몬스터 처치시 현재 상태 value 1 상승
                     case TokenType.Action:
+                    case TokenType.Capital:
                         isPass = IsEnoughValue(successCondition, curCondtion);
                         break;
                     default:

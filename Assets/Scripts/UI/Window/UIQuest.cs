@@ -20,7 +20,9 @@ public class UIQuest : UIBase
         string conStr = "컨텐츠데이터로 다시 정보 세팅할 필요 있다.";
         CurrentStageData stageInfo = quest.CurStageData;
         TOrderItem condition = stageInfo.SuccesConList[0];
-        m_conditionText.text = quest.SerialNum+"시리얼"+ condition.Tokentype + "의 " + ((Capital)condition.SubIdx) + " 를" + condition.Value + "만큼";
+        TOrderItem cur = stageInfo.CurConList[0];
+        m_conditionText.text = quest.SerialNum+"시리얼"+ condition.Tokentype + "의 " + ((Capital)condition.SubIdx) + " 를" + condition.Value + "만큼\n"+
+            cur.Tokentype+" :"+cur.SubIdx+":"+cur.Value;
     }
 
     private void SetRewardInfo(Quest quest)
