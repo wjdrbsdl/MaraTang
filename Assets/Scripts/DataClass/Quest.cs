@@ -110,7 +110,7 @@ public class CurrentStageData
     //5. 보상을 선택한다. 
     //6. 중도 포기한다. 
     //7. 실패 조건을 충족했다. 
-    
+    public bool AutoClear; //조건충족시 자동 클리어 여부
     public List<TOrderItem> SituationList;
     public int SituAdapCount = 0;
     public int SuccesNeedCount = 0; //필요 충족 수 
@@ -124,6 +124,7 @@ public class CurrentStageData
         SituationList = CopyList(_stageMasterData.SituationList);
         SituAdapCount = _stageMasterData.SituAdapCount;
         SuccesNeedCount = _stageMasterData.SuccedNeedCount;
+        AutoClear = _stageMasterData.AutoClear;
         SuccesConList = CopyList(_stageMasterData.SuccesConList); //성공조건은 마스터 그대로
         FailNeedCount = _stageMasterData.FailNeedCount;
         FailConList = CopyList(_stageMasterData.FailConList);

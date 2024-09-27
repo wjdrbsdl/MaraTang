@@ -313,10 +313,20 @@ public class MGContent : Mg<MGContent>
             Quest quest = m_QuestList[i];
             quest.CurStageData.AdaptCondtion(_orderItem); //각 퀘스트에 새로운 상태를 적용하고
             bool isCompelete = quest.CurStageData.CheckSuccess(); //해당 퀘스트의 스테이지가 클리어되었는지 확인
+            
             bool isFail = quest.CurStageData.CheckFail();
-         //   Debug.LogFormat("시리얼 넘버{0} 퀘 {1}스테이지 클리어 여부 성공{2} 실패{3}", quest.SerialNum, quest.CurStep, isCompelete, isFail);
-            if(isCompelete)
-            quest.ClearStage();
+            //   Debug.LogFormat("시리얼 넘버{0} 퀘 {1}스테이지 클리어 여부 성공{2} 실패{3}", quest.SerialNum, quest.CurStep, isCompelete, isFail);
+            if (isCompelete)
+            {
+                bool isAutoClear = quest.CurStageData.AutoClear;
+                if(isAutoClear)
+                quest.ClearStage();
+                else
+                {
+                    Debug.Log("플레이어 요청으로 클리어 가능");
+                }
+            }
+            
             else if (isFail)
                 quest.FailStage();
         }
