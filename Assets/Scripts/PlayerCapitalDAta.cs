@@ -86,6 +86,7 @@ public class PlayerCapitalData : ITradeCustomer
                     Debug.Log("고려 파트 아닌 부분");
                     break;
             }
+            
         }
 
     }
@@ -107,15 +108,18 @@ public class PlayerCapitalData : ITradeCustomer
             m_dicCapital.Add(_capital, tokenCapital);
         }
         //재료가 0이하로 내려가는경우는 없어야만, 여기 넘어오기전에 소비를 시키는 단계에서 수량체크를 해야함. 
-        if (m_dicCapital[_capital].GetStat(CapitalStat.Amount)== 0)
-        {
-            //근데 만약 수량이 0 보다 이하라면
-            m_dicCapital.Remove(_capital); //다시 삭제 
-        }
-        else if(m_dicCapital[_capital].GetStat(CapitalStat.Amount) < 0)
+        //if (m_dicCapital[_capital].GetStat(CapitalStat.Amount)== 0)
+        //{
+        //    //근데 만약 수량이 0 보다 이하라면
+        //    m_dicCapital.Remove(_capital); //다시 삭제 
+        //}
+        //else
+        if(m_dicCapital[_capital].GetStat(CapitalStat.Amount) < 0)
         {
             Debug.LogError("수량 체크 실패");
         }
+        //변화된 자원을 액션코드로 전달
+        MGContent.GetInstance().SendActionCode(new TOrderItem(TokenType.Capital, (int)_capital, m_dicCapital[_capital].GetStat(CapitalStat.Amount))); //플레이어 자원변화 코드 전달
         MgUI.GetInstance().ResetCapitalInfo(this);
     }
 

@@ -34,6 +34,9 @@ public class UICapital : UIBase
 
         foreach(KeyValuePair<Capital, TokenBase> item in curCapitals)
         {
+            //0인 자원은 표시안함
+            if (item.Value.GetStat(CapitalStat.Amount) == 0)
+                continue;
             m_capitalStats[setCount].gameObject.SetActive(true);
             m_capitalStats[setCount].SetCaptialInfo(item.Value);
             setCount += 1; //세팅한 숫자 올리고
