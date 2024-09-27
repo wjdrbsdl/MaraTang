@@ -58,6 +58,8 @@ public class Quest : IOrderCustomer
             MGContent.GetInstance().SuccessQuest(this); //ClearStage()
             return;
         }
+        StageMasterData stage = MgMasterData.GetInstance().GetStageData(ContentPid, CurStep);
+        CurStageData = new CurrentStageData(stage);
         RealizeStage();
     }
 
