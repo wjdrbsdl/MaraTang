@@ -111,6 +111,7 @@ public class CurrentStageData
     //6. 중도 포기한다. 
     //7. 실패 조건을 충족했다. 
     public bool AutoClear; //조건충족시 자동 클리어 여부
+    public bool AbleClear = false; // 클리어 가능한 상태인지
     public List<TOrderItem> SituationList;
     public int SituAdapCount = 0;
     public int SuccesNeedCount = 0; //필요 충족 수 
@@ -321,6 +322,7 @@ public class CurrentStageData
     {
         //현재 상태와 목표 상태를 각 토큰타입에 따라 벨류를 따져봄
         int passCount = 0; //통과한수
+        AbleClear = false;
         for (int i = 0; i < SuccesConList.Count; i++)
         {
             //1. 성공 조건들 중 1개 뺌
@@ -363,6 +365,7 @@ public class CurrentStageData
      //  Debug.LogFormat("필요수{0} 충족수{1} 조건수{2}", SuccesNeedCount, passCount, SuccesConList.Count);
         if (SuccesNeedCount <= passCount)
         {
+            AbleClear = true;
             return true;
         }
         return false;

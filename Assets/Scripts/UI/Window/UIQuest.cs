@@ -7,27 +7,40 @@ public class UIQuest : UIBase
 {
     public TMP_Text m_conditionText;
     public TMP_Text m_rewardText;
-
+    public GameObject m_clearBtn;
+    private Quest m_currentQuest;
     public void SetQuestInfo(Quest quest)
     {
         UISwitch(true);
-        SetConditionInfo(quest);
-        SetRewardInfo(quest);
+        m_currentQuest = quest;
+        SetConditionInfo();
+        SetRewardInfo();
+        SetClearBtn();
     }
 
-    private void SetConditionInfo(Quest quest)
+    private void SetConditionInfo()
     {
-        string conStr = "컨텐츠데이터로 다시 정보 세팅할 필요 있다.";
-        CurrentStageData stageInfo = quest.CurStageData;
+        CurrentStageData stageInfo = m_currentQuest.CurStageData;
         TOrderItem condition = stageInfo.SuccesConList[0];
         TOrderItem cur = stageInfo.CurConList[0];
-        m_conditionText.text = quest.SerialNum+"시리얼"+ condition.Tokentype + "의 " + ((Capital)condition.SubIdx) + " 를" + condition.Value + "만큼\n"+
+        m_conditionText.text = m_currentQuest.SerialNum+"시리얼"+ condition.Tokentype + "의 " + ((Capital)condition.SubIdx) + " 를" + condition.Value + "만큼\n"+
             cur.Tokentype+" :"+cur.SubIdx+":"+cur.Value;
     }
 
-    private void SetRewardInfo(Quest quest)
+    private void SetRewardInfo()
     {
         string conStr = "컨텐츠데이터로 다시 정보 세팅할 필요 있다.";
         m_rewardText.text = conStr;
+    }
+
+    private void SetClearBtn()
+    {
+        m_clearBtn.SetActive(m_currentQuest.CurStageData.AbleClear);
+    }
+
+    public void ReqeustClearQuest()
+    {
+        if(m_currentQuest.CurStageData.CheckSuccess()) //한번더 조건충족 체크 후
+        m_currentQuest.ClearStage(); //진행
     }
 }
