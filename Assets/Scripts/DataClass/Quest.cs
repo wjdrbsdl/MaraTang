@@ -50,7 +50,8 @@ public class Quest : IOrderCustomer
     public void ClearStage()
     {
       //  Debug.LogFormat("시리얼 넘버{0} 퀘 {1}스테이지 클리어 됨", SerialNum, CurStep);
-        ResetSituation();
+        ResetSituation(); //스테이지 진행을 위해 생성되었던거 초기화
+        CurStageData.AdaptSucces(); //스테이지 성공을 위해 지불해야할것들 진행
         int nextStep = MgMasterData.GetInstance().GetStageData(ContentPid, CurStep).SuccesStep; //현재스테이지 정보에서 성공시 스텝 넘버 빼옴
         CurStep = nextStep;
         if(CurStep == 0)
@@ -67,6 +68,7 @@ public class Quest : IOrderCustomer
     {
       //  Debug.LogFormat("시리얼 넘버{0} 퀘 {1}스테이지 실패 됨", SerialNum, CurStep);
         ResetSituation();
+        
         int nextStep = MgMasterData.GetInstance().GetStageData(ContentPid, CurStep).PenaltyStep; //현재스테이지 정보에서 실패시 스텝 넘버 빼옴
         CurStep = nextStep;
         if (CurStep == 0)
@@ -119,6 +121,7 @@ public class CurrentStageData
     public int FailNeedCount = 0;
     public List<TOrderItem> FailConList;
     public List<TOrderItem> CurConList; //현재 진행 상황
+    public bool[] SuccessState;
 
     public CurrentStageData(StageMasterData _stageMasterData)
     {
@@ -155,6 +158,8 @@ public class CurrentStageData
 
     private void InitCurConditionValue()
     {
+        //0. 성공 조건수 만큼 현재 상태 bool값 배열 생성
+        SuccessState = new bool[SuccesConList.Count];
         //1. 성공 조건과 실패 조건의 TOrder를 투입한다
         //2. TokenType과 SubIdx가 중복되는 것들은 1개로 통합한다. - 중복 체크 필요. 
         //3. 초기값은 각 TokenType, Subidx에 따라 지정한다. 
@@ -299,7 +304,6 @@ public class CurrentStageData
         }
         return false;
     }
-
     private bool RequestAdaptValue(TOrderItem _adaptItem, TOrderItem _curRecord, int _index)
     {
         //단순히 최근 값을 현재 상태로 적용하면 되는 경우 
@@ -326,7 +330,8 @@ public class CurrentStageData
         for (int i = 0; i < SuccesConList.Count; i++)
         {
             //1. 성공 조건들 중 1개 뺌
-            TOrderItem successCondition = SuccesConList[i]; 
+            TOrderItem successCondition = SuccesConList[i];
+            SuccessState[i] = false; //해당 성공 조건 실패로 초기화
             for (int curConIdx = 0; curConIdx < CurConList.Count; curConIdx++)
             {
                 //2. 성공 조건과 현재 조건을 하나씩 비교 
@@ -355,7 +360,11 @@ public class CurrentStageData
                 }
 
                 if (isPass)
+                {
                     passCount += 1;
+                    SuccessState[i] = true;
+                }
+                    
 
                 //6. 성공 조건에 맞는 현재 조건을 따져봤으므로 break;
                 break; 
@@ -437,4 +446,35 @@ public class CurrentStageData
         return false;
     }
     #endregion
+
+    public void AdaptSucces()
+    {
+        //성공 후 적용할것들 - 제출하기 같은 경우 해당 수량 만큼 감소 
+        int adaptCount = 0; //필요한 조건 수 만큼 적용 진행 
+        //ex 자원 A, B 둘중 하나를 50 모으면 충족하는 경우, 해당 adaptCount를 따지지않으면 A,B 둘다 50을 까는 경우가 발생
+        //두 자원이 충족된다면 앞에 자원이 까지긴 하지만 하나만 까지도록 
+        for (int i = 0; i < SuccesConList.Count; i++)
+        {
+            //1. 충족하지 못한 성공조건인 경우에는 넘김
+            if (SuccessState[i] == false)
+                continue;
+
+            //2. 충족한 경우 성공 조건을 추출
+            TOrderItem successCondtion = SuccesConList[i]; 
+
+            //3. 토큰타입에 따라 개별적으로 진행
+            TokenType adaptType = successCondtion.Tokentype;
+            switch (adaptType)
+            {
+                case TokenType.Capital: //필요조건 수 만큼 자원 소비. 
+                    PlayerCapitalData.g_instance.CalCapital((Capital)successCondtion.SubIdx, -successCondtion.Value);
+                    adaptCount += 1;
+                    break;
+                    
+            }
+
+            if (adaptCount.Equals(SuccesNeedCount))
+                break;
+        }
+    }
 }
