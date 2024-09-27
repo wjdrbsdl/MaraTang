@@ -117,6 +117,11 @@ public class MGContent : Mg<MGContent>
                 Debug.Log(curContent.ContentPid + "완료한 컨텐츠는 패쓰");
                 continue;
             }
+            if (IsPlayedContent(curContent.ContentPid))
+            {
+                Debug.Log(curContent.ContentPid + "진행중인 컨텐츠는 패쓰");
+                continue;
+            }
             //모든 컨텐츠의 발동조건을 살핌. 
             if (IsSatisfyAct(curContent.ActConditionList))
             {
@@ -261,6 +266,19 @@ public class MGContent : Mg<MGContent>
             return false;
 
         return true;
+    }
+
+    public bool IsPlayedContent(int _cotentPid)
+    {
+        for (int i = 0; i < m_QuestList.Count; i++)
+        {
+            int cotentpid = m_QuestList[i].ContentPid;
+            if(_cotentPid == cotentpid)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void MakeNation()
