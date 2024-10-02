@@ -29,6 +29,7 @@ public class NationPopular
             //식량이 부족하면 먹일수 있는 식량 만큼 식량 감소
             int ableMeal = ablePopulation * m_mealRatio;
             m_nation.CalResourceAmount(Capital.Food, -ableMeal);
+            Debug.Log("기존 식량" + meal +"식후 식량"+m_nation.GetResourceAmount(Capital.Food));
             int hungryPopulation = population - ablePopulation; //먹지 못한 인간들
             Debug.Log(hungryPopulation + "인구가 먹지 못함");
         }
@@ -43,7 +44,7 @@ public class NationPopular
 
     private int AbleEatPopulation()
     {
-        return m_nation.GetResourceAmount(Capital.Food) % m_mealRatio;
+        return m_nation.GetResourceAmount(Capital.Food) / m_mealRatio;
     }
 
 }
