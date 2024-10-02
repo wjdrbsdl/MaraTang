@@ -218,7 +218,7 @@ public class MGContent : Mg<MGContent>
 
     private void RecordeQuest(Quest _quest, bool _result)
     {
-        Debug.Log(_quest.ContentPid + "번 컨텐츠 성공 여부 :"+_result);
+     //   Debug.Log(_quest.ContentPid + "번 컨텐츠 성공 여부 :"+_result);
         m_QuestRecorde.Add((_quest.ContentPid, _result));
     }
 
