@@ -57,9 +57,8 @@ public class NationPopular
             Debug.Log("굶은사람 없음");
             return;
         }
-            
 
-        m_nation.CalResourceAmount(Capital.Person, -hungPeople);
+        m_nation.DeadPeople(hungPeople);
         Debug.Log("굶은사람 사망" + hungPeople);
     }
 

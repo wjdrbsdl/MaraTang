@@ -609,6 +609,11 @@ public class Nation : ITradeCustomer
     #endregion
 
     #region 인구 관리
+    public void DeadPeople(int _count)
+    {
+        CalResourceAmount(Capital.Person, -_count);
+    }
+
     private void ManagePopular()
     {
         //1. 인구 관련 클래스에서 경영 진행
