@@ -16,7 +16,7 @@ public enum MainPolicyEnum
 
 public enum NationManageStepEnum
 {
-   ManageStart, Income, SelectPolicy, ExcutePolicy, RemindPolicy
+   ManageStart, Income, ManagePopulation, SelectPolicy, ExcutePolicy, RemindPolicy
 }
 
 public enum NationStatEnum
@@ -125,7 +125,11 @@ public class Nation : ITradeCustomer
                 DoneReport(NationManageStepEnum.Income); //보고필요가 없는건 바로 다음 단계 보고 끝난걸로 진행 
                 break;
             case NationManageStepEnum.Income:
-              //  Debug.Log(m_nationNumber + "번 결정하고 보고");
+                //  Debug.Log(m_nationNumber + "번 결정하고 보고");
+                ManagePopular();
+                ReportToGameMaster(NationManageStepEnum.ManagePopulation); //정책 결정한거 보고하고
+                break;
+            case NationManageStepEnum.ManagePopulation:
                 SelectPolicy(); //정책결정하고
                 ReportToGameMaster(NationManageStepEnum.SelectPolicy); //정책 결정한거 보고하고
                 break;
@@ -601,6 +605,15 @@ public class Nation : ITradeCustomer
                     break;
             }
         }
+    }
+    #endregion
+
+    #region 인구 관리
+    private void ManagePopular()
+    {
+        //1. 인구 관련 클래스에서 경영 진행
+        NationPopular popManager = new NationPopular(this);
+        popManager.ManagePopular(); 
     }
     #endregion
 
