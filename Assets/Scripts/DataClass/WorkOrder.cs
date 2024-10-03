@@ -18,6 +18,23 @@ public class WorkOrder
     private int m_workTokenNum; //할당된 노동 토큰 수
     private int m_maxWorkTokenNum = 3; //최대 할당 가능한 수 
 
+    public WorkOrder(int _planIndex)
+    {
+        TItemListData changeCost = MgMasterData.GetInstance().GetTileData(_planIndex).BuildCostData;
+        m_needList = changeCost.GetItemList();
+        m_originWorkGauge = 100;
+        string debugStr = "";
+        for (int i = 0; i < m_needList.Count; i++)
+        {
+            TOrderItem curItem = m_needList[i];
+            debugStr += m_needList[i].Tokentype + " :" + m_needList[i].Value + "필요\n";
+            curItem.Value = 0; //현재 재료 0 으로 
+            m_curList.Add(curItem);
+            debugStr += m_curList[i].Tokentype + " :" + m_curList[i].Value + "보유\n";
+        }
+        Debug.Log(debugStr);
+    }
+
     public WorkOrder(List<TOrderItem> _needList, int _needWorkGague)
     {
         //작업주문서 작성
