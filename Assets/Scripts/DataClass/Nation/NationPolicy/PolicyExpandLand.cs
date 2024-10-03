@@ -9,13 +9,13 @@ public class PolicyExpandLand : NationPolicy
     
     public override void MakePlan()
     {
-        Debug.Log("확장 계획");
+   //     Debug.Log("확장 계획");
         FindExpandLand();
     }
 
     public override void Excute()
     {
-        Debug.Log("확장 집행");
+     //   Debug.Log("확장 집행");
         ExpandLand();
     }
 

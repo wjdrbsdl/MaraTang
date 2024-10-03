@@ -179,7 +179,7 @@ public class MGContent : Mg<MGContent>
                 break;
             case ContentEnum.Clear:
                 //벨류는 컨텐츠pid
-                Debug.Log(_value + "클리어 했는지 체크"+ IsContentDone(_value));
+             //   Debug.Log(_value + "클리어 했는지 체크"+ IsContentDone(_value));
                 if (IsContentDone(_value))
                 {
                     return true;

@@ -99,7 +99,7 @@ public abstract class NationPolicy
     {
         if (m_curMainPolicy != MainPolicyEnum.ManageLand)
             return;
-        Debug.Log("작업서 만들기");
+    //    Debug.Log("작업서 만들기");
         m_workOrder = new WorkOrder(m_planIndex);
 
     }

@@ -9,7 +9,7 @@ public class PolicyLevelUp : NationPolicy
     
     public override void MakePlan()
     {
-        Debug.Log("레벨 계획");
+       // Debug.Log("레벨 계획");
         TokenBase planToken = m_nation.GetCapital();
         SetPlanToken(planToken);
 
@@ -17,7 +17,7 @@ public class PolicyLevelUp : NationPolicy
 
     public override void Excute()
     {
-        Debug.Log("레벨 집행");
+     //   Debug.Log("레벨 집행");
         LevelUp();
     }
 

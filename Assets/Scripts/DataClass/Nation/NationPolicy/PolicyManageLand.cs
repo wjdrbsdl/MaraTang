@@ -9,13 +9,13 @@ public class PolicyManageLand : NationPolicy
     
     public override void MakePlan()
     {
-        Debug.Log("매니지 계획");
+//        Debug.Log("매니지 계획");
         FindManageLand();
     }
 
     public override void Excute()
     {
-        Debug.Log("매니지 집행");
+   //     Debug.Log("매니지 집행");
         ManageTerritory();
     }
 
