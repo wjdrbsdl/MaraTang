@@ -94,7 +94,7 @@ public class MgParsing : MgGeneric<MgParsing>
             
         }
         else
-            Debug.Log(matchTypes[_index]+ "ÆÄ½Ì ½ÇÆÐ");
+            Debug.LogWarning(matchTypes[_index]+ "ÆÄ½Ì ½ÇÆÐ");
     }
 
  

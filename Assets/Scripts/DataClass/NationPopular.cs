@@ -54,12 +54,12 @@ public class NationPopular
     {
         if (hungPeople == 0)
         {
-            Debug.Log("굶은사람 없음");
+           // Debug.Log("굶은사람 없음");
             return;
         }
 
         m_nation.DeadPeople(hungPeople);
-        Debug.Log("굶은사람 사망" + hungPeople);
+      //  Debug.Log("굶은사람 사망" + hungPeople);
     }
 
 }
