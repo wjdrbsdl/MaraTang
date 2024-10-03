@@ -127,17 +127,18 @@ public class Nation : ITradeCustomer
                 ReportToGameMaster(NationManageStepEnum.ManagePopulation); //정책 결정한거 보고하고
                 break;
             case NationManageStepEnum.ManagePopulation:
-                SelectPolicy(); //정책결정하고
+                ExcutePolicy(); //집행하고
+                ReportToGameMaster(NationManageStepEnum.ExcutePolicy);//집행한거 보고하고
+                break;
+       
+            case NationManageStepEnum.ExcutePolicy:
+                //   Debug.Log(m_nationNumber + "번 상기하고 턴종료");
+                RemindPolicy(); //상기하고
                 ReportToGameMaster(NationManageStepEnum.SelectPolicy); //정책 결정한거 보고하고
                 break;
+
             case NationManageStepEnum.SelectPolicy:
-             //   Debug.Log(m_nationNumber + "번 집행하고 보고");
-                ExcutePolicy(); //집행하고
-                ReportToGameMaster(NationManageStepEnum.ExcutePolicy); //집행한거 보고하고
-                break;
-            case NationManageStepEnum.ExcutePolicy:
-             //   Debug.Log(m_nationNumber + "번 상기하고 턴종료");
-                RemindPolicy(); //상기하고
+                SelectPolicy(); //정책결정하고
                 EndTurn(); //턴종료
                 break;
         }
