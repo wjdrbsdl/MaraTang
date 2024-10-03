@@ -280,7 +280,7 @@ public class TileTypeData {
             for (int i = 0; i < subAble.Length; i++)
             {
                 Places[i] = int.Parse(subAble[i]);
-                Debug.Log("가능한 서브 건물 " + Places[i]);
+               // Debug.Log("가능한 서브 건물 " + Places[i]);
             }
         }
 
