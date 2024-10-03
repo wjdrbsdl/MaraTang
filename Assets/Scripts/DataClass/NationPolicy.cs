@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum MainPolicyEnum
+{
+    None, NationLevelUP, ExpandLand, ManageLand, TechTree, Support
+}
 
 public class NationPolicy
 {

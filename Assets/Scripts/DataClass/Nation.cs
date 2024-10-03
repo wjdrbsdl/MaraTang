@@ -9,10 +9,7 @@ public enum NationEnum
     Move
 }
 
-public enum MainPolicyEnum
-{
-    None, NationLevelUP, ExpandLand, ManageLand, TechTree, Support
-}
+
 
 public enum NationManageStepEnum
 {
