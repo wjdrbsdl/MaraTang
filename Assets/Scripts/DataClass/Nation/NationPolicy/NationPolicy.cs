@@ -7,21 +7,25 @@ public enum MainPolicyEnum
     None, NationLevelUP, ExpandLand, ManageLand, TechTree, Support
 }
 
-public class NationPolicy
+public abstract class NationPolicy
 {
-    private MainPolicyEnum m_curMainPolicy = MainPolicyEnum.None; //현재 정책 상황
-    private int m_holdPolicyCount = 0; //현재 정책 유지된 턴
-    private TokenBase m_planToken; //목적지
-    private int m_planIndex = FixedValue.No_INDEX_NUMBER;  //메인 정책당 구체적인 계획의 인덱스
-    private TokenChar m_worker; //노동자
-    private int m_nationNum;
-    private bool m_complete = false;
+    protected Nation m_nation;
+    protected MainPolicyEnum m_curMainPolicy = MainPolicyEnum.None; //현재 정책 상황
+    protected int m_holdPolicyCount = 0; //현재 정책 유지된 턴
+    protected TokenBase m_planToken; //목적지
+    protected int m_planIndex = FixedValue.No_INDEX_NUMBER;  //메인 정책당 구체적인 계획의 인덱스
+    protected TokenChar m_worker; //노동자
+    protected int m_nationNum;
+    protected bool m_complete = false;
+    protected WorkOrder m_workOrder = null;
+
 
     //안건 정보를 담아 생성
-    public NationPolicy(MainPolicyEnum _mainPolicy, int _nationNum)
+    public void SetInfo(MainPolicyEnum _mainPolicy, Nation _nation)
     {
         m_curMainPolicy = _mainPolicy;
-        m_nationNum = _nationNum;
+        m_nation = _nation;
+        m_nationNum = 1;
         m_holdPolicyCount = 0;
         m_planToken = null;
         m_planIndex = FixedValue.No_INDEX_NUMBER;
@@ -32,6 +36,10 @@ public class NationPolicy
         Debug.Log("공격 받았음을 전달 받음");
     }
 
+    public abstract void MakePlan();
+
+    public abstract void Excute();
+    
     public void Done()
     {
         m_complete = true;
@@ -87,7 +95,6 @@ public class NationPolicy
         m_planIndex = FixedValue.No_INDEX_NUMBER;
     }
 
-    private WorkOrder m_workOrder= null;
     public void MakeWorkOrder()
     {
         if (m_curMainPolicy != MainPolicyEnum.ManageLand)
@@ -96,6 +103,7 @@ public class NationPolicy
         m_workOrder = new WorkOrder(m_planIndex);
 
     }
+
     public void ShowWorkOrder()
     {
         if (m_workOrder == null)
