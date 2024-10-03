@@ -184,6 +184,7 @@ public class Nation : ITradeCustomer
         if(_policy.GetPlanIndex() != FixedValue.No_INDEX_NUMBER || _policy.GetPlanToken() != null)
         {
             //계획이 설정되었으면
+            _policy.MakeWorkOrder();
             AddPolicy(_policy);
             ShowPolicyPin(_policy);
         }

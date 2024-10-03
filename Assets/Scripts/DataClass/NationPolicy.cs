@@ -86,5 +86,13 @@ public class NationPolicy
 
         m_planIndex = FixedValue.No_INDEX_NUMBER;
     }
+
+    public void MakeWorkOrder()
+    {
+        if (m_curMainPolicy != MainPolicyEnum.ManageLand)
+            return;
+
+
+    }
 }
 
