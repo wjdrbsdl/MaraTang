@@ -37,6 +37,13 @@ public class UITileInfo : UIBase
     {
         UISwitch(true);
         m_curTile = _tile;
+        if (_tile.GetPolicy() != null)
+        {
+            Debug.Log("임시: 타일 누르면 작업서 플레이어가 자본출자");
+            _tile.GetPolicy().ShowWorkOrder();
+        }
+            
+
         m_curType = _tileType;
         PlayerManager.GetInstance().SetHeroPlace(_tileType);
        // Debug.Log(_tile.GetTileType());
