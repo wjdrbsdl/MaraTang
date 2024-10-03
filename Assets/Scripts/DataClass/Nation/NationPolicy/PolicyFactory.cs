@@ -14,7 +14,7 @@ public class PolicyFactory
                 policy = new PolicyExpandLand();
                 break;
             case MainPolicyEnum.ManageLand:
-
+                policy = new PolicyManageLand();
                 break;
             case MainPolicyEnum.NationLevelUP:
                 policy = new PolicyLevelUp();
