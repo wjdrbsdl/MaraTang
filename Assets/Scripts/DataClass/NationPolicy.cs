@@ -87,12 +87,21 @@ public class NationPolicy
         m_planIndex = FixedValue.No_INDEX_NUMBER;
     }
 
+    private WorkOrder m_workOrder= null;
     public void MakeWorkOrder()
     {
         if (m_curMainPolicy != MainPolicyEnum.ManageLand)
             return;
+        Debug.Log("작업서 만들기");
+        m_workOrder = new WorkOrder(m_planIndex);
 
+    }
+    public void ShowWorkOrder()
+    {
+        if (m_workOrder == null)
+            return;
 
+        m_workOrder.PushResource(PlayerCapitalData.g_instance);
     }
 }
 
