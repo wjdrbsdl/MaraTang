@@ -68,7 +68,7 @@ public class WorkOrder
         }
         Debug.Log(debugStr);
         TItemListData itemListData = new TItemListData(requestList);
-        if (_customer.CheckInventory(itemListData))
+        if (_customer.CheckInventory(itemListData) == false)
         {
             Debug.Log("재료 부족");
             return false;
