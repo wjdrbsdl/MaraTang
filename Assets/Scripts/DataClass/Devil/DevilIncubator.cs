@@ -15,10 +15,10 @@ public class DevilIncubator
     private List<int> m_chunkNum = new();
     private List<TokenTile> m_birthTile = new();
     private List<bool> m_contentMeet = new();
-    private List<DevilState> m_devilStateList;
+    private List<DevilState> m_devilStateList = new();
     private int m_turnTerm = 15; //발생 주기
     private bool m_turnEnough = true;
-
+    private int birthCount = 0;
     public void SetBirthRegion(List<int> _chunkList, List<TokenTile> _tileList)
     {
         m_chunkNum = _chunkList;
@@ -51,6 +51,7 @@ public class DevilIncubator
             //악마 리스트에 추가
             m_devilList.Add(madeChar);
             m_contentMeet.Add(false); //조건 만족 false로 초기화
+            m_devilStateList.Add(DevilState.봉인);
             //Debug.Log(m_devilList[i].GetItemName() + "악마 확정");
         }
     }
@@ -76,12 +77,33 @@ public class DevilIncubator
         if (m_turnEnough == false)
             return;
 
+        if(birthCount == m_devilList.Count)
+        {
+            Debug.Log("악마 모두 부활");
+            return;
+        }
+
         //개별 조건 확인해서 되는 애 중에 랜덤으로 생성
         int randomDevil = Random.Range(0, m_devilList.Count);
+        //악마 수대로 랜덤수 뽑기 - 기존에 뽑은 애는 넘겨야 하므로 
+        List<int> randomOrder = GameUtil.GetRandomNum(m_devilList.Count, m_devilList.Count);
 
         //이미만들어져있는 애를 엠지토큰 스폰으로 장소에 호출, 및 mgtoken의 charList에 추가 
-        MgToken.GetInstance().SpawnCharactor(m_devilList[randomDevil], m_birthTile[randomDevil].GetMapIndex());
-        Debug.Log(m_devilList[randomDevil].GetItemName() + "악마 부활");
+        for (int i = 0; i < randomOrder.Count; i++)
+        {
+            int index = randomOrder[i]; //뽑을 악마 인덱스
+            //이미 뽑은 애는 차례 넘김
+            if (m_devilStateList[index] != DevilState.봉인)
+                continue;
+
+            MgToken.GetInstance().SpawnCharactor(m_devilList[index], m_birthTile[index].GetMapIndex());
+            m_devilStateList[index] = DevilState.유아;
+            birthCount += 1;
+            Debug.Log(m_devilList[index].GetItemName() + "악마 부활");
+            //뽑았으면 종료
+            break;
+        }
+        
     }
 }
 
