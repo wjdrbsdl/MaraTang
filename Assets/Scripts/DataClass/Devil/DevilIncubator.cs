@@ -64,5 +64,15 @@ public class DevilIncubator
         }
     }
 
+    public void BirthDevil()
+    {
+        Debug.LogWarning("악마 부활 조건 체크 후 부활진행");
+        //턴 조건 확인
+        if (m_turnEnough == false)
+            return;
+
+        //개별 조건 확인해서 되는 애 중에 랜덤으로 생성
+        
+    }
 }
 

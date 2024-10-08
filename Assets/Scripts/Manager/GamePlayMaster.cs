@@ -80,7 +80,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
         m_players[0] = PlayerManager.GetInstance();
         m_players[1] = m_aiPlayer;
         //세계의 시작만 세팅 
-        SettleWorldTurn(); //월드 턴 변화 진행
+        ReadyNextWorldTurn(); //월드 턴 변화 진행
         //처음 시작시 플레이어 메인캐릭터에 카메라 포커스.
         CamFocusMainChar();
         PlayerManager.GetInstance().FirstStart();
@@ -269,7 +269,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
         PopupMessage("턴 종료"); 
         EffectEndTurn(); //턴이 종료할때 발휘되는 효과나 계산할것들 정산
         RecoverResource(); //소비되었던 액션 에너지등 회복
-        SettleWorldTurn(); //월드 턴 변화 진행
+        ReadyNextWorldTurn(); //월드 턴 변화 진행
         ResetNationTurn(); //국가 집행순서 세팅
         ResetPlayerTurn(); //플레이어 턴으로 세팅
         ResetPlayDataUI(); //플레이 데이터 갱신
@@ -312,7 +312,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
         }
     }
 
-    private void SettleWorldTurn()
+    private void ReadyNextWorldTurn()
     {
         AnnounceState("세계턴 변화 따짐 내용 없음");
         m_playData.PlayTime += 1; //여태 진행한 턴
@@ -340,7 +340,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
 
     private void EffectStartTurn()
     {
-
+        MGContent.g_instance.m_devilIncubator.BirthDevil();
     }
 
     #endregion
