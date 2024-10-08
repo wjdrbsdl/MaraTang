@@ -321,7 +321,8 @@ public class MGContent : Mg<MGContent>
 
     private void MakeDevilList(List<int> _randomIdx, int _startIdx, int _count)
     {
-        List<TokenChar> devilList = m_devilIncubator.DiceDevilList(_count);
+        List<int> chunkNumList = new List<int>();
+        List<TokenTile> tileList = new List<TokenTile>();
         for (int i = _startIdx; i < _count; i++)
         {
             //만들 구역 넘버
@@ -332,9 +333,15 @@ public class MGContent : Mg<MGContent>
             int randomTile = Random.Range(0, chunkTileCount);
             TokenTile devilStartTile = chunk.GetTileByIndex(randomTile);
 
+            chunkNumList.Add(chunkNum);
+            tileList.Add(devilStartTile);
             //해당 지역을 악마구역으로 지정 및 구역 중 해당 타일에 악마 봉인. 필요
             Debug.LogWarning("악마봉인구역 구현요구");
         }
+        //구역과 타일을 전달
+        m_devilIncubator.SetBirthRegion(chunkNumList, tileList);
+        //악마 뽑기 호출
+        m_devilIncubator.DiceDevilList(_count);
     }
 
     public Chunk GetChunk(int _chunkNum)
