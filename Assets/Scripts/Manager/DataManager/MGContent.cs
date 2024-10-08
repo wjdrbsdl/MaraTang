@@ -14,6 +14,7 @@ public class MGContent : Mg<MGContent>
     List<(int, bool)> m_QuestRecorde = new(); //과거 퀘스트의 기록
     private int m_mainCharChunkNum = 0;
     private List<Chunk> m_chunkList = new List<Chunk>();
+    public DevilIncubator m_devilIncubator;
     public int m_curSerialNum = 0; //컨텐츠등을 만들때마다 생성 
     public const int NO_CHUNK_NUM = -1;
 
@@ -24,6 +25,7 @@ public class MGContent : Mg<MGContent>
     {
         g_instance = this;
         MGConversation converSation = new MGConversation();
+        m_devilIncubator = new DevilIncubator();
     }
     public override void ReferenceSet()
     {
@@ -31,6 +33,7 @@ public class MGContent : Mg<MGContent>
         TileMaker maker = MgToken.GetInstance().m_tileMaker;
         m_chunkList = maker.MakeChunk(maker.DivideChunk(MgToken.GetInstance().m_chunkLength));
         MakeNation();
+        MakeDevilList();
     }
     #endregion
 
@@ -308,6 +311,10 @@ public class MGContent : Mg<MGContent>
         }
     }
 
+    private void MakeDevilList()
+    {
+        m_devilIncubator.DiceDevilList();
+    }
     public Chunk GetChunk(int _chunkNum)
     {
         //청크리스트가 널이거나 idx넘버가 범위 밖이라면 null 반환
