@@ -17,6 +17,8 @@ public class MGContent : Mg<MGContent>
     public DevilIncubator m_devilIncubator;
     public int m_curSerialNum = 0; //컨텐츠등을 만들때마다 생성 
     public const int NO_CHUNK_NUM = -1;
+    public int m_devilStartCount = 4;
+    public int m_nationStartCount = 3;
 
     #endregion
 
@@ -32,8 +34,8 @@ public class MGContent : Mg<MGContent>
         MgParsing.GetInstance().GetMasterData(EMasterData.ContentData);
         TileMaker maker = MgToken.GetInstance().m_tileMaker;
         m_chunkList = maker.MakeChunk(maker.DivideChunk(MgToken.GetInstance().m_chunkLength));
-        MakeNation();
-        MakeDevilList();
+        MakeContentRegion();
+
     }
     #endregion
 
@@ -284,20 +286,25 @@ public class MGContent : Mg<MGContent>
         return false;
     }
 
-    private void MakeNation()
+    private void MakeContentRegion()
+    {
+        //1. 사용할 수만큼 겹치지 않도록 Chunk 인덱스 추출
+        List<int> randomIdx = GameUtil.GetRandomNum(m_chunkList.Count, m_devilStartCount+m_nationStartCount);
+        //2. 각추출된 구역을 가지고 국가, 악마 봉인지역 생성
+        MakeNation(randomIdx, 0, m_nationStartCount);
+        MakeDevilList(randomIdx, m_nationStartCount-1, m_devilStartCount);
+    }
+
+    private void MakeNation(List<int> _randomIdx, int _startIdx, int _count)
     {
         // 국가 매니저 초기화
         MgNation mgNation = new();
 
-        //1. 생성할 국가 수를 뽑는다
-        int nationCount = 3;
-        //2. 국가 수 만큼 청크를 뽑는다.
-        List<int> randomIdx = GameUtil.GetRandomNum(m_chunkList.Count, nationCount);
-        //3. 청크 내에서 적당한 타일을 수도 타일로 바꾼다. 
-        for (int i = 0; i < nationCount; i++)
+        //2. 청크 내에서 적당한 타일을 수도 타일로 바꾼다. 
+        for (int i = _startIdx; i < _count; i++)
         {
             //만들 구역 넘버
-            int chunkNum = randomIdx[i];
+            int chunkNum = _randomIdx[i];
             Chunk chunk = GetChunk(chunkNum);
             int chunkTileCount = chunk.GetTileCount();
             //구역에서 만들 타일 위치 뽑기
@@ -311,8 +318,20 @@ public class MGContent : Mg<MGContent>
         }
     }
 
-    private void MakeDevilList()
+    private void MakeDevilList(List<int> _randomIdx, int _startIdx, int _count)
     {
+        List<TokenChar> devilList = m_devilIncubator.DiceDevilList(_count);
+        for (int i = _startIdx; i < _count; i++)
+        {
+            //만들 구역 넘버
+            int chunkNum = _randomIdx[i];
+            Chunk chunk = GetChunk(chunkNum);
+            int chunkTileCount = chunk.GetTileCount();
+            //구역에서 만들 타일 위치 뽑기
+            int randomTile = Random.Range(0, chunkTileCount);
+            TokenTile devilStartTile = chunk.GetTileByIndex(randomTile);
+        
+        }
         m_devilIncubator.DiceDevilList();
     }
     public Chunk GetChunk(int _chunkNum)
