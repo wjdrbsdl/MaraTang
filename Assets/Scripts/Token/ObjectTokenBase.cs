@@ -10,6 +10,7 @@ public class ObjectTokenBase : MonoBehaviour
 {
     
     public TokenType m_tokenType;
+    public string m_name;
     [SerializeField]
     private TokenBase m_token; //들어있는 토큰
     public CharHud m_hud;
@@ -75,6 +76,7 @@ public class ObjectTokenBase : MonoBehaviour
             m_ClickPriority = 2;
         }
         m_token.SetObject(this);
+        m_name = _token.GetItemName();
     }
 
     public TokenBase GetToken()
