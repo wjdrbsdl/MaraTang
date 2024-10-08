@@ -136,7 +136,7 @@ public class MgToken : MgGeneric<MgToken>
         SpawnCharactor(new int[] { ranX, ranY }, playerCharPid, true);
     }
 
-    private TokenChar MakeCharToken(int _monsterPId)
+    public TokenChar MakeCharToken(int _monsterPId)
     {
         //1. 마스터 데이터 복사로 새 캐릭 토큰 객체 생성
         TokenChar masterDataChar = MgMasterData.GetInstance().GetCharData(_monsterPId);
@@ -151,7 +151,6 @@ public class MgToken : MgGeneric<MgToken>
 
         //4. 오브젝트 스프라이트 변경
         newCharToken.SetSprite();
-        m_charList.Add(newCharToken); //생성된 녀석은 npc리스트에 추가; 
         return newCharToken;
     }
 
@@ -159,6 +158,7 @@ public class MgToken : MgGeneric<MgToken>
     {
         //좌표에 몬스터 생성
         TokenChar spawnCharactor = MakeCharToken(_charPid);
+        m_charList.Add(spawnCharactor); //생성된 녀석은 npc리스트에 추가; 
         spawnCharactor.m_isPlayerChar = _isPlayer;
         RuleBook.FirstMigrate(spawnCharactor, _position);
         return spawnCharactor;
