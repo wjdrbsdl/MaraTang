@@ -318,6 +318,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
         m_playData.PlayTime += 1; //여태 진행한 턴
         //컨텐츠 에서 무언가 발생 
         MGContent.g_instance.WriteContentWhenNextTurn();
+        MGContent.g_instance.m_devilIncubator.ChangeWorldTurn(m_playData.PlayTime);
     }
 
     private void ResetNationTurn()
