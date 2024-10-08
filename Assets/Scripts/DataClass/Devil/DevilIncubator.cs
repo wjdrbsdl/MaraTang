@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,41 +12,47 @@ public enum DevilState
 public class DevilIncubator
 {
     private List<TokenChar> m_devilList = new List<TokenChar>();
+    private List<int> m_chunkNum = new();
+    private List<TokenTile> m_birthTile = new();
     private List<bool> m_contentMeet = new();
     private List<DevilState> m_devilStateList;
     private int m_turnTerm = 15; //발생 주기
-    private bool m_turnEnough = false;
+    private bool m_turnEnough = true;
 
-    public List<TokenChar> DiceDevilList(int _diceCount)
+    public void SetBirthRegion(List<int> _chunkList, List<TokenTile> _tileList)
+    {
+        m_chunkNum = _chunkList;
+        m_birthTile = _tileList;
+    }
+
+    public void DiceDevilList(int _diceCount)
     {
         //등장할 악마를 골라서 생성 
 
         //1. 캐릭 마스터 데이터에서 악마 데이터만 추출하여 복사
         Dictionary<int,TokenChar> charDic = MgMasterData.GetInstance().GetCharDic();
-        List<TokenChar> copyDevilList = new();
+        List<int> devilPid = new List<int>();
         foreach(KeyValuePair<int, TokenChar> tokenChar in charDic)
         {
             if (tokenChar.Value.GetCharType().Equals(CharType.Devil))
             {
-                
-                TokenChar devilCopy = new TokenChar(tokenChar.Value);
-                copyDevilList.Add(devilCopy);
-               // Debug.Log(devilCopy.GetItemName() + " 악마 복사본 리스트에 추가" + devilCopy.GetCharType());
+                devilPid.Add(tokenChar.Key); //pid만 추출
             }
         }
 
-        //2. 등장시킬 악마 랜덤으로 숫자만큼 뽑기
-        List<int> randomDevilIdx = GameUtil.GetRandomNum(copyDevilList.Count, _diceCount);
+        //2. 등장 악마 랜덤 뽑기
+        List<int> randomDevilIdx = GameUtil.GetRandomNum(devilPid.Count, _diceCount);
 
-        //3. 랜덤 주사위 인덱스에 있는 악마를 devilList에 추가하여 등장시킬 악마 확정
+        //3. 뽑힌 악마 pid로 tokenObj 생성해서 추가
         for (int i = 0; i < randomDevilIdx.Count; i++)
         {
-            m_devilList.Add(copyDevilList[randomDevilIdx[i]]);
-            m_contentMeet.Add(false);
-            Debug.Log(m_devilList[i].GetItemName() + "악마 확정");
+            //캐릭obj 생성 및 tokenChar 할당
+            TokenChar madeChar = MgToken.GetInstance().MakeCharToken(devilPid[randomDevilIdx[i]]);
+            //악마 리스트에 추가
+            m_devilList.Add(madeChar);
+            m_contentMeet.Add(false); //조건 만족 false로 초기화
+            //Debug.Log(m_devilList[i].GetItemName() + "악마 확정");
         }
-        
-        return m_devilList;
     }
 
     public void ChangeWorldContent(int _pid, bool _result)
@@ -72,7 +77,11 @@ public class DevilIncubator
             return;
 
         //개별 조건 확인해서 되는 애 중에 랜덤으로 생성
-        
+        int randomDevil = Random.Range(0, m_devilList.Count);
+
+        //이미만들어져있는 애를 엠지토큰 스폰으로 장소에 호출, 및 mgtoken의 charList에 추가 
+        MgToken.GetInstance().SpawnCharactor(m_devilList[randomDevil], m_birthTile[randomDevil].GetMapIndex());
+        Debug.Log(m_devilList[randomDevil].GetItemName() + "악마 부활");
     }
 }
 
