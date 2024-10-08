@@ -223,7 +223,8 @@ public class MGContent : Mg<MGContent>
 
     private void RecordeQuest(Quest _quest, bool _result)
     {
-     //   Debug.Log(_quest.ContentPid + "번 컨텐츠 성공 여부 :"+_result);
+        //   Debug.Log(_quest.ContentPid + "번 컨텐츠 성공 여부 :"+_result);
+        m_devilIncubator.ChangeWorldContent(_quest.ContentPid, _result);
         m_QuestRecorde.Add((_quest.ContentPid, _result));
     }
 
@@ -335,6 +336,7 @@ public class MGContent : Mg<MGContent>
             Debug.LogWarning("악마봉인구역 구현요구");
         }
     }
+
     public Chunk GetChunk(int _chunkNum)
     {
         //청크리스트가 널이거나 idx넘버가 범위 밖이라면 null 반환

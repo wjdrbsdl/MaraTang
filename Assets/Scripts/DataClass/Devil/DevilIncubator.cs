@@ -50,10 +50,9 @@ public class DevilIncubator
         return m_devilList;
     }
 
-    public void ChangeWorldContent(TOrderItem _worldContent)
+    public void ChangeWorldContent(int _pid, bool _result)
     {
-        //토큰타입 - 컨텐츠, subIdx = 컨텐츠 pid, value = 세부 값
-        //해당 조건에 따라서 보유중인 악마들의 봉인 조건을 따져서 충족 진행 
+        //해당 퀘스트 컨텐츠 결과값이 들어왔을 때 영향을 받는 악마에게 조건 적용
     }
 
     public void ChangeWorldTurn(int _currentTurn)
