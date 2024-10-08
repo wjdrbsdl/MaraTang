@@ -13,7 +13,10 @@ public enum DevilState
 public class DevilIncubator
 {
     private List<TokenChar> m_devilList = new List<TokenChar>();
+    private List<bool> m_contentMeet = new();
     private List<DevilState> m_devilStateList;
+    private int m_turnTerm = 15; //발생 주기
+    private bool m_turnEnough = false;
 
     public List<TokenChar> DiceDevilList(int _diceCount)
     {
@@ -40,10 +43,26 @@ public class DevilIncubator
         for (int i = 0; i < randomDevilIdx.Count; i++)
         {
             m_devilList.Add(copyDevilList[randomDevilIdx[i]]);
+            m_contentMeet.Add(false);
             Debug.Log(m_devilList[i].GetItemName() + "악마 확정");
         }
         
         return m_devilList;
+    }
+
+    public void ChangeWorldContent(TOrderItem _worldContent)
+    {
+        //토큰타입 - 컨텐츠, subIdx = 컨텐츠 pid, value = 세부 값
+        //해당 조건에 따라서 보유중인 악마들의 봉인 조건을 따져서 충족 진행 
+    }
+
+    public void ChangeWorldTurn(int _currentTurn)
+    {
+        if(_currentTurn%m_turnTerm == 0)
+        {
+            m_turnEnough = true;
+            Debug.Log("때 조건 충족");
+        }
     }
 
 }
