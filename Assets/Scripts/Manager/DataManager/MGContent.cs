@@ -330,7 +330,9 @@ public class MGContent : Mg<MGContent>
             //구역에서 만들 타일 위치 뽑기
             int randomTile = Random.Range(0, chunkTileCount);
             TokenTile devilStartTile = chunk.GetTileByIndex(randomTile);
-        
+
+            //해당 지역을 악마구역으로 지정 및 구역 중 해당 타일에 악마 봉인. 필요
+            Debug.LogWarning("악마봉인구역 구현요구");
         }
     }
     public Chunk GetChunk(int _chunkNum)
