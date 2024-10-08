@@ -9,11 +9,16 @@ public enum CharStat
     MaxHp, CurHp
 }
 
+public enum CharType
+{
+    Monster, Player, Devil, Npc
+}
 public class TokenChar : TokenBase
 {
     public bool isMainChar = false;
     public bool m_isPlayerChar = false;
 
+    private CharType m_charType = CharType.Monster;
     [JsonProperty] private CharState m_state = CharState.Idle;
     [JsonProperty] private List<TokenAction> m_haveActionList = new(); //이 캐릭터가 지니고 있는 액션 토큰들
     private TokenAction m_nextAction = null;
@@ -32,7 +37,8 @@ public class TokenChar : TokenBase
     {
         m_tokenPid = int.Parse(valueCode[0]); //시트 데이터상 0번째는 pid
         m_itemName = valueCode[1]; //1은 이름
-        SetAction(ref m_haveActionList, valueCode[2]); //2는 보유 액션 pid
+        m_charType = (CharType)System.Enum.Parse(typeof(CharType), valueCode[2]); //차르타입
+        SetAction(ref m_haveActionList, valueCode[3]); //3은 보유 액션 pid
         m_tokenType = TokenType.Char;
         m_tokenIValues = new int[System.Enum.GetValues(typeof(CharStat)).Length];
         GameUtil.InputMatchValue(ref m_tokenIValues, matchCode, valueCode);
@@ -159,6 +165,11 @@ public class TokenChar : TokenBase
             m_guildID = new GuildCard();
         }
         return m_guildID;
+    }
+
+    public CharType GetCharType()
+    {
+        return m_charType;
     }
     #endregion
 
