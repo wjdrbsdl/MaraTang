@@ -48,6 +48,11 @@ public class MgMasterData : Mg<MgMasterData>
         return GetDicData<TileTypeData>(m_tileTypeDataDic, _tileTypeID);
     }
 
+    public Dictionary<int, TokenChar> GetCharDic()
+    {
+        return m_charDataDic;
+    }
+
     public TokenChar GetCharData(int _charPID)
     {
         return GetDicData<TokenChar>(m_charDataDic, _charPID);
