@@ -70,6 +70,7 @@ public class TokenChar : TokenBase
         m_tokenPid = _masterToken.m_tokenPid;
         m_itemName = _masterToken.m_itemName;
         m_tokenType = TokenType.Char;
+        m_charType = _masterToken.m_charType;
         int arraySize = _masterToken.m_tokenIValues.Length;
         m_tokenIValues = new int[arraySize];
         //마스터 데이터 깊은 복사로 객체 고유 배열 값 생성. 
