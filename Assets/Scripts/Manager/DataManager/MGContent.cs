@@ -332,7 +332,6 @@ public class MGContent : Mg<MGContent>
             TokenTile devilStartTile = chunk.GetTileByIndex(randomTile);
         
         }
-        m_devilIncubator.DiceDevilList();
     }
     public Chunk GetChunk(int _chunkNum)
     {
