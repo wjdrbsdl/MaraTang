@@ -302,7 +302,7 @@ public class MGContent : Mg<MGContent>
         MgNation mgNation = new();
 
         //2. 청크 내에서 적당한 타일을 수도 타일로 바꾼다. 
-        for (int i = _startIdx; i < _count; i++)
+        for (int i = _startIdx; i < _startIdx + _count; i++)
         {
             //만들 구역 넘버
             int chunkNum = _randomIdx[i];
@@ -323,7 +323,7 @@ public class MGContent : Mg<MGContent>
     {
         List<int> chunkNumList = new List<int>();
         List<TokenTile> tileList = new List<TokenTile>();
-        for (int i = _startIdx; i < _count; i++)
+        for (int i = _startIdx; i < _startIdx + _count; i++)
         {
             //만들 구역 넘버
             int chunkNum = _randomIdx[i];
