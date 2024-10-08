@@ -145,6 +145,7 @@ public class MgToken : MgGeneric<MgToken>
         //2. 캐릭 GO 생성
         ObjectTokenBase charObj = Instantiate(m_monsterObjSample);
         charObj.gameObject.transform.SetParent(m_monsterBox);
+        charObj.gameObject.SetActive(false); //비활성
 
         //3. Go에 정보 Token 세팅
         charObj.SetObjectToken(newCharToken, TokenType.Char);
@@ -158,10 +159,21 @@ public class MgToken : MgGeneric<MgToken>
     {
         //좌표에 몬스터 생성
         TokenChar spawnCharactor = MakeCharToken(_charPid);
+        spawnCharactor.GetObject().gameObject.SetActive(true);
         m_charList.Add(spawnCharactor); //생성된 녀석은 npc리스트에 추가; 
         spawnCharactor.m_isPlayerChar = _isPlayer;
         RuleBook.FirstMigrate(spawnCharactor, _position);
         return spawnCharactor;
+    }
+
+    public void SpawnCharactor(TokenChar _char, int[] _position)
+    {
+        //좌표에 몬스터 생성
+        TokenChar spawnCharactor = _char;
+        m_charList.Add(spawnCharactor); //생성된 녀석은 npc리스트에 추가; 
+        spawnCharactor.m_isPlayerChar = false;
+        spawnCharactor.GetObject().gameObject.SetActive(true);
+        RuleBook.FirstMigrate(spawnCharactor, _position);
     }
 
     public TokenEvent SpawnEvent(int[] _pos, int _eventPid)
