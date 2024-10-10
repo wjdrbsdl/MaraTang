@@ -151,7 +151,7 @@ public class Nation : ITradeCustomer
         //어떤류 할지 정하고
         MainPolicyEnum mainTheme = (MainPolicyEnum)randomPolicy;
         //Announcer.Instance.AnnounceState(m_nationNumber + "국가에서 메인 정책 결정 " + m_curMainPolicy);
-        PolicyFactory factory = new();
+        FactoryPolicy factory = new();
         NationPolicy policy = factory.MakePolicy(mainTheme, this); //주요정책안으로 정책 형성
         policy.MakePlan();
         DisplayNewPolicy(policy);
@@ -175,7 +175,7 @@ public class Nation : ITradeCustomer
 
     #endregion
 
-    #region 정책 추가 제거
+    #region 정책 관리
     private void AddPolicy(NationPolicy _policy)
     {
         m_policyList.Add(_policy);
@@ -225,6 +225,7 @@ public class Nation : ITradeCustomer
     }
     #endregion
 
+    #region 정책 재검토
     private void RemindPolicy()
     {
         List<NationPolicy> removeList = new();
@@ -239,6 +240,7 @@ public class Nation : ITradeCustomer
         }
         RemovePolicy(removeList);
     }
+    #endregion
 
     #region 국가 자산 관리
 
@@ -353,10 +355,11 @@ public class Nation : ITradeCustomer
         popManager.ManagePopular(); 
     }
     #endregion
+  
 
-    public List<NationPolicy> GetNationPolicyList()
+    public void LevelUp()
     {
-        return m_policyList;
+        m_nationLevel += 1;
     }
 
     enum SuggestCode
@@ -364,20 +367,6 @@ public class Nation : ITradeCustomer
         Add, Cancle
     }
 
-    public void LevelUp()
-    {
-        m_nationLevel += 1;
-    }
-
-    public int GetNationLevel()
-    {
-        return m_nationLevel;
-    }
-
-    public int GetNationNum()
-    {
-        return m_nationNumber;
-    }
     #region 제안받기
     public void SuggestPolicyCancle(NationPolicy _policy)
     {
@@ -396,4 +385,23 @@ public class Nation : ITradeCustomer
         }
     }
     #endregion
+
+    #region GetSet
+    public List<NationPolicy> GetNationPolicyList()
+    {
+        return m_policyList;
+    }
+
+
+    public int GetNationLevel()
+    {
+        return m_nationLevel;
+    }
+
+    public int GetNationNum()
+    {
+        return m_nationNumber;
+    }
+    #endregion
+
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PolicyFactory
+public class FactoryPolicy
 {
    
     public NationPolicy MakePolicy(MainPolicyEnum _mainPolicy, Nation _nation)
