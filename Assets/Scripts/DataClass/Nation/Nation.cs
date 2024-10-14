@@ -410,11 +410,11 @@ public class Nation : ITradeCustomer
         nationStatValues[index] = _value;
         //Debug.Log(m_tokenType + ": " + _enumIndex + ":" + m_tokenIValues[index]);
     }
-    public virtual void CalStat(NationStatEnum _nationStat, int _value)
+    public void CalStat(NationStatEnum _nationStat, int _value)
     {
         int index = (int)_nationStat;
         nationStatValues[index] += _value;
-        Debug.Log(_nationStat + " 가" + _value + "적용");
+        //Debug.Log(_nationStat + " 가" + _value + "적용");
         if (_nationStat.Equals(NationStatEnum.Happy)){
             if(nationStatValues[index] <= 0)
             {
