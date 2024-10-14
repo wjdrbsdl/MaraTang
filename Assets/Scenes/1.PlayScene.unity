@@ -14629,6 +14629,7 @@ MonoBehaviour:
   m_testCheckPlayerInventory: 0
   m_testAuto: 0
   m_camFollow: {fileID: 519420033}
+  tempDevilBirthrestTurm: 1
   TracePlayChar: 0
   m_isPlayAnimate: 1
   startTermTime: 0.4
