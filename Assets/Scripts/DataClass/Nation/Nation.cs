@@ -86,8 +86,8 @@ public class Nation : ITradeCustomer
     public void InitiStat()
     {
         nationStatValues = GameUtil.EnumLengthArray(typeof(NationStatEnum));
-        nationStatValues.SetValue(NationStatEnum.성실, 100);
-        nationStatValues.SetValue(NationStatEnum.Happy, 100);
+        SetStatValue(NationStatEnum.성실, 100);
+        SetStatValue(NationStatEnum.Happy, 100);
     }
 
 
@@ -397,6 +397,27 @@ public class Nation : ITradeCustomer
     #endregion
 
     #region GetSet
+
+    #region 스텟 배열 적용하는 부분
+    public int GetStat(System.Enum _enumIndex)
+    {
+        int index = GameUtil.ParseEnumValue(_enumIndex);
+        return nationStatValues[index];
+    }
+    public void SetStatValue(System.Enum _enumIndex, int _value)
+    {
+        int index = GameUtil.ParseEnumValue(_enumIndex);
+        nationStatValues[index] = _value;
+        //Debug.Log(m_tokenType + ": " + _enumIndex + ":" + m_tokenIValues[index]);
+    }
+    public virtual void CalStat(System.Enum _enumIndex, int _value)
+    {
+        int index = GameUtil.ParseEnumValue(_enumIndex);
+        nationStatValues[index] += _value;
+        //Debug.Log(m_tokenType + ": " + _enumIndex + ":" + m_tokenIValues[index]);
+    }
+    #endregion
+
     public List<NationPolicy> GetNationPolicyList()
     {
         return m_policyList;
