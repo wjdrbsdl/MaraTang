@@ -127,7 +127,17 @@ public class AIPlayer : PlayerRule
 
             actionTable[(int)actionType].Add(charActionList[i]); //추가
         }
-        //2. 먼저 공격 가능한지 본다 
+        //악마라면 부정부터 
+        if (_char.GetCharType().Equals(CharType.Devil))
+        {
+            TokenAction wrongAction = SelectWrongFul(_char, actionTable[(int)ActionType.Wrongfulness], enemy);
+            if(wrongAction != null)
+            {
+                return wrongAction;
+            }
+        }
+
+        //2. 공격 가능한지 본다 
         TokenAction attactAction = SelectAttack(_char, actionTable[(int)ActionType.Attack], enemy);
         if (attactAction != null)
         {
@@ -206,6 +216,43 @@ public class AIPlayer : PlayerRule
             attackAction.SetTargetCoordi(_enemy.GetMapIndex()); //적 위치를 타겟으로 하고 반환
 
             return attackAction; //이녀석을 반환
+        }
+
+        return null;
+    }
+
+    private TokenAction SelectWrongFul(TokenChar _devilChar, List<TokenAction> _wrongList, TokenChar _target)
+    {
+        //부정 액션 없으면 null
+        if (_wrongList == null)
+        {
+            return null;
+        }
+
+        int enemyDistance = GameUtil.GetMinRange(new TMapIndex(_devilChar, _target));
+        //사용할 부정 순서 섞기
+        List<int> randomAt = GameUtil.GetRandomNum(_wrongList.Count, _wrongList.Count);
+        for (int i = 0; i < randomAt.Count; i++)
+        {
+            TokenAction wrongAction = _wrongList[randomAt[i]];
+            string failMessage = "";
+            //사용 가능한 액션인지 보고
+            if (GamePlayMaster.g_instance.RuleBook.IsAbleAction(_devilChar, wrongAction, ref failMessage) == false)
+            {
+                //    Debug.Log(m_turnNumber + " :"+failMessage);
+                continue;
+            }
+
+            //해당 액션 사거리가 적에 닿는지 체크
+            if (wrongAction.GetFinalRange(_devilChar) < enemyDistance)
+                continue;
+
+
+            //액션 내용을 채워서 반환
+            wrongAction.ClearTarget(); //타겟 리셋후
+            wrongAction.SetTargetCoordi(_target.GetMapIndex()); //적 위치를 타겟으로 하고 반환
+
+            return wrongAction; //이녀석을 반환
         }
 
         return null;
