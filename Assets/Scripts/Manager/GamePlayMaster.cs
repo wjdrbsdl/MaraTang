@@ -27,6 +27,8 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     public RuleBook RuleBook;
     public EmphasizeObject EmphasizeTool;
 
+    public int tempDevilBirthrestTurm = 3; //발생주기 세트
+
     #endregion
 
     private void Update()
@@ -41,7 +43,8 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
         {
             //MgToken.GetInstance().MakeMap(); // 맵 다시만들기
             //FirstStart();
-            MgGameLoader.GetInstance().SaveGame();
+            MGContent.GetInstance().m_devilIncubator.SetRestBrithTurn(tempDevilBirthrestTurm);
+            
         }
         if (Input.GetKeyDown(KeyCode.F7))
         {
