@@ -138,7 +138,10 @@ public class RuleBook
             };
             animateCoroutine = co_MoveAction(_playChar, targetTile, effectDelegate);
         }
-
+        else if(actionType == ActionType.Wrongfulness)
+        {
+            animateCoroutine = co_WrongFulAction(_playChar, actionToken);
+        }
         //5. 준비된 예약으로 애니메이션 수행 
         GamePlayMaster.GetInstance().AnimateTokenObject(animateCoroutine, effectDelegate, _playChar);
     }
@@ -193,8 +196,22 @@ public class RuleBook
         }
         if (effectAction != null)
              effectAction();
+
         GamePlayMaster.GetInstance().DoneCharAction(_char);
 
+    }
+
+    IEnumerator co_WrongFulAction(TokenChar _devil, TokenAction _wrongAction)
+    {
+        //애니메이션 동작시간 
+        float waitTime = 0.5f; //임의로 0.5 이후 해당 액션 이벤트 종료 시간에 맞추기 
+        while (waitTime > 0)
+        {
+            waitTime -= Time.deltaTime;
+            yield return null;
+        }
+
+        Debug.Log(_devil.GetItemName() + "이 " + _wrongAction.GetItemName() + "부정을 끼쳤다.");
     }
 
     private void CalActionEnergy(TokenChar _playChar, TokenAction _action)

@@ -4,7 +4,7 @@ using System;
 
 public enum ActionType
 {
-    Move, Attack
+    Move, Attack, Wrongfulness
 }
 
 public enum CharActionStat
