@@ -27,6 +27,7 @@ public class Nation : ITradeCustomer
     private TokenTile m_capitalCity;
     private List<TokenTile> m_territorryList;
     private int[] m_resources;
+    private int[] nationStatValues ;
     public NationTechPart TechPart;
     private Color[] nationColor = { Color.red, Color.yellow, Color.blue };
     private List<NationPolicy> m_policyList = new(); //진행할 정책들
@@ -50,6 +51,7 @@ public class Nation : ITradeCustomer
             nation.AddTerritory(boundaryTile[i]);
         }
         nation.m_resources = new int[GameUtil.EnumLength(Capital.Food)];
+        nation.InitiStat();
         nation.TechPart = new NationTechPart();
         return nation;
     }
@@ -80,6 +82,14 @@ public class Nation : ITradeCustomer
     {
         m_capitalCity = _tileToken;
     }
+
+    public void InitiStat()
+    {
+        nationStatValues = GameUtil.EnumLengthArray(typeof(NationStatEnum));
+        nationStatValues.SetValue(NationStatEnum.성실, 100);
+        nationStatValues.SetValue(NationStatEnum.Happy, 100);
+    }
+
 
     public TokenTile GetCapital()
     {
