@@ -212,6 +212,7 @@ public class RuleBook
         }
 
         Debug.Log(_devil.GetItemName() + "¿Ã " + _wrongAction.GetItemName() + "∫Œ¡§¿ª ≥¢√∆¥Ÿ.");
+        GamePlayMaster.GetInstance().DoneCharAction(_devil);
     }
 
     private void CalActionEnergy(TokenChar _playChar, TokenAction _action)
