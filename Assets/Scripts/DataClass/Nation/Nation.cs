@@ -399,22 +399,28 @@ public class Nation : ITradeCustomer
     #region GetSet
 
     #region 스텟 배열 적용하는 부분
-    public int GetStat(System.Enum _enumIndex)
+    public int GetStat(NationStatEnum _nationStat, int _value)
     {
-        int index = GameUtil.ParseEnumValue(_enumIndex);
+        int index = (int)_nationStat;
         return nationStatValues[index];
     }
-    public void SetStatValue(System.Enum _enumIndex, int _value)
+    public void SetStatValue(NationStatEnum _nationStat, int _value)
     {
-        int index = GameUtil.ParseEnumValue(_enumIndex);
+        int index = (int)_nationStat;
         nationStatValues[index] = _value;
         //Debug.Log(m_tokenType + ": " + _enumIndex + ":" + m_tokenIValues[index]);
     }
-    public virtual void CalStat(System.Enum _enumIndex, int _value)
+    public virtual void CalStat(NationStatEnum _nationStat, int _value)
     {
-        int index = GameUtil.ParseEnumValue(_enumIndex);
+        int index = (int)_nationStat;
         nationStatValues[index] += _value;
-        //Debug.Log(m_tokenType + ": " + _enumIndex + ":" + m_tokenIValues[index]);
+        Debug.Log(_nationStat + " 가" + _value + "적용");
+        if (_nationStat.Equals(NationStatEnum.Happy)){
+            if(nationStatValues[index] <= 0)
+            {
+                Debug.Log("행복도 마이너스 타락 진행");
+            }
+        }
     }
     #endregion
 
