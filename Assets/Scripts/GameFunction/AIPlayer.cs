@@ -145,20 +145,30 @@ public class AIPlayer : PlayerRule
     private TokenChar FindEnemy(TokenChar _char)
     {
         int tempEyesight = 5;
-        List<TokenTile> inRangedTiles = GameUtil.GetTileTokenListInRange(tempEyesight, _char.GetXIndex(), _char.GetYIndex());
-        
-        for (int i = 0; i < inRangedTiles.Count; i++)
+        for (int x = 1; x <= tempEyesight; x++)
         {
-            //타일 돌면서 내부 적 확인 
-            TokenTile tile = inRangedTiles[i];
-            for (int tileIndex = 0; tileIndex < tile.GetCharsInTile().Count; tileIndex++)
+            //각 범위별로 타일을 가져와서 확인
+            //ex : 범위가 10일때, 1~10 타일 모두가 아니라 각 범위별로 확인해서 시간 줄이기 
+            List<TokenTile> inRangedTiles = GameUtil.GetTileTokenListInRange(x, _char.GetXIndex(), _char.GetYIndex(),x);
+            for (int i = 0; i < inRangedTiles.Count; i++)
             {
-                //적 발견했으면 해당 포문 종료
-                TokenChar enemy = tile.GetCharsInTile()[tileIndex];
-                if (enemy != _char && enemy.IsPlayerChar()) //플레이어 차르인 경우 
-                    return enemy;
+                //타일 돌면서 내부 적 확인 
+                TokenTile tile = inRangedTiles[i];
+                for (int tileIndex = 0; tileIndex < tile.GetCharsInTile().Count; tileIndex++)
+                {
+                    //적 발견했으면 해당 포문 종료
+                    TokenChar enemy = tile.GetCharsInTile()[tileIndex];
+                    if (enemy != _char && enemy.IsPlayerChar()) //플레이어 차르인 경우 
+                    {
+                        return enemy;
+                    }
+
+                }
             }
         }
+        
+        
+        
         return null;
     }
 
