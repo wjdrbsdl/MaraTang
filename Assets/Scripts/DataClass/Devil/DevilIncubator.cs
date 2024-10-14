@@ -100,7 +100,7 @@ public class DevilIncubator
     public void BirthDevil()
     {
         Debug.LogWarning("악마 부활 조건 체크 후 부활진행");
-        //턴 조건 확인
+        //전체적인 턴 조건 확인
         if (m_turnEnough == false)
             return;
 
@@ -121,14 +121,28 @@ public class DevilIncubator
             if (m_devilStateList[index] != DevilState.봉인)
                 continue;
 
+            //개별 컨텐츠 조건 확인
+            //블라블라 블라라
+
+
+            //부활이 확정되었으면, 턴 조건은 갱신
+            m_turnEnough = false;
+            SetNextBirthTurn(BirthCountType.Birth); //다음 부활주기 재세팅
+
             MgToken.GetInstance().SpawnCharactor(m_devilList[index], m_birthTile[index].GetMapIndex());
             m_devilStateList[index] = DevilState.유아;
+
+
+            TokenBase targetNation = MgNation.GetInstance().GetNation(0).GetCapital();
+            m_devilList[index].SetTarget(targetNation);
+            Debug.Log(targetNation.GetItemName() + "을 악마 타겟으로 설정");
+
             birthCount += 1;
             Debug.Log(m_devilList[index].GetItemName() + "악마 부활");
             //뽑았으면 종료
             break;
         }
-        SetNextBirthTurn(BirthCountType.Birth); //다음 부활주기 재세팅
+      
     }
 
     //악마 토벌시 호출
@@ -155,6 +169,11 @@ public class DevilIncubator
                 break;
         }
 
+    }
+
+    public void SetRestBrithTurn(int _turn)
+    {
+        m_birthRestTurn = _turn;
     }
     #endregion
 
