@@ -156,15 +156,24 @@ public class Nation : ITradeCustomer
     #region 정책수립
     private void SelectPolicy()
     {
-        //정책 정함
-        int randomPolicy = Random.Range(1, (int)MainPolicyEnum.Support);
         //어떤류 할지 정하고
-        MainPolicyEnum mainTheme = (MainPolicyEnum)randomPolicy;
+        MainPolicyEnum mainTheme = SelectMainPolicy();
         //Announcer.Instance.AnnounceState(m_nationNumber + "국가에서 메인 정책 결정 " + m_curMainPolicy);
         FactoryPolicy factory = new();
         NationPolicy policy = factory.MakePolicy(mainTheme, this); //주요정책안으로 정책 형성
         policy.MakePlan();
         DisplayNewPolicy(policy);
+    }
+
+    private MainPolicyEnum SelectMainPolicy()
+    {
+        //메인 정책 선택해보기 
+        //0. 현재 상태 정리
+        //1. 정책 타입별 우선도 체크
+        //2. 군주 성향 투입
+        //3. 메인 정책 Dice
+
+        return (MainPolicyEnum)Random.Range(1, (int)MainPolicyEnum.Support);
     }
 
     private void DisplayNewPolicy(NationPolicy _policy)
