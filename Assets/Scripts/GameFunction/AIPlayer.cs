@@ -106,7 +106,7 @@ public class AIPlayer : PlayerRule
             
 
         //일단 타겟과 사거리를 구함 
-        TokenChar enemy = FindEnemy(_char);
+        TokenBase  enemy = FindEnemy(_char);
         //타겟없으면 패스
         if (enemy == null)
         {
@@ -138,7 +138,7 @@ public class AIPlayer : PlayerRule
         }
 
         //2. 공격 가능한지 본다 
-        TokenAction attactAction = SelectAttack(_char, actionTable[(int)ActionType.Attack], enemy);
+        TokenAction attactAction = SelectAttack(_char, actionTable[(int)ActionType.Attack], (TokenChar)enemy);
         if (attactAction != null)
         {
           //  Debug.Log(m_turnNumber + " 공격 수행");
@@ -147,13 +147,16 @@ public class AIPlayer : PlayerRule
             
             
         //마지막으로 이동 액션을 살펴서 반환
-        return SelectMove(_char, actionTable[(int)ActionType.Move], enemy);
+        return SelectMove(_char, actionTable[(int)ActionType.Move], (TokenTile)enemy);
 
     }
 
     #region 액션 선택 로직
-    private TokenChar FindEnemy(TokenChar _char)
+    private TokenBase FindEnemy(TokenChar _char)
     {
+        if (_char.GetTarget() != null)
+            return _char.GetTarget();
+
         int tempEyesight = 5;
         for (int x = 1; x <= tempEyesight; x++)
         {
@@ -221,7 +224,7 @@ public class AIPlayer : PlayerRule
         return null;
     }
 
-    private TokenAction SelectWrongFul(TokenChar _devilChar, List<TokenAction> _wrongList, TokenChar _target)
+    private TokenAction SelectWrongFul(TokenChar _devilChar, List<TokenAction> _wrongList, TokenBase _target)
     {
         //부정 액션 없으면 null
         if (_wrongList == null)
@@ -258,7 +261,7 @@ public class AIPlayer : PlayerRule
         return null;
     }
 
-    private TokenAction SelectMove(TokenChar _char, List<TokenAction> _moveList, TokenChar _enemy)
+    private TokenAction SelectMove(TokenChar _char, List<TokenAction> _moveList, TokenTile _enemy)
     {
         if (_moveList == null)
         {
