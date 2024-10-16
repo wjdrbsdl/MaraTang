@@ -266,7 +266,7 @@ public class Nation : ITradeCustomer
         for (int i = 0; i < m_policyList.Count; i++)
         {
             NationPolicy policy = m_policyList[i];
-            policy.Excute();
+            policy.DoWork();
         }
     }
 
