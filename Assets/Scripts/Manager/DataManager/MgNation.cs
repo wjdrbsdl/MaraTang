@@ -7,7 +7,7 @@ public class MgNation : Mg<MgNation>
 {
     private List<Nation> m_nationList;
     private int m_turnNationNumber = 0; //현재 차례 국가 넘버 
-
+    private int m_settleNationNumber = 0; //현재 정산 국가 넘버
     #region 국가 생성 파괴
     public MgNation()
     {
@@ -43,8 +43,15 @@ public class MgNation : Mg<MgNation>
         m_nationList[m_turnNationNumber].DoJob(NationManageStepEnum.IncomeCapital);
     }
 
+    public void SettleNationEndTurn()
+    {
+        //턴 마무리에서 국가들이 할일 
+        m_nationList[m_settleNationNumber].DoJob(NationManageStepEnum.ExcutePolicy);
+    }
+
     public void EndNationTurn()
     {
+        Debug.Log("국가턴 종료" + m_turnNationNumber);
         //턴 진행중이던 국가로부터 자신의 턴이 끝났음을 전달 받으면
         int nationCount = m_nationList.Count;
         m_turnNationNumber += 1; //다음 진행 국가를 뽑고 할 놈이 남았는지 확인
@@ -56,8 +63,26 @@ public class MgNation : Mg<MgNation>
         }
 
         //그게 아니라면
-        ManageNationTurn(); //다시 매니저 진행
+        ManageNationTurn(); //재귀용
     }
+
+    public void EndTurnEndSettle()
+    {
+        Debug.Log("국가정산 종료" + m_settleNationNumber);
+        //턴 진행중이던 국가로부터 자신의 턴이 끝났음을 전달 받으면
+        int nationCount = m_nationList.Count;
+        m_settleNationNumber += 1; //다음 진행 국가를 뽑고 할 놈이 남았는지 확인
+        if (nationCount <= m_settleNationNumber)
+        {
+            //국가턴이 종료된 상황
+            GamePlayMaster.GetInstance().DoneStep(GamePlayStep.NationSettle); //EndPlayTurn에서 모든 캐릭 턴 끝나면 호출
+            return;
+        }
+
+        //그게 아니라면
+        SettleNationEndTurn(); //재귀용
+    }
+
 
     public void AddTerritoryToNation(int nationNum, TokenTile _tile)
     {
@@ -69,6 +94,7 @@ public class MgNation : Mg<MgNation>
     public void ResetNationNum()
     {
         m_turnNationNumber = 0;
+        m_settleNationNumber = 0;
     }
 
     public Nation GetNation(int _nationNum)
