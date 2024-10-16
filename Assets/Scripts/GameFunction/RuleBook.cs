@@ -211,7 +211,7 @@ public class RuleBook
             yield return null;
         }
 
-        Debug.Log(_devil.GetItemName() + "¿Ã " + _wrongAction.GetItemName() + "∫Œ¡§¿ª ≥¢√∆¥Ÿ.");
+     //   Debug.Log(_devil.GetItemName() + "¿Ã " + _wrongAction.GetItemName() + "∫Œ¡§¿ª ≥¢√∆¥Ÿ.");
         TokenTile tile = (TokenTile)_devil.GetTarget();
         tile.GetNation().CalStat(NationStatEnum.Happy, -_wrongAction.GetStat(CharActionStat.Power));
 
