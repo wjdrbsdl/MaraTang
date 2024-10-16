@@ -96,6 +96,13 @@ public class WorkOrder
 
     public void DoWork()
     {
+        if(IsDoneWork() == true)
+        {
+            //이미 완료된 작업
+            return;
+        }
+
+
         //일 시킨다
         if(IsReadyResource() == false)
         {
