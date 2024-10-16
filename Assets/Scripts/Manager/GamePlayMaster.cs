@@ -267,10 +267,11 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     #endregion
 
     #region 턴 정산
+  
     private void ReadyNextTurn()
     {
         PopupMessage("턴 종료"); 
-       // EffectEndTurn(); //턴이 종료할때 발휘되는 효과나 계산할것들 정산
+        EffectEndTurn(); //턴이 종료할때 발휘되는 효과나 계산할것들 정산
         RecoverResource(); //소비되었던 액션 에너지등 회복
         ReadyNextWorldTurn(); //월드 턴 변화 진행
         ResetNationTurn(); //국가 집행순서 세팅
@@ -287,7 +288,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     {
         m_playerMemeber = 0;
         //효과 토큰중 턴이 끝날때 발휘 되는 부분 동작
-        MgNation.GetInstance().SettleNationEndTurn();
+ 
     }
 
     private void RecoverResource() 
@@ -367,7 +368,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
                 StartCharTurn();
                 break;
             case GamePlayStep.CharTurn:
-                EffectEndTurn();
+                SettleNationPolicy();
                 break;
             case GamePlayStep.NationSettle:
                 ReadyNextTurn();
@@ -386,6 +387,13 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     {
         Invoke(nameof(NoticeTurnPlayer), startTermTime); //캐릭터 액션 턴 시작
     }
+
+    private void SettleNationPolicy()
+    {
+        //국가 정책 정산 
+        MgNation.GetInstance().SettleNationEndTurn();
+    }
+
     #endregion
 
     #region 부가 편의 기능
