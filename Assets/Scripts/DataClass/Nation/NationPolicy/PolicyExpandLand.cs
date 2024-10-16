@@ -13,10 +13,19 @@ public class PolicyExpandLand : NationPolicy
         FindExpandLand();
     }
 
+    public override void WriteWorkOrder()
+    {
+        //임시 벌목장 건설에 필요한 코스트로 진행
+        TItemListData changeCost = MgMasterData.GetInstance().GetTileData(1).BuildCostData;
+        WorkOrder expandOrder = new WorkOrder(changeCost.GetItemList(), 100);
+        m_workOrder = expandOrder;
+    }
+
     public override void Excute()
     {
-     //   Debug.Log("확장 집행");
-        ExpandLand();
+        Debug.Log("확장 집행");
+        if (ExpandLand() == true)
+            DoneExcute();
     }
 
     private void FindExpandLand()
@@ -41,6 +50,7 @@ public class PolicyExpandLand : NationPolicy
                 TokenBase planToken = tile; //확장가능한 땅이면 타겟 지정
                 SetPlanToken(planToken); //정책 대상으로 넣고
                 tile.SetPolicy(this);
+                SetDonePlan(true);
                 findExpandCount -= 1;
                 if (findExpandCount.Equals(0))
                 {

@@ -12,13 +12,22 @@ public class PolicyLevelUp : NationPolicy
        // Debug.Log("레벨 계획");
         TokenBase planToken = m_nation.GetCapital();
         SetPlanToken(planToken);
+        SetDonePlan(true);
+    }
 
+    public override void WriteWorkOrder()
+    {
+        //임시 벌목장 건설에 필요한 코스트로 진행
+        TItemListData changeCost = MgMasterData.GetInstance().GetTileData(1).BuildCostData;
+        WorkOrder expandOrder = new WorkOrder(changeCost.GetItemList(), 100);
+        m_workOrder = expandOrder;
     }
 
     public override void Excute()
     {
-     //   Debug.Log("레벨 집행");
-        LevelUp();
+        Debug.Log("레벨 집행");
+        if (LevelUp() == true)
+            DoneExcute();
     }
 
     private bool LevelUp()

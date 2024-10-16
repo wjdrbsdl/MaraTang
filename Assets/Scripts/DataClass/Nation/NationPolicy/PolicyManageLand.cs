@@ -13,10 +13,19 @@ public class PolicyManageLand : NationPolicy
         FindManageLand();
     }
 
+    public override void WriteWorkOrder()
+    {
+        //임시 벌목장 건설에 필요한 코스트로 진행
+        TItemListData changeCost = MgMasterData.GetInstance().GetTileData(1).BuildCostData;
+        WorkOrder expandOrder = new WorkOrder(changeCost.GetItemList(), 100);
+        m_workOrder = expandOrder;
+    }
+
     public override void Excute()
     {
-   //     Debug.Log("매니지 집행");
-        ManageTerritory();
+        Debug.Log("매니지 집행");
+        if(ManageTerritory()== true)
+            DoneExcute();
     }
 
     private void FindManageLand()
@@ -45,6 +54,7 @@ public class PolicyManageLand : NationPolicy
                 //내땅중에 용도가 nomal인 땅을 찾았다면
                 TokenBase planToken = tile;
                 int planIndex = Random.Range((int)TileType.WoodLand, (int)TileType.Capital); //벌목장부터 광산까지 중 뽑기 
+                SetDonePlan(true);
                 SetPlanToken(planToken);
                 SetPlanIndex(planIndex);
                 tile.SetPolicy(this);

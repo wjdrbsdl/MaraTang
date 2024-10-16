@@ -14,10 +14,19 @@ public class PolicyResearch : NationPolicy
         SelectTechTree();
     }
 
+    public override void WriteWorkOrder()
+    {
+        //임시 벌목장 건설에 필요한 코스트로 진행
+        TItemListData changeCost = MgMasterData.GetInstance().GetTileData(1).BuildCostData;
+        WorkOrder expandOrder = new WorkOrder(changeCost.GetItemList(), 100);
+        m_workOrder = expandOrder;
+    }
+
     public override void Excute()
     {
         Debug.Log("연구 집행");
-        Research();
+        if (Research() == true)
+            DoneExcute();
     }
 
 
@@ -27,6 +36,7 @@ public class PolicyResearch : NationPolicy
         TechTreeSelector treeManager = new(); //매니저 생성하고 
         int planIndex = treeManager.GetTechPidByNotDone(m_nation.TechPart.GetTechList());
         SetPlanIndex(planIndex);
+        SetDonePlan(true);
         // Debug.Log("다음 연구 테크pid는" + m_planIndex + "로 결정");
     }
 

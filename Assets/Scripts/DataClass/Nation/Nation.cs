@@ -193,7 +193,18 @@ public class Nation : ITradeCustomer
         //Announcer.Instance.AnnounceState(m_nationNumber + "국가에서 메인 정책 결정 " + m_curMainPolicy);
         FactoryPolicy factory = new();
         NationPolicy policy = factory.MakePolicy(mainTheme, this); //주요정책안으로 정책 형성
-        policy.MakePlan();
+        policy.MakePlan(); //계획 세우고
+
+        //세워진 계획이 없으면 종료 
+        if (policy.m_donePlan == false)
+            return;
+
+        //작업서 쓰고
+        policy.WriteWorkOrder();
+        //기본 재료 다넣을수있는지 체크
+        if (policy.PushResource(this) == false)
+            return;
+
         DisplayNewPolicy(policy);
     }
 
@@ -213,8 +224,6 @@ public class Nation : ITradeCustomer
         Debug.Log("정책 표기 " + _policy.GetMainPolicy());
         if (_policy.GetPlanIndex() != FixedValue.No_INDEX_NUMBER || _policy.GetPlanToken() != null)
         {
-            //계획이 설정되었으면
-            _policy.MakeWorkOrder();
             AddPolicy(_policy);
             ShowPolicyPin(_policy);
         }
@@ -269,11 +278,6 @@ public class Nation : ITradeCustomer
             policy.DoWork();
         }
     }
-
-    private void DoPlan(NationPolicy _policy)
-    {
-        _policy.Done();
-    }
     #endregion
 
     #region 정책 재검토
@@ -285,6 +289,7 @@ public class Nation : ITradeCustomer
             NationPolicy policy = m_policyList[i];
             if (policy.IsDone())
             {
+                Debug.Log("완료된 작업 리스트 추가");
                 removeList.Add(policy);
             }
                 
@@ -459,7 +464,7 @@ public class Nation : ITradeCustomer
         if (_nationStat.Equals(NationStatEnum.Happy)){
             if(nationStatValues[index] <= 0)
             {
-                Debug.Log("행복도 마이너스 타락 진행");
+             //   Debug.Log("행복도 마이너스 타락 진행");
             }
         }
     }

@@ -21,38 +21,23 @@ public class WorkOrder
     private int m_workTokenNum; //할당된 노동 토큰 수
     private int m_maxWorkTokenNum = 3; //최대 할당 가능한 수 
 
-    public WorkOrder(int _planIndex)
-    {
-        TItemListData changeCost = MgMasterData.GetInstance().GetTileData(_planIndex).BuildCostData;
-        m_needList = changeCost.GetItemList();
-        m_workTokenNum = 1; //토큰 1개 임시 할당
-        m_originWorkGauge = 100; //임시로 작업량은 100
-        string debugStr = "";
-        for (int i = 0; i < m_needList.Count; i++)
-        {
-            TOrderItem curItem = m_needList[i];
-            debugStr += m_needList[i].Tokentype + " :" + m_needList[i].Value + "필요\n";
-            curItem.Value = 0; //현재 재료 0 으로 
-            m_curList.Add(curItem);
-            debugStr += m_curList[i].Tokentype + " :" + m_curList[i].Value + "보유\n";
-        }
-        Debug.Log(debugStr);
-    }
-
     public WorkOrder(List<TOrderItem> _needList, int _needWorkGague)
     {
         //작업주문서 작성
         m_needList = _needList;
+        m_workTokenNum = 1; //토큰 1개 임시 할당
         m_originWorkGauge = _needWorkGague;
-        string debugStr = "";
+        //m_restWorkGauge = m_originWorkGauge;
+        m_restWorkGauge = 200; //임시로 필요 작업량 200할당
+       // string debugStr = "";
         for (int i = 0; i < m_needList.Count; i++)
         {
             TOrderItem curItem = m_needList[i];
             curItem.Value = 0; //현재 재료 0 으로 
             m_curList.Add(curItem);
-            debugStr += m_curList[i].Tokentype + " :" + m_curList[i].Value + "필요";
+           // debugStr += m_curList[i].Tokentype + " :" + m_curList[i].Value + "필요";
         }
-        Debug.Log(debugStr);
+       // Debug.Log(debugStr);
     }
 
     public bool PushResource(ITradeCustomer _customer)
@@ -60,7 +45,7 @@ public class WorkOrder
         //전체 필요한 양을 다 넣어야함. 
         //다만 중간에 상실하는 경우도 있으니 차이만큼 진행
         List<TOrderItem> requestList = new List<TOrderItem>(); //요청 목록 제작
-        string debugStr = "";
+      //  string debugStr = "";
         for (int i = 0; i < m_needList.Count; i++)
         {
             TOrderItem needItem = m_needList[i]; // 애초 필요량
@@ -68,15 +53,16 @@ public class WorkOrder
             TOrderItem need = cur; //요구량 생성
             need.Value = needItem.Value - cur.Value; //요구 수치 차액 진행
             requestList.Add(need);
-            debugStr += requestList[i].Tokentype + " :" + requestList[i].Value + "필요";
+          //  debugStr += requestList[i].Tokentype + " :" + requestList[i].Value + "필요";
         }
-        Debug.Log(debugStr);
+      //  Debug.Log(debugStr);
         TItemListData itemListData = new TItemListData(requestList);
         if (_customer.CheckInventory(itemListData) == false)
         {
             Debug.Log("재료 부족");
             return false;
         }
+      //  Debug.Log("재료 지불");
         _customer.PayCostData(itemListData); //재료 지불 시키고
 
         for (int i = 0; i < m_curList.Count; i++)
@@ -133,7 +119,7 @@ public class WorkOrder
         }
         //작업진행
         m_restWorkGauge -= (workAmount + overWorkAmount);
-        
+        Debug.Log("남은 작업량 " + m_restWorkGauge);
         if(m_restWorkGauge < 0)
         {
             m_restWorkGauge = 0;

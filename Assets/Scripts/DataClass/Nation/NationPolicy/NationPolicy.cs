@@ -18,6 +18,7 @@ public abstract class NationPolicy
     protected int m_nationNum;
     protected bool m_complete = false;
     protected WorkOrder m_workOrder = null;
+    public bool m_donePlan = false; //계획이 세워졌는지
 
 
     //안건 정보를 담아 생성
@@ -37,6 +38,18 @@ public abstract class NationPolicy
     }
 
     public abstract void MakePlan();
+
+    public void SetDonePlan(bool _isDone)
+    {
+        m_donePlan = _isDone;
+    }
+
+    public abstract void WriteWorkOrder();
+
+    public bool PushResource(ITradeCustomer _customer)
+    {
+        return m_workOrder.PushResource(_customer);
+    }
 
     public void DoWork()
     {
@@ -59,7 +72,7 @@ public abstract class NationPolicy
 
     public abstract void Excute();
     
-    public void Done()
+    public void DoneExcute()
     {
         m_complete = true;
     }
@@ -112,15 +125,6 @@ public abstract class NationPolicy
             m_planToken.ResetPolicy();
 
         m_planIndex = FixedValue.No_INDEX_NUMBER;
-    }
-
-    public void MakeWorkOrder()
-    {
-        if (m_curMainPolicy != MainPolicyEnum.ManageLand)
-            return;
-    //    Debug.Log("작업서 만들기");
-        m_workOrder = new WorkOrder(m_planIndex);
-
     }
 
     public void ShowWorkOrder()
