@@ -163,7 +163,7 @@ public class Nation : ITradeCustomer
                 ReportToGameMaster(_step);
                 break;
             case NationManageStepEnum.ExcutePolicy:
-                Debug.Log(m_nationNumber + "정책 집행 진행");
+               // Debug.Log(m_nationNumber + "정책 집행 진행");
                 ExcutePolicy(); 
                 ReportToGameMaster(_step);
                 break;

@@ -13,8 +13,10 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     {
         LivePlayer, AI
     }
+    
     public float m_moveSpeed = 0.5f;
     public const float c_movePrecision = 0.1f; //움직임 정밀도
+    public bool m_autoReportCheck = true;
     public bool m_testCheckPlayerInventory = false; //플레이어 인벤 체크하느냐 
     public bool m_testAuto = true;
 
@@ -93,28 +95,27 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     #endregion
 
     #region 국가 턴 수행
-    private Action nationCallBack;
     public void ReportNationStep(NationManageStepEnum _step, Nation _nation)
     {
-        Debug.Log("리포트 " + _step + "-" + _nation.GetNationNum());
         //해당 스텝에 따라 UI표기같은거 진행. 
-        nationCallBack = delegate
+        Action nationCallBack = delegate
         {
             //Debug.Log("텀 이후 리포트 반환");
             _nation.DoneJob(_step);
         };
-      //  Invoke(nameof(CallBackNationReport), startTermTime);
 
-
-        m_checkBtn.SetEvent(nationCallBack);
-        m_checkBtn.gameObject.SetActive(true);
-    }
-
-    private void CallBackNationReport()
-    {
-        if (nationCallBack != null)
+        if (m_autoReportCheck)
+        {
+            Debug.LogWarning("보고 자동확인으로 플레이어 체크없이 진행");
             nationCallBack();
+        }
+        else
+        {
+            m_checkBtn.SetEvent(nationCallBack);
+            m_checkBtn.gameObject.SetActive(true);
+        }
     }
+
     #endregion
 
     #region 캐릭터 턴 수행
