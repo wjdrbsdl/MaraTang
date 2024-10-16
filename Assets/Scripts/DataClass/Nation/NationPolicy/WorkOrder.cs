@@ -28,7 +28,7 @@ public class WorkOrder
         m_workTokenNum = 1; //토큰 1개 임시 할당
         m_originWorkGauge = _needWorkGague;
         //m_restWorkGauge = m_originWorkGauge;
-        m_restWorkGauge = 200; //임시로 필요 작업량 200할당
+        m_restWorkGauge = 70; //임시로 필요 작업량 할당
        // string debugStr = "";
         for (int i = 0; i < m_needList.Count; i++)
         {
@@ -126,9 +126,10 @@ public class WorkOrder
         }
         //작업진행
         m_restWorkGauge -= (workAmount + overWorkAmount);
-        Debug.Log("남은 작업량 " + m_restWorkGauge);
+      //  Debug.Log("남은 작업량 " + m_restWorkGauge);
         if(m_restWorkGauge < 0)
         {
+            Debug.Log("작업완료");
             m_restWorkGauge = 0;
         }
     }
