@@ -11,7 +11,7 @@ public enum NationEnum
 
 public enum NationManageStepEnum
 {
-   IncomeCapital, ManagePopulation, SelectPolicy, ExcutePolicy, RemindPolicy, NationTurnEnd, CalTurnEnd
+   IncomeCapital, ManagePopulation, SelectPolicy, ExcutePolicy, RemindPolicy, NationTurnEnd, TurnEndSettle
 }
 
 public enum NationStatEnum
@@ -109,9 +109,14 @@ public class Nation : ITradeCustomer
     #endregion
 
     #region 국가 행동 진행
-    private void EndTurn()
+    private void EndNationTurn()
     {
         MgNation.GetInstance().EndNationTurn();
+    }
+
+    private void EndTurnEndSettle()
+    {
+        MgNation.GetInstance().EndTurnEndSettle();
     }
 
     public void ReportToGameMaster(NationManageStepEnum _step)
@@ -121,7 +126,7 @@ public class Nation : ITradeCustomer
     }
 
     //해당 작업 완료했을때 - 다음 작업을 정해서 DoJob 시키기 
-    public void DoneReport(NationManageStepEnum _step)
+    public void DoneJob(NationManageStepEnum _step)
     {
         switch (_step)
         {
@@ -129,10 +134,7 @@ public class Nation : ITradeCustomer
                 DoJob(NationManageStepEnum.ManagePopulation); //정책 결정한거 보고하고
                 break;
             case NationManageStepEnum.ManagePopulation:
-                DoJob(NationManageStepEnum.ExcutePolicy);//집행한거 보고하고
-                break;
-            case NationManageStepEnum.ExcutePolicy:
-                DoJob(NationManageStepEnum.SelectPolicy); //정책 결정한거 보고하고
+                DoJob(NationManageStepEnum.RemindPolicy);//집행한거 보고하고
                 break;
             case NationManageStepEnum.RemindPolicy:
                 DoJob(NationManageStepEnum.SelectPolicy);
@@ -140,6 +142,11 @@ public class Nation : ITradeCustomer
             case NationManageStepEnum.SelectPolicy:
                 DoJob(NationManageStepEnum.NationTurnEnd);
                 break;
+
+            case NationManageStepEnum.ExcutePolicy:
+                DoJob(NationManageStepEnum.TurnEndSettle); //정책 결정한거 보고하고
+                break;
+                
         }
     }
 
@@ -156,6 +163,7 @@ public class Nation : ITradeCustomer
                 ReportToGameMaster(_step);
                 break;
             case NationManageStepEnum.ExcutePolicy:
+                Debug.Log(m_nationNumber + "정책 집행 진행");
                 ExcutePolicy(); 
                 ReportToGameMaster(_step);
                 break;
@@ -168,7 +176,10 @@ public class Nation : ITradeCustomer
                 ReportToGameMaster(_step); 
                 break;
             case NationManageStepEnum.NationTurnEnd:
-                EndTurn(); 
+                EndNationTurn(); 
+                break;
+            case NationManageStepEnum.TurnEndSettle:
+                EndTurnEndSettle();
                 break;
         }
     }
