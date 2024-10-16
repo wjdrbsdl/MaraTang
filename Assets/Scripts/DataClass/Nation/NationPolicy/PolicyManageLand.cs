@@ -77,17 +77,18 @@ public class PolicyManageLand : NationPolicy
         return true;
     }
 
-    private bool AbleManageLand(TokenTile _tile, int _nationNumber, int _planIndex)
+    private bool AbleManageLand(TokenTile _tile, int _planIndex, int _nationNumber)
     {
         //만약 현재 타일상태가 누군가의 점유로 바꼈으면 확장 불가 
         if (_tile.GetStat(TileStat.Nation) != _nationNumber)
         {
-            //  Debug.Log("국가 귀속 타일이 아님");
+            Debug.Log(_tile.GetStat(TileStat.Nation)+"토지 번호 "+ _nationNumber+"국가 번호가 다름"+
+                _tile.GetMapIndex()[0]+":"+_tile.GetMapIndex()[1]);
             return false;
         }
         if (_tile.GetTileType() != TileType.Nomal)
         {
-            //  Debug.Log("토지 변경 불가능한 상태");
+            Debug.Log("토지 변경 불가능한 상태");
             return false;
         }
         return true;
