@@ -37,11 +37,7 @@ public class PolicyResearch : NationPolicy
             return false;
         }
 
-        //   Debug.Log(m_planIndex + "번 테크 연구 완료");
-        //1.비용내고
-        TItemListData costData = MgMasterData.GetInstance().GetTechData(m_planIndex).ResearchCostData;
-        m_nation.PayCostData(costData);
-        //2.완료 기록하고
+
         m_nation.TechPart.CompleteTech(m_planIndex);
 
         return true;
@@ -54,8 +50,8 @@ public class PolicyResearch : NationPolicy
         {
             return false;
         }
-        TItemListData costData = MgMasterData.GetInstance().GetTechData(_techPid).ResearchCostData;
-        return m_nation.CheckInventory(costData);
+
+        return true;
     }
 
 

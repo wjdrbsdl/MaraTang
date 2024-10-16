@@ -63,11 +63,7 @@ public class PolicyManageLand : NationPolicy
             return false;
         }
 
-        //변경 가능한 상태라면
-        //  Debug.Log("영토 운영 정책 수행 완료");
-        TItemListData changeCost = MgMasterData.GetInstance().GetTileData(m_planIndex).BuildCostData;
-        m_nation.PayCostData(changeCost);
-        planTile.ChangeTileType((TileType)m_planIndex); //플랜 idx 타입으로 토지변경
+         planTile.ChangeTileType((TileType)m_planIndex); //플랜 idx 타입으로 토지변경
         return true;
     }
 
@@ -84,14 +80,6 @@ public class PolicyManageLand : NationPolicy
             //  Debug.Log("토지 변경 불가능한 상태");
             return false;
         }
-        TItemListData changeCost = MgMasterData.GetInstance().GetTileData(_planIndex).BuildCostData;
-        //  Debug.Log((TileType)m_planIndex + "로 변경하려는 중");
-        if (m_nation.CheckInventory(changeCost) == false)
-        {
-            // Debug.Log("국가 단위 변경 비용 부족");
-            return false;
-        }
-
         return true;
     }
 }
