@@ -11,7 +11,7 @@ public enum NationEnum
 
 public enum NationManageStepEnum
 {
-   ManageStart, Income, ManagePopulation, SelectPolicy, ExcutePolicy, RemindPolicy
+   IncomeCapital, ManagePopulation, SelectPolicy, ExcutePolicy, RemindPolicy, NationTurnEnd, CalTurnEnd
 }
 
 public enum NationStatEnum
@@ -120,34 +120,55 @@ public class Nation : ITradeCustomer
         GamePlayMaster.GetInstance().ReportNationStep(_step, this);
     }
 
+    //해당 작업 완료했을때 - 다음 작업을 정해서 DoJob 시키기 
     public void DoneReport(NationManageStepEnum _step)
     {
         switch (_step)
         {
-            case NationManageStepEnum.ManageStart:
-              //  Debug.Log(m_nationNumber + "번 국가 수입정산 진행");
-                IncomeTerritoryResource();
-                DoneReport(NationManageStepEnum.Income); //보고필요가 없는건 바로 다음 단계 보고 끝난걸로 진행 
-                break;
-            case NationManageStepEnum.Income:
-                //  Debug.Log(m_nationNumber + "번 결정하고 보고");
-                ManagePopular();
-                ReportToGameMaster(NationManageStepEnum.ManagePopulation); //정책 결정한거 보고하고
+            case NationManageStepEnum.IncomeCapital:
+                DoJob(NationManageStepEnum.ManagePopulation); //정책 결정한거 보고하고
                 break;
             case NationManageStepEnum.ManagePopulation:
-                ExcutePolicy(); //집행하고
-                ReportToGameMaster(NationManageStepEnum.ExcutePolicy);//집행한거 보고하고
+                DoJob(NationManageStepEnum.ExcutePolicy);//집행한거 보고하고
                 break;
-       
             case NationManageStepEnum.ExcutePolicy:
-                //   Debug.Log(m_nationNumber + "번 상기하고 턴종료");
-                RemindPolicy(); //상기하고
-                ReportToGameMaster(NationManageStepEnum.SelectPolicy); //정책 결정한거 보고하고
+                DoJob(NationManageStepEnum.SelectPolicy); //정책 결정한거 보고하고
                 break;
-
+            case NationManageStepEnum.RemindPolicy:
+                DoJob(NationManageStepEnum.SelectPolicy);
+                break;
             case NationManageStepEnum.SelectPolicy:
-                SelectPolicy(); //정책결정하고
-                EndTurn(); //턴종료
+                DoJob(NationManageStepEnum.NationTurnEnd);
+                break;
+        }
+    }
+
+    public void DoJob(NationManageStepEnum _step)
+    {
+        switch (_step)
+        {
+            case NationManageStepEnum.IncomeCapital:
+                IncomeTerritoryResource();
+                ReportToGameMaster(_step); 
+                break;
+            case NationManageStepEnum.ManagePopulation:
+                ManagePopular();
+                ReportToGameMaster(_step);
+                break;
+            case NationManageStepEnum.ExcutePolicy:
+                ExcutePolicy(); 
+                ReportToGameMaster(_step);
+                break;
+            case NationManageStepEnum.RemindPolicy:
+                RemindPolicy();
+                ReportToGameMaster(_step);
+                break;
+            case NationManageStepEnum.SelectPolicy:
+                SelectPolicy();
+                ReportToGameMaster(_step); 
+                break;
+            case NationManageStepEnum.NationTurnEnd:
+                EndTurn(); 
                 break;
         }
     }
