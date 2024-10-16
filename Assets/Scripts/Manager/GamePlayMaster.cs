@@ -106,7 +106,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
 
         if (m_autoReportCheck)
         {
-            Debug.LogWarning("보고 자동확인으로 플레이어 체크없이 진행");
+          //  Debug.LogWarning("보고 자동확인으로 플레이어 체크없이 진행");
             nationCallBack();
         }
         else
