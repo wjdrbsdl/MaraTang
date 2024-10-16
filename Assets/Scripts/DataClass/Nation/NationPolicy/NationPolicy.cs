@@ -38,6 +38,25 @@ public abstract class NationPolicy
 
     public abstract void MakePlan();
 
+    public void DoWork()
+    {
+        //작업 진행
+        if(m_workOrder == null)
+        {
+            
+            Excute();//작업서가 필요없는 정책이면 바로 집행
+            return;
+        }
+        //아니라면 작업서 작업진행하고
+        m_workOrder.DoWork();
+        if(m_workOrder.IsDoneWork() == true)
+        {
+            
+            Excute();//작업서가 완료가 되었으면
+        }
+
+    }
+
     public abstract void Excute();
     
     public void Done()
@@ -108,8 +127,6 @@ public abstract class NationPolicy
     {
         if (m_workOrder == null)
             return;
-
-        m_workOrder.PushResource(PlayerCapitalData.g_instance);
     }
 }
 
