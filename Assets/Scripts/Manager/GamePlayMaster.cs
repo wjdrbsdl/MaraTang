@@ -5,6 +5,7 @@ using System;
 
 public class GamePlayMaster : MgGeneric<GamePlayMaster>
 {
+    public BtnReportCheck m_checkBtn;
     public MagnetItem testMangetSample;
     public NaviPin testNaviPin;
     #region  변수
@@ -95,13 +96,18 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     private Action nationCallBack;
     public void ReportNationStep(NationManageStepEnum _step, Nation _nation)
     {
+        Debug.Log("리포트 " + _step + "-" + _nation.GetNationNum());
         //해당 스텝에 따라 UI표기같은거 진행. 
         nationCallBack = delegate
         {
             //Debug.Log("텀 이후 리포트 반환");
             _nation.DoneJob(_step);
         };
-        Invoke(nameof(CallBackNationReport), startTermTime);
+      //  Invoke(nameof(CallBackNationReport), startTermTime);
+
+
+        m_checkBtn.SetEvent(nationCallBack);
+        m_checkBtn.gameObject.SetActive(true);
     }
 
     private void CallBackNationReport()
