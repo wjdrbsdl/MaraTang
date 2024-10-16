@@ -14,7 +14,10 @@ public class WorkOrder
     private List<TOrderItem> m_curList = new List<TOrderItem>();
     private int m_originWorkGauge;
     private int m_restWorkGauge;
-    private int m_workEfficiency = 10;
+    
+    private int m_baseworkEfficiency = 100; //토큰 1개일때 노동 효율
+    private int m_overWorkEfficiency = 10; //추가되는 토큰에 따른 노동 효율
+
     private int m_workTokenNum; //할당된 노동 토큰 수
     private int m_maxWorkTokenNum = 3; //최대 할당 가능한 수 
 
@@ -22,7 +25,8 @@ public class WorkOrder
     {
         TItemListData changeCost = MgMasterData.GetInstance().GetTileData(_planIndex).BuildCostData;
         m_needList = changeCost.GetItemList();
-        m_originWorkGauge = 100;
+        m_workTokenNum = 1; //토큰 1개 임시 할당
+        m_originWorkGauge = 100; //임시로 작업량은 100
         string debugStr = "";
         for (int i = 0; i < m_needList.Count; i++)
         {
@@ -104,4 +108,58 @@ public class WorkOrder
         return true;
     }
 
+    public void DoWork()
+    {
+        //일 시킨다
+        if(IsReadyResource() == false)
+        {
+            Debug.Log("재료가 부족하여 작업 수행 불가");
+            return;
+        }
+
+        if(m_workTokenNum == 0)
+        {
+            Debug.Log("작업자수 부족 수행 불가");
+            return;
+        }
+
+        //작업량 구하기
+        int workAmount = m_baseworkEfficiency * 1; //기본 토큰1은 기본효율로
+        int overToken = m_workTokenNum - 1; //초과 토큰 수 계산
+        int overWorkAmount = 0;
+        if (1 <= overToken)
+        {
+            overWorkAmount = overToken * m_overWorkEfficiency;
+        }
+        //작업진행
+        m_restWorkGauge -= (workAmount + overWorkAmount);
+        
+        if(m_restWorkGauge < 0)
+        {
+            m_restWorkGauge = 0;
+        }
+    }
+
+    public bool IsReadyResource()
+    {
+        for (int i = 0; i < m_needList.Count; i++)
+        {
+            TOrderItem needItem = m_needList[i]; // 애초 필요량
+            TOrderItem cur = m_curList[i]; //현재 보유량
+            if(cur.Value < needItem.Value)
+            {
+                return false;
+            }
+       
+        }
+        return true;
+    }
+
+    public bool IsDoneWork()
+    {
+        if (m_restWorkGauge == 0)
+            return true;
+
+        return false;
+    }
 }
