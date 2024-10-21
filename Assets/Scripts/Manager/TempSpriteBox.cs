@@ -16,6 +16,7 @@ public class TempSpriteBox : MgGeneric<TempSpriteBox>
     public Sprite ManageLandPin;
     public Sprite DefaultPin;
 
+    public Sprite[] m_elements;
     public Sprite[] Chares;
     public Sprite[] HideTiles;
 
