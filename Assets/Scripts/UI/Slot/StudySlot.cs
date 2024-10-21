@@ -22,11 +22,11 @@ public class StudySlot : SlotBase
         bool doneStudy = PlayerManager.GetInstance().StudyPlayerAction(m_actionPid);
         if (doneStudy)
         {
-            Debug.Log("학습함");
+    //        Debug.Log("학습함");
         }
         else
         {
-            Debug.Log("학습 못함");
+     //       Debug.Log("학습 못함");
         }
     }
 }
