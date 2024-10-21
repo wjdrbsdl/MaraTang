@@ -7,7 +7,7 @@ public class ObjectTile : ObjectTokenBase
     private Vector3 offsize = new Vector3(0, 0, -15);
     [SerializeField]
     AllIn1Shader m_allshader;
-    
+    public SpriteRenderer[] m_elements;
 
     private void Awake()
     {
@@ -23,5 +23,18 @@ public class ObjectTile : ObjectTokenBase
     public void OffRouteNumber()
     {
         Debug.Log("길 표시제거 ");
+    }
+
+    public void SetElement(int _index, Sprite _sprite)
+    {
+        if (m_elements.Length < _index)
+        {
+            Debug.LogError("범위밖 스프라이트 요청");
+            return;
+        }
+        m_elements[_index].sprite = _sprite;
+            
+
+
     }
 }
