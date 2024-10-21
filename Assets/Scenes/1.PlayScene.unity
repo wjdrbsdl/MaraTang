@@ -253,6 +253,7 @@ MonoBehaviour:
   m_yLength: 30
   m_chunkLength: 6
   m_rLength: 2.25
+  m_tLength: 2
   m_padding: 1.04
   m_seed: 1
   m_noise: 0.33
@@ -14774,6 +14775,7 @@ MonoBehaviour:
   testMangetSample: {fileID: 4823927384914364228, guid: 6f92de07b7f9178458ba0d3a0b60670d, type: 3}
   testNaviPin: {fileID: 1003702659785373538, guid: 4f3ce1904dc74c846bc72778633b5db2, type: 3}
   m_moveSpeed: 5
+  m_autoReportCheck: 1
   m_testCheckPlayerInventory: 0
   m_testAuto: 0
   m_camFollow: {fileID: 519420033}
@@ -16600,6 +16602,11 @@ MonoBehaviour:
   ExpandLandPin: {fileID: 21300000, guid: 3f8935b5884c9ac4a94ec53e3f9e91ed, type: 3}
   ManageLandPin: {fileID: 21300000, guid: 182c2716615a69949a8f7bcdc19565af, type: 3}
   DefaultPin: {fileID: 21300000, guid: 7aea37976b0944942b4c979fa512ad51, type: 3}
+  m_elements:
+  - {fileID: 21300000, guid: 78d2bb987c5df09438a3078738273662, type: 3}
+  - {fileID: 21300000, guid: 4470cad3e3fd1e8418a56b1d251895c9, type: 3}
+  - {fileID: 21300000, guid: 3b07e19eafae4244d95e6a27116cc377, type: 3}
+  - {fileID: 21300000, guid: 5225f43e4c71ae142b687ec867ac1b47, type: 3}
   Chares:
   - {fileID: 21300000, guid: 3a404185faeed8a40a38b5058ca16f73, type: 3}
   - {fileID: 21300000, guid: b663b10e8ea068545b3564262d6dac89, type: 3}
