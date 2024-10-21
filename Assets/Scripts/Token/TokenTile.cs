@@ -100,7 +100,13 @@ public class TokenTile : TokenBase
 
     public void SetTileSprite()
     {
-        GetObject().SetSprite( TempSpriteBox.GetInstance().GetTileSprite(tileType));
+       // GetObject().SetSprite( TempSpriteBox.GetInstance().GetTileSprite(tileType));
+        List<int> ran = GameUtil.GetRandomNum(4, 3);
+        for (int i = 0; i < ran.Count; i++)
+        {
+            ObjectTile tileObj = (ObjectTile)GetObject();
+            tileObj.SetElement(i, TempSpriteBox.GetInstance().GetTileElement(ran[i]));
+        }
     }
 
     #endregion
