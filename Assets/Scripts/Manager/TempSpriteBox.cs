@@ -45,6 +45,13 @@ public class TempSpriteBox : MgGeneric<TempSpriteBox>
         return NomalLand;
     }
 
+    public Sprite GetTileElement(int _index)
+    {
+        if (m_elements.Length < _index)
+            return m_elements[0];
+
+        return m_elements[_index];
+    }
     public Sprite[] GetHideSprites()
     {
         return HideTiles;
