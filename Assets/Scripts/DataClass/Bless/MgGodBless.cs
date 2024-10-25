@@ -29,6 +29,7 @@ public class MgGodBless : Mg<MgGodBless>
 
     public GodBless PleaseBless()
     {
+        Debug.Log("가진 것중 하사");
         return m_blessList[0];
     }
 
