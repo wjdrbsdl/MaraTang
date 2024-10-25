@@ -8,9 +8,10 @@ public class UIBlessTemple : UIBase
     //보유한 은총을 장착해제 가능한 곳 
 
 
-    public override void RequestOpen()
+    public void SetTempleInfo(TokenTile _tile)
     {
-        base.RequestOpen(); //스위치 on
+        UISwitch(true);
+
     }
 
     public void PleaseBlessBtn()

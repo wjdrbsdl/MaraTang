@@ -36,6 +36,7 @@ public class MgUI : MgGeneric<MgUI>
 
     [Header("유아이작업")]
     [SerializeField] private UIGuild m_guildUI;
+    [SerializeField] private UIBlessTemple m_templeUI;
 
     [Header("컷씬")]
     [SerializeField] private UICutScene m_cutScene;
@@ -48,7 +49,7 @@ public class MgUI : MgGeneric<MgUI>
  
     public void ShowTemple(TokenTile _tile)
     {
-
+        m_templeUI.SetTempleInfo(_tile);
     }
 
     public void ShowGuildInfo()
