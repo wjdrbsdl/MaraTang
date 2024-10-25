@@ -18,5 +18,6 @@ public class UIBlessTemple : UIBase
     {
        GodBless bless =  MgGodBless.GetInstance().PleaseBless();
         Debug.Log(bless.m_effect.Tokentype + "에 영향 주는 은총 받음");
+        PlayerBless.g_instnace.AddBless(bless);
     }
 }

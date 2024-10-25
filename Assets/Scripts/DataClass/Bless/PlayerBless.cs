@@ -18,4 +18,18 @@ public class PlayerBless
         Debug.Log("보유 은총 추가");
         m_haveList.Add(_bless);
     }
+
+    public void EquiptBless(GodBless _bless)
+    {
+        //블레스 장착한경우, 바로 적용가능한 옵션이면 옵션적용
+        TokenType blessType = _bless.m_effect.Tokentype;
+        switch (blessType)
+        {
+            case TokenType.CharStat:
+                Debug.Log("스텟 관련 가호면 바로 적용");
+                break;
+            default:
+                break;
+        }
+    }
 }
