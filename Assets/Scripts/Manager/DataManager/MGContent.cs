@@ -26,7 +26,8 @@ public class MGContent : Mg<MGContent>
     public MGContent()
     {
         g_instance = this;
-        MGConversation converSation = new MGConversation();
+        new MGConversation(); //싱글톤 초기화
+        new MgGodBless(); //싱글톤 초기화
         m_devilIncubator = new DevilIncubator();
     }
     public override void ReferenceSet()
