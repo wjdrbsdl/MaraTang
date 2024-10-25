@@ -254,12 +254,14 @@ public class MgMasterData : Mg<MgMasterData>
 
 public class TileTypeData {
     public int TypePID;
+    public string PlaceName;
     public int[] AbleTileActionPID;
     public TItemListData BuildCostData;
     public int[] Places;
     public TileTypeData(string[] _parsingData)
     {
         TypePID = int.Parse(_parsingData[0]);
+        PlaceName = _parsingData[1];
         string ables = _parsingData[2]; //가능한 작업이 나열되어있음
         string[] divideAble = ables.Trim().Split(FixedValue.PARSING_LIST_DIVIDE);
         AbleTileActionPID = new int[divideAble.Length];
