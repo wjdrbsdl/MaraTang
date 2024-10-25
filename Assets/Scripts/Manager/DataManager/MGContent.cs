@@ -33,6 +33,7 @@ public class MGContent : Mg<MGContent>
     public override void ReferenceSet()
     {
         MgParsing.GetInstance().GetMasterData(EMasterData.ContentData);
+        MgGodBless.GetInstance().ReferenceSet();
         TileMaker maker = MgToken.GetInstance().m_tileMaker;
         m_chunkList = maker.MakeChunk(maker.DivideChunk(MgToken.GetInstance().m_chunkLength));
         MakeContentRegion();
