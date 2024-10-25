@@ -44,7 +44,7 @@ public class RuleBookTileAction
                 MgUI.GetInstance().CancleLastUI();
                 break;
             case TileActionType.UIOpen:
-                MgUI.GetInstance().OpenByUICode((UICodeEnum)subValue);
+                OpenUIByCode((UICodeEnum)subValue, _tile);
                     break;
             default:
                 MgUI.GetInstance().CancleLastUI();
@@ -114,6 +114,23 @@ public class RuleBookTileAction
         _selectInfo.Giver.PayCostData(costData);
         _selectInfo.Taker.PayCostData(costData, false);
         
+    }
+
+    private void OpenUIByCode(UICodeEnum _uiCode, TokenTile _tile)
+    {
+        switch (_uiCode)
+        {
+            case UICodeEnum.Temple:
+                MgUI.GetInstance().ShowTemple(_tile);
+                break;
+
+            case UICodeEnum.Guild:
+                MgUI.GetInstance().ShowGuildInfo();
+                break;
+            default:
+                Debug.Log("¾ø´Â ¿ÀÇÂ");
+                break;
+        }
     }
 
     public enum TownFuction

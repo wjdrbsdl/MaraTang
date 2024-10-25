@@ -6,7 +6,7 @@ using UnityEngine;
 
 public enum UICodeEnum
 {
-    Guild = 1
+    Guild = 1, Temple
 }
 
 public class MgUI : MgGeneric<MgUI>
@@ -45,18 +45,17 @@ public class MgUI : MgGeneric<MgUI>
     [SerializeField] private Transform m_uiCase; //UI들 띄울장소 여기서 최근 열린애가 젤 위로 올라오도록 세팅. 
     #region 인터페이스 오픈
 
-    public void OpenByUICode(UICodeEnum _uiCode)
+ 
+    public void ShowTemple(TokenTile _tile)
     {
-        switch (_uiCode)
-        {
-            case UICodeEnum.Guild:
-                m_guildUI.SetGuildInfo();
-                break;
-            default:
-                Debug.Log("없는 오픈");
-                break;
-        }
+
     }
+
+    public void ShowGuildInfo()
+    {
+        m_guildUI.SetGuildInfo();
+    }
+
     public void ShowCharActionList()
     {
         //플레이어 캐릭터 눌렀을 때
