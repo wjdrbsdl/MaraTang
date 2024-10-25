@@ -46,7 +46,9 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
         {
             //MgToken.GetInstance().MakeMap(); // 맵 다시만들기
             //FirstStart();
-            MGContent.GetInstance().m_devilIncubator.SetRestBrithTurn(tempDevilBirthrestTurm);
+            //  MGContent.GetInstance().m_devilIncubator.SetRestBrithTurn(tempDevilBirthrestTurm);
+            KMP kmpTest = new KMP();
+            kmpTest.Search();
             
         }
         if (Input.GetKeyDown(KeyCode.F7))
