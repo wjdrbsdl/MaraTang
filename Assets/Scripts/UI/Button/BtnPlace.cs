@@ -14,7 +14,8 @@ public class BtnPlace : MonoBehaviour
     {
         m_tile = _tile;
         m_tileType = _tileType;
-        m_placeText.text = m_tileType.ToString();
+        TileTypeData tileData = MgMasterData.GetInstance().GetTileData((int)_tileType);
+        m_placeText.text = tileData.PlaceName;
         m_tileInfoUI = _motherUI;
     }
     public void OnClickPlaceEnter()
