@@ -17,6 +17,11 @@ public class UIBlessTemple : UIBase
     public void PleaseBlessBtn()
     {
        GodBless bless =  MgGodBless.GetInstance().PleaseBless(BlessMainCategory.무);
+        if(bless == null)
+        {
+            Debug.Log("내릴 가호 없음");
+            return;
+        }
         Debug.Log(bless.m_effect.Tokentype + "에 영향 주는 은총 받음");
         PlayerBless.g_instnace.AddBless(bless);
     }
