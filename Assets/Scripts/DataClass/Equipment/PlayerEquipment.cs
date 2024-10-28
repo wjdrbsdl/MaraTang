@@ -22,6 +22,6 @@ public class PlayerEquipment
 
     public void Equipt(EquiptItem _equipment)
     {
-       
+        TokenChar player = PlayerManager.GetInstance().GetMainChar();
     }
 }
