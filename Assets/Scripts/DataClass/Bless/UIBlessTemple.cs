@@ -22,7 +22,7 @@ public class UIBlessTemple : UIBase
             Debug.Log("내릴 가호 없음");
             return;
         }
-        Debug.Log(bless.m_effect.Tokentype + "에 영향 주는 은총 받음");
+     
         PlayerBless.g_instnace.AddBless(bless);
     }
 }
