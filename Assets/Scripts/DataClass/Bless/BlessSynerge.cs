@@ -20,6 +20,12 @@ public class BlessSynerge
         Name = _divdeValues[1];
         m_needBlessList = new();
         GameUtil.ParseOrderItemList(m_needBlessList, _divdeValues[2]);
+        //for (int i = 0; i < m_needBlessList.Count; i++)
+        //{
+        //    TOrderItem blessItem = m_needBlessList[i];
+        //    Debug.Log(Name + "시너지 필요한 조건은 " + (BlessSynergeCategoryEnum)blessItem.SubIdx + "중 " + blessItem.Value + "계열");
+        //}
+        
     }
 
 }
