@@ -21,6 +21,20 @@ public class MgGodBless : Mg<MgGodBless>
 
     public override void ReferenceSet()
     {
+        Dictionary<int, God> godDic = MgMasterData.GetInstance().GetGodDic();
+        foreach(KeyValuePair<int, God> item in godDic)
+        {
+            God god = item.Value;
+            //석상 발견이 필요없는 티어의 신이라면
+            if (god.Tier != 3)
+            {
+                //해당 클래스는 복사본 없이 원본을 사용해도 무관
+                m_activeGodList.Add(god);
+            }
+        }
+
+        Debug.Log("바로 사용가능한 신 종류 " + m_activeGodList.Count);
+
         for (int i = 0; i < 5; i++)
         {
             GodBless newBless = new GodBless();

@@ -43,7 +43,7 @@ public class MgMasterData : Mg<MgMasterData>
        // Debug.Log("마스터데이터 레퍼런스 시작");
    
     }
-
+    #region Get
     public TileTypeData GetTileData(int _tileTypeID)
     {
         //return m_tileTypeDataDic[_tileTypeID];
@@ -111,6 +111,11 @@ public class MgMasterData : Mg<MgMasterData>
         return GetDicData<ConversationGroup>(m_conversationGroupDic, (int)_theme).GetConversationData(_pid);
     }
 
+    public Dictionary<int, God> GetGodDic()
+    {
+        return m_godDic;
+    }
+
     public Dictionary<int, NationTechData> GetTechDic()
     {
         return m_nationTechDataDic;
@@ -141,6 +146,7 @@ public class MgMasterData : Mg<MgMasterData>
         }
         return isHaveData;
     }
+    #endregion
 
     #region 마스터 데이터 생성
     private void SetTileTypeData()
