@@ -622,6 +622,22 @@ public static class GameUtil
 
     }
 
+    public static void ParseIntList(List<int> _itemList, string[] _parsingData, int _costIndex, bool _noneDataAdd = false)
+    {
+        //파싱 된 열을 통째로 전달시 
+        if (_parsingData.Length <= _costIndex)
+        {
+            return;
+        }
+        string[] costArray = _parsingData[_costIndex].Split(FixedValue.PARSING_LIST_DIVIDE); //아이템 리스트를 항목으로 구별
+        for (int i = 0; i < costArray.Length; i++)
+        {
+            if(int.TryParse(costArray[i], out int parseInt))
+                _itemList.Add(parseInt);
+        }
+
+    }
+
     public static void ParseOrderItemList(List<TOrderItem> _itemList, string _parsingStrData, bool _noneDataAdd = false)
     {
        // 해당 열을 직접 전달시
