@@ -637,6 +637,23 @@ public static class GameUtil
 
     }
 
+    public static System.Enum FindEnum(TokenType _tokenType, int _subIdx)
+    {
+       
+        switch (_tokenType)
+        {
+            case TokenType.Capital:
+                return (Capital)_subIdx;
+            case TokenType.Event:
+                return (EventType)_subIdx;
+            case TokenType.NationStat:
+                return (NationStatEnum)_subIdx;
+            case TokenType.CharStat:
+                return (CharStat)_subIdx;
+        }
+        return (NationStatEnum)_subIdx;
+    }
+
     public static TOrderItem ParseOrderItem(string costData)
     {
         //토큰그룹_pid_수량 의 string으로 넘어온 코스트 데이터
@@ -695,6 +712,9 @@ public static class GameUtil
                     break;
                 case TokenType.Nation:
                     findEnum = typeof(NationEnum);
+                    break;
+                case TokenType.CharStat:
+                    findEnum = typeof(CharStat);
                     break;
             }
 
