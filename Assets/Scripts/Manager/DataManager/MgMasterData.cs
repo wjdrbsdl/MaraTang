@@ -8,6 +8,7 @@ public class MgMasterData : Mg<MgMasterData>
     private Dictionary<int, TileTypeData> m_tileTypeDataDic;
     private Dictionary<int, TokenChar> m_charDataDic;
     private Dictionary<int, TokenAction> m_tileActionDataDic;
+    private Dictionary<int, BlessSynerge> m_synergeDataDic;
     private Dictionary<int, TokenAction> m_charActionDataDic;
     private List<int> m_charActionList;
     private Dictionary<int, TokenEvent> m_eventDataDic;
@@ -30,6 +31,7 @@ public class MgMasterData : Mg<MgMasterData>
         
         SetTileTypeData();
         SetTileActionData();
+        SetBlessSynergeData();
         SetCharActionData();
         SetCharData();
         SetEventData();
@@ -167,6 +169,17 @@ public class MgMasterData : Mg<MgMasterData>
             m_tileTypeDataDic.Add(newTileData.TypePID, newTileData);
         }
     //    Debug.Log("완료");
+    }
+
+    private void SetBlessSynergeData()
+    {
+        m_synergeDataDic = new();
+        ParseData parseData = MgParsing.GetInstance().GetMasterData(EMasterData.BlessSynerge);
+        for (int i = 0; i < parseData.DbValueList.Count; i++)
+        {
+            BlessSynerge newSynergeData = new(parseData.DbValueList[i]);
+            m_synergeDataDic.Add(newSynergeData.PID, newSynergeData);
+        }
     }
 
     private void SetCharActionData()
