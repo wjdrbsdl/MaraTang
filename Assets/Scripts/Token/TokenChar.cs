@@ -25,6 +25,7 @@ public class TokenChar : TokenBase
     private TokenBase m_nextTarget;
     private TokenCharMood m_mood;
     private GuildCard m_guildID;
+    private List<GodBless> m_blessList = new();
 
     #region 캐릭 토큰 생성부분
     public TokenChar()
@@ -122,6 +123,11 @@ public class TokenChar : TokenBase
     }
 
     #region Get
+    public List<GodBless> GetBlessList()
+    {
+        return m_blessList;
+    }
+
     public TokenBase GetTarget()
     {
         return m_nextTarget;
@@ -236,6 +242,20 @@ public class TokenChar : TokenBase
         m_tokenIValues[(int)CharStat.CurActionEnergy] -= _useEnergy;
     }
     #endregion
+
+    public bool HaveBless(GodBless _bless)
+    {
+        if (m_blessList.IndexOf(_bless) == -1)
+            return true;
+
+        return false;
+    }
+
+    public void AddBless(GodBless _bless)
+    {
+        Debug.Log(_bless.Name + "은총 추가");
+        m_blessList.Add(_bless);
+    }
 
     public void Death()
     {

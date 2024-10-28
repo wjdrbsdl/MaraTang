@@ -32,7 +32,7 @@ public class MgGodBless : Mg<MgGodBless>
             }
         }
 
-        Debug.Log("바로 사용가능한 신 종류 " + m_activeGodList.Count);
+     //   Debug.Log("바로 사용가능한 신 종류 " + m_activeGodList.Count);
     }
 
     public GodBless PleaseBless(BlessMainCategory _godClass)
@@ -40,12 +40,20 @@ public class MgGodBless : Mg<MgGodBless>
         Debug.Log("가진 것중 하사");
         //요청한 신전의 타입에 따라 
         //등장할 신의 타입 순서를 정하고 
+        God god = m_activeGodList[0]; //임의로 0번째를 뽑고
         //각타입에서 활성화된 신을 뽑고
         //그 신에서 가능한 은총을 뽑는다
+        TokenChar mainChar = PlayerManager.GetInstance().GetMainChar();
+        GodBless bless = god.m_blessList[0];
+        if(mainChar.HaveBless(bless) == false)
+        {
+            //갖고 있으면 다시 체크
+            return null;
+        }
         //만약 해당 은총이 이미 보유중이면 다음 신으로 차례로 넘긴다 
         //내릴 수 있는 은총이 없다면 null? 반환
 
-        return null;
+        return bless;
     }
 
     public void ActiveGod(int _godID)

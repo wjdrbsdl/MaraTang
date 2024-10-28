@@ -22,7 +22,8 @@ public class UIBlessTemple : UIBase
             Debug.Log("내릴 가호 없음");
             return;
         }
-     
-        PlayerBless.g_instnace.AddBless(bless);
+
+        //메인케릭터에 블레스 추가 
+        PlayerManager.GetInstance().GetMainChar().AddBless(bless);
     }
 }
