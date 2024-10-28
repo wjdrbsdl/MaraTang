@@ -7,8 +7,7 @@ public class MgGodBless : Mg<MgGodBless>
     //은총 데이터 모아놓고
     //신전으로부터 은총 요구를 받으면 적당한 은총을 하사
     private List<God> m_activeGodList = new();
-    private List<GodBless> m_blessList = new();
-
+  
     public MgGodBless()
     {
         InitiSet();
@@ -34,12 +33,6 @@ public class MgGodBless : Mg<MgGodBless>
         }
 
         Debug.Log("바로 사용가능한 신 종류 " + m_activeGodList.Count);
-
-        for (int i = 0; i < 5; i++)
-        {
-            GodBless newBless = new GodBless();
-            m_blessList.Add(newBless);
-        }
     }
 
     public GodBless PleaseBless(BlessMainCategory _godClass)
@@ -52,7 +45,7 @@ public class MgGodBless : Mg<MgGodBless>
         //만약 해당 은총이 이미 보유중이면 다음 신으로 차례로 넘긴다 
         //내릴 수 있는 은총이 없다면 null? 반환
 
-        return m_blessList[0];
+        return null;
     }
 
     public void ActiveGod(int _godID)
