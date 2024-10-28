@@ -716,6 +716,9 @@ public static class GameUtil
                 case TokenType.CharStat:
                     findEnum = typeof(CharStat);
                     break;
+                case TokenType.Bless:
+                    findEnum = typeof(BlessSynergeCategoryEnum);
+                    break;
             }
 
             if (findEnum == null)
