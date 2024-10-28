@@ -8,11 +8,17 @@ public enum BlessMainCategory
     무, 마법, 전사, 궁사
 }
 
+public enum BlessSubCategory
+{
+    전사_A,전사_B,전사_C,전사_1,전사_2
+}
+
 public class GodBless
 {
     public int PID;
     public string Name;
     public BlessMainCategory m_mainCategory = BlessMainCategory.무; //가호 시너지 체크를 위해 분류 
+    public BlessSubCategory m_subCategory = BlessSubCategory.전사_A; //신의 이름
     public List< TOrderItem> m_effect; //플레이어 스텟에 가하는 요소
 
     public GodBless(string[] _dbValueList)
