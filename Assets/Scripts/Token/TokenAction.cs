@@ -196,4 +196,13 @@ public class TokenAction : TokenBase
     {
         return m_synergeList;
     }
+
+    public void CheckBlessSynerge(TokenChar _char)
+    {
+        for (int i = 0; i < m_synergeList.Count; i++)
+        {
+           bool check = MgMasterData.GetInstance().GetBlessSynergeData(m_synergeList[i]).CheckSynerge(_char);
+            Debug.Log(m_synergeList[i] + "시너지 활성화 여부 " + check);
+        }
+    }
 }

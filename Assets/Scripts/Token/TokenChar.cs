@@ -210,6 +210,8 @@ public class TokenChar : TokenBase
     public void AddActionToken(TokenAction _action)
     {
         m_haveActionList.Add(_action);
+        Debug.Log("스킬 추가");
+        CheckActionSynerge();
     }
     #endregion
 
@@ -256,6 +258,16 @@ public class TokenChar : TokenBase
         Debug.Log(_bless.Name + "은총 추가");
         m_blessList.Add(_bless);
         BlessAdaptor.g_instnace.AdaptBless(this);
+        CheckActionSynerge();
+    }
+
+    private void CheckActionSynerge()
+    {
+        Debug.Log("보유 스킬 각 시너지 체크 진행");
+        for (int i = 0; i < m_haveActionList.Count; i++)
+        {
+            m_haveActionList[i].CheckBlessSynerge(this);
+        }
     }
 
     public void Death()
