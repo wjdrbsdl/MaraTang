@@ -29,7 +29,7 @@ public class God
         }
         Tier = int.Parse(_parseStr[3]);
 
-        Debug.Log(_parseStr[1] + "피아이디" + PID + " 카테고리" + m_mainCategory + " 티어" + Tier);
+       // Debug.Log(_parseStr[1] + "피아이디" + PID + " 카테고리" + m_mainCategory + " 티어" + Tier);
     }
     
 }
