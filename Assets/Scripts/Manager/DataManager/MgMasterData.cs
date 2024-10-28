@@ -116,6 +116,11 @@ public class MgMasterData : Mg<MgMasterData>
         return GetDicData<ConversationGroup>(m_conversationGroupDic, (int)_theme).GetConversationData(_pid);
     }
 
+    public BlessSynerge GetBlessSynergeData(int _pid)
+    {
+        return GetDicData<BlessSynerge>(m_synergeDataDic, _pid);
+    }
+
     public Dictionary<int, God> GetGodDic()
     {
         return m_godDic;
