@@ -26,7 +26,7 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
     {
         base.ManageInitiSet();
         new PlayerCapitalData();
-        new PlayerBless();
+        new BlessAdaptor();
         new PlayerEquipment();
         m_mainChar = MgToken.GetInstance().GetMainChar();
         m_mainChar.isMainChar = true;

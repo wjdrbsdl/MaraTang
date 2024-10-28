@@ -255,6 +255,7 @@ public class TokenChar : TokenBase
     {
         Debug.Log(_bless.Name + "ÀºÃÑ Ãß°¡");
         m_blessList.Add(_bless);
+        BlessAdaptor.g_instnace.AdaptBless(this);
     }
 
     public void Death()
