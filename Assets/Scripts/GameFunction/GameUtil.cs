@@ -567,6 +567,20 @@ public static class GameUtil
         doneAct?.Invoke(); //보통은 GameManager에 작업 완료했음을 알림. 
     }
 
+    public static bool TryIndexMatchNum(string[] _valueNames, string _findIndexStr, out int _findNum)
+    {
+        for( int i = 0; i < _valueNames.Length; i++)
+        {
+            if (_valueNames[i] == _findIndexStr)
+            {
+                _findNum = i;
+                return true;
+            }
+        }
+        _findNum = -1;
+        return false;
+    }
+
     #region TOderItem 변환
     public static TItemListData ParseCostDataArray(string[] _parsingData, int _costIndex, bool _noneDataAdd = false)
     {
