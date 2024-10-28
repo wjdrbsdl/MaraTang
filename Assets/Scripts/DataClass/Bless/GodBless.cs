@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum BlessMainCategory
 {
-    무, 마법, 전사, 암살자
+    무, 마법, 전사, 궁사
 }
 
 public class GodBless
