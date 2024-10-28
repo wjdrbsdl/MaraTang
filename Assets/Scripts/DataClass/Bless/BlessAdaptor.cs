@@ -13,6 +13,8 @@ public class BlessAdaptor
 
     public void AdaptBless(TokenChar _char)
     {
-        Debug.Log("블래스 적용하기");
+       // Debug.Log("어뎁터 클래스에서 블래스 적용하기");
+        GodBless _bless = _char.GetBlessList()[0];
+        _char.CalStat((CharStat)_bless.m_effect[0].SubIdx, 30);
     }
 }
