@@ -36,8 +36,9 @@ public class MgMasterData : Mg<MgMasterData>
         SetContentData();
         SetNationTechData();
         SetConversationData();
-        SetGodData();
         SetBlessData();
+        SetGodData();
+        
     }
 
     public override void ReferenceSet()
