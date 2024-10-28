@@ -31,7 +31,7 @@ public class TokenAction : TokenBase
     private TokenType actionTarget = TokenType.Tile;
     private int[] m_targetPos; //작용할 위치 
     private TokenBase m_caster; //사용자\
-
+    private List<int> m_synergeList;
     #region 액션 토큰 : 생성부분 추후 테이블 파싱 값으로 생성하기
     public TokenAction()
     {
@@ -46,7 +46,10 @@ public class TokenAction : TokenBase
         m_tokenIValues = new int[System.Enum.GetValues(typeof(CharActionStat)).Length];
         GameUtil.InputMatchValue(ref m_tokenIValues, matchCode, valueCode);
         m_tokenIValues[(int)CharActionStat.RemainCountInTurn] = m_tokenIValues[(int)CharActionStat.MaxCountInTurn];
- 
+
+        m_synergeList = new();
+        int synergeIndex = 10;
+        GameUtil.ParseIntList(m_synergeList, valueCode, synergeIndex);
     }
 
     public TokenAction(TokenAction _masterToken)
@@ -59,6 +62,7 @@ public class TokenAction : TokenBase
         m_tokenIValues = new int[arraySize];
         //마스터 데이터 깊은 복사로 객체 고유 배열 값 생성. 
         System.Array.Copy(_masterToken.m_tokenIValues, m_tokenIValues, arraySize);
+        m_synergeList = _masterToken.m_synergeList;
     }
 
 
@@ -186,5 +190,10 @@ public class TokenAction : TokenBase
         float ratioValue = (finalRange * dex * ratio * 0.01f);
         finalRange =(int)( finalRange + ratioValue);
         return finalRange;
+    }
+
+    public List<int> GetSynergePidList()
+    {
+        return m_synergeList;
     }
 }
