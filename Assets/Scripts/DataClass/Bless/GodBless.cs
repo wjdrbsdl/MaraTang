@@ -19,9 +19,9 @@ public class GodBless
         PID = int.Parse(_dbValueList[0]);
         m_effect = new();
         GameUtil.ParseOrderItemList(m_effect, _dbValueList[3]);
-        for (int i = 0; i < m_effect.Count; i++)
-        {
-           Debug.Log(GameUtil.FindEnum(m_effect[i].Tokentype, m_effect[i].SubIdx)+"에 효과" + m_effect[i].Value);
-        }
+        //for (int i = 0; i < m_effect.Count; i++)
+        //{
+        //   Debug.Log(GameUtil.FindEnum(m_effect[i].Tokentype, m_effect[i].SubIdx)+"에 효과" + m_effect[i].Value);
+        //}
     }
 }
