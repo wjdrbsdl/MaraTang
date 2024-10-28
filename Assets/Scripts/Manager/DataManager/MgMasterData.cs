@@ -118,6 +118,11 @@ public class MgMasterData : Mg<MgMasterData>
         return m_godDic;
     }
 
+    public GodBless GetGodBless(int _blessPID)
+    {
+        return GetDicData<GodBless>(m_blessDic, _blessPID);
+    }
+
     public Dictionary<int, NationTechData> GetTechDic()
     {
         return m_nationTechDataDic;
