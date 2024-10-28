@@ -10,12 +10,11 @@ public struct ParseData
 {
     public List<int[]> MatchCode; //enum과 매치되는 인덱스
     public List<string[]> DbValueList; //디비에서 따온 값들
-    public string[] ValueNames;
-    public ParseData(List<int[]> _matchCode, List<string[]> _dbValues, string[] _valueCode)
+
+    public ParseData(List<int[]> _matchCode, List<string[]> _dbValues)
     {
         MatchCode = _matchCode;
         DbValueList = _dbValues;
-        ValueNames = _valueCode;
     }
 
     public void NullCheck()
@@ -94,7 +93,7 @@ public class MgParsing : MgGeneric<MgParsing>
                 dbValueList.Add(valueDivde);
             }
             //6. 파싱코드에 - 인덱스 매칭 코드와 실제 값들을 struct로 묶어서 dctionary에 저장 
-            dbContainer.Add(parseData, new ParseData(matchCode, dbValueList, dbEnumCode));
+            dbContainer.Add(parseData, new ParseData(matchCode, dbValueList));
             
         }
         else
