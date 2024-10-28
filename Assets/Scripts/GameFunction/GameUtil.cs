@@ -503,8 +503,12 @@ public static class GameUtil
     {
         //db의 벨류Code 값과 인게임의 enumCode 값을 매칭
         //벨류코드의 0번째가 enumCode의 몇 번째인지 짜서 반환
-        string[] enumCodes = ParseEnumStrings(_codeEnum);
         List<int[]> matchCodeList = new();
+
+        if (_codeEnum == null)
+            return matchCodeList;
+
+        string[] enumCodes = ParseEnumStrings(_codeEnum);
         //거의 풀 매치 돌려야하네
         for (int dbIndex = 0; dbIndex < _dbCodes.Length; dbIndex++)
         {

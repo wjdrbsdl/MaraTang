@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum EMasterData
 {
-    TileActionData, ContentData, TileType, CharData, CharActionData, EventData, NationTechTree, Conversation
+    TileActionData, ContentData, TileType, CharData, CharActionData, EventData, NationTechTree, Conversation, God
 }
 public struct ParseData
 {
@@ -31,11 +31,14 @@ public class MgParsing : MgGeneric<MgParsing>
 {
     private static string docuIDes =  "19xXN_chVCf-ZEsvAly-j-c69gjok0HIKYMaFcAk1Lqg";
     private string[] sheetIDes = { "0" , "1960523724", "1971334673", "1134768741",
-                                    "1603700320", "200151216","218824529","1858334671" };
+                                    "1603700320", "200151216","218824529","1858334671" ,
+                                    "1780035322"};
     private EMasterData[] dbId = { EMasterData.TileActionData, EMasterData.ContentData, EMasterData.TileType, EMasterData.CharData, 
-                                   EMasterData.CharActionData, EMasterData.EventData, EMasterData.NationTechTree, EMasterData.Conversation };
+                                   EMasterData.CharActionData, EMasterData.EventData, EMasterData.NationTechTree, EMasterData.Conversation,
+                                   EMasterData.God};
     private System.Enum[] matchTypes = { TileActionStat.NeedActionCount, ContentEnum.발생컨텐츠, EMasterData.ContentData, CharStat.CurActionCount, 
-                                    CharActionStat.CoolTime, EventStat.ETokenType, TechTreeStat.Class, ConversationStat.Pid };
+                                    CharActionStat.CoolTime, EventStat.ETokenType, TechTreeStat.Class, ConversationStat.Pid,
+                                   null};
     private Dictionary<EMasterData, ParseData> dbContainer = new(); //파싱한값을 그냥 갖고만 있는상태 - 사용하는곳에서 다시 가공 필요. 
  
     public override void ManageInitiSet()

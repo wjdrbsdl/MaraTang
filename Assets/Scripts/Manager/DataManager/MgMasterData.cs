@@ -14,7 +14,8 @@ public class MgMasterData : Mg<MgMasterData>
     private Dictionary<int, ContentMasterData> m_contentDataDic;
     private Dictionary<int, NationTechData> m_nationTechDataDic;
     private Dictionary<int, ConversationGroup> m_conversationGroupDic;
-
+    private Dictionary<int, God> m_godDic;
+    
     #region 생성자
     public MgMasterData()
     {
@@ -34,6 +35,7 @@ public class MgMasterData : Mg<MgMasterData>
         SetContentData();
         SetNationTechData();
         SetConversationData();
+        SetGodData();
     }
 
     public override void ReferenceSet()
@@ -246,6 +248,19 @@ public class MgMasterData : Mg<MgMasterData>
             //이후 세부 대화 데이터를 만들어서 그그룹에 추가 
             ConversationData conversationData = new ConversationData(parseContainer.DbValueList[i]);
             m_conversationGroupDic[(int)theme].AddConversationData(conversationData);
+        }
+    }
+
+    private void SetGodData()
+    {
+        ParseData parseContainer = MgParsing.GetInstance().GetMasterData(EMasterData.God);
+        
+        m_godDic = new();
+        for (int i = 0; i < parseContainer.DbValueList.Count; i++)
+        {
+            //이후 세부 대화 데이터를 만들어서 그그룹에 추가 
+            God parseGod = new God(parseContainer.DbValueList[i]);
+            m_godDic.Add(parseGod.PID, parseGod);
         }
     }
 
