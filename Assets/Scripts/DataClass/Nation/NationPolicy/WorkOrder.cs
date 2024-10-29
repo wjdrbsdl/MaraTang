@@ -15,7 +15,8 @@ public class WorkOrder
     //2. 최대 작업 토큰
     //3. 노동 토큰당 효율
     //4. 필요한 작업량
-    public WorkType m_workType = WorkType.ChangeBuild;
+    public WorkType m_workType = WorkType.ChangeBuild; //어떤 타입 공사
+    public int m_workPid = -1; //해당 작업에서 pid - 특정 공사인지 알기위한 부분
     private List<TOrderItem> m_needList = new List<TOrderItem>();
     private List<TOrderItem> m_curList = new List<TOrderItem>();
     private int m_originWorkGauge;
@@ -27,7 +28,7 @@ public class WorkOrder
     private int m_workTokenNum; //할당된 노동 토큰 수
     private int m_maxWorkTokenNum = 3; //최대 할당 가능한 수 
 
-    public WorkOrder(List<TOrderItem> _needList, int _needWorkGague, WorkType _workType = WorkType.ChangeBuild)
+    public WorkOrder(List<TOrderItem> _needList, int _needWorkGague, int _workPid = -1, WorkType _workType = WorkType.ChangeBuild)
     {
         //작업주문서 작성
         m_needList = _needList;
@@ -36,6 +37,7 @@ public class WorkOrder
         //m_restWorkGauge = m_originWorkGauge;
         m_restWorkGauge = 70; //임시로 필요 작업량 할당
         m_workType = _workType;
+        m_workPid = _workPid;
        // string debugStr = "";
         for (int i = 0; i < m_needList.Count; i++)
         {
