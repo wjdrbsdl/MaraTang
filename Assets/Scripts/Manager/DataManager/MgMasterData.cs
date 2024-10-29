@@ -173,6 +173,28 @@ public class MgMasterData : Mg<MgMasterData>
             TileTypeData newTileData = new(parseData.DbValueList[i]);
             m_tileTypeDataDic.Add(newTileData.TypePID, newTileData);
         }
+
+        //파싱한 자료를 근거로 해당 타일에서 지을 수 있는 건물을 재정리
+        foreach(KeyValuePair<int, TileTypeData> item in m_tileTypeDataDic)
+        {
+            //해당 장소 짓기 위한 장소를 뽑고
+            int needPlace = item.Value.NeedTilePID;
+            if (m_tileTypeDataDic.ContainsKey(needPlace))
+            {
+                //반대로 해당 장소에서 지을 수 있는 목록에 자신을 추가
+                if (item.Value.InteriorType)
+                {
+                    //인테리어 타입이면 인테리어 건설측에
+                    m_tileTypeDataDic[needPlace].AbleInteriorPid.Add(item.Value.TypePID);
+                }
+                else
+                {
+                    //아니면 그냥 건설측에
+                    m_tileTypeDataDic[needPlace].AbleBuildPid.Add(item.Value.TypePID);
+                }
+                
+            }
+        }
     //    Debug.Log("완료");
     }
 
@@ -315,8 +337,11 @@ public class MgMasterData : Mg<MgMasterData>
 public class TileTypeData {
     public int TypePID;
     public string PlaceName;
-    public bool NeedTile = true;
+    public int NeedTilePID = -1; //지을수 있는 곳 없음
+    public bool InteriorType = false; //해당 장소는 인테리어 타입인지
     public int[] AbleTileActionPID;
+    public List<int> AbleBuildPid; //해당 장소에서 지을 수 있는 건물 모음. 
+    public List<int> AbleInteriorPid; //해당 장소에서 지을 수 있는 내부 건물 모음.
     public TItemListData BuildCostData;
     public int[] Places;
     public TileTypeData(string[] _parsingData)
@@ -331,14 +356,19 @@ public class TileTypeData {
             AbleTileActionPID[i] = int.Parse(divideAble[i]);
         }
 
-        int needTileIdx = 3;
-        if (_parsingData[needTileIdx] == "F")
+        int interiorTypeIdx = 3;
+        if (_parsingData[interiorTypeIdx] == "T")
         {
-            NeedTile = false;
-            Debug.Log(PlaceName + "토지확보 필요없음");
+            InteriorType = true;
         }
 
-        int buildCostIdx = needTileIdx + 1;
+        int needTileTypeIdx = interiorTypeIdx +1; //해당 건물(장소)를 지을 수 있는 장소
+        NeedTilePID = int.Parse(_parsingData[needTileTypeIdx]);
+       
+        AbleBuildPid = new();
+        AbleInteriorPid = new();
+
+        int buildCostIdx = needTileTypeIdx + 1;
         if (_parsingData.Length > buildCostIdx)
         {
             // CostData =  토큰그룹_pid_수량 으로 구성

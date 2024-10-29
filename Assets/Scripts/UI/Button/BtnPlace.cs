@@ -20,6 +20,13 @@ public class BtnPlace : MonoBehaviour
     }
     public void OnClickPlaceEnter()
     {
+        if (m_tile.IsBuildInterior((int)m_tileType) == false)
+        {
+            Debug.Log("지어지지 않은 장소");
+            return;
+        }
+            
+
         m_tileInfoUI.EnterPlace(m_tile, m_tileType);
     }
 
