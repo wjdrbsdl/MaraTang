@@ -164,6 +164,7 @@ public class TokenTile : TokenBase
     public void RegisterWork(WorkOrder _work)
     {
         m_workOrder.Add(_work);
+        GamePlayMaster.GetInstance().RegistorWork(_work);
     }
 
     public bool IsWorking(WorkType _workType, int _pid)
