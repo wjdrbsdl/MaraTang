@@ -315,6 +315,7 @@ public class MgMasterData : Mg<MgMasterData>
 public class TileTypeData {
     public int TypePID;
     public string PlaceName;
+    public bool NeedTile = true;
     public int[] AbleTileActionPID;
     public TItemListData BuildCostData;
     public int[] Places;
@@ -330,14 +331,21 @@ public class TileTypeData {
             AbleTileActionPID[i] = int.Parse(divideAble[i]);
         }
 
-        int buildCostIdx = 3;
+        int needTileIdx = 3;
+        if (_parsingData[needTileIdx] == "F")
+        {
+            NeedTile = false;
+            Debug.Log(PlaceName + "토지확보 필요없음");
+        }
+
+        int buildCostIdx = needTileIdx + 1;
         if (_parsingData.Length > buildCostIdx)
         {
             // CostData =  토큰그룹_pid_수량 으로 구성
             BuildCostData = GameUtil.ParseCostDataArray(_parsingData, buildCostIdx);
         }
 
-        int subSpaceIdx = 4;
+        int subSpaceIdx = buildCostIdx +1;
         Places = new int[] { };
         if (_parsingData.Length > subSpaceIdx)
         {
