@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum WorkType
+{
+    InterBuild, ChangeBuild
+}
+
 public class WorkOrder
 {
     //작업 진행도
@@ -10,6 +15,7 @@ public class WorkOrder
     //2. 최대 작업 토큰
     //3. 노동 토큰당 효율
     //4. 필요한 작업량
+    public WorkType m_workType = WorkType.ChangeBuild;
     private List<TOrderItem> m_needList = new List<TOrderItem>();
     private List<TOrderItem> m_curList = new List<TOrderItem>();
     private int m_originWorkGauge;
@@ -21,7 +27,7 @@ public class WorkOrder
     private int m_workTokenNum; //할당된 노동 토큰 수
     private int m_maxWorkTokenNum = 3; //최대 할당 가능한 수 
 
-    public WorkOrder(List<TOrderItem> _needList, int _needWorkGague)
+    public WorkOrder(List<TOrderItem> _needList, int _needWorkGague, WorkType _workType = WorkType.ChangeBuild)
     {
         //작업주문서 작성
         m_needList = _needList;
@@ -29,6 +35,7 @@ public class WorkOrder
         m_originWorkGauge = _needWorkGague;
         //m_restWorkGauge = m_originWorkGauge;
         m_restWorkGauge = 70; //임시로 필요 작업량 할당
+        m_workType = _workType;
        // string debugStr = "";
         for (int i = 0; i < m_needList.Count; i++)
         {
