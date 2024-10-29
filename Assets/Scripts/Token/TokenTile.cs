@@ -39,6 +39,7 @@ public class TokenTile : TokenBase
     public List<int> doneInteriorList; //지어진 장소
     public int ChunkNum;
     public List<WorkOrder> m_workOrder;
+    public WorkOrder m_outBuildOrder;
     private TileViewState m_viewState = TileViewState.Fog;
     private TokenEvent m_enteranceEvent; //입장시 발동하는 이벤트가 있는가
   
@@ -166,10 +167,29 @@ public class TokenTile : TokenBase
     }
     #endregion
 
-    public void RegisterWork(WorkOrder _work)
+    public bool RegisterWork(WorkOrder _work)
     {
+        WorkType workType = _work.m_workType;
+        //공사중일때 추가 가능한지 체크 
+        if (m_workOrder.Count >= 1)
+        {
+            if(workType == WorkType.ChangeBuild)
+            {
+                Debug.Log("외부공사는 다른공사 중에 진행 불가");
+                return false;
+            }
+
+            if(m_workOrder[0].m_workType == WorkType.ChangeBuild)
+            {
+                Debug.Log("외부공사 중엔 내부공사 추가도 불가");
+                return false;
+            }
+        }
+
+        //그외 최초의 외부 공사이거나, 내부공사 추가는 가능 
         m_workOrder.Add(_work);
         GamePlayMaster.GetInstance().RegistorWork(_work);
+        return true;
     }
 
     public void RemoveWork(WorkOrder _work)
