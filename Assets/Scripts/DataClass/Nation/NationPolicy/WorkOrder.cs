@@ -27,7 +27,7 @@ public class WorkOrder
 
     private int m_workTokenNum; //할당된 노동 토큰 수
     private int m_maxWorkTokenNum = 3; //최대 할당 가능한 수 
-
+    private Action m_doneEffect;
     public WorkOrder(List<TOrderItem> _needList, int _needWorkGague, int _workPid = -1, WorkType _workType = WorkType.ChangeBuild)
     {
         //작업주문서 작성
@@ -47,6 +47,11 @@ public class WorkOrder
            // debugStr += m_curList[i].Tokentype + " :" + m_curList[i].Value + "필요";
         }
        // Debug.Log(debugStr);
+    }
+
+    public void SetDoneEffect(Action _action)
+    {
+        m_doneEffect = _action;
     }
 
     public bool PushResource(ITradeCustomer _customer)
@@ -164,5 +169,11 @@ public class WorkOrder
             return true;
 
         return false;
+    }
+
+    public void DoEffect()
+    {
+        if (m_doneEffect != null)
+            m_doneEffect();
     }
 }
