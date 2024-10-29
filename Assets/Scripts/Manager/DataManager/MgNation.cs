@@ -15,9 +15,9 @@ public class MgNation : Mg<MgNation>
         m_nationList = new List<Nation>();
     }
 
-    public void MakeNation(TokenTile _capital, int _nationNumber)
+    public void MakeNation(TokenTile _capital, int _nationNumber, GodClassEnum _godCategory)
     {
-        Nation newNation = new Nation().MakeNewNation(_capital, _nationNumber);
+        Nation newNation = new Nation().MakeNewNation(_capital, _nationNumber, _godCategory);
         m_nationList.Add(newNation);
     }
 

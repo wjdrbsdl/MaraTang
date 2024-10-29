@@ -317,7 +317,7 @@ public class MGContent : Mg<MGContent>
             //해당 구역 수도로 변환
             capitalTile.ChangePlace(TileType.Capital);
             //새로운 국가 생성
-            MgNation.GetInstance().MakeNation(capitalTile, i);
+            MgNation.GetInstance().MakeNation(capitalTile, i, (GodClassEnum)(i+1));
         }
     }
 

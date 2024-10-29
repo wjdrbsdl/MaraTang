@@ -35,7 +35,7 @@ public class MgGodBless : Mg<MgGodBless>
      //   Debug.Log("바로 사용가능한 신 종류 " + m_activeGodList.Count);
     }
 
-    public GodBless PleaseBless(BlessMainCategory _godClass)
+    public GodBless PleaseBless(GodClassEnum _godClass)
     {
         Debug.Log("가진 것중 하사");
         //요청한 신전의 타입에 따라 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public enum BlessMainCategory
+public enum GodClassEnum
 {
     무, 마법, 전사, 궁사
 }
@@ -17,7 +17,7 @@ public class GodBless
 {
     public int PID;
     public string Name;
-    public BlessMainCategory m_mainCategory = BlessMainCategory.무; //가호 시너지 체크를 위해 분류 
+    public GodClassEnum m_mainCategory = GodClassEnum.무; //가호 시너지 체크를 위해 분류 
     public BlessSubCategory m_subCategory = BlessSubCategory.전사_A; //신의 이름
     public List< TOrderItem> m_effect; //플레이어 스텟에 가하는 요소
 

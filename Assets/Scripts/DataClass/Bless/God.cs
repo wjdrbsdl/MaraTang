@@ -9,7 +9,7 @@ public class God
     public int PID;
     public int Tier;
     public string Test;
-    public BlessMainCategory m_mainCategory = BlessMainCategory.무; //해당 신의 분류
+    public GodClassEnum m_mainCategory = GodClassEnum.무; //해당 신의 분류
     public List<GodBless> m_blessList; //해당 신이 보유한 블레스
 
     public God(string[] _parseStr)
@@ -18,15 +18,15 @@ public class God
         string className = _parseStr[2];
         if(className == "전사")
         {
-            m_mainCategory = BlessMainCategory.전사;
+            m_mainCategory = GodClassEnum.전사;
         }
         else if (className == "법사")
         {
-            m_mainCategory = BlessMainCategory.마법;
+            m_mainCategory = GodClassEnum.마법;
         }
         else if (className == "궁사")
         {
-            m_mainCategory = BlessMainCategory.궁사;
+            m_mainCategory = GodClassEnum.궁사;
         }
      
         Tier = int.Parse(_parseStr[3]);

@@ -24,6 +24,7 @@ public class Nation : ITradeCustomer
     private int m_nationNumber;
     private int m_nationLevel = 1;
     private int m_range = 1; //현재 확장된 거리
+    private GodClassEnum m_godClass;
     private TokenTile m_capitalCity;
     private List<TokenTile> m_territorryList;
     private int[] m_resources;
@@ -38,9 +39,10 @@ public class Nation : ITradeCustomer
         m_territorryList = new();
     }
 
-    public Nation MakeNewNation(TokenTile _capitalCity, int _nationNuber)
+    public Nation MakeNewNation(TokenTile _capitalCity, int _nationNuber, GodClassEnum _god)
     {
         Nation nation = new();
+        nation.m_godClass = _god;
         nation.m_nationNumber = _nationNuber;
         nation.SetCapitalCity(_capitalCity);
         nation.AddTerritory(_capitalCity);
@@ -443,6 +445,11 @@ public class Nation : ITradeCustomer
     #endregion
 
     #region GetSet
+
+    public GodClassEnum GetGodClass()
+    {
+        return m_godClass;
+    }
 
     #region 스텟 배열 적용하는 부분
     public int GetStat(NationStatEnum _nationStat, int _value)
