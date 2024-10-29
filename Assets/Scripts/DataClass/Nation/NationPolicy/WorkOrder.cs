@@ -136,7 +136,7 @@ public class WorkOrder
         //작업진행
         m_restWorkGauge -= (workAmount + overWorkAmount);
       //  Debug.Log("남은 작업량 " + m_restWorkGauge);
-        if(m_restWorkGauge < 0)
+        if(m_restWorkGauge <= 0)
         {
             Debug.Log("작업완료");
             m_restWorkGauge = 0;
