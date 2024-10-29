@@ -103,7 +103,12 @@ public class TokenTile : TokenBase
 
     public void SetTileSprite()
     {
-       // GetObject().SetSprite( TempSpriteBox.GetInstance().GetTileSprite(tileType));
+        if(tileType == TileType.Capital)
+        {
+            GetObject().SetSprite(TempSpriteBox.GetInstance().GetTileSprite(tileType));
+            return;
+        }
+        
         List<int> ran = GameUtil.GetRandomNum(4, 3);
         for (int i = 0; i < ran.Count; i++)
         {
