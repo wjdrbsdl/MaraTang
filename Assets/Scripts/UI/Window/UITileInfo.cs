@@ -56,6 +56,11 @@ public class UITileInfo : UIBase
         SetTileStat();
     }
 
+    public void ResetSetPlace()
+    {
+        SetPlace();
+    }
+
     #region UI ¼¼ÆÃ
     private void SetTileAction()
     {

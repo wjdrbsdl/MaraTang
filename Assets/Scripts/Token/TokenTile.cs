@@ -38,6 +38,7 @@ public class TokenTile : TokenBase
     public TileType tileType;
     public List<int> doneInteriorList; //지어진 장소
     public int ChunkNum;
+    public List<WorkOrder> m_workOrder;
     private TileViewState m_viewState = TileViewState.Fog;
     private TokenEvent m_enteranceEvent; //입장시 발동하는 이벤트가 있는가
   
@@ -59,6 +60,7 @@ public class TokenTile : TokenBase
         tileToken.m_tokenIValues = new int[GameUtil.EnumLength(TileStat.Height)];
         tileToken.m_tokenType = TokenType.Tile;
         tileToken.doneInteriorList = new();
+        tileToken.m_workOrder = new();
         return tileToken;
     }
 
@@ -158,6 +160,23 @@ public class TokenTile : TokenBase
         GetObject().GetComponent<SpriteRenderer>().color = _color;
     }
     #endregion
+
+    public void RegisterWork(WorkOrder _work)
+    {
+        m_workOrder.Add(_work);
+    }
+
+    public bool IsWorking(WorkType _workType, int _pid)
+    {
+        for (int i = 0; i < m_workOrder.Count; i++)
+        {
+            if (m_workOrder[i].m_workType == _workType && m_workOrder[i].m_workPid == _pid)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public TileType GetTileType()
     {
