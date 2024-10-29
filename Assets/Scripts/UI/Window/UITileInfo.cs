@@ -19,11 +19,18 @@ public class UITileInfo : UIBase
     private BtnTileWorkShop[] m_workButtones;
 
     [SerializeField]
-    private Transform m_placeBox; //액션 리스트 버튼 담을 장소
+    private Transform m_placeBox; //내부장소 버튼 담을 포지션
     [SerializeField]
     private BtnPlace m_placeButtonSample;
     [SerializeField]
     private BtnPlace[] m_placeButtones;
+
+    [SerializeField]
+    private Transform m_buildBox; //외부건설 버튼 담을 포지션
+    [SerializeField]
+    private BtnBuild m_buildButtonSample;
+    [SerializeField]
+    private BtnBuild[] m_buildButtones;
 
     [SerializeField]
     private BtnOccupy m_occupyButton; //토지 점령 버튼
@@ -46,22 +53,64 @@ public class UITileInfo : UIBase
 
         m_curType = _tileType;
         PlayerManager.GetInstance().SetHeroPlace(_tileType);
-       // Debug.Log(_tile.GetTileType());
-      
+        // Debug.Log(_tile.GetTileType());
+
         //Debug.Log("메인 캐릭 있다 " + inMain);
+        ResetUI();
+    }
+
+    public void ResetSetPlace()
+    {
+        SetInPlace();
+    }
+
+    public void ResetUI()
+    {
+        if(m_curTile.IsOutBuilding() == true)
+        {
+            //외부공사중이면 공사내역만 보여주고 끝
+            SetOutBuildInfo();
+            return;
+        }
         SetTileAction();
-        SetPlace();
+        SetInPlace();
+        SetOutBuild();
         SetResourceInfo();
         SetOccupyButton();
         SetTileStat();
     }
 
-    public void ResetSetPlace()
+    #region UI 세팅
+
+    private void SetOutBuildInfo()
     {
-        SetPlace();
+        m_nationText.text = ((TileType)m_curTile.m_workOrderList[0].m_workPid).ToString() + "작업 중";
     }
 
-    #region UI 세팅
+    private void SetOutBuild()
+    {
+        //해당 장소에서 만들 수 있는 건축물
+        int[] buildPlace = MgMasterData.GetInstance().GetTileData((int)m_curType).AbleBuildPid.ToArray();
+        MakeSamplePool<BtnBuild>(ref m_buildButtones, m_buildButtonSample.gameObject, buildPlace.Length, m_buildBox);
+        //버튼 세팅
+        SetBuildButtons(m_curTile, buildPlace);
+    }
+
+    private void SetBuildButtons(TokenTile _selectedTile, int[] _place)
+    {
+        //입장 가능한 장소를 버튼으로 만들어서 정렬
+        for (int i = 0; i < _place.Length; i++)
+        {
+            m_buildButtones[i].SetActive(true);
+            m_buildButtones[i].SetButton(_selectedTile, (TileType)_place[i], this);
+        }
+        for (int dontUse = _place.Length; dontUse < m_buildButtones.Length; dontUse++)
+        {
+            m_buildButtones[dontUse].SetActive(false);
+        }
+    }
+
+
     private void SetTileAction()
     {
         TokenAction[] tileWorks = GamePlayMaster.GetInstance().RuleBook.RequestTileActions(m_curType);
@@ -86,7 +135,7 @@ public class UITileInfo : UIBase
         }
     }
 
-    private void SetPlace()
+    private void SetInPlace()
     {
         //해당 장소에서 들어갈 수 있는 장소 
         //조건이 안되있으면 어둠으로 뜬다 
