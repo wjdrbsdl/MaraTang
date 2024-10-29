@@ -29,6 +29,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     private AIPlayer m_aiPlayer;
     public RuleBook RuleBook;
     public EmphasizeObject EmphasizeTool;
+    public List<WorkOrder> m_globalWorkList = new();
 
     public int tempDevilBirthrestTurm = 3; //발생주기 세트
 
@@ -296,6 +297,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     private void EffectEndTurn()
     {
         m_playerMemeber = 0;
+        DoWorkList();
         //효과 토큰중 턴이 끝날때 발휘 되는 부분 동작
  
     }
@@ -499,6 +501,21 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
         DoneStep(GamePlayStep.GameInitialSetting); //게임 초기 세팅 이후 국가 선택까지 마치면 초기 세팅 끝. 
     }
 
+    public void RegistorWork(WorkOrder _order)
+    {
+        if(m_globalWorkList.IndexOf(_order) == -1)
+        {
+            m_globalWorkList.Add(_order);
+        }
+    }
+
+    public void DoWorkList()
+    {
+        for (int i = 0; i < m_globalWorkList.Count; i++)
+        {
+            m_globalWorkList[i].DoWork();
+        }
+    }
 }
 
 //게임 전체 관점에서 단계
