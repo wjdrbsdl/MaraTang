@@ -261,6 +261,13 @@ public class TokenTile : TokenBase
         SetTileSprite();
     }
 
+    public void DoneOutBuild(TileType _tileType)
+    {
+        tileType = _tileType;
+
+        SetTileSprite();
+    }
+
     public void BuildInterior(int _pid)
     {
         doneInteriorList.Add(_pid);
