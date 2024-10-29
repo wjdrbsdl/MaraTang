@@ -36,6 +36,7 @@ public class TokenTile : TokenBase
     List<TokenChar> m_inTileCharList = new();
     [SerializeField]
     public TileType tileType;
+    public List<int> doneInteriorList; //지어진 장소
     public int ChunkNum;
     private TileViewState m_viewState = TileViewState.Fog;
     private TokenEvent m_enteranceEvent; //입장시 발동하는 이벤트가 있는가
@@ -57,7 +58,7 @@ public class TokenTile : TokenBase
         TokenTile tileToken = new TokenTile();
         tileToken.m_tokenIValues = new int[GameUtil.EnumLength(TileStat.Height)];
         tileToken.m_tokenType = TokenType.Tile;
-        
+        tileToken.doneInteriorList = new();
         return tileToken;
     }
 
@@ -141,6 +142,7 @@ public class TokenTile : TokenBase
     }
     #endregion
 
+    #region 타일 이미지
     public void ChangeViewState(TileViewState _toState)
     {
         if (_toState.Equals(m_viewState))
@@ -150,17 +152,12 @@ public class TokenTile : TokenBase
         GameUtil.GetHideTileFromMap(GetMapIndex()).FogOff();
     }
 
-    public void ChangeTileType(TileType _tileType)
-    {
-        tileType = _tileType;
-        
-        SetTileSprite();
-    }
 
     public void Dye(Color _color)
     {
         GetObject().GetComponent<SpriteRenderer>().color = _color;
     }
+    #endregion
 
     public TileType GetTileType()
     {
@@ -181,6 +178,25 @@ public class TokenTile : TokenBase
         return MgNation.GetInstance().GetNation(m_tokenIValues[(int)TileStat.Nation]);
     }
 
+    public void ChangePlace(TileType _tileType)
+    {
+        tileType = _tileType;
+
+        SetTileSprite();
+    }
+
+    public void BuildInterior(int _pid)
+    {
+        doneInteriorList.Add(_pid);
+    }
+
+    public bool IsBuildInterior(int _pid)
+    {
+        if (doneInteriorList.IndexOf(_pid) == -1)
+            return false;
+
+        return true;
+    }
 
     #region 입장 이벤트
     public TokenEvent GetEneteranceEvent()

@@ -73,7 +73,7 @@ public class PolicyManageLand : NationPolicy
             return false;
         }
 
-         planTile.ChangeTileType((TileType)m_planIndex); //플랜 idx 타입으로 토지변경
+         planTile.ChangePlace((TileType)m_planIndex); //플랜 idx 타입으로 토지변경
         return true;
     }
 

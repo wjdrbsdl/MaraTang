@@ -73,7 +73,7 @@ public class RuleBookTileAction
     {
         if (PlayerCapitalData.g_instance.CheckInventory(GetTileChangeCost(_tileType)) == true)
         {
-            _tile.ChangeTileType(_tileType);
+            _tile.ChangePlace(_tileType);
         }
     }
 

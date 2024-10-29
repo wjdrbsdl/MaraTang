@@ -315,7 +315,7 @@ public class MGContent : Mg<MGContent>
             TokenTile capitalTile = chunk.GetTileByIndex(randomTile);
             //Debug.Log(chunkNum + "번 구역의 타일수는 " + chunkTileCount + "그 중 " + randomTile + "번째 타일을 수도화");
             //해당 구역 수도로 변환
-            capitalTile.ChangeTileType(TileType.Capital);
+            capitalTile.ChangePlace(TileType.Capital);
             //새로운 국가 생성
             MgNation.GetInstance().MakeNation(capitalTile, i);
         }
