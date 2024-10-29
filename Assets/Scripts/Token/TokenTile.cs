@@ -204,6 +204,18 @@ public class TokenTile : TokenBase
         return MgNation.GetInstance().GetNation(m_tokenIValues[(int)TileStat.Nation]);
     }
 
+    public GodClassEnum GetGodClass()
+    {
+        //해당 타일에 미치고있는 신 가져오기
+        Nation nation = GetNation();
+
+        if (nation == null)
+            return GodClassEnum.무;
+
+        return nation.GetGodClass();
+
+    }
+
     public void ChangePlace(TileType _tileType)
     {
         tileType = _tileType;

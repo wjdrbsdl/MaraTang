@@ -37,7 +37,7 @@ public class MgGodBless : Mg<MgGodBless>
 
     public GodBless PleaseBless(GodClassEnum _godClass)
     {
-        Debug.Log("가진 것중 하사");
+        Debug.Log("가진 것중 하사" + _godClass);
         //요청한 신전의 타입에 따라 
         //등장할 신의 타입 순서를 정하고 
         God god = m_activeGodList[0]; //임의로 0번째를 뽑고
