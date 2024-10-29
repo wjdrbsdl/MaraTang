@@ -298,6 +298,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     {
         m_playerMemeber = 0;
         DoWorkList();
+        DoWorkEffect();
         //효과 토큰중 턴이 끝날때 발휘 되는 부분 동작
  
     }
@@ -509,11 +510,27 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
         }
     }
 
+    public void RemoveWork(WorkOrder _work)
+    {
+        m_globalWorkList.Remove(_work);
+    }
+
     public void DoWorkList()
     {
         for (int i = 0; i < m_globalWorkList.Count; i++)
         {
             m_globalWorkList[i].DoWork();
+        }
+    }
+
+    public void DoWorkEffect()
+    {
+        for (int i = 0; i < m_globalWorkList.Count; i++)
+        {
+            if (m_globalWorkList[i].IsDoneWork())
+            {
+                m_globalWorkList[i].DoEffect();
+            }
         }
     }
 }

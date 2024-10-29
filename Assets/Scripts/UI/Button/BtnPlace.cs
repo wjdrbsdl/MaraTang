@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 using TMPro;
 
 public class BtnPlace : MonoBehaviour
@@ -46,7 +47,12 @@ public class BtnPlace : MonoBehaviour
         //해당 타일에 해당 내부 건축물 건설 진행 
         List<TOrderItem> nothing = new();
         WorkOrder order = new WorkOrder(nothing, 100, (int)m_tileType, WorkType.InterBuild);
-        
+        Action doneEffect = delegate
+        {
+            m_tile.doneInteriorList.Add((int)m_tileType);
+            m_tile.RemoveWork(order);
+        };
+        order.SetDoneEffect(doneEffect);
         m_tile.RegisterWork(order);
         m_tileInfoUI.ResetSetPlace();
     }

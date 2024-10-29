@@ -167,6 +167,12 @@ public class TokenTile : TokenBase
         GamePlayMaster.GetInstance().RegistorWork(_work);
     }
 
+    public void RemoveWork(WorkOrder _work)
+    {
+        m_workOrder.Remove(_work);
+        GamePlayMaster.GetInstance().RemoveWork(_work);
+    }
+
     public bool IsWorking(WorkType _workType, int _pid)
     {
         for (int i = 0; i < m_workOrder.Count; i++)
