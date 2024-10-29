@@ -47,10 +47,12 @@ public class BtnPlace : MonoBehaviour
         //해당 타일에 해당 내부 건축물 건설 진행 
         List<TOrderItem> nothing = new();
         WorkOrder order = new WorkOrder(nothing, 100, (int)m_tileType, WorkType.InterBuild);
+        //다른 타일로 작업시 m_tile이 변경될수있으므로 다른 인스턴스로 생성
+        TokenTile tile = m_tile;
         Action doneEffect = delegate
         {
-            m_tile.doneInteriorList.Add((int)m_tileType);
-            m_tile.RemoveWork(order);
+            tile.doneInteriorList.Add((int)m_tileType);
+            tile.RemoveWork(order);
         };
         order.SetDoneEffect(doneEffect);
         m_tile.RegisterWork(order);
