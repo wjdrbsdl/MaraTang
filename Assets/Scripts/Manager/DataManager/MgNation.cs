@@ -46,7 +46,7 @@ public class MgNation : Mg<MgNation>
     public void SettleNationEndTurn()
     {
         //턴 마무리에서 국가들이 할일 
-        m_nationList[m_settleNationNumber].DoJob(NationManageStepEnum.ExcutePolicy);
+        m_nationList[m_settleNationNumber].DoJob(NationManageStepEnum.SettleTurnEnd);
     }
 
     public void EndNationTurn()

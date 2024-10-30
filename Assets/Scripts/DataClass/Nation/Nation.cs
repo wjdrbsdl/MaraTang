@@ -11,7 +11,7 @@ public enum NationEnum
 
 public enum NationManageStepEnum
 {
-   IncomeCapital, ManagePopulation, SelectPolicy, ExcutePolicy, RemindPolicy, NationTurnEnd, TurnEndSettle
+   IncomeCapital, ManagePopulation, SelectPolicy, SettleTurnEnd, RemindPolicy, NationTurnEnd, TurnEndSettle
 }
 
 public enum NationStatEnum
@@ -32,7 +32,7 @@ public class Nation : ITradeCustomer
     public NationTechPart TechPart;
     private Color[] nationColor = { Color.red, Color.yellow, Color.blue };
     private List<NationPolicy> m_policyList = new(); //진행할 정책들이 아니라 작업리스트로 수정필요 
-
+    private List<WorkOrder> m_workList = new(); //진행중인 작업들. 
     #region 국가 생성자
     public Nation()
     {
@@ -145,7 +145,7 @@ public class Nation : ITradeCustomer
                 DoJob(NationManageStepEnum.NationTurnEnd);
                 break;
 
-            case NationManageStepEnum.ExcutePolicy:
+            case NationManageStepEnum.SettleTurnEnd:
                 DoJob(NationManageStepEnum.TurnEndSettle); //정책 결정한거 보고하고
                 break;
                 
@@ -164,9 +164,11 @@ public class Nation : ITradeCustomer
                 ManagePopular();
                 ReportToGameMaster(_step);
                 break;
-            case NationManageStepEnum.ExcutePolicy:
+            case NationManageStepEnum.SettleTurnEnd:
                // Debug.Log(m_nationNumber + "정책 집행 진행");
-                ExcutePolicy(); 
+               // 해당 턴 완료시 본래 국가에서 정책리스트를 통해 WorkOrder를 진행했지만, 해당 부분을 겜플레이마스터로 빼면서 아래 함수가 필요없어짐
+               // 그래도 턴 완료 파트 구조가 필요할지 몰라서 구조는 남겨둠. 
+                //DoWork(); 
                 ReportToGameMaster(_step);
                 break;
             case NationManageStepEnum.RemindPolicy:
@@ -202,12 +204,13 @@ public class Nation : ITradeCustomer
             return;
 
         //작업서 쓰고
-        policy.WriteWorkOrder();
+        WorkOrder workOrder = policy.WriteWorkOrder();
         //기본 재료 다넣을수있는지 체크
-        if (policy.PushResource(this) == false)
+        if (workOrder.PushResource(this) == false)
             return;
 
-        DisplayNewPolicy(policy);
+        m_workList.Add(workOrder);
+        
     }
 
     private MainPolicyEnum SelectMainPolicy()
@@ -219,20 +222,6 @@ public class Nation : ITradeCustomer
         //3. 메인 정책 Dice
 
         return (MainPolicyEnum)Random.Range(1, (int)MainPolicyEnum.Support);
-    }
-
-    private void DisplayNewPolicy(NationPolicy _policy)
-    {
-        Debug.Log("정책 표기 " + _policy.GetMainPolicy());
-        if (_policy.GetPlanIndex() != FixedValue.No_INDEX_NUMBER || _policy.GetPlanToken() != null)
-        {
-            AddPolicy(_policy);
-            ShowPolicyPin(_policy);
-        }
-        else
-        {
-            Debug.Log("표기할게 없다");
-        }
     }
 
     #endregion
@@ -271,18 +260,8 @@ public class Nation : ITradeCustomer
     }
     #endregion
 
-    #region 정책 수행
-    private void ExcutePolicy()
-    {
-        for (int i = 0; i < m_policyList.Count; i++)
-        {
-            NationPolicy policy = m_policyList[i];
-            policy.DoWork();
-        }
-    }
-    #endregion
 
-    #region 정책 재검토
+    #region 작업 재검토
     private void RemindPolicy()
     {
         List<NationPolicy> removeList = new();
