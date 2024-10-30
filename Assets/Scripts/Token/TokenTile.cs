@@ -31,7 +31,7 @@ public enum MainResource
 }
 #endregion
 
-public class TokenTile : TokenBase
+public class TokenTile : TokenBase, IWorkOrderPlace
 {
     List<TokenChar> m_inTileCharList = new();
     [SerializeField]
