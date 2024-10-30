@@ -188,12 +188,13 @@ public class TokenTile : TokenBase, IWorkOrderPlace
 
         //그외 최초의 외부 공사이거나, 내부공사 추가는 가능 
         m_workOrderList.Add(_work);
-       
+        _work.m_orderPlace = this;
         return true;
     }
 
     public void RemoveWork(WorkOrder _work)
     {
+        Debug.Log("타일토큰에서 작업제거"+_work.m_workType);
         m_workOrderList.Remove(_work);
     }
 
