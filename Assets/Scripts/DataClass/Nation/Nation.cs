@@ -172,7 +172,7 @@ public class Nation : ITradeCustomer
                 ReportToGameMaster(_step);
                 break;
             case NationManageStepEnum.RemindPolicy:
-                RemindPolicy();
+                RemindWork();
                 ReportToGameMaster(_step);
                 break;
             case NationManageStepEnum.SelectPolicy:
@@ -227,24 +227,23 @@ public class Nation : ITradeCustomer
     #endregion
 
     #region 정책 관리
-    private void AddPolicy(NationPolicy _policy)
+    private void AddPolicy(WorkOrder _policy)
     {
-        m_policyList.Add(_policy);
+        m_workList.Add(_policy);
     }
 
-    private void RemovePolicy(List<NationPolicy> _ploicyList)
+    private void RemoveWork(List<WorkOrder> _workList)
     {
-        for (int i = 0; i < _ploicyList.Count; i++)
+        for (int i = 0; i < _workList.Count; i++)
         {
-            RemovePolicy(_ploicyList[i]);
+            RemovePolicy(_workList[i]);
         }
     }
 
-    private void RemovePolicy(NationPolicy _policy)
+    private void RemovePolicy(WorkOrder _workOrder)
     {
-        _policy.Reset(); //정책 내부적으로 리셋 - tokenBase에 할당된 policy null등 진행 
-        RemovePolicyPin(_policy);
-        m_policyList.Remove(_policy);
+        //RemovePolicyPin(_workOrder);
+        m_workList.Remove(_workOrder);
     }
     #endregion
 
@@ -262,20 +261,20 @@ public class Nation : ITradeCustomer
 
 
     #region 작업 재검토
-    private void RemindPolicy()
+    private void RemindWork()
     {
-        List<NationPolicy> removeList = new();
-        for (int i = 0; i < m_policyList.Count; i++)
+        List<WorkOrder> removeList = new();
+        for (int i = 0; i < m_workList.Count; i++)
         {
-            NationPolicy policy = m_policyList[i];
-            if (policy.IsDone())
+            WorkOrder order = m_workList[i];
+            if (order.IsDoneWork())
             {
                 Debug.Log("완료된 작업 리스트 추가");
-                removeList.Add(policy);
+                removeList.Add(order);
             }
                 
         }
-        RemovePolicy(removeList);
+        RemoveWork(removeList);
     }
     #endregion
 
@@ -417,7 +416,7 @@ public class Nation : ITradeCustomer
         switch (_suggestCode)
         {
             case SuggestCode.Cancle:
-                RemovePolicy(_policy);
+                RemovePolicy(_policy.m_workOrder);
                 break;
         }
     }
