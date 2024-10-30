@@ -298,9 +298,6 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     {
         m_playerMemeber = 0;
         DoWorkList();
-        DoWorkEffect();
-        //효과 토큰중 턴이 끝날때 발휘 되는 부분 동작
- 
     }
 
     private void RecoverResource() 
@@ -517,9 +514,10 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
 
     public void DoWorkList()
     {
-        for (int i = 0; i < m_globalWorkList.Count; i++)
+        WorkOrder[] workArray = m_globalWorkList.ToArray();
+        for (int i = 0; i < workArray.Length; i++)
         {
-            m_globalWorkList[i].DoWork();
+            workArray[i].DoWork();
         }
     }
 
