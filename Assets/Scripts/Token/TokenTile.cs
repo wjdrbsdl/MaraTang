@@ -188,14 +188,13 @@ public class TokenTile : TokenBase, IWorkOrderPlace
 
         //그외 최초의 외부 공사이거나, 내부공사 추가는 가능 
         m_workOrderList.Add(_work);
-        GamePlayMaster.GetInstance().RegistorWork(_work);
+       
         return true;
     }
 
     public void RemoveWork(WorkOrder _work)
     {
         m_workOrderList.Remove(_work);
-        GamePlayMaster.GetInstance().RemoveWork(_work);
     }
 
     public bool IsWorking(WorkType _workType, int _pid)

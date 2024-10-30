@@ -52,7 +52,8 @@ public class WorkOrder
             m_curList.Add(curItem);
            // debugStr += m_curList[i].Tokentype + " :" + m_curList[i].Value + "필요";
         }
-       // Debug.Log(debugStr);
+        GamePlayMaster.GetInstance().RegistorWork(this);
+        // Debug.Log(debugStr);
     }
 
     public void SetDoneEffect(Action _action)
