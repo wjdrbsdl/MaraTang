@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System;
 
 
 public class PolicyBuildResrouceTile : NationPolicy
@@ -17,7 +17,18 @@ public class PolicyBuildResrouceTile : NationPolicy
     {
         //임시 벌목장 건설에 필요한 코스트로 진행
         TItemListData changeCost = MgMasterData.GetInstance().GetTileData(1).BuildCostData;
-        WorkOrder manageOrder = new WorkOrder(changeCost.GetItemList(), 100);
+
+        List<TOrderItem> nothing = new();
+        //해당 타일을 자본타일로 바꾸는 작업서
+        WorkOrder manageOrder = new WorkOrder(nothing, 100, m_planIndex, WorkType.ChangeBuild);
+        TokenTile workTile = (TokenTile)m_planToken;
+        Action doneEffect = delegate
+        {
+            workTile.DoneOutBuild((TileType)m_planIndex);
+            workTile.RemoveWork(manageOrder);
+        };
+        manageOrder.SetDoneEffect(doneEffect);
+        workTile.RegisterWork(manageOrder);
         m_workOrder = manageOrder;
         return manageOrder;
     }
@@ -54,7 +65,7 @@ public class PolicyBuildResrouceTile : NationPolicy
 
                 //내땅중에 용도가 nomal인 땅을 찾았다면
                 TokenBase planToken = tile;
-                int planIndex = Random.Range((int)TileType.WoodLand, (int)TileType.Capital); //벌목장부터 광산까지 중 뽑기 
+                int planIndex = UnityEngine.Random.Range((int)TileType.WoodLand, (int)TileType.Capital); //벌목장부터 광산까지 중 뽑기 
                 SetDonePlan(true);
                 SetPlanToken(planToken);
                 SetPlanIndex(planIndex);
