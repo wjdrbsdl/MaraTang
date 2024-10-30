@@ -23,14 +23,6 @@ public class PolicyResearch : NationPolicy
         return researchOrder;
     }
 
-    public override void Excute()
-    {
-        Debug.Log("연구 집행");
-        if (Research() == true)
-            DoneExcute();
-    }
-
-
     private void SelectTechTree()
     {
         //다음 연구할 기술을 선택. 

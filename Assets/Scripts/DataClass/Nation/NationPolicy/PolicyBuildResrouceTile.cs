@@ -32,13 +32,6 @@ public class PolicyBuildResrouceTile : NationPolicy
         return manageOrder;
     }
 
-    public override void Excute()
-    {
-        Debug.Log("매니지 집행");
-        if(ManageTerritory()== true)
-            DoneExcute();
-    }
-
     private void FindManageLand()
     {
         int endRange = m_nation.GetNationLevel(); //최종 살펴볼 위치

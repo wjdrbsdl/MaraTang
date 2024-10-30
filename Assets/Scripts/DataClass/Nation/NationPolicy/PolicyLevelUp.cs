@@ -24,13 +24,6 @@ public class PolicyLevelUp : NationPolicy
         return levelUpOrder;
     }
 
-    public override void Excute()
-    {
-        Debug.Log("레벨 집행");
-        if (LevelUp() == true)
-            DoneExcute();
-    }
-
     private bool LevelUp()
     {
         Announcer.Instance.AnnounceState("국가 레벨 상승 :" + m_nation.GetNationLevel() + "Lv");

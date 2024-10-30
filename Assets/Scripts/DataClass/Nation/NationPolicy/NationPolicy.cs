@@ -47,8 +47,6 @@ public abstract class NationPolicy
 
     public abstract WorkOrder WriteWorkOrder();
 
-    public abstract void Excute();
-    
     public void DoneExcute()
     {
         m_complete = true;

@@ -22,13 +22,6 @@ public class PolicyExpandLand : NationPolicy
         return expandOrder;
     }
 
-    public override void Excute()
-    {
-        Debug.Log("확장 집행");
-        if (ExpandLand() == true)
-            DoneExcute();
-    }
-
     private void FindExpandLand()
     {
         int findExpandCount = 1; //3개씩 확장하는걸로 
