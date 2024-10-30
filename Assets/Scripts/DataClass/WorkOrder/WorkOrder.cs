@@ -29,6 +29,7 @@ public class WorkOrder
     private int m_maxWorkTokenNum = 3; //최대 할당 가능한 수 
     private Action m_doneEffect;
     private bool m_isComplete = false; //효과 까지 진행된경우 true
+
     public WorkOrder(List<TOrderItem> _needList, int _needWorkGague, int _workPid = -1, WorkType _workType = WorkType.ChangeBuild)
     {
         //작업주문서 작성
@@ -55,6 +56,7 @@ public class WorkOrder
         m_doneEffect = _action;
     }
 
+    #region 자원 출입
     public bool PushResource(ITradeCustomer _customer)
     {
         //전체 필요한 양을 다 넣어야함. 
@@ -108,7 +110,9 @@ public class WorkOrder
         m_workTokenNum -= 1;
         return true;
     }
+    #endregion
 
+    //작업량 까는거
     public void DoWork()
     {
         if(IsDoneWork() == true)
@@ -149,6 +153,29 @@ public class WorkOrder
         }
     }
 
+    //할당된 효과 발동
+    public void DoEffect()
+    {
+        if (m_doneEffect != null)
+            m_doneEffect();
+    }
+
+    public void Cancle()
+    {
+        //자원 환불 누구에게? 
+        //취소로 인한 작업리스트에서 삭제 
+        /*
+         * 작업서를 만들면서 각 작업장소에 작업서 리스트를 넣는다. 
+         * 그러면서 효과 완료 되면 알아서 해당 작업장소에서 해당 리스트를 제거하도록 해놨다. 
+         * 방법은 셋 액션시 리스트제거 함수를 할당하고, 
+         * 여기선 리스트제거 함수를 진행
+         * 효과발동시엔 효과  함수와 리스트제거 함수를 진행하는 식으로해야함. 
+         * 
+         */
+
+    }
+
+    #region 상태 체크
     public bool IsReadyResource()
     {
         for (int i = 0; i < m_needList.Count; i++)
@@ -171,10 +198,6 @@ public class WorkOrder
 
         return false;
     }
+    #endregion
 
-    public void DoEffect()
-    {
-        if (m_doneEffect != null)
-            m_doneEffect();
-    }
 }
