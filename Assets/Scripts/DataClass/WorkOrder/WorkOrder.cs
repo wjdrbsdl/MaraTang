@@ -173,6 +173,7 @@ public class WorkOrder
             return;
         }
 
+        m_isComplete = true;
         m_doneEffect();
         RemovePlace();
     }
@@ -211,6 +212,12 @@ public class WorkOrder
 
         return false;
     }
+
+    public bool IsCompleteWork()
+    {
+        return m_isComplete;
+    }
+
     #endregion
 
 }
