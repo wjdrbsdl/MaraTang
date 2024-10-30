@@ -111,16 +111,46 @@ public class Nation : ITradeCustomer
     #endregion
 
     #region 국가 행동 진행
-    private void EndNationTurn()
+    public void DoJob(NationManageStepEnum _step)
     {
-        MgNation.GetInstance().EndNationTurn();
+        switch (_step)
+        {
+            //국가 턴 시작시 하는일
+            case NationManageStepEnum.IncomeCapital:
+                IncomeTerritoryResource();
+                ReportToGameMaster(_step);
+                break;
+            case NationManageStepEnum.ManagePopulation:
+                ManagePopular();
+                ReportToGameMaster(_step);
+                break;
+            case NationManageStepEnum.RemindPolicy:
+                RemindWork();
+                ReportToGameMaster(_step);
+                break;
+            case NationManageStepEnum.SelectPolicy:
+                SelectPolicy();
+                ReportToGameMaster(_step);
+                break;
+            case NationManageStepEnum.NationTurnEnd:
+                EndNationTurn();
+                break;
+
+            //국가턴 종료후 플레이어턴 몬스터턴 진행 후 턴 정산때 하는 일 
+            case NationManageStepEnum.SettleTurnEnd:
+                // Debug.Log(m_nationNumber + "정책 집행 진행");
+                // 해당 턴 완료시 본래 국가에서 정책리스트를 통해 WorkOrder를 진행했지만, 해당 부분을 겜플레이마스터로 빼면서 아래 함수가 필요없어짐
+                // 그래도 턴 완료 파트 구조가 필요할지 몰라서 구조는 남겨둠. 
+                //DoWork(); 
+                ReportToGameMaster(_step);
+                break;
+            case NationManageStepEnum.TurnEndSettle:
+                EndTurnEndSettle();
+                break;
+        }
     }
 
-    private void EndTurnEndSettle()
-    {
-        MgNation.GetInstance().EndTurnEndSettle();
-    }
-
+    //겜마스터에게 보고함으로써 플레이어가 확인할 수 있는 시간 주기 
     public void ReportToGameMaster(NationManageStepEnum _step)
     {
         //플레이 마스터에서 플레이어의 확인이나 결정을 대기했다가 DoneReport로 재진행 
@@ -152,44 +182,16 @@ public class Nation : ITradeCustomer
         }
     }
 
-    public void DoJob(NationManageStepEnum _step)
+    private void EndNationTurn()
     {
-        switch (_step)
-        {
-            //국가 턴 시작시 하는일
-            case NationManageStepEnum.IncomeCapital:
-                IncomeTerritoryResource();
-                ReportToGameMaster(_step); 
-                break;
-            case NationManageStepEnum.ManagePopulation:
-                ManagePopular();
-                ReportToGameMaster(_step);
-                break;
-            case NationManageStepEnum.RemindPolicy:
-                RemindWork();
-                ReportToGameMaster(_step);
-                break;
-            case NationManageStepEnum.SelectPolicy:
-                SelectPolicy();
-                ReportToGameMaster(_step); 
-                break;
-            case NationManageStepEnum.NationTurnEnd:
-                EndNationTurn(); 
-                break;
-
-            //국가턴 종료후 플레이어턴 몬스터턴 진행 후 턴 정산때 하는 일 
-            case NationManageStepEnum.SettleTurnEnd:
-                // Debug.Log(m_nationNumber + "정책 집행 진행");
-                // 해당 턴 완료시 본래 국가에서 정책리스트를 통해 WorkOrder를 진행했지만, 해당 부분을 겜플레이마스터로 빼면서 아래 함수가 필요없어짐
-                // 그래도 턴 완료 파트 구조가 필요할지 몰라서 구조는 남겨둠. 
-                //DoWork(); 
-                ReportToGameMaster(_step);
-                break;
-            case NationManageStepEnum.TurnEndSettle:
-                EndTurnEndSettle();
-                break;
-        }
+        MgNation.GetInstance().EndNationTurn();
     }
+
+    private void EndTurnEndSettle()
+    {
+        MgNation.GetInstance().EndTurnEndSettle();
+    }
+
     #endregion
 
     #region 정책수립
