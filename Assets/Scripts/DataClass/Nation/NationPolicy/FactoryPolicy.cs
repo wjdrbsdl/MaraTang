@@ -7,14 +7,14 @@ public class FactoryPolicy
    
     public NationPolicy MakePolicy(MainPolicyEnum _mainPolicy, Nation _nation)
     {
-        NationPolicy policy = new PolicyManageLand();
+        NationPolicy policy = new PolicyBuildResrouceTile();
         switch (_mainPolicy)
         {
             case MainPolicyEnum.ExpandLand:
                 policy = new PolicyExpandLand();
                 break;
             case MainPolicyEnum.ManageLand:
-                policy = new PolicyManageLand();
+                policy = new PolicyBuildResrouceTile();
                 break;
             case MainPolicyEnum.NationLevelUP:
                 policy = new PolicyLevelUp();

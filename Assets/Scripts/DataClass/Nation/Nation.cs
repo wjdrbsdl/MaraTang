@@ -31,7 +31,7 @@ public class Nation : ITradeCustomer
     private int[] nationStatValues ;
     public NationTechPart TechPart;
     private Color[] nationColor = { Color.red, Color.yellow, Color.blue };
-    private List<NationPolicy> m_policyList = new(); //진행할 정책들
+    private List<NationPolicy> m_policyList = new(); //진행할 정책들이 아니라 작업리스트로 수정필요 
 
     #region 국가 생성자
     public Nation()

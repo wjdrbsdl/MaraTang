@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 
-public class PolicyManageLand : NationPolicy
+public class PolicyBuildResrouceTile : NationPolicy
 {
     
     public override void MakePlan()
@@ -17,8 +17,8 @@ public class PolicyManageLand : NationPolicy
     {
         //임시 벌목장 건설에 필요한 코스트로 진행
         TItemListData changeCost = MgMasterData.GetInstance().GetTileData(1).BuildCostData;
-        WorkOrder expandOrder = new WorkOrder(changeCost.GetItemList(), 100);
-        m_workOrder = expandOrder;
+        WorkOrder manageOrder = new WorkOrder(changeCost.GetItemList(), 100);
+        m_workOrder = manageOrder;
     }
 
     public override void Excute()

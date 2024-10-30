@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum WorkType
 {
-    InterBuild, ChangeBuild
+    InterBuild, ChangeBuild, ExpandLand, NationLvUp, Research
 }
 
 public class WorkOrder

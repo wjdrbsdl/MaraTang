@@ -9,12 +9,13 @@ public enum MainPolicyEnum
 
 public abstract class NationPolicy
 {
+    //적절한 작업서를 만들기위해 정책클래스가 필요하다.
+
     protected Nation m_nation;
     protected MainPolicyEnum m_curMainPolicy = MainPolicyEnum.None; //현재 정책 상황
     protected int m_holdPolicyCount = 0; //현재 정책 유지된 턴
     protected TokenBase m_planToken; //목적지
     protected int m_planIndex = FixedValue.No_INDEX_NUMBER;  //메인 정책당 구체적인 계획의 인덱스
-    protected TokenChar m_worker; //노동자
     protected int m_nationNum;
     protected bool m_complete = false;
     protected WorkOrder m_workOrder = null;

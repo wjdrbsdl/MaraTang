@@ -19,8 +19,8 @@ public class PolicyLevelUp : NationPolicy
     {
         //임시 벌목장 건설에 필요한 코스트로 진행
         TItemListData changeCost = MgMasterData.GetInstance().GetTileData(1).BuildCostData;
-        WorkOrder expandOrder = new WorkOrder(changeCost.GetItemList(), 100);
-        m_workOrder = expandOrder;
+        WorkOrder levelUpOrder = new WorkOrder(changeCost.GetItemList(), 100, m_planIndex, WorkType.NationLvUp);
+        m_workOrder = levelUpOrder;
     }
 
     public override void Excute()
