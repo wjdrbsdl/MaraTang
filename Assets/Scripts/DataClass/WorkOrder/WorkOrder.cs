@@ -122,6 +122,7 @@ public class WorkOrder
         if(IsDoneWork() == true)
         {
             //이미 완료된 작업
+            DoEffect();
             return;
         }
 
@@ -162,6 +163,13 @@ public class WorkOrder
     //할당된 효과 발동
     public void DoEffect()
     {
+        if (m_isComplete)
+        {
+            Debug.LogError("효과 까지 발휘된 상태 작업 이중 효과 호출 됨");
+            return;
+        }
+            
+
         if(m_doneEffect == null)
         {
             RemovePlace();
