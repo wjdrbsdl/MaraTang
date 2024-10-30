@@ -104,7 +104,7 @@ public class TokenTile : TokenBase
 
     public void SetTileSprite()
     {
-        if(tileType == TileType.Capital)
+        if(tileType != TileType.Nomal)
         {
             GetObject().SetSprite(TempSpriteBox.GetInstance().GetTileSprite(tileType));
             return;
