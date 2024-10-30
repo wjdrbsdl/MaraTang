@@ -28,6 +28,7 @@ public class WorkOrder
     private int m_workTokenNum; //할당된 노동 토큰 수
     private int m_maxWorkTokenNum = 3; //최대 할당 가능한 수 
     private Action m_doneEffect;
+    private bool m_isComplete = false; //효과 까지 진행된경우 true
     public WorkOrder(List<TOrderItem> _needList, int _needWorkGague, int _workPid = -1, WorkType _workType = WorkType.ChangeBuild)
     {
         //작업주문서 작성
