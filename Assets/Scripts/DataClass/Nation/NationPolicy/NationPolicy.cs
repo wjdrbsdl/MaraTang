@@ -18,7 +18,7 @@ public abstract class NationPolicy
     protected int m_planIndex = FixedValue.No_INDEX_NUMBER;  //메인 정책당 구체적인 계획의 인덱스
     protected int m_nationNum;
     protected bool m_complete = false;
-    protected WorkOrder m_workOrder = null;
+    public WorkOrder m_workOrder = null;
     public bool m_donePlan = false; //계획이 세워졌는지
 
 
