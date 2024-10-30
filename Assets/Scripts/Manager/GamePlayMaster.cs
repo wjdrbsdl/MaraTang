@@ -521,18 +521,6 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
         }
     }
 
-    public void DoWorkEffect()
-    {
-        //do이펙트로 removeWork가 차례로 진행되면, 실시간 리스트 카운트가 줄어서 뒷부분 효과를 발휘가 안됨.
-        WorkOrder[] orders = m_globalWorkList.ToArray();
-        for (int i = 0; i < orders.Length; i++)
-        {
-            if (orders[i].IsDoneWork())
-            {
-                orders[i].DoEffect();
-            }
-        }
-    }
 }
 
 //게임 전체 관점에서 단계
