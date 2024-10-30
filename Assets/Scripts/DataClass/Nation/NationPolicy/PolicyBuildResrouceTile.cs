@@ -25,7 +25,6 @@ public class PolicyBuildResrouceTile : NationPolicy
         Action doneEffect = delegate
         {
             workTile.DoneOutBuild((TileType)m_planIndex);
-            workTile.RemoveWork(manageOrder);
         };
         manageOrder.SetDoneEffect(doneEffect);
         workTile.RegisterWork(manageOrder);

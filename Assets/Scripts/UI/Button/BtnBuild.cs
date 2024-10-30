@@ -42,8 +42,7 @@ public class BtnBuild : MonoBehaviour
         Action doneEffect = delegate
         {
             tile.DoneOutBuild(buildType);
-            tile.RemoveWork(order);
-        };
+         };
         order.SetDoneEffect(doneEffect);
         m_tile.RegisterWork(order);
         m_tileInfoUI.ResetUI();

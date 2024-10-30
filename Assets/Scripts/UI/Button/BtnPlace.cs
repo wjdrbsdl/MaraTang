@@ -52,7 +52,6 @@ public class BtnPlace : MonoBehaviour
         Action doneEffect = delegate
         {
             tile.doneInteriorList.Add((int)m_tileType);
-            tile.RemoveWork(order);
         };
         order.SetDoneEffect(doneEffect);
         m_tile.RegisterWork(order);
