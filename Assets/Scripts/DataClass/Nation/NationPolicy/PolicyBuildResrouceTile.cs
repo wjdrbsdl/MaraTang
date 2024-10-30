@@ -13,12 +13,13 @@ public class PolicyBuildResrouceTile : NationPolicy
         FindManageLand();
     }
 
-    public override void WriteWorkOrder()
+    public override WorkOrder WriteWorkOrder()
     {
         //임시 벌목장 건설에 필요한 코스트로 진행
         TItemListData changeCost = MgMasterData.GetInstance().GetTileData(1).BuildCostData;
         WorkOrder manageOrder = new WorkOrder(changeCost.GetItemList(), 100);
         m_workOrder = manageOrder;
+        return manageOrder;
     }
 
     public override void Excute()

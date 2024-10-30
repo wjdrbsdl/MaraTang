@@ -45,7 +45,7 @@ public abstract class NationPolicy
         m_donePlan = _isDone;
     }
 
-    public abstract void WriteWorkOrder();
+    public abstract WorkOrder WriteWorkOrder();
 
     public bool PushResource(ITradeCustomer _customer)
     {
