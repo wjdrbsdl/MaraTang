@@ -31,7 +31,7 @@ public class Nation : ITradeCustomer
     private int[] nationStatValues ;
     public NationTechPart TechPart;
     private Color[] nationColor = { Color.red, Color.yellow, Color.blue };
-    private List<NationPolicy> m_policyList = new(); //진행할 정책들이 아니라 작업리스트로 수정필요 
+
     private List<WorkOrder> m_workList = new(); //진행중인 작업들. 
     #region 국가 생성자
     public Nation()
@@ -209,7 +209,7 @@ public class Nation : ITradeCustomer
         if (workOrder.PushResource(this) == false)
             return;
 
-        m_workList.Add(workOrder);
+       AddWorkorder(workOrder);
         
     }
 
@@ -227,7 +227,7 @@ public class Nation : ITradeCustomer
     #endregion
 
     #region 정책 관리
-    private void AddPolicy(WorkOrder _policy)
+    private void AddWorkorder(WorkOrder _policy)
     {
         m_workList.Add(_policy);
     }
@@ -267,7 +267,7 @@ public class Nation : ITradeCustomer
         for (int i = 0; i < m_workList.Count; i++)
         {
             WorkOrder order = m_workList[i];
-            if (order.IsDoneWork())
+            if (order.IsCompleteWork())
             {
                 Debug.Log("완료된 작업 리스트 추가");
                 removeList.Add(order);
@@ -454,12 +454,6 @@ public class Nation : ITradeCustomer
         }
     }
     #endregion
-
-    public List<NationPolicy> GetNationPolicyList()
-    {
-        return m_policyList;
-    }
-
 
     public int GetNationLevel()
     {
