@@ -267,9 +267,9 @@ public class Nation : ITradeCustomer
         for (int i = 0; i < m_workList.Count; i++)
         {
             WorkOrder order = m_workList[i];
-            if (order.IsCompleteWork())
+            if (order.IsCompleteWork()||order.IsCancle)
             {
-                Debug.Log("완료된 작업 리스트 추가");
+                Debug.Log("완료 혹은 취소된 작업 리스트 제거추가");
                 removeList.Add(order);
             }
                 
