@@ -31,7 +31,7 @@ public class WorkOrder
     delegate bool EffectCondition();
     private EffectCondition effectCondition;
     private bool m_isComplete = false; //효과 까지 진행된경우 true
-
+    public bool IsCancle = false;
     public IWorkOrderPlace m_orderPlace; //작업 장소 
 
     public WorkOrder(List<TOrderItem> _needList, int _needWorkGague, int _workPid = -1, WorkType _workType = WorkType.ChangeBuild)
@@ -168,11 +168,9 @@ public class WorkOrder
             Debug.LogError("효과 까지 발휘된 상태 작업 이중 효과 호출 됨");
             return;
         }
-            
 
-        if(m_doneEffect == null)
+        if(IsCancle == true)
         {
-            RemovePlace();
             return;
         }
 
@@ -182,17 +180,24 @@ public class WorkOrder
         }
 
         m_isComplete = true;
-        m_doneEffect();
+        if (m_doneEffect != null)
+        {
+            m_doneEffect();
+        }
         RemovePlace();
     }
 
     public void Cancle()
     {
+        IsCancle = true; //취소로 바꿈
+        //이후 해당 작업서를 가진 곳에서 취소 체크후 작업리스트에서 제거하는 식
         RemovePlace();
     }
 
     public void RemovePlace()
     {
+        //해당 장소가 매턴 작업여부를 확인하지 않는다면 갱신이 안되기 때문에 제거 되어야하는 경우 작업장소로 제거할것을 요청. 
+
         if (m_orderPlace != null)
             m_orderPlace.RemoveWork(this);
     }
