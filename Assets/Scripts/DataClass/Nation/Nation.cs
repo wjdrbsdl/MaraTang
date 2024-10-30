@@ -238,6 +238,7 @@ public class Nation : ITradeCustomer
         {
             RemovePolicy(_workList[i]);
         }
+      //  Debug.Log(m_nationNumber + "번 국가 완료 작업 제거하고 남은 작업 수"+m_workList.Count);
     }
 
     private void RemovePolicy(WorkOrder _workOrder)

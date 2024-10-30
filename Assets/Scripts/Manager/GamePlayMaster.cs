@@ -299,6 +299,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
         m_playerMemeber = 0;
         DoWorkList();
         RemoveCompleteWorkOrder();
+      //  Debug.Log("겜마스터 완료 제거 후 남은 작업수 " + m_globalWorkList.Count);
     }
 
     private void RecoverResource() 
