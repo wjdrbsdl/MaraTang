@@ -156,19 +156,13 @@ public class Nation : ITradeCustomer
     {
         switch (_step)
         {
+            //국가 턴 시작시 하는일
             case NationManageStepEnum.IncomeCapital:
                 IncomeTerritoryResource();
                 ReportToGameMaster(_step); 
                 break;
             case NationManageStepEnum.ManagePopulation:
                 ManagePopular();
-                ReportToGameMaster(_step);
-                break;
-            case NationManageStepEnum.SettleTurnEnd:
-               // Debug.Log(m_nationNumber + "정책 집행 진행");
-               // 해당 턴 완료시 본래 국가에서 정책리스트를 통해 WorkOrder를 진행했지만, 해당 부분을 겜플레이마스터로 빼면서 아래 함수가 필요없어짐
-               // 그래도 턴 완료 파트 구조가 필요할지 몰라서 구조는 남겨둠. 
-                //DoWork(); 
                 ReportToGameMaster(_step);
                 break;
             case NationManageStepEnum.RemindPolicy:
@@ -181,6 +175,15 @@ public class Nation : ITradeCustomer
                 break;
             case NationManageStepEnum.NationTurnEnd:
                 EndNationTurn(); 
+                break;
+
+            //국가턴 종료후 플레이어턴 몬스터턴 진행 후 턴 정산때 하는 일 
+            case NationManageStepEnum.SettleTurnEnd:
+                // Debug.Log(m_nationNumber + "정책 집행 진행");
+                // 해당 턴 완료시 본래 국가에서 정책리스트를 통해 WorkOrder를 진행했지만, 해당 부분을 겜플레이마스터로 빼면서 아래 함수가 필요없어짐
+                // 그래도 턴 완료 파트 구조가 필요할지 몰라서 구조는 남겨둠. 
+                //DoWork(); 
+                ReportToGameMaster(_step);
                 break;
             case NationManageStepEnum.TurnEndSettle:
                 EndTurnEndSettle();
