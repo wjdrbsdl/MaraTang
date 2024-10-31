@@ -75,6 +75,10 @@ public class TokenTile : TokenBase, IWorkOrderPlace
     
     }
 
+    public void SetMildoValue(int _mildo)
+    {
+
+    }
    
 
     public void SetResourceValue()

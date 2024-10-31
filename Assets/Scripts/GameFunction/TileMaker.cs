@@ -20,6 +20,8 @@ public class TileMaker : MonoBehaviour
         float reviseOffSet = xOffSet * 0.5f;
 
         float[,] noisedMapping = MakeNoise(orderXLength, orderYLength, _mapOrder.t_seed, _mapOrder.t_noise, 1f);
+        float[,] mildoMapping = MakeNoise(orderXLength, orderYLength, _mapOrder.t_seed * 173, _mapOrder.t_noise, 1f);
+        int[,] mildoValue = MakeMildo(mildoMapping);
         //자원 분배 디버그용
         int[] resourceMain = new int[GameUtil.EnumLength(MainResource.House)];
         for (int curx = 0; curx < orderXLength; curx++)
@@ -41,6 +43,7 @@ public class TileMaker : MonoBehaviour
                 //2. 타일 토큰 정보 세팅                
                 newTile.SetMapIndex(curx, cury); //토큰 자체에 자신의 인덱스 넣고
                 newTile.SetHeightValue(noisedMapping[curx, cury]);
+                newTile.SetMildoValue(mildoValue[curx, cury]);
                 newTile.SetNation(FixedValue.NO_NATION_NUMBER); //기본 소속없는 국가 번호로 지정
                 newTile.SetResourceValue(); //해당 타일의 메인 자원값 설정
 
@@ -148,7 +151,7 @@ public class TileMaker : MonoBehaviour
         //seed는 전체적인 
         
         float[,] box = new float[_xLength, _yLength];
-        float min = 0;
+        float min = float.MaxValue;
         float max = 0;
         for (int xIndex = 0; xIndex < _xLength; xIndex++)
         {
@@ -180,6 +183,12 @@ public class TileMaker : MonoBehaviour
         return box;
     }
 
+    private int[,] MakeMildo(float[,] _mildoNosie)
+    {
+        int[,] mildo = new int[_mildoNosie.GetLength(0),_mildoNosie.GetLength(1)] ;
+
+        return mildo;
+    }
     #region 평맵핑
     private void MakeFlatTypeMap(MgToken.TMapBluePrint _mapOrder)
     {
