@@ -268,7 +268,7 @@ public class TokenTile : TokenBase, IWorkOrderPlace
         SetTileSprite();
     }
 
-    public void BuildInterior(int _pid)
+    public void DoneInteriorBuild(int _pid)
     {
         doneInteriorList.Add(_pid);
     }

@@ -51,7 +51,7 @@ public class BtnPlace : MonoBehaviour
         TokenTile tile = m_tile;
         Action doneEffect = delegate
         {
-            tile.doneInteriorList.Add((int)m_tileType);
+            tile.DoneInteriorBuild((int)m_tileType);
         };
         order.SetDoneEffect(doneEffect);
         m_tile.RegisterWork(order);
