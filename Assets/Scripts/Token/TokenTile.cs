@@ -27,7 +27,7 @@ public enum TileStat
 
 public enum MainResource
 {
-    Tree, Food, House, Mineral
+    Tree, Food, Mineral
 }
 #endregion
 
@@ -42,8 +42,8 @@ public class TokenTile : TokenBase, IWorkOrderPlace
     public WorkOrder m_outBuildOrder;
     private TileViewState m_viewState = TileViewState.Fog;
     private TokenEvent m_enteranceEvent; //입장시 발동하는 이벤트가 있는가
-  
-
+    MainResource m_density = MainResource.Tree;
+    int grade = 0;
     /*타일 상호 순서
      * 1. 타일에 1 캐릭 존재 - 타캐릭 점유시 입장불가
      * 2. 이벤트는 해당 타일 입장으로만 발동
@@ -75,9 +75,10 @@ public class TokenTile : TokenBase, IWorkOrderPlace
     
     }
 
-    public void SetMildoValue(int _mildo)
+    public void SetDensityValue((MainResource, int) _mildo)
     {
-
+        m_density = _mildo.Item1;
+        grade = _mildo.Item2;
     }
    
 
@@ -94,10 +95,7 @@ public class TokenTile : TokenBase, IWorkOrderPlace
         {
             mainResource = MainResource.Food;
         }
-        else if (resourceValue < 75)
-        {
-            mainResource = MainResource.House;
-        }
+       
 
         int minGradeValue = 25;
         int gradeValue = resourceValue % 25 + minGradeValue; //최소값 25에 등급으로 추가
@@ -113,8 +111,9 @@ public class TokenTile : TokenBase, IWorkOrderPlace
             GetObject().SetSprite(TempSpriteBox.GetInstance().GetTileSprite(tileType));
             return;
         }
-        
-        List<int> ran = GameUtil.GetRandomNum(4, 3);
+
+        GetObject().SetSprite(TempSpriteBox.GetInstance().GetBaseTile(m_density));
+        List<int> ran = GameUtil.GetRandomNum(4, 4 - grade);
         for (int i = 0; i < ran.Count; i++)
         {
             ObjectTile tileObj = (ObjectTile)GetObject();

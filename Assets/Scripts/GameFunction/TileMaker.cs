@@ -19,11 +19,11 @@ public class TileMaker : MonoBehaviour
         //탑 포인트 일 때는 홀수번째의 행의 너비가 반지름씩 옆으로 가있음
         float reviseOffSet = xOffSet * 0.5f;
 
-        float[,] noisedMapping = MakeNoise(orderXLength, orderYLength, _mapOrder.t_seed, _mapOrder.t_noise, 1f);
-        float[,] mildoMapping = MakeNoise(orderXLength, orderYLength, _mapOrder.t_seed * 173, _mapOrder.t_noise, 1f);
-        int[,] mildoValue = MakeMildo(mildoMapping);
+        float[,] heightNoise = MakeNoise(orderXLength, orderYLength, _mapOrder.t_seed, _mapOrder.t_noise, 1f);
+        float[,] densityNoise = MakeNoise(orderXLength, orderYLength, _mapOrder.t_seed * 173, _mapOrder.t_noise, 1f);
+        (MainResource, int)[,] densityValue = MakeMildo(densityNoise);
         //자원 분배 디버그용
-        int[] resourceMain = new int[GameUtil.EnumLength(MainResource.House)];
+        int[] resourceMain = new int[GameUtil.EnumLength(MainResource.Tree)];
         for (int curx = 0; curx < orderXLength; curx++)
         {
             float originXPos = curx * xOffSet; //원점
@@ -42,8 +42,8 @@ public class TileMaker : MonoBehaviour
                 
                 //2. 타일 토큰 정보 세팅                
                 newTile.SetMapIndex(curx, cury); //토큰 자체에 자신의 인덱스 넣고
-                newTile.SetHeightValue(noisedMapping[curx, cury]);
-                newTile.SetMildoValue(mildoValue[curx, cury]);
+                newTile.SetHeightValue(heightNoise[curx, cury]);
+                newTile.SetDensityValue(densityValue[curx, cury]);
                 newTile.SetNation(FixedValue.NO_NATION_NUMBER); //기본 소속없는 국가 번호로 지정
                 newTile.SetResourceValue(); //해당 타일의 메인 자원값 설정
 
@@ -183,10 +183,66 @@ public class TileMaker : MonoBehaviour
         return box;
     }
 
-    private int[,] MakeMildo(float[,] _mildoNosie)
-    {
-        int[,] mildo = new int[_mildoNosie.GetLength(0),_mildoNosie.GetLength(1)] ;
 
+
+    //폭이 15면 센터가 15 45 75 이고
+    //그 범위는 1~30,31~60,61~90 이여야함 
+    //위로는 +15, 밑으로는 -14 가 되네
+    private (MainResource, int)[,] MakeMildo(float[,] _mildoNosie)
+    {
+        (MainResource, int)[,] mildo = new (MainResource, int)[_mildoNosie.GetLength(0),_mildoNosie.GetLength(1)] ;
+        int gradeWidth = 15; //한등급이 가지는 폭
+        int resourceTypeCount = System.Enum.GetValues(typeof(MainResource)).Length; //주자원대로 토지에서 잘자라라는거 분류
+        int[] gradeValue = {1,2,3};
+        for(int i =0; i < _mildoNosie.GetLength(0); i++)
+        {
+            for (int x = 0; x < _mildoNosie.GetLength(1); x++)
+            {
+                //각 너비당 *2로 폭을 가지며, 모든 등급이 동일하므로 너비*자원수*2 로 최댓값 설정
+                float lerpFloat = gradeWidth * resourceTypeCount * 2 * _mildoNosie[i, x];
+                int lerpValue = (int)lerpFloat;
+                if (lerpValue == 0)
+                    lerpValue += 1;
+              //  Debug.Log(_mildoNosie[i, x] + "의 인버스 값" + lerpFloat +"인트"+lerpValue);
+        
+                for (int z = 0; z < resourceTypeCount; z++)
+                {
+                    int typePoint = gradeWidth + z * gradeWidth * 2; //각 자원당 중간값 현재예시론 15, 45, 75 로 30씩 커짐 
+                    if(lerpValue - typePoint<-14 || 15<lerpValue - typePoint)
+                    {
+                        //해당 기준으로부터 러프값의 차이가 폭보다 크면 여기자원이 아님 
+                        continue;
+                    }
+                    //여기자원이면 이제 등급 결정
+                    int grade = 0; //1등급부터 체크
+                    bool isInGrade = false;
+                    for (int y = 0; y < gradeValue.Length; y++)
+                    {
+                        grade += gradeValue[y]; //해당 등급의 폭을 계산 - 점점 폭이 넓어짐
+                        //1등급은 +=1 범위 2등급은 +=3범위, 2등급범위에 1범위가 들어가는데 실상은 1범위를 제외한 +=3~1 이 됨 
+                        if(grade < Mathf.Abs(typePoint - lerpValue))
+                        {
+                            continue;
+                        }
+                        //해당등급을 찾았으면
+                        mildo[i, x] = ((MainResource)z, y+1); //최초 등급은 1로 등급이 높을수록 저품질
+                        isInGrade = true; //할당된 범위내인지 체크 
+                        break;
+                    }
+                    if(isInGrade == false)
+                    {
+                        //만약 할당된 범위 밖이라면 등급외 
+                        mildo[i,x] = ((MainResource)z, gradeValue.Length+1);
+                    }
+                    //isValue = true;
+                    //Debug.Log(lerpValue+"값에 자원 "+ mildo[i,x].Item1 + "그 등급"+ mildo[i,x].Item2);
+                    break;
+                }
+               
+            }
+            
+        }
+        
         return mildo;
     }
     #region 평맵핑
