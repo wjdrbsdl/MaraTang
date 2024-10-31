@@ -16,6 +16,7 @@ public class TempSpriteBox : MgGeneric<TempSpriteBox>
     public Sprite ManageLandPin;
     public Sprite DefaultPin;
 
+    public Sprite[] m_baseTile;
     public Sprite[] m_elements;
     public Sprite[] Chares;
     public Sprite[] HideTiles;
@@ -43,6 +44,11 @@ public class TempSpriteBox : MgGeneric<TempSpriteBox>
                 return WoodLand;
         }
         return NomalLand;
+    }
+
+    public Sprite GetBaseTile(MainResource _main)
+    {
+        return m_baseTile[(int)_main];
     }
 
     public Sprite GetTileElement(int _index)

@@ -18515,6 +18515,10 @@ MonoBehaviour:
   ExpandLandPin: {fileID: 21300000, guid: 3f8935b5884c9ac4a94ec53e3f9e91ed, type: 3}
   ManageLandPin: {fileID: 21300000, guid: 182c2716615a69949a8f7bcdc19565af, type: 3}
   DefaultPin: {fileID: 21300000, guid: 7aea37976b0944942b4c979fa512ad51, type: 3}
+  m_baseTile:
+  - {fileID: 21300000, guid: fb79c51d441f6f64197e66a798873f6c, type: 3}
+  - {fileID: 21300000, guid: fea6aa88ad900864d949e21742702443, type: 3}
+  - {fileID: 21300000, guid: 285ee7dacc626e341b5883fa3d2216df, type: 3}
   m_elements:
   - {fileID: 21300000, guid: 78d2bb987c5df09438a3078738273662, type: 3}
   - {fileID: 21300000, guid: 4470cad3e3fd1e8418a56b1d251895c9, type: 3}
