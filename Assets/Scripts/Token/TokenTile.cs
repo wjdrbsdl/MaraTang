@@ -7,7 +7,7 @@ using TMPro;
 public enum TileType
 {
     //각 타일의 타입 기본 산, 노말, 강 거기에 용도변경으로 농지,광산, 마을 단계까지 모두 정의 해놓기? 아니면 레벨은 따로"?
-    Nomal, WoodLand, Farm, Town, Mine, Capital, Mountain
+    Nomal, WoodLand, Farm, Town, Mine, Capital, Mountain, Cage=16
 }
 
 public enum TileViewState
@@ -17,7 +17,7 @@ public enum TileViewState
 
 public enum TileAction
 {
-    Grass, Mineral, RemoveGrass, RemoveMineral
+    Grass, Mineral, RemoveGrass, RemoveMineral, Spawn = 11
 }
 
 public enum TileStat
@@ -43,7 +43,7 @@ public class TokenTile : TokenBase, IWorkOrderPlace
     private TileViewState m_viewState = TileViewState.Fog;
     private TokenEvent m_enteranceEvent; //입장시 발동하는 이벤트가 있는가
     MainResource m_density = MainResource.Tree;
-    int grade = 0;
+    private int densityGrade = 0;
     /*타일 상호 순서
      * 1. 타일에 1 캐릭 존재 - 타캐릭 점유시 입장불가
      * 2. 이벤트는 해당 타일 입장으로만 발동
@@ -78,7 +78,7 @@ public class TokenTile : TokenBase, IWorkOrderPlace
     public void SetDensityValue((MainResource, int) _mildo)
     {
         m_density = _mildo.Item1;
-        grade = _mildo.Item2;
+        densityGrade = _mildo.Item2;
     }
    
 
@@ -113,7 +113,7 @@ public class TokenTile : TokenBase, IWorkOrderPlace
         }
 
         GetObject().SetSprite(TempSpriteBox.GetInstance().GetBaseTile(m_density));
-        List<int> ran = GameUtil.GetRandomNum(4, 4 - grade);
+        List<int> ran = GameUtil.GetRandomNum(4, 4 - densityGrade);
         for (int i = 0; i < ran.Count; i++)
         {
             ObjectTile tileObj = (ObjectTile)GetObject();
@@ -296,6 +296,8 @@ public class TokenTile : TokenBase, IWorkOrderPlace
         for (int i = 0; i < ablePid.Length; i++)
         {
             TokenTileAction action = MgMasterData.GetInstance().GetTileAction(ablePid[i]);
+            if (action.IsAutoStart)
+                Debug.Log("자동 시작함" + tileType);
         }
 
     }
