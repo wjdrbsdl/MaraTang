@@ -15,7 +15,9 @@ public class TokenTileAction : TokenBase
         m_tokenPid = int.Parse(valueCode[0]);
         m_itemName = valueCode[1];
         IsAutoStart = (int.Parse(valueCode[2]) != 0);
-        
+
+        m_tokenIValues = new int[System.Enum.GetValues(typeof(TileActionStat)).Length];
+        GameUtil.InputMatchValue(ref m_tokenIValues, matchCode, valueCode);
     }
     #endregion
 }
