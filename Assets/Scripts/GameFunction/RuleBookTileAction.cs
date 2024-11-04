@@ -46,6 +46,10 @@ public class RuleBookTileAction
             case TileActionType.UIOpen:
                 OpenUIByCode((UICodeEnum)subValue, _tile);
                     break;
+
+            case TileActionType.WorkOrder:
+                MakeWorkOrder(_tile, _action, subValue);
+                break;
             default:
                 MgUI.GetInstance().CancleLastUI();
                 break;
@@ -136,6 +140,12 @@ public class RuleBookTileAction
     public enum TownFuction
     {
         GiveMoney = 1, StudyAction
+    }
+
+    private void MakeWorkOrder(TokenTile _tile, TokenTileAction _tileAction, int _workCode)
+    {
+        WorkOrder spawnOrder = new WorkOrder(null, 100, _workCode, WorkType.Spawn);
+        _tile.RegisterWork(spawnOrder);
     }
 
 }
