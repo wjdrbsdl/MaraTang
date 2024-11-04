@@ -147,7 +147,7 @@ public class RuleBookTileAction
         WorkOrder spawnOrder = new WorkOrder(null, 100, _workCode, WorkType.Spawn);
         Action doneEffect = delegate
         {
-            MgToken.GetInstance().SpawnCharactor(_tile.GetMapIndex(), 3);
+            MgToken.GetInstance().SpawnCharactor(_tile.GetMapIndex(), 2);
         };
         spawnOrder.SetDoneEffect(doneEffect);
         _tile.RegisterWork(spawnOrder);
