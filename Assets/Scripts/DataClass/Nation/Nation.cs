@@ -435,6 +435,11 @@ public class Nation : ITradeCustomer
         return m_godClass;
     }
 
+    public List<TokenTile> GetTerritorry()
+    {
+        return m_territorryList;
+    }
+
     #region 스텟 배열 적용하는 부분
     public int GetStat(NationStatEnum _nationStat, int _value)
     {
