@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum WorkType
 {
-    InterBuild, ChangeBuild, ExpandLand, NationLvUp, Research
+    InterBuild, ChangeBuild, ExpandLand, NationLvUp, Research, Spawn
 }
 
 public class WorkOrder
@@ -36,6 +36,9 @@ public class WorkOrder
 
     public WorkOrder(List<TOrderItem> _needList, int _needWorkGague, int _workPid = -1, WorkType _workType = WorkType.ChangeBuild)
     {
+        if (_needList == null)
+            _needList = new();
+
         //작업주문서 작성
         m_needList = _needList;
         m_workTokenNum = 1; //토큰 1개 임시 할당
