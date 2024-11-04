@@ -18,9 +18,8 @@ public class PolicyBuildResrouceTile : NationPolicy
         //임시 벌목장 건설에 필요한 코스트로 진행
         TItemListData changeCost = MgMasterData.GetInstance().GetTileData(1).BuildCostData;
 
-        List<TOrderItem> nothing = new();
         //해당 타일을 자본타일로 바꾸는 작업서
-        WorkOrder manageOrder = new WorkOrder(nothing, 100, m_planIndex, WorkType.ChangeBuild);
+        WorkOrder manageOrder = new WorkOrder(null, 100, m_planIndex, WorkType.ChangeBuild);
         TokenTile workTile = (TokenTile)m_planToken;
         Action doneEffect = delegate
         {
