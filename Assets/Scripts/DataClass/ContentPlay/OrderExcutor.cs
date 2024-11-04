@@ -9,6 +9,7 @@ public class OrderExcutor
     {
         ExcuteOrder(_eventToken.TokenOrder);
     }
+    
 
     public void ExcuteOrder(TTokenOrder _order)
     {
@@ -122,34 +123,6 @@ public class OrderExcutor
         customer.OnOrderCallBack(recipt); //고객에게 호출
     }
      
-}
-
-public enum CustomEnum
-{
-    Content
-}
-
-public class OrderCustomExcutor
-{
-    //주문서를 개별적인 방법으로 처리해야하는 경우 별도 함수 모아놓고 진행 
-
-    public void CustomExucute(int _subIdx, int _value)
-    {
-        if(_subIdx == (int)CustomEnum.Content)
-        {
-            SetNationPlace(_value);
-        }
-    }
-
-    private void SetNationPlace(int _nationIdx)
-    {
-        //처음 나라 선택했을 때 나라 위치 
-    }
-}
-
-public enum EOrderType
-{
-    None, ItemAdapt, ItemSelect, SpawnMonster, SpawnEvent
 }
 
 public enum ESpawnPosType

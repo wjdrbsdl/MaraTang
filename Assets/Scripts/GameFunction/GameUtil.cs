@@ -723,9 +723,6 @@ public static class GameUtil
                 case TokenType.OnChange:
                     findEnum = typeof(OnChangeEnum);
                     break;
-                case TokenType.Custom:
-                    findEnum = typeof(CustomEnum);
-                    break;
                 case TokenType.Nation:
                     findEnum = typeof(NationEnum);
                     break;

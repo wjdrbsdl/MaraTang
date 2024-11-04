@@ -36,7 +36,7 @@ public class MGContent : Mg<MGContent>
         MgGodBless.GetInstance().ReferenceSet();
         TileMaker maker = MgToken.GetInstance().m_tileMaker;
         m_chunkList = maker.MakeChunk(maker.DivideChunk(MgToken.GetInstance().m_chunkLength));
-        MakeContentRegion();
+        MakeNationDevilRegion();
 
     }
     #endregion
@@ -124,7 +124,7 @@ public class MGContent : Mg<MGContent>
              //   Debug.Log(curContent.ContentPid + "완료한 컨텐츠는 패쓰");
                 continue;
             }
-            if (IsPlayedContent(curContent.ContentPid))
+            if (IsPlayingContent(curContent.ContentPid))
             {
               //  Debug.Log(curContent.ContentPid + "진행중인 컨텐츠는 패쓰");
                 continue;
@@ -276,7 +276,7 @@ public class MGContent : Mg<MGContent>
         return true;
     }
 
-    public bool IsPlayedContent(int _cotentPid)
+    public bool IsPlayingContent(int _cotentPid)
     {
         for (int i = 0; i < m_QuestList.Count; i++)
         {
@@ -289,7 +289,8 @@ public class MGContent : Mg<MGContent>
         return false;
     }
 
-    private void MakeContentRegion()
+    #region 국가데빌 지역 설정
+    private void MakeNationDevilRegion()
     {
         //1. 사용할 수만큼 겹치지 않도록 Chunk 인덱스 추출
         List<int> randomIdx = GameUtil.GetRandomNum(m_chunkList.Count, m_devilStartCount+m_nationStartCount);
@@ -345,6 +346,7 @@ public class MGContent : Mg<MGContent>
         //악마 뽑기 호출
         m_devilIncubator.DiceDevilList(_count);
     }
+    #endregion
 
     public Chunk GetChunk(int _chunkNum)
     {
