@@ -75,7 +75,7 @@ public class MgMasterData : Mg<MgMasterData>
         return m_charActionList;
     }
 
-    public TokenAction GetTileActions(int _actionPID)
+    public TokenAction GetTileAction(int _actionPID)
     {
         return GetDicData<TokenAction>(m_tileActionDataDic, _actionPID);
     }

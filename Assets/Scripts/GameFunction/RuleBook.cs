@@ -325,7 +325,7 @@ public class RuleBook
         for (int i = 0; i < tileData.AbleTileActionPID.Length; i++)
         {
             //4. 타일 데이터의 작업 가능한 액션 pid 리스트에 해당하는 타일액션들을 찾아서 반환
-            TokenAction ableAction = MgMasterData.GetInstance().GetTileActions(tileData.AbleTileActionPID[i]);
+            TokenAction ableAction = MgMasterData.GetInstance().GetTileAction(tileData.AbleTileActionPID[i]);
             if(ableAction == null)
             {
                 Debug.Log("해당 pid에 해당하는 액션 없음");
