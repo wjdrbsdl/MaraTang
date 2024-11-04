@@ -132,7 +132,7 @@ public class OrderExcutor
                 if (tileInRange == FixedValue.NO_NATION_NUMBER)
                 {
                     Debug.Log("해당 영지 변경");
-                    roundTile[r].ChangePlace(TileType.Farm);
+                    roundTile[r].ChangePlace((TileType)16);
                     return;
                 }
             }
