@@ -46,6 +46,9 @@ public class OrderExcutor
         switch (tokenGroup)
         {
             //개별적으로 CallBack을 보내는 경우는 return.
+            case TokenType.Tile:
+                BuildPlace(orderSubIdx, orderValue);
+                return;
             case TokenType.Char:
                // Debug.Log("몬스터 소환");
                 ExcuteSpawnMonster(_order, orderItem);
@@ -108,6 +111,31 @@ public class OrderExcutor
             CallBackOrder(spawnToken, _order, _monterOrder); //스폰된 토큰과 주문서로 고객에게 콜백
         }
 
+    }
+
+    private void BuildPlace(int _subIdx, int _value)
+    {
+        //국가경계를 기준으로 주변 타일 하나를
+        //정해진 타일로 변경하는 주문 
+        TileReturner tileReturner = new();
+        //국가 영토중 외곽 타일 하나를 집는다. 
+        TokenTile targetTile = tileReturner.NationBoundaryTile();
+        //그 타일부터 사거리 3~5 중에 영토 주인 없는걸로 진행
+        for (int range = 3; range <= 5; range++)
+        {
+            List<TokenTile> roundTile = GameUtil.GetTileTokenListInRange(range, targetTile.GetXIndex(), targetTile.GetYIndex(), range);
+            for (int r = 0; r < roundTile.Count; r++)
+            {
+                //주변 타일의 넘버가 같은 국가가 하나라도 국가가 아니면 얘는 외각
+                int tileInRange = roundTile[r].GetStat(TileStat.Nation);
+                if (tileInRange == FixedValue.NO_NATION_NUMBER)
+                {
+                    Debug.Log("해당 영지 변경");
+                    roundTile[r].ChangePlace(TileType.Farm);
+                }
+            }
+        }
+        
     }
 
     private void CallBackOrder(TokenBase _token, TTokenOrder _order, TOrderItem _doenItem)
