@@ -86,7 +86,7 @@ public class MgUI : MgGeneric<MgUI>
 
     }
 
-    public void ShowCapitalWorkShop(CapitalAction subCode, TokenTile _tile, TokenAction _action)
+    public void ShowCapitalWorkShop(CapitalAction subCode, TokenTile _tile, TokenTileAction _action)
     {
         UIBase openUI = null;
         //재료 관련 작업, 서브 코드에 따라 적당한 UI 호출 

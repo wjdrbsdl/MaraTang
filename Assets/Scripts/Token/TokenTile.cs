@@ -292,7 +292,11 @@ public class TokenTile : TokenBase, IWorkOrderPlace
     private void DoAutoTileAction()
     {
         //최초 장소가 건설되었을 때 자동 기능 수행
-     
+        int[] ablePid = MgMasterData.GetInstance().GetTileData((int)tileType).AbleTileActionPID;
+        for (int i = 0; i < ablePid.Length; i++)
+        {
+            TokenTileAction action = MgMasterData.GetInstance().GetTileAction(ablePid[i]);
+        }
 
     }
 

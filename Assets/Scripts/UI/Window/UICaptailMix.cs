@@ -11,7 +11,7 @@ public class UICaptailMix : UIBase
     [SerializeField] private RectTransform m_rectTrans;
 
     private InputSlot m_selectInputSlot = null;
-    public void SetChefUI(TokenTile _tile, TokenAction _actionToken)
+    public void SetChefUI(TokenTile _tile, TokenTileAction _actionToken)
     {
         m_window.SetActive(true);
        int tempSelectMaxCount = 2;

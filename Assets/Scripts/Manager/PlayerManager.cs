@@ -164,7 +164,7 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
         
     }
 
-    public void SelectTileAction(TokenTile _selectedToken, TokenAction _tileAction)
+    public void SelectTileAction(TokenTile _selectedToken, TokenTileAction _tileAction)
     {
         GamePlayMaster.GetInstance().PlayTileAction(_selectedToken, _tileAction);
     }

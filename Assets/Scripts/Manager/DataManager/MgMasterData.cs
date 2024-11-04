@@ -7,7 +7,7 @@ public class MgMasterData : Mg<MgMasterData>
 {
     private Dictionary<int, TileTypeData> m_tileTypeDataDic;
     private Dictionary<int, TokenChar> m_charDataDic;
-    private Dictionary<int, TokenAction> m_tileActionDataDic;
+    private Dictionary<int, TokenTileAction> m_tileActionDataDic;
     private Dictionary<int, BlessSynerge> m_synergeDataDic;
     private Dictionary<int, TokenAction> m_charActionDataDic;
     private List<int> m_charActionList;
@@ -75,9 +75,9 @@ public class MgMasterData : Mg<MgMasterData>
         return m_charActionList;
     }
 
-    public TokenAction GetTileAction(int _actionPID)
+    public TokenTileAction GetTileAction(int _actionPID)
     {
-        return GetDicData<TokenAction>(m_tileActionDataDic, _actionPID);
+        return GetDicData<TokenTileAction>(m_tileActionDataDic, _actionPID);
     }
 
     public TokenEvent GetEventData(int _eventPID)
@@ -264,7 +264,8 @@ public class MgMasterData : Mg<MgMasterData>
         m_tileActionDataDic = new();
         for (int i = 0; i < parseContainer.DbValueList.Count; i++)
         {
-            TokenAction tileAction = new TokenAction(parseContainer.MatchCode, parseContainer.DbValueList[i]);
+            //TokenAction tileAction = new TokenAction(parseContainer.MatchCode, parseContainer.DbValueList[i]);
+            TokenTileAction tileAction = new TokenTileAction(parseContainer.MatchCode, parseContainer.DbValueList[i]);
             m_tileActionDataDic.Add(tileAction.GetPid(), tileAction);
         }
     }

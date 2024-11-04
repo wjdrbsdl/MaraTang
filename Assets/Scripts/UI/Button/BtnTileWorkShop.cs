@@ -7,10 +7,10 @@ public class BtnTileWorkShop : MonoBehaviour
 {
     [SerializeField]
     private TMP_Text m_tmpText;
-    private TokenAction m_workCode;
+    private TokenTileAction m_workCode;
     private TokenTile m_tile;
   
-    public void SetButtonInfo(TokenTile _tile, TokenAction _tileAction)
+    public void SetButtonInfo(TokenTile _tile, TokenTileAction _tileAction)
     {
         m_tmpText.text = _tileAction.GetItemName();
         m_tile = _tile;

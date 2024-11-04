@@ -6,7 +6,7 @@ using System;
 
 public class RuleBookTileAction
 {
-    public void ConductTileAction(TokenTile _tile, TokenAction _action)
+    public void ConductTileAction(TokenTile _tile, TokenTileAction _action)
     {
         TokenChar player = MgToken.GetInstance().GetMainChar();
         if (GameUtil.GetMinRange(player, _tile) > 0 && GamePlayMaster.GetInstance().AdaptInTileForAct == true)

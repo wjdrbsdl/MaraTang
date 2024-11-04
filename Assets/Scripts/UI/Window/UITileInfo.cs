@@ -113,7 +113,7 @@ public class UITileInfo : UIBase
 
     private void SetTileAction()
     {
-        TokenAction[] tileWorks = GamePlayMaster.GetInstance().RuleBook.RequestTileActions(m_curType);
+        TokenTileAction[] tileWorks = GamePlayMaster.GetInstance().RuleBook.RequestTileActions(m_curType);
         setCount = tileWorks.Length;
         //사용하는 만큼 버튼 활성화 
         MakeSamplePool<BtnTileWorkShop>(ref m_workButtones, m_workButtonSample.gameObject, setCount, m_tileActionBox);
@@ -121,7 +121,7 @@ public class UITileInfo : UIBase
         SetActionButtons(m_curTile, tileWorks);
     }
 
-    private void SetActionButtons(TokenTile _tile, TokenAction[] _workes)
+    private void SetActionButtons(TokenTile _tile, TokenTileAction[] _workes)
     {
 
         for (int i = 0; i < setCount; i++)

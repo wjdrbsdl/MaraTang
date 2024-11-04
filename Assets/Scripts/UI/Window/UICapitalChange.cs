@@ -10,7 +10,7 @@ public class UICapitalChange : UIBase
     [SerializeField] private RectTransform m_rectTrans;
 
     private InputSlot m_selectInputSlot = null;
-    public void SetChangeUI(TokenTile _tile, TokenAction _actionToken)
+    public void SetChangeUI(TokenTile _tile, TokenTileAction _actionToken)
     {
         //1. 선택한 재료 세팅할 부분
         m_window.SetActive(true);
