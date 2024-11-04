@@ -48,8 +48,14 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
             //MgToken.GetInstance().MakeMap(); // 맵 다시만들기
             //FirstStart();
             //  MGContent.GetInstance().m_devilIncubator.SetRestBrithTurn(tempDevilBirthrestTurm);
-            KMP kmpTest = new KMP();
-            kmpTest.Search();
+
+            //kmp테스트
+            //KMP kmpTest = new KMP();
+            //kmpTest.Search();
+
+            OrderExcutor excutor = new();
+            TOrderItem item = new TOrderItem(TokenType.Tile, 1, 1);
+            excutor.BuildPlace(1, 1);
             
         }
         if (Input.GetKeyDown(KeyCode.F7))
