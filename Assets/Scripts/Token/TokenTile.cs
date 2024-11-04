@@ -174,18 +174,18 @@ public class TokenTile : TokenBase, IWorkOrderPlace
     public bool RegisterWork(WorkOrder _work)
     {
         WorkType workType = _work.m_workType;
-        //공사중일때 추가 가능한지 체크 
+        //공사는 한건만 진행하지만 예외로 내부공사중일땐 내부공사 추가 가능 
         if (m_workOrderList.Count >= 1)
         {
-            if(workType == WorkType.ChangeBuild)
+            if(workType != WorkType.InterBuild)
             {
-                Debug.Log("외부공사는 다른공사 중에 진행 불가");
+                Debug.Log("인테리어 빌드말곤 중첩 불가");
                 return false;
             }
 
-            if(m_workOrderList[0].m_workType == WorkType.ChangeBuild)
+            if(m_workOrderList[0].m_workType != WorkType.InterBuild)
             {
-                Debug.Log("외부공사 중엔 내부공사 추가도 불가");
+                Debug.Log("내부공사 중 아니면 내부 공사 중첩도 불가");
                 return false;
             }
         }
@@ -193,6 +193,7 @@ public class TokenTile : TokenBase, IWorkOrderPlace
         //그외 최초의 외부 공사이거나, 내부공사 추가는 가능 
         m_workOrderList.Add(_work);
         _work.m_orderPlace = this;
+        Debug.Log(workType + "작업 타일에 등록");
         return true;
     }
 
@@ -297,7 +298,11 @@ public class TokenTile : TokenBase, IWorkOrderPlace
         {
             TokenTileAction action = MgMasterData.GetInstance().GetTileAction(ablePid[i]);
             if (action.IsAutoStart)
+            {
                 Debug.Log("자동 시작함" + tileType);
+                GamePlayMaster.GetInstance().RuleBook.ConductTileAction(this, action);
+            }
+                
         }
 
     }
