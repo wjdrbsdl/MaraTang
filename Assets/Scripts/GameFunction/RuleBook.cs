@@ -212,7 +212,7 @@ public class RuleBook
         }
 
      //   Debug.Log(_devil.GetItemName() + "¿Ã " + _wrongAction.GetItemName() + "∫Œ¡§¿ª ≥¢√∆¥Ÿ.");
-        TokenTile tile = (TokenTile)_devil.GetTarget();
+        TokenTile tile = _devil.GetTargetTile();
         tile.GetNation().CalStat(NationStatEnum.Happy, -_wrongAction.GetStat(CharActionStat.Power));
 
         GamePlayMaster.GetInstance().DoneCharAction(_devil);

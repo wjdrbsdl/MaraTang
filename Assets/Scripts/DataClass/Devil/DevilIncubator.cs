@@ -133,8 +133,8 @@ public class DevilIncubator
             m_devilStateList[index] = DevilState.유아;
 
 
-            TokenBase targetNation = MgNation.GetInstance().GetNation(0).GetCapital();
-            m_devilList[index].SetTarget(targetNation);
+            TokenTile targetNation = MgNation.GetInstance().GetNation(0).GetCapital();
+            m_devilList[index].SetTargetTile(targetNation);
           //  Debug.Log(targetNation.GetItemName() + "을 악마 타겟으로 설정");
 
             birthCount += 1;

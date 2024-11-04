@@ -106,7 +106,7 @@ public class AIPlayer : PlayerRule
             
 
         //일단 타겟과 사거리를 구함 
-        TokenBase  enemy = FindEnemy(_char);
+        TokenChar  enemy = FindEnemy(_char);
         //타겟없으면 패스
         if (enemy == null)
         {
@@ -138,7 +138,7 @@ public class AIPlayer : PlayerRule
         }
 
         //2. 공격 가능한지 본다 
-        TokenAction attactAction = SelectAttack(_char, actionTable[(int)ActionType.Attack], (TokenChar)enemy);
+        TokenAction attactAction = SelectAttack(_char, actionTable[(int)ActionType.Attack], enemy);
         if (attactAction != null)
         {
           //  Debug.Log(m_turnNumber + " 공격 수행");
@@ -147,15 +147,15 @@ public class AIPlayer : PlayerRule
             
             
         //마지막으로 이동 액션을 살펴서 반환
-        return SelectMove(_char, actionTable[(int)ActionType.Move], (TokenTile)enemy);
+        return SelectMove(_char, actionTable[(int)ActionType.Move], GameUtil.GetTileTokenFromMap(enemy.GetMapIndex()));
 
     }
 
     #region 액션 선택 로직
-    private TokenBase FindEnemy(TokenChar _char)
+    private TokenChar FindEnemy(TokenChar _char)
     {
-        if (_char.GetTarget() != null)
-            return _char.GetTarget();
+        if (_char.GetTargetChar() != null)
+            return _char.GetTargetChar();
 
         int tempEyesight = 5;
         for (int x = 1; x <= tempEyesight; x++)

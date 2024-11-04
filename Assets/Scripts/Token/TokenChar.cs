@@ -22,7 +22,8 @@ public class TokenChar : TokenBase
     [JsonProperty] private CharState m_state = CharState.Idle;
     [JsonProperty] private List<TokenAction> m_haveActionList = new(); //이 캐릭터가 지니고 있는 액션 토큰들
     private TokenAction m_nextAction = null;
-    private TokenBase m_nextTarget;
+    private TokenTile m_nextTargetTile;
+    private TokenChar m_nextTargetChar;
     private TokenCharMood m_mood;
     private GuildCard m_guildID;
     private List<GodBless> m_blessList = new();
@@ -128,9 +129,14 @@ public class TokenChar : TokenBase
         return m_blessList;
     }
 
-    public TokenBase GetTarget()
+    public TokenChar GetTargetChar()
     {
-        return m_nextTarget;
+        return m_nextTargetChar;
+    }
+
+    public TokenTile GetTargetTile()
+    {
+        return m_nextTargetTile;
     }
 
     public int GetActionCount()
@@ -202,9 +208,9 @@ public class TokenChar : TokenBase
         m_object.SyncObjectPosition(_x, _y);
     }
 
-    public void SetTarget(TokenBase _tokenBase)
+    public void SetTargetTile(TokenTile _tokenBase)
     {
-        m_nextTarget = _tokenBase;
+        m_nextTargetTile = _tokenBase;
     }
 
     public void AddActionToken(TokenAction _action)
