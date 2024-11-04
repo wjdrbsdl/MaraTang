@@ -113,13 +113,14 @@ public class OrderExcutor
 
     }
 
-    private void BuildPlace(int _subIdx, int _value)
+    public void BuildPlace(int _subIdx, int _value)
     {
         //국가경계를 기준으로 주변 타일 하나를
         //정해진 타일로 변경하는 주문 
         TileReturner tileReturner = new();
         //국가 영토중 외곽 타일 하나를 집는다. 
         TokenTile targetTile = tileReturner.NationBoundaryTile();
+        targetTile.ChangePlace(TileType.WoodLand); //확인위해 변경
         //그 타일부터 사거리 3~5 중에 영토 주인 없는걸로 진행
         for (int range = 3; range <= 5; range++)
         {
@@ -132,6 +133,7 @@ public class OrderExcutor
                 {
                     Debug.Log("해당 영지 변경");
                     roundTile[r].ChangePlace(TileType.Farm);
+                    return;
                 }
             }
         }
