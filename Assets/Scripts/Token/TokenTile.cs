@@ -38,7 +38,7 @@ public class TokenTile : TokenBase, IWorkOrderPlace
     public TileType tileType;
     public List<int> doneInteriorList; //지어진 장소
     public int ChunkNum;
-    public List<WorkOrder> m_workOrderList;
+    public WorkOrder m_workOrder = null; //진행중인 공사
     public WorkOrder m_outBuildOrder;
     private TileViewState m_viewState = TileViewState.Fog;
     private TokenEvent m_enteranceEvent; //입장시 발동하는 이벤트가 있는가
@@ -61,7 +61,6 @@ public class TokenTile : TokenBase, IWorkOrderPlace
         tileToken.m_tokenIValues = new int[GameUtil.EnumLength(TileStat.Height)];
         tileToken.m_tokenType = TokenType.Tile;
         tileToken.doneInteriorList = new();
-        tileToken.m_workOrderList = new();
         return tileToken;
     }
 
@@ -173,59 +172,44 @@ public class TokenTile : TokenBase, IWorkOrderPlace
     #region 작업서
     public bool RegisterWork(WorkOrder _work)
     {
-        WorkType workType = _work.m_workType;
-        //공사는 한건만 진행하지만 예외로 내부공사중일땐 내부공사 추가 가능 
-        if (m_workOrderList.Count >= 1)
+        if(m_workOrder != null)
         {
-            if(workType != WorkType.InterBuild)
-            {
-                Debug.Log("인테리어 빌드말곤 중첩 불가");
-                return false;
-            }
-
-            if(m_workOrderList[0].m_workType != WorkType.InterBuild)
-            {
-                Debug.Log("내부공사 중 아니면 내부 공사 중첩도 불가");
-                return false;
-            }
+            Debug.Log("공사는 하나만");
+            return false;
         }
 
-        //그외 최초의 외부 공사이거나, 내부공사 추가는 가능 
-        m_workOrderList.Add(_work);
+        m_workOrder = _work;
         _work.m_orderPlace = this;
-        Debug.Log(workType + "작업 타일에 등록");
+        Debug.Log(_work.m_workType + "작업 타일에 등록");
         return true;
     }
 
-    public void RemoveWork(WorkOrder _work)
+    public void RemoveWork()
     {
-        Debug.Log("타일토큰에서 작업제거"+_work.m_workType);
-        m_workOrderList.Remove(_work);
+        m_workOrder = null;
+        return;
     }
 
     public bool IsWorking(WorkType _workType, int _pid)
     {
-        for (int i = 0; i < m_workOrderList.Count; i++)
-        {
-            if (m_workOrderList[i].m_workType == _workType && m_workOrderList[i].m_workPid == _pid)
-            {
-                return true;
-            }
-        }
-        return false;
+        if (m_workOrder == null)
+            return false;
+
+        if (m_workOrder.m_workType != _workType || m_workOrder.m_workPid == _pid)
+            return false;
+
+        return true;
     }
 
     public bool IsOutBuilding()
     {
-        if (m_workOrderList.Count == 0)
+        if (m_workOrder == null)
             return false;
 
-        if (m_workOrderList[0].m_workType == WorkType.ChangeBuild)
-        {
-            return true;
-        }
+        if (m_workOrder.m_workType == WorkType.InterBuild)
+            return false;
 
-        return false;
+        return true;
     }
 
     public void CompleteOutBuild(TileType _tileType)

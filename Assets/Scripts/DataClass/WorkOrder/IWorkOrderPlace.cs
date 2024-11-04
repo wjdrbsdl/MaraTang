@@ -13,6 +13,6 @@ public interface IWorkOrderPlace
     public bool RegisterWork(WorkOrder _work);
 
     //작업이 완성, 취소된 경우 해당 작업서를 내부에서 제거해야함. 
-    public void RemoveWork(WorkOrder _work);
+    public void RemoveWork();
  
 }

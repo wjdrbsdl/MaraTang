@@ -203,7 +203,7 @@ public class WorkOrder
         //해당 장소가 매턴 작업여부를 확인하지 않는다면 갱신이 안되기 때문에 제거 되어야하는 경우 작업장소로 제거할것을 요청. 
 
         if (m_orderPlace != null)
-            m_orderPlace.RemoveWork(this);
+            m_orderPlace.RemoveWork();
     }
 
     #region 상태 체크
