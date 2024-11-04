@@ -170,6 +170,7 @@ public class TokenTile : TokenBase, IWorkOrderPlace
     }
     #endregion
 
+    #region 작업서
     public bool RegisterWork(WorkOrder _work)
     {
         WorkType workType = _work.m_workType;
@@ -226,6 +227,28 @@ public class TokenTile : TokenBase, IWorkOrderPlace
         return false;
     }
 
+    public void CompleteOutBuild(TileType _tileType)
+    {
+        tileType = _tileType;
+
+        SetTileSprite();
+    }
+
+    public bool IsBuildInterior(int _pid)
+    {
+        if (doneInteriorList.IndexOf(_pid) == -1)
+            return false;
+
+        return true;
+    }
+
+    public void CompleteInterBuild(int _pid)
+    {
+        doneInteriorList.Add(_pid);
+    }
+    #endregion
+
+    #region GetSet
     public TileType GetTileType()
     {
         return tileType;
@@ -262,26 +285,15 @@ public class TokenTile : TokenBase, IWorkOrderPlace
         tileType = _tileType;
 
         SetTileSprite();
+        DoAutoTileAction();
     }
+    #endregion
 
-    public void DoneOutBuild(TileType _tileType)
+    private void DoAutoTileAction()
     {
-        tileType = _tileType;
+        //최초 장소가 건설되었을 때 자동 기능 수행
+     
 
-        SetTileSprite();
-    }
-
-    public void DoneInteriorBuild(int _pid)
-    {
-        doneInteriorList.Add(_pid);
-    }
-
-    public bool IsBuildInterior(int _pid)
-    {
-        if (doneInteriorList.IndexOf(_pid) == -1)
-            return false;
-
-        return true;
     }
 
     #region 입장 이벤트
