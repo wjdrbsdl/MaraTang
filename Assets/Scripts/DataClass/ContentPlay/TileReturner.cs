@@ -13,7 +13,7 @@ public class TileReturner
 
         for (int i = 0; i < nationTiles.Count; i++)
         {
-           List<TokenTile> roundTile = GameUtil.GetTileTokenListInRange(1, nationTiles[i].GetXIndex(), nationTiles[i].GetYIndex(), 1);
+           List<TokenTile> roundTile = GameUtil.GetTileTokenListInRange(1, nationTiles[i].GetMapIndex(), 1);
             for (int r = 0; r < roundTile.Count; r++)
             {
                 //주변 타일의 넘버가 같은 국가가 하나라도 국가가 아니면 얘는 외각

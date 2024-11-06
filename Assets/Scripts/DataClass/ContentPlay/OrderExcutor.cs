@@ -124,7 +124,7 @@ public class OrderExcutor
         //그 타일부터 사거리 3~5 중에 영토 주인 없는걸로 진행
         for (int range = 3; range <= 5; range++)
         {
-            List<TokenTile> roundTile = GameUtil.GetTileTokenListInRange(range, targetTile.GetXIndex(), targetTile.GetYIndex(), range);
+            List<TokenTile> roundTile = GameUtil.GetTileTokenListInRange(range, targetTile.GetMapIndex(), range);
             for (int r = 0; r < roundTile.Count; r++)
             {
                 //주변 타일의 넘버가 같은 국가가 하나라도 국가가 아니면 얘는 외각

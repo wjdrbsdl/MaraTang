@@ -45,15 +45,15 @@ public class Nation : ITradeCustomer
         nation.m_godClass = _god;
         nation.m_nationNumber = _nationNuber;
         nation.SetCapitalCity(_capitalCity);
+        nation.InitiStat();
         nation.AddTerritory(_capitalCity);
         //주변 1칸은 기본적으로 해당 국가 영토로 편입
-        List<TokenTile> boundaryTile = GameUtil.GetTileTokenListInRange(1, _capitalCity.GetXIndex(), _capitalCity.GetYIndex(),1);
+        List<TokenTile> boundaryTile = GameUtil.GetTileTokenListInRange(1, _capitalCity.GetMapIndex(),1);
         for (int i = 0; i < boundaryTile.Count; i++)
         {
             nation.AddTerritory(boundaryTile[i]);
         }
         nation.m_resources = new int[GameUtil.EnumLength(Capital.Food)];
-        nation.InitiStat();
         nation.TechPart = new NationTechPart();
         return nation;
     }
@@ -73,6 +73,7 @@ public class Nation : ITradeCustomer
 
         m_territorryList.Add(_tileToken);
         _tileToken.SetNation(m_nationNumber);
+        GamePlayMaster.GetInstance().FogContorl(_tileToken, GetStat(NationStatEnum.Sight));
     }
 
     public void RemoveTerritory(TokenTile _tileToken)
@@ -90,7 +91,7 @@ public class Nation : ITradeCustomer
         nationStatValues = GameUtil.EnumLengthArray(typeof(NationStatEnum));
         SetStatValue(NationStatEnum.성실, 100);
         SetStatValue(NationStatEnum.Happy, 100);
-        SetStatValue(NationStatEnum.Sight, 5);
+        SetStatValue(NationStatEnum.Sight, 3);
     }
 
 
@@ -442,7 +443,7 @@ public class Nation : ITradeCustomer
     }
 
     #region 스텟 배열 적용하는 부분
-    public int GetStat(NationStatEnum _nationStat, int _value)
+    public int GetStat(NationStatEnum _nationStat)
     {
         int index = (int)_nationStat;
         return nationStatValues[index];

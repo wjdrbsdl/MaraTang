@@ -162,7 +162,7 @@ public class AIPlayer : PlayerRule
         {
             //각 범위별로 타일을 가져와서 확인
             //ex : 범위가 10일때, 1~10 타일 모두가 아니라 각 범위별로 확인해서 시간 줄이기 
-            List<TokenTile> inRangedTiles = GameUtil.GetTileTokenListInRange(x, _char.GetXIndex(), _char.GetYIndex(),x);
+            List<TokenTile> inRangedTiles = GameUtil.GetTileTokenListInRange(x, _char.GetMapIndex(),x);
             for (int i = 0; i < inRangedTiles.Count; i++)
             {
                 //타일 돌면서 내부 적 확인 

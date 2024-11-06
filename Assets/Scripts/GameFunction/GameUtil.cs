@@ -62,9 +62,9 @@ public static class GameUtil
         return rangedTile;
     }
 
-    public static List<TokenTile> GetTileTokenListInRange(int _range, int _centerX, int _centerY, int _minRange = 0)
+    public static List<TokenTile> GetTileTokenListInRange(int _range, int[] _center, int _minRange = 0)
     {
-       return GameUtil.GetTileIdxListInRange(_range, _centerX, _centerY, _minRange).ConvertAll(new System.Converter<int[], TokenTile>(GetTileTokenFromMap)); // 사거리 내부 안의 타일 가져오기
+       return GameUtil.GetTileIdxListInRange(_range, _center[0], _center[1], _minRange).ConvertAll(new System.Converter<int[], TokenTile>(GetTileTokenFromMap)); // 사거리 내부 안의 타일 가져오기
     }
 
     public static List<ObjectTokenBase> GetTileObjectInRange(int _range, int _centerX, int _centerY, int _minRange = 0)

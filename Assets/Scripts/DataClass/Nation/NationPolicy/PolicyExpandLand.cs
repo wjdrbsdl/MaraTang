@@ -28,7 +28,7 @@ public class PolicyExpandLand : NationPolicy
         for (int i = 1; i <= m_nation.GetNationLevel(); i++)
         {
             //1. 수도 도시 주변으로 사거리 내 타일 하나씩 살핌
-            List<TokenTile> rangeInTile = GameUtil.GetTileTokenListInRange(i, m_nation.GetCapital().GetXIndex(), m_nation.GetCapital().GetYIndex(), i);
+            List<TokenTile> rangeInTile = GameUtil.GetTileTokenListInRange(i, m_nation.GetCapital().GetMapIndex(), i);
             //2. 무소속이면 대상 토지를 편입. 
             for (int tileIdx = 0; tileIdx < rangeInTile.Count; tileIdx++)
             {

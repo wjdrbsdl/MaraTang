@@ -37,7 +37,7 @@ public class PolicyBuildResrouceTile : NationPolicy
         for (int i = 1; i <= endRange; i++)
         {
             //1. 수도 도시 주변으로 사거리 내 타일 하나씩 살핌
-            List<TokenTile> rangeInTile = GameUtil.GetTileTokenListInRange(i, m_nation.GetCapital().GetXIndex(), m_nation.GetCapital().GetYIndex(), i);
+            List<TokenTile> rangeInTile = GameUtil.GetTileTokenListInRange(i, m_nation.GetCapital().GetMapIndex(), i);
 
             for (int tileIdx = 0; tileIdx < rangeInTile.Count; tileIdx++)
             {
