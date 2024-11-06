@@ -195,7 +195,7 @@ public class TokenTile : TokenBase, IWorkOrderPlace
         if (m_workOrder == null)
             return false;
 
-        if (m_workOrder.m_workType != _workType || m_workOrder.m_workPid == _pid)
+        if (m_workOrder.m_workType != _workType || m_workOrder.m_workPid != _pid)
             return false;
 
         return true;
