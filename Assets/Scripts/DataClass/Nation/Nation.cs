@@ -16,7 +16,7 @@ public enum NationManageStepEnum
 
 public enum NationStatEnum
 {
-     Happy, CleanFlat, CleanRatio, 성실, 안정
+     Happy, CleanFlat, CleanRatio, 성실, 안정, Sight
 }
 
 public class Nation : ITradeCustomer
@@ -90,6 +90,7 @@ public class Nation : ITradeCustomer
         nationStatValues = GameUtil.EnumLengthArray(typeof(NationStatEnum));
         SetStatValue(NationStatEnum.성실, 100);
         SetStatValue(NationStatEnum.Happy, 100);
+        SetStatValue(NationStatEnum.Sight, 5);
     }
 
 
