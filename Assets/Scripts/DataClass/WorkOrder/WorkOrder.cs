@@ -37,7 +37,11 @@ public class WorkOrder
     public WorkOrder(List<TOrderItem> _needList, int _needWorkGague, int _workPid = -1, WorkType _workType = WorkType.ChangeBuild)
     {
         if (_needList == null)
+        {
             _needList = new();
+            _needList.Add(new TOrderItem(TokenType.Capital, (int)Capital.Food, 5000));
+        }
+            
 
         //작업주문서 작성
         m_needList = _needList;

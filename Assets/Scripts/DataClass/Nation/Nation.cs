@@ -213,8 +213,9 @@ public class Nation : ITradeCustomer
         //작업서 쓰고
         WorkOrder workOrder = policy.WriteWorkOrder();
         //기본 재료 다넣을수있는지 체크
-        if (workOrder.PushResource(this) == false)
-            return;
+        //재료 상관없이 작업만들수 있고, 부족분은 플레이어에게 요청 혹은 부족함을 표기함. 
+        //if (workOrder.PushResource(this) == false)
+        //    return;
 
        AddWorkorder(workOrder);
         
