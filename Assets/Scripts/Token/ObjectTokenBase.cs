@@ -107,6 +107,17 @@ public class ObjectTokenBase : MonoBehaviour
     }
     #endregion
 
+    public void ShowWorkOrder(WorkOrder _workOrder)
+    {
+
+    }
+
+    public void OffWorkOrder()
+    {
+
+    }
+
+
     public void ShowActionIcon(ActionType _action)
     {
         m_actionIcon.sprite = TempSpriteBox.GetInstance().CapitalLand;
