@@ -15,14 +15,9 @@ using UnityEngine;
         return workPin;
     }
 
-    public void RemovePin(WorkOrderPin _pin)
+    public void RemovePin(TokenTile _tile)
     {
-        //제거 요구 받은 핀이 null이면 종료
-        if (_pin == null)
-            return;
 
-        m_pinLIst.Remove(_pin);
-        Destroy(_pin.gameObject);
     }
 
 }
