@@ -25,6 +25,8 @@ public class MgGameIniti : MgGeneric<MgGameIniti>
     [SerializeField]
     MgNaviPin m_naviManager;
     [SerializeField]
+    MgWorkOrderPin m_workOrderManager;
+    [SerializeField]
     MgUI m_playerGameUI;
     [SerializeField]
     TempSpriteBox m_tempSpriteBox;
@@ -126,6 +128,8 @@ public class MgGameIniti : MgGeneric<MgGameIniti>
         InputDataMGWorkStep(delegate { m_capitalManager.ManageInitiSet(); PlayMgInitiWorkStep("mg자원셋끝"); });
 
         InputDataMGWorkStep(delegate { m_naviManager.ManageInitiSet(); PlayMgInitiWorkStep("mg네비셋끝"); });
+
+        InputDataMGWorkStep(delegate { m_workOrderManager.ManageInitiSet(); PlayMgInitiWorkStep("mg핀셋끝"); });
 
         InputDataMGWorkStep(delegate { contentManager = new MGContent(); PlayMgInitiWorkStep("컨텐츠 매니저 끝"); });
 

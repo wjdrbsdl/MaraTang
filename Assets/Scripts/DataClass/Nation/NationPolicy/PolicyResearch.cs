@@ -9,7 +9,7 @@ public class PolicyResearch : NationPolicy
     
     public override void MakePlan()
     {
-        Debug.Log("연구 계획");
+      //  Debug.Log("연구 계획");
 
         SelectTechTree();
     }

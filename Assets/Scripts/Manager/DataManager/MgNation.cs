@@ -51,7 +51,7 @@ public class MgNation : Mg<MgNation>
 
     public void EndNationTurn()
     {
-        Debug.Log("국가턴 종료" + m_turnNationNumber);
+       // Debug.Log("국가턴 종료" + m_turnNationNumber);
         //턴 진행중이던 국가로부터 자신의 턴이 끝났음을 전달 받으면
         int nationCount = m_nationList.Count;
         m_turnNationNumber += 1; //다음 진행 국가를 뽑고 할 놈이 남았는지 확인
@@ -68,7 +68,7 @@ public class MgNation : Mg<MgNation>
 
     public void EndTurnEndSettle()
     {
-        Debug.Log(m_settleNationNumber + " 국가정산 종료" );
+       // Debug.Log(m_settleNationNumber + " 국가정산 종료" );
         //턴 진행중이던 국가로부터 자신의 턴이 끝났음을 전달 받으면
         int nationCount = m_nationList.Count;
         m_settleNationNumber += 1; //다음 진행 국가를 뽑고 할 놈이 남았는지 확인

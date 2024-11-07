@@ -9,6 +9,7 @@ public class WorkOrderPin : MonoBehaviour
     private Camera m_mainCam;
     private void Start()
     {
+        Debug.Log("작업핀 생성");
         m_mainCam = Camera.main;
     }
 
@@ -19,7 +20,8 @@ public class WorkOrderPin : MonoBehaviour
 
     public void SetPinInfo(TokenTile _tile)
     {
-        naviPoint = new Vector2(_tile.GetXIndex(), _tile.GetYIndex());
+        //타일의 오브젝트 위치가 핀이 꽂힐 위치 
+        naviPoint = _tile.GetObject().transform.position;
     }
 
     public void SwitchPin(bool _on)
@@ -41,7 +43,7 @@ public class WorkOrderPin : MonoBehaviour
             transform.position = naviPoint;
             return;
         }
-
+        
         SwitchPin(false); //화면밖이면 꺼
     }
 
