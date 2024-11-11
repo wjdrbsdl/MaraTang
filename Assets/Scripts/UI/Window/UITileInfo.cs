@@ -33,6 +33,9 @@ public class UITileInfo : UIBase
     private BtnBuild[] m_buildButtones;
 
     [SerializeField]
+    private BtnInputResource m_putButton; //토지 점령 버튼
+
+    [SerializeField]
     private BtnOccupy m_occupyButton; //토지 점령 버튼
     private int setCount = 0;
     #endregion
@@ -47,6 +50,7 @@ public class UITileInfo : UIBase
         if (_tile.GetPolicy() != null)
         {
             Debug.Log("임시: 타일 누르면 작업서 플레이어가 자본출자");
+            SetPushButton();
             _tile.GetPolicy().ShowWorkOrder();
         }
             
@@ -77,6 +81,7 @@ public class UITileInfo : UIBase
         SetOutBuild();
         SetResourceInfo();
         SetOccupyButton();
+        SetPushButton();
         SetTileStat();
     }
 
@@ -85,6 +90,7 @@ public class UITileInfo : UIBase
     private void SetOutBuildInfo()
     {
         m_nationText.text = ((TileType)m_curTile.m_workOrder.m_workPid).ToString() + "작업 중";
+        m_curTile.m_workOrder.NoticeNeedResource();
     }
 
     private void SetOutBuild()
@@ -207,6 +213,12 @@ public class UITileInfo : UIBase
         //3. 세팅
         m_occupyButton.SetButton(_tile, this); 
         
+    }
+
+    private void SetPushButton()
+    {
+        TokenTile _tile = m_curTile;
+        m_putButton.SetButton(_tile, this);
     }
     #endregion
 
