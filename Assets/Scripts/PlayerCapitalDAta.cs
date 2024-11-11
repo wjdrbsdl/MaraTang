@@ -53,7 +53,10 @@ public class PlayerCapitalData : ITradeCustomer
                     {
                         Debug.Log("부족 겜마스터 인벤체크 여부 변수값에 따라 체크");
                         if(GamePlayMaster.GetInstance().m_testCheckPlayerInventory == true)
-                             return false;
+                        {
+                            return false;
+                        }
+                        Debug.Log("치트로 자원 없어도 지불");
                     }
                     break;
                 default:
