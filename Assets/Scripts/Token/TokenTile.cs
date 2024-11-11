@@ -187,6 +187,7 @@ public class TokenTile : TokenBase, IWorkOrderPlace
 
     public void RemoveWork()
     {
+        //1. 작업오더가 핀의 키값이므로 먼저 핀제거 요청 
         MgWorkOrderPin.GetInstance().RemovePin(this);
         m_workOrder = null;
         return;
