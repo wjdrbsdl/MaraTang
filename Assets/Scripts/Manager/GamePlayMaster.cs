@@ -261,12 +261,14 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
         //만약 플레이어 캐릭터가 이동한거라면 해당 위치에서 다시 안개 설정
         FogContorl(_charToken);
 
-        //1. 입장 이벤트가 있는가
+        SearchTile findTile = new();
+        //1. 채집 진행
+        findTile.FindSomething(GameUtil.GetTileTokenFromMap(_charToken.GetMapIndex()));
+        //2. 입장 이벤트가 있는가
         TokenEvent enterEvent = RuleBook.CheckEnteranceEvent(_charToken.GetMapIndex());
         if (enterEvent != null)
         {
             enterEvent.ActiveEvent();
-            return;
         }
     }
 
