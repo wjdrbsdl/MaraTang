@@ -26,7 +26,8 @@ public class WorkOrderPin : MonoBehaviour
 
     public void SwitchPin(bool _on)
     {
-        gameObject.SetActive(_on);
+        //gameObject.SetActive(_on);
+        m_spriteRender.enabled =_on;
     }
 
     public void DestroyPin()
@@ -41,9 +42,18 @@ public class WorkOrderPin : MonoBehaviour
         if (IsInCamevaView())
         {
             transform.position = naviPoint;
+
+            //이미 켜져있으면 종료
+            if (m_spriteRender.enabled)
+                return;
+
+            SwitchPin(true);
             return;
         }
-        
+
+        //이미 꺼져있으면 종료
+        if (m_spriteRender.enabled == false)
+            return;
         SwitchPin(false); //화면밖이면 꺼
     }
 
