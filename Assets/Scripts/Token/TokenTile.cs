@@ -274,6 +274,11 @@ public class TokenTile : TokenBase, IWorkOrderPlace
         SetTileSprite();
         DoAutoTileAction();
     }
+
+    public WorkOrder GetWorkOrder()
+    {
+        return m_workOrder;
+    }
     #endregion
 
     private void DoAutoTileAction()
