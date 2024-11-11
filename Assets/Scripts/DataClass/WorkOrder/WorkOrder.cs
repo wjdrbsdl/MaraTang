@@ -39,7 +39,8 @@ public class WorkOrder
         if (_needList == null)
         {
             _needList = new();
-            _needList.Add(new TOrderItem(TokenType.Capital, (int)Capital.Food, 5000));
+            Debug.LogWarning("임시로 작업 재료 할당");
+            _needList.Add(new TOrderItem(TokenType.Capital, (int)Capital.Wood, 5));
         }
             
 
@@ -69,7 +70,7 @@ public class WorkOrder
     }
 
     #region 자원 출입
-    public bool PushResource(ITradeCustomer _customer)
+    public bool PutResource(ITradeCustomer _customer)
     {
         //전체 필요한 양을 다 넣어야함. 
         //다만 중간에 상실하는 경우도 있으니 차이만큼 진행
@@ -161,7 +162,7 @@ public class WorkOrder
         //일 시킨다
         if(IsReadyResource() == false)
         {
-            Debug.Log("재료가 부족하여 작업 수행 불가");
+            Debug.Log("재료가 부족하여 작업 수행 불가" + m_workType);
             return;
         }
 

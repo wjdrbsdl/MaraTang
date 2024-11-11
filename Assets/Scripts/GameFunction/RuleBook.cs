@@ -366,7 +366,11 @@ public class RuleBook
         TileType territory = _tile.GetTileType();
         int mainType = _tile.GetStat(TileStat.MainResource);
         int tileEnegy = _tile.GetStat(TileStat.TileEnergy);
-        
+
+        Debug.LogWarning("임시로 획득자원 없도록");
+        return mineResult;
+        //임시 자원 수급처 차단 
+
         //테이블로 각 타입에서 얻을 수 있는 자원을 정의해놓기?
         switch (territory)
         {
