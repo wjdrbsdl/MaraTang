@@ -122,6 +122,29 @@ public class WorkOrder
         m_workTokenNum -= 1;
         return true;
     }
+
+    public void NoticeNeedResource()
+    {
+        List<TOrderItem> requestList = new List<TOrderItem>(); //요청 목록 제작
+                                                               //  string debugStr = "";
+        for (int i = 0; i < m_needList.Count; i++)
+        {
+            TOrderItem needItem = m_needList[i]; // 애초 필요량
+            TOrderItem cur = m_curList[i]; //현재 보유량
+            TOrderItem need = cur; //요구량 생성
+            need.Value = needItem.Value - cur.Value; //요구 수치 차액 진행
+            requestList.Add(need);
+            //  debugStr += requestList[i].Tokentype + " :" + requestList[i].Value + "필요";
+        }
+
+        string ar = "";
+        for (int i = 0; i < requestList.Count; i++)
+        {
+            ar += requestList[i].Tokentype + " " + requestList[i].Value + "\n";
+        }
+
+        Debug.Log(ar);
+    }
     #endregion
 
     //작업량 까는거
