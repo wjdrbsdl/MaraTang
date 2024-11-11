@@ -187,8 +187,8 @@ public class TokenTile : TokenBase, IWorkOrderPlace
 
     public void RemoveWork()
     {
-        m_workOrder = null;
         MgWorkOrderPin.GetInstance().RemovePin(this);
+        m_workOrder = null;
         return;
     }
 
