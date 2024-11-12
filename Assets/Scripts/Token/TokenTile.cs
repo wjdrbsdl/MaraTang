@@ -247,6 +247,11 @@ public class TokenTile : TokenBase, IWorkOrderPlace
         SetStatValue(TileStat.Nation, _nationNumber);
     }
 
+    public int GetNationNum()
+    {
+        return m_tokenIValues[(int)TileStat.Nation];
+    }
+
     public Nation GetNation()
     {
         int nationNum = m_tokenIValues[(int)TileStat.Nation];
