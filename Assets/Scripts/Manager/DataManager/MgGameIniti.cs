@@ -179,6 +179,7 @@ public class MgGameIniti : MgGeneric<MgGameIniti>
     {
         m_tokenManager.ReferenceSet(); //두 클래스의 인스턴스 참조가 필요해서 나중에 해야함.
         contentManager.ReferenceSet();
+        m_playerManager.ReferenceSet();
         DoneGameSetting();
     }
     public void DoneGameSetting()
