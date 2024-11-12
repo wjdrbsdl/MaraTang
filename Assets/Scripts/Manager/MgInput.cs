@@ -105,7 +105,7 @@ public class MgInput : MgGeneric<MgInput>
         {
             //첫 클릭
             //Debug.Log("생 초클릭");
-            PlayerManager.g_instance.ClickTokenBase(_clickToken.GetToken());
+            curInterceptor.ClickTokenBase(_clickToken.GetToken());
             m_preClickTime = curTime; //누른시간 넣고
             m_preClickToken = _clickToken; //누른 토큰 넣고
             return;
@@ -117,12 +117,12 @@ public class MgInput : MgGeneric<MgInput>
             if(curTime - m_preClickTime < m_doubleClickInterval)
             {
                 // Debug.Log("더블클릭");
-                PlayerManager.GetInstance().DoubleClickTokenBase(_clickToken.GetToken());
+                curInterceptor.DoubleClickTokenBase(_clickToken.GetToken());
             }
             else
             {
                 //Debug.Log("원클릭");
-                PlayerManager.g_instance.ClickTokenBase(_clickToken.GetToken());
+                curInterceptor.ClickTokenBase(_clickToken.GetToken());
             }
             m_preClickTime = curTime; //누른시간 넣고
             m_preClickToken = _clickToken; //누른 토큰 넣고
@@ -132,7 +132,7 @@ public class MgInput : MgGeneric<MgInput>
         //만약 다른 경우라면
         //첫 클릭으로 진행
         // Debug.Log("다른 원클릭");
-        PlayerManager.g_instance.ClickTokenBase(_clickToken.GetToken());
+        curInterceptor.ClickTokenBase(_clickToken.GetToken());
         m_preClickTime = curTime; //누른시간 넣고
         m_preClickToken = _clickToken; //누른 토큰 넣고
         return;
@@ -209,7 +209,7 @@ public class MgInput : MgGeneric<MgInput>
         {
             if (Input.GetKeyDown(inputNum[i]))
             {
-                PlayerManager.GetInstance().PushNumKey(i);
+                curInterceptor.PushNumKey(i);
             }
         }
         if (Input.GetKeyDown(mainCharCam))
