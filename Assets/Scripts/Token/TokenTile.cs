@@ -7,7 +7,7 @@ using TMPro;
 public enum TileType
 {
     //각 타일의 타입 기본 산, 노말, 강 거기에 용도변경으로 농지,광산, 마을 단계까지 모두 정의 해놓기? 아니면 레벨은 따로"?
-    Nomal, WoodLand, Farm, Town, Mine, Capital, Mountain, Cage=16
+    Nomal, WoodLand, Farm, Town, Mine, Capital, Mountain, Cage=16, Child
 }
 
 public enum TileViewState
