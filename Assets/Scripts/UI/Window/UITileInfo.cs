@@ -48,8 +48,9 @@ public class UITileInfo : UIBase
         UISwitch(true);
         m_curTile = _tile;
         TileDistance distance = new TileDistance();
-     //   Debug.Log(distance.AbleDistance(_tile));
-
+        Debug.Log("할당된 자식 "+_tile.GetChildIndex().Count);
+        if(_tile.parent != null)
+            Debug.Log(" 부모 " + _tile.parent[0] + "" + _tile.parent[1]);
         if (_tile.GetPolicy() != null)
         {
             Debug.Log("임시: 타일 누르면 작업서 플레이어가 자본출자");
@@ -77,6 +78,7 @@ public class UITileInfo : UIBase
         {
             //외부공사중이면 공사내역만 보여주고 끝
             SetOutBuildInfo();
+            SetPushButton();
             return;
         }
         SetTileAction();
