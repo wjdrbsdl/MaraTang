@@ -21,15 +21,6 @@ public class ObjectTokenBase : MonoBehaviour
     public int m_ClickPriority = 0;
     public AllIn1Shader m_spriteMenu;
 
-    public virtual void OnClickObject()
-    {
-        //클릭 매니저를 통해 오브젝트가 클릭되면
-        //1. 해당 오브젝트 토큰에 클릭을 호출
-        //2. 플레이어 매니저로 토큰 오브젝트가 클릭되었음을 알림 토큰 전달. 
-        PlayerManager.g_instance.ClickTokenObject(m_token);
-        
-    }
-
     public void SyncObjectPosition(int _x, int _y)
     {
         //Token 의 위치 값 대로 오브젝트 위치를 동기화 

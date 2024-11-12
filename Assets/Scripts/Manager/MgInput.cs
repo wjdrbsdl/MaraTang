@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class MgInput : MonoBehaviour
+public class MgInput : MgGeneric<MgInput>
 {
     public static MgInput GInstance;
     private bool m_isMouseClick = false;
@@ -23,10 +23,12 @@ public class MgInput : MonoBehaviour
     Vector2 priorMousePosition = new Vector2();
     KeyCode[] inputNum = { KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Alpha4, KeyCode.Alpha5 };
     KeyCode mainCharCam = KeyCode.Space;
-    private void Start()
+
+    public KeyInterceptor curInterceptor;
+
+    public override void ManageInitiSet()
     {
-        if(GInstance == null)
-        GInstance = this;
+        base.ManageInitiSet();
     }
 
     private void Update()
@@ -103,7 +105,7 @@ public class MgInput : MonoBehaviour
         {
             //첫 클릭
             //Debug.Log("생 초클릭");
-            _clickToken.OnClickObject();
+            PlayerManager.g_instance.ClickTokenBase(_clickToken.GetToken());
             m_preClickTime = curTime; //누른시간 넣고
             m_preClickToken = _clickToken; //누른 토큰 넣고
             return;
@@ -115,12 +117,12 @@ public class MgInput : MonoBehaviour
             if(curTime - m_preClickTime < m_doubleClickInterval)
             {
                 // Debug.Log("더블클릭");
-                PlayerManager.GetInstance().DoubleClickTokenObject(_clickToken.GetToken());
+                PlayerManager.GetInstance().DoubleClickTokenBase(_clickToken.GetToken());
             }
             else
             {
                 //Debug.Log("원클릭");
-                _clickToken.OnClickObject();
+                PlayerManager.g_instance.ClickTokenBase(_clickToken.GetToken());
             }
             m_preClickTime = curTime; //누른시간 넣고
             m_preClickToken = _clickToken; //누른 토큰 넣고
@@ -129,8 +131,8 @@ public class MgInput : MonoBehaviour
 
         //만약 다른 경우라면
         //첫 클릭으로 진행
-       // Debug.Log("다른 원클릭");
-        _clickToken.OnClickObject();
+        // Debug.Log("다른 원클릭");
+        PlayerManager.g_instance.ClickTokenBase(_clickToken.GetToken());
         m_preClickTime = curTime; //누른시간 넣고
         m_preClickToken = _clickToken; //누른 토큰 넣고
         return;
@@ -207,7 +209,7 @@ public class MgInput : MonoBehaviour
         {
             if (Input.GetKeyDown(inputNum[i]))
             {
-                PlayerManager.GetInstance().InputActionSlot(i);
+                PlayerManager.GetInstance().PushNumKey(i);
             }
         }
         if (Input.GetKeyDown(mainCharCam))
