@@ -40,6 +40,7 @@ public class BtnBuild : MonoBehaviour
         {
             //필요한 타입이 2개 이상인거면 타입 조합기 UI 활성화 필요 
             Debug.Log("필요 재료 2개 이상");
+            MgUI.GetInstance().ShowTileMix(m_tileType, tile.GetNationNum(), tile); //해당 타일 포함해서 전달 
             return;
         }
 
