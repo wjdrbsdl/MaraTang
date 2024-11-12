@@ -16,7 +16,7 @@ public class TileDistance
         if (nation == null)
         {
             int range = GameUtil.GetMinRange(_tile, mainChar);
-            Debug.Log("평지 용 거리" + range);
+        //    Debug.Log("평지 용 거리" + range);
 
             return range;
         }
@@ -24,7 +24,7 @@ public class TileDistance
 
         TokenTile captial = nation.GetCapital();
         int captialrange = GameUtil.GetMinRange(captial, mainChar);
-        Debug.Log("수도와 거리" + captialrange);
+    //    Debug.Log("수도와 거리" + captialrange);
 
         return captialrange;
     }
@@ -49,7 +49,7 @@ public class TileDistance
         //타일과 메인캐릭터 거리를 구하고
         int distance = CapitalFromChar(_tile);
         int bonusDistance = AdaptDistanceStat(_tile); //보정 거리 구하고
-        Debug.Log("보정거리 " + bonusDistance);
+   //     Debug.Log("보정거리 " + bonusDistance);
         if (distance <= bonusDistance)
             return true;
 

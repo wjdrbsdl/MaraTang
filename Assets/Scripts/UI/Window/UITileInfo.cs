@@ -47,6 +47,9 @@ public class UITileInfo : UIBase
     {
         UISwitch(true);
         m_curTile = _tile;
+        TileDistance distance = new TileDistance();
+     //   Debug.Log(distance.AbleDistance(_tile));
+
         if (_tile.GetPolicy() != null)
         {
             Debug.Log("임시: 타일 누르면 작업서 플레이어가 자본출자");
