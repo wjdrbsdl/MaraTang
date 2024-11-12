@@ -294,6 +294,8 @@ public class TokenTile : TokenBase, IWorkOrderPlace
         for (int i = 0; i < ablePid.Length; i++)
         {
             TokenTileAction action = MgMasterData.GetInstance().GetTileAction(ablePid[i]);
+            if (action == null)
+                continue;
             if (action.IsAutoStart)
             {
                 Debug.Log("자동 시작함" + tileType);
