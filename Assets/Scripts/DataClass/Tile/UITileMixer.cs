@@ -31,7 +31,7 @@ public class UITileMixer : UIBase, KeyInterceptor
         m_nationNum = _tile.GetNation().GetNationNum();
         //해당 타입을 만들기 위한 재료 정보를 가져와야함 
         SetRecipe(_goalTile);
-        AddTile(_tile);
+        OnClickTile(_tile);
         SetKeyInteceptor();
     }
  
@@ -81,14 +81,18 @@ public class UITileMixer : UIBase, KeyInterceptor
         AddTile(_tile);
     }
 
-    public void AddTile(TokenTile _tile)
+    #region 재료라인에 추가 제거
+    private void AddTile(TokenTile _tile)
     {
         m_inTile.Add(_tile); //리스트에 넣고
         needTile.Remove(_tile.GetTileType()); //필요한 타입에서 제외하고
         Debug.Log(_tile.GetTileType() + "추가 남은 재료 수" + needTile.Count);
+        //임시로 자동 만들기 진행
+        if (needTile.Count == 0)
+            MakeWorkOrder();
     }
 
-    public void RemoveTile(TokenTile _tile)
+    private void RemoveTile(TokenTile _tile)
     {
         m_inTile.Remove(_tile); //리스트에서 빼고
         needTile.Add(_tile.GetTileType()); //필요한 타입에 추가하고
@@ -104,12 +108,48 @@ public class UITileMixer : UIBase, KeyInterceptor
         }
         return false;
     }
+    #endregion
+
+    private void MakeWorkOrder()
+    {
+        Debug.Log("작업서 생성 시작");
+        if (needTile.Count != 0)
+            return;
+
+        TokenTile targetTile = m_inTile[0]; //첫번째 잇는 애가 직접적으로 바뀔 녀석
+        WorkOrder order = new WorkOrder(null, 100, (int)m_madeTile, WorkType.ChangeBuild);
+        //다른 타일로 작업시 m_tile이 변경될수있으므로 다른 인스턴스로 생성
+        System.Action doneEffect = delegate
+        {
+           targetTile.CompleteOutBuild(m_madeTile);
+        };
+        for (int i = 1; i < m_inTile.Count; i++)
+        {
+            //그다음 타일부터는 종속시키고 상태도 그냥 바로 종속타일로 바꾸면되는데 
+            m_inTile[i].ChangePlace(TileType.Child);
+        }
+        order.SetDoneEffect(doneEffect);
+        targetTile.RegisterWork(order);
+        UISwitch(false);
+    }
+
+    #region 창 끄기
+    public void ResetInfo()
+    {
+        needTile = new();
+        recipe = new();
+        m_inTile = new();
+        m_nationNum = -1;
+        m_madeTile = TileType.Nomal;
+    }
 
     public override void OffWindow()
     {
         MgInput.GetInstance().SetInterCeptor(preCeptor);
+        ResetInfo();
         base.OffWindow();
     }
+    #endregion
 
     #region 키인터셉터
     public void ClickTokenBase(TokenBase _tokenBase)
