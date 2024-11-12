@@ -177,22 +177,25 @@ public class MgMasterData : Mg<MgMasterData>
         //파싱한 자료를 근거로 해당 타일에서 지을 수 있는 건물을 재정리
         foreach(KeyValuePair<int, TileTypeData> item in m_tileTypeDataDic)
         {
-            //해당 장소 짓기 위한 장소를 뽑고
-            int needPlace = item.Value.NeedTilePID;
-            if (m_tileTypeDataDic.ContainsKey(needPlace))
+            int[] needPlaces = item.Value.NeedTiles;
+            for (int x = 0; x < needPlaces.Length; x++)
             {
-                //반대로 해당 장소에서 지을 수 있는 목록에 자신을 추가
-                if (item.Value.InteriorType)
+                int inNeed = needPlaces[x];
+                if (m_tileTypeDataDic.ContainsKey(inNeed))
                 {
-                    //인테리어 타입이면 인테리어 건설측에
-                    m_tileTypeDataDic[needPlace].AbleInteriorPid.Add(item.Value.TypePID);
+                    //반대로 해당 장소에서 지을 수 있는 목록에 자신을 추가
+                    if (item.Value.InteriorType)
+                    {
+                        //인테리어 타입이면 인테리어 건설측에
+                        m_tileTypeDataDic[inNeed].AbleInteriorPid.Add(item.Value.TypePID);
+                    }
+                    else
+                    {
+                        //아니면 그냥 건설측에
+                        m_tileTypeDataDic[inNeed].AbleBuildPid.Add(item.Value.TypePID);
+                    }
+
                 }
-                else
-                {
-                    //아니면 그냥 건설측에
-                    m_tileTypeDataDic[needPlace].AbleBuildPid.Add(item.Value.TypePID);
-                }
-                
             }
         }
     //    Debug.Log("완료");
@@ -338,7 +341,7 @@ public class MgMasterData : Mg<MgMasterData>
 public class TileTypeData {
     public int TypePID;
     public string PlaceName;
-    public int NeedTilePID = -1; //지을수 있는 곳 없음
+    public int[] NeedTiles;
     public bool InteriorType = false; //해당 장소는 인테리어 타입인지
     public int[] AbleTileActionPID;
     public List<int> AbleBuildPid; //해당 장소에서 지을 수 있는 건물 모음. 
@@ -363,9 +366,14 @@ public class TileTypeData {
             InteriorType = true;
         }
 
-        int needTileTypeIdx = interiorTypeIdx +1; //해당 건물(장소)를 지을 수 있는 장소
-        NeedTilePID = int.Parse(_parsingData[needTileTypeIdx]);
-       
+        int needTileTypeIdx = interiorTypeIdx +1; //해당 건물(장소)를 짓는데 필요한 장소
+        string[] needTiles = _parsingData[needTileTypeIdx].Split(FixedValue.PARSING_LIST_DIVIDE);
+        NeedTiles = new int[needTiles.Length];
+        for (int i = 0; i < needTiles.Length; i++)
+        {
+            NeedTiles[i] = int.Parse(needTiles[i]);
+        }
+            
         AbleBuildPid = new();
         AbleInteriorPid = new();
 
