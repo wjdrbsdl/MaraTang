@@ -71,6 +71,12 @@ public class UITileMixer : UIBase, KeyInterceptor
             //국가영토 아닌 영토인경우 작용안함
             return;
         }
+
+        if(_tile.IsBuilding() == true)
+        {
+            //다른 공사중이면 패스 
+            return;
+        }
         //재료에 필요한건지 체크
         TileType addType = _tile.GetTileType();
         if (InNeed(addType) == false)

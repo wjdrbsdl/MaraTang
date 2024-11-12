@@ -215,6 +215,15 @@ public class TokenTile : TokenBase, IWorkOrderPlace
         return true;
     }
 
+    public bool IsBuilding()
+    {
+        //다른 건설중인가
+        if (m_workOrder != null)
+            return true;
+
+        return false;
+    }
+
     public void CompleteOutBuild(TileType _tileType)
     {
         tileType = _tileType;
