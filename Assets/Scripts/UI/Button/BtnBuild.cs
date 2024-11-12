@@ -24,9 +24,6 @@ public class BtnBuild : MonoBehaviour
     public void OnClickBuild()
     {
         MakeOutBuildWork();
-     
-
-        m_tileInfoUI.EnterPlace(m_tile, m_tileType);
     }
 
     public void MakeOutBuildWork()
