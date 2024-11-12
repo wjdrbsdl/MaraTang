@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
+public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule, KeyInterceptor
 {
     [SerializeField]
     MgUI m_playGameUI; //플레이어의 액션에 관련된 UI
@@ -42,7 +42,7 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
 
     #region 플레이어 인풋 - 클릭, 선택 등
     #region 클릭- 한번, 더블, 취소
-    public void ClickTokenObject(TokenBase _token)
+    public void ClickTokenBase(TokenBase _token)
     {
         //1. 선택 사운드
         m_soundMg.PlayEfx(actionSelectEFx);
@@ -85,7 +85,7 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
         }
     }
 
-    public void DoubleClickTokenObject(TokenBase _token)
+    public void DoubleClickTokenBase(TokenBase _token)
     {
         //더블클릭한 토큰 타입에 따라 UI 세팅
         if (m_curStep.Equals(CharTurnStep.PlayCharAction))
@@ -170,7 +170,7 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
     }
     #endregion
 
-    public void InputActionSlot(int _index)
+    public void PushNumKey(int _index)
     {
         if (m_curChar == null)
             return;
@@ -368,4 +368,5 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule
 
         return true;
     }
+
 }
