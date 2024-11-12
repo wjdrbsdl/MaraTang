@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 
 public class MgInput : MonoBehaviour
 {
+    public static MgInput GInstance;
     private bool m_isMouseClick = false;
     [SerializeField]
     private float m_doubleClickInterval = 0.13f; //더블클릭 인정시간
@@ -22,6 +23,11 @@ public class MgInput : MonoBehaviour
     Vector2 priorMousePosition = new Vector2();
     KeyCode[] inputNum = { KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Alpha4, KeyCode.Alpha5 };
     KeyCode mainCharCam = KeyCode.Space;
+    private void Start()
+    {
+        if(GInstance == null)
+        GInstance = this;
+    }
 
     private void Update()
     {
