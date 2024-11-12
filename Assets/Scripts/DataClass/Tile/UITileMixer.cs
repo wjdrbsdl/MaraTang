@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class UITileMixer : UIBase
+public class UITileMixer : UIBase, KeyInterceptor
 {
     private TileType m_madeTile = TileType.Nomal; //만들려는 타일
     private List<TokenTile> m_inTile = new(); //추가된 타일들
@@ -20,6 +20,7 @@ public class UITileMixer : UIBase
         m_nationNum = _nationNum;
         //해당 타입을 만들기 위한 재료 정보를 가져와야함 
         SetRecipe(_goalTile);
+        SetKeyInteceptor();
     }
 
     public void SetMixInfo(TileType _goalTile, TokenTile _tile)
@@ -31,8 +32,13 @@ public class UITileMixer : UIBase
         //해당 타입을 만들기 위한 재료 정보를 가져와야함 
         SetRecipe(_goalTile);
         AddTile(_tile);
+        SetKeyInteceptor();
     }
  
+    private void SetKeyInteceptor()
+    {
+        MgInput.GetInstance().curInterceptor = this;
+    }
 
     private void SetRecipe(TileType _goalType)
     {
@@ -58,7 +64,7 @@ public class UITileMixer : UIBase
             RemoveTile(_tile);
             return;
         }
-        int tileNation = _tile.GetNation().GetNationNum();
+        int tileNation = _tile.GetNationNum();
         if (tileNation != m_nationNum)
         {
             //국가영토 아닌 영토인경우 작용안함
@@ -85,6 +91,7 @@ public class UITileMixer : UIBase
     {
         m_inTile.Remove(_tile); //리스트에서 빼고
         needTile.Add(_tile.GetTileType()); //필요한 타입에 추가하고
+        Debug.Log(_tile.GetTileType() + "제거");
     }
 
     private bool InNeed(TileType _type)
@@ -96,4 +103,22 @@ public class UITileMixer : UIBase
         }
         return false;
     }
+
+    #region 키인터셉터
+    public void ClickTokenBase(TokenBase _tokenBase)
+    {
+        TokenType type = _tokenBase.GetTokenType();
+        if (type == TokenType.Tile)
+            OnClickTile((TokenTile)_tokenBase);
+           
+    }
+    public void DoubleClickTokenBase(TokenBase _tokenBase)
+    {
+        
+    }
+
+    public void PushNumKey(int _keyNum)
+    {
+    }
+    #endregion
 }
