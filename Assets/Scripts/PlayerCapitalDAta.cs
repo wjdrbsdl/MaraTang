@@ -56,7 +56,7 @@ public class PlayerCapitalData : ITradeCustomer
                         {
                             return false;
                         }
-                        Debug.Log("치트로 자원 없어도 지불");
+                        Debug.LogWarning("치트로 자원 없어도 지불");
                     }
                     break;
                 default:
