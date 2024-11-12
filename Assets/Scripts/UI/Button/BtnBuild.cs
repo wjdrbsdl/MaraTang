@@ -32,7 +32,7 @@ public class BtnBuild : MonoBehaviour
     {
        // Debug.Log("외부건설 작업서 만듬");
         //해당 타일 변경 건축물 건설 진행 
-        List<TOrderItem> nothing = new();
+      
         TokenTile tile = m_tile;
         TileType buildType = m_tileType;
 
@@ -44,7 +44,7 @@ public class BtnBuild : MonoBehaviour
             return;
         }
 
-        WorkOrder order = new WorkOrder(nothing, 100, (int)buildType, WorkType.ChangeBuild);
+        WorkOrder order = new WorkOrder(null, 100, (int)buildType, WorkType.ChangeBuild);
         //다른 타일로 작업시 m_tile이 변경될수있으므로 다른 인스턴스로 생성
         Action doneEffect = delegate
         {
