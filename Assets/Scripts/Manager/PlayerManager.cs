@@ -32,6 +32,11 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule, KeyIntercepto
         m_mainChar.isMainChar = true;
     }
 
+    public override void ReferenceSet()
+    {
+        MgInput.GetInstance().curInterceptor = this;
+    }
+
     public void FirstStart()
     {
         //메인 캐릭터 선택된 상태로 시작
