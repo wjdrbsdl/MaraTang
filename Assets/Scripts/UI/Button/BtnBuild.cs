@@ -52,7 +52,7 @@ public class BtnBuild : MonoBehaviour
          };
         order.SetDoneEffect(doneEffect);
         m_tile.RegisterWork(order);
-        m_tileInfoUI.ResetUI();
+        m_tileInfoUI.ReqeustOff();
     }
 
     public void SetActive(bool _on)
