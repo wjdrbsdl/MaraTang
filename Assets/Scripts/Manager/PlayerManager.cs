@@ -34,7 +34,7 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule, KeyIntercepto
 
     public override void ReferenceSet()
     {
-        MgInput.GetInstance().curInterceptor = this;
+        MgInput.GetInstance().SetInterCeptor(this);
     }
 
     public void FirstStart()
@@ -374,4 +374,8 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule, KeyIntercepto
         return true;
     }
 
+    public void SetPreIntecoptor(KeyInterceptor _ceptor)
+    {
+        //플레이어매니저는 최종으로서 이전 키인터셉터 할필요없음.     
+    }
 }

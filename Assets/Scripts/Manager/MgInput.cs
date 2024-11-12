@@ -224,4 +224,9 @@ public class MgInput : MgGeneric<MgInput>
         if (Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(1))
             PlayerManager.GetInstance().ClickCancle();
     }
+
+    public void SetInterCeptor(KeyInterceptor _ceptor)
+    {
+        curInterceptor = _ceptor;
+    }
 }
