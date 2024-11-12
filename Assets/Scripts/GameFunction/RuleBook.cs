@@ -328,7 +328,7 @@ public class RuleBook
             TokenTileAction ableAction = MgMasterData.GetInstance().GetTileAction(tileData.AbleTileActionPID[i]);
             if(ableAction == null)
             {
-                Debug.Log("해당 pid에 해당하는 액션 없음");
+               // Debug.Log("해당 pid에 해당하는 액션 없음");
                 continue;
             }
             ableList.Add(ableAction);
