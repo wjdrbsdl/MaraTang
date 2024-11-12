@@ -10,7 +10,7 @@ public class UITileMixer : UIBase, KeyInterceptor
     private int m_nationNum = -1;
     private List<TileType> needTile = new(); //현재 부족한 부분
     private List<TileType> recipe = new(); //최초 필요한 부분
-
+    
     #region 초기화
     public void SetMixInfo(TileType _goalTile, int _nationNum)
     {
@@ -37,7 +37,8 @@ public class UITileMixer : UIBase, KeyInterceptor
  
     private void SetKeyInteceptor()
     {
-        MgInput.GetInstance().curInterceptor = this;
+        SetPreIntecoptor(MgInput.GetInstance().curInterceptor); //이전꺼 받고
+        MgInput.GetInstance().SetInterCeptor(this); //새로 세팅
     }
 
     private void SetRecipe(TileType _goalType)
@@ -104,6 +105,12 @@ public class UITileMixer : UIBase, KeyInterceptor
         return false;
     }
 
+    public override void OffWindow()
+    {
+        MgInput.GetInstance().SetInterCeptor(preCeptor);
+        base.OffWindow();
+    }
+
     #region 키인터셉터
     public void ClickTokenBase(TokenBase _tokenBase)
     {
@@ -119,6 +126,12 @@ public class UITileMixer : UIBase, KeyInterceptor
 
     public void PushNumKey(int _keyNum)
     {
+    }
+
+    KeyInterceptor preCeptor;
+    public void SetPreIntecoptor(KeyInterceptor _ceptor)
+    {
+        preCeptor = _ceptor;
     }
     #endregion
 }
