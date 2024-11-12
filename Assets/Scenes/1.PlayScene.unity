@@ -10106,6 +10106,7 @@ MonoBehaviour:
   m_tokenManager: {fileID: 18209440}
   m_loadManager: {fileID: 595696426}
   m_gamePlayMaster: {fileID: 1653216242}
+  m_inputManager: {fileID: 1625699926}
   m_playerManager: {fileID: 1735261669}
   m_soundManager: {fileID: 528832907}
   m_capitalManager: {fileID: 1622518810}

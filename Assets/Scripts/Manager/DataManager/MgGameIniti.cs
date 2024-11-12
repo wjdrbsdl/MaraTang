@@ -17,6 +17,8 @@ public class MgGameIniti : MgGeneric<MgGameIniti>
     [SerializeField]
     GamePlayMaster m_gamePlayMaster;
     [SerializeField]
+    MgInput m_inputManager;
+    [SerializeField]
     PlayerManager m_playerManager;
     [SerializeField]
     SoundManager m_soundManager;
@@ -132,6 +134,8 @@ public class MgGameIniti : MgGeneric<MgGameIniti>
         InputDataMGWorkStep(delegate { m_workOrderManager.ManageInitiSet(); PlayMgInitiWorkStep("mg핀셋끝"); });
 
         InputDataMGWorkStep(delegate { contentManager = new MGContent(); PlayMgInitiWorkStep("컨텐츠 매니저 끝"); });
+
+        InputDataMGWorkStep(delegate { m_inputManager.ManageInitiSet(); PlayMgInitiWorkStep("mg인풋 끝"); });
 
         PlayMgInitiWorkStep("데이터 매니저 초기화 진행");
     }
