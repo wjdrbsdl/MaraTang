@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class NationDistance
+public class TileDistance
 {
     //국가 소유 장소를 사용할때 사거리는 국가 수도로부터 거리에 수도 기능 범위로 
     //그 밖에 타일의 사용가능 거리는 해당 타일위에 캐릭터 자체 스텟
