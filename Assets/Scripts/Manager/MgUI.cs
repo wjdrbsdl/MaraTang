@@ -37,6 +37,7 @@ public class MgUI : MgGeneric<MgUI>
     [Header("유아이작업")]
     [SerializeField] private UIGuild m_guildUI;
     [SerializeField] private UIBlessTemple m_templeUI;
+    [SerializeField] private UITileMixer m_tileMixUI;
 
     [Header("컷씬")]
     [SerializeField] private UICutScene m_cutScene;
@@ -55,6 +56,16 @@ public class MgUI : MgGeneric<MgUI>
     public void ShowGuildInfo()
     {
         m_guildUI.SetGuildInfo();
+    }
+
+    public void ShowTileMix(TileType _goal, int _nationNum, TokenTile _curTile = null)
+    {
+        if (_curTile == null)
+        {
+            m_tileMixUI.SetMixInfo(_goal, _nationNum);
+            return;
+        }
+        m_tileMixUI.SetMixInfo(_goal, _curTile);
     }
 
     public void ShowCharActionList()
