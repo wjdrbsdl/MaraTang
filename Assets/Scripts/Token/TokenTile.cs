@@ -43,7 +43,7 @@ public class TokenTile : TokenBase, IWorkOrderPlace
     private TokenEvent m_enteranceEvent; //입장시 발동하는 이벤트가 있는가
     MainResource m_density = MainResource.Tree;
     private int densityGrade = 0;
-    private int[] parent; //재료 관계시 부모 타일
+    public int[] parent; //재료 관계시 부모 타일
     private List<int[]> childList;// 재료 관계시 자식 타일들
 
     /*타일 상호 순서
@@ -63,6 +63,7 @@ public class TokenTile : TokenBase, IWorkOrderPlace
         tileToken.m_tokenIValues = new int[GameUtil.EnumLength(TileStat.Height)];
         tileToken.m_tokenType = TokenType.Tile;
         tileToken.doneInteriorList = new();
+        tileToken.childList = new();
         return tileToken;
     }
 
@@ -296,6 +297,29 @@ public class TokenTile : TokenBase, IWorkOrderPlace
     {
         return m_workOrder;
     }
+
+    public void SetParentIndex(TokenTile _parentTile)
+    {
+        parent = _parentTile.GetMapIndex();
+        _parentTile.AddChild(this);
+        for (int i = 0; i < childList.Count; i++)
+        {
+            //만약 자신의 자식이 있다면 그자식들의 부모도 바꿈
+            GameUtil.GetTileTokenFromMap(childList[i]).SetParentIndex(_parentTile);
+        }
+        //자식들의 부모를 바꾸고나면 자신의 자식을 초기화 시켜서 중복되지 않도록 
+        childList = new(); 
+    }
+
+    public void AddChild(TokenTile _tile)
+    {
+        childList.Add(_tile.GetMapIndex());
+    }
+
+    public List<int[]> GetChildIndex()
+    {
+        return childList;
+    }
     #endregion
 
     private void DoAutoTileAction()
@@ -316,6 +340,8 @@ public class TokenTile : TokenBase, IWorkOrderPlace
         }
 
     }
+
+
 
     #region 입장 이벤트
     public TokenEvent GetEneteranceEvent()
