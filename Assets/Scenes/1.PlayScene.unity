@@ -23654,7 +23654,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2059803991}
-  - component: {fileID: 2059803992}
   - component: {fileID: 2059803990}
   m_Layer: 5
   m_Name: TileMixerUi
@@ -23677,7 +23676,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_window: {fileID: 1943370510}
   IsOnType: 0
-  IsStackType: 0
+  IsStackType: 1
 --- !u!224 &2059803991
 RectTransform:
   m_ObjectHideFlags: 0
@@ -23699,34 +23698,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1820, y: 980}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2059803992
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2059803989}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 393c102059a0ea54e8ab33860b37f6ab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_window: {fileID: 1943370510}
-  IsOnType: 0
-  IsStackType: 1
-  m_statText: {fileID: 616541629}
-  m_nationText: {fileID: 1481651703}
-  m_tileActionBox: {fileID: 675151029}
-  m_workButtonSample: {fileID: 1360371912}
-  m_workButtones: []
-  m_placeBox: {fileID: 98987759}
-  m_placeButtonSample: {fileID: 516148570}
-  m_placeButtones: []
-  m_buildBox: {fileID: 1371279028}
-  m_buildButtonSample: {fileID: 1876833573}
-  m_buildButtones: []
-  m_putButton: {fileID: 1911947545}
-  m_occupyButton: {fileID: 1770169900}
 --- !u!1 &2064739234
 GameObject:
   m_ObjectHideFlags: 0
