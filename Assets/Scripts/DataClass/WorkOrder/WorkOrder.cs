@@ -162,13 +162,13 @@ public class WorkOrder
         //일 시킨다
         if(IsReadyResource() == false)
         {
-            Debug.Log("재료가 부족하여 작업 수행 불가" + m_workType);
+            Debug.LogWarning("재료가 부족하여 작업 수행 불가" + m_workType);
             return;
         }
 
         if(m_workTokenNum == 0)
         {
-            Debug.Log("작업자수 부족 수행 불가");
+            Debug.LogWarning("작업자수 부족 수행 불가");
             return;
         }
 
