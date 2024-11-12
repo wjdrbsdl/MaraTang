@@ -39,11 +39,13 @@ public class TokenTile : TokenBase, IWorkOrderPlace
     public List<int> doneInteriorList; //지어진 장소
     public int ChunkNum;
     public WorkOrder m_workOrder = null; //진행중인 공사
-    public WorkOrder m_outBuildOrder;
     private TileViewState m_viewState = TileViewState.Fog;
     private TokenEvent m_enteranceEvent; //입장시 발동하는 이벤트가 있는가
     MainResource m_density = MainResource.Tree;
     private int densityGrade = 0;
+    private int[] parent; //재료 관계시 부모 타일
+    private List<int[]> childList;// 재료 관계시 자식 타일들
+
     /*타일 상호 순서
      * 1. 타일에 1 캐릭 존재 - 타캐릭 점유시 입장불가
      * 2. 이벤트는 해당 타일 입장으로만 발동
