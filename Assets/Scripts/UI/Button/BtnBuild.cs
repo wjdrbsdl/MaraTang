@@ -10,6 +10,7 @@ public class BtnBuild : MonoBehaviour
     private TokenTile m_tile;
     private TileType m_tileType;
     private UITileInfo m_tileInfoUI;
+    private int[] needTiles;
     [SerializeField] private TMP_Text m_placeText;
 
     public void SetButton(TokenTile _tile, TileType _tileType, UITileInfo _motherUI)
@@ -17,6 +18,7 @@ public class BtnBuild : MonoBehaviour
         m_tile = _tile;
         m_tileType = _tileType;
         TileTypeData tileData = MgMasterData.GetInstance().GetTileData((int)_tileType);
+        needTiles = tileData.NeedTiles;
         m_placeText.text = tileData.PlaceName;
         m_tileInfoUI = _motherUI;
      
@@ -33,6 +35,13 @@ public class BtnBuild : MonoBehaviour
         List<TOrderItem> nothing = new();
         TokenTile tile = m_tile;
         TileType buildType = m_tileType;
+
+        if (needTiles.Length >= 2)
+        {
+            //필요한 타입이 2개 이상인거면 타입 조합기 UI 활성화 필요 
+            Debug.Log("필요 재료 2개 이상");
+            return;
+        }
 
         WorkOrder order = new WorkOrder(nothing, 100, (int)buildType, WorkType.ChangeBuild);
         //다른 타일로 작업시 m_tile이 변경될수있으므로 다른 인스턴스로 생성
