@@ -60,12 +60,14 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
 
             GameSaver saver = new GameSaver();
             saver.SaveGame();
-            
+
+
         }
         if (Input.GetKeyDown(KeyCode.F7))
         {
-
-              MgUI.GetInstance().ShowQuestList();
+            GameLoader loader = new GameLoader();
+            loader.LoadGame();
+            //  MgUI.GetInstance().ShowQuestList();
             //int randomSkill = UnityEngine.Random.Range(1, 3);
             //Debug.Log(randomSkill + "½ºÅ³ ½Àµæ");
             //PlayerManager.GetInstance().StudyPlayerAction(randomSkill);
