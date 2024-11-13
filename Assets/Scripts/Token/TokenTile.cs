@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Newtonsoft.Json;
 
 #region 타일 enum
 public enum TileType
@@ -33,18 +34,18 @@ public enum MainResource
 
 public class TokenTile : TokenBase, IWorkOrderPlace
 {
-    List<TokenChar> m_inTileCharList = new();
+    [JsonProperty] List<TokenChar> m_inTileCharList = new();
     [SerializeField]
     public TileType tileType;
     public List<int> doneInteriorList; //지어진 장소
     public int ChunkNum;
     public WorkOrder m_workOrder = null; //진행중인 공사
-    private TileViewState m_viewState = TileViewState.Fog;
-    private TokenEvent m_enteranceEvent; //입장시 발동하는 이벤트가 있는가
-    MainResource m_density = MainResource.Tree;
-    private int densityGrade = 0;
+    [JsonProperty] private TileViewState m_viewState = TileViewState.Fog;
+    [JsonProperty] private TokenEvent m_enteranceEvent; //입장시 발동하는 이벤트가 있는가
+    [JsonProperty] MainResource m_density = MainResource.Tree;
+    [JsonProperty] private int densityGrade = 0;
     public int[] parent; //재료 관계시 부모 타일
-    private List<int[]> childList;// 재료 관계시 자식 타일들
+    [JsonProperty] private List<int[]> childList;// 재료 관계시 자식 타일들
 
     /*타일 상호 순서
      * 1. 타일에 1 캐릭 존재 - 타캐릭 점유시 입장불가
