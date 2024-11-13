@@ -5060,7 +5060,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 519420028}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8217dfb12bbf6cc44b89a26e4493ebcb, type: 3}
+  m_Script: {fileID: 11500000, guid: dbbd48dc513c30240a0743d8896b21c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_target: {fileID: 0}
@@ -5075,14 +5075,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 519420028}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23f445003ba84bd48a8cb520b485d044, type: 3}
+  m_Script: {fileID: 11500000, guid: a85d4e503a4dceb46a938e89548a4e29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_restrictSize: 125
   m_moveSpeed: 0.23
   m_scopeSpeed: 2
   OnBoundaryMove: 1
-  m_follow: {fileID: 0}
+  m_follow: {fileID: 519420033}
 --- !u!1 &527118951
 GameObject:
   m_ObjectHideFlags: 0
@@ -10109,7 +10109,6 @@ MonoBehaviour:
   m_inputManager: {fileID: 1625699926}
   m_playerManager: {fileID: 1735261669}
   m_soundManager: {fileID: 528832907}
-  m_capitalManager: {fileID: 1622518810}
   m_naviManager: {fileID: 2064739236}
   m_workOrderManager: {fileID: 955038351}
   m_playerGameUI: {fileID: 1473844562}
