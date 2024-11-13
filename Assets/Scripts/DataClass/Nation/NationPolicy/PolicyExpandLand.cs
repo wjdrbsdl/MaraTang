@@ -37,13 +37,12 @@ public class PolicyExpandLand : NationPolicy
                 if (tile.GetStat(TileStat.Nation).Equals(FixedValue.NO_NATION_NUMBER) == false)
                     continue;
 
-                //정책 대상이면 넘김
-                if (tile.GetPolicy() != null)
+                //이미 공사중인 곳은 패스
+                if (tile.IsBuilding() == true)
                     continue;
 
                 TokenBase planToken = tile; //확장가능한 땅이면 타겟 지정
                 SetPlanToken(planToken); //정책 대상으로 넣고
-                tile.SetPolicy(this);
                 SetDonePlan(true);
                 findExpandCount -= 1;
                 if (findExpandCount.Equals(0))

@@ -46,8 +46,8 @@ public class PolicyBuildResrouceTile : NationPolicy
                 if (tile.GetStat(TileStat.Nation).Equals(m_nation.GetNationNum()) == false)
                     continue;
 
-                //이미 정책 대상 토지면 패스
-                if (tile.GetPolicy() != null)
+                //이미 공사중인 곳은 패스
+                if (tile.IsBuilding() == true)
                     continue;
 
                 //용도가 노말이 아니면 패스 
@@ -60,7 +60,6 @@ public class PolicyBuildResrouceTile : NationPolicy
                 SetDonePlan(true);
                 SetPlanToken(planToken);
                 SetPlanIndex(planIndex);
-                tile.SetPolicy(this);
                 return;
             }
 

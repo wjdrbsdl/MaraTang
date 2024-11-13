@@ -51,14 +51,7 @@ public class UITileInfo : UIBase
         Debug.Log("할당된 자식 "+_tile.GetChildIndex().Count);
         if(_tile.parent != null)
             Debug.Log(" 부모 " + _tile.parent[0] + "" + _tile.parent[1]);
-        if (_tile.GetPolicy() != null)
-        {
-            Debug.Log("임시: 타일 누르면 작업서 플레이어가 자본출자");
-            SetPushButton();
-            _tile.GetPolicy().ShowWorkOrder();
-        }
-            
-
+  
         m_curType = _tileType;
         PlayerManager.GetInstance().SetHeroPlace(_tileType);
         // Debug.Log(_tile.GetTileType());

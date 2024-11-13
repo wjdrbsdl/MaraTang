@@ -37,7 +37,6 @@ public class TokenBase
     #endregion
 
     #region 유니티 변수
-    public NationPolicy m_policy;
     protected ObjectTokenBase m_object;
     #endregion
 
@@ -88,21 +87,6 @@ public class TokenBase
     public TokenType GetTokenType()
     {
         return m_tokenType;
-    }
-
-    public void SetPolicy(NationPolicy _policy)
-    {
-        m_policy = _policy; //정책 대상 지정
-    }
-
-    public NationPolicy GetPolicy()
-    {
-        return m_policy;
-    }
-
-    public void ResetPolicy()
-    {
-        m_policy = null;
     }
     #endregion
 

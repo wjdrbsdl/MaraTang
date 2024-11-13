@@ -292,14 +292,6 @@ public class TokenChar : TokenBase
         MgToken.GetInstance().RemoveCharToken(this);
     }
 
-    protected override void SendQuestCallBack()
-    {
-        base.SendQuestCallBack();
-        if (m_policy != null)
-            m_policy.SendNationCallBack(this);
-
-    }
-
     public override void CleanToken()
     {
         base.CleanToken();
