@@ -72,7 +72,7 @@ public class TokenEvent : TokenBase, IOrderCustomer
         //2. 데이터 참조 제거
         TokenTile inTile = GameUtil.GetTileTokenFromMap(GetMapIndex());
         inTile.DeleteEnterEvent();
-        MgToken.GetInstance().RemoveCharToken(this);
+        MgToken.GetInstance().RemoveEventToken(this);
     }
 
     public override void CleanToken()
@@ -84,7 +84,7 @@ public class TokenEvent : TokenBase, IOrderCustomer
         //2. 데이터 참조 제거
         TokenTile inTile = GameUtil.GetTileTokenFromMap(GetMapIndex());
         inTile.DeleteEnterEvent();
-        MgToken.GetInstance().RemoveCharToken(this);
+        MgToken.GetInstance().RemoveEventToken(this);
     }
 
     public void OnOrderCallBack(OrderReceipt _orderReceipt) //이벤트 토큰 고객

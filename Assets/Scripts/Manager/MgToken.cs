@@ -78,6 +78,11 @@ public class MgToken : MgGeneric<MgToken>
         MgInput.SetDragRatio(m_rLength);
     }
 
+    public void LoadCharTokens(TokenChar[] _char)
+    {
+
+    }
+
     private void SetTileSize()
     {
         float size = m_rLength * 0.6666f * m_padding; //1.5°¡ size 1¿¡ ºñ·Ê
@@ -119,6 +124,14 @@ public class MgToken : MgGeneric<MgToken>
             return;
 
         foreach(TokenTile objectA in m_tileTokenes)
+        {
+            Destroy(objectA.GetObject().gameObject);
+        }
+    }
+
+    public void ResetCharObject()
+    {
+        foreach (TokenChar objectA in m_charList)
         {
             Destroy(objectA.GetObject().gameObject);
         }
@@ -256,17 +269,10 @@ public class MgToken : MgGeneric<MgToken>
     {
         m_charList.Remove(_removeChar);
     }
-    public void RemoveCharToken(TokenEvent _removeEvent)
+    public void RemoveEventToken(TokenEvent _removeEvent)
     {
         m_eventList.Remove(_removeEvent);
     }
 
-    public void TempPosRandomPlayer(TokenChar _char)
-    {
-        int ranX = Random.Range(0, m_xLength);
-        int ranY = Random.Range(0, m_yLength);
-        RuleBook.Migrate(_char, m_tileTokenes[ranX, ranY]);
-        _char.SetObjectPostion(ranX, ranY);
-    }
 }
 
