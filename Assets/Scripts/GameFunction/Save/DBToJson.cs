@@ -6,7 +6,7 @@ using UnityEngine;
 
 public enum JsonName
 {
-    CharTokenJson, TileTokenJson, SeedJson, CropInfoJson, LandInfoJson, LandInfoExplored, EnumJson, HeartCrop, PlayerStat
+    CharTokenJson, TileTokenJson, MgContentJson
 }
 
 public static class DBToJson
@@ -28,6 +28,14 @@ public static class DBToJson
         var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Objects };
         string jsonData = JsonConvert.SerializeObject(JsonContainer, Formatting.Indented, settings);
         g_toolJson.FileSave(JsonName.TileTokenJson.ToString() + "_" + _gameLoad.ToString(), jsonData);
+    }
+
+    public static void SaveContent(MGContent _content, GameLoad _gameLoad)
+    {
+        MgContentJson JsonContainer = new MgContentJson(_content);
+        var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Objects };
+        string jsonData = JsonConvert.SerializeObject(JsonContainer, Formatting.Indented, settings);
+        g_toolJson.FileSave(JsonName.MgContentJson.ToString() + "_" + _gameLoad.ToString(), jsonData);
     }
 
     public static void DateToJson<T>(T _file, GameLoad _gameLoad)
@@ -98,10 +106,14 @@ class TileTokenJson
 
 class MgContentJson
 {
-    MGContent content;
+    public List<Quest> m_QuestList = new List<Quest>();
+    public List<(int, bool)> m_QuestRecorde = new(); //과거 퀘스트의 기록
+    public DevilIncubator m_devilIncubator;
+
     public MgContentJson(MGContent _content)
     {
-        content = _content;
+        m_devilIncubator = _content.m_devilIncubator;
+        m_QuestRecorde = _content.GetRecord();
     }
 }
 #endregion
