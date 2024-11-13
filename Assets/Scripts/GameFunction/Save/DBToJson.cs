@@ -6,7 +6,7 @@ using UnityEngine;
 
 public enum JsonName
 {
-    CharTokenJson, SeedJson, CropInfoJson, LandInfoJson, LandInfoExplored, EnumJson, HeartCrop, PlayerStat
+    CharTokenJson, TileTokenJson, SeedJson, CropInfoJson, LandInfoJson, LandInfoExplored, EnumJson, HeartCrop, PlayerStat
 }
 
 public static class DBToJson
@@ -22,12 +22,12 @@ public static class DBToJson
         g_toolJson.FileSave(JsonName.CharTokenJson.ToString()+"_"+ _gameLoad.ToString(), jsonData);
     }
 
-    public static void SaveTileToken(TokenTile[] _tileTokens, GameLoad _gameLoad)
+    public static void SaveTileToken(TokenTile[] _tileTokens, int _row, int _cul, GameLoad _gameLoad)
     {
-        TileTokenJson JsonContainer = new TileTokenJson(_tileTokens);
+        TileTokenJson JsonContainer = new TileTokenJson(_tileTokens, _row, _cul);
         var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Objects };
         string jsonData = JsonConvert.SerializeObject(JsonContainer, Formatting.Indented, settings);
-        g_toolJson.FileSave(JsonName.CharTokenJson.ToString() + "_" + _gameLoad.ToString(), jsonData);
+        g_toolJson.FileSave(JsonName.TileTokenJson.ToString() + "_" + _gameLoad.ToString(), jsonData);
     }
 
     public static void DateToJson<T>(T _file, GameLoad _gameLoad)
@@ -85,10 +85,14 @@ class CharTokenJson
 
 class TileTokenJson
 {
+    public int rowCount = 0;
+    public int culCount = 0;
     public TokenTile[] tileTokens;
-    public TileTokenJson(TokenTile[] _tiletokens)
+    public TileTokenJson(TokenTile[] _tiletokens, int _row, int _cul)
     {
         tileTokens = _tiletokens;
+        rowCount = _row;
+        culCount = _cul;
     }
 }
 #endregion

@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-
+using System.Collections.Generic;
 
 public class GameSaver
 {
@@ -14,7 +14,19 @@ public class GameSaver
     {
         Debug.Log("게임 세입");
         TokenTile[,] tils = MgToken.GetInstance().GetMaps();
-        DBToJson.SaveTileToken((TokenTile[])tils.GetValue(0), GameLoad.Load);
+        List<TokenTile> list = new();
+        int cul = tils.GetLength(0);
+        int row = tils.GetLength(1);
+        for (int i = 0; i < row; i++)
+        {
+            for (int x = 0; x < cul; x++)
+            {
+                list.Add(tils[x, i]);
+            }
+            
+        }
+        TokenTile[] saveTils = list.ToArray();
+        DBToJson.SaveTileToken(saveTils, row, cul, GameLoad.Load);
         
     }
 }
