@@ -208,16 +208,6 @@ public class MgToken : MgGeneric<MgToken>
         return spawnCharactor;
     }
 
-    public void SpawnCharactor(TokenChar _char, int[] _position)
-    {
-        //좌표에 몬스터 생성
-        TokenChar spawnCharactor = _char;
-        m_charList.Add(spawnCharactor); //생성된 녀석은 npc리스트에 추가; 
-        spawnCharactor.m_isPlayerChar = false;
-        spawnCharactor.GetObject().gameObject.SetActive(true);
-        RuleBook.FirstMigrate(spawnCharactor, _position);
-    }
-
     private void SpawnLoadCharactor(TokenChar _char)
     {
         MakeCharObject(_char);
