@@ -15,6 +15,7 @@ public class GameSaver
         Debug.Log("게임 세입");
         SaveTiles();
         SaveChars();
+        SaveContent();
     }
 
     private void SaveTiles()
@@ -39,5 +40,10 @@ public class GameSaver
     {
         TokenChar[] chars = MgToken.GetInstance().GetCharList().ToArray();
         DBToJson.SaveCharToken(chars, GameLoad.Load);
+    }
+
+    private void SaveContent()
+    {
+        DBToJson.SaveContent(MGContent.GetInstance(), GameLoad.Load);
     }
 }
