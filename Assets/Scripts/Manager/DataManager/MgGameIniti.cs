@@ -23,8 +23,6 @@ public class MgGameIniti : MgGeneric<MgGameIniti>
     [SerializeField]
     SoundManager m_soundManager;
     [SerializeField]
-    ObjTokenManager m_capitalManager;
-    [SerializeField]
     MgNaviPin m_naviManager;
     [SerializeField]
     MgWorkOrderPin m_workOrderManager;
@@ -126,8 +124,6 @@ public class MgGameIniti : MgGeneric<MgGameIniti>
         InputDataMGWorkStep(delegate { m_playerManager.ManageInitiSet(); PlayMgInitiWorkStep("mg플레이어셋끝"); });
 
         InputDataMGWorkStep(delegate { m_soundManager.ManageInitiSet(); PlayMgInitiWorkStep("mg사운드셋끝"); });
-
-        InputDataMGWorkStep(delegate { m_capitalManager.ManageInitiSet(); PlayMgInitiWorkStep("mg자원셋끝"); });
 
         InputDataMGWorkStep(delegate { m_naviManager.ManageInitiSet(); PlayMgInitiWorkStep("mg네비셋끝"); });
 
