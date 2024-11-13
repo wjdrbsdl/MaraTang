@@ -14,7 +14,6 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule, KeyIntercepto
     private TokenAction m_curAction;
     private TokenChar m_mainChar = null; //메인 캐릭터
 
-    private TileType m_playerPlace = TileType.Nomal;
     public bool m_autoEnd = true; //가능한 액션이 없으면 자동 종료 되는 부분 
     [Header("Efx 별도 확보")]
     [SerializeField]
@@ -22,6 +21,7 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule, KeyIntercepto
     [SerializeField]
     AudioClip eventSelectEFx;
 
+    #region 세팅
     public override void ManageInitiSet()
     {
         base.ManageInitiSet();
@@ -42,8 +42,15 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule, KeyIntercepto
         //메인 캐릭터 선택된 상태로 시작
         m_curChar = m_mainChar;
         m_playGameUI.ShowCharActionList();
-        
     }
+
+    public void LoadPlayer()
+    {
+        m_mainChar = MgToken.GetInstance().GetMainChar();
+        FirstStart();
+    }
+
+    #endregion 
 
     #region 플레이어 인풋 - 클릭, 선택 등
     #region 클릭- 한번, 더블, 취소
@@ -239,7 +246,6 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule, KeyIntercepto
     public void SetHeroPlace(TileType _tile)
     {
         //플레이어가 입장한 곳 
-        m_playerPlace = _tile;
         TOrderItem placeItem = new TOrderItem(TokenType.OnChange, (int)OnChangeEnum.OnPlaceChange, (int)_tile);
         MGContent.GetInstance().SendActionCode(placeItem);
     }
@@ -313,6 +319,7 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule, KeyIntercepto
         }
     }
 
+    #region 액션 관리
     public List<TokenAction> GetPlayerActionList()
     {
         return m_mainChar.GetActionList();
@@ -373,6 +380,7 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule, KeyIntercepto
 
         return true;
     }
+    #endregion
 
     public void SetPreIntecoptor(KeyInterceptor _ceptor)
     {
