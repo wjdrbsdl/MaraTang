@@ -11,7 +11,7 @@ public enum DevilState
 
 public class DevilIncubator
 {
-    private List<TokenChar> m_devilList = new List<TokenChar>();
+    private List<int> m_devilPidList = new List<int>();
     private List<int> m_chunkNum = new();
     private List<TokenTile> m_birthTile = new();
     private List<bool> m_contentMeet = new();
@@ -61,10 +61,8 @@ public class DevilIncubator
         //3. 뽑힌 악마 pid로 tokenObj 생성해서 추가
         for (int i = 0; i < randomDevilIdx.Count; i++)
         {
-            //캐릭obj 생성 및 tokenChar 할당
-            TokenChar madeChar = MgToken.GetInstance().MakeCharToken(devilPid[randomDevilIdx[i]]);
-            //악마 리스트에 추가
-            m_devilList.Add(madeChar);
+            //악마 pid로 리스트 추가 
+            m_devilPidList.Add(devilPid[randomDevilIdx[i]]);
             m_contentMeet.Add(false); //조건 만족 false로 초기화
             m_devilStateList.Add(DevilState.봉인);
             //Debug.Log(m_devilList[i].GetItemName() + "악마 확정");
@@ -104,14 +102,14 @@ public class DevilIncubator
         if (m_turnEnough == false)
             return;
 
-        if(birthCount == m_devilList.Count)
+        if(birthCount == m_devilPidList.Count)
         {
             Debug.Log("악마 모두 부활");
             return;
         }
 
         //악마 수대로 랜덤수 뽑기 - 기존에 뽑은 애는 넘겨야 하므로 
-        List<int> randomOrder = GameUtil.GetRandomNum(m_devilList.Count, m_devilList.Count);
+        List<int> randomOrder = GameUtil.GetRandomNum(m_devilPidList.Count, m_devilPidList.Count);
 
         //이미만들어져있는 애를 엠지토큰 스폰으로 장소에 호출, 및 mgtoken의 charList에 추가 
         for (int i = 0; i < randomOrder.Count; i++)
@@ -129,12 +127,11 @@ public class DevilIncubator
             m_turnEnough = false;
             SetNextBirthTurn(BirthCountType.Birth); //다음 부활주기 재세팅
 
-            MgToken.GetInstance().SpawnCharactor(m_devilList[index], m_birthTile[index].GetMapIndex());
+            TokenChar spawnDevil = MgToken.GetInstance().SpawnCharactor(m_birthTile[index].GetMapIndex(), m_devilPidList[i]);
             m_devilStateList[index] = DevilState.유아;
 
-
             TokenTile targetNation = MgNation.GetInstance().GetNation(0).GetCapital();
-            m_devilList[index].SetTargetTile(targetNation);
+            spawnDevil.SetTargetTile(targetNation);
           //  Debug.Log(targetNation.GetItemName() + "을 악마 타겟으로 설정");
 
             birthCount += 1;
