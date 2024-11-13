@@ -32,7 +32,7 @@ public class WorkOrder
     private EffectCondition effectCondition;
     private bool m_isComplete = false; //효과 까지 진행된경우 true
     public bool IsCancle = false;
-    public IWorkOrderPlace m_orderPlace; //작업 장소 
+    private IWorkOrderPlace m_orderPlace; //작업 장소 
 
     public WorkOrder(List<TOrderItem> _needList, int _needWorkGague, int _workPid = -1, WorkType _workType = WorkType.ChangeBuild)
     {
@@ -265,4 +265,13 @@ public class WorkOrder
 
     #endregion
 
+    public IWorkOrderPlace GetOrderPlace()
+    {
+        return m_orderPlace;
+    }
+
+    public void SetOrderPlace(IWorkOrderPlace _orderPlace)
+    {
+        m_orderPlace = _orderPlace;
+    }
 }
