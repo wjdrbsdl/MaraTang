@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Newtonsoft.Json;
 
 public enum ContentEnum
 {
@@ -10,15 +11,16 @@ public enum ContentEnum
 public class MGContent : Mg<MGContent>
 {
     #region 변수
-    private List<Quest> m_QuestList = new List<Quest>();
-    List<(int, bool)> m_QuestRecorde = new(); //과거 퀘스트의 기록
+    [JsonProperty] private List<Quest> m_QuestList = new List<Quest>();
+    [JsonProperty] List<(int, bool)> m_QuestRecorde = new(); //과거 퀘스트의 기록
+    [JsonProperty] public DevilIncubator m_devilIncubator;
     private int m_mainCharChunkNum = 0;
     private List<Chunk> m_chunkList = new List<Chunk>();
-    public DevilIncubator m_devilIncubator;
+    
     public int m_curSerialNum = 0; //컨텐츠등을 만들때마다 생성 
-    public const int NO_CHUNK_NUM = -1;
-    public int m_devilStartCount = 4;
-    public int m_nationStartCount = 3;
+    [JsonIgnore] public const int NO_CHUNK_NUM = -1;
+    [JsonIgnore] public int m_devilStartCount = 4;
+    [JsonIgnore] public int m_nationStartCount = 3;
 
     #endregion
 
