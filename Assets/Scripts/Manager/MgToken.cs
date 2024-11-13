@@ -80,7 +80,13 @@ public class MgToken : MgGeneric<MgToken>
 
     public void LoadCharTokens(TokenChar[] _char)
     {
-
+        ResetCharObject(); //캐릭 다 제거 하고 
+        m_charList = new(); //보유캐릭리스트 리셋
+        for (int i = 0; i < _char.Length; i++)
+        {
+            //캐릭대로 스폰?
+            SpawnLoadCharactor(_char[i]); //만들어서 위치까지 
+        }
     }
 
     private void SetTileSize()
@@ -162,25 +168,35 @@ public class MgToken : MgGeneric<MgToken>
         SpawnCharactor(new int[] { ranX, ranY }, playerCharPid, true);
     }
 
-    public TokenChar MakeCharToken(int _monsterPId)
+    //캐릭 Token에 오브젝트 씌우기 
+    public void MakeCharObject(TokenChar _char)
     {
-        //1. 마스터 데이터 복사로 새 캐릭 토큰 객체 생성
-        TokenChar masterDataChar = MgMasterData.GetInstance().GetCharData(_monsterPId);
-        TokenChar newCharToken = new TokenChar(masterDataChar);
-
         //2. 캐릭 GO 생성
         ObjectTokenBase charObj = Instantiate(m_monsterObjSample);
         charObj.gameObject.transform.SetParent(m_monsterBox);
         charObj.gameObject.SetActive(false); //비활성
 
         //3. Go에 정보 Token 세팅
-        charObj.SetObjectToken(newCharToken, TokenType.Char);
+        charObj.SetObjectToken(_char, TokenType.Char);
 
         //4. 오브젝트 스프라이트 변경
-        newCharToken.SetSprite();
+        _char.SetSprite();
+    }
+
+    //캐릭 +오브젝트까지
+    public TokenChar MakeCharToken(int _monsterPId)
+    {
+        //1. 마스터 데이터 복사로 새 캐릭 토큰 객체 생성
+        TokenChar masterDataChar = MgMasterData.GetInstance().GetCharData(_monsterPId);
+        TokenChar newCharToken = new TokenChar(masterDataChar);
+
+        //2. GO 생성
+        MakeCharObject(newCharToken);
+
         return newCharToken;
     }
 
+    //캐릭을 장소 스폰 까지 
     public TokenChar SpawnCharactor(int[] _position, int _charPid, bool _isPlayer = false)
     {
         //좌표에 몬스터 생성
@@ -200,6 +216,15 @@ public class MgToken : MgGeneric<MgToken>
         spawnCharactor.m_isPlayerChar = false;
         spawnCharactor.GetObject().gameObject.SetActive(true);
         RuleBook.FirstMigrate(spawnCharactor, _position);
+    }
+
+    private void SpawnLoadCharactor(TokenChar _char)
+    {
+        MakeCharObject(_char);
+        _char.GetObject().gameObject.SetActive(true);
+        m_charList.Add(_char); //생성된 녀석은 npc리스트에 추가; 
+        RuleBook.FirstMigrate(_char, _char.GetMapIndex());
+      
     }
 
     public TokenEvent SpawnEvent(int[] _pos, int _eventPid)
