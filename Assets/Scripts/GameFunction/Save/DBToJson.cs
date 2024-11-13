@@ -22,14 +22,13 @@ public static class DBToJson
         g_toolJson.FileSave(JsonName.CharTokenJson.ToString()+"_"+ _gameLoad.ToString(), jsonData);
     }
 
-
-    //public static void CropToJson(CropInfo[] _crops, GameLoad _gameLoad)
-    //{
-    //    CropJson test = new CropJson(_crops);
-    //    string uuu = JsonConvert.SerializeObject(test, Formatting.Indented);
-    //    g_toolJson.FileSave(JsonName.CropInfoJson.ToString() + "_" + _gameLoad.ToString(), uuu);
-    //}
-
+    public static void SaveTileToken(TokenTile[] _tileTokens, GameLoad _gameLoad)
+    {
+        TileTokenJson JsonContainer = new TileTokenJson(_tileTokens);
+        var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Objects };
+        string jsonData = JsonConvert.SerializeObject(JsonContainer, Formatting.Indented, settings);
+        g_toolJson.FileSave(JsonName.CharTokenJson.ToString() + "_" + _gameLoad.ToString(), jsonData);
+    }
 
     public static void DateToJson<T>(T _file, GameLoad _gameLoad)
     {
@@ -81,6 +80,15 @@ class CharTokenJson
     public CharTokenJson(TokenChar[] _charTokens)
     {
         charTokens = _charTokens;
+    }
+}
+
+class TileTokenJson
+{
+    public TokenTile[] tileTokens;
+    public TileTokenJson(TokenTile[] _tiletokens)
+    {
+        tileTokens = _tiletokens;
     }
 }
 #endregion

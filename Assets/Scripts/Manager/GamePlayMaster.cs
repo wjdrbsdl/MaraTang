@@ -53,9 +53,13 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
             //KMP kmpTest = new KMP();
             //kmpTest.Search();
 
-            OrderExcutor excutor = new();
-            TOrderItem item = new TOrderItem(TokenType.Tile, 1, 1);
-            excutor.BuildPlace(1, 1);
+            //근처 동굴 생성
+            //OrderExcutor excutor = new();
+            //TOrderItem item = new TOrderItem(TokenType.Tile, 1, 1);
+            //excutor.BuildPlace(1, 1);
+
+            GameSaver saver = new GameSaver();
+            saver.SaveGame();
             
         }
         if (Input.GetKeyDown(KeyCode.F7))
