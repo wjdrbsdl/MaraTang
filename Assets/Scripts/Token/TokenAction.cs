@@ -30,7 +30,6 @@ public class TokenAction : TokenBase
     private ActionType actionType = ActionType.Move;
     private TokenType actionTarget = TokenType.Tile;
     private int[] m_targetPos; //작용할 위치 
-    private TokenBase m_caster; //사용자\
     private List<int> m_synergeList;
     #region 액션 토큰 : 생성부분 추후 테이블 파싱 값으로 생성하기
     public TokenAction()
