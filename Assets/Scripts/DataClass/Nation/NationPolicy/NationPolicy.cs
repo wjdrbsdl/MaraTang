@@ -33,11 +33,6 @@ public abstract class NationPolicy
         m_planIndex = FixedValue.No_INDEX_NUMBER;
     }
  
-    public void SendNationCallBack(TokenBase _token)
-    {
-        Debug.Log("공격 받았음을 전달 받음");
-    }
-
     public abstract void MakePlan();
 
     public void SetDonePlan(bool _isDone)
@@ -46,11 +41,6 @@ public abstract class NationPolicy
     }
 
     public abstract WorkOrder WriteWorkOrder();
-
-    public void DoneExcute()
-    {
-        m_complete = true;
-    }
 
     #region GetSet
     public MainPolicyEnum GetMainPolicy()
@@ -88,24 +78,8 @@ public abstract class NationPolicy
         return m_nationNum;
     }
 
-    public bool IsDone()
-    {
-        return m_complete;
-    }
     #endregion
 
-    public void Reset()
-    {
-        if (m_planToken != null)
-            m_planToken.ResetPolicy();
 
-        m_planIndex = FixedValue.No_INDEX_NUMBER;
-    }
-
-    public void ShowWorkOrder()
-    {
-        if (m_workOrder == null)
-            return;
-    }
 }
 
