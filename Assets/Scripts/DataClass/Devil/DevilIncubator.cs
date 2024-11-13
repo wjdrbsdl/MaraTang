@@ -132,10 +132,10 @@ public class DevilIncubator
 
             TokenTile targetNation = MgNation.GetInstance().GetNation(0).GetCapital();
             spawnDevil.SetTargetTile(targetNation);
-            Debug.Log(targetNation.GetItemName() + "을 악마 타겟으로 설정");
+           // Debug.Log(targetNation.GetItemName() + "을 악마 타겟으로 설정");
 
             birthCount += 1;
-            Debug.Log(m_devilPidList[index] + "악마 부활");
+            Debug.Log(MgMasterData.GetInstance().GetCharData(m_devilPidList[index]).GetItemName() + "악마 부활");
             //뽑았으면 종료
             break;
         }
