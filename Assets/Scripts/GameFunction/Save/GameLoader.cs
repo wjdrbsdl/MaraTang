@@ -14,8 +14,8 @@ public class GameLoader
     {
         Debug.Log("게임 로드");
         LoadTileTokens(); //작업서 이슈
-        
-       
+        LoadCharTokens();
+        LoadPlayerMg(); //메인캐릭터를 다시 세팅하기 때문에 위에 케릭 로드를 먼저해야함. 
     }
 
     private void LoadTileTokens()
@@ -47,6 +47,12 @@ public class GameLoader
 
     private void LoadCharTokens()
     {
+        CharTokenJson charJson = DBToJson.LoadToJson<CharTokenJson>(JsonName.CharTokenJson, GameLoad.Load);
+        MgToken.GetInstance().LoadCharTokens(charJson.charTokens);
+    }
 
+    private void LoadPlayerMg()
+    {
+        PlayerManager.GetInstance().LoadPlayer();
     }
 }
