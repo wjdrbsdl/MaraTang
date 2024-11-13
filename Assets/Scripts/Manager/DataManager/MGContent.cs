@@ -332,7 +332,7 @@ public class MGContent : Mg<MGContent>
     private void MakeDevilList(List<int> _randomIdx, int _startIdx, int _count)
     {
         List<int> chunkNumList = new List<int>();
-        List<TokenTile> tileList = new List<TokenTile>();
+        List<int[]> tileList = new List<int[]>();
         for (int i = _startIdx; i < _startIdx + _count; i++)
         {
             //만들 구역 넘버
@@ -344,7 +344,7 @@ public class MGContent : Mg<MGContent>
             TokenTile devilStartTile = chunk.GetTileByIndex(randomTile);
 
             chunkNumList.Add(chunkNum);
-            tileList.Add(devilStartTile);
+            tileList.Add(devilStartTile.GetMapIndex());
             //해당 지역을 악마구역으로 지정 및 구역 중 해당 타일에 악마 봉인. 필요
             Debug.LogWarning("악마봉인구역 구현요구");
         }

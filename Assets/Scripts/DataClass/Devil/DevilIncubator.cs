@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
+using Newtonsoft.Json;
 
 public enum DevilState
 {
@@ -11,17 +9,17 @@ public enum DevilState
 
 public class DevilIncubator
 {
-    private List<int> m_devilPidList = new List<int>();
+    [JsonProperty] private List<int> m_devilPidList = new List<int>();
     private List<int> m_chunkNum = new();
-    private List<TokenTile> m_birthTile = new();
-    private List<bool> m_contentMeet = new();
-    private List<DevilState> m_devilStateList = new();
+    [JsonProperty] private List<int[]> m_birthTile = new();
+    [JsonProperty] private List<bool> m_contentMeet = new();
+    [JsonProperty] private List<DevilState> m_devilStateList = new();
     private int m_firstTerm = 30; //카운터 최초 시작 주기
     private int m_baseActiveTerm = 30; //활동 시간 - 해당 시간 동안 발생, 봉인, 전투등이 진행
     private int m_nextTerm = 20;  //악마의 활동이나 토벌, 봉인등이 종료된 후 다음 활동기까지 준비 시간
-    private int m_birthRestTurn = 0; //부활까지 남은 시간 -- 턴 조건
-    private bool m_turnEnough = true;
-    private int birthCount = 0; //부활시킨 수
+    [JsonProperty] private int m_birthRestTurn = 0; //부활까지 남은 시간 -- 턴 조건
+    [JsonProperty] private bool m_turnEnough = true;
+    [JsonProperty] private int birthCount = 0; //부활시킨 수
 
     private enum BirthCountType
     {
@@ -34,10 +32,10 @@ public class DevilIncubator
         SetNextBirthTurn(BirthCountType.First); //첫 탄생 주기로 남은 부활턴 설정
     }
 
-    public void SetBirthRegion(List<int> _chunkList, List<TokenTile> _tileList)
+    public void SetBirthRegion(List<int> _chunkList, List<int[]> _tileListMapIndex)
     {
         m_chunkNum = _chunkList;
-        m_birthTile = _tileList;
+        m_birthTile = _tileListMapIndex;
     }
 
     public void DiceDevilList(int _diceCount)
@@ -127,7 +125,7 @@ public class DevilIncubator
             m_turnEnough = false;
             SetNextBirthTurn(BirthCountType.Birth); //다음 부활주기 재세팅
 
-            TokenChar spawnDevil = MgToken.GetInstance().SpawnCharactor(m_birthTile[index].GetMapIndex(), m_devilPidList[index]);
+            TokenChar spawnDevil = MgToken.GetInstance().SpawnCharactor(m_birthTile[index], m_devilPidList[index]);
             m_devilStateList[index] = DevilState.유아;
 
             TokenTile targetNation = MgNation.GetInstance().GetNation(0).GetCapital();
