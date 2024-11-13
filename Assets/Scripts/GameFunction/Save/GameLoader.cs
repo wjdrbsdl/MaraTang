@@ -13,13 +13,18 @@ public class GameLoader
     public void LoadGame()
     {
         Debug.Log("게임 로드");
+        LoadTileTokens(); //작업서 이슈
+        
        
-        //타일토큰 불러오기
+    }
+
+    private void LoadTileTokens()
+    {
         TileTokenJson tileJson = DBToJson.LoadToJson<TileTokenJson>(JsonName.TileTokenJson, GameLoad.Load);
         int row = tileJson.rowCount;
         int cul = tileJson.culCount;
         TokenTile[,] tiles = new TokenTile[cul, row];
-        
+
         int countRow = 0;
         int countCul = 0;
         for (int i = 0; i < tileJson.tileTokens.Length; i++)
@@ -28,16 +33,20 @@ public class GameLoader
             tiles[countCul, countRow] = tile;
 
             //열은 1씩 증가하면서 cul 주기마다 0으로 갱신
-            countCul += 1; 
+            countCul += 1;
             //행은 1씩 증가하면서 cul 주기마다 +1
-            if(countCul == cul)
+            if (countCul == cul)
             {
                 countCul = 0; // 초기화
                 countRow += 1;
             }
-            
+
         }
         MgToken.GetInstance().LoadTileToken(tiles);
     }
 
+    private void LoadCharTokens()
+    {
+
+    }
 }
