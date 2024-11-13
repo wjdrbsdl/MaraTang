@@ -16,6 +16,7 @@ public class GameLoader
         LoadTileTokens(); //작업서 이슈
         LoadCharTokens();
         LoadPlayerMg(); //메인캐릭터를 다시 세팅하기 때문에 위에 케릭 로드를 먼저해야함. 
+        LoadContentMg(); //생성된 토큰으로 청크 구역을 나누기때문에 타일보다 뒤에
     }
 
     private void LoadTileTokens()
@@ -54,5 +55,10 @@ public class GameLoader
     private void LoadPlayerMg()
     {
         PlayerManager.GetInstance().LoadPlayer();
+    }
+
+    private void LoadContentMg()
+    {
+        MGContent.GetInstance().LoadGame();
     }
 }

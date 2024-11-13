@@ -39,6 +39,13 @@ public class MGContent : Mg<MGContent>
         MakeNationDevilRegion();
 
     }
+
+    public void LoadGame()
+    {
+        TileMaker maker = MgToken.GetInstance().m_tileMaker;
+        m_chunkList = maker.MakeChunk(maker.DivideChunk(MgToken.GetInstance().m_chunkLength));
+    }
+
     #endregion
 
     #region 컨텐츠 연구
