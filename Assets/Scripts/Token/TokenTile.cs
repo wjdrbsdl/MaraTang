@@ -34,7 +34,7 @@ public enum MainResource
 
 public class TokenTile : TokenBase, IWorkOrderPlace
 {
-    [JsonProperty] List<TokenChar> m_inTileCharList = new();
+    private List<TokenChar> m_inTileCharList = new();
     [SerializeField]
     public TileType tileType;
     public List<int> doneInteriorList; //지어진 장소
