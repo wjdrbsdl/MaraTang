@@ -95,4 +95,13 @@ class TileTokenJson
         culCount = _cul;
     }
 }
+
+class MgContentJson
+{
+    MGContent content;
+    public MgContentJson(MGContent _content)
+    {
+        content = _content;
+    }
+}
 #endregion
