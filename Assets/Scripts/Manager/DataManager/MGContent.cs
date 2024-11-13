@@ -263,6 +263,11 @@ public class MGContent : Mg<MGContent>
         return m_QuestList;
     }
 
+    public List<(int, bool)> GetRecord()
+    {
+        return m_QuestRecorde;
+    }
+
     private void RefreshQuestList()
     {
         MgUI.GetInstance().RefreshQuestList();
