@@ -39,8 +39,6 @@ public class TokenBase
     #region 유니티 변수
     public NationPolicy m_policy;
     protected ObjectTokenBase m_object;
-    private Quest QuestCard;
-    public int QuestPid = -1;
     #endregion
 
     #region 생성자
@@ -169,14 +167,4 @@ public class TokenBase
         //3. 이벤트 - 속해있던 토지에서 제거, 오브젝트 제거 
     }
 
-    public void SetQuest(Quest _quest)
-    {
-        QuestCard = _quest;
-        QuestPid = _quest.ContentPid;
-    }
-
-    public Quest GetQuest()
-    {
-        return QuestCard;
-    }
 }
