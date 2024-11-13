@@ -42,8 +42,10 @@ public class MGContent : Mg<MGContent>
 
     }
 
-    public void LoadGame()
+    public void LoadGame(MgContentJson _json)
     {
+        m_devilIncubator = _json.devilIncubator;
+        m_QuestRecorde = _json.QuestRecorde;
         TileMaker maker = MgToken.GetInstance().m_tileMaker;
         m_chunkList = maker.MakeChunk(maker.DivideChunk(MgToken.GetInstance().m_chunkLength));
     }

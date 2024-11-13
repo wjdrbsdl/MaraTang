@@ -104,16 +104,21 @@ class TileTokenJson
     }
 }
 
-class MgContentJson
+public class MgContentJson
 {
-    public List<Quest> m_QuestList = new List<Quest>();
-    public List<(int, bool)> m_QuestRecorde = new(); //과거 퀘스트의 기록
-    public DevilIncubator m_devilIncubator;
+    public List<Quest> QuestList = new List<Quest>();
+    public List<(int, bool)> QuestRecorde = new(); //과거 퀘스트의 기록
+    public DevilIncubator devilIncubator;
+
+    public MgContentJson()
+    {
+
+    }
 
     public MgContentJson(MGContent _content)
     {
-        m_devilIncubator = _content.m_devilIncubator;
-        m_QuestRecorde = _content.GetRecord();
+        devilIncubator = _content.m_devilIncubator;
+        QuestRecorde = _content.GetRecord();
     }
 }
 #endregion

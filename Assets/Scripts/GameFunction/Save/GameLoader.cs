@@ -59,6 +59,7 @@ public class GameLoader
 
     private void LoadContentMg()
     {
-        MGContent.GetInstance().LoadGame();
+        MgContentJson contentJson = DBToJson.LoadToJson<MgContentJson>(JsonName.MgContentJson, GameLoad.Load);
+        MGContent.GetInstance().LoadGame(contentJson);
     }
 }
