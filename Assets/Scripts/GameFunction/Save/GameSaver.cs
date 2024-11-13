@@ -13,6 +13,12 @@ public class GameSaver
     public void SaveGame()
     {
         Debug.Log("게임 세입");
+        SaveTiles();
+        
+    }
+
+    private void SaveTiles()
+    {
         TokenTile[,] tils = MgToken.GetInstance().GetMaps();
         List<TokenTile> list = new();
         int cul = tils.GetLength(0);
@@ -23,10 +29,9 @@ public class GameSaver
             {
                 list.Add(tils[x, i]);
             }
-            
+
         }
         TokenTile[] saveTils = list.ToArray();
         DBToJson.SaveTileToken(saveTils, row, cul, GameLoad.Load);
-        
     }
 }
