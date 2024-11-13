@@ -22,8 +22,7 @@ public class TileMaker : MonoBehaviour
         float[,] heightNoise = MakeNoise(orderXLength, orderYLength, _mapOrder.t_seed, _mapOrder.t_noise, 1f);
         float[,] densityNoise = MakeNoise(orderXLength, orderYLength, _mapOrder.t_seed * 173, _mapOrder.t_noise, 1f);
         (MainResource, int)[,] densityValue = MakeMildo(densityNoise);
-        //자원 분배 디버그용
-        int[] resourceMain = new int[GameUtil.EnumLength(MainResource.Tree)];
+
         for (int curx = 0; curx < orderXLength; curx++)
         {
             float originXPos = curx * xOffSet; //원점
@@ -62,19 +61,65 @@ public class TileMaker : MonoBehaviour
                 newMap[curx, cury] = newTile; //맵 배열의 인덱스엔 만들어진 맵을 할당
                 newHideMap[curx, cury] = newHideTile; //맵 배열의 인덱스엔 만들어진 맵을 할당
 
-                //6. 디버그용 메인 리소스 수치 추가
-                int mainResourceIdx = newTile.GetStat(TileStat.MainResource);
-                resourceMain[mainResourceIdx] += 1;
             }
         }
         MgToken.GetInstance().SetMapTiles(newMap); //만들어진 맵 정보 전달
         MgToken.GetInstance().SetHideTiles(newHideMap); //만들어진 맵 정보 전달
 
-        //디버그
-        //for (int i = 0; i < resourceMain.Length; i++)
-        //{
-        //    Debug.Log((TokenTile.MainResource)i + "의 총 타일 수 :" + resourceMain[i]);
-        //}
+    }
+
+    public void MakeTopTypeMap(MgToken.TMapBluePrint _mapOrder, TokenTile[,] _tiles)
+    {
+        int orderXLength = _tiles.GetLength(0);
+        int orderYLength = _tiles.GetLength(1);
+        float tileRadius = _mapOrder.t_rLength;
+
+        HideTile[,] newHideMap = new HideTile[orderXLength, orderYLength];
+        //y 간의 간격은 반지름 *1.5
+        float yOffSet = tileRadius * 1.5f;
+        //x 간의 간격은 정육각형이므로 정삼각형의 높이(반지름 * 루트3/2) * 2 ; 
+        float xOffSet = tileRadius * Mathf.Sqrt(3);
+        //탑 포인트 일 때는 홀수번째의 행의 너비가 반지름씩 옆으로 가있음
+        float reviseOffSet = xOffSet * 0.5f;
+        
+
+        for (int curx = 0; curx < orderXLength; curx++)
+        {
+            float originXPos = curx * xOffSet; //원점
+            float reviseXpos = originXPos + reviseOffSet;//홀수 번째 y에선 오른쪽으로 보정치
+            for (int cury = 0; cury < orderYLength; cury++)
+            {
+                float yPos = cury * yOffSet;
+
+                bool needRevise = cury % 2 == 1; //홀수번째는 보정이 필요하다
+                float finalX = (needRevise == true) ? reviseXpos : originXPos;
+
+                //1. 타일토큰, 가림토큰, 타일오브젝트 생성
+                TokenTile loadTile = _tiles[curx, cury];
+                HideTile newHideTile = Instantiate(_mapOrder.t_hideTile).GetComponent<HideTile>();
+                ObjectTokenBase newTileObject = Instantiate(_mapOrder.t_tile).GetComponent<ObjectTokenBase>();
+        
+
+                //3. 타일 오브젝트 세팅
+                newTileObject.SetObjectToken(loadTile, TokenType.Tile);
+                newTileObject.transform.SetParent(_mapOrder.t_box);
+                newTileObject.transform.localPosition = new Vector2(finalX, yPos); //박스 안에서 로컬포지션으로 위치 
+                loadTile.SetTileSprite();
+
+                //4. 숨김 타일 세팅
+                newHideTile.transform.SetParent(_mapOrder.t_hideBox);
+                newHideTile.transform.localPosition = new Vector2(finalX, yPos); //박스 안에서 로컬포지션으로 위치 
+                newHideTile.SetTileSprite();
+
+                //5. 맵핑 할당
+                
+                newHideMap[curx, cury] = newHideTile; //맵 배열의 인덱스엔 만들어진 맵을 할당
+
+            }
+        }
+  
+        MgToken.GetInstance().SetHideTiles(newHideMap); //만들어진 맵 정보 전달
+
     }
 
     public List<int[]> DivideChunk(int _chunkLength)

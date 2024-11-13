@@ -65,6 +65,19 @@ public class MgToken : MgGeneric<MgToken>
         MakePlayer();
     }
 
+    public void LoadTileToken(TokenTile[,] _loadTile)
+    {
+        Debug.Log("로드한 타일로 타일 생성");
+        ResetMapTileObject(); //기존 타일오브젝트 없애고 
+        m_tileTokenes = _loadTile;
+       
+        TMapBluePrint mapBluePrint = new TMapBluePrint(m_xLength, m_yLength, m_rLength, m_seed, m_noise, m_tiles, m_tileBox, m_hideTile, m_hideBox);
+        m_tileMaker.MakeTopTypeMap(mapBluePrint, m_tileTokenes);
+        //맵 크기에 따라 드래그 값 조정
+        CamRestrict.SetCamRestrict();
+        MgInput.SetDragRatio(m_rLength);
+    }
+
     private void SetTileSize()
     {
         float size = m_rLength * 0.6666f * m_padding; //1.5가 size 1에 비례
