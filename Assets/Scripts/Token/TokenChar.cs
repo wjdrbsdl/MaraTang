@@ -21,12 +21,14 @@ public class TokenChar : TokenBase
     private CharType m_charType = CharType.Monster;
     [JsonProperty] private CharState m_state = CharState.Idle;
     [JsonProperty] private List<TokenAction> m_haveActionList = new(); //이 캐릭터가 지니고 있는 액션 토큰들
+    private List<GodBless> m_blessList = new();
+
+    //매턴 바뀌는 요소
     private TokenAction m_nextAction = null;
     private TokenTile m_nextTargetTile;
     private TokenChar m_nextTargetChar;
-    private TokenCharMood m_mood;
     private GuildCard m_guildID;
-    private List<GodBless> m_blessList = new();
+    
 
     #region 캐릭 토큰 생성부분
     public TokenChar()
@@ -85,10 +87,6 @@ public class TokenChar : TokenBase
         }
     }
 
-    public void MakeMood()
-    {
-        m_mood = new TokenCharMood();
-    }
     #endregion
 
     public void ShowAction(bool isShow)
