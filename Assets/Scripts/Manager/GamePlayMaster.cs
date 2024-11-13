@@ -146,7 +146,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
 
         //해당 플레이턴이 될때 카메라 고정을 풀거나, 하도록
         if(TracePlayChar == true)
-        CamFocus(MgToken.GetInstance().GetNpcPlayerList()[turn]);
+        CamFocus(MgToken.GetInstance().GetCharList()[turn]);
 
     }
 
@@ -327,18 +327,18 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     private void RecoverActionCount()
     {
        AnnounceState("소비된 액션 카운트 회복");
-        for (int i = 0; i < MgToken.GetInstance().GetNpcPlayerList().Count; i++)
+        for (int i = 0; i < MgToken.GetInstance().GetCharList().Count; i++)
         {
-            MgToken.GetInstance().GetNpcPlayerList()[i].RecoverActionCount(); //
-            MgToken.GetInstance().GetNpcPlayerList()[i].RecoverActionTokenCount();
+            MgToken.GetInstance().GetCharList()[i].RecoverActionCount(); //
+            MgToken.GetInstance().GetCharList()[i].RecoverActionTokenCount();
         }
     }
 
     private void RecoverActionEnergy()
     {
-        for (int i = 0; i < MgToken.GetInstance().GetNpcPlayerList().Count; i++)
+        for (int i = 0; i < MgToken.GetInstance().GetCharList().Count; i++)
         {
-            MgToken.GetInstance().GetNpcPlayerList()[i].RecoverActionEnergy();
+            MgToken.GetInstance().GetCharList()[i].RecoverActionEnergy();
         }
     }
 

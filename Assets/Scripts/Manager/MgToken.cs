@@ -230,7 +230,7 @@ public class MgToken : MgGeneric<MgToken>
     #endregion
 
     #region Get
-    public List<TokenChar> GetNpcPlayerList()
+    public List<TokenChar> GetCharList()
     {
         return m_charList;
     }

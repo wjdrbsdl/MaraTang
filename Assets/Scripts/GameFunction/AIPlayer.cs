@@ -10,7 +10,7 @@ public class AIPlayer : PlayerRule
 
     public void SetInitial()
     {
-        m_npcList = MgToken.GetInstance().GetNpcPlayerList();
+        m_npcList = MgToken.GetInstance().GetCharList();
         m_turnNumber = 0;
     }
 
