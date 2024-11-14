@@ -362,7 +362,9 @@ public class RuleBook
     {
         List<(Capital, int)> result = new();
         TMineTileResult mineResult = new(result);
-
+        TileEffectEnum tileEffect = _tile.GetEffect();
+        Debug.Log(_tile.GetTileType()+ "지역 효과" + tileEffect);
+        
         TileType territory = _tile.GetTileType();
         int mainType = _tile.GetStat(TileStat.MainResource);
         int tileEnegy = _tile.GetStat(TileStat.TileEnergy);
