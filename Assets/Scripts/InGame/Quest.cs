@@ -124,6 +124,11 @@ public class CurrentStageData
     public List<TOrderItem> CurConList; //현재 진행 상황
     public bool[] SuccessState;
 
+    public CurrentStageData()
+    {
+        //json 복구용 빈 생성자
+    }
+
     public CurrentStageData(StageMasterData _stageMasterData)
     {
         SituationList = CopyList(_stageMasterData.SituationList);
