@@ -32,7 +32,7 @@ public class TokenTile : TokenBase, IWorkOrderPlace
     private List<TokenChar> m_inTileCharList = new();
     [SerializeField]
     public TileType tileType;
-    public TileEffectEnum effectType = TileEffectEnum.None;
+    public TileEffectEnum m_effectType = TileEffectEnum.None;
     public List<int> doneInteriorList; //지어진 장소
     public int ChunkNum;
     public WorkOrder m_workOrder = null; //진행중인 공사
@@ -71,7 +71,12 @@ public class TokenTile : TokenBase, IWorkOrderPlace
         int tileHeight = (int)(_ecoHeight * 100f);
         SetStatValue(TileStat.Height, tileHeight);
         if (tileHeight >= 66)
-            ChangePlace(TileType.Mountain);
+        {
+            //생성단계에서 nomal이 아닌경우 장소와 효과를 다시 정의 
+            SetTileType(TileType.Mountain);
+            SetTileEffect();
+        }
+            
     
     }
 
@@ -244,11 +249,17 @@ public class TokenTile : TokenBase, IWorkOrderPlace
     {
         return tileType;
     }
-
+  
     public void SetTileType(TileType _tileType)
     {
         tileType = _tileType;
     }
+
+    public TileEffectEnum GetEffect()
+    {
+        return m_effectType;
+    }
+
 
     public void SetNation(int _nationNumber)
     {
@@ -339,7 +350,7 @@ public class TokenTile : TokenBase, IWorkOrderPlace
 
     private void SetTileEffect()
     {
-        effectType = MgMasterData.GetInstance().GetTileData((int)tileType).effectType;
+        m_effectType = MgMasterData.GetInstance().GetTileData((int)tileType).effectType;
     }
 
 
