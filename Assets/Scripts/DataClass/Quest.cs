@@ -1,15 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Newtonsoft.Json;
 
 public class Quest : IOrderCustomer
 {
-    public int ContentPid = 0; //content pid
-    public int SerialNum = 0;
-    public int RestWoldTurn = 3; //유지되는 기간 
-    public int ChunkNum = 0;
-    public int CurStep = 1;
-    public CurrentStageData CurStageData; //현재 스테이지 진행 정보, 달성 정보 수행하는 곳. 
+    [JsonProperty] public int ContentPid = 0; //content pid
+    [JsonProperty] public int SerialNum = 0;
+    [JsonProperty] public int RestWoldTurn = 3; //유지되는 기간 
+    [JsonProperty] public int ChunkNum = 0;
+    [JsonProperty] public int CurStep = 1;
+    [JsonProperty] public CurrentStageData CurStageData; //현재 스테이지 진행 정보, 달성 정보 수행하는 곳. 
 
     #region 생성
     public Quest()

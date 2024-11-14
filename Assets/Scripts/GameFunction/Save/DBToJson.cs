@@ -117,6 +117,7 @@ public class MgContentJson
 
     public MgContentJson(MGContent _content)
     {
+        QuestList = _content.GetQuestList();
         devilIncubator = _content.m_devilIncubator;
         QuestRecorde = _content.GetRecord();
     }
