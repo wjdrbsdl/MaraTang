@@ -61,6 +61,7 @@ public class TokenTile : TokenBase, IWorkOrderPlace
         tileToken.m_tokenType = TokenType.Tile;
         tileToken.doneInteriorList = new();
         tileToken.childList = new();
+        tileToken.SetTileEffect(); //초기 Nomal에 맞는 effect로 
         return tileToken;
     }
 
@@ -70,7 +71,7 @@ public class TokenTile : TokenBase, IWorkOrderPlace
         int tileHeight = (int)(_ecoHeight * 100f);
         SetStatValue(TileStat.Height, tileHeight);
         if (tileHeight >= 66)
-            tileType = TileType.Mountain;
+            ChangePlace(TileType.Mountain);
     
     }
 
@@ -244,6 +245,11 @@ public class TokenTile : TokenBase, IWorkOrderPlace
         return tileType;
     }
 
+    public void SetTileType(TileType _tileType)
+    {
+        tileType = _tileType;
+    }
+
     public void SetNation(int _nationNumber)
     {
         SetStatValue(TileStat.Nation, _nationNumber);
@@ -277,8 +283,8 @@ public class TokenTile : TokenBase, IWorkOrderPlace
 
     public void ChangePlace(TileType _tileType)
     {
-        tileType = _tileType;
-
+        SetTileType(_tileType);
+        SetTileEffect();
         SetTileSprite();
         DoAutoTileAction();
     }
@@ -331,6 +337,10 @@ public class TokenTile : TokenBase, IWorkOrderPlace
 
     }
 
+    private void SetTileEffect()
+    {
+        effectType = MgMasterData.GetInstance().GetTileData((int)tileType).effectType;
+    }
 
 
     #region 입장 이벤트
