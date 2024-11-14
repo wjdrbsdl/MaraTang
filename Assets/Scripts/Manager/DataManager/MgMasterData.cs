@@ -184,7 +184,7 @@ public class MgMasterData : Mg<MgMasterData>
                 if (m_tileTypeDataDic.ContainsKey(inNeed))
                 {
                     //반대로 해당 장소에서 지을 수 있는 목록에 자신을 추가
-                    if (item.Value.InteriorType)
+                    if (item.Value.IsInterior)
                     {
                         //인테리어 타입이면 인테리어 건설측에
                         m_tileTypeDataDic[inNeed].AbleInteriorPid.Add(item.Value.TypePID);
@@ -338,11 +338,17 @@ public class MgMasterData : Mg<MgMasterData>
     #endregion
 }
 
+public enum TileEffectEnum
+{
+  None, Money, Stat, Tool
+}
+
 public class TileTypeData {
     public int TypePID;
     public string PlaceName;
+    public TileEffectEnum effectType = TileEffectEnum.None;
     public int[] NeedTiles;
-    public bool InteriorType = false; //해당 장소는 인테리어 타입인지
+    public bool IsInterior = false; //해당 장소는 인테리어 타입인지
     public int[] AbleTileActionPID;
     public List<int> AbleBuildPid; //해당 장소에서 지을 수 있는 건물 모음. 
     public List<int> AbleInteriorPid; //해당 장소에서 지을 수 있는 내부 건물 모음.
@@ -352,7 +358,18 @@ public class TileTypeData {
     {
         TypePID = int.Parse(_parsingData[0]);
         PlaceName = _parsingData[1];
-        string ables = _parsingData[2]; //가능한 작업이 나열되어있음
+
+        int effectTypeIndex = 2;
+        if (int.TryParse(_parsingData[effectTypeIndex], out int result))
+        {
+            //파싱 됬으면 그걸로 아니면 None 이 베이스 
+            effectType = (TileEffectEnum)result;
+        }
+
+        int effectIndex = effectTypeIndex + 1;
+
+        int ableActionIndex = effectIndex + 1;
+        string ables = _parsingData[ableActionIndex]; //가능한 작업이 나열되어있음
         string[] divideAble = ables.Trim().Split(FixedValue.PARSING_LIST_DIVIDE);
         AbleTileActionPID = new int[divideAble.Length];
         for (int i = 0; i < divideAble.Length; i++)
@@ -360,12 +377,12 @@ public class TileTypeData {
             AbleTileActionPID[i] = int.Parse(divideAble[i]);
         }
 
-        int interiorTypeIdx = 3;
+        int interiorTypeIdx = ableActionIndex+1;
         if (_parsingData[interiorTypeIdx] == "T")
         {
-            InteriorType = true;
+            IsInterior = true;
         }
-
+    
         int needTileTypeIdx = interiorTypeIdx +1; //해당 건물(장소)를 짓는데 필요한 장소
         string[] needTiles = _parsingData[needTileTypeIdx].Split(FixedValue.PARSING_LIST_DIVIDE);
         NeedTiles = new int[needTiles.Length];
