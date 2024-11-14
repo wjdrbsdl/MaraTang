@@ -39,9 +39,11 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     {
         if (Input.GetKeyDown(KeyCode.F5))
         {
-            m_playData.PlayTime = 0;
-            m_playerMemeber = 0;
-            NoticeTurnPlayer();
+            //m_playData.PlayTime = 0;
+            //m_playerMemeber = 0;
+            //NoticeTurnPlayer();
+
+
         }
         if (Input.GetKeyDown(KeyCode.F6))
         {
