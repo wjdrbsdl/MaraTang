@@ -143,7 +143,6 @@ public class UITileInfo : UIBase
     {
         //해당 장소에서 들어갈 수 있는 장소 
         //조건이 안되있으면 어둠으로 뜬다 
-        int[] place = MgMasterData.GetInstance().GetTileData((int)m_curType).Places;
         int[] interiorPlace = MgMasterData.GetInstance().GetTileData((int)m_curType).AbleInteriorPid.ToArray();
         MakeSamplePool<BtnPlace>(ref m_placeButtones, m_placeButtonSample.gameObject, interiorPlace.Length, m_placeBox);
         //버튼 세팅

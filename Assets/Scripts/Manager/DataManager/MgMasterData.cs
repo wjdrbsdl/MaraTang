@@ -347,7 +347,7 @@ public class TileTypeData {
     public List<int> AbleBuildPid; //해당 장소에서 지을 수 있는 건물 모음. 
     public List<int> AbleInteriorPid; //해당 장소에서 지을 수 있는 내부 건물 모음.
     public TItemListData BuildCostData;
-    public int[] Places;
+
     public TileTypeData(string[] _parsingData)
     {
         TypePID = int.Parse(_parsingData[0]);
@@ -384,20 +384,6 @@ public class TileTypeData {
             BuildCostData = GameUtil.ParseCostDataArray(_parsingData, buildCostIdx);
         }
 
-        int subSpaceIdx = buildCostIdx +1;
-        Places = new int[] { };
-        if (_parsingData.Length > subSpaceIdx)
-        {
-            string subables = _parsingData[subSpaceIdx]; //가능한 작업이 나열되어있음
-            string[] subAble = subables.Trim().Split(FixedValue.PARSING_LIST_DIVIDE);
-            Places = new int[subAble.Length];
-            for (int i = 0; i < subAble.Length; i++)
-            {
-                Places[i] = int.Parse(subAble[i]);
-               // Debug.Log("가능한 서브 건물 " + Places[i]);
-            }
-        }
-
-    }
+      }
 }
 
