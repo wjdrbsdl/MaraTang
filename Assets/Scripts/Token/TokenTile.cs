@@ -16,11 +16,6 @@ public enum TileViewState
     Fog, Sight
 }
 
-public enum TileAction
-{
-    Grass, Mineral, RemoveGrass, RemoveMineral, Spawn = 11
-}
-
 public enum TileStat
 {
    Nation, Height, MainResource, TileEnergy
@@ -37,6 +32,7 @@ public class TokenTile : TokenBase, IWorkOrderPlace
     private List<TokenChar> m_inTileCharList = new();
     [SerializeField]
     public TileType tileType;
+    public TileEffectEnum effectType = TileEffectEnum.None;
     public List<int> doneInteriorList; //지어진 장소
     public int ChunkNum;
     public WorkOrder m_workOrder = null; //진행중인 공사
@@ -226,13 +222,6 @@ public class TokenTile : TokenBase, IWorkOrderPlace
             return true;
 
         return false;
-    }
-
-    public void CompleteOutBuild(TileType _tileType)
-    {
-        tileType = _tileType;
-
-        SetTileSprite();
     }
 
     public bool IsBuildInterior(int _pid)

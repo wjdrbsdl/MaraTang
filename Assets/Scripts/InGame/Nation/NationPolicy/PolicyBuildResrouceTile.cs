@@ -23,7 +23,7 @@ public class PolicyBuildResrouceTile : NationPolicy
         TokenTile workTile = (TokenTile)m_planToken;
         Action doneEffect = delegate
         {
-            workTile.CompleteOutBuild((TileType)m_planIndex);
+            workTile.ChangePlace((TileType)m_planIndex);
         };
         manageOrder.SetDoneEffect(doneEffect);
         workTile.RegisterWork(manageOrder);

@@ -127,7 +127,7 @@ public class UITileMixer : UIBase, KeyInterceptor
         //다른 타일로 작업시 m_tile이 변경될수있으므로 다른 인스턴스로 생성
         System.Action doneEffect = delegate
         {
-           targetTile.CompleteOutBuild(m_madeTile);
+           targetTile.ChangePlace(m_madeTile);
         };
         for (int i = 1; i < m_inTile.Count; i++)
         {
