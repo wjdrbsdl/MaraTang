@@ -399,9 +399,7 @@ public class Nation : ITradeCustomer
 
     private void ManagePopular()
     {
-        //1. 인구 관련 클래스에서 경영 진행
-        NationPopular popManager = new NationPopular(this);
-        popManager.ManagePopular(); 
+        m_popularMg.ManagePopular(); 
     }
     #endregion
   
