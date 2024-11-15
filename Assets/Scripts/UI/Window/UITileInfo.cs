@@ -48,9 +48,13 @@ public class UITileInfo : UIBase
         UISwitch(true);
         m_curTile = _tile;
         TileDistance distance = new TileDistance();
-        Debug.Log("할당된 자식 "+_tile.GetChildIndex().Count);
-        if(_tile.parent != null)
-            Debug.Log(" 부모 " + _tile.parent[0] + "" + _tile.parent[1]);
+
+        //타일 믹서에 의한 종속 구조 디버그
+        //Debug.Log("할당된 자식 "+_tile.GetChildIndex().Count);
+        //if(_tile.parent != null)
+        //    Debug.Log(" 부모 " + _tile.parent[0] + "" + _tile.parent[1]);
+
+
   
         m_curType = _tileType;
         PlayerManager.GetInstance().SetHeroPlace(_tileType);
