@@ -30,6 +30,7 @@ public enum MainResource
 public class TokenTile : TokenBase, IWorkOrderPlace
 {
     private List<TokenChar> m_inTileCharList = new();
+    private List<LaborCoin> m_laborCoinList = new(); //할당된 노동 코인들 
     [SerializeField]
     public TileType tileType;
     public TileEffectEnum m_effectType = TileEffectEnum.None;
@@ -42,7 +43,7 @@ public class TokenTile : TokenBase, IWorkOrderPlace
     [JsonProperty] private int densityGrade = 0;
     public int[] parent; //재료 관계시 부모 타일
     [JsonProperty] private List<int[]> childList;// 재료 관계시 자식 타일들
-
+    
     /*타일 상호 순서
      * 1. 타일에 1 캐릭 존재 - 타캐릭 점유시 입장불가
      * 2. 이벤트는 해당 타일 입장으로만 발동
@@ -241,6 +242,29 @@ public class TokenTile : TokenBase, IWorkOrderPlace
     public void CompleteInterBuild(int _pid)
     {
         doneInteriorList.Add(_pid);
+    }
+    #endregion
+
+    #region 노동코인
+    public int GetLaborCoinCount()
+    {
+        return m_laborCoinList.Count;
+    }
+
+    public void PutInLaborCoin(LaborCoin _coin)
+    {
+        if(m_laborCoinList.IndexOf(_coin)== -1)
+        {
+            m_laborCoinList.Add(_coin);
+        }
+    }
+
+    public void TakeOutLaborCoin(LaborCoin _coin)
+    {
+        if (m_laborCoinList.IndexOf(_coin) != -1)
+        {
+            m_laborCoinList.Remove(_coin);
+        }
     }
     #endregion
 
