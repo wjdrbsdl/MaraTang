@@ -13,7 +13,7 @@ public class LaborCoin
     {
         ListIndex = _pid;
         NationNum = _nation.GetNationNum();
-        SetPos( _nation.GetCapital().GetMapIndex());
+        SetPos( _nation.GetCapital().GetMapIndex()); //생성시 수도에 노동코인 저장
     }
 
     public void GoWork(TokenTile _tile)
@@ -30,5 +30,7 @@ public class LaborCoin
     private void SetPos(int[] _pos)
     {
         Pos = _pos;
+        //해당 토큰타일에 넣는걸로
+        GameUtil.GetTileTokenFromMap(_pos).PutInLaborCoin(this);
     }
 }
