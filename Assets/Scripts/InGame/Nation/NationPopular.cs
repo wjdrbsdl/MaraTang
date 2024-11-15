@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System.Linq;
 
 public class NationPopular
 {
@@ -83,7 +83,7 @@ public class NationPopular
         for (int i = 0; i < m_LaborCoin.Count; i++)
         {
             LaborCoin labor = m_LaborCoin[i];
-            if(labor.Pos == m_nation.GetCapital().GetMapIndex())
+            if(labor.Pos.SequenceEqual(m_nation.GetCapital().GetMapIndex()))
             {
                 //휴식하는 코인 찾아서
                 noWorkLabor.Add(labor);
@@ -92,10 +92,37 @@ public class NationPopular
 
         List<TokenTile> territory = m_nation.GetTerritorry();
         //0은 수도이므로 1부터 체크
-        int findLaborLevel = 0; //처음 찾는 순위
-        for (int i = 1; i < territory.Count; i++)
-        {
+        int restCoinCount = noWorkLabor.Count;
 
+        //남은 노동코인없으면 배치 함수는 종료
+        if (restCoinCount == 0)
+            return;
+
+        int coinIndex = 0;
+        int findLaborLevel = 0; //처음 찾는 순위
+        while (true)
+        {
+            for (int i = 1; i < territory.Count; i++)
+            {
+                TokenTile tile = territory[i];
+                if (tile.GetLaborCoinCount() == findLaborLevel)
+                {
+                    tile.PutInLaborCoin(noWorkLabor[coinIndex]); //휴식중이던 토큰을 하나씩 투입
+                    coinIndex += 1;
+                    if (coinIndex == restCoinCount)
+                    {
+                        //채워넣은 코인의 수가 남아있던 수와 동일해지면 종료
+                        return;
+                    }
+                }
+
+            }
+            findLaborLevel += 1; // 0짜리들이 없으면 1로 올려서 진행
+            if(findLaborLevel == 4)
+            {
+                //모두 3개짜리 까지 찼다면 찾는거 포기 
+                return;
+            }
         }
     }
 
