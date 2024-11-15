@@ -29,6 +29,8 @@ public class LaborCoin
 
     private void SetPos(int[] _pos)
     {
+        int[] prePos = Pos;
+        GameUtil.GetTileTokenFromMap(prePos).TakeOutLaborCoin(this);
         Pos = _pos;
         //해당 토큰타일에 넣는걸로
         GameUtil.GetTileTokenFromMap(_pos).PutInLaborCoin(this);
