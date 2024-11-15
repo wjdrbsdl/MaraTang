@@ -253,6 +253,7 @@ public class TokenTile : TokenBase, IWorkOrderPlace
 
     public void PutInLaborCoin(LaborCoin _coin)
     {
+        //Debug.Log(GetNationNum() + "번 국가 해당 타일에 " + _coin.ListIndex + " 코인 투입");
         if(m_laborCoinList.IndexOf(_coin)== -1)
         {
             m_laborCoinList.Add(_coin);
