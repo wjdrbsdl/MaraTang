@@ -11,7 +11,7 @@ public enum NationEnum
 
 public enum NationManageStepEnum
 {
-   IncomeCapital, ManagePopulation, SelectPolicy, SettleTurnEnd, RemindPolicy, NationTurnEnd, TurnEndSettle
+   NationEvent, IncomeCapital, ManagePopulation, SelectPolicy, SettleTurnEnd, RemindPolicy, NationTurnEnd, TurnEndSettle
 }
 
 public enum NationStatEnum
@@ -121,8 +121,13 @@ public class Nation : ITradeCustomer
     {
         switch (_step)
         {
+            case NationManageStepEnum.NationEvent:
+                Debug.Log("국가 명운 이벤트 진행");
+                ReportToGameMaster(_step);
+                break;
             //국가 턴 시작시 하는일
             case NationManageStepEnum.IncomeCapital:
+                Debug.Log("수금 진행");
                 IncomeTerritoryResource();
                 ReportToGameMaster(_step);
                 break;
@@ -148,6 +153,7 @@ public class Nation : ITradeCustomer
                 // 해당 턴 완료시 본래 국가에서 정책리스트를 통해 WorkOrder를 진행했지만, 해당 부분을 겜플레이마스터로 빼면서 아래 함수가 필요없어짐
                 // 그래도 턴 완료 파트 구조가 필요할지 몰라서 구조는 남겨둠. 
                 //DoWork(); 
+                //작업서대로 진행될테고- 그대로 완성이나 효과가 적용
                 ReportToGameMaster(_step);
                 break;
             case NationManageStepEnum.TurnEndSettle:
@@ -156,18 +162,14 @@ public class Nation : ITradeCustomer
         }
     }
 
-    //겜마스터에게 보고함으로써 플레이어가 확인할 수 있는 시간 주기 
-    public void ReportToGameMaster(NationManageStepEnum _step)
-    {
-        //플레이 마스터에서 플레이어의 확인이나 결정을 대기했다가 DoneReport로 재진행 
-        GamePlayMaster.GetInstance().ReportNationStep(_step, this);
-    }
-
-    //해당 작업 완료했을때 - 다음 작업을 정해서 DoJob 시키기 
     public void DoneJob(NationManageStepEnum _step)
     {
+        //해당 작업 완료했을때 - 일의 순서를 정의하는 곳 
         switch (_step)
         {
+            case NationManageStepEnum.NationEvent:
+                DoJob(NationManageStepEnum.IncomeCapital);
+                break;
             case NationManageStepEnum.IncomeCapital:
                 DoJob(NationManageStepEnum.ManagePopulation); //정책 결정한거 보고하고
                 break;
@@ -186,6 +188,13 @@ public class Nation : ITradeCustomer
                 break;
                 
         }
+    }
+
+    //겜마스터에게 보고함으로써 플레이어가 확인할 수 있는 시간 주기 
+    public void ReportToGameMaster(NationManageStepEnum _step)
+    {
+        //플레이 마스터에서 플레이어의 확인이나 결정을 대기했다가 DoneReport로 재진행 
+        GamePlayMaster.GetInstance().ReportNationStep(_step, this);
     }
 
     private void EndNationTurn()

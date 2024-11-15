@@ -40,7 +40,7 @@ public class MgNation : Mg<MgNation>
 
     public void ManageNationTurn()
     {
-        m_nationList[m_turnNationNumber].DoJob(NationManageStepEnum.IncomeCapital);
+        m_nationList[m_turnNationNumber].DoJob(NationManageStepEnum.NationEvent);
     }
 
     public void SettleNationEndTurn()

@@ -8572,7 +8572,6 @@ MonoBehaviour:
   m_window: {fileID: 1740286322}
   IsOnType: 0
   IsStackType: 1
-  m_questInfo: {fileID: 1378300323}
   m_charStatBox: {fileID: 1611222265}
   m_statButtonSample: {fileID: 531653228}
   m_statkButtones: []
@@ -17120,7 +17119,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1535832088
 RectTransform:
   m_ObjectHideFlags: 0
@@ -18159,7 +18158,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a253b3a60aa4a5f4f811ae18911119a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_sample: {fileID: 2904308027078961422, guid: 004c2cd49f8d77a468571180d1cd17df, type: 3}
 --- !u!1 &1625699924
 GameObject:
   m_ObjectHideFlags: 0
