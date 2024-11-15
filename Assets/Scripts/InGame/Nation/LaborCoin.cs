@@ -5,13 +5,13 @@ using UnityEngine;
 
 public class LaborCoin
 {
-    public int Pid = 0; //할당된 pid
+    public int ListIndex = 0; //할당된 pid
     public int[] Pos; //할당된 일자리
     public int NationNum;
 
     public LaborCoin(int _pid, Nation _nation)
     {
-        Pid = _pid;
+        ListIndex = _pid;
         NationNum = _nation.GetNationNum();
         SetPos( _nation.GetCapital().GetMapIndex());
     }

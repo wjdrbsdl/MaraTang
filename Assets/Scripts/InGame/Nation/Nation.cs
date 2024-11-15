@@ -27,6 +27,7 @@ public class Nation : ITradeCustomer
     private GodClassEnum m_godClass;
     private TokenTile m_capitalCity;
     private List<TokenTile> m_territorryList;
+    private NationPopular m_popularMg; //인구 관리소
     private int[] m_resources;
     private int[] nationStatValues ;
     public NationTechPart TechPart;
@@ -46,13 +47,16 @@ public class Nation : ITradeCustomer
         nation.m_nationNumber = _nationNuber;
         nation.SetCapitalCity(_capitalCity);
         nation.InitiStat();
-        nation.AddTerritory(_capitalCity);
+        nation.AddTerritory(_capitalCity); //수도를 최초 영토로 넣고 
         //주변 1칸은 기본적으로 해당 국가 영토로 편입
         List<TokenTile> boundaryTile = GameUtil.GetTileTokenListInRange(1, _capitalCity.GetMapIndex(),1);
         for (int i = 0; i < boundaryTile.Count; i++)
         {
             nation.AddTerritory(boundaryTile[i]);
         }
+
+        nation.m_popularMg = new NationPopular(nation);
+        nation.m_popularMg.IncreaseLaborCoin(3); //3개 노동토큰 생성
         nation.m_resources = new int[GameUtil.EnumLength(Capital.Food)];
         nation.TechPart = new NationTechPart();
         return nation;
