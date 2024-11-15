@@ -25,14 +25,12 @@ public class WorkOrder
     private int m_baseworkEfficiency = 100; //토큰 1개일때 노동 효율
     private int m_overWorkEfficiency = 10; //추가되는 토큰에 따른 노동 효율
 
-    private int m_workTokenNum; //할당된 노동 토큰 수
-    private int m_maxWorkTokenNum = 3; //최대 할당 가능한 수 
     private Action m_doneEffect;
     delegate bool EffectCondition();
     private EffectCondition effectCondition;
     private bool m_isComplete = false; //효과 까지 진행된경우 true
     public bool IsCancle = false;
-    private IWorkOrderPlace m_orderPlace; //작업 장소 
+    private int[] m_orderPlacePos; //작업장소 포스 
 
     public WorkOrder(List<TOrderItem> _needList, int _needWorkGague, int _workPid = -1, WorkType _workType = WorkType.ChangeBuild)
     {
@@ -46,7 +44,6 @@ public class WorkOrder
 
         //작업주문서 작성
         m_needList = _needList;
-        m_workTokenNum = 1; //토큰 1개 임시 할당
         m_originWorkGauge = _needWorkGague;
         //m_restWorkGauge = m_originWorkGauge;
         m_restWorkGauge = 70; //임시로 필요 작업량 할당
@@ -104,26 +101,6 @@ public class WorkOrder
         return true;
     }
 
-    public bool PushWorkToken()
-    {
-        if (m_workTokenNum == m_maxWorkTokenNum)
-        {
-            return false;
-        }
-        m_workTokenNum += 1;
-        return true;
-    }
-
-    public bool TakeOutWorkToken()
-    {
-        if(m_workTokenNum == 0)
-        {
-            return false;
-        }
-        m_workTokenNum -= 1;
-        return true;
-    }
-
     public void NoticeNeedResource()
     {
         List<TOrderItem> requestList = new List<TOrderItem>(); //요청 목록 제작
@@ -166,7 +143,9 @@ public class WorkOrder
             return;
         }
 
-        if(m_workTokenNum == 0)
+        int laborCoin = GameUtil.GetTileTokenFromMap(m_orderPlacePos).GetLaborCoinCount();
+        Debug.Log(laborCoin + "으로 작업진행");
+        if(laborCoin == 0)
         {
             Debug.LogWarning("작업자수 부족 수행 불가");
             return;
@@ -174,7 +153,7 @@ public class WorkOrder
 
         //작업량 구하기
         int workAmount = m_baseworkEfficiency * 1; //기본 토큰1은 기본효율로
-        int overToken = m_workTokenNum - 1; //초과 토큰 수 계산
+        int overToken = laborCoin - 1; //초과 토큰 수 계산
         int overWorkAmount = 0;
         if (1 <= overToken)
         {
@@ -229,9 +208,11 @@ public class WorkOrder
     public void RemovePlace()
     {
         //해당 장소가 매턴 작업여부를 확인하지 않는다면 갱신이 안되기 때문에 제거 되어야하는 경우 작업장소로 제거할것을 요청. 
-
-        if (m_orderPlace != null)
-            m_orderPlace.RemoveWork();
+        if(m_orderPlacePos != null)
+        {
+            TokenTile tile = GameUtil.GetTileTokenFromMap(m_orderPlacePos);
+            tile.RemoveWork();
+        }
     }
 
     #region 상태 체크
@@ -265,13 +246,8 @@ public class WorkOrder
 
     #endregion
 
-    public IWorkOrderPlace GetOrderPlace()
+    public void SetOrderPlacePos(int[] _mapIndex)
     {
-        return m_orderPlace;
-    }
-
-    public void SetOrderPlace(IWorkOrderPlace _orderPlace)
-    {
-        m_orderPlace = _orderPlace;
+        m_orderPlacePos = _mapIndex;
     }
 }

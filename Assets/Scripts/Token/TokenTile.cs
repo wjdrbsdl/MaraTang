@@ -27,7 +27,7 @@ public enum MainResource
 }
 #endregion
 
-public class TokenTile : TokenBase, IWorkOrderPlace
+public class TokenTile : TokenBase
 {
     private List<TokenChar> m_inTileCharList = new();
     private List<LaborCoin> m_laborCoinList = new(); //할당된 노동 코인들 
@@ -186,7 +186,7 @@ public class TokenTile : TokenBase, IWorkOrderPlace
         }
 
         m_workOrder = _work;
-        _work.SetOrderPlace( this);
+        _work.SetOrderPlacePos(GetMapIndex());
         Debug.Log(_work.m_workType + "작업 타일에 등록");
         MgWorkOrderPin.GetInstance().RequestWorkOrderPin(this);
         return true;
