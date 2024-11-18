@@ -18,7 +18,7 @@ public class BtnInputResource : MonoBehaviour
         WorkOrder workOrder = m_tile.GetWorkOrder();
         if (workOrder == null)
             return;
-
+        MGContent.GetInstance().SendActionCode(new TOrderItem(TokenType.Response, (int)ResponseEnum.WorkSupport, (int)ResponseEnum.WorkSupport));
         workOrder.PutResource(PlayerCapitalData.g_instance);
 
         m_motherUI.ResetUI();
