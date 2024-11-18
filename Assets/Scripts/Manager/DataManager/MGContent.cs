@@ -354,8 +354,7 @@ public class MGContent : Mg<MGContent>
 
             chunkNumList.Add(chunkNum);
             tileList.Add(devilStartTile.GetMapIndex());
-            //해당 지역을 악마구역으로 지정 및 구역 중 해당 타일에 악마 봉인. 필요
-            Debug.LogWarning("악마봉인구역 구현요구");
+
         }
         //구역과 타일을 전달
         m_devilIncubator.SetBirthRegion(chunkNumList, tileList);

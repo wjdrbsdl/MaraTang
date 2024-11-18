@@ -36,16 +36,21 @@ public class Quest : IOrderCustomer
             MGContent.GetInstance().FailQuest(this);
     }
 
+    bool questWarning = false;
     #region 스테이지 진행
     public void RealizeStage()
     {
-     //   Debug.Log(CurStep + "단계 구현화 진행");
         TTokenOrder order = new TTokenOrder(CurStageData.SituationList, CurStageData.SituAdapCount, SerialNum, this);
         OrderExcutor excutor = new OrderExcutor();
         excutor.ExcuteOrder(order);
-        Debug.LogWarning("새 퀘스트 알람 닫아놓음");
-        //MgUI.GetInstance().ShowQuest(this);
-      //  Debug.LogFormat("시리얼 넘버{0} 퀘 {1}스테이지 발동 됨", SerialNum, CurStep);
+
+        //한번만 알림받기
+        if(questWarning == false)
+        {
+            questWarning = true;
+            Debug.LogWarning("새 퀘스트 알람 닫아놓음");
+            //MgUI.GetInstance().ShowQuest(this);
+        }
     }
 
     public void ClearStage()
