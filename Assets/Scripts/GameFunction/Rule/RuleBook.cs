@@ -361,47 +361,14 @@ public class RuleBook
         TileType territory = _tile.GetTileType();
         MainResource mainType = _tile.GetMainResource();
         int tileEnegy = _tile.GetResrouceGrade();
-
-        Debug.LogWarning("임시로 획득자원 없도록");
-        return mineResult;
-        //임시 자원 수급처 차단 
-
-        //테이블로 각 타입에서 얻을 수 있는 자원을 정의해놓기?
-        switch (territory)
+        List<TOrderItem> resourceList = MgMasterData.GetInstance().GetTileData((int)_tile.GetTileType()).EffectData.GetItemList();
+        //해당 타일에서 산출되는 자원 마스터 데이터 가져옴 
+        for (int i = 0; i < resourceList.Count; i++)
         {
-            case TileType.Nomal:
-                result.Add((Capital.Food, tileEnegy));
-                result.Add((Capital.Mineral, tileEnegy));
-                result.Add((Capital.Wood, tileEnegy));
-                break;
-            case TileType.Town:
-                result.Add((Capital.Food, tileEnegy));
-                result.Add((Capital.Mineral, tileEnegy));
-                result.Add((Capital.Wood, tileEnegy));
-          
-                break;
-            case TileType.Farm:
-                result.Add((Capital.Food, tileEnegy));
-                result.Add((Capital.Mineral, tileEnegy));
-                result.Add((Capital.Wood, tileEnegy));
-        
-                break;
-            case TileType.Mine:
-                result.Add((Capital.Food, tileEnegy));
-                result.Add((Capital.Mineral, tileEnegy));
-                result.Add((Capital.Wood, tileEnegy));
-           
-                break;
-            case TileType.WoodLand:
-                result.Add((Capital.Food, tileEnegy*0));
-                result.Add((Capital.Mineral, tileEnegy*1));
-                result.Add((Capital.Wood, (int)(tileEnegy*1.5)));
-          
-                break;
-            case TileType.Capital:
-                break;
-            default:
-                break;
+            TOrderItem resource = resourceList[i];
+            //한번더 자원종류인지 체크하고
+            if (resource.Tokentype == TokenType.Capital)
+                result.Add(((Capital)resource.SubIdx, resource.Value));
         }
 
         return mineResult;
