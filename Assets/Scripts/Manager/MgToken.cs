@@ -198,6 +198,11 @@ public class MgToken : MgGeneric<MgToken>
     //캐릭을 장소 스폰 까지 
     public TokenChar SpawnCharactor(int[] _position, int _charPid, bool _isPlayer = false)
     {
+        //스폰시킬 장소 없으면 취소 
+        int[] spawnPos = GameUtil.GetPosEmptyChar(_position);
+        if (spawnPos == null)
+            return null;
+
         //좌표에 몬스터 생성
         TokenChar spawnCharactor = MakeCharToken(_charPid);
         spawnCharactor.GetObject().gameObject.SetActive(true);
