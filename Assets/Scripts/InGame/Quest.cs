@@ -123,6 +123,7 @@ public class CurrentStageData
     public List<TOrderItem> FailConList;
     public List<TOrderItem> CurConList; //현재 진행 상황
     public bool[] SuccessState;
+    public bool[] FailState;
 
     public CurrentStageData()
     {
@@ -166,11 +167,12 @@ public class CurrentStageData
     {
         //0. 성공 조건수 만큼 현재 상태 bool값 배열 생성
         SuccessState = new bool[SuccesConList.Count];
+        FailState = new bool[FailConList.Count];
         //1. 성공 조건과 실패 조건의 TOrder를 투입한다
         //2. TokenType과 SubIdx가 중복되는 것들은 1개로 통합한다. - 중복 체크 필요. 
         //3. 초기값은 각 TokenType, Subidx에 따라 지정한다. 
         //성공 조건 추가
-   //     Debug.Log("성공 조건 추가 " + SuccesConList.Count);
+        //     Debug.Log("성공 조건 추가 " + SuccesConList.Count);
         for (int i = 0; i < SuccesConList.Count; i++)
         {
             TOrderItem conditionItem = SuccesConList[i];
@@ -330,20 +332,31 @@ public class CurrentStageData
     #region 성공 실패 체크 
     public bool CheckSuccess()
     {
+       return CheckCondition(SuccesConList, SuccesNeedCount, SuccessState, ref AbleClear);
+    }
+
+    public bool CheckFail()
+    {
+        bool isFail = false;
+        return CheckCondition(FailConList, FailNeedCount, FailState, ref isFail);
+    }
+
+    private bool CheckCondition(List<TOrderItem> _condtions, int _needCount, bool[] _state, ref bool _isDone)
+    {
         //현재 상태와 목표 상태를 각 토큰타입에 따라 벨류를 따져봄
-        int passCount = 0; //통과한수
-        AbleClear = false;
-        for (int i = 0; i < SuccesConList.Count; i++)
+        int conditionCount = 0; //실패한수
+        _isDone = false; //실패로 초기화 
+        for (int i = 0; i < _condtions.Count; i++)
         {
             //1. 성공 조건들 중 1개 뺌
-            TOrderItem successCondition = SuccesConList[i];
-            SuccessState[i] = false; //해당 성공 조건 실패로 초기화
+            TOrderItem checkCondition = _condtions[i];
+            _state[i] = false; //해당 성공 조건 실패로 초기화
             for (int curConIdx = 0; curConIdx < CurConList.Count; curConIdx++)
             {
                 //2. 성공 조건과 현재 조건을 하나씩 비교 
                 TOrderItem curCondtion = CurConList[curConIdx]; //현재 상태
                 TokenType conditionType = curCondtion.Tokentype;
-                if(curCondtion.Tokentype != successCondition.Tokentype || curCondtion.SubIdx != successCondition.SubIdx)
+                if (curCondtion.Tokentype != checkCondition.Tokentype || curCondtion.SubIdx != checkCondition.SubIdx)
                 {
                     //3. 성공 조건과 현재 조건이 비교 대상인지 체크 
                     //4. 다르면 패싱
@@ -358,79 +371,29 @@ public class CurrentStageData
                     case TokenType.Char: //몬스터의 경우 목표 몬스터 처치시 현재 상태 value 1 상승
                     case TokenType.Action:
                     case TokenType.Capital:
-                        isPass = IsEnoughValue(successCondition, curCondtion);
+                        isPass = IsEnoughValue(checkCondition, curCondtion);
                         break;
                     default:
-                        isPass = IsMatch(successCondition, curCondtion);
+                        isPass = IsMatch(checkCondition, curCondtion);
                         break;
                 }
 
                 if (isPass)
                 {
-                    passCount += 1;
-                    SuccessState[i] = true;
+                    _state[i] = true;
+                    conditionCount += 1;
                 }
                     
-
-                //6. 성공 조건에 맞는 현재 조건을 따져봤으므로 break;
-                break; 
-            }
-            //7. 다음 성공 조건 루프 
-        }
-     //  Debug.LogFormat("필요수{0} 충족수{1} 조건수{2}", SuccesNeedCount, passCount, SuccesConList.Count);
-        if (SuccesNeedCount <= passCount)
-        {
-            AbleClear = true;
-            return true;
-        }
-        return false;
-    }
-
-    public bool CheckFail()
-    {
-        //현재 상태와 목표 상태를 각 토큰타입에 따라 벨류를 따져봄
-        int failCount = 0; //실패한수
-        for (int i = 0; i < FailConList.Count; i++)
-        {
-            //1. 성공 조건들 중 1개 뺌
-            TOrderItem failCondition = FailConList[i];
-            for (int curConIdx = 0; curConIdx < CurConList.Count; curConIdx++)
-            {
-                //2. 성공 조건과 현재 조건을 하나씩 비교 
-                TOrderItem curCondtion = CurConList[curConIdx]; //현재 상태
-                TokenType conditionType = curCondtion.Tokentype;
-                if (curCondtion.Tokentype != failCondition.Tokentype || curCondtion.SubIdx != failCondition.SubIdx)
-                {
-                    //3. 성공 조건과 현재 조건이 비교 대상인지 체크 
-                    //4. 다르면 패싱
-                    continue;
-                }
-
-                //5. 비교 조건이면 성공 여부 체크 
-                bool isPass = false; //개별 성공 여부
-                                     //수행된 조건 타입에 따라 현재 조건 상태를 변화
-                switch (conditionType)
-                {
-                    case TokenType.Char: //몬스터의 경우 목표 몬스터 처치시 현재 상태 value 1 상승
-                    case TokenType.Action:
-                        isPass = IsEnoughValue(failCondition, curCondtion);
-                        break;
-                    default:
-                        isPass = IsMatch(failCondition, curCondtion);
-                        break;
-                }
-
-                if (isPass)
-                    failCount += 1;
 
                 //6. 성공 조건에 맞는 현재 조건을 따져봤으므로 break;
                 break;
             }
             //7. 다음 성공 조건 루프 
         }
-     //   Debug.LogFormat("실패 필요수{0} 충족수{1} 조건수{2}", FailNeedCount, failCount, FailConList.Count);
-        if (FailNeedCount <= failCount)
+        //   Debug.LogFormat("실패 필요수{0} 충족수{1} 조건수{2}", FailNeedCount, failCount, FailConList.Count);
+        if (_needCount <= conditionCount)
         {
+            _isDone = true;
             return true;
         }
         return false;
