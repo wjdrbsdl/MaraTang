@@ -329,6 +329,7 @@ public class TileTypeData {
     public int TypePID;
     public string PlaceName;
     public TileEffectEnum effectType = TileEffectEnum.None;
+    public TItemListData EffectData;
     public int[] NeedTiles;
     public bool IsInterior = false; //해당 장소는 인테리어 타입인지
     public int[] AbleTileActionPID;
@@ -349,6 +350,11 @@ public class TileTypeData {
         }
 
         int effectIndex = effectTypeIndex + 1;
+        if (_parsingData.Length > effectIndex)
+        {
+            EffectData = GameUtil.ParseCostDataArray(_parsingData, effectIndex);
+        }
+
 
         int ableActionIndex = effectIndex + 1;
         string ables = _parsingData[ableActionIndex]; //가능한 작업이 나열되어있음
