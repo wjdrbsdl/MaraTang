@@ -52,7 +52,6 @@ public class MgToken : MgGeneric<MgToken>
     private TokenTile[,] m_tileTokenes; //현재 맵의 타일 토큰
     private HideTile[,] m_hideTiles;
     private List<TokenChar> m_charList = new(); //현재 맵에 생성된 캐릭 토큰들
-    private List<TokenEvent> m_eventList = new();
     #endregion
 
     #region 리셋
@@ -216,35 +215,6 @@ public class MgToken : MgGeneric<MgToken>
         RuleBook.FirstMigrate(_char, _char.GetMapIndex());
       
     }
-
-    public TokenEvent SpawnEvent(int[] _pos, int _eventPid)
-    {
-        return SpawnEvent(GameUtil.GetTileTokenFromMap(_pos), _eventPid);
-    }
-    public TokenEvent SpawnEvent(TokenTile _tile, int _eventPid)
-    {
-        //0. 없는 위치에 스폰하려고하면 null return
-        if (_tile == null)
-            return null;
-
-        //1. pid로 원본 값 가져옴
-        TokenEvent masterEvent = MgMasterData.GetInstance().GetEventData(_eventPid);
-        //2. 새로운 복사 토큰 생성
-        TokenEvent madeEventToken = TokenEvent.CopyToken(masterEvent);
-        //3. 오브젝트 생성
-        ObjectTokenBase eventObj = Instantiate(m_eventGO);
-        //4. 오브젝트에 토큰 정보 할당
-        eventObj.SetObjectToken(madeEventToken, TokenType.Event);
-        //5. 토큰 위치 조정
-        madeEventToken.SetMapIndex(_tile.GetXIndex(), _tile.GetYIndex());
-        //6. 오브젝트 위치 동기화 
-        eventObj.SyncObjectPosition();
-        //7. 위치 타일에 이벤트 토큰 할당
-        _tile.SetEnteraceEvent(madeEventToken);
-        //8. 반환
-        return madeEventToken;
-    }
-
     #endregion
  
     #region 액션 토큰 생성
@@ -283,10 +253,6 @@ public class MgToken : MgGeneric<MgToken>
     public void RemoveCharToken(TokenChar _removeChar)
     {
         m_charList.Remove(_removeChar);
-    }
-    public void RemoveEventToken(TokenEvent _removeEvent)
-    {
-        m_eventList.Remove(_removeEvent);
     }
 
 }

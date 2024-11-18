@@ -38,7 +38,6 @@ public class TokenTile : TokenBase
     public int ChunkNum;
     public WorkOrder m_workOrder = null; //진행중인 공사
     [JsonProperty] private TileViewState m_viewState = TileViewState.Fog;
-    [JsonProperty] private TokenEvent m_enteranceEvent; //입장시 발동하는 이벤트가 있는가
     [JsonProperty] MainResource m_density = MainResource.Tree;
     [JsonProperty] private int densityGrade = 0;
     public int[] parent; //재료 관계시 부모 타일
@@ -378,21 +377,4 @@ public class TokenTile : TokenBase
         m_effectType = MgMasterData.GetInstance().GetTileData((int)tileType).effectType;
     }
 
-
-    #region 입장 이벤트
-    public TokenEvent GetEneteranceEvent()
-    {
-        return m_enteranceEvent;
-    }
-
-    public void SetEnteraceEvent(TokenEvent _enterEvent)
-    {
-        m_enteranceEvent = _enterEvent;
-    }
-
-    public void DeleteEnterEvent()
-    {
-        m_enteranceEvent = null;
-    }
-    #endregion
 }

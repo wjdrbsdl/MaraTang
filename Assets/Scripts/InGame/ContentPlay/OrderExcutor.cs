@@ -4,13 +4,6 @@ using UnityEngine;
 
 public class OrderExcutor
 {
-    //T 주문서내용을 받으면 내용을 해석해서 집행시키는 부분. 
-    public void ExcuteOrder(TokenEvent _eventToken)
-    {
-        ExcuteOrder(_eventToken.TokenOrder);
-    }
-    
-
     public void ExcuteOrder(TTokenOrder _order)
     {
         int orderCount = _order.orderItemList.Count;
@@ -47,9 +40,9 @@ public class OrderExcutor
         {
             //개별적으로 CallBack을 보내는 경우는 return.
             case TokenType.Tile:
-                BuildPlace(orderSubIdx, orderValue);
+                ChangeQuestPlace(orderSubIdx, orderValue);
                 return;
-            case TokenType.Char:
+            case TokenType.MonsterNationSpawn:
                // Debug.Log("몬스터 소환");
                 ExcuteSpawnMonster(_order, orderItem);
                 return;
@@ -103,6 +96,7 @@ public class OrderExcutor
         int spawnCount = _monterOrder.Value;
         //3. 스폰 장소 - 청크 최대 숫자중, 스폿 카운트 만큼 뽑기 진행
         List<int[]> spawnPosList = GameUtil.GetSpawnPos(spawnPosType, spawnCount, chunkNum);
+
         //4. 스폰 진행
         for (int i = 0; i < spawnCount; i++)
         {
@@ -116,7 +110,7 @@ public class OrderExcutor
 
     }
 
-    public void BuildPlace(int _subIdx, int _value)
+    public void ChangeQuestPlace(int _subIdx, int _value)
     {
         //국가경계를 기준으로 주변 타일 하나를
         //정해진 타일로 변경하는 주문 

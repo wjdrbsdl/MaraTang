@@ -90,9 +90,6 @@ public class MgUI : MgGeneric<MgUI>
                 PushUIStack(m_charStatUI);
                 m_charStatUI.SetCharStat((TokenChar)_token);
                 break;
-            case TokenType.Event:
-                Debug.Log("이벤트 정보 보여주기");
-                break;
         }
 
     }

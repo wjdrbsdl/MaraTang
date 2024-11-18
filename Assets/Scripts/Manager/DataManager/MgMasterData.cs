@@ -11,7 +11,6 @@ public class MgMasterData : Mg<MgMasterData>
     private Dictionary<int, BlessSynerge> m_synergeDataDic;
     private Dictionary<int, TokenAction> m_charActionDataDic;
     private List<int> m_charActionList;
-    private Dictionary<int, TokenEvent> m_eventDataDic;
     private Dictionary<int, ContentMasterData> m_contentDataDic;
     private Dictionary<int, NationTechData> m_nationTechDataDic;
     private Dictionary<int, ConversationGroup> m_conversationGroupDic;
@@ -34,7 +33,6 @@ public class MgMasterData : Mg<MgMasterData>
         SetBlessSynergeData();
         SetCharActionData();
         SetCharData();
-        SetEventData();
         SetContentData();
         SetNationTechData();
         SetConversationData();
@@ -78,11 +76,6 @@ public class MgMasterData : Mg<MgMasterData>
     public TokenTileAction GetTileAction(int _actionPID)
     {
         return GetDicData<TokenTileAction>(m_tileActionDataDic, _actionPID);
-    }
-
-    public TokenEvent GetEventData(int _eventPID)
-    {
-        return GetDicData<TokenEvent>(m_eventDataDic, _eventPID);
     }
 
     public ContentMasterData GetContentData(int _contentPID)
@@ -235,17 +228,6 @@ public class MgMasterData : Mg<MgMasterData>
             m_charDataDic.Add(masterChar.GetPid(), masterChar);
         }
      //   Debug.Log("캐릭터 마스터 데이터 완료");
-    }
-
-    private void SetEventData()
-    {
-        m_eventDataDic = new();
-        ParseData parseData = MgParsing.GetInstance().GetMasterData(EMasterData.EventData);
-        for (int i = 0; i < parseData.DbValueList.Count; i++)
-        {
-            TokenEvent masterEvent = new(parseData.MatchCode, parseData.DbValueList[i]);
-            m_eventDataDic.Add(masterEvent.GetPid(), masterEvent);
-        }
     }
 
     private void SetContentData()

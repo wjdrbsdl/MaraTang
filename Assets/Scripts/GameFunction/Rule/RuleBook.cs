@@ -289,16 +289,6 @@ public class RuleBook
 
         return true;
     }
-
-    public TokenEvent CheckEnteranceEvent(int[] mapCoordi)
-    {
-        //타일에 즉발용 이벤트가 있는지 확인
-        TokenTile mapTile = GameUtil.GetTileTokenFromMap(mapCoordi);
-        //맵에 있는지 따져보고 반환
-        TokenEvent enterEvent = mapTile.GetEneteranceEvent();
-
-        return enterEvent;
-    }
     #endregion
 
     #region 타일 액션

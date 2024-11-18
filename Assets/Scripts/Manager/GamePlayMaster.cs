@@ -272,12 +272,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
         SearchTile findTile = new();
         //1. 채집 진행
         findTile.FindSomething(GameUtil.GetTileTokenFromMap(_charToken.GetMapIndex()));
-        //2. 입장 이벤트가 있는가
-        TokenEvent enterEvent = RuleBook.CheckEnteranceEvent(_charToken.GetMapIndex());
-        if (enterEvent != null)
-        {
-            enterEvent.ActiveEvent();
-        }
+
     }
 
     private bool IsPlayerMoveDone(TokenChar _charToken)

@@ -660,8 +660,6 @@ public static class GameUtil
         {
             case TokenType.Capital:
                 return (Capital)_subIdx;
-            case TokenType.Event:
-                return (EventType)_subIdx;
             case TokenType.NationStat:
                 return (NationStatEnum)_subIdx;
             case TokenType.CharStat:
@@ -707,9 +705,6 @@ public static class GameUtil
             {
                 case TokenType.Capital:
                     findEnum = typeof(Capital);
-                    break;
-                case TokenType.Event:
-                    findEnum = typeof(EventType);
                     break;
                 case TokenType.NationStat:
                     findEnum = typeof(NationStatEnum);

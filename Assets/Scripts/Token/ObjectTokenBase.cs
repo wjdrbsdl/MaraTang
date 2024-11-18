@@ -61,11 +61,6 @@ public class ObjectTokenBase : MonoBehaviour
             m_token = (TokenTile)_token;
             m_ClickPriority = 1;
         }
-        else if (_tokenType == TokenType.Event)
-        {
-            m_token = (TokenEvent)_token;
-            m_ClickPriority = 2;
-        }
         m_token.SetObject(this);
         m_name = _token.GetItemName();
     }
