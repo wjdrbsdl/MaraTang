@@ -31,7 +31,7 @@ public class NationPopular
         {
             int curLaborCount = m_LaborCoin.Count; //리스트에서 순번이 곧 pid
             LaborCoin newLabor = new LaborCoin(curLaborCount, m_nation);
-            Debug.Log(m_nation.GetNationNum() + "국가에 " + newLabor.ListIndex + "노동 코인 생성");
+           // Debug.Log(m_nation.GetNationNum() + "국가에 " + newLabor.ListIndex + "노동 코인 생성");
             m_LaborCoin.Add(newLabor);
         }
     }

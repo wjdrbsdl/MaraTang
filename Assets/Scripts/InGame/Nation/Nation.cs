@@ -122,12 +122,12 @@ public class Nation : ITradeCustomer
         switch (_step)
         {
             case NationManageStepEnum.NationEvent:
-                Debug.Log("국가 명운 이벤트 진행");
+                //Debug.Log("국가 명운 이벤트 진행");
                 ReportToGameMaster(_step);
                 break;
             //국가 턴 시작시 하는일
             case NationManageStepEnum.IncomeCapital:
-                Debug.Log("수금 진행");
+               // Debug.Log("수금 진행");
                 IncomeTerritoryResource();
                 ReportToGameMaster(_step);
                 break;
