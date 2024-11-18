@@ -124,6 +124,27 @@ public static class GameUtil
 
         return movedCoordi;
     }
+
+    public static int[] GetPosEmptyChar(int[] _center)
+    {
+        //기준점을 중심으로 몬스터가 없는 타일을 반환
+        int cur = 0;
+        int max = 5;
+        while (cur <= max)
+        {
+            List<TokenTile> rangeList = GetTileTokenListInRange(cur, _center, cur);
+            for (int i = 0; i < rangeList.Count; i++)
+            {
+                TokenTile curTile = rangeList[i];
+                if (curTile.GetCharsInTile().Count == 0)
+                    return curTile.GetMapIndex();
+            }
+            cur += 1;
+        }
+
+        return null;
+    }
+
     //목적지까지 최단 타일 개수
     public static int GetMinRange(TokenBase _fromToken, TokenBase _toToken)
     {
