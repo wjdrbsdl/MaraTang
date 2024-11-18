@@ -90,19 +90,28 @@ public class OrderExcutor
         ESpawnPosType spawnPosType = _order.SpawnPosType;
         int chunkNum = _order.ChunkNum;
 
+        TokenType spawnType = _monterOrder.Tokentype;
         //1. 스폰할 몬스터
         int tokenPid = _monterOrder.SubIdx;
         //2. 스폰할 갯수 
         int spawnCount = _monterOrder.Value;
         //3. 스폰 장소 - 청크 최대 숫자중, 스폿 카운트 만큼 뽑기 진행
-        List<int[]> spawnPosList = GameUtil.GetSpawnPos(spawnPosType, spawnCount, chunkNum);
+        int[] spawnPos = GameUtil.GetSpawnPos(spawnPosType, spawnCount, chunkNum)[0]; //하나
+
+        //국가주변 스폰방식이면
+        if(spawnType == TokenType.MonsterNationSpawn)
+        {
+            TileReturner retuner = new TileReturner();
+            spawnPos = retuner.NationBoundaryTile().GetMapIndex(); //주변타일 하나를 받고 
+            //그 타일 반경 범위안의 타일중 하나에 몬스터 스폰 
+
+        }
 
         //4. 스폰 진행
         for (int i = 0; i < spawnCount; i++)
         {
             _order.OrderExcuteCount += 1;
-            int[] spawnCoord = spawnPosList[i];
-            TokenBase spawnToken = MgToken.GetInstance().SpawnCharactor(spawnCoord, tokenPid); //월드 좌표로 pid 토큰 스폰 
+            TokenBase spawnToken = MgToken.GetInstance().SpawnCharactor(spawnPos, tokenPid); //월드 좌표로 pid 토큰 스폰 
                                                                                                // Debug.Log(tokenPid + "몬스터 소환");
 
             CallBackOrder(spawnToken, _order, _monterOrder); //스폰된 토큰과 주문서로 고객에게 콜백
