@@ -30,10 +30,10 @@ public class BtnPlace : MonoBehaviour
            
             if (m_tile.IsWorking(WorkType.InterBuild, (int)m_tileType)) //이미 공사중이면 추가 발주 안함
             {
-                Debug.Log("공사중인 장소");
+              //  Debug.Log("공사중인 장소");
                 return;
             }
-            Debug.Log("내부 공사 발주");
+ 
             MakeInteriorWork();
             return;
         }

@@ -144,7 +144,7 @@ public class WorkOrder
         }
 
         int laborCoin = GameUtil.GetTileTokenFromMap(m_orderPlacePos).GetLaborCoinCount();
-        Debug.Log(laborCoin + "으로 작업진행");
+       // Debug.Log(laborCoin + "으로 작업진행");
         if(laborCoin == 0)
         {
             Debug.LogWarning("작업자수 부족 수행 불가");

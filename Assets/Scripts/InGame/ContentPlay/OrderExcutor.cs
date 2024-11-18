@@ -66,10 +66,10 @@ public class OrderExcutor
                 }
                 break;
             case TokenType.None:
-                Debug.Log("아무것도 하지 않는 주문");
+                Debug.LogWarning("아무것도 하지 않는 주문");
                 break;
             default:
-                Debug.Log("정의 되지 않은 토큰타입 " + tokenGroup);
+                Debug.LogWarning("정의 되지 않은 토큰타입 " + tokenGroup);
                 break;
         }
         CallBackOrder(null, _order, orderItem);
@@ -77,7 +77,7 @@ public class OrderExcutor
 
     public void ExcuteSelectItem(TTokenOrder _order, SelectItemInfo _selectInfo)
     {
-        Debug.Log("컨펌 누르고 진행");
+       // Debug.Log("컨펌 누르고 진행");
         List<int> selectList = _selectInfo.SelectedIndex;
         for (int i = 0; i < selectList.Count; i++)
         {

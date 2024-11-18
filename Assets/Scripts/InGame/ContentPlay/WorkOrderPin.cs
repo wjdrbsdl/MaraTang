@@ -9,7 +9,7 @@ public class WorkOrderPin : MonoBehaviour
     private Camera m_mainCam;
     private void Start()
     {
-        Debug.Log("작업핀 생성");
+      //  Debug.Log("작업핀 생성");
         m_mainCam = Camera.main;
     }
 
