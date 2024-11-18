@@ -2,16 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public enum ConversationEnum
 {
-    Tutorial, Check, Choose
+    Tutorial, Check, Choose, Response
 }
 
-//플레이어가 선택한 버튼들의 유형
 public enum ResponseEnum
 {
-    Check, Cancle, WorkSupport
+    Check, Cancle
 } 
 
 public enum ConversationStat

@@ -121,7 +121,7 @@ public class SelectItemInfo
         if (ConfirmAction != null)
             ConfirmAction();
 
-        TOrderItem confirmItem = new TOrderItem(TokenType.Response, (int)ResponseEnum.Check, (int)ResponseEnum.Check); //확인용 item 생성
+        TOrderItem confirmItem = new TOrderItem(TokenType.Conversation, (int)ConversationEnum.Response, (int)ResponseEnum.Check); //확인용 item 생성
         MGContent.GetInstance().SendActionCode(confirmItem);
     }
 
@@ -132,7 +132,7 @@ public class SelectItemInfo
 
     public void Cancle()
     {
-        TOrderItem cancleResponse = new TOrderItem(TokenType.Response, (int)ResponseEnum.Cancle, (int)ResponseEnum.Cancle); //확인용 item 생성
+        TOrderItem cancleResponse = new TOrderItem(TokenType.Conversation, (int)ConversationEnum.Response, (int)ResponseEnum.Cancle); //확인용 item 생성
         MGContent.GetInstance().SendActionCode(cancleResponse);
     }
     #endregion

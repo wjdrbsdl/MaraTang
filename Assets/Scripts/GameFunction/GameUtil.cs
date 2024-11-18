@@ -717,9 +717,6 @@ public static class GameUtil
                 case TokenType.Conversation:
                     findEnum = typeof(ConversationEnum);
                     break;
-                case TokenType.Response:
-                    findEnum = typeof(ResponseEnum);
-                    break;
                 case TokenType.Content:
                     findEnum = typeof(ContentEnum);
                     break;

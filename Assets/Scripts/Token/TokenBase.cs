@@ -16,8 +16,7 @@ public enum OnChangeEnum
 
 public enum TokenType
 {
-    Tile, Char, CharStat, Action, Player, Capital, Event, Nation, None, Content, NationTech, Conversation, NationStat, OnChange, Bless,
-    Response
+    Tile, Char, CharStat, Action, Player, Capital, Event, Nation, None, Content, NationTech, Conversation, NationStat, OnChange, Bless
 }
 
 public class TokenBase

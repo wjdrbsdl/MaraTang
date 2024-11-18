@@ -373,10 +373,6 @@ public class CurrentStageData
                     case TokenType.Capital:
                         isPass = IsEnoughValue(checkCondition, curCondtion);
                         break;
-                        //응답의 경우 subidx까지 일치하면 조건 충족한상태이므로 바로 패스
-                    case TokenType.Response:
-                        isPass = true;
-                        break;
                     default:
                         isPass = IsMatch(checkCondition, curCondtion);
                         break;
