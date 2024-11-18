@@ -44,8 +44,7 @@ public class TileMaker : MonoBehaviour
                 newTile.SetHeightValue(heightNoise[curx, cury]);
                 newTile.SetDensityValue(densityValue[curx, cury]);
                 newTile.SetNation(FixedValue.NO_NATION_NUMBER); //기본 소속없는 국가 번호로 지정
-                newTile.SetResourceValue(); //해당 타일의 메인 자원값 설정
-
+       
                 //3. 타일 오브젝트 세팅
                 newTileObject.SetObjectToken(newTile, TokenType.Tile);
                 newTileObject.transform.SetParent(_mapOrder.t_box);

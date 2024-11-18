@@ -353,11 +353,14 @@ public class RuleBook
         List<(Capital, int)> result = new();
         TMineTileResult mineResult = new(result);
         TileEffectEnum tileEffect = _tile.GetEffect();
-       // Debug.Log(_tile.GetTileType()+ "지역 효과" + tileEffect);
+
+        //해당 타일이 수급가능한 토지가 아니면 얻는거 없이 반환
+        if (tileEffect != TileEffectEnum.Money)
+            return mineResult;
         
         TileType territory = _tile.GetTileType();
-        int mainType = _tile.GetStat(TileStat.MainResource);
-        int tileEnegy = _tile.GetStat(TileStat.TileEnergy);
+        MainResource mainType = _tile.GetMainResource();
+        int tileEnegy = _tile.GetResrouceGrade();
 
         Debug.LogWarning("임시로 획득자원 없도록");
         return mineResult;

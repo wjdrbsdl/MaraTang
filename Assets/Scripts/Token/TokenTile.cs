@@ -18,7 +18,7 @@ public enum TileViewState
 
 public enum TileStat
 {
-   Nation, Height, MainResource, TileEnergy
+   Nation, Height, TileEnergy
 }
 
 public enum MainResource
@@ -38,8 +38,8 @@ public class TokenTile : TokenBase
     public int ChunkNum;
     public WorkOrder m_workOrder = null; //진행중인 공사
     [JsonProperty] private TileViewState m_viewState = TileViewState.Fog;
-    [JsonProperty] MainResource m_density = MainResource.Tree;
-    [JsonProperty] private int densityGrade = 0;
+    [JsonProperty] MainResource m_mainResource = MainResource.Tree;
+    [JsonProperty] private int m_resourceGrade = 0;
     public int[] parent; //재료 관계시 부모 타일
     [JsonProperty] private List<int[]> childList;// 재료 관계시 자식 타일들
     
@@ -82,33 +82,10 @@ public class TokenTile : TokenBase
 
     public void SetDensityValue((MainResource, int) _mildo)
     {
-        m_density = _mildo.Item1;
-        densityGrade = _mildo.Item2;
+        m_mainResource = _mildo.Item1;
+        m_resourceGrade = _mildo.Item2;
     }
    
-
-    public void SetResourceValue()
-    {
-        //int resourceValue = (int)(_resourceValue * 100f); //리소스 점수 0~99로 전환
-        int resourceValue = Random.Range(0, 100);
-        MainResource mainResource = MainResource.Mineral; //최고점 미네랄 기본 설정 
-        if (resourceValue < 25)
-        {
-            mainResource = MainResource.Tree;
-        }
-        else if (resourceValue < 50)
-        {
-            mainResource = MainResource.Food;
-        }
-       
-
-        int minGradeValue = 25;
-        int gradeValue = resourceValue % 25 + minGradeValue; //최소값 25에 등급으로 추가
-        //Debug.Log(resourceValue + " 해당 용도에서 등급은" + gradeValue);
-        SetStatValue(TileStat.MainResource, (int)mainResource); //해당 벨류로 넣음. 
-        SetStatValue(TileStat.TileEnergy, gradeValue); //해당 벨류로 넣음. 
-    }
-
     public void SetTileSprite()
     {
         if(tileType != TileType.Nomal)
@@ -117,8 +94,8 @@ public class TokenTile : TokenBase
             return;
         }
 
-        GetObject().SetSprite(TempSpriteBox.GetInstance().GetBaseTile(m_density));
-        List<int> ran = GameUtil.GetRandomNum(4, 4 - densityGrade);
+        GetObject().SetSprite(TempSpriteBox.GetInstance().GetBaseTile(m_mainResource));
+        List<int> ran = GameUtil.GetRandomNum(4, 4 - m_resourceGrade);
         for (int i = 0; i < ran.Count; i++)
         {
             ObjectTile tileObj = (ObjectTile)GetObject();
@@ -284,7 +261,6 @@ public class TokenTile : TokenBase
         return m_effectType;
     }
 
-
     public void SetNation(int _nationNumber)
     {
         SetStatValue(TileStat.Nation, _nationNumber);
@@ -350,6 +326,16 @@ public class TokenTile : TokenBase
     public List<int[]> GetChildIndex()
     {
         return childList;
+    }
+
+    public MainResource GetMainResource()
+    {
+        return m_mainResource;
+    }
+
+    public int GetResrouceGrade()
+    {
+        return m_resourceGrade;
     }
     #endregion
 

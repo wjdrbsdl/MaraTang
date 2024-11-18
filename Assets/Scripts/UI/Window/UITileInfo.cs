@@ -169,8 +169,8 @@ public class UITileInfo : UIBase
     
     private void SetResourceInfo()
     {
-        int mainType = m_curTile.GetStat(TileStat.MainResource);
-        int value = m_curTile.GetStat(TileStat.TileEnergy);
+        int mainType = (int)m_curTile.GetMainResource();
+        int value = m_curTile.GetResrouceGrade();
       //  Debug.Log((TokenTile.MainResource)mainType+" 해당 용도에서 등급은" + value);
     }
 
@@ -178,7 +178,7 @@ public class UITileInfo : UIBase
     {
         TokenTile _tile = m_curTile;
         //현재 땅의 스텟 정보를 보여주기 
-        MainResource mainResource = (MainResource)_tile.GetStat(TileStat.MainResource);
+        MainResource mainResource = m_curTile.GetMainResource();
         TileType tileType = _tile.GetTileType();
         int NationNum = _tile.GetStat(TileStat.Nation);
         string tileStat = string.Format("소속 국가 : {0}\n토지 용도 {1}\n 토지 적합도{2} 토지력 {3}\n좌표 {4},{5}\n노동 코인{6}",
