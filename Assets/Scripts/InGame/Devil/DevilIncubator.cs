@@ -95,7 +95,6 @@ public class DevilIncubator
     #region 악마 탄생, 토벌
     public void BirthDevil()
     {
-        Debug.LogWarning("악마 부활 조건 체크 후 부활진행");
         //전체적인 턴 조건 확인
         if (m_turnEnough == false)
             return;
