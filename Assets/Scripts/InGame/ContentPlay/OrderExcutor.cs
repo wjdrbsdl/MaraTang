@@ -147,8 +147,6 @@ public struct TTokenOrder
 {
     //토큰 생성, 선택등의 작업을 진행하는곳
 
-    //작업을 위해 필요한 변수
-    public ESpawnPosType SpawnPosType;
     public List<TOrderItem> orderItemList; //토큰 타입, 서브pid, 수량(밸류)로 묶은 orderItem.
     public int ChunkNum; //아무 지정이 아니면 - 1
     public int OrderExcuteCount; //집행한 수 - 단계로변경 필요?
@@ -158,7 +156,6 @@ public struct TTokenOrder
     #region 주문서 생성
     public TTokenOrder(List<TOrderItem> _orderList, int _selectCount, int _serialNum = 0)
     {
-        SpawnPosType = ESpawnPosType.Random;
         orderItemList = _orderList;
         if (orderItemList == null)
             orderItemList = new();
