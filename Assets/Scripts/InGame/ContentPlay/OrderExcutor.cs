@@ -12,7 +12,7 @@ public class OrderExcutor
             //주문수와 적용 수가 같으면 모두 그대로 적용
             for (int i = 0; i < orderCount; i++)
             {
-                ExcuteOrderItem(_order, i);
+                ExcuteOrderItem(_order.orderItemList[i]);
             }
             return;
         }
@@ -29,9 +29,19 @@ public class OrderExcutor
 
     }
 
-    public void ExcuteOrderItem(TTokenOrder _order, int _selectNum)
+    public void ExcuteSelectItem(TTokenOrder _order, SelectItemInfo _selectInfo)
     {
-        TOrderItem orderItem = _order.orderItemList[_selectNum];
+        // Debug.Log("컨펌 누르고 진행");
+        List<int> selectList = _selectInfo.SelectedIndex;
+        for (int i = 0; i < selectList.Count; i++)
+        {
+            ExcuteOrderItem(_order.orderItemList[selectList[i]]);
+        }
+    }
+
+    public void ExcuteOrderItem(TOrderItem _oritem)
+    {
+        TOrderItem orderItem = _oritem;
         TokenType tokenGroup = (TokenType)orderItem.Tokentype;
         int orderSubIdx = orderItem.SubIdx;
         int orderValue = orderItem.Value;
@@ -44,7 +54,7 @@ public class OrderExcutor
                 return;
             case TokenType.MonsterNationSpawn:
                 // Debug.Log("몬스터 소환");
-                ExcuteSpawnMonster(_order, orderItem);
+                SpawnMonster(orderItem);
                 return;
             case TokenType.CharStat:
                 PlayerManager.GetInstance().GetMainChar().CalStat((CharStat)orderSubIdx, orderValue);
@@ -74,43 +84,26 @@ public class OrderExcutor
         }
     }
 
-    public void ExcuteSelectItem(TTokenOrder _order, SelectItemInfo _selectInfo)
+    private void SpawnMonster( TOrderItem _monterOrder)
     {
-        // Debug.Log("컨펌 누르고 진행");
-        List<int> selectList = _selectInfo.SelectedIndex;
-        for (int i = 0; i < selectList.Count; i++)
-        {
-            ExcuteOrderItem(_order, selectList[i]);
-        }
-    }
-
-    private void ExcuteSpawnMonster(TTokenOrder _order, TOrderItem _monterOrder)
-    {
-        ESpawnPosType spawnPosType = _order.SpawnPosType;
-        int chunkNum = _order.ChunkNum;
-
         TokenType spawnType = _monterOrder.Tokentype;
         //1. 스폰할 몬스터
         int tokenPid = _monterOrder.SubIdx;
         //2. 스폰할 갯수 
         int spawnCount = _monterOrder.Value;
-        //3. 스폰 장소 - 청크 최대 숫자중, 스폿 카운트 만큼 뽑기 진행
-        int[] spawnPos = GameUtil.GetSpawnPos(spawnPosType, spawnCount, chunkNum)[0]; //하나
+        //3. 스폰 장소 - 국경중 하나로
+        //Order의 토큰타입으로 어디서 어떻게 스폰할지 다 정해놓기 일단 모든 스폰은 국경에서 스폰하는걸로 
+        //if(_monterOrder.Tokentype == TokenType.MonsterNationSpawn)
+        //{
 
-        //국가주변 스폰방식이면
-        if (spawnType == TokenType.MonsterNationSpawn)
-        {
-            TileReturner retuner = new TileReturner();
-            spawnPos = retuner.NationBoundaryTile().GetMapIndex(); //주변타일 하나를 받고 
-            //그 타일 반경 범위안의 타일중 하나에 몬스터 스폰 
-
-        }
+        //}
+        TileReturner retuner = new TileReturner();
+        int[] spawnPos = retuner.NationBoundaryTile().GetMapIndex();
 
         //4. 스폰 진행
         for (int i = 0; i < spawnCount; i++)
         {
-            _order.OrderExcuteCount += 1;
-            TokenBase spawnToken = MgToken.GetInstance().SpawnCharactor(spawnPos, tokenPid); //월드 좌표로 pid 토큰 스폰 
+            MgToken.GetInstance().SpawnCharactor(spawnPos, tokenPid); //월드 좌표로 pid 토큰 스폰 
         }
 
     }
