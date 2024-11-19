@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 public class ComplainManager : Mg<ComplainManager>
 {
-    public List<Complain> m_complinLIst; //민원 종류들
+    private List<Complain> m_complinLIst; //민원 종류들
 
     #region 초기화
     public ComplainManager()
@@ -27,7 +27,7 @@ public class ComplainManager : Mg<ComplainManager>
     }
     #endregion
 
-    public void ClassfyComplain()
+    private void ClassfyComplain()
     {
         //마스터데이터로 부터 민원 종류들 가져와서 분류 
 
