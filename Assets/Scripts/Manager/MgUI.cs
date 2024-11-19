@@ -134,11 +134,6 @@ public class MgUI : MgGeneric<MgUI>
         m_scriptUI.SetScript(_scriptData);
     }
 
-    public void SetScriptCustomer(SelectItemInfo _selectInfo)
-    {
-        m_scriptUI.SetSelectInfo(_selectInfo);
-    }
-
     public void ShowNationPolicy(Nation _nation)
     {
         m_policyUI.SetNationPolicy(_nation);
