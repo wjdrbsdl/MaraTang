@@ -6,6 +6,8 @@ using System.Linq;
 public class NationEvent
 {
     private Nation m_nation;
+    private List<Complain> m_occuredComplainList; //현재 국가에 발생한 민원들
+
 
     public NationEvent(Nation _nation)
     {
@@ -14,7 +16,13 @@ public class NationEvent
 
     public void WatchEvent()
     {
-
+        List<TokenTile> territory = m_nation.GetTerritorry();
+        //Debug.Log(m_nation.GetNationNum() + " 사건 발생 유무 확인");
+        for (int i = 0; i < territory.Count; i++)
+        {
+            TokenTile tile = territory[i];
+                
+        }
     }
 
   
