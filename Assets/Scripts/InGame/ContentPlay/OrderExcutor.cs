@@ -26,9 +26,9 @@ public class OrderExcutor
         };
         selectInfo.SetAction(confirmAction);
         MgUI.GetInstance().ShowItemList(selectInfo);
-    
+
     }
- 
+
     public void ExcuteOrderItem(TTokenOrder _order, int _selectNum)
     {
         TOrderItem orderItem = _order.orderItemList[_selectNum];
@@ -43,7 +43,7 @@ public class OrderExcutor
                 ChangeQuestPlace(orderSubIdx, orderValue);
                 return;
             case TokenType.MonsterNationSpawn:
-               // Debug.Log("몬스터 소환");
+                // Debug.Log("몬스터 소환");
                 ExcuteSpawnMonster(_order, orderItem);
                 return;
             case TokenType.CharStat:
@@ -60,7 +60,7 @@ public class OrderExcutor
                 MGConversation.GetInstance().ShowCheckScript(orderItem);
                 break;
             case TokenType.Nation:
-                if(orderSubIdx == (int)NationEnum.Move)
+                if (orderSubIdx == (int)NationEnum.Move)
                 {
                     GamePlayMaster.GetInstance().CharMoveToCapital(orderValue);
                 }
@@ -72,12 +72,11 @@ public class OrderExcutor
                 Debug.LogWarning("정의 되지 않은 토큰타입 " + tokenGroup);
                 break;
         }
-        CallBackOrder(null, _order, orderItem);
     }
 
     public void ExcuteSelectItem(TTokenOrder _order, SelectItemInfo _selectInfo)
     {
-       // Debug.Log("컨펌 누르고 진행");
+        // Debug.Log("컨펌 누르고 진행");
         List<int> selectList = _selectInfo.SelectedIndex;
         for (int i = 0; i < selectList.Count; i++)
         {
@@ -99,7 +98,7 @@ public class OrderExcutor
         int[] spawnPos = GameUtil.GetSpawnPos(spawnPosType, spawnCount, chunkNum)[0]; //하나
 
         //국가주변 스폰방식이면
-        if(spawnType == TokenType.MonsterNationSpawn)
+        if (spawnType == TokenType.MonsterNationSpawn)
         {
             TileReturner retuner = new TileReturner();
             spawnPos = retuner.NationBoundaryTile().GetMapIndex(); //주변타일 하나를 받고 
@@ -112,9 +111,6 @@ public class OrderExcutor
         {
             _order.OrderExcuteCount += 1;
             TokenBase spawnToken = MgToken.GetInstance().SpawnCharactor(spawnPos, tokenPid); //월드 좌표로 pid 토큰 스폰 
-                                                                                               // Debug.Log(tokenPid + "몬스터 소환");
-
-            CallBackOrder(spawnToken, _order, _monterOrder); //스폰된 토큰과 주문서로 고객에게 콜백
         }
 
     }
@@ -143,22 +139,9 @@ public class OrderExcutor
                 }
             }
         }
-        
+
     }
 
-    private void CallBackOrder(TokenBase _token, TTokenOrder _order, TOrderItem _doenItem)
-    {
-        //1. 주문서 고객 정보 있는지 체크
-        IOrderCustomer customer = _order.OrderCustomer;
-        //2. 고객 정보 없으면 종료
-        if (customer == null)
-            return;
-        //3. 완료된 토큰으로 영수증을 만들고
-         OrderReceipt recipt = new(_token, _order, _doenItem);
-        //4. 고객에게 콜백 보냄
-        customer.OnOrderCallBack(recipt); //고객에게 호출
-    }
-     
 }
 
 public enum ESpawnPosType
@@ -173,7 +156,6 @@ public struct TTokenOrder
 
     //작업을 위해 필요한 변수
     public ESpawnPosType SpawnPosType;
-    public IOrderCustomer OrderCustomer;
     public List<TOrderItem> orderItemList; //토큰 타입, 서브pid, 수량(밸류)로 묶은 orderItem.
     public int ChunkNum; //아무 지정이 아니면 - 1
     public int OrderExcuteCount; //집행한 수 - 단계로변경 필요?
@@ -181,7 +163,7 @@ public struct TTokenOrder
     public int AdaptItemCount; //적용할 아이템 수 - 0이면 모두, 그 외에는 선택 요청해서 진행 
 
     #region 주문서 생성
-    public TTokenOrder(List<TOrderItem> _orderList, int _selectCount, int _serialNum = 0, IOrderCustomer _customer = null)
+    public TTokenOrder(List<TOrderItem> _orderList, int _selectCount, int _serialNum = 0)
     {
         SpawnPosType = ESpawnPosType.Random;
         orderItemList = _orderList;
@@ -191,7 +173,6 @@ public struct TTokenOrder
         OrderExcuteCount = 0;
         OrderSerialNumber = _serialNum;
         AdaptItemCount = _selectCount;
-        OrderCustomer = _customer;
         CheckAllValue();
     }
 

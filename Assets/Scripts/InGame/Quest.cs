@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
 
-public class Quest : IOrderCustomer
+public class Quest 
 {
     [JsonProperty] public int ContentPid = 0; //content pid
     [JsonProperty] public int SerialNum = 0;
@@ -91,18 +91,7 @@ public class Quest : IOrderCustomer
         StageMasterData stageInfo = MgMasterData.GetInstance().GetStageData(ContentPid, CurStep);
         TOrderItem doneItem = stageInfo.SituationList[0];
     }
- 
-    public void OnOrderCallBack(OrderReceipt _orderReceipt)
-    {
-        TOrderItem doneItem = _orderReceipt.DoneItem;
 
-        if (doneItem.Tokentype.Equals(TokenType.Conversation))
-        {
-            SelectItemInfo selectInfo = new SelectItemInfo(null, false, 0, 0); //선택지가 없는 녀석은 그냥 0
-            MgUI.GetInstance().SetScriptCustomer(selectInfo);
-            return;
-        }
-    }
     #endregion
 
 }

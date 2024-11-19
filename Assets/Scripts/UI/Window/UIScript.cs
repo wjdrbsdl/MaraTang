@@ -13,7 +13,7 @@ public class UIScript : UISelectBase
         UISwitch(true);
         string script = _scriptData.GetScript();
         m_scriptText.text = script;
-        m_selectInfo = null;
+        m_selectInfo = new SelectItemInfo(null, false, 0, 0); ;
     }
 
     public void SetSelectInfo(SelectItemInfo _selectInfo)
