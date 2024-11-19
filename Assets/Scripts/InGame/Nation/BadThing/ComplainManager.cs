@@ -5,9 +5,27 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-public class ComplainManager
+public class ComplainManager : Mg<ComplainManager>
 {
     public List<Complain> m_complinLIst; //민원 종류들
+
+    #region 초기화
+    public ComplainManager()
+    {
+        InitiSet();
+    }
+
+    public override void InitiSet()
+    {
+        g_instance = this;
+    }
+
+    public override void ReferenceSet()
+    {
+        //마스터데이터로부터 컴플레인 가져오기
+        ClassfyComplain();
+    }
+    #endregion
 
     public void ClassfyComplain()
     {

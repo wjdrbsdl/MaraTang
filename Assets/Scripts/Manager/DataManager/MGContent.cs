@@ -30,12 +30,15 @@ public class MGContent : Mg<MGContent>
         g_instance = this;
         new MGConversation(); //싱글톤 초기화
         new MgGodBless(); //싱글톤 초기화
+        new ComplainManager(); //싱글톤
         m_devilIncubator = new DevilIncubator();
     }
+
     public override void ReferenceSet()
     {
         MgParsing.GetInstance().GetMasterData(EMasterData.ContentData);
         MgGodBless.GetInstance().ReferenceSet();
+        ComplainManager.GetInstance().ReferenceSet();
         TileMaker maker = MgToken.GetInstance().m_tileMaker;
         m_chunkList = maker.MakeChunk(maker.DivideChunk(MgToken.GetInstance().m_chunkLength));
         MakeNationDevilRegion();
