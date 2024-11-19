@@ -28,6 +28,7 @@ public class Nation : ITradeCustomer
     private TokenTile m_capitalCity;
     private List<TokenTile> m_territorryList;
     private NationPopular m_popularMg; //인구 관리소
+    private NationEvent m_eventMg; //사건 관리소 
     private int[] m_resources;
     private int[] nationStatValues ;
     public NationTechPart TechPart;
@@ -55,10 +56,16 @@ public class Nation : ITradeCustomer
             nation.AddTerritory(boundaryTile[i]);
         }
 
+        //인구파트 생성
         nation.m_popularMg = new NationPopular(nation);
         nation.m_popularMg.IncreaseLaborCoin(3); //3개 노동토큰 생성
-        nation.m_resources = new int[GameUtil.EnumLength(Capital.Food)];
+        //사건파트 생성
+        nation.m_eventMg = new NationEvent(nation);
+        //기술파트 생성
         nation.TechPart = new NationTechPart();
+        //자원수량 설정
+        nation.m_resources = new int[GameUtil.EnumLength(Capital.Food)];
+        
         return nation;
     }
 
