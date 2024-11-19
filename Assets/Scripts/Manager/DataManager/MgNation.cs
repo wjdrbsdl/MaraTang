@@ -40,13 +40,13 @@ public class MgNation : Mg<MgNation>
 
     public void ManageNationTurn()
     {
-        m_nationList[m_turnNationNumber].DoJob(NationManageStepEnum.NationEvent);
+        m_nationList[m_turnNationNumber].StartNationTurn();
     }
 
     public void SettleNationEndTurn()
     {
         //턴 마무리에서 국가들이 할일 
-        m_nationList[m_settleNationNumber].DoJob(NationManageStepEnum.SettleTurnEnd);
+        m_nationList[m_settleNationNumber].SettleNationTurn();
     }
 
     public void EndNationTurn()
