@@ -40,7 +40,7 @@ public class Quest
     #region 스테이지 진행
     public void RealizeStage()
     {
-        TTokenOrder order = new TTokenOrder(CurStageData.SituationList, CurStageData.SituAdapCount, SerialNum, this);
+        TTokenOrder order = new TTokenOrder(CurStageData.SituationList, CurStageData.SituAdapCount, SerialNum);
         OrderExcutor excutor = new OrderExcutor();
         excutor.ExcuteOrder(order);
 
