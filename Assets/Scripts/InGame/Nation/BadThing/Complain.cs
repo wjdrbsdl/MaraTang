@@ -40,7 +40,12 @@ public class Complain
 
     public void DoSucces()
     {
-
+        OrderExcutor excutor = new();
+        for (int i = 0; i < SuccesEffect.Count; i++)
+        {
+            excutor.ExcuteOrderItem(SuccesEffect[i]);
+        }
+        
     }
 
     public void DoFail()
