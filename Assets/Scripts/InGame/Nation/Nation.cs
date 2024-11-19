@@ -160,6 +160,7 @@ public class Nation : ITradeCustomer
                 break;
                 //앞에턴 상황대로 진행될것 다 진행후, 이후 플레이어턴에 적용될 명운등을 여기서 뽑기 
             case NationManageStepEnum.NationEvent:
+                m_eventMg.WatchEvent();
                 ReportToGameMaster(_step);
                 break;
             case NationManageStepEnum.NationTurnEnd:
