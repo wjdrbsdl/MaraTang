@@ -42,7 +42,7 @@ public class OrderExcutor
     public void ExcuteOrderItem(TOrderItem _oritem)
     {
         TOrderItem orderItem = _oritem;
-        TokenType tokenGroup = (TokenType)orderItem.Tokentype;
+        TokenType tokenGroup = orderItem.Tokentype;
         int orderSubIdx = orderItem.SubIdx;
         int orderValue = orderItem.Value;
         //선택한 아이템이 다시 이벤트 생성 , 몬스터 소환같은거면 어떡함?
@@ -51,11 +51,11 @@ public class OrderExcutor
             //개별적으로 CallBack을 보내는 경우는 return.
             case TokenType.Tile:
                 ChangeQuestPlace(orderSubIdx, orderValue);
-                return;
+                break;
             case TokenType.MonsterNationSpawn:
                 // Debug.Log("몬스터 소환");
                 SpawnMonster(orderItem);
-                return;
+                break;
             case TokenType.CharStat:
                 PlayerManager.GetInstance().GetMainChar().CalStat((CharStat)orderSubIdx, orderValue);
                 break;
