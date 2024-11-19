@@ -38,19 +38,11 @@ public class Complain
         }
     }
 
-    public void DoSucces()
+    public void AdaptItem(TOrderItem _item)
     {
-        OrderExcutor excutor = new();
-        for (int i = 0; i < SuccesEffect.Count; i++)
-        {
-            excutor.ExcuteOrderItem(SuccesEffect[i]);
-        }
-        
-    }
-
-    public void DoFail()
-    {
-
+        //별도로 할까. orderExcute에 다 정의해놓을가
+        //char Stat의 경우는 일괄적
+        //어떤건 특수적 흠..
     }
 }
 
