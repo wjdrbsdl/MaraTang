@@ -117,14 +117,22 @@ public class Nation : ITradeCustomer
     #endregion
 
     #region 국가 행동 진행
+    public void StartNationTurn()
+    {
+        //시작은 수입정산부터
+        DoJob(NationManageStepEnum.IncomeCapital);
+    }
+
+    public void SettleNationTurn()
+    {
+        DoJob(NationManageStepEnum.SettleTurnEnd);
+    }
+
     public void DoJob(NationManageStepEnum _step)
     {
         switch (_step)
         {
-            case NationManageStepEnum.NationEvent:
-                //Debug.Log("국가 명운 이벤트 진행");
-                ReportToGameMaster(_step);
-                break;
+         
             //국가 턴 시작시 하는일
             case NationManageStepEnum.IncomeCapital:
                // Debug.Log("수금 진행");
@@ -141,6 +149,10 @@ public class Nation : ITradeCustomer
                 break;
             case NationManageStepEnum.SelectPolicy:
                 SelectPolicy();
+                ReportToGameMaster(_step);
+                break;
+                //앞에턴 상황대로 진행될것 다 진행후, 이후 플레이어턴에 적용될 명운등을 여기서 뽑기 
+            case NationManageStepEnum.NationEvent:
                 ReportToGameMaster(_step);
                 break;
             case NationManageStepEnum.NationTurnEnd:
@@ -167,9 +179,7 @@ public class Nation : ITradeCustomer
         //해당 작업 완료했을때 - 일의 순서를 정의하는 곳 
         switch (_step)
         {
-            case NationManageStepEnum.NationEvent:
-                DoJob(NationManageStepEnum.IncomeCapital);
-                break;
+         
             case NationManageStepEnum.IncomeCapital:
                 DoJob(NationManageStepEnum.ManagePopulation); //정책 결정한거 보고하고
                 break;
@@ -180,9 +190,11 @@ public class Nation : ITradeCustomer
                 DoJob(NationManageStepEnum.SelectPolicy);
                 break;
             case NationManageStepEnum.SelectPolicy:
+                DoJob(NationManageStepEnum.NationEvent);
+                break;
+            case NationManageStepEnum.NationEvent:
                 DoJob(NationManageStepEnum.NationTurnEnd);
                 break;
-
             case NationManageStepEnum.SettleTurnEnd:
                 DoJob(NationManageStepEnum.TurnEndSettle); //정책 결정한거 보고하고
                 break;
