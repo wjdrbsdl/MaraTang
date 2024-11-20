@@ -347,6 +347,7 @@ public class TileTypeData {
     public List<int> AbleBuildPid; //해당 장소에서 지을 수 있는 건물 모음. 
     public List<int> AbleInteriorPid; //해당 장소에서 지을 수 있는 내부 건물 모음.
     public TItemListData BuildCostData;
+    public int BuildNeedLaborValue;
 
     public TileTypeData(string[] _parsingData)
     {
@@ -400,6 +401,14 @@ public class TileTypeData {
             BuildCostData = GameUtil.ParseCostDataArray(_parsingData, buildCostIdx);
         }
 
-      }
+        int laborValueIdx = buildCostIdx += 1;
+        if (_parsingData.Length > laborValueIdx)
+        {
+            // CostData =  토큰그룹_pid_수량 으로 구성
+            BuildNeedLaborValue = int.Parse(_parsingData[laborValueIdx]);
+            Debug.Log("짓는데 필요한 노동량 " + BuildNeedLaborValue);
+        }
+
+    }
 }
 
