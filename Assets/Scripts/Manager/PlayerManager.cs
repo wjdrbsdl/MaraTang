@@ -27,7 +27,6 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule, KeyIntercepto
         base.ManageInitiSet();
         new PlayerCapitalData();
         new BlessAdaptor();
-        new PlayerEquipment();
         m_mainChar = MgToken.GetInstance().GetMainChar();
         m_mainChar.isMainChar = true;
     }
