@@ -9,6 +9,7 @@ public enum EquiptEnum
 
 public class EquiptItem
 {
+    private int m_pid;
     public List<TOrderItem> m_effect = new(); //플레이어 스텟에 가하는 요소
 
     public EquiptItem()
@@ -19,5 +20,10 @@ public class EquiptItem
     public EquiptItem(List<int[]> matchCode, string[] valueCode)
     {
 
+    }
+
+    public int GetPid()
+    {
+        return m_pid;
     }
 }
