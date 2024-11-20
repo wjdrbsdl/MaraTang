@@ -17,9 +17,10 @@ public class OneBySelectInfo
     public ITradeCustomer Taker; //받는자
     public List<TOrderItem> ItemList; //남은 선택 리스트
 
-    public OneBySelectInfo(List<TOrderItem> _selectList)
+    public OneBySelectInfo(List<TOrderItem> _selectList, int _ableCount)
     {
         ItemList = _selectList;
+        restSelectCount = _ableCount;
     }
 
     public void OpenSelectUI()
@@ -29,12 +30,13 @@ public class OneBySelectInfo
     }
 
     private TokenType[] exception = {TokenType.Equipt };
-    public void SelectOne(TOrderItem _item)
+    public void SelectOne(int _index, UIOneByeSelect _oneByUI)
     {
+        TOrderItem selectedItem = ItemList[_index];
         //적용할것 골랐다.
         Debug.Log("고름");
         //적용시키고
-        bool isAdapt = AdaptItem(_item);
+        bool isAdapt = AdaptItem(selectedItem);
         
         if (isAdapt == false)
         {
@@ -43,15 +45,17 @@ public class OneBySelectInfo
             return;
         }
         Debug.Log("적용 함 UI 리셋");
-        RemoveItem(_item);
+        RemoveItem(selectedItem);
         //선택한 수 까고
         restSelectCount -= 1;
         
         if(CheckRest() == true)
         {
             //남은게 있으면 다시 UI 세팅
+            _oneByUI.ResetSlot();
             return;
         }
+        _oneByUI.ReqeustOff();
         //아니면 UI 종료
             
     }
@@ -73,7 +77,7 @@ public class OneBySelectInfo
             case TokenType.CharStat:
                 Debug.Log("스텟올린다");
                 mainChar.CalStat((CharStat)_item.SubIdx, _item.Value);//형변환 안해두되는데 아쉽군. 
-                break;
+                return true;
         }
         //적용 항목이 없는 경우엔 적용 안된걸로
         return false;
