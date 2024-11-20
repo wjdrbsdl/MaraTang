@@ -16,6 +16,12 @@ public struct TItemListData
 {
     List<TOrderItem> costList;
 
+    public TItemListData(TOrderItem _item)
+    {
+        costList = new();
+        costList.Add(_item);
+    }
+
     public TItemListData(List<(Capital, int)> _costList)
     {
         costList = new();
