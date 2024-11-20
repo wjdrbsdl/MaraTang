@@ -293,6 +293,7 @@ public class TokenChar : TokenBase
 
     public void DropItem()
     {
+        DropItemManager.GetInstance().DropItem(GetPid());
         GameUtil.DropMagnetItem(GetMapIndex());
     }
 
