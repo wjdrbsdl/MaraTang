@@ -2,6 +2,11 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+public enum EquiptEnum
+{
+    PartType
+}
+
 public class EquiptItem
 {
     public TOrderItem m_effect; //플레이어 스텟에 가하는 요소
