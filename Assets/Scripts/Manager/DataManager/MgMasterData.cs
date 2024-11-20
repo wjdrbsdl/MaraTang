@@ -59,6 +59,11 @@ public class MgMasterData : Mg<MgMasterData>
         return m_charDataDic;
     }
 
+    public List<TOrderItem> GetDropItem(int _mosterPid)
+    {
+        return GetDicData<List<TOrderItem>>(m_charDropItemDataDic, _mosterPid);
+    }
+
     public TokenChar GetCharData(int _charPID)
     {
         return GetDicData<TokenChar>(m_charDataDic, _charPID);
