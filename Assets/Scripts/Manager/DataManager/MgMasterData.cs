@@ -406,7 +406,7 @@ public class TileTypeData {
         {
             // CostData =  토큰그룹_pid_수량 으로 구성
             BuildNeedLaborValue = int.Parse(_parsingData[laborValueIdx]);
-            Debug.Log("짓는데 필요한 노동량 " + BuildNeedLaborValue);
+           // Debug.Log("짓는데 필요한 노동량 " + BuildNeedLaborValue);
         }
 
     }
