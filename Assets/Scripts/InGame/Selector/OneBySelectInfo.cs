@@ -38,10 +38,10 @@ public class OneBySelectInfo
         if (isAdapt == false)
         {
             //해당 아이템이 적용 안되었으면 선택은 무효 
+            Debug.Log("적용 못함");
             return;
         }
-            
-
+        Debug.Log("적용 함 UI 리셋");
         RemoveItem(_item);
         //선택한 수 까고
         restSelectCount -= 1;
@@ -66,12 +66,9 @@ public class OneBySelectInfo
                 Taker.PayCostData(new TItemListData(_item), false);
                 return true; //따로 받은게 없음
             case TokenType.Equipt:
-                Debug.Log("장비장착한다");
-                //이부분 장착가능하면 바로 진행하고
-                //불가능하면 다시 교환 UI를 진행해야하는건 
-                //케릭터 장비쪽에서 진행 
-                
-                break;
+                Debug.Log("장비획득한다");
+                EquiptItem equiptCopy = new EquiptItem(MgMasterData.GetInstance().GetEquiptData(_item.SubIdx));
+                return mainChar.AquireEquipt(equiptCopy);
             case TokenType.CharStat:
                 Debug.Log("스텟올린다");
                 mainChar.CalStat((CharStat)_item.SubIdx, _item.Value);//형변환 안해두되는데 아쉽군. 
