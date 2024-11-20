@@ -232,10 +232,6 @@ public class MgMasterData : Mg<MgMasterData>
             m_charDataDic.Add(masterChar.GetPid(), masterChar);
             m_charDropItemDataDic.Add(masterChar.GetPid(), dropItemList);
 
-            for (int ㅌ = 0; ㅌ < dropItemList.Count; ㅌ++)
-            {
-                Debug.Log(masterChar.GetPid() + " 은" +dropItemList[ㅌ].Tokentype + "종류 드랍");
-            }
         }
      //   Debug.Log("캐릭터 마스터 데이터 완료");
     }
