@@ -31,6 +31,7 @@ public class MGContent : Mg<MGContent>
         new MGConversation(); //싱글톤 초기화
         new MgGodBless(); //싱글톤 초기화
         new ComplainManager(); //싱글톤
+        new DropItemManager(); //싱글톤
         m_devilIncubator = new DevilIncubator();
     }
 
