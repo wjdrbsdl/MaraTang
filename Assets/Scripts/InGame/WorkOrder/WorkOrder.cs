@@ -195,6 +195,14 @@ public class WorkOrder
         {
             m_doneEffect();
         }
+
+        Complete();
+        
+    }
+
+    private void Complete()
+    {
+        GamePlayMaster.GetInstance().RemoveWork(this);
         RemovePlace();
     }
 
