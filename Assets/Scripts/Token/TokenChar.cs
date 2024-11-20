@@ -6,7 +6,7 @@ using UnityEngine;
 public enum CharStat
 {
     MaxActionEnergy, CurActionEnergy, MaxActionCount, CurActionCount, Sight, Strenth, Dex, Inteligent,
-    MaxHp, CurHp
+    MaxHp, CurHp, EquiptSlotCount
 }
 
 public enum CharType
@@ -22,6 +22,7 @@ public class TokenChar : TokenBase
     [JsonProperty] private CharState m_state = CharState.Idle;
     [JsonProperty] private List<TokenAction> m_haveActionList = new(); //이 캐릭터가 지니고 있는 액션 토큰들
     private List<GodBless> m_blessList = new();
+    private List<EquiptItem> m_equiptLIst = new(); //착용한 장비류
 
     //매턴 바뀌는 요소
     private TokenAction m_nextAction = null;
@@ -49,7 +50,7 @@ public class TokenChar : TokenBase
         m_tokenIValues[(int)CharStat.CurActionCount] = m_tokenIValues[(int)CharStat.MaxActionCount];
         m_tokenIValues[(int)CharStat.CurActionEnergy] = m_tokenIValues[(int)CharStat.MaxActionEnergy];
         m_tokenIValues[(int)CharStat.CurHp] = m_tokenIValues[(int)CharStat.MaxHp];
-        
+        m_tokenIValues[(int)CharStat.EquiptSlotCount] = 3; //임시로 착용가능장비 3으로 세팅
         
     }
 
@@ -274,8 +275,9 @@ public class TokenChar : TokenBase
             m_haveActionList[i].CheckBlessSynerge(this);
         }
     }
-    #endregion 
+    #endregion
 
+    #region 사망
     public void Death()
     {
         //0. 오브젝트 정리
@@ -310,4 +312,6 @@ public class TokenChar : TokenBase
         place.RemoveCharToken(this);
         MgToken.GetInstance().RemoveCharToken(this);
     }
+    #endregion
+
 }
