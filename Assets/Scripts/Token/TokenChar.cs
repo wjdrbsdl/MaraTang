@@ -5,7 +5,7 @@ using UnityEngine;
 
 public enum CharStat
 {
-    MaxActionEnergy, CurActionEnergy, MaxActionCount, CurActionCount, Sight, Strenth, Dexility, Inteligent,
+    MaxActionEnergy, CurActionEnergy, MaxActionCount, CurActionCount, Sight, Strenth, Dex, Inteligent,
     MaxHp, CurHp
 }
 
