@@ -34,16 +34,16 @@ public class DropItemManager : Mg<DropItemManager>
             TOrderItem dropItem = dropList[i];
             if (Array.IndexOf(waitArray, dropItem.Tokentype) != -1)
             {
-                Debug.Log(dropItem.Tokentype + "선택류에 추가");
+               // Debug.Log(dropItem.Tokentype + "선택류에 추가");
                 waitList.Add(dropItem);
             }
             else
             {
-                Debug.Log(dropItem.Tokentype + "즉시 효과에 추가");
+               // Debug.Log(dropItem.Tokentype + "즉시 효과에 추가");
                 immediatelyList.Add(dropItem);
             }
         }
-        Debug.Log("선택류 리스트로 선택 정보 생성");
+       // Debug.Log("선택류 리스트로 선택 정보 생성");
         OneBySelectInfo oneBySelectInfo = new OneBySelectInfo(waitList, waitList.Count);
         oneBySelectInfo.OpenSelectUI();
 

@@ -34,17 +34,17 @@ public class OneBySelectInfo
     {
         TOrderItem selectedItem = ItemList[_index];
         //적용할것 골랐다.
-        Debug.Log("고름");
+    //    Debug.Log("고름");
         //적용시키고
         bool isAdapt = AdaptItem(selectedItem);
         
         if (isAdapt == false)
         {
             //해당 아이템이 적용 안되었으면 선택은 무효 
-            Debug.Log("적용 못함");
+      //      Debug.Log("적용 못함");
             return;
         }
-        Debug.Log("적용 함 UI 리셋");
+    //    Debug.Log("적용 함 UI 리셋");
         RemoveItem(selectedItem);
         //선택한 수 까고
         restSelectCount -= 1;
@@ -62,20 +62,20 @@ public class OneBySelectInfo
 
     private bool AdaptItem(TOrderItem _item)
     {
-        Debug.Log("적용");
+      //  Debug.Log("적용");
         TokenChar mainChar = PlayerManager.GetInstance().GetMainChar();
         switch (_item.Tokentype)
         {
             case TokenType.Capital:
-                Debug.Log("자원올린다");
+            //    Debug.Log("자원올린다");
                 Taker.PayCostData(new TItemListData(_item), false);
                 return true; //따로 받은게 없음
             case TokenType.Equipt:
-                Debug.Log("장비획득한다");
+          //      Debug.Log("장비획득한다");
                 EquiptItem equiptCopy = new EquiptItem(MgMasterData.GetInstance().GetEquiptData(_item.SubIdx));
                 return mainChar.AquireEquipt(equiptCopy);
             case TokenType.CharStat:
-                Debug.Log("스텟올린다");
+            //    Debug.Log("스텟올린다");
                 mainChar.CalStat((CharStat)_item.SubIdx, _item.Value);//형변환 안해두되는데 아쉽군. 
                 return true;
         }

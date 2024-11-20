@@ -29,7 +29,7 @@ public class UIOneByeSelect : UIBase
     public void OnSelectItem(int _index)
     {
         //아이템리스트에 대응되는 슬롯이 클릭된 경우 index가 전달됨
-        Debug.Log(_index + "아이템 클릭" + m_onebyselectInfo.ItemList[_index].Tokentype);
+    //    Debug.Log(_index + "아이템 클릭" + m_onebyselectInfo.ItemList[_index].Tokentype);
         m_onebyselectInfo.SelectOne(_index, this);
     }
 
