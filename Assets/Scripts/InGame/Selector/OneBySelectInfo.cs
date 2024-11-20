@@ -25,6 +25,7 @@ public class OneBySelectInfo
     public void OpenSelectUI()
     {
         //열고
+        MgUI.GetInstance().ShowOneByeSelectList(this);
     }
 
     private TokenType[] exception = {TokenType.Equipt };
