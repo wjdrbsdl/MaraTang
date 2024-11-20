@@ -16919,6 +16919,7 @@ MonoBehaviour:
   m_capitalChangeUI: {fileID: 968372871}
   m_selectItemUI: {fileID: 430619051}
   m_selectTextUI: {fileID: 766198751}
+  m_oneSelectUI: {fileID: 1261546702}
   m_scriptUI: {fileID: 2136994770}
   m_studyUI: {fileID: 1357387190}
   m_turnEndButton: {fileID: 138830606}

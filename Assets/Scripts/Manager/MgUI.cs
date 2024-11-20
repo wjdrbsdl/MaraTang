@@ -20,6 +20,7 @@ public class MgUI : MgGeneric<MgUI>
     [SerializeField] private UICapitalChange m_capitalChangeUI;
     [SerializeField] private UISelectItem m_selectItemUI; //아이템 선택
     [SerializeField] private UISelectItem m_selectTextUI; //플레이어 대사 선택
+    [SerializeField] private UIOneByeSelect m_oneSelectUI;
     [SerializeField] private UIScript m_scriptUI; //npc 대사
     [SerializeField] private UIStudyAction m_studyUI; //학습
 
@@ -122,6 +123,11 @@ public class MgUI : MgGeneric<MgUI>
     public void ShowIconSelectList(SelectItemInfo _itemInfo)
     {
         m_selectItemUI.SetSelectedInfo(_itemInfo);
+    }
+
+    public void ShowOneByeSelectList(OneBySelectInfo _selectInfo)
+    {
+        m_oneSelectUI.SetSelectedInfo(_selectInfo);
     }
 
     public void ShowTextSelectList(SelectItemInfo _itemInfo)
