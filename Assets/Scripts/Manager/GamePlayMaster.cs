@@ -309,7 +309,6 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     {
         m_playerMemeber = 0;
         DoWorkList();
-        RemoveCompleteWorkOrder();
       //  Debug.Log("겜마스터 완료 제거 후 남은 작업수 " + m_globalWorkList.Count);
     }
 
@@ -519,7 +518,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
         }
     }
 
-    private void RemoveWork(WorkOrder _work)
+    public void RemoveWork(WorkOrder _work)
     {
         m_globalWorkList.Remove(_work);
     }
@@ -533,18 +532,6 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
         }
     }
 
-    private void RemoveCompleteWorkOrder()
-    {
-        //do이펙트로 removeWork가 차례로 진행되면, 실시간 리스트 카운트가 줄어서 뒷부분 효과를 발휘가 안됨.
-        WorkOrder[] orders = m_globalWorkList.ToArray();
-        for (int i = 0; i < orders.Length; i++)
-        {
-            if (orders[i].IsCompleteWork() || orders[i].IsCancle)
-            {
-                RemoveWork(orders[i]);
-            }
-        }
-    }
 }
 
 //게임 전체 관점에서 단계
