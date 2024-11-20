@@ -139,11 +139,6 @@ public class TokenBase
         GameUtil.DropMagnetItem(GetMapIndex());
     }
 
-    protected virtual void SendQuestCallBack()
-    {
-
-    }
-
     public virtual void CleanToken()
     {
         //해당 token을 아무런 영향없이 제거하는 부분 

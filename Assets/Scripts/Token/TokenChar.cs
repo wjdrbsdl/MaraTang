@@ -249,6 +249,7 @@ public class TokenChar : TokenBase
     }
     #endregion
 
+    #region 가호 
     public bool HaveBless(GodBless _bless)
     {
         if (m_blessList.IndexOf(_bless) == -1)
@@ -273,6 +274,7 @@ public class TokenChar : TokenBase
             m_haveActionList[i].CheckBlessSynerge(this);
         }
     }
+    #endregion 
 
     public void Death()
     {
@@ -281,7 +283,6 @@ public class TokenChar : TokenBase
             m_object.DestroyObject();
 
         //1. 사망시 처리
-        SendQuestCallBack();
         DropItem();
 
         //2. 데이터 참조 제거
