@@ -8,7 +8,10 @@ public class TileReturner
     public TokenTile NationBoundaryTile()
     {
         TokenTile tile = null;
-        Nation nation =  MgNation.GetInstance().GetNation(0); //임시로 0번째 나라
+        int playerInNationNum = GameUtil.GetTileTokenFromMap(PlayerManager.GetInstance().GetMainChar().GetMapIndex()).GetNationNum();
+        if (playerInNationNum == FixedValue.NO_NATION_NUMBER)
+            playerInNationNum = 0;
+        Nation nation =  MgNation.GetInstance().GetNation(playerInNationNum); //
         List<TokenTile> nationTiles = nation.GetTerritorry();
 
         for (int i = 0; i < nationTiles.Count; i++)
