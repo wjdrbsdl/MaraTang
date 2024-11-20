@@ -12,6 +12,7 @@ public class MgMasterData : Mg<MgMasterData>
     private Dictionary<int, BlessSynerge> m_synergeDataDic;
     private Dictionary<int, TokenAction> m_charActionDataDic;
     private List<int> m_charActionList;
+    private Dictionary<int, EquiptItem> m_equipDataDic;
     private Dictionary<int, ContentMasterData> m_contentDataDic;
     private Dictionary<int, NationTechData> m_nationTechDataDic;
     private Dictionary<int, ConversationGroup> m_conversationGroupDic;
@@ -34,6 +35,7 @@ public class MgMasterData : Mg<MgMasterData>
         SetBlessSynergeData();
         SetCharActionData();
         SetCharData();
+        SetEquiptData();
         SetContentData();
         SetNationTechData();
         SetConversationData();
@@ -239,6 +241,17 @@ public class MgMasterData : Mg<MgMasterData>
 
         }
      //   Debug.Log("캐릭터 마스터 데이터 완료");
+    }
+
+    private void SetEquiptData()
+    {
+        m_equipDataDic = new();
+        ParseData parseData = MgParsing.GetInstance().GetMasterData(EMasterData.Equipment);
+        for (int i = 0; i < parseData.DbValueList.Count; i++)
+        {
+            EquiptItem equipt = new EquiptItem(parseData.MatchCode, parseData.DbValueList[i]);
+            m_equipDataDic.Add(equipt.GetPid(), equipt);
+        }
     }
 
     private void SetContentData()
