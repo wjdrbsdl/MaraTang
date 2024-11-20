@@ -184,7 +184,7 @@ public class TokenAction : TokenBase
     public int GetFinalRange(TokenChar _char)
     {
         int finalRange = GetStat(CharActionStat.Range);
-        int dex = _char.GetStat(CharStat.Dexility);
+        int dex = _char.GetStat(CharStat.Dex);
         int ratio = GetStat(CharActionStat.MinRatio);
         float ratioValue = (finalRange * dex * ratio * 0.01f);
         finalRange =(int)( finalRange + ratioValue);

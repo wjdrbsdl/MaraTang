@@ -32,7 +32,7 @@ public class TileDistance
     public int AdaptDistanceStat(TokenTile _tile)
     {
         TokenChar mainChar = PlayerManager.GetInstance().GetMainChar();
-        int adaptDistance = mainChar.GetStat(CharStat.Dexility); //캐릭터 기능사용 거리를 보완용으로 받고
+        int adaptDistance = mainChar.GetStat(CharStat.Dex); //캐릭터 기능사용 거리를 보완용으로 받고
 
         Nation nation = _tile.GetNation(); //국가 받아서
         if (nation == null)

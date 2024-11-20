@@ -13,7 +13,7 @@ public class UICharStats : UIBase
     [SerializeField]
     private BtnCharStatIntense[] m_statkButtones;
     private int setCount = 0;
-    private CharStat[] m_showStat = {CharStat.Strenth, CharStat.Dexility, CharStat.Inteligent };
+    private CharStat[] m_showStat = {CharStat.Strenth, CharStat.Dex, CharStat.Inteligent };
 
     public void SetCharStat(TokenChar _char)
     {
