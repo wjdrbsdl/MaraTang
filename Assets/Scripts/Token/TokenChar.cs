@@ -277,6 +277,36 @@ public class TokenChar : TokenBase
     }
     #endregion
 
+    #region 장비
+    public bool AquireEquipt(EquiptItem _equiptItem)
+    {
+        //장비를 얻으려고 할때 
+        //비어있으면
+        if(CheckEquiptSlot() == true)
+        {
+            AddEquipt(_equiptItem); //장착 진행하고
+            return true;
+        }
+        //가득차있을 경우
+        if(IsPlayerChar() == true)
+        {
+            Debug.Log("장비슬롯칸에서 제거할것을 요청");
+        }
+
+        return false;
+    }
+
+    public void AddEquipt(EquiptItem _equiptitem)
+    {
+        
+    }
+
+    public bool CheckEquiptSlot()
+    {
+        return m_equiptLIst.Count < GetStat(CharStat.EquiptSlotCount);
+    }
+    #endregion
+
     #region 사망
     public void Death()
     {
