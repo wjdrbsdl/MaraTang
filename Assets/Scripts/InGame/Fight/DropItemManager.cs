@@ -22,13 +22,30 @@ public class DropItemManager : Mg<DropItemManager>
     }
     #endregion
 
+    private TokenType[] waitArray = { TokenType.CharStat, TokenType.Equipt };
     public void DropItem(int _monsterPid)
     {
         List<TOrderItem> dropList = MgMasterData.GetInstance().GetDropItem(_monsterPid);
+        List<TOrderItem> immediatelyList = new();
+        List<TOrderItem> waitList = new();
+        //바로 획득 적용 가능한 류와 불가능한류 나눔
         for (int i = 0; i < dropList.Count; i++)
         {
-            Debug.Log(dropList[i].Tokentype + "종류 드랍");
+            TOrderItem dropItem = dropList[i];
+            if (Array.IndexOf(waitArray, dropItem.Tokentype) != -1)
+            {
+                Debug.Log(dropItem.Tokentype + "선택류에 추가");
+                waitList.Add(dropItem);
+            }
+            else
+            {
+                Debug.Log(dropItem.Tokentype + "즉시 효과에 추가");
+                immediatelyList.Add(dropItem);
+            }
         }
+        Debug.Log("선택류 리스트로 선택 정보 생성");
+        OneBySelectInfo oneBySelectInfo = new OneBySelectInfo(waitList);
+        oneBySelectInfo.OpenSelectUI();
 
     }
 
