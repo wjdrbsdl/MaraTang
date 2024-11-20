@@ -7,6 +7,7 @@ public class MgMasterData : Mg<MgMasterData>
 {
     private Dictionary<int, TileTypeData> m_tileTypeDataDic;
     private Dictionary<int, TokenChar> m_charDataDic;
+    private Dictionary<int, List<TOrderItem>> m_charDropItemDataDic;
     private Dictionary<int, TokenTileAction> m_tileActionDataDic;
     private Dictionary<int, BlessSynerge> m_synergeDataDic;
     private Dictionary<int, TokenAction> m_charActionDataDic;
@@ -221,11 +222,20 @@ public class MgMasterData : Mg<MgMasterData>
     private void SetCharData()
     {
         m_charDataDic = new();
+        m_charDropItemDataDic = new();
         ParseData parseData = MgParsing.GetInstance().GetMasterData(EMasterData.CharData);
         for (int i = 0; i < parseData.DbValueList.Count; i++)
         {
             TokenChar masterChar = new(parseData.MatchCode, parseData.DbValueList[i]);
+            List<TOrderItem> dropItemList = new();
+            GameUtil.ParseOrderItemList(dropItemList, parseData.DbValueList[i], 4);
             m_charDataDic.Add(masterChar.GetPid(), masterChar);
+            m_charDropItemDataDic.Add(masterChar.GetPid(), dropItemList);
+
+            for (int ㅌ = 0; ㅌ < dropItemList.Count; ㅌ++)
+            {
+                Debug.Log(masterChar.GetPid() + " 은" +dropItemList[ㅌ].Tokentype + "종류 드랍");
+            }
         }
      //   Debug.Log("캐릭터 마스터 데이터 완료");
     }
