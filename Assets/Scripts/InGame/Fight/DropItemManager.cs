@@ -44,7 +44,7 @@ public class DropItemManager : Mg<DropItemManager>
             }
         }
         Debug.Log("선택류 리스트로 선택 정보 생성");
-        OneBySelectInfo oneBySelectInfo = new OneBySelectInfo(waitList);
+        OneBySelectInfo oneBySelectInfo = new OneBySelectInfo(waitList, waitList.Count);
         oneBySelectInfo.OpenSelectUI();
 
     }
