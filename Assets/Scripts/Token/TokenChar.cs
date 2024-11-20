@@ -298,7 +298,7 @@ public class TokenChar : TokenBase
 
     public void AddEquipt(EquiptItem _equiptitem)
     {
-        
+        Debug.Log("해당케릭에 장비 장착 진행 " + _equiptitem.GetPid());
     }
 
     public bool CheckEquiptSlot()
