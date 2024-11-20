@@ -250,6 +250,7 @@ public class MgMasterData : Mg<MgMasterData>
         for (int i = 0; i < parseData.DbValueList.Count; i++)
         {
             EquiptItem equipt = new EquiptItem(parseData.MatchCode, parseData.DbValueList[i]);
+            if(m_equipDataDic.ContainsKey(equipt.GetPid())== false)
             m_equipDataDic.Add(equipt.GetPid(), equipt);
         }
     }
