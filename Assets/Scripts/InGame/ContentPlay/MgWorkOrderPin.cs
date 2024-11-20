@@ -18,7 +18,10 @@ using UnityEngine;
 
     public void RemovePin(TokenTile _tile)
     {
-     //   Debug.Log("작업핀 제거 요청 받음");
+        //   Debug.Log("작업핀 제거 요청 받음");
+        if (_tile.GetWorkOrder()== null || m_pinDic.ContainsKey(_tile.GetWorkOrder()) == false)
+            return;
+
         WorkOrderPin pin = m_pinDic[_tile.GetWorkOrder()];
         pin.DestroyPin();
         m_pinDic.Remove(_tile.GetWorkOrder());
