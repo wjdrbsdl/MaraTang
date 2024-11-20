@@ -9,10 +9,15 @@ public enum EquiptEnum
 
 public class EquiptItem
 {
-    public TOrderItem m_effect; //플레이어 스텟에 가하는 요소
+    public List<TOrderItem> m_effect = new(); //플레이어 스텟에 가하는 요소
 
     public EquiptItem()
     {
-        m_effect = new TOrderItem(TokenType.CharStat, (int)CharStat.MaxHp, 30);
+        
+    }
+
+    public EquiptItem(List<int[]> matchCode, string[] valueCode)
+    {
+
     }
 }
