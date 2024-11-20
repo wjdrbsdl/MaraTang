@@ -134,10 +134,7 @@ public class TokenBase
 
     #endregion
 
-    public void DropItem()
-    {
-        GameUtil.DropMagnetItem(GetMapIndex());
-    }
+ 
 
     public virtual void CleanToken()
     {

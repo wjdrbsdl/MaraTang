@@ -291,6 +291,11 @@ public class TokenChar : TokenBase
         MgToken.GetInstance().RemoveCharToken(this);
     }
 
+    public void DropItem()
+    {
+        GameUtil.DropMagnetItem(GetMapIndex());
+    }
+
     public override void CleanToken()
     {
         base.CleanToken();
