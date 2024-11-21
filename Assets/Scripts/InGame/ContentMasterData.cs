@@ -34,7 +34,7 @@ public class ContentMasterData
         int failConditionIdx = failNeedCountIdx + 1; //성공 조건들
         int penaltyIdx = failConditionIdx + 1; //실패시 갈 스텝
 
-        bool ableSelect = int.Parse(_parsingData[ableSelectIdx])!=0;
+        string[] ableSelect = _parsingData[ableSelectIdx].Split(FixedValue.PARSING_LINE_DIVIDE);
         string[] situAdapValues = _parsingData[situAdaptCountIdx].Split(FixedValue.PARSING_LINE_DIVIDE);
         string[] situationDivides = _parsingData[situationIdx].Split(FixedValue.PARSING_LINE_DIVIDE);
         string[] successNeedCount = _parsingData[succesNeedCountIdx].Split(FixedValue.PARSING_LINE_DIVIDE);
@@ -48,7 +48,7 @@ public class ContentMasterData
         for (int curStep = 1; curStep <= totalStep; curStep++)
         {
             int arrayIndex = curStep - 1;
-            StageMasterData stageInfo = new StageMasterData(curStep, ableSelect, situAdapValues[arrayIndex], situationDivides[arrayIndex],
+            StageMasterData stageInfo = new StageMasterData(curStep, ableSelect[arrayIndex], situAdapValues[arrayIndex], situationDivides[arrayIndex],
                                                         successNeedCount[arrayIndex], completeAutoBool[arrayIndex], succesConditiones[arrayIndex],
                                                         failNeedCount[arrayIndex], failConditiones[arrayIndex],
                                                         rewardDivdes[arrayIndex], penaltyDivdes[arrayIndex]);
@@ -91,13 +91,13 @@ public class StageMasterData
     public int PenaltyStep; //실패시 이동할 Stage 기록
     public int StageNum;
     public bool AutoClear = true;
-    public StageMasterData(int _stageNum, bool _ableSelect, string _situAdapStr, string _sitautionStrData, 
+    public StageMasterData(int _stageNum, string _ableSelect, string _situAdapStr, string _sitautionStrData, 
                            string _succesNeedCountStr, string _autoCompleteBool, string _succesConStr,
                            string _failNeedCountStr, string _failConStr,
                            string _rewardStrData, string _penaltyStrData)
     {
         StageNum = _stageNum;
-        AbleSelect = _ableSelect;
+        AbleSelect = int.Parse(_ableSelect)!=0; //0이나 그밖에 숫자 string으로 들어온 값을 파싱해서 0인지 체크 
         bool noneDataAdd = true;
         SituAdapCount = int.Parse(_situAdapStr); //상황조성 조건 중 적용할 수
         SituationList = new();
