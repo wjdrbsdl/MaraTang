@@ -16,7 +16,7 @@ public enum NationManageStepEnum
 
 public enum NationStatEnum
 {
-     Happy, CleanFlat, CleanRatio, 성실, 안정, Sight
+     Happy, CleanFlat, CleanRatio, 성실, 안정, Sight, CommunityRange
 }
 
 public class Nation : ITradeCustomer
@@ -65,7 +65,7 @@ public class Nation : ITradeCustomer
         nation.TechPart = new NationTechPart();
         //자원수량 설정
         nation.m_resources = new int[GameUtil.EnumLength(Capital.Food)];
-        
+   
         return nation;
     }
 
@@ -103,6 +103,8 @@ public class Nation : ITradeCustomer
         SetStatValue(NationStatEnum.성실, 100);
         SetStatValue(NationStatEnum.Happy, 100);
         SetStatValue(NationStatEnum.Sight, 3);
+        SetStatValue(NationStatEnum.CommunityRange, 6); //수도로부터 해당 거리에 있는 경우에 타일의 위에 있지 않아도 상호작용 가능
+        
     }
 
 
@@ -485,7 +487,9 @@ public class Nation : ITradeCustomer
         int index = (int)_nationStat;
         nationStatValues[index] = _value;
         //Debug.Log(m_tokenType + ": " + _enumIndex + ":" + m_tokenIValues[index]);
+
     }
+
     public void CalStat(NationStatEnum _nationStat, int _value)
     {
         int index = (int)_nationStat;
