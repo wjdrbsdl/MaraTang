@@ -10896,7 +10896,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uC81C\uAC70\uD558\uAE30"
+  m_text: "\uAC00\uD638\uC544\uC774\uCF58"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2320e2c2349d0094fa8c1694793532b1, type: 2}
   m_sharedMaterial: {fileID: -6822104537314349543, guid: 2320e2c2349d0094fa8c1694793532b1, type: 2}
