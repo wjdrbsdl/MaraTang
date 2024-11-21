@@ -36,6 +36,9 @@ public class MgUI : MgGeneric<MgUI>
     [SerializeField] private UIQuest m_questUI;
     [SerializeField] private UIQuestList m_questListUI;
 
+    [Header("플레이어 아이콘")]
+    [SerializeField] private UIPlayerBless m_playerBless;
+
     [Header("유아이작업")]
     [SerializeField] private UIGuild m_guildUI;
     [SerializeField] private UIBlessTemple m_templeUI;
@@ -48,7 +51,10 @@ public class MgUI : MgGeneric<MgUI>
 
     [SerializeField] private Transform m_uiCase; //UI들 띄울장소 여기서 최근 열린애가 젤 위로 올라오도록 세팅. 
     #region 인터페이스 오픈
-
+    public void ShowPlayerBless()
+    {
+        m_playerBless.SetPlayerBless();
+    }
  
     public void ShowTemple(TokenTile _tile)
     {
