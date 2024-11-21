@@ -272,6 +272,11 @@ public class TokenTile : TokenBase
     {
         return m_complain != null;
     }
+
+    public Complain GetComplain()
+    {
+        return m_complain;
+    }
     #endregion
 
     #region GetSet
