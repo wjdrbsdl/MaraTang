@@ -37,6 +37,7 @@ public class TokenTile : TokenBase
     public List<int> doneInteriorList; //지어진 장소
     public int ChunkNum;
     public WorkOrder m_workOrder = null; //진행중인 공사
+    public Complain m_complain = null; //진행중인 불만
     [JsonProperty] private TileViewState m_viewState = TileViewState.Fog;
     [JsonProperty] MainResource m_mainResource = MainResource.Tree;
     [JsonProperty] private int m_resourceGrade = 0;
@@ -242,6 +243,35 @@ public class TokenTile : TokenBase
         {
             m_laborCoinList.Remove(_coin);
         }
+    }
+    #endregion
+
+    #region 불만,사고,요청
+    public bool RegisterComplain(Complain _complain)
+    {
+        if (m_complain != null)
+        {
+            Debug.Log("사건사고는 하나만");
+            return false;
+        }
+
+        m_complain = _complain;
+        _complain.SetComplainMapIndex(GetMapIndex());
+        MgWorkOrderPin.GetInstance().RequestComplainPin(this);
+        return true;
+    }
+
+    public void RemoveComplain()
+    {
+        //1. 작업오더가 핀의 키값이므로 먼저 핀제거 요청 
+        MgWorkOrderPin.GetInstance().RemoveComplainPin(this);
+        m_complain = null;
+        return;
+    }
+
+    public bool HaveComplain()
+    {
+        return m_complain != null;
     }
     #endregion
 
