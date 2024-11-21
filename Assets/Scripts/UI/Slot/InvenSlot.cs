@@ -19,15 +19,13 @@ public class InvenSlot : SlotBase
         Naming();
     }
 
-    public void SetInvenSlot(EquiptItem _equipt, int _slotIndex)
-    {
-        m_tokenType = TokenType.Equipt;
-        m_itemPid = _equipt.GetPid();
-        Naming();
-    }
-
     private void Naming()
     {
         m_itemName.text = m_tokenType + " : " + m_itemPid;
+    }
+
+    public override void OnLeftClick()
+    {
+        Debug.Log(m_curToken.GetItemName() + "눌림");
     }
 }
