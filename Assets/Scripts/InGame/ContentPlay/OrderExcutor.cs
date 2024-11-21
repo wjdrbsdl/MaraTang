@@ -12,78 +12,68 @@ public class OrderExcutor
             //주문수와 적용 수가 같으면 모두 그대로 적용
             for (int i = 0; i < orderCount; i++)
             {
-                ExcuteOrderItem(_order.orderItemList[i]);
+               AdaptItem(_order.orderItemList[i]);
             }
             return;
         }
         //숫자가 다른경우는 선택형으로 뽑기 UI 출력 
-        int minSelect = 1; //최소 선택수 일단 1
-        int maxSelect = _order.AdaptItemCount; //최대 선택수는 적용하려는 수치
-        SelectItemInfo selectInfo = new SelectItemInfo(_order.orderItemList, true, minSelect, maxSelect); //선택받기 위해서 선택정보 생성
-        Action confirmAction = delegate
-        {
-            ExcuteSelectItem(_order, selectInfo);
-        };
-        selectInfo.SetAction(confirmAction);
-        MgUI.GetInstance().ShowItemList(selectInfo);
+        MakeSelectUI(_order);
+    }
+
+    public void MakeSelectUI(TTokenOrder _order)
+    {
+        List<TOrderItem> ShowList = _order.orderItemList;
+
+        // Debug.Log("선택류 리스트로 선택 정보 생성");
+        int ableSelectCount = 1; //임시로 1개만 고름 가능
+        OneBySelectInfo oneBySelectInfo = new OneBySelectInfo(ShowList, ableSelectCount);
+        oneBySelectInfo.OpenSelectUI();
 
     }
 
-    public void ExcuteSelectItem(TTokenOrder _order, SelectItemInfo _selectInfo)
+    public bool AdaptItem(TOrderItem _item)
     {
-        // Debug.Log("컨펌 누르고 진행");
-        List<int> selectList = _selectInfo.SelectedIndex;
-        for (int i = 0; i < selectList.Count; i++)
+        //  Debug.Log("적용");
+        TokenChar mainChar = PlayerManager.GetInstance().GetMainChar();
+        switch (_item.Tokentype)
         {
-            ExcuteOrderItem(_order.orderItemList[selectList[i]]);
-        }
-    }
-
-    public void ExcuteOrderItem(TOrderItem _oritem)
-    {
-        TOrderItem orderItem = _oritem;
-        TokenType tokenGroup = orderItem.Tokentype;
-        int orderSubIdx = orderItem.SubIdx;
-        int orderValue = orderItem.Value;
-        //선택한 아이템이 다시 이벤트 생성 , 몬스터 소환같은거면 어떡함?
-        switch (tokenGroup)
-        {
-            //개별적으로 CallBack을 보내는 경우는 return.
+            case TokenType.Capital:
+                //    Debug.Log("자원올린다");
+                PlayerCapitalData.g_instance.PayCostData(new TItemListData(_item), false);
+                return true; //따로 받은게 없음
+            case TokenType.Equipt:
+                //      Debug.Log("장비획득한다");
+                EquiptItem equiptCopy = new EquiptItem(MgMasterData.GetInstance().GetEquiptData(_item.SubIdx));
+                return mainChar.AquireEquipt(equiptCopy);
+            case TokenType.CharStat:
+                //    Debug.Log("스텟올린다");
+                mainChar.CalStat((CharStat)_item.SubIdx, _item.Value);//형변환 안해두되는데 아쉽군. 
+                return true;
             case TokenType.Tile:
-                ChangeQuestPlace(orderSubIdx, orderValue);
-                break;
+                return ChangeQuestPlace(_item.SubIdx, _item.Value);
             case TokenType.MonsterNationSpawn:
                 // Debug.Log("몬스터 소환");
-                SpawnMonster(orderItem);
-                break;
-            case TokenType.CharStat:
-                PlayerManager.GetInstance().GetMainChar().CalStat((CharStat)orderSubIdx, orderValue);
-                break;
-            case TokenType.Capital:
-                Capital capitalType = (Capital)orderSubIdx;
-                PlayerCapitalData.g_instance.CalCapital(capitalType, orderValue);
-                break;
-            case TokenType.Action:
-                break;
+                SpawnMonster(_item);
+                return true;
             case TokenType.Conversation:
                 // Debug.Log("대화 요청");
-                MGConversation.GetInstance().ShowCheckScript(orderItem);
-                break;
+                MGConversation.GetInstance().ShowCheckScript(_item);
+                return true;
             case TokenType.Nation:
-                if (orderSubIdx == (int)NationEnum.Move)
+                if (_item.SubIdx == (int)NationEnum.Move)
                 {
-                    GamePlayMaster.GetInstance().CharMoveToCapital(orderValue);
+                    GamePlayMaster.GetInstance().CharMoveToCapital(_item.Value);
                 }
-                break;
+                return true;
             case TokenType.None:
                 Debug.LogWarning("아무것도 하지 않는 주문");
                 break;
-            default:
-                Debug.LogWarning("정의 되지 않은 토큰타입 " + tokenGroup);
-                break;
         }
+        //적용 항목이 없는 경우엔 적용 안된걸로
+        return false;
     }
 
+    #region 따로 정의가 필요한 아이템 타입들
     private void SpawnMonster( TOrderItem _monterOrder)
     {
         TokenType spawnType = _monterOrder.Tokentype;
@@ -108,7 +98,7 @@ public class OrderExcutor
 
     }
 
-    public void ChangeQuestPlace(int _subIdx, int _value)
+    public bool ChangeQuestPlace(int _subIdx, int _value)
     {
         //국가경계를 기준으로 주변 타일 하나를
         //정해진 타일로 변경하는 주문 
@@ -128,12 +118,14 @@ public class OrderExcutor
                 {
                     Debug.Log("해당 영지 변경");
                     roundTile[r].ChangePlace((TileType)16);
-                    return;
+                    return true;
                 }
             }
         }
 
+        return false;
     }
+    #endregion
 
 }
 
