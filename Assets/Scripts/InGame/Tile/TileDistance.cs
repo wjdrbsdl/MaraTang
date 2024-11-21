@@ -38,7 +38,7 @@ public class TileDistance
         if (nation == null)
             return adaptDistance; //국가 없으면 캐릭으로 반환하고
 
-        int nationBonus = nation.GetStat(NationStatEnum.Sight); //국가 있으면 국가 보정을 받아서
+        int nationBonus = nation.GetStat(NationStatEnum.CommunityRange); //국가 있으면 국가 보정을 받아서
 
         return adaptDistance + nationBonus;
     }
