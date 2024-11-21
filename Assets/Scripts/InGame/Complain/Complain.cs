@@ -14,6 +14,17 @@ public class Complain
     public List<TOrderItem> FailEffect; //실패시 어쩔지
     public List<TOrderItem> SuccesEffect; //성공시 어쩔지
 
+    public Complain()
+    {
+        //테스트용 아무거나
+        Name = "테스트 컴플레인";
+        NeedItems = new();
+        NeedItems.Add(new TOrderItem(TokenType.Capital, (int)Capital.Food, 30));
+        RestTurn = 3;
+        FailEffect = new();
+        SuccesEffect = new();
+    }
+
     public bool React()
     {
         //컴플레인에 대응하기
