@@ -247,7 +247,7 @@ public class TokenTile : TokenBase
     #endregion
 
     #region 불만,사고,요청
-    public bool RegisterComplain(Complain _complain)
+    public bool SendComplain(Complain _complain)
     {
         if (m_complain != null)
         {
@@ -256,7 +256,6 @@ public class TokenTile : TokenBase
         }
 
         m_complain = _complain;
-        _complain.SetComplainMapIndex(GetMapIndex());
         MgWorkOrderPin.GetInstance().RequestComplainPin(this);
         return true;
     }

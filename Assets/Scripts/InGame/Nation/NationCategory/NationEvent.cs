@@ -22,12 +22,17 @@ public class NationEvent
         for (int i = 0; i < territory.Count; i++)
         {
             TokenTile tile = territory[i];
+            if (tile.HaveComplain())
+            {
+                continue;
+            }
             Complain complain = compleMg.OccurComplain(tile);
             if (complain == null)
             {
-                return;
+                continue;
             }
-
+            //임시로 여기서 좌표 새김, Complain 생성자에서 매개변수로 받은 위치로 생성하는게 좋아보임. 
+            complain.SetComplainMapIndex(tile.GetMapIndex());
             tile.SendComplain(complain);
                 
         }
