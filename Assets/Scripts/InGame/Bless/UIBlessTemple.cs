@@ -42,9 +42,8 @@ public class UIBlessTemple : UIBase
         excutor.AdaptItem(blessItem);
     }
 
-    public void RemoveBless(GodBless _bless)
+    public void OpenPlayerBless()
     {
-        TokenChar mainchar = PlayerManager.GetInstance().GetMainChar();
-        mainchar.RemoveBless(_bless);
+        MgUI.GetInstance().ShowPlayerBless();
     }
 }
