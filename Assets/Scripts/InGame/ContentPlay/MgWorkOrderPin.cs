@@ -16,6 +16,17 @@ using UnityEngine;
         return workPin;
     }
 
+    bool isWarn = false;
+    public void RequestComplainPin(TokenTile _tile)
+    {
+        if(isWarn == false)
+        {
+            Debug.LogWarning("딱히 하는건 없는 핀 요구");
+            isWarn = true;
+        }
+        
+    }
+
     public void RemovePin(TokenTile _tile)
     {
         //   Debug.Log("작업핀 제거 요청 받음");
@@ -27,4 +38,14 @@ using UnityEngine;
         m_pinDic.Remove(_tile.GetWorkOrder());
     }
 
+    bool isWarn2 = false;
+    public void RemoveComplainPin(TokenTile _tile)
+    {
+        if (isWarn2 == false)
+        {
+            Debug.LogWarning("딱히 하는건 없는 핀 요구");
+            isWarn2 = true;
+        }
+
+    }
 }
