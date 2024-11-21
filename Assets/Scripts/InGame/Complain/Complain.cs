@@ -27,6 +27,7 @@ public class Complain
 
         FailEffect.Add(new TOrderItem(TokenType.Capital, (int)Capital.Food, -30));
         RestTurn = 3;
+        GamePlayMaster.GetInstance().RegistorComplain(this);
     }
 
     public void TurnCount()
@@ -61,7 +62,7 @@ public class Complain
 
         //실패는 단번으로 끝날것인가? 예를들어 자원 없는데 시도했다고 끝날 순 없잖아 
         //성공한 경우에 성공 호출
-        Debug.Log("컴플레이 대응 성공 여부 " + Succes);
+       // Debug.Log("컴플레이 대응 성공 여부 " + Succes);
         if (Succes)
         {
             EffectReward();
@@ -105,6 +106,7 @@ public class Complain
         Debug.Log("컴플레인 제거");
         TokenTile complainTile = GameUtil.GetTileTokenFromMap(MapIndex);
         complainTile.RemoveComplain();
+        GamePlayMaster.GetInstance().RemoveComplain(this);
     }
 }
 
