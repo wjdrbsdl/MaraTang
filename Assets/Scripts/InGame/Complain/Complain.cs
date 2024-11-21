@@ -10,21 +10,23 @@ public class Complain
 {
     public string Name;
     public string ComplainType; // 컴플레인의 부류 - 자원 요구, 특정 스텟 요구치로 단순 확률싸움
-    public List<TOrderItem> NeedItems; // 필요한것들
+    public List<TOrderItem> NeedItems = new(); // 필요한것들
     public int RestTurn; //인내기간
-    public List<TOrderItem> FailEffect; //실패시 어쩔지
-    public List<TOrderItem> SuccesEffect; //성공시 어쩔지
+    public List<TOrderItem> FailEffect = new(); //실패시 어쩔지
+    public List<TOrderItem> SuccesEffect = new(); //성공시 어쩔지
     public int[] MapIndex;
     public Complain()
     {
         //테스트용 아무거나
         Name = "테스트 컴플레인";
         ComplainType = "자원요구";
-        NeedItems = new();
+  
         NeedItems.Add(new TOrderItem(TokenType.Capital, (int)Capital.Food, 30));
+     
+        SuccesEffect.Add(new TOrderItem(TokenType.Capital, (int)Capital.Food, 30));
+
+        FailEffect.Add(new TOrderItem(TokenType.Capital, (int)Capital.Food, -30));
         RestTurn = 3;
-        FailEffect = new();
-        SuccesEffect = new();
     }
 
     public void TurnCount()
