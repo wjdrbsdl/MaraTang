@@ -774,6 +774,24 @@ public static class GameUtil
     
         return noneData;
     }
+
+    public static List<TOrderItem> ReverseItemList(List<TOrderItem> _originList)
+    {
+        List<TOrderItem> reverseList = new();
+        for (int i = 0; i < _originList.Count; i++)
+        {
+            TOrderItem reverse = ReverseItemValue(_originList[i]);
+            reverseList.Add(reverse);
+        }
+        return reverseList;
+    }
+
+    public static TOrderItem ReverseItemValue(TOrderItem _item)
+    {
+        TOrderItem reverse = _item;
+        reverse.Value *= -1;
+        return reverse;
+    }
     #endregion
     #endregion
 
