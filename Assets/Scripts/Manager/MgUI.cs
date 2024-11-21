@@ -27,6 +27,7 @@ public class MgUI : MgGeneric<MgUI>
     [SerializeField] private GameObject m_turnEndButton;
 
     [Header("데이터 표기")]
+    [SerializeField] private UIComplainInfo m_complainUI;
     [SerializeField] private UINationPolicy m_policyUI;
     [SerializeField] private UICapital m_capitalUI;
     [SerializeField] private UITokenSnapInfo m_snapInfoUI;
@@ -85,7 +86,7 @@ public class MgUI : MgGeneric<MgUI>
         {
             case TokenType.Tile:
                 TokenTile tileToken = (TokenTile)_token;
-                ShowTileTokenInfo(tileToken);
+                ShowPlaceInfo(tileToken);
                 break;
             case TokenType.Char:
                 PushUIStack(m_charStatUI);
@@ -94,6 +95,19 @@ public class MgUI : MgGeneric<MgUI>
         }
 
     }
+
+    private void ShowPlaceInfo(TokenTile _tile)
+    {
+        //민원, 공사, 수도 등 타입에 따라 타일을 눌렀을때 보여주는 정보가 다르다. - 공사판이면 해당 타일 정보는 보기 힘든가 흠. 
+        if (_tile.HaveComplain())
+        {
+            m_complainUI.SetCompalinInfo(_tile.GetComplain());
+            return;
+        }
+        ShowTileTokenInfo(_tile);
+
+    }
+
 
     public void ShowCapitalWorkShop(CapitalAction subCode, TokenTile _tile, TokenTileAction _action)
     {
