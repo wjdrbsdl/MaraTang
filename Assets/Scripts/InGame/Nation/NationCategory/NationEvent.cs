@@ -23,8 +23,12 @@ public class NationEvent
         {
             TokenTile tile = territory[i];
             Complain complain = compleMg.OccurComplain(tile);
-            if (complain == null) ;
-               // Debug.Log("발생 민원 없음");
+            if (complain == null)
+            {
+                return;
+            }
+
+            tile.SendComplain(complain);
                 
         }
     }
