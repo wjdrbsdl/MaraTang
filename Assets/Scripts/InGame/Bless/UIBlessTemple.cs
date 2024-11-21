@@ -41,4 +41,10 @@ public class UIBlessTemple : UIBase
         OrderExcutor excutor = new();
         excutor.AdaptItem(blessItem);
     }
+
+    public void RemoveBless(GodBless _bless)
+    {
+        TokenChar mainchar = PlayerManager.GetInstance().GetMainChar();
+        mainchar.RemoveBless(_bless);
+    }
 }
