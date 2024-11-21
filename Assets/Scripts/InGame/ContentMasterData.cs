@@ -21,7 +21,9 @@ public class ContentMasterData
         if (_parsingData.Length <= stepIdx)
             return;
         int totalStep = _parsingData[stepIdx].Split(FixedValue.PARSING_LINE_DIVIDE).Length; //단계 수 구함 - 각 단계마다 stage 인포 정해져있음
-        int situAdaptCountIdx = stepIdx + 1; //조건 적용할 수 - 이게 왜 필요했지
+
+        int ableSelectIdx = stepIdx + 1;
+        int situAdaptCountIdx = ableSelectIdx + 1; //조건 적용할 수 - 이게 왜 필요했지
         int situationIdx = situAdaptCountIdx + 1; //상황 조성
         int succesNeedCountIdx = situationIdx + 1; //성공에 필요한 수
         int completeAutoIdx = succesNeedCountIdx + 1;
@@ -32,6 +34,7 @@ public class ContentMasterData
         int failConditionIdx = failNeedCountIdx + 1; //성공 조건들
         int penaltyIdx = failConditionIdx + 1; //실패시 갈 스텝
 
+        bool ableSelect = int.Parse(_parsingData[ableSelectIdx])!=0;
         string[] situAdapValues = _parsingData[situAdaptCountIdx].Split(FixedValue.PARSING_LINE_DIVIDE);
         string[] situationDivides = _parsingData[situationIdx].Split(FixedValue.PARSING_LINE_DIVIDE);
         string[] successNeedCount = _parsingData[succesNeedCountIdx].Split(FixedValue.PARSING_LINE_DIVIDE);
@@ -45,7 +48,7 @@ public class ContentMasterData
         for (int curStep = 1; curStep <= totalStep; curStep++)
         {
             int arrayIndex = curStep - 1;
-            StageMasterData stageInfo = new StageMasterData(curStep, situAdapValues[arrayIndex], situationDivides[arrayIndex],
+            StageMasterData stageInfo = new StageMasterData(curStep, ableSelect, situAdapValues[arrayIndex], situationDivides[arrayIndex],
                                                         successNeedCount[arrayIndex], completeAutoBool[arrayIndex], succesConditiones[arrayIndex],
                                                         failNeedCount[arrayIndex], failConditiones[arrayIndex],
                                                         rewardDivdes[arrayIndex], penaltyDivdes[arrayIndex]);
@@ -77,6 +80,7 @@ public class ContentMasterData
 
 public class StageMasterData
 {
+    public bool AbleSelect; //조건 중 선택이 가능한가
     public int SituAdapCount;
     public List<TOrderItem> SituationList; //컨텐츠 수행 상황 리스트
     public int SuccedNeedCount;
@@ -87,12 +91,13 @@ public class StageMasterData
     public int PenaltyStep; //실패시 이동할 Stage 기록
     public int StageNum;
     public bool AutoClear = true;
-    public StageMasterData(int _stageNum, string _situAdapStr, string _sitautionStrData, 
+    public StageMasterData(int _stageNum, bool _ableSelect, string _situAdapStr, string _sitautionStrData, 
                            string _succesNeedCountStr, string _autoCompleteBool, string _succesConStr,
                            string _failNeedCountStr, string _failConStr,
                            string _rewardStrData, string _penaltyStrData)
     {
         StageNum = _stageNum;
+        AbleSelect = _ableSelect;
         bool noneDataAdd = true;
         SituAdapCount = int.Parse(_situAdapStr); //상황조성 조건 중 적용할 수
         SituationList = new();
