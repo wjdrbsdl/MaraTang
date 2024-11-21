@@ -343,7 +343,7 @@ public class MgMasterData : Mg<MgMasterData>
         {
             //이후 세부 대화 데이터를 만들어서 그그룹에 추가 
             GodBless parseGodBless = new GodBless(parseContainer.DbValueList[i]);
-            m_blessDic.Add(parseGodBless.PID, parseGodBless);
+            m_blessDic.Add(parseGodBless.GetPid(), parseGodBless);
         }
     }
 

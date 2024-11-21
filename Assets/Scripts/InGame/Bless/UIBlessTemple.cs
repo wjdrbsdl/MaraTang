@@ -37,7 +37,7 @@ public class UIBlessTemple : UIBase
         }
 
         //메인케릭터에 블레스 추가 
-        TOrderItem blessItem = new TOrderItem(TokenType.Bless, newBless.PID, 0); //벨류는 머해야되나
+        TOrderItem blessItem = new TOrderItem(TokenType.Bless, newBless.GetPid(), 0); //벨류는 머해야되나
         OrderExcutor excutor = new();
         excutor.AdaptItem(blessItem);
     }

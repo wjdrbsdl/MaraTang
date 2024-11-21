@@ -62,7 +62,7 @@ public class BlessSynerge
         switch (_category)
         {
             case BlessSynergeCategoryEnum.Pid:
-                if (_bless.PID == _value)
+                if (_bless.GetPid() == _value)
                 {
                     return true;
                 }

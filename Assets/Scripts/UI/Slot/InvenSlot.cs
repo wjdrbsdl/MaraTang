@@ -9,11 +9,13 @@ public class InvenSlot : SlotBase
     public int m_itemPid = 0;
     public TMP_Text m_itemName; //나중에 아이콘으로 대체될부분
     public int m_slotIndex = 0;
-   
-    public void SetInvenSlot(GodBless _bless, int _slotIndex)
+    public TokenBase m_curToken;
+
+    public void SetInvenSlot(TokenBase _base, int _slotIndex)
     {
-        m_tokenType = TokenType.Bless;
-        m_itemPid = _bless.PID;
+        m_tokenType = _base.GetTokenType();
+        m_itemPid = _base.GetPid();
+        m_curToken = _base;
         Naming();
     }
 
