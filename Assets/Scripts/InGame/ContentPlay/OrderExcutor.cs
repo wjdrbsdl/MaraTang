@@ -46,6 +46,9 @@ public class OrderExcutor
                 //    Debug.Log("자원올린다");
                 PlayerCapitalData.g_instance.PayCostData(new TItemListData(_item), false);
                 return true; //따로 받은게 없음
+            case TokenType.Bless:
+                GodBless bless = new GodBless(MgMasterData.GetInstance().GetGodBless(_item.SubIdx);
+                return mainChar.AquireBless(bless);
             case TokenType.Equipt:
                 //      Debug.Log("장비획득한다");
                 EquiptItem equiptCopy = new EquiptItem(MgMasterData.GetInstance().GetEquiptData(_item.SubIdx));
