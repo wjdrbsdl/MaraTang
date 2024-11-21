@@ -6,7 +6,7 @@ using UnityEngine;
 public enum CharStat
 {
     MaxActionEnergy, CurActionEnergy, MaxActionCount, CurActionCount, Sight, Strenth, Dex, Inteligent,
-    MaxHp, CurHp, EquiptSlotCount
+    MaxHp, CurHp, EquiptSlotCount, BlessSlotCount
 }
 
 public enum CharType
@@ -51,7 +51,7 @@ public class TokenChar : TokenBase
         m_tokenIValues[(int)CharStat.CurActionEnergy] = m_tokenIValues[(int)CharStat.MaxActionEnergy];
         m_tokenIValues[(int)CharStat.CurHp] = m_tokenIValues[(int)CharStat.MaxHp];
         m_tokenIValues[(int)CharStat.EquiptSlotCount] = 3; //임시로 착용가능장비 3으로 세팅
-        
+        m_tokenIValues[(int)CharStat.BlessSlotCount] = 3;
     }
 
     private void SetAction(ref List<TokenAction> _haveAction, string actionCode)
@@ -251,6 +251,23 @@ public class TokenChar : TokenBase
     #endregion
 
     #region 가호 
+    public bool AquireBless(GodBless _bless)
+    {
+        if (CheckBlessSlotCount() == true)
+        {
+            AddBless(_bless);
+            return true;
+        }
+
+        //가득차있을 경우
+        if (IsPlayerChar() == true)
+        {
+            Debug.Log("은총보유 UI에서 제거할것을 요청");
+        }
+
+        return false;
+    }
+
     public bool HaveBless(GodBless _bless)
     {
         if (m_blessList.IndexOf(_bless) == -1)
@@ -262,6 +279,7 @@ public class TokenChar : TokenBase
     public void AddBless(GodBless _bless)
     {
        // Debug.Log(_bless.Name + "은총 추가");
+   
         m_blessList.Add(_bless);
         BlessAdaptor.g_instnace.AdaptBless(this);
         CheckActionSynerge();
@@ -274,6 +292,12 @@ public class TokenChar : TokenBase
         {
             m_haveActionList[i].CheckBlessSynerge(this);
         }
+    }
+
+    private bool CheckBlessSlotCount()
+    {
+
+        return m_equiptLIst.Count < GetStat(CharStat.BlessSlotCount);
     }
     #endregion
 
