@@ -42,7 +42,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
             //m_playData.PlayTime = 0;
             //m_playerMemeber = 0;
             //NoticeTurnPlayer();
-
+            MgUI.GetInstance().ShowPlayerBless();
 
         }
         if (Input.GetKeyDown(KeyCode.F6))
@@ -60,9 +60,10 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
             //TOrderItem item = new TOrderItem(TokenType.Tile, 1, 1);
             //excutor.BuildPlace(1, 1);
 
-            GameSaver saver = new GameSaver();
-            saver.SaveGame();
+            //GameSaver saver = new GameSaver();
+            //saver.SaveGame();
 
+            MgUI.GetInstance().ShowPlayerEquipt();
 
         }
         if (Input.GetKeyDown(KeyCode.F7))
