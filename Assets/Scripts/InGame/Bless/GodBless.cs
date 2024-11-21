@@ -32,4 +32,17 @@ public class GodBless
         //   Debug.Log(GameUtil.FindEnum(m_effect[i].Tokentype, m_effect[i].SubIdx)+"에 효과" + m_effect[i].Value);
         //}
     }
+
+    public GodBless(GodBless _origin)
+    {
+        PID = _origin.PID;
+        Name = _origin.Name;
+        m_mainCategory = _origin.m_mainCategory;
+        m_subCategory = _origin.m_subCategory;
+        m_effect = new();
+        for (int i = 0; i < _origin.m_effect.Count; i++)
+        {
+            m_effect.Add(_origin.m_effect[i]);
+        }
+    }
 }
