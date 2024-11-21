@@ -40,7 +40,7 @@ public class Quest
     #region 스테이지 진행
     public void RealizeStage()
     {
-        TTokenOrder order = new TTokenOrder(CurStageData.SituationList, CurStageData.SituAdapCount, SerialNum);
+        TTokenOrder order = new TTokenOrder(CurStageData.SituationList, CurStageData.AbleSelect, CurStageData.SituAdapCount, SerialNum);
         OrderExcutor excutor = new OrderExcutor();
         excutor.ExcuteOrder(order);
 
@@ -110,6 +110,7 @@ public class CurrentStageData
     public bool AutoClear; //조건충족시 자동 클리어 여부
     public bool AbleClear = false; // 클리어 가능한 상태인지
     public List<TOrderItem> SituationList;
+    public bool AbleSelect; //조건 선택 가능여부 
     public int SituAdapCount = 0;
     public int SuccesNeedCount = 0; //필요 충족 수 
     public List<TOrderItem> SuccesConList; //맞추려는 조건
@@ -127,6 +128,7 @@ public class CurrentStageData
     public CurrentStageData(StageMasterData _stageMasterData)
     {
         SituationList = CopyList(_stageMasterData.SituationList);
+        AbleSelect = _stageMasterData.AbleSelect;
         SituAdapCount = _stageMasterData.SituAdapCount;
         SuccesNeedCount = _stageMasterData.SuccedNeedCount;
         AutoClear = _stageMasterData.AutoClear;

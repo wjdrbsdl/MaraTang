@@ -7,6 +7,7 @@ public class OrderExcutor
     public void ExcuteOrder(TTokenOrder _order)
     {
         int orderCount = _order.orderItemList.Count;
+        
         if (orderCount == _order.AdaptItemCount || _order.AdaptItemCount == 0) //0은 마스터데이터에서 임시로 모두 적용할거라고 임시로 약속한 값 
         {
             //주문수와 적용 수가 같으면 모두 그대로 적용
@@ -144,9 +145,9 @@ public struct TTokenOrder
     public int OrderExcuteCount; //집행한 수 - 단계로변경 필요?
     public int OrderSerialNumber; //주문서 일련번호 - 한 고객에게 여러 콜백이 들어갈경우, 어떤 퀘스트나, 컨텐츠 에서 나온건지 확인하기 위해서. 
     public int AdaptItemCount; //적용할 아이템 수 - 0이면 모두, 그 외에는 선택 요청해서 진행 
-
+    public bool AbleSelect; //리스트 중 선택이 가능한가 
     #region 주문서 생성
-    public TTokenOrder(List<TOrderItem> _orderList, int _selectCount, int _serialNum = 0)
+    public TTokenOrder(List<TOrderItem> _orderList, bool _ableSelect, int _selectCount, int _serialNum = 0)
     {
         orderItemList = _orderList;
         if (orderItemList == null)
@@ -155,6 +156,7 @@ public struct TTokenOrder
         OrderExcuteCount = 0;
         OrderSerialNumber = _serialNum;
         AdaptItemCount = _selectCount;
+        AbleSelect = _ableSelect;
         CheckAllValue();
     }
 
