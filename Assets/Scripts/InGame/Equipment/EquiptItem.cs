@@ -16,11 +16,11 @@ public class EquiptItem : TokenBase
         
     }
 
-    public EquiptItem(List<int[]> matchCode, string[] valueCode)
+    public EquiptItem(List<int[]> matchCode, string[] _dbValueList)
     {
-        m_tokenPid = int.Parse(valueCode[0]);
-        m_itemName = valueCode[1];
-
+        m_tokenPid = int.Parse(_dbValueList[0]);
+        m_itemName = _dbValueList[1];
+        GameUtil.ParseOrderItemList(m_effect, _dbValueList[3]);
     }
 
     public EquiptItem(EquiptItem _masterData)
