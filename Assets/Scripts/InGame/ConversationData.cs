@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum ConversationEnum
 {
-    Tutorial, Check, Choose, Response
+    Tutorial, Check, Choose, Response, SelectCount
 }
 
 public enum ResponseEnum

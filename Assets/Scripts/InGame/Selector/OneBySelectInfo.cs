@@ -11,7 +11,8 @@ public class OneBySelectInfo
     //남은 선택 가능 수가 0이 될때 까지 선택
         
     private bool ableCancle = false; //해당 선택지를 취소할 수있는건가. 
-    public int restSelectCount; 
+    public int restSelectCount;
+    public int selectCount = 0; //선택했던 수
     public int SerialNum = FixedValue.No_INDEX_NUMBER; //사용안할때는 none 넘버로 
     public ITradeCustomer Giver; //제공자
     public ITradeCustomer Taker; //받는자
@@ -48,8 +49,11 @@ public class OneBySelectInfo
         RemoveItem(selectedItem);
         //선택한 수 까고
         restSelectCount -= 1;
-        
-        if(CheckRest() == true)
+        selectCount += 1;
+
+        SendActionCode();
+
+        if (CheckRest() == true)
         {
             //남은게 있으면 다시 UI 세팅
             _oneByUI.ResetSlot();
@@ -58,6 +62,11 @@ public class OneBySelectInfo
         _oneByUI.ReqeustOff();
         //아니면 UI 종료
             
+    }
+    private void SendActionCode()
+    {
+        TOrderItem confirmItem = new TOrderItem(TokenType.Conversation, (int)ConversationEnum.SelectCount, selectCount); //확인용 item 생성
+        MGContent.GetInstance().SendActionCode(confirmItem);
     }
 
     private void RemoveItem(TOrderItem _item)
