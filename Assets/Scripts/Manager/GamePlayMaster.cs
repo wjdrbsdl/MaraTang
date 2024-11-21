@@ -30,7 +30,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     public RuleBook RuleBook;
     public EmphasizeObject EmphasizeTool;
     public List<WorkOrder> m_globalWorkList = new();
-
+    public List<Complain> m_globalComplainList = new();
     public int tempDevilBirthrestTurm = 3; //발생주기 세트
 
     #endregion
@@ -309,6 +309,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     {
         m_playerMemeber = 0;
         DoWorkList();
+        CountComplainTurn();
       //  Debug.Log("겜마스터 완료 제거 후 남은 작업수 " + m_globalWorkList.Count);
     }
 
@@ -510,6 +511,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
         DoneStep(GamePlayStep.GameInitialSetting); //게임 초기 세팅 이후 국가 선택까지 마치면 초기 세팅 끝. 
     }
 
+    #region 작업서 관리
     public void RegistorWork(WorkOrder _order)
     {
         if(m_globalWorkList.IndexOf(_order) == -1)
@@ -531,7 +533,31 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
             workArray[i].DoWork();
         }
     }
+    #endregion
 
+    #region 불만관리
+    public void RegistorComplain(Complain _complain)
+    {
+        if(m_globalComplainList.IndexOf(_complain) == -1)
+        {
+            m_globalComplainList.Add(_complain);
+        }
+    }
+
+    public void RemoveComplain(Complain _complain)
+    {
+        m_globalComplainList.Remove(_complain);
+    }
+
+    public void CountComplainTurn()
+    {
+        Complain[] complainArray = m_globalComplainList.ToArray();
+        for (int i = 0; i < complainArray.Length; i++)
+        {
+            complainArray[i].TurnCount();
+        }
+    }
+    #endregion
 }
 
 //게임 전체 관점에서 단계
