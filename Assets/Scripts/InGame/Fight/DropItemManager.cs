@@ -25,6 +25,11 @@ public class DropItemManager : Mg<DropItemManager>
     private TokenType[] waitArray = { TokenType.CharStat, TokenType.Equipt };
     public void DropItem(int _monsterPid)
     {
+        //드랍된 아이템을 구별하여 선택이 필요한건 선택해서 하도록
+        //퀘스트 보상이나 상황 진행에서 쓰이는 상황과는 별도
+        //드롭아이템은 모두 선택가능하다는 상황아래 언제나 적용이 가능, 유리한 경우는 무조건 적용 플레이어의 추가 조작이 필요한 경우엔 따로 집행.
+        //그밖에 선택수에 제한이 있는 경우는 다른것들과 경쟁해야하기에 예외없이 모두 선택지에 표기해야함. 
+
         List<TOrderItem> dropList = MgMasterData.GetInstance().GetDropItem(_monsterPid);
         List<TOrderItem> immediatelyList = new();
         List<TOrderItem> waitList = new();
