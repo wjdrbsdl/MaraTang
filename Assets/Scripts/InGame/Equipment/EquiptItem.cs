@@ -7,10 +7,8 @@ public enum EquiptEnum
     PartType
 }
 
-public class EquiptItem
+public class EquiptItem : TokenBase
 {
-    private int m_pid;
-    private string m_name;
     public List<TOrderItem> m_effect = new(); //플레이어 스텟에 가하는 요소
 
     public EquiptItem()
@@ -20,15 +18,15 @@ public class EquiptItem
 
     public EquiptItem(List<int[]> matchCode, string[] valueCode)
     {
-        m_pid = int.Parse(valueCode[0]);
-        m_name = valueCode[1];
+        m_tokenPid = int.Parse(valueCode[0]);
+        m_itemName = valueCode[1];
 
     }
 
     public EquiptItem(EquiptItem _masterData)
     {
-        m_pid = _masterData.m_pid;
-        m_name = _masterData.m_name;
+        m_tokenPid = _masterData.m_tokenPid;
+        m_itemName = _masterData.m_itemName;
         for (int i = 0; i < _masterData.m_effect.Count; i++)
         {
             TOrderItem effect = _masterData.m_effect[i];
@@ -36,8 +34,4 @@ public class EquiptItem
         }
     }
 
-    public int GetPid()
-    {
-        return m_pid;
-    }
 }
