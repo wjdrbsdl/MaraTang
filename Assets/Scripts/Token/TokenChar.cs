@@ -263,6 +263,7 @@ public class TokenChar : TokenBase
         if (IsPlayerChar() == true)
         {
             Debug.Log("은총보유 UI에서 제거할것을 요청");
+            MgUI.GetInstance().ShowPlayerBless(); 
         }
 
         return false;
@@ -321,7 +322,7 @@ public class TokenChar : TokenBase
     private bool CheckBlessSlotCount()
     {
 
-        return m_equiptLIst.Count < GetStat(CharStat.BlessSlotCount);
+        return m_blessList.Count < GetStat(CharStat.BlessSlotCount);
     }
     #endregion
 
