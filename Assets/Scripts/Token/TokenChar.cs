@@ -347,7 +347,31 @@ public class TokenChar : TokenBase
 
     public void AddEquipt(EquiptItem _equiptitem)
     {
-        Debug.Log("해당케릭에 장비 장착 진행 " + _equiptitem.GetPid());
+      //  Debug.Log("해당케릭에 장비 장착 진행 " + _equiptitem.GetPid());
+        m_equiptLIst.Add(_equiptitem);
+        AdaptEquipt(_equiptitem);
+    }
+
+    public void RemoveEquipt(EquiptItem _equiptItem)
+    {
+        m_equiptLIst.Remove(_equiptItem);
+        List<TOrderItem> reverseEffect = GameUtil.ReverseItemList(_equiptItem.m_effect);
+        _equiptItem.m_effect = reverseEffect;
+        AdaptEquipt(_equiptItem);
+    }
+
+    public void AdaptEquipt(EquiptItem _equiptItem)
+    {
+        // Debug.Log("어뎁터 클래스에서 블래스 적용하기");
+        OrderExcutor excutor = new();
+
+        for (int i = 0; i < _equiptItem.m_effect.Count; i++)
+        {
+            TOrderItem blessEffect = _equiptItem.m_effect[i];
+            excutor.AdaptItem(blessEffect);
+            // Debug.Log(blessEffect.Value);
+        }
+
     }
 
     public bool CheckEquiptSlot()
