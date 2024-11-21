@@ -304,7 +304,7 @@ public class TokenChar : TokenBase
         {
             TOrderItem blessEffect = _godBless.m_effect[i];
             excutor.AdaptItem(blessEffect);
-            Debug.Log(blessEffect.Value);
+           // Debug.Log(blessEffect.Value);
         }
 
     }
