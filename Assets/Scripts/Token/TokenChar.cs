@@ -281,8 +281,20 @@ public class TokenChar : TokenBase
        // Debug.Log(_bless.Name + "은총 추가");
    
         m_blessList.Add(_bless);
-        BlessAdaptor.g_instnace.AdaptBless(this);
+        AdaptBless(_bless);
         CheckActionSynerge();
+    }
+
+    public void AdaptBless(GodBless _godBless)
+    {
+        // Debug.Log("어뎁터 클래스에서 블래스 적용하기");
+        OrderExcutor excutor = new();
+        for (int i = 0; i < _godBless.m_effect.Count; i++)
+        {
+            TOrderItem blessEffect = _godBless.m_effect[i];
+            excutor.AdaptItem(blessEffect);
+        }
+
     }
 
     private void CheckActionSynerge()
