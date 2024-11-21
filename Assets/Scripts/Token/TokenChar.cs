@@ -285,14 +285,26 @@ public class TokenChar : TokenBase
         CheckActionSynerge();
     }
 
+    public void RemoveBless(GodBless _bless)
+    {
+        m_blessList.Remove(_bless);
+        List<TOrderItem> reverseEffect = GameUtil.ReverseItemList(_bless.m_effect);
+        _bless.m_effect = reverseEffect;
+        AdaptBless(_bless);
+        CheckActionSynerge();
+    }
+
+
     public void AdaptBless(GodBless _godBless)
     {
         // Debug.Log("어뎁터 클래스에서 블래스 적용하기");
         OrderExcutor excutor = new();
+    
         for (int i = 0; i < _godBless.m_effect.Count; i++)
         {
             TOrderItem blessEffect = _godBless.m_effect[i];
             excutor.AdaptItem(blessEffect);
+            Debug.Log(blessEffect.Value);
         }
 
     }
