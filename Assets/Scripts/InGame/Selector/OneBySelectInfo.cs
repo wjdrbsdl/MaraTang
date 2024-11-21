@@ -29,14 +29,14 @@ public class OneBySelectInfo
         MgUI.GetInstance().ShowOneByeSelectList(this);
     }
 
-    private TokenType[] exception = {TokenType.Equipt };
     public void SelectOne(int _index, UIOneByeSelect _oneByUI)
     {
         TOrderItem selectedItem = ItemList[_index];
         //적용할것 골랐다.
-    //    Debug.Log("고름");
+        //    Debug.Log("고름");
         //적용시키고
-        bool isAdapt = AdaptItem(selectedItem);
+        OrderExcutor excutor = new();
+        bool isAdapt = excutor.AdaptItem(selectedItem);
         
         if (isAdapt == false)
         {
@@ -58,29 +58,6 @@ public class OneBySelectInfo
         _oneByUI.ReqeustOff();
         //아니면 UI 종료
             
-    }
-
-    private bool AdaptItem(TOrderItem _item)
-    {
-      //  Debug.Log("적용");
-        TokenChar mainChar = PlayerManager.GetInstance().GetMainChar();
-        switch (_item.Tokentype)
-        {
-            case TokenType.Capital:
-            //    Debug.Log("자원올린다");
-                Taker.PayCostData(new TItemListData(_item), false);
-                return true; //따로 받은게 없음
-            case TokenType.Equipt:
-          //      Debug.Log("장비획득한다");
-                EquiptItem equiptCopy = new EquiptItem(MgMasterData.GetInstance().GetEquiptData(_item.SubIdx));
-                return mainChar.AquireEquipt(equiptCopy);
-            case TokenType.CharStat:
-            //    Debug.Log("스텟올린다");
-                mainChar.CalStat((CharStat)_item.SubIdx, _item.Value);//형변환 안해두되는데 아쉽군. 
-                return true;
-        }
-        //적용 항목이 없는 경우엔 적용 안된걸로
-        return false;
     }
 
     private void RemoveItem(TOrderItem _item)
