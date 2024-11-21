@@ -18476,6 +18476,7 @@ MonoBehaviour:
   m_miniMapUI: {fileID: 952571745}
   m_questUI: {fileID: 459457566}
   m_questListUI: {fileID: 1848434616}
+  m_playerBless: {fileID: 1282490267}
   m_guildUI: {fileID: 1251215845}
   m_templeUI: {fileID: 2000744286}
   m_tileMixUI: {fileID: 2059803990}
