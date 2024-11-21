@@ -6,19 +6,23 @@ public class OrderExcutor
 {
     public void ExcuteOrder(TTokenOrder _order)
     {
-        int orderCount = _order.orderItemList.Count;
+        bool ableSelect = _order.AbleSelect;
         
-        if (orderCount == _order.AdaptItemCount || _order.AdaptItemCount == 0) //0은 마스터데이터에서 임시로 모두 적용할거라고 임시로 약속한 값 
+        //집행에 선택이 가능한 경우는 선택지를 호출하고
+        if(ableSelect == true)
         {
-            //주문수와 적용 수가 같으면 모두 그대로 적용
-            for (int i = 0; i < orderCount; i++)
-            {
-               AdaptItem(_order.orderItemList[i]);
-            }
+            MakeSelectUI(_order);
             return;
         }
-        //숫자가 다른경우는 선택형으로 뽑기 UI 출력 
-        MakeSelectUI(_order);
+
+        //불가능한 경우는 
+        //적용 수 만큼 진행인데 지금은 주문서 모두 일괄적용중 
+        for (int i = 0; i < _order.AdaptItemCount; i++)
+        {
+            AdaptItem(_order.orderItemList[i]);
+        }
+        return;
+
     }
 
     public void MakeSelectUI(TTokenOrder _order)
@@ -26,7 +30,7 @@ public class OrderExcutor
         List<TOrderItem> ShowList = _order.orderItemList;
 
         // Debug.Log("선택류 리스트로 선택 정보 생성");
-        int ableSelectCount = 1; //임시로 1개만 고름 가능
+        int ableSelectCount = _order.AdaptItemCount; //임시로 1개만 고름 가능
         OneBySelectInfo oneBySelectInfo = new OneBySelectInfo(ShowList, ableSelectCount);
         oneBySelectInfo.OpenSelectUI();
 
