@@ -13,7 +13,7 @@ public class Complain
     public int RestTurn; //인내기간
     public List<TOrderItem> FailEffect; //실패시 어쩔지
     public List<TOrderItem> SuccesEffect; //성공시 어쩔지
-
+    public int[] MapIndex;
     public Complain()
     {
         //테스트용 아무거나
@@ -54,6 +54,11 @@ public class Complain
         //별도로 할까. orderExcute에 다 정의해놓을가
         //char Stat의 경우는 일괄적
         //어떤건 특수적 흠..
+    }
+
+    public void SetComplainMapIndex(int[] _pos)
+    {
+        MapIndex = _pos;
     }
 }
 
