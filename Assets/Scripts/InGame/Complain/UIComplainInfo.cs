@@ -17,6 +17,7 @@ public class UIComplainInfo : UIBase
     public void OnClickRespond()
     {
         m_complain.Respond();
+        UISwitch(false);
     }
 }
 
