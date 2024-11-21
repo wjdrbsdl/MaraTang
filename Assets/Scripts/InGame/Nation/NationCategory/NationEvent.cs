@@ -19,7 +19,7 @@ public class NationEvent
         List<TokenTile> territory = m_nation.GetTerritorry();
         ComplainManager compleMg = ComplainManager.GetInstance();
         //Debug.Log(m_nation.GetNationNum() + " 사건 발생 유무 확인");
-        for (int i = 0; i < territory.Count; i++)
+        for (int i = 1; i < territory.Count; i++)
         {
             TokenTile tile = territory[i];
             if (tile.HaveComplain())
