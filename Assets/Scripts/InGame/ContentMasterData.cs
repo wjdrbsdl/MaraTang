@@ -102,6 +102,12 @@ public class StageMasterData
         SituAdapCount = int.Parse(_situAdapStr); //상황조성 조건 중 적용할 수
         SituationList = new();
         GameUtil.ParseOrderItemList(SituationList, _sitautionStrData, noneDataAdd);
+        if(SituAdapCount == 0)
+        {
+            //db에 귀찮아서 0 으로 표기한 경우 모든 선택지 가능으로 수정해주기. 
+            SituAdapCount = SituationList.Count;
+        }
+
         SuccedNeedCount = int.Parse(_succesNeedCountStr);
         if (!_autoCompleteBool.Equals("A"))
         {
