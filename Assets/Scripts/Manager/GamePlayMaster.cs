@@ -42,7 +42,12 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
             //m_playData.PlayTime = 0;
             //m_playerMemeber = 0;
             //NoticeTurnPlayer();
-            MgUI.GetInstance().ShowPlayerBless();
+
+            //TokenChar mainChar = PlayerManager.GetInstance().GetMainChar();
+            //EquiptItem equipt = new EquiptItem( MgMasterData.GetInstance().GetEquiptData(1));
+            //mainChar.AquireEquipt(equipt);
+
+            MgUI.GetInstance().ShowPlayerAction();
 
         }
         if (Input.GetKeyDown(KeyCode.F6))
