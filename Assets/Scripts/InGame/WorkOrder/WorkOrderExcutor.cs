@@ -10,13 +10,28 @@ public class WorkOrderExcutor
     public void Excute(WorkOrder _order)
     {
         WorkType workType = _order.workType;
-        int wokrPid = _order.WorkPid; //작업류에 따라 Pid의 대상이 달라짐
+        int workPid = _order.WorkPid; //작업류에 따라 Pid의 대상이 달라짐
+        TokenTile workTile = GameUtil.GetTileTokenFromMap(_order.WorkPlacePos);
         switch (workType)
         {
             case WorkType.ChangeBuild:
-                TokenTile workTile = GameUtil.GetTileTokenFromMap(_order.WorkPlacePos);
-                workTile.ChangePlace((TileType)wokrPid);
+              //  Debug.Log("집행자가 토지변경");
+                workTile.ChangePlace((TileType)workPid);
                 break;
+            case WorkType.InterBuild:
+                workTile.CompleteInterBuild((int)workPid);
+                break;
+            case WorkType.ExpandLand:
+              //  Debug.Log("집행자가 땅확장");
+                PolicyExpandLand expandPolicy = new();
+                expandPolicy.ExpandLand(workTile, workPid); //확장에서 작업pid는 확장하려는 국가 Num
+                break;
+            case WorkType.NationLvUp:
+              //  Debug.Log("집행자가 레벨업");
+                PolicyLevelUp levelUpPolicy = new();
+                levelUpPolicy.LevelUp(workTile);
+                break;
+
         }
     }
 }
