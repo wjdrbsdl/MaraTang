@@ -13,7 +13,7 @@ public enum TileType
 
 public enum TileViewState
 {
-    Fog, Sight
+    Fog, Sight, NoSight
 }
 
 public enum TileStat
