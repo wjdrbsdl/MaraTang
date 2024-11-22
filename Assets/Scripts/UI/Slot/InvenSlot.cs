@@ -9,13 +9,17 @@ public class InvenSlot : SlotBase
     public int m_itemPid = 0;
     public TMP_Text m_itemName; //나중에 아이콘으로 대체될부분
     public int m_slotIndex = 0;
-    public TokenBase m_curToken;
+
+    private void Start()
+    {
+        m_isDragSlot = true;
+    }
 
     public void SetInvenSlot(TokenBase _base, int _slotIndex)
     {
         m_tokenType = _base.GetTokenType();
         m_itemPid = _base.GetPid();
-        m_curToken = _base;
+        m_token = _base;
         Naming();
     }
 
@@ -26,6 +30,6 @@ public class InvenSlot : SlotBase
 
     public override void OnLeftClick()
     {
-        Debug.Log(m_curToken.GetItemName() + "눌림");
+        Debug.Log(m_token.GetItemName() + "눌림");
     }
 }
