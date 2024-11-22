@@ -262,7 +262,7 @@ public class TokenChar : TokenBase
         //가득차있을 경우
         if (IsPlayerChar() == true)
         {
-            Debug.Log("은총보유 UI에서 제거할것을 요청");
+          //  Debug.Log("은총보유 UI에서 제거할것을 요청");
             MgUI.GetInstance().ShowPlayerBless();  //가득찬 가호를 비우도록 유도 
         }
 
@@ -339,7 +339,8 @@ public class TokenChar : TokenBase
         //가득차있을 경우
         if(IsPlayerChar() == true)
         {
-            Debug.Log("장비슬롯칸에서 제거할것을 요청");
+          //  Debug.Log("장비슬롯칸에서 제거할것을 요청");
+            MgUI.GetInstance().ShowPlayerEquipt();
         }
 
         return false;
@@ -350,7 +351,7 @@ public class TokenChar : TokenBase
         //  Debug.Log("해당케릭에 장비 장착 진행 " + _equiptitem.GetPid());
         if (m_equiptLIst.IndexOf(_equiptItem) != -1)
         {
-            Debug.Log("존재하는 아이템");
+          //  Debug.Log("존재하는 아이템");
             return;
         }
         m_equiptLIst.Add(_equiptItem);
@@ -361,7 +362,7 @@ public class TokenChar : TokenBase
     {
         if (m_equiptLIst.IndexOf(_equiptItem) == -1)
         {
-            Debug.Log("존재하지 않는 장비");
+          //  Debug.Log("존재하지 않는 장비");
             return;
         }
             
