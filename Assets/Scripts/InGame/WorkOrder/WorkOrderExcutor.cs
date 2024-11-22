@@ -15,21 +15,28 @@ public class WorkOrderExcutor
         switch (workType)
         {
             case WorkType.ChangeBuild:
-              //  Debug.Log("집행자가 토지변경");
-                workTile.ChangePlace((TileType)workPid);
+                //  Debug.Log("집행자가 토지변경");
+                int placeNum = workPid;
+                workTile.ChangePlace((TileType)placeNum);
                 break;
             case WorkType.InterBuild:
-                workTile.CompleteInterBuild((int)workPid);
+                int InteriorNum = workPid;
+                workTile.CompleteInterBuild(InteriorNum);
                 break;
             case WorkType.ExpandLand:
               //  Debug.Log("집행자가 땅확장");
                 PolicyExpandLand expandPolicy = new();
-                expandPolicy.ExpandLand(workTile, workPid); //확장에서 작업pid는 확장하려는 국가 Num
+                int nationNum = workPid;
+                expandPolicy.ExpandLand(workTile, nationNum); //확장에서 작업pid는 확장하려는 국가 Num
                 break;
             case WorkType.NationLvUp:
               //  Debug.Log("집행자가 레벨업");
                 PolicyLevelUp levelUpPolicy = new();
                 levelUpPolicy.LevelUp(workTile);
+                break;
+            case WorkType.Spawn:
+                int monsterPid = workPid;
+                MgToken.GetInstance().SpawnCharactor(workTile.GetMapIndex(), monsterPid);
                 break;
 
         }
