@@ -19,6 +19,7 @@ public class EquiptItem : TokenBase
     public EquiptItem(List<int[]> matchCode, string[] _dbValueList)
     {
         m_tokenPid = int.Parse(_dbValueList[0]);
+        m_tokenType = TokenType.Equipt;
         m_itemName = _dbValueList[1];
         GameUtil.ParseOrderItemList(m_effect, _dbValueList[3]);
     }
@@ -26,6 +27,7 @@ public class EquiptItem : TokenBase
     public EquiptItem(EquiptItem _masterData)
     {
         m_tokenPid = _masterData.m_tokenPid;
+        m_tokenType = _masterData.m_tokenType;
         m_itemName = _masterData.m_itemName;
         for (int i = 0; i < _masterData.m_effect.Count; i++)
         {
