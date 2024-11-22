@@ -110,5 +110,8 @@ public class UIBase : MonoBehaviour
     }
     #endregion
 
- 
+    protected void SetTrashZone()
+    {
+        MgUI.GetInstance().GetTrashZone().SetTrashZone(this.gameObject);
+    }
 }
