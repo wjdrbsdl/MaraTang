@@ -26,6 +26,12 @@ public class TrashZone : MonoBehaviour, IDropHandler
             case TokenType.Equipt:
                 mainChar.RemoveEquipt((EquiptItem)_token);
                 break;
+            case TokenType.Action:
+                mainChar.RemoveAction((TokenAction)_token);
+                break;
+            case TokenType.Bless:
+                mainChar.RemoveBless((GodBless)_token);
+                break;
                 
         }
     }
