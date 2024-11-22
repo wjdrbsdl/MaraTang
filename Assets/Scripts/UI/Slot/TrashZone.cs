@@ -9,8 +9,6 @@ public class TrashZone : MonoBehaviour, IDropHandler
 
     public void OnDrop(PointerEventData eventData)
     {
-        Debug.Log("뭔가 드롭이 되었따?");
-        
         if (DragSlot.instance.dragslot != null)
         {
             TokenBase dragToken = DragSlot.instance.dragslot.GetTokenBase();

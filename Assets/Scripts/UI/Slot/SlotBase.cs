@@ -126,7 +126,7 @@ public class SlotBase : MonoBehaviour, IDragHandler, IBeginDragHandler, IDropHan
         //일단 모든 슬롯에서 가능토록해놨는데, 각 슬롯에서 시작이 되고 싶지 않으면 해당 메서드를 오버라이딩하고 공백으로 두면 됨. 
         if (m_token != null && m_isDragSlot == true)
         {
-            Debug.Log("공용 드래그");
+            //Debug.Log("공용 드래그");
             StartDrag();
         }
     }
