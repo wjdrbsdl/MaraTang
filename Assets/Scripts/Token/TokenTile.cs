@@ -163,7 +163,6 @@ public class TokenTile : TokenBase
         }
 
         m_workOrder = _work;
-        _work.SetOrderPlacePos(GetMapIndex());
        // Debug.Log(_work.m_workType + "작업 타일에 등록");
         MgWorkOrderPin.GetInstance().RequestWorkOrderPin(this);
         return true;

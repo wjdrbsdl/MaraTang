@@ -146,8 +146,7 @@ public class RuleBookTileAction
 
     private void MakeWorkOrder(TokenTile _tile, TokenTileAction _tileAction, int _monsterPid)
     {
-        WorkOrder spawnOrder = new WorkOrder(null, 100, _monsterPid, WorkType.Spawn);
-        _tile.RegisterWork(spawnOrder);
+        new WorkOrder(null, 100, _tile, _monsterPid, WorkType.Spawn);
     }
 
 }

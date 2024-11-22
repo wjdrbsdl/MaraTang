@@ -18,9 +18,8 @@ public class PolicyResearch : NationPolicy
     {
         //임시 벌목장 건설에 필요한 코스트로 진행
         TItemListData changeCost = MgMasterData.GetInstance().GetTileData(1).BuildCostData;
-        WorkOrder researchOrder = new WorkOrder(changeCost.GetItemList(), 100, m_planIndex, WorkType.Research);
         TokenTile workTile = (TokenTile)m_planToken;
-        workTile.RegisterWork(researchOrder);
+        WorkOrder researchOrder = new WorkOrder(changeCost.GetItemList(), 100, workTile, m_planIndex, WorkType.Research);
         return researchOrder;
     }
 

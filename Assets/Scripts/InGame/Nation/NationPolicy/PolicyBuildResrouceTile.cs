@@ -19,9 +19,8 @@ public class PolicyBuildResrouceTile : NationPolicy
         TItemListData changeCost = MgMasterData.GetInstance().GetTileData(m_planIndex).BuildCostData;
 
         //해당 타일을 자본타일로 바꾸는 작업서
-        WorkOrder manageOrder = new WorkOrder(null, 100, m_planIndex, WorkType.ChangeBuild);
         TokenTile workTile = (TokenTile)m_planToken;
-        workTile.RegisterWork(manageOrder);
+        WorkOrder manageOrder = new WorkOrder(null, 100, workTile, m_planIndex, WorkType.ChangeBuild);
         return manageOrder;
     }
 

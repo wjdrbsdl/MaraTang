@@ -18,6 +18,7 @@ public class WorkOrder
     public WorkType workType = WorkType.ChangeBuild; //어떤 타입 공사
     public int WorkPid = -1; //해당 작업에서 pid - 특정 공사인지 알기위한 부분
     public int[] WorkPlacePos; //작업장소 
+    public bool DoneWrite = false;
 
     private List<TOrderItem> m_needList = new List<TOrderItem>();
     private List<TOrderItem> m_curList = new List<TOrderItem>();
@@ -34,7 +35,7 @@ public class WorkOrder
     public bool IsCancle = false;
     
 
-    public WorkOrder(List<TOrderItem> _needList, int _needWorkGague, int _workPid = -1, WorkType _workType = WorkType.ChangeBuild)
+    public WorkOrder(List<TOrderItem> _needList, int _needWorkGague, TokenTile _placeTile, int _workPid = -1, WorkType _workType = WorkType.ChangeBuild)
     {
         if (_needList == null)
         {
@@ -59,7 +60,20 @@ public class WorkOrder
             m_curList.Add(curItem);
            // debugStr += m_curList[i].Tokentype + " :" + m_curList[i].Value + "필요";
         }
+
+        //작업할 장소가 있다면 장소에 등록해보고 안되면 취소
+        if(_placeTile != null)
+        {
+            if(_placeTile.RegisterWork(this) == false)
+            {
+                return;
+            }
+            SetOrderPlacePos(_placeTile.GetMapIndex());
+        }
+
         GamePlayMaster.GetInstance().RegistorWork(this);
+        //여기까지 진행하면
+        DoneWrite = true; //잘 생성된거 - WorkOrder 반환받는곳에선 해당 여부를 판단하여 null 로 체크 
         // Debug.Log(debugStr);
     }
 
