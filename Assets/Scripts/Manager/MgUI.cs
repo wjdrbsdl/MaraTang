@@ -308,6 +308,11 @@ public class MgUI : MgGeneric<MgUI>
     }
     #endregion
 
+    public UITrashZone GetTrashZone()
+    {
+        return m_trashZone;
+    }
+
     public void TurnEndButtonOnOff(bool _on)
     {
         m_turnEndButton.SetActive(_on);
