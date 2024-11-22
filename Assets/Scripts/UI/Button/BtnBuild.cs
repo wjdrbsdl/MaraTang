@@ -45,12 +45,7 @@ public class BtnBuild : MonoBehaviour
         }
 
         WorkOrder order = new WorkOrder(null, 100, (int)buildType, WorkType.ChangeBuild);
-        //다른 타일로 작업시 m_tile이 변경될수있으므로 다른 인스턴스로 생성
-        Action doneEffect = delegate
-        {
-            tile.ChangePlace(buildType);
-         };
-        order.SetDoneEffect(doneEffect);
+  
         m_tile.RegisterWork(order);
         m_tileInfoUI.ReqeustOff();
     }
