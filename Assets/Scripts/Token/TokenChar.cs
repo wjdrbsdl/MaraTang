@@ -91,6 +91,7 @@ public class TokenChar : TokenBase
 
     #endregion
 
+    #region 그래픽
     public void ShowAction(bool isShow)
     {
         if (m_object == null)
@@ -122,6 +123,7 @@ public class TokenChar : TokenBase
     {
         return m_state;
     }
+    #endregion
 
     #region Get
     public List<GodBless> GetBlessList()
@@ -208,13 +210,6 @@ public class TokenChar : TokenBase
     public void SetTargetTile(TokenTile _tokenBase)
     {
         m_nextTargetTile = _tokenBase;
-    }
-
-    public void AddActionToken(TokenAction _action)
-    {
-        m_haveActionList.Add(_action);
-      //  Debug.Log("스킬 추가");
-        CheckActionSynerge();
     }
     #endregion
 
