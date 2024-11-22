@@ -6,7 +6,7 @@ using UnityEngine;
 public enum CharStat
 {
     MaxActionEnergy, CurActionEnergy, MaxActionCount, CurActionCount, Sight, Strenth, Dex, Inteligent,
-    MaxHp, CurHp, EquiptSlotCount, BlessSlotCount
+    MaxHp, CurHp, EquiptSlotCount, BlessSlotCount, ActionSlotCount
 }
 
 public enum CharType
@@ -52,6 +52,7 @@ public class TokenChar : TokenBase
         m_tokenIValues[(int)CharStat.CurHp] = m_tokenIValues[(int)CharStat.MaxHp];
         m_tokenIValues[(int)CharStat.EquiptSlotCount] = 3; //임시로 착용가능장비 3으로 세팅
         m_tokenIValues[(int)CharStat.BlessSlotCount] = 3;
+        m_tokenIValues[(int)CharStat.ActionSlotCount] = 3;
     }
 
     private void SetAction(ref List<TokenAction> _haveAction, string actionCode)
@@ -143,10 +144,7 @@ public class TokenChar : TokenBase
         return m_tokenIValues[(int)CharStat.CurActionCount];
     }
 
-    public List<TokenAction> GetActionList()
-    {
-        return m_haveActionList;
-    }
+  
 
     public TokenAction GetNextAction()
     {
@@ -323,6 +321,65 @@ public class TokenChar : TokenBase
     {
 
         return m_blessList.Count < GetStat(CharStat.BlessSlotCount);
+    }
+    #endregion
+
+    #region 액션
+    public bool AquireAction(TokenAction _actionItem)
+    {
+        //1. 학습한건지 체크
+        if (IsHaveAction(_actionItem) == true)
+        {
+            Debug.Log("이미 습득 한 액션");
+            return false;
+        }
+
+        if(CheckActionSlot() == true)
+        {
+            AddAction(_actionItem);
+            return true;
+        }
+
+        if(IsPlayerChar() == true)
+        {
+            Debug.Log("액션 슬롯창 열어서 제거 유도");
+        }
+
+        return false;
+    }
+    public void AddAction(TokenAction _actionItem)
+    {
+        if (IsHaveAction(_actionItem) == true)
+            return;
+
+        m_haveActionList.Add(_actionItem);
+
+        //5. 학습 코드 전달
+        TOrderItem aquireSkill = new TOrderItem(TokenType.Action, _actionItem.GetPid(), 1);
+        MGContent.GetInstance().SendActionCode(aquireSkill);
+        CheckActionSynerge();
+    }
+    public void RemoveAction(TokenAction _actionItem)
+    {
+        if (IsHaveAction(_actionItem) == false)
+            return;
+
+        m_haveActionList.Remove(_actionItem);
+        CheckActionSynerge();
+    }
+    public bool CheckActionSlot()
+    {
+        return m_haveActionList.Count < GetStat(CharStat.ActionSlotCount);
+    }
+
+    public bool IsHaveAction(TokenAction _actionItem)
+    {
+        return m_haveActionList.IndexOf(_actionItem) != -1;
+    }
+
+    public List<TokenAction> GetActionList()
+    {
+        return m_haveActionList;
     }
     #endregion
 
