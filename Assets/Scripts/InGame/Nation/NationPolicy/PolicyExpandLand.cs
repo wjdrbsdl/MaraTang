@@ -18,7 +18,8 @@ public class PolicyExpandLand : NationPolicy
         //임시 벌목장 건설에 필요한 코스트로 진행
         TItemListData changeCost = MgMasterData.GetInstance().GetTileData(1).BuildCostData;
         WorkOrder expandOrder = new WorkOrder(changeCost.GetItemList(), 100, m_planIndex, WorkType.ExpandLand);
-        m_workOrder = expandOrder;
+        TokenTile workTile = (TokenTile)m_planToken;
+        workTile.RegisterWork(expandOrder);
         return expandOrder;
     }
 
@@ -59,25 +60,15 @@ public class PolicyExpandLand : NationPolicy
         }
     }
 
-    private bool ExpandLand()
+    public void ExpandLand(TokenTile _targetTile)
     {
-        TokenTile planTile = (TokenTile)m_planToken;
-        if (AbleExpand(planTile) == false)
-        {
-            //  Debug.Log("확장 불가능 상태");
-            return false;
-        }
-
-        //확장 가능한 상태라면
-        //Debug.Log("영토 확장 정책 수행 완료");
-        //비용 처리 필요
         Debug.LogWarning("확장 비용 정산 필요");
-        m_nation.AddTerritory(planTile); //계획 토큰을 타일로 전환후 영토 집행
-        m_nation.ShowTerritory();
-        return true;
+        Nation targetNation = _targetTile.GetNation();
+        targetNation.AddTerritory(_targetTile); //계획 토큰을 타일로 전환후 영토 집행
+        targetNation.ShowTerritory();
     }
 
-    private bool AbleExpand(TokenTile _tile)
+    public bool AbleExpand(TokenTile _tile)
     {
         //만약 현재 타일상태가 누군가의 점유로 바꼈으면 확장 불가 
         if (_tile.GetStat(TileStat.Nation) != FixedValue.NO_NATION_NUMBER)
