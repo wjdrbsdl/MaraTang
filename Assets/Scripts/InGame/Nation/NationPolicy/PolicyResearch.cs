@@ -29,6 +29,7 @@ public class PolicyResearch : NationPolicy
         //다음 연구할 기술을 선택. 
         TechTreeSelector treeManager = new(); //매니저 생성하고 
         int planIndex = treeManager.GetTechPidByNotDone(m_nation.TechPart.GetTechList());
+        SetPlanToken(m_nation.GetCapital()); //연구의 집행은 일단 본진 - 이후 연구소 건물에서? 
         SetPlanIndex(planIndex);
         SetDonePlan(true);
         // Debug.Log("다음 연구 테크pid는" + m_planIndex + "로 결정");
