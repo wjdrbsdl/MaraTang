@@ -313,7 +313,7 @@ public class Nation : ITradeCustomer
             WorkOrder order = m_workList[i];
             if (order.IsCompleteWork()||order.IsCancle)
             {
-                Debug.Log("완료 혹은 취소된 작업 리스트 제거추가");
+               // Debug.Log("완료 혹은 취소된 작업 리스트 제거추가");
                 removeList.Add(order);
             }
                 
