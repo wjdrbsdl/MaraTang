@@ -25,11 +25,18 @@ public class PolicyLevelUp : NationPolicy
         return levelUpOrder;
     }
 
-    private bool LevelUp()
+    public bool LevelUp(TokenTile _tile)
     {
-        Announcer.Instance.AnnounceState("국가 레벨 상승 :" + m_nation.GetNationLevel() + "Lv");
+        Nation nation = _tile.GetNation();
+        if(nation == null)
+        {
+            Debug.Log("사라진 국가");
+            return false;
+        }
+            
+        Announcer.Instance.AnnounceState("국가 레벨 상승 :" + nation.GetNationLevel() + "Lv");
     
-        m_nation.LevelUp();
+        nation.LevelUp();
         return true;
     }
 
