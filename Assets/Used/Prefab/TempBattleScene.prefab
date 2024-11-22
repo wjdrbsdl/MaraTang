@@ -316,6 +316,7 @@ MonoBehaviour:
   m_window: {fileID: 9212720281704526305}
   IsOnType: 0
   IsStackType: 1
+  IsTrashNeed: 0
   m_attackInfo: {fileID: 0}
   m_defenseInfo: {fileID: 0}
   m_worldInfo: {fileID: 0}
