@@ -41,6 +41,7 @@ public class MgUI : MgGeneric<MgUI>
     [SerializeField] private UIPlayerEquipt m_playerEquipt;
 
     [Header("유아이작업")]
+    [SerializeField] private UITrashZone m_trashZone;
     [SerializeField] private UIGuild m_guildUI;
     [SerializeField] private UIBlessTemple m_templeUI;
     [SerializeField] private UITileMixer m_tileMixUI;
