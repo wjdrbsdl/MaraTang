@@ -31,7 +31,7 @@ public class InvenSlot : SlotBase
 
     public override void OnLeftClick()
     {
-        Debug.Log(m_token.GetItemName() + "눌림");
+      //  Debug.Log(m_token.GetItemName() + "눌림");
         if (m_ui != null && m_token != null)
             m_ui.OnClickInventorySlot(m_token);
     }
