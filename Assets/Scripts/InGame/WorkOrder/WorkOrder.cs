@@ -48,7 +48,7 @@ public class WorkOrder
         m_needList = _needList;
         m_originWorkGauge = _needWorkGague;
         //m_restWorkGauge = m_originWorkGauge;
-        m_restWorkGauge = 70; //임시로 필요 작업량 할당
+        m_restWorkGauge = 0; //임시로 필요 작업량 할당
         workType = _workType;
         WorkPid = _workPid;
        // string debugStr = "";
@@ -151,7 +151,7 @@ public class WorkOrder
         if(laborCoin == 0)
         {
             Debug.LogWarning("작업자수 부족 수행 불가");
-            return;
+            
         }
 
         //작업량 구하기
