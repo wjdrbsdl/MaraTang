@@ -22,7 +22,6 @@ public class PolicyBuildResrouceTile : NationPolicy
         WorkOrder manageOrder = new WorkOrder(null, 100, m_planIndex, WorkType.ChangeBuild);
         TokenTile workTile = (TokenTile)m_planToken;
         workTile.RegisterWork(manageOrder);
-        m_workOrder = manageOrder;
         return manageOrder;
     }
 
