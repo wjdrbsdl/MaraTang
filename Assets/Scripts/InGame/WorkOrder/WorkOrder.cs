@@ -200,8 +200,9 @@ public class WorkOrder
 
         m_isComplete = true;
         EffectByCase();
-        Complete();
-        
+        RemoveRegist();
+
+
     }
 
     private bool CheckCondition()
@@ -216,20 +217,14 @@ public class WorkOrder
         excutor.Excute(this);
     }
 
-    private void Complete()
-    {
-        GamePlayMaster.GetInstance().RemoveWork(this);
-        RemovePlace();
-    }
-
     public void Cancle()
     {
         IsCancle = true; //취소로 바꿈
         //이후 해당 작업서를 가진 곳에서 취소 체크후 작업리스트에서 제거하는 식
-        RemovePlace();
+        RemoveRegist();
     }
 
-    public void RemovePlace()
+    public void RemoveRegist()
     {
         //해당 장소가 매턴 작업여부를 확인하지 않는다면 갱신이 안되기 때문에 제거 되어야하는 경우 작업장소로 제거할것을 요청. 
         if(WorkPlacePos != null)
@@ -237,6 +232,7 @@ public class WorkOrder
             TokenTile tile = GameUtil.GetTileTokenFromMap(WorkPlacePos);
             tile.RemoveWork();
         }
+        GamePlayMaster.GetInstance().RemoveWork(this);
     }
     #endregion
 
