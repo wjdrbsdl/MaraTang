@@ -44,6 +44,7 @@ public class PolicyExpandLand : NationPolicy
 
                 TokenBase planToken = tile; //확장가능한 땅이면 타겟 지정
                 SetPlanToken(planToken); //정책 대상으로 넣고
+                SetPlanIndex(m_nationNum);
                 SetDonePlan(true);
                 findExpandCount -= 1;
                 if (findExpandCount.Equals(0))
@@ -60,12 +61,18 @@ public class PolicyExpandLand : NationPolicy
         }
     }
 
-    public void ExpandLand(TokenTile _targetTile)
+    public bool ExpandLand(TokenTile _targetTile, int _nationNum)
     {
         Debug.LogWarning("확장 비용 정산 필요");
-        Nation targetNation = _targetTile.GetNation();
+        Nation targetNation = MgNation.GetInstance().GetNation(_nationNum);
+        if(targetNation == null)
+        {
+            Debug.Log("사라진 국가");
+            return false;
+        }
         targetNation.AddTerritory(_targetTile); //계획 토큰을 타일로 전환후 영토 집행
         targetNation.ShowTerritory();
+        return true;
     }
 
     public bool AbleExpand(TokenTile _tile)
