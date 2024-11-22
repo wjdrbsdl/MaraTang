@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
-
-public class UIPlayerAction : UIBase
+public class UIPlayerAction : UIBase, iInventoryUI
 {
     //해당 플레이어가 지닌 자원을 종류 수량을 선택하는 부분. 
     [SerializeField]
@@ -12,6 +12,11 @@ public class UIPlayerAction : UIBase
     private Transform m_grid;
     [SerializeField]
     private InvenSlot[] m_invenSlots;
+
+    [Header("정보표기")]
+    [SerializeField] private TokenAction m_selectAction;
+    [SerializeField] private TMP_Text m_itemName; //나중에 아이콘으로 대체될부분
+    [SerializeField] private TMP_Text m_itemInfo; //나중에 아이콘으로 대체될부분
 
     public void SetPlayerAction()
     {
@@ -23,6 +28,13 @@ public class UIPlayerAction : UIBase
         SetSlots(actionList);
     }
 
+    public void SelectAction(TokenAction _action)
+    {
+        //선택한 아이템 정보 세팅
+        m_itemName.text = _action.GetItemName();
+        m_itemInfo.text = _action.GetItemName();
+    }
+
     private void SetSlots(List<TokenAction> _equiptList)
     {
         int itemCount = _equiptList.Count;
@@ -31,7 +43,7 @@ public class UIPlayerAction : UIBase
         {
             int index = i;
             m_invenSlots[i].gameObject.SetActive(true);
-            m_invenSlots[i].SetInvenSlot(_equiptList[i], index);
+            m_invenSlots[i].SetInvenSlot(_equiptList[i], this);
         }
         for (int i = itemCount; i < m_invenSlots.Length; i++)
         {
@@ -39,5 +51,9 @@ public class UIPlayerAction : UIBase
         }
     }
 
+    public void OnClickInventorySlot(TokenBase _token)
+    {
+        SelectAction((TokenAction)_token);
+    }
 }
 
