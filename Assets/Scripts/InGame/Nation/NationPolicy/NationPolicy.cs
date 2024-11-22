@@ -27,7 +27,7 @@ public abstract class NationPolicy
     {
         m_curMainPolicy = _mainPolicy;
         m_nation = _nation;
-        m_nationNum = 1;
+        m_nationNum = _nation.GetNationNum();
         m_holdPolicyCount = 0;
         m_planToken = null;
         m_planIndex = FixedValue.No_INDEX_NUMBER;
