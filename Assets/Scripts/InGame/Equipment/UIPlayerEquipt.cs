@@ -31,7 +31,7 @@ public class UIPlayerEquipt : UIBase
         {
             int index = i;
             m_invenSlots[i].gameObject.SetActive(true);
-            m_invenSlots[i].SetInvenSlot(_equiptList[i], index);
+            m_invenSlots[i].SetInvenSlot(_equiptList[i]);
         }
         for (int i = itemCount; i < m_invenSlots.Length; i++)
         {
