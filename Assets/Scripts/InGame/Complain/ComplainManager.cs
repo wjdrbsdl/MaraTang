@@ -32,14 +32,20 @@ public class ComplainManager : Mg<ComplainManager>
 
     }
 
+    bool isWarning = false;
    public Complain OccurComplain(TokenTile _tile)
     {
         Nation nation = _tile.GetNation();
         //해당 장소에서 발생가능한 민원과 그 확률을 다른 스텟과 조율하여 민원 반환
         Complain occurComplain = new Complain();
         //분류된 민원을 가지고, 새로운 민원으로 복사해서 반환 
-        //Debug.Log("컴플매니저에서 확인");
-        return occurComplain;
+        if(isWarning == false)
+        {
+            Debug.LogWarning("임시로 불만 제로");
+            isWarning = true;
+        }
+        
+        return null;
     }
 }
 
