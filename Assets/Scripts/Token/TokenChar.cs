@@ -345,15 +345,27 @@ public class TokenChar : TokenBase
         return false;
     }
 
-    public void AddEquipt(EquiptItem _equiptitem)
+    public void AddEquipt(EquiptItem _equiptItem)
     {
-      //  Debug.Log("해당케릭에 장비 장착 진행 " + _equiptitem.GetPid());
-        m_equiptLIst.Add(_equiptitem);
-        AdaptEquipt(_equiptitem);
+        //  Debug.Log("해당케릭에 장비 장착 진행 " + _equiptitem.GetPid());
+        if (m_equiptLIst.IndexOf(_equiptItem) != -1)
+        {
+            Debug.Log("존재하는 아이템");
+            return;
+        }
+        m_equiptLIst.Add(_equiptItem);
+        AdaptEquipt(_equiptItem);
     }
 
     public void RemoveEquipt(EquiptItem _equiptItem)
     {
+        if (m_equiptLIst.IndexOf(_equiptItem) == -1)
+        {
+            Debug.Log("존재하지 않는 장비");
+            return;
+        }
+            
+
         m_equiptLIst.Remove(_equiptItem);
         List<TOrderItem> reverseEffect = GameUtil.ReverseItemList(_equiptItem.m_effect);
         _equiptItem.m_effect = reverseEffect;
