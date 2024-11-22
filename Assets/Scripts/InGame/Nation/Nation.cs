@@ -247,6 +247,11 @@ public class Nation : ITradeCustomer
 
         //작업서 쓰고
         WorkOrder workOrder = policy.WriteWorkOrder();
+        if(workOrder.DoneWrite == false)
+        {
+            Debug.Log("잘못 쓰인 작업서");
+            return;
+        }
         //기본 재료 다넣을수있는지 체크
         //재료 상관없이 작업만들수 있고, 부족분은 플레이어에게 요청 혹은 부족함을 표기함. 
         //if (workOrder.PushResource(this) == false)
