@@ -7,6 +7,6 @@ using System.Threading.Tasks;
 
 public interface iInventoryUI
 {
-    public void OnClickInventorySlot(InvenSlot _slot);
+    public void OnClickInventorySlot(TokenBase _tokenBase);
 }
 
