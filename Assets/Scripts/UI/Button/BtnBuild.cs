@@ -44,9 +44,8 @@ public class BtnBuild : MonoBehaviour
             return;
         }
 
-        WorkOrder order = new WorkOrder(null, 100, (int)buildType, WorkType.ChangeBuild);
-  
-        m_tile.RegisterWork(order);
+        new WorkOrder(null, 100, tile, (int)buildType, WorkType.ChangeBuild);
+
         m_tileInfoUI.ReqeustOff();
     }
 
