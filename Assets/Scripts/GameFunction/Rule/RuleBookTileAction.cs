@@ -48,7 +48,9 @@ public class RuleBookTileAction
                     break;
 
             case TileActionType.WorkOrder:
-                MakeWorkOrder(_tile, _action, subValue);
+                //현재 스폰만 일괄중 다른 작업 정의를 위해선 추가 정보 가 필요
+                int monsterPid = subValue;
+                MakeWorkOrder(_tile, _action, monsterPid);
                 break;
             default:
                 MgUI.GetInstance().CancleLastUI();
@@ -142,14 +144,9 @@ public class RuleBookTileAction
         GiveMoney = 1, StudyAction
     }
 
-    private void MakeWorkOrder(TokenTile _tile, TokenTileAction _tileAction, int _workCode)
+    private void MakeWorkOrder(TokenTile _tile, TokenTileAction _tileAction, int _monsterPid)
     {
-        WorkOrder spawnOrder = new WorkOrder(null, 100, _workCode, WorkType.Spawn);
-        Action doneEffect = delegate
-        {
-            MgToken.GetInstance().SpawnCharactor(_tile.GetMapIndex(), 2);
-        };
-        spawnOrder.SetDoneEffect(doneEffect);
+        WorkOrder spawnOrder = new WorkOrder(null, 100, _monsterPid, WorkType.Spawn);
         _tile.RegisterWork(spawnOrder);
     }
 
