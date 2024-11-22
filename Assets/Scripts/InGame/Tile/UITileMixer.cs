@@ -125,17 +125,12 @@ public class UITileMixer : UIBase, KeyInterceptor
         TokenTile targetTile = m_inTile[0]; //첫번째 잇는 애가 직접적으로 바뀔 녀석
         WorkOrder order = new WorkOrder(null, 100, (int)m_madeTile, WorkType.ChangeBuild);
         //다른 타일로 작업시 m_tile이 변경될수있으므로 다른 인스턴스로 생성
-        System.Action doneEffect = delegate
-        {
-           targetTile.ChangePlace(m_madeTile);
-        };
         for (int i = 1; i < m_inTile.Count; i++)
         {
             //그다음 타일부터는 종속시키고 상태도 그냥 바로 종속타일로 바꾸면되는데 
             m_inTile[i].ChangePlace(TileType.Child);
             m_inTile[i].SetParentIndex(targetTile); //목적 타일의 좌표값을 패런트로 세팅. 
         }
-        order.SetDoneEffect(doneEffect);
         targetTile.RegisterWork(order);
         UISwitch(false);
     }
