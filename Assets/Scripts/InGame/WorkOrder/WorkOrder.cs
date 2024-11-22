@@ -28,9 +28,6 @@ public class WorkOrder
     private int m_baseworkEfficiency = 100; //토큰 1개일때 노동 효율
     private int m_overWorkEfficiency = 10; //추가되는 토큰에 따른 노동 효율
 
-    private Action m_doneEffect;
-    delegate bool EffectCondition();
-    private EffectCondition effectCondition;
     private bool m_isComplete = false; //효과 까지 진행된경우 true
     public bool IsCancle = false;
     
@@ -75,11 +72,6 @@ public class WorkOrder
         //여기까지 진행하면
         DoneWrite = true; //잘 생성된거 - WorkOrder 반환받는곳에선 해당 여부를 판단하여 null 로 체크 
         // Debug.Log(debugStr);
-    }
-
-    public void SetDoneEffect(Action _action)
-    {
-        m_doneEffect = _action;
     }
 
     #region 자원 출입
@@ -183,7 +175,6 @@ public class WorkOrder
         {
             Debug.Log("작업완료");
             m_restWorkGauge = 0;
-
             DoEffect();
         }
     }
@@ -202,19 +193,21 @@ public class WorkOrder
             return;
         }
 
-        if(effectCondition != null && effectCondition() == false)
+        if(CheckCondition() == false)
         {
             return;
         }
 
         m_isComplete = true;
-        if (m_doneEffect != null)
-        {
-            m_doneEffect();
-        }
         EffectByCase();
         Complete();
         
+    }
+
+    private bool CheckCondition()
+    {
+        WorkOrderExcutor excutor = new();
+        return excutor.CheckCondition(this);
     }
 
     private void EffectByCase()

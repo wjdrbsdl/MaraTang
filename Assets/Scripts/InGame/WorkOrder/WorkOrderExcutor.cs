@@ -41,4 +41,33 @@ public class WorkOrderExcutor
 
         }
     }
+
+    public bool CheckCondition(WorkOrder _order)
+    {
+        WorkType workType = _order.workType;
+        int workPid = _order.WorkPid; //작업류에 따라 Pid의 대상이 달라짐
+        TokenTile workTile = GameUtil.GetTileTokenFromMap(_order.WorkPlacePos);
+        switch (workType)
+        {
+            case WorkType.ChangeBuild:
+                int placeNum = workPid;
+                break;
+            case WorkType.InterBuild:
+                int InteriorNum = workPid;
+                break;
+            case WorkType.ExpandLand:
+                PolicyExpandLand expandPolicy = new();
+                int nationNum = workPid;
+                break;
+            case WorkType.NationLvUp:
+                //  Debug.Log("집행자가 레벨업");
+                PolicyLevelUp levelUpPolicy = new();
+                break;
+            case WorkType.Spawn:
+                int monsterPid = workPid;
+                break;
+
+        }
+        return true;
+    }
 }
