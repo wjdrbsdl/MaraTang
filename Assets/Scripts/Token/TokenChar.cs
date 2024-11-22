@@ -264,10 +264,7 @@ public class TokenChar : TokenBase
 
     public bool HaveBless(GodBless _bless)
     {
-        if (m_blessList.IndexOf(_bless) == -1)
-            return true;
-
-        return false;
+        return IsHaveCheck<GodBless>(_bless, m_blessList);
     }
 
     public void AddBless(GodBless _bless)
@@ -369,7 +366,7 @@ public class TokenChar : TokenBase
 
     public bool IsHaveAction(TokenAction _actionItem)
     {
-        return m_haveActionList.IndexOf(_actionItem) != -1;
+        return IsHaveCheck<TokenAction>(_actionItem, m_haveActionList);
     }
 
     public List<TokenAction> GetActionList()
@@ -449,6 +446,17 @@ public class TokenChar : TokenBase
         return m_equiptLIst;
     }
     #endregion
+
+    private bool IsHaveCheck<T>(TokenBase _token, List<T> _list) where T : TokenBase
+    {
+        int checkPid = _token.GetPid();
+        for (int i = 0; i < _list.Count; i++)
+        {
+            if (_list[i].GetPid() == checkPid)
+                return true;
+        }
+        return false;
+    }
 
     #region »ç¸Á
     public void Death()
