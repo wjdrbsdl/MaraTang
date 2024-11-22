@@ -16,16 +16,11 @@ public class PolicyBuildResrouceTile : NationPolicy
     public override WorkOrder WriteWorkOrder()
     {
         //임시 벌목장 건설에 필요한 코스트로 진행
-        TItemListData changeCost = MgMasterData.GetInstance().GetTileData(1).BuildCostData;
+        TItemListData changeCost = MgMasterData.GetInstance().GetTileData(m_planIndex).BuildCostData;
 
         //해당 타일을 자본타일로 바꾸는 작업서
         WorkOrder manageOrder = new WorkOrder(null, 100, m_planIndex, WorkType.ChangeBuild);
         TokenTile workTile = (TokenTile)m_planToken;
-        Action doneEffect = delegate
-        {
-            workTile.ChangePlace((TileType)m_planIndex);
-        };
-        manageOrder.SetDoneEffect(doneEffect);
         workTile.RegisterWork(manageOrder);
         m_workOrder = manageOrder;
         return manageOrder;
