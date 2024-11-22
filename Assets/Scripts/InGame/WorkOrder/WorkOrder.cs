@@ -15,8 +15,10 @@ public class WorkOrder
     //2. 최대 작업 토큰
     //3. 노동 토큰당 효율
     //4. 필요한 작업량
-    public WorkType m_workType = WorkType.ChangeBuild; //어떤 타입 공사
-    public int m_workPid = -1; //해당 작업에서 pid - 특정 공사인지 알기위한 부분
+    public WorkType workType = WorkType.ChangeBuild; //어떤 타입 공사
+    public int WorkPid = -1; //해당 작업에서 pid - 특정 공사인지 알기위한 부분
+    public int[] WorkPlacePos; //작업장소 
+
     private List<TOrderItem> m_needList = new List<TOrderItem>();
     private List<TOrderItem> m_curList = new List<TOrderItem>();
     private int m_originWorkGauge;
@@ -30,7 +32,7 @@ public class WorkOrder
     private EffectCondition effectCondition;
     private bool m_isComplete = false; //효과 까지 진행된경우 true
     public bool IsCancle = false;
-    private int[] m_orderPlacePos; //작업장소 포스 
+    
 
     public WorkOrder(List<TOrderItem> _needList, int _needWorkGague, int _workPid = -1, WorkType _workType = WorkType.ChangeBuild)
     {
@@ -47,8 +49,8 @@ public class WorkOrder
         m_originWorkGauge = _needWorkGague;
         //m_restWorkGauge = m_originWorkGauge;
         m_restWorkGauge = 70; //임시로 필요 작업량 할당
-        m_workType = _workType;
-        m_workPid = _workPid;
+        workType = _workType;
+        WorkPid = _workPid;
        // string debugStr = "";
         for (int i = 0; i < m_needList.Count; i++)
         {
@@ -125,6 +127,7 @@ public class WorkOrder
     }
     #endregion
 
+    #region 작업진행
     //작업량 까는거
     public void DoWork()
     {
@@ -139,11 +142,11 @@ public class WorkOrder
         //일 시킨다
         if(IsReadyResource() == false)
         {
-            Debug.LogWarning("재료가 부족하여 작업 수행 불가" + m_workType);
+            Debug.LogWarning("재료가 부족하여 작업 수행 불가" + workType);
             return;
         }
 
-        int laborCoin = GameUtil.GetTileTokenFromMap(m_orderPlacePos).GetLaborCoinCount();
+        int laborCoin = GameUtil.GetTileTokenFromMap(WorkPlacePos).GetLaborCoinCount();
        // Debug.Log(laborCoin + "으로 작업진행");
         if(laborCoin == 0)
         {
@@ -195,9 +198,15 @@ public class WorkOrder
         {
             m_doneEffect();
         }
-
+        EffectByCase();
         Complete();
         
+    }
+
+    private void EffectByCase()
+    {
+        WorkOrderExcutor excutor = new();
+        excutor.Excute(this);
     }
 
     private void Complete()
@@ -216,12 +225,13 @@ public class WorkOrder
     public void RemovePlace()
     {
         //해당 장소가 매턴 작업여부를 확인하지 않는다면 갱신이 안되기 때문에 제거 되어야하는 경우 작업장소로 제거할것을 요청. 
-        if(m_orderPlacePos != null)
+        if(WorkPlacePos != null)
         {
-            TokenTile tile = GameUtil.GetTileTokenFromMap(m_orderPlacePos);
+            TokenTile tile = GameUtil.GetTileTokenFromMap(WorkPlacePos);
             tile.RemoveWork();
         }
     }
+    #endregion
 
     #region 상태 체크
     public bool IsReadyResource()
@@ -256,6 +266,6 @@ public class WorkOrder
 
     public void SetOrderPlacePos(int[] _mapIndex)
     {
-        m_orderPlacePos = _mapIndex;
+        WorkPlacePos = _mapIndex;
     }
 }

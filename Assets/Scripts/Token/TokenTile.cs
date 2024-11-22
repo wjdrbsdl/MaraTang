@@ -182,7 +182,7 @@ public class TokenTile : TokenBase
         if (m_workOrder == null)
             return false;
 
-        if (m_workOrder.m_workType != _workType || m_workOrder.m_workPid != _pid)
+        if (m_workOrder.workType != _workType || m_workOrder.WorkPid != _pid)
             return false;
 
         return true;
@@ -193,7 +193,7 @@ public class TokenTile : TokenBase
         if (m_workOrder == null)
             return false;
 
-        if (m_workOrder.m_workType == WorkType.InterBuild)
+        if (m_workOrder.workType == WorkType.InterBuild)
             return false;
 
         return true;

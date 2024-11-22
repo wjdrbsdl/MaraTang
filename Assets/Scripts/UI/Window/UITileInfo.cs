@@ -91,7 +91,7 @@ public class UITileInfo : UIBase
 
     private void SetOutBuildInfo()
     {
-        m_nationText.text = ((TileType)m_curTile.m_workOrder.m_workPid).ToString() + "작업 중";
+        m_nationText.text = ((TileType)m_curTile.m_workOrder.WorkPid).ToString() + "작업 중";
         m_curTile.m_workOrder.NoticeNeedResource();
     }
 
