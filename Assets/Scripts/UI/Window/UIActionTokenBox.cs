@@ -15,27 +15,29 @@ public class UIActionTokenBox : UIBase
     public void SetActionSlot(TokenChar _charToken)
     {
         UISwitch(true);
-        //Debug.Log(_charToken.GetItemName() + "액션 토큰 세팅해보기");
 
-        List<TokenAction> actionList = _charToken.GetActionList();
-        int charActionCount = actionList.Count;
-        if (m_playerActionSlots.Length < charActionCount)
-        {
-            //부족한 슬롯 수 만큼 생성
-            for (int i = 1; i <= charActionCount - m_playerActionSlots.Length; i++)
-            {
-                GameObject newSlot = Instantiate(m_sample).gameObject;
-                newSlot.SetActive(true);
-                newSlot.transform.SetParent(m_box);
-            }
-            m_playerActionSlots = m_box.GetComponentsInChildren<PlayerActionSlot>();
-        }
-
-        for (int i = 0; i < charActionCount; i++)
-        {
-            m_playerActionSlots[i].SetSlot(actionList[i]);
-        }
-
+        List<TokenAction> haveActionList = PlayerManager.GetInstance().GetMainChar().GetActionList();
+        //1. 아이템 수만큼 showSlot을 생성
+        MakeSamplePool<PlayerActionSlot>(ref m_playerActionSlots, m_sample.gameObject, haveActionList.Count, m_box);
+        //2. 리스트대로 슬랏에 표기
+        SetSlots(haveActionList);
     }
+
+    private void SetSlots(List<TokenAction> _equiptList)
+    {
+        int itemCount = _equiptList.Count;
+
+        for (int i = 0; i < itemCount; i++)
+        {
+            int index = i;
+            m_playerActionSlots[i].gameObject.SetActive(true);
+            m_playerActionSlots[i].SetSlot(_equiptList[i]);
+        }
+        for (int i = itemCount; i < m_playerActionSlots.Length; i++)
+        {
+            m_playerActionSlots[i].gameObject.SetActive(false);
+        }
+    }
+
 
 }
