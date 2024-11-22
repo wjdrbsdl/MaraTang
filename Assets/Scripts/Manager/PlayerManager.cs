@@ -351,30 +351,18 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule, KeyIntercepto
 
     public bool StudyPlayerAction(int _actionPid)
     {
-        //1. 학습한건지 체크
-        if (IsStudyAction(_actionPid) == true)
-        {
-            Debug.Log("이미 습득 한 액션");
-            return false; 
-        }
-
+        Debug.LogWarning("학습소에서 캐릭터로 직접 습득 구조 변환 요망");
         TokenAction masterAction = MgMasterData.GetInstance().GetMasterCharAction(_actionPid);
         //2. 존재하는 스킬인지 체크
         if (masterAction == null)
             return false;
-        
-        //3. 비용 체크
 
         //4. 스킬 할당
         TokenAction charAction = new TokenAction(masterAction);
-        m_mainChar.AddActionToken(charAction);
+        m_mainChar.AquireAction(charAction);
 
         //5. 액션 슬롯 ui 갱신
         m_playGameUI.ShowCharActionList();
-
-        //5. 학습 코드 전달
-        TOrderItem aquireSkill = new TOrderItem(TokenType.Action, _actionPid, 1);
-        MGContent.GetInstance().SendActionCode(aquireSkill);
 
         return true;
     }
