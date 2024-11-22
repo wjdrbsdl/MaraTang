@@ -39,6 +39,7 @@ public class MgUI : MgGeneric<MgUI>
     [Header("플레이어 아이콘")]
     [SerializeField] private UIPlayerBless m_playerBless;
     [SerializeField] private UIPlayerEquipt m_playerEquipt;
+    [SerializeField] private UIPlayerAction m_playerAction;
 
     [Header("유아이작업")]
     [SerializeField] private UITrashZone m_trashZone;
@@ -53,6 +54,11 @@ public class MgUI : MgGeneric<MgUI>
 
     [SerializeField] private Transform m_uiCase; //UI들 띄울장소 여기서 최근 열린애가 젤 위로 올라오도록 세팅. 
     #region 인터페이스 오픈
+    public void ShowPlayerAction()
+    {
+        m_playerAction.SetPlayerAction();
+    }
+
     public void ShowPlayerEquipt()
     {
         m_playerEquipt.SetPlayerEquipt();
