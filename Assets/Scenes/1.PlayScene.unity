@@ -23383,7 +23383,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1803086757}
-  - component: {fileID: 1803086759}
   - component: {fileID: 1803086758}
   m_Layer: 5
   m_Name: EquitUI
@@ -23424,24 +23423,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 76927963059b25344b005640f4ee4302, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_window: {fileID: 420750328}
-  IsOnType: 0
-  IsStackType: 1
-  m_invenSlotSample: {fileID: 119712787}
-  m_grid: {fileID: 1554510529}
-  m_invenSlots: []
---- !u!114 &1803086759
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1803086756}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 127296929dc9c474289bc57e18c64875, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_window: {fileID: 420750328}
