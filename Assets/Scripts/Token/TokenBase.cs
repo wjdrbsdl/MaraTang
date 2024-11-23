@@ -26,6 +26,7 @@ public class TokenBase
     [JsonProperty] protected string m_itemName;
     [JsonProperty] protected int m_tokenPid;
     [JsonProperty] protected Tier m_tier;
+    [JsonProperty] protected string m_itemInfo;
 
     [JsonProperty][SerializeField]
     protected int[] m_tokenIValues; //각 토큰마다 사용할 벨류들을 enum으로 선언해서 인덱스로 사용
