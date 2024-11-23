@@ -41,6 +41,7 @@ public class TokenAction : TokenBase
     {
         m_tokenPid = int.Parse(valueCode[0]);
         m_itemName = valueCode[1];
+        m_itemInfo = valueCode[11];
         actionType = (ActionType)(int.Parse(valueCode[2]));
         m_tokenIValues = new int[System.Enum.GetValues(typeof(CharActionStat)).Length];
         GameUtil.InputMatchValue(ref m_tokenIValues, matchCode, valueCode);
@@ -55,6 +56,7 @@ public class TokenAction : TokenBase
     {
         m_tokenPid = _masterToken.m_tokenPid;
         m_itemName = _masterToken.m_itemName;
+        m_itemInfo = _masterToken.m_itemInfo;
         m_tokenType = TokenType.Action;
         actionType = _masterToken.actionType;
         int arraySize = _masterToken.m_tokenIValues.Length;
