@@ -61,6 +61,11 @@ public class TokenBase
     #endregion
 
     #region Get Set
+    public string GetItemInfo()
+    {
+        return m_itemInfo;
+    }
+
     public string GetItemName()
     {
         return m_itemName;
