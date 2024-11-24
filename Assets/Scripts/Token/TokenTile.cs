@@ -18,7 +18,7 @@ public enum TileViewState
 
 public enum TileStat
 {
-   Nation, Height, TileEnergy
+   Nation, Height, TileEnergy, BaseSight, PlaceSight
 }
 
 public enum MainResource
@@ -102,6 +102,14 @@ public class TokenTile : TokenBase
             ObjectTile tileObj = (ObjectTile)GetObject();
             tileObj.SetElement(i, TempSpriteBox.GetInstance().GetTileElement(ran[i]));
         }
+    }
+
+    public void SetTileValue()
+    {
+        //장소마다 따로 특정되어잇는 벨류값들을 재할당하는 부분
+        int[] masterValue = MgMasterData.GetInstance().GetTileData((int)tileType).TileStat;
+        m_tokenIValues[(int)TileStat.PlaceSight] = masterValue[(int)TileStat.PlaceSight];
+        Debug.Log(tileType + "시야 거리 " + m_tokenIValues[(int)TileStat.PlaceSight]);
     }
 
     #endregion
@@ -330,6 +338,7 @@ public class TokenTile : TokenBase
         SetTileType(_tileType);
         SetTileEffect();
         SetTileSprite();
+        SetTileValue();
         DoAutoTileAction();
     }
 
