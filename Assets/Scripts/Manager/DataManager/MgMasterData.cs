@@ -176,7 +176,7 @@ public class MgMasterData : Mg<MgMasterData>
         ParseData parseData = MgParsing.GetInstance().GetMasterData(EMasterData.TileType);
         for (int i = 0; i < parseData.DbValueList.Count; i++)
         {
-            TileTypeData newTileData = new(parseData.DbValueList[i]);
+            TileTypeData newTileData = new(parseData.DbValueList[i], parseData.MatchCode);
             m_tileTypeDataDic.Add(newTileData.TypePID, newTileData);
         }
 
@@ -363,16 +363,19 @@ public class TileTypeData {
     public int[] NeedTiles;
     public bool IsInterior = false; //해당 장소는 인테리어 타입인지
     public int[] AbleTileActionPID;
+    public int[] TileStat;
     public List<int> AbleBuildPid; //해당 장소에서 지을 수 있는 건물 모음. 
     public List<int> AbleInteriorPid; //해당 장소에서 지을 수 있는 내부 건물 모음.
     public TItemListData BuildCostData;
     public int BuildNeedLaborValue;
 
-    public TileTypeData(string[] _parsingData)
+    public TileTypeData(string[] _parsingData, List<int[]> _matchCode)
     {
         TypePID = int.Parse(_parsingData[0]);
         PlaceName = _parsingData[1];
-
+        TileStat = new int[System.Enum.GetValues(typeof(TileStat)).Length];
+        GameUtil.InputMatchValue(ref TileStat, _matchCode, _parsingData);
+     
         int effectTypeIndex = 2;
         if (int.TryParse(_parsingData[effectTypeIndex], out int result))
         {
