@@ -5,7 +5,6 @@ using System;
 
 public class GamePlayMaster : MgGeneric<GamePlayMaster>
 {
-    public BtnReportCheck m_checkBtn;
     public MagnetItem testMangetSample;
     public NaviPin testNaviPin;
     #region  변수
@@ -32,6 +31,10 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     public List<WorkOrder> m_globalWorkList = new();
     public List<Complain> m_globalComplainList = new();
     public int tempDevilBirthrestTurm = 3; //발생주기 세트
+
+    //보고 단계에서 저장불러오기를 위해 필요한 변수들
+    public NationManageStepEnum curNationStep = NationManageStepEnum.NationTurnEnd;
+    public int curNationNum = -1;
 
     #endregion
 
@@ -117,25 +120,19 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     }
     #endregion
 
+    
     #region 국가 턴 수행
-    public void ReportNationStep(NationManageStepEnum _step, Nation _nation)
+    public void ReportNationStep(Nation _nation, NationManageStepEnum _step)
     {
-        //해당 스텝에 따라 UI표기같은거 진행. 
-        Action nationCallBack = delegate
-        {
-            //Debug.Log("텀 이후 리포트 반환");
-            _nation.DoneJob(_step);
-        };
-
+        curNationStep = _step;
+        curNationNum = _nation.GetNationNum();
         if (m_autoReportCheck)
         {
           //  Debug.LogWarning("보고 자동확인으로 플레이어 체크없이 진행");
-            nationCallBack();
         }
         else
         {
-            m_checkBtn.SetEvent(nationCallBack);
-            m_checkBtn.gameObject.SetActive(true);
+            MgUI.GetInstance().ShowNationReport(_nation, _step);
         }
     }
 

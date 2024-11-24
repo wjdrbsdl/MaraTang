@@ -35,6 +35,7 @@ public class MgUI : MgGeneric<MgUI>
     [SerializeField] private UIMiniMap m_miniMapUI;
     [SerializeField] private UIQuest m_questUI;
     [SerializeField] private UIQuestList m_questListUI;
+    [SerializeField] private UINationReport m_nationReportUI;
 
     [Header("플레이어 아이콘")]
     [SerializeField] private UIPlayerBless m_playerBless;
@@ -54,6 +55,11 @@ public class MgUI : MgGeneric<MgUI>
 
     [SerializeField] private Transform m_uiCase; //UI들 띄울장소 여기서 최근 열린애가 젤 위로 올라오도록 세팅. 
     #region 인터페이스 오픈
+    public void ShowNationReport(Nation _nation, NationManageStepEnum _step)
+    {
+        m_nationReportUI.SetReport(_nation, _step);
+    }
+
     public void ShowPlayerAction()
     {
         m_playerAction.SetPlayerAction();

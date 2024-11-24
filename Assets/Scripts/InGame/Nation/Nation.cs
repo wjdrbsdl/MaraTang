@@ -216,7 +216,7 @@ public class Nation : ITradeCustomer
     public void ReportToGameMaster(NationManageStepEnum _step)
     {
         //플레이 마스터에서 플레이어의 확인이나 결정을 대기했다가 DoneReport로 재진행 
-        GamePlayMaster.GetInstance().ReportNationStep(_step, this);
+        GamePlayMaster.GetInstance().ReportNationStep(this, _step);
     }
 
     private void EndNationTurn()
