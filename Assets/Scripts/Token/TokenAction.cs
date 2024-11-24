@@ -41,6 +41,7 @@ public class TokenAction : TokenBase
     {
         m_tokenPid = int.Parse(valueCode[0]);
         m_itemName = valueCode[1];
+        if (valueCode.Length>11)
         m_itemInfo = valueCode[11];
         actionType = (ActionType)(int.Parse(valueCode[2]));
         m_tokenIValues = new int[System.Enum.GetValues(typeof(CharActionStat)).Length];
