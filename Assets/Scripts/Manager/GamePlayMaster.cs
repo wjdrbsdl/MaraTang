@@ -425,10 +425,10 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     #endregion
 
     #region 부가 편의 기능
-    public void FogContorl(TokenBase _char, int _sight = 2)
+    public void FogContorl(TokenBase _targetPos, int _sight = 2)
     {
         //일단 안개 걷는 기능만
-        List<TokenTile> tiles = GameUtil.GetTileTokenListInRange(_sight, _char.GetMapIndex());
+        List<TokenTile> tiles = GameUtil.GetTileTokenListInRange(_sight, _targetPos.GetMapIndex());
         for (int i = 0; i < tiles.Count; i++)
         {
             tiles[i].ChangeViewState(TileViewState.Sight);
