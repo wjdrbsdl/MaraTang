@@ -16,7 +16,9 @@ public class UINationReport : UIBase
 
     public void OnClickConfirm()
     {
+        UISwitch(false);
         Nation nation = MgNation.GetInstance().GetNation(curNationNum);
-        nation.DoJob(curStep);
+        nation.DoneJob(curStep);
+        
     }
 }
