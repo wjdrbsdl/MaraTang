@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Newtonsoft.Json;
+using System;
 
 #region 타일 enum
 public enum TileType
@@ -55,6 +56,7 @@ public class TokenTile : TokenBase
     {
 
     }
+
     public TokenTile MakeTileToken()
     {
         TokenTile tileToken = new TokenTile();
@@ -77,8 +79,6 @@ public class TokenTile : TokenBase
             SetTileType(TileType.Mountain);
             SetTileEffect();
         }
-            
-    
     }
 
     public void SetDensityValue((MainResource, int) _mildo)
@@ -109,9 +109,15 @@ public class TokenTile : TokenBase
         //장소마다 따로 특정되어잇는 벨류값들을 재할당하는 부분
         int[] masterValue = MgMasterData.GetInstance().GetTileData((int)tileType).TileStat;
         m_tokenIValues[(int)TileStat.PlaceSight] = masterValue[(int)TileStat.PlaceSight];
-       // Debug.Log(tileType + "시야 거리 " + m_tokenIValues[(int)TileStat.PlaceSight]);
+        m_tokenIValues[(int)TileStat.MaxDurability] = masterValue[(int)TileStat.MaxDurability];
+        m_tokenIValues[(int)TileStat.CurDurability] = m_tokenIValues[(int)TileStat.MaxDurability];
+        // Debug.Log(tileType + "시야 거리 " + m_tokenIValues[(int)TileStat.PlaceSight]);
     }
 
+    private void SetTileEffect()
+    {
+        m_effectType = MgMasterData.GetInstance().GetTileData((int)tileType).effectType;
+    }
     #endregion
 
     public List<TokenChar> GetCharsInTile()
@@ -400,9 +406,36 @@ public class TokenTile : TokenBase
 
     }
 
-    private void SetTileEffect()
+
+
+    #region 타일 내구도
+    public void AttackTile(int _damage)
     {
-        m_effectType = MgMasterData.GetInstance().GetTileData((int)tileType).effectType;
+        CalStat(TileStat.CurDurability, -_damage);
     }
+
+    public override void CalStat(Enum _enumIndex, int _value)
+    {
+        base.CalStat(_enumIndex, _value);
+        if (_enumIndex.Equals(TileStat.CurDurability)){
+            CheckDurability();
+        }
+    }
+
+    public void CheckDurability()
+    {
+        int durability = GetStat(TileStat.CurDurability);
+        if(durability <= 0)
+        {
+            SetStatValue(TileStat.CurDurability, 0);
+            DestroyPlace();
+        }
+    }
+
+    public void DestroyPlace()
+    {
+
+    }
+    #endregion
 
 }
