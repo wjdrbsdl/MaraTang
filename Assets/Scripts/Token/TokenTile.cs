@@ -233,6 +233,29 @@ public class TokenTile : TokenBase
     {
         doneInteriorList.Add(_pid);
     }
+
+
+    private void DoAutoTileAction()
+    {
+        //최초 장소가 건설되었을 때 자동 기능 수행
+        int[] ablePid = MgMasterData.GetInstance().GetTileData((int)tileType).AbleTileActionPID;
+        for (int i = 0; i < ablePid.Length; i++)
+        {
+            TokenTileAction action = MgMasterData.GetInstance().GetTileAction(ablePid[i]);
+            if (action == null)
+                continue;
+            if (action.IsAutoStart)
+            {
+                Debug.Log("자동 시작함" + tileType);
+                GamePlayMaster.GetInstance().RuleBook.ConductTileAction(this, action);
+            }
+        }
+    }
+
+    private void RepeatTileAction()
+    {
+        DoAutoTileAction();
+    }
     #endregion
 
     #region 노동코인
@@ -386,27 +409,6 @@ public class TokenTile : TokenBase
         return m_resourceGrade;
     }
     #endregion
-
-    private void DoAutoTileAction()
-    {
-        //최초 장소가 건설되었을 때 자동 기능 수행
-        int[] ablePid = MgMasterData.GetInstance().GetTileData((int)tileType).AbleTileActionPID;
-        for (int i = 0; i < ablePid.Length; i++)
-        {
-            TokenTileAction action = MgMasterData.GetInstance().GetTileAction(ablePid[i]);
-            if (action == null)
-                continue;
-            if (action.IsAutoStart)
-            {
-                Debug.Log("자동 시작함" + tileType);
-                GamePlayMaster.GetInstance().RuleBook.ConductTileAction(this, action);
-            }
-                
-        }
-
-    }
-
-
 
     #region 타일 내구도
     public void AttackTile(int _damage)
