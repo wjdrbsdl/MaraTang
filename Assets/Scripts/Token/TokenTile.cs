@@ -18,7 +18,7 @@ public enum TileViewState
 
 public enum TileStat
 {
-   Nation, Height, TileEnergy, BaseSight, PlaceSight
+   Nation, Height, TileEnergy, BaseSight, PlaceSight, MaxDurability, CurDurability
 }
 
 public enum MainResource
