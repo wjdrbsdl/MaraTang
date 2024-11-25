@@ -182,6 +182,21 @@ public class TokenTile : TokenBase
         return true;
     }
 
+    public void SendWorkStep(WorkStateCode _code)
+    {
+        switch (_code)
+        {
+            case WorkStateCode.Complete:
+                WorkOrder preWork = m_workOrder; //완료된작업 저장
+                RemoveWork(); //기존 작업은 없애고
+                RepeatTileAction(preWork);
+                break;
+            case WorkStateCode.Cancle:
+                RemoveWork();
+                break;
+        }
+    }
+
     public void RemoveWork()
     {
         //1. 작업오더가 핀의 키값이므로 먼저 핀제거 요청 
@@ -252,9 +267,27 @@ public class TokenTile : TokenBase
         }
     }
 
-    private void RepeatTileAction()
+    private void RepeatTileAction(WorkOrder _workOrder)
     {
-        DoAutoTileAction();
+        //한번더 수행하는 작업인지 체크
+        int[] ablePid = MgMasterData.GetInstance().GetTileData((int)tileType).AbleTileActionPID;
+        for (int i = 0; i < ablePid.Length; i++)
+        {
+            TokenTileAction action = MgMasterData.GetInstance().GetTileAction(ablePid[i]);
+            if (action == null)
+                continue;
+            
+            //타일액션 타입이 워크오더고
+            if(action.GetStat(TileActionStat.TileActionType) == (int)TileActionType.WorkOrder)
+            {
+                //그 작업타입이 동일하다면 고유 기능이 완료된 상태이므로 일단 반복
+                if(action.GetStat(TileActionStat.SubValue) == (int)_workOrder.workType)
+                {
+                    Debug.Log("반복 작업 진행 " + _workOrder.workType);
+                    new WorkOrder(_workOrder.GetNeedList(), _workOrder.GetWorkGauge(), this, _workOrder.WorkPid, _workOrder.workType);
+                } 
+            }
+        }
     }
     #endregion
 
