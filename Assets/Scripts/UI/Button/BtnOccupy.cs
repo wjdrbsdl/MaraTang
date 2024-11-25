@@ -15,7 +15,7 @@ public class BtnOccupy : MonoBehaviour
     }
     public void OnClickOccupy()
     {
-       GamePlayMaster.GetInstance().ClickOccupy(m_tile);
+        m_tile.AttackTile(100);
         m_motherUI.UISwitch(false);
     }
 
