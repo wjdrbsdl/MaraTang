@@ -16,6 +16,7 @@ public class RuleBookTileAction
         }
         TileActionType tileActionType = (TileActionType)_action.GetStat(TileActionStat.TileActionType);
         int subValue = _action.GetStat(TileActionStat.SubValue); //해당 타입에서 부차적인 벨류
+        int Value = _action.GetStat(TileActionStat.Value);
         //tileActionType으로 행태 구별 
 
         switch (tileActionType)
@@ -26,8 +27,7 @@ public class RuleBookTileAction
                     break;
             case TileActionType.WorkOrder:
                 //현재 스폰만 일괄중 다른 작업 정의를 위해선 추가 정보 가 필요
-                int monsterPid = subValue;
-                MakeWorkOrder(_tile, _action, monsterPid);
+                MakeWorkOrder(_tile, _action, Value);
                 break;
             default:
                 MgUI.GetInstance().CancleLastUI();
@@ -83,9 +83,9 @@ public class RuleBookTileAction
         }
     }
 
-    private void MakeWorkOrder(TokenTile _tile, TokenTileAction _tileAction, int _monsterPid)
+    private void MakeWorkOrder(TokenTile _tile, TokenTileAction _tileAction, int _value)
     {
-        new WorkOrder(null, 100, _tile, _monsterPid, WorkType.Spawn);
+        new WorkOrder(null, 100, _tile, _value, (WorkType)_tileAction.GetStat(TileActionStat.SubValue));
     }
 
 }
