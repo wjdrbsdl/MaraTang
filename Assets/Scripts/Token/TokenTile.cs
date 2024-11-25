@@ -411,6 +411,13 @@ public class TokenTile : TokenBase
     #region 타일 내구도
     public void AttackTile(int _damage)
     {
+        if (tileType == TileType.Nomal)
+        {
+            Debug.Log("노말타입엔 공격 의미 없음");
+            return;
+        }
+            
+
         CalStat(TileStat.CurDurability, -_damage);
     }
 
