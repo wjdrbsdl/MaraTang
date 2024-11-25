@@ -14,7 +14,7 @@ public enum CharActionStat
 
 public enum TileActionStat
 {
-    NeedActionEnergy, NeedActionCount, TileActionType, SubValue
+    NeedActionEnergy, NeedActionCount, TileActionType, SubValue, Value
 }
 
 public enum TileActionType
