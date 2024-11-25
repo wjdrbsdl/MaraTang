@@ -11,6 +11,7 @@ public class TempSpriteBox : MgGeneric<TempSpriteBox>
     public Sprite NomalLand;
     public Sprite MountainLand;
     public Sprite CapitalLand;
+    public Sprite ChildLand;
 
     public Sprite ExpandLandPin;
     public Sprite ManageLandPin;
@@ -42,6 +43,8 @@ public class TempSpriteBox : MgGeneric<TempSpriteBox>
                 return MountainLand;
             case TileType.WoodLand:
                 return WoodLand;
+            case TileType.Child:
+                return ChildLand;
         }
         return NomalLand;
     }
