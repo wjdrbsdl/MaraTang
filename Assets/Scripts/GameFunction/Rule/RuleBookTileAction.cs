@@ -20,33 +20,10 @@ public class RuleBookTileAction
 
         switch (tileActionType)
         {
-            case TileActionType.Harvest:
-                HarvestTile(_tile);
-                MgUI.GetInstance().CancleLastUI();
-                break;
-            case TileActionType.Build:
-                BuildTile(_tile, (TileType)subValue);
-                MgUI.GetInstance().CancleLastUI();
-                break;
-
-            case TileActionType.CapitalChef:
-                CapitalAction doCode = (CapitalAction)subValue;
-                //재료 변환 
-                MgUI.GetInstance().ShowCapitalWorkShop(doCode, _tile, _action);
-                break;
-
-            case TileActionType.LandUsage:
-                UseTownFunction(_tile, subValue);
-                break;
-
-            case TileActionType.Destroy:
-                _tile.DestroyPlace();
-                MgUI.GetInstance().CancleLastUI();
-                break;
+           
             case TileActionType.UIOpen:
                 OpenUIByCode((UICodeEnum)subValue, _tile);
                     break;
-
             case TileActionType.WorkOrder:
                 //현재 스폰만 일괄중 다른 작업 정의를 위해선 추가 정보 가 필요
                 int monsterPid = subValue;
@@ -66,35 +43,6 @@ public class RuleBookTileAction
         {
             //  Debug.Log(mineResult[i].Item1 + " 자원 채취" + mineResult[i].Item2);
             PlayerCapitalData.g_instance.CalCapital(mineResult[i].Item1, mineResult[i].Item2);
-        }
-    }
-
-    public TItemListData GetTileChangeCost(TileType _tileType)
-    {
-        TItemListData costData = MgMasterData.GetInstance().GetTileData((int)_tileType).BuildCostData;
-        return costData;
-    }
-
-    private void BuildTile(TokenTile _tile, TileType _tileType)
-    {
-        if (PlayerCapitalData.g_instance.CheckInventory(GetTileChangeCost(_tileType)) == true)
-        {
-            _tile.ChangePlace(_tileType);
-        }
-    }
-
-    private void UseTownFunction(TokenTile _tile, int _subValue)
-    {
-        TownFuction townFuction = (TownFuction)_subValue;
-        //Debug.Log(townFuction + "작업 수행 요청");
-        switch (townFuction)
-        {
-            case TownFuction.GiveMoney:
-                OpenGiveMoneyUI(_tile);
-                break;
-            case TownFuction.StudyAction:
-                MgUI.GetInstance().ShowStudyInfo(_tile);
-                break;
         }
     }
 
@@ -133,15 +81,16 @@ public class RuleBookTileAction
             case UICodeEnum.Guild:
                 MgUI.GetInstance().ShowGuildInfo();
                 break;
+            case UICodeEnum.GiveMoney:
+                OpenGiveMoneyUI(_tile);
+                break;
+            case UICodeEnum.StudyAction:
+                MgUI.GetInstance().ShowStudyInfo(_tile);
+                break;
             default:
                 Debug.Log("없는 오픈");
                 break;
         }
-    }
-
-    public enum TownFuction
-    {
-        GiveMoney = 1, StudyAction
     }
 
     private void MakeWorkOrder(TokenTile _tile, TokenTileAction _tileAction, int _monsterPid)
