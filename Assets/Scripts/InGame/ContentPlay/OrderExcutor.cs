@@ -43,28 +43,23 @@ public class OrderExcutor
         switch (_item.Tokentype)
         {
             case TokenType.Capital:
-                //    Debug.Log("자원올린다");
                 PlayerCapitalData.g_instance.PayCostData(new TItemListData(_item), false);
-                return true; //따로 받은게 없음
+                return true; 
             case TokenType.Bless:
                 GodBless bless = new GodBless(MgMasterData.GetInstance().GetGodBless(_item.SubIdx));
                 return mainChar.AquireBless(bless);
             case TokenType.Equipt:
-                //      Debug.Log("장비획득한다");
                 EquiptItem equiptCopy = new EquiptItem(MgMasterData.GetInstance().GetEquiptData(_item.SubIdx));
                 return mainChar.AquireEquipt(equiptCopy);
             case TokenType.CharStat:
-                //    Debug.Log("스텟올린다");
                 mainChar.CalStat((CharStat)_item.SubIdx, _item.Value);//형변환 안해두되는데 아쉽군. 
                 return true;
-            case TokenType.Tile:
+            case TokenType.EventPlaceNationSpawn:
                 return ChangeQuestPlace(_item.SubIdx, _item.Value);
             case TokenType.MonsterNationSpawn:
-                // Debug.Log("몬스터 소환");
                 SpawnMonster(_item);
                 return true;
             case TokenType.Conversation:
-                // Debug.Log("대화 요청");
                 MGConversation.GetInstance().ShowCheckScript(_item);
                 return true;
             case TokenType.Nation:
@@ -106,7 +101,7 @@ public class OrderExcutor
 
     }
 
-    public bool ChangeQuestPlace(int _subIdx, int _value)
+    public bool ChangeQuestPlace(int _tileType, int _value)
     {
         //국가경계를 기준으로 주변 타일 하나를
         //정해진 타일로 변경하는 주문 
@@ -120,12 +115,13 @@ public class OrderExcutor
             List<TokenTile> roundTile = GameUtil.GetTileTokenListInRange(range, targetTile.GetMapIndex(), range);
             for (int r = 0; r < roundTile.Count; r++)
             {
-                //주변 타일의 넘버가 같은 국가가 하나라도 국가가 아니면 얘는 외각
-                int tileInRange = roundTile[r].GetStat(TileStat.Nation);
-                if (tileInRange == FixedValue.NO_NATION_NUMBER)
+                int tileNationNum = roundTile[r].GetStat(TileStat.Nation);
+                //주변 영토중 주인없는 거 찾기
+                if (tileNationNum == FixedValue.NO_NATION_NUMBER)
                 {
+                    //찾았으면 변경
                     Debug.Log("해당 영지 변경");
-                    roundTile[r].ChangePlace((TileType)16);
+                    roundTile[r].ChangePlace((TileType)_tileType);
                     return true;
                 }
             }
