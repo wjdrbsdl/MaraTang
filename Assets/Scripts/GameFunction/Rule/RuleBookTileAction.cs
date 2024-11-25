@@ -40,7 +40,7 @@ public class RuleBookTileAction
                 break;
 
             case TileActionType.Destroy:
-                BuildTile(_tile, TileType.Nomal);
+                _tile.DestroyPlace();
                 MgUI.GetInstance().CancleLastUI();
                 break;
             case TileActionType.UIOpen:
