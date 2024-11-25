@@ -6,7 +6,7 @@ using UnityEngine;
 
 public enum UICodeEnum
 {
-    Guild = 1, Temple
+    Guild = 1, Temple, GiveMoney, StudyAction
 }
 
 public class MgUI : MgGeneric<MgUI>
