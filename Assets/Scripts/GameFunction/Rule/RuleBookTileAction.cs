@@ -36,16 +36,6 @@ public class RuleBookTileAction
 
     }
 
-    private void HarvestTile(TokenTile _tile)
-    {
-        List<(Capital, int)> mineResult = GamePlayMaster.GetInstance().RuleBook.MineResource(_tile).GetResourceAmount();
-        for (int i = 0; i < mineResult.Count; i++)
-        {
-            //  Debug.Log(mineResult[i].Item1 + " 자원 채취" + mineResult[i].Item2);
-            PlayerCapitalData.g_instance.CalCapital(mineResult[i].Item1, mineResult[i].Item2);
-        }
-    }
-
     private void OpenGiveMoneyUI(TokenTile _tile)
     {
         List<TOrderItem> itemList = PlayerCapitalData.g_instance.GetItemList();
