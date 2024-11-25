@@ -7,6 +7,11 @@ public enum WorkType
     InterBuild, ChangeBuild, ExpandLand, NationLvUp, Research, Spawn
 }
 
+public enum WorkStateCode
+{
+    Complete, Cancle, Stop
+}
+
 public class WorkOrder
 {
     //작업 진행도
@@ -200,7 +205,7 @@ public class WorkOrder
 
         m_isComplete = true;
         EffectByCase();
-        RemoveRegist();
+        RemoveRegist(WorkStateCode.Complete);
 
 
     }
@@ -221,16 +226,16 @@ public class WorkOrder
     {
         IsCancle = true; //취소로 바꿈
         //이후 해당 작업서를 가진 곳에서 취소 체크후 작업리스트에서 제거하는 식
-        RemoveRegist();
+        RemoveRegist(WorkStateCode.Cancle);
     }
 
-    public void RemoveRegist()
+    public void RemoveRegist(WorkStateCode _code)
     {
         //해당 장소가 매턴 작업여부를 확인하지 않는다면 갱신이 안되기 때문에 제거 되어야하는 경우 작업장소로 제거할것을 요청. 
         if(WorkPlacePos != null)
         {
             TokenTile tile = GameUtil.GetTileTokenFromMap(WorkPlacePos);
-            tile.RemoveWork();
+            tile.SendWorkStep(_code);
         }
         GamePlayMaster.GetInstance().RemoveWork(this);
     }
@@ -270,5 +275,15 @@ public class WorkOrder
     public void SetOrderPlacePos(int[] _mapIndex)
     {
         WorkPlacePos = _mapIndex;
+    }
+
+    public List<TOrderItem> GetNeedList()
+    {
+        return m_needList;
+    }
+
+    public int GetWorkGauge()
+    {
+        return m_originWorkGauge;
     }
 }
