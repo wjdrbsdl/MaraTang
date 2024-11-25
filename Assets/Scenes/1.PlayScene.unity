@@ -19658,7 +19658,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1471571218
 RectTransform:
   m_ObjectHideFlags: 0
@@ -29207,7 +29207,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uC810\uB839\uD558\uAE30"
+  m_text: "\uACF5\uACA9\uD558\uAE30"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2320e2c2349d0094fa8c1694793532b1, type: 2}
   m_sharedMaterial: {fileID: -6822104537314349543, guid: 2320e2c2349d0094fa8c1694793532b1, type: 2}
