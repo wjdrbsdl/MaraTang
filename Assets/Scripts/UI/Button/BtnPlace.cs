@@ -46,15 +46,16 @@ public class BtnPlace : MonoBehaviour
     {
         //해당 타일에 해당 내부 건축물 건설 진행 
         List<TOrderItem> nothing = new();
-        WorkOrder order = new WorkOrder(nothing, 100, (int)m_tileType, WorkType.InterBuild);
-        //다른 타일로 작업시 m_tile이 변경될수있으므로 다른 인스턴스로 생성
+        int laborValue = MgMasterData.GetInstance().GetTileData((int)m_tileType).BuildNeedLaborValue;
         TokenTile tile = m_tile;
-        Action doneEffect = delegate
+        WorkOrder order = new WorkOrder(nothing, laborValue, tile, (int)m_tileType, WorkType.InterBuild);
+        order.DoWork();
+        if (order.IsDoneWork())
         {
-            tile.CompleteInterBuild((int)m_tileType);
-        };
-        order.SetDoneEffect(doneEffect);
-        m_tile.RegisterWork(order);
+            Debug.Log("바로 작업완료");
+            return;
+        }
+
         m_tileInfoUI.ResetSetPlace();
     }
 
@@ -63,3 +64,4 @@ public class BtnPlace : MonoBehaviour
         gameObject.SetActive(_on);
     }
 }
+
