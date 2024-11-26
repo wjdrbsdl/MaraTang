@@ -29,12 +29,14 @@ public class Nation : ITradeCustomer
     private List<TokenTile> m_territorryList;
     private NationPopular m_popularMg; //인구 관리소
     private NationEvent m_eventMg; //사건 관리소 
-    private int[] m_resources;
-    private int[] nationStatValues ;
+    
     public NationTechPart TechPart;
+    private int[] m_resources; //보유 자원
+    private int[] nationStatValues ; //국가 스텟 - 정서, 환경 통합
     private Color[] nationColor = { Color.red, Color.yellow, Color.blue };
 
     private List<WorkOrder> m_workList = new(); //진행중인 작업들. 
+
     #region 국가 생성자
     public Nation()
     {
@@ -308,7 +310,6 @@ public class Nation : ITradeCustomer
     }
     #endregion
 
-
     #region 작업 재검토
     private void RemindWork()
     {
@@ -517,6 +518,11 @@ public class Nation : ITradeCustomer
     public int GetNationNum()
     {
         return m_nationNumber;
+    }
+
+    public int[] GetStatValues()
+    {
+        return nationStatValues;
     }
     #endregion
 
