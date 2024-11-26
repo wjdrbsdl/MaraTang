@@ -748,6 +748,9 @@ public static class GameUtil
                 case TokenType.Bless:
                     findEnum = typeof(BlessSynergeCategoryEnum);
                     break;
+                case TokenType.UIOpen:
+                    findEnum = typeof(UICodeEnum);
+                    break;
             }
 
             if (findEnum == null)
