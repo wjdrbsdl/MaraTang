@@ -48,6 +48,7 @@ public class MgToken : MgGeneric<MgToken>
         }
     }
     #endregion
+
     #region 토큰들 - 마스터 토큰과 생성된 토큰 모두 관리 
     private TokenTile[,] m_tileTokenes; //현재 맵의 타일 토큰
     private HideTile[,] m_hideTiles;
