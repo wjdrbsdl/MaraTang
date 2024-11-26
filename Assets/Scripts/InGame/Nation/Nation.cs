@@ -29,7 +29,7 @@ public class Nation : ITradeCustomer
     private List<TokenTile> m_territorryList;
     private NationPopular m_popularMg; //인구 관리소
     private NationEvent m_eventMg; //사건 관리소 
-    
+    private NationStatPart m_statPart; //스텟 관리소
     public NationTechPart TechPart;
     private int[] m_resources; //보유 자원
     private int[] nationStatValues ; //국가 스텟 - 정서, 환경 통합
@@ -61,6 +61,8 @@ public class Nation : ITradeCustomer
         //인구파트 생성
         nation.m_popularMg = new NationPopular(nation);
         nation.m_popularMg.IncreaseLaborCoin(3); //3개 노동토큰 생성
+        //스텟파트 생성
+        nation.m_statPart = new NationStatPart(nation);
         //사건파트 생성
         nation.m_eventMg = new NationEvent(nation);
         //기술파트 생성
@@ -164,7 +166,8 @@ public class Nation : ITradeCustomer
                 break;
                 //앞에턴 상황대로 진행될것 다 진행후, 이후 플레이어턴에 적용될 명운등을 여기서 뽑기 
             case NationManageStepEnum.NationEvent:
-                m_eventMg.WatchEvent();
+                m_statPart.RelateStat(); //국가 스텟에 따라서 정서수치 바꾸고
+                m_eventMg.WatchEvent(); //정서 수치와 국가 스텟에 따라서 발생할 이벤트 설정
                 ReportToGameMaster(_step);
                 break;
             case NationManageStepEnum.NationTurnEnd:
