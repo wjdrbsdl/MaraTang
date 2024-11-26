@@ -41,25 +41,14 @@ public class UITileInfo : UIBase
     #endregion
 
     Stack<TileType> m_placeStack = new(); //입장한 로드 
-    TileType m_curType = TileType.Nomal;
+    TileType m_curPlace = TileType.Nomal;
     TokenTile m_curTile = null;
     public void SetTileInfo(TokenTile _tile, TileType _tileType)
     {
         UISwitch(true);
         m_curTile = _tile;
-        TileDistance distance = new TileDistance();
-
-        //타일 믹서에 의한 종속 구조 디버그
-        //Debug.Log("할당된 자식 "+_tile.GetChildIndex().Count);
-        //if(_tile.parent != null)
-        //    Debug.Log(" 부모 " + _tile.parent[0] + "" + _tile.parent[1]);
-
-        // Debug.Log(_tile.GetLaborCoinCount() + " 노동 코인 수 ");
-  
-        m_curType = _tileType;
+        m_curPlace = _tileType;
         PlayerManager.GetInstance().SetHeroPlace(_tileType);
-        // Debug.Log(_tile.GetTileType());
-
         //Debug.Log("메인 캐릭 있다 " + inMain);
         ResetUI();
     }
@@ -87,6 +76,12 @@ public class UITileInfo : UIBase
         SetTileStat();
     }
 
+    public void OnClickTileAction()
+    {
+        TileTypeData tileData = MgMasterData.GetInstance().GetTileData((int)m_curPlace);
+        GamePlayMaster.GetInstance().RuleBook.ConductTileAction(m_curTile, tileData.EffectData.GetItemList()[0]);
+    }
+
     #region UI 세팅
 
     private void SetOutBuildInfo()
@@ -98,7 +93,7 @@ public class UITileInfo : UIBase
     private void SetOutBuild()
     {
         //해당 장소에서 만들 수 있는 건축물
-        int[] buildPlace = MgMasterData.GetInstance().GetTileData((int)m_curType).AbleBuildPid.ToArray();
+        int[] buildPlace = MgMasterData.GetInstance().GetTileData((int)m_curPlace).AbleBuildPid.ToArray();
         MakeSamplePool<BtnBuild>(ref m_buildButtones, m_buildButtonSample.gameObject, buildPlace.Length, m_buildBox);
         //버튼 세팅
         SetBuildButtons(m_curTile, buildPlace);
@@ -121,7 +116,7 @@ public class UITileInfo : UIBase
 
     private void SetTileAction()
     {
-        TokenTileAction[] tileWorks = GamePlayMaster.GetInstance().RuleBook.RequestTileActions(m_curType);
+        TokenTileAction[] tileWorks = GamePlayMaster.GetInstance().RuleBook.RequestTileActions(m_curPlace);
         setCount = tileWorks.Length;
         //사용하는 만큼 버튼 활성화 
         MakeSamplePool<BtnTileWorkShop>(ref m_workButtones, m_workButtonSample.gameObject, setCount, m_tileActionBox);
@@ -147,7 +142,7 @@ public class UITileInfo : UIBase
     {
         //해당 장소에서 들어갈 수 있는 장소 
         //조건이 안되있으면 어둠으로 뜬다 
-        int[] interiorPlace = MgMasterData.GetInstance().GetTileData((int)m_curType).AbleInteriorPid.ToArray();
+        int[] interiorPlace = MgMasterData.GetInstance().GetTileData((int)m_curPlace).AbleInteriorPid.ToArray();
         MakeSamplePool<BtnPlace>(ref m_placeButtones, m_placeButtonSample.gameObject, interiorPlace.Length, m_placeBox);
         //버튼 세팅
         SetPlaceButtons(m_curTile, interiorPlace);
@@ -224,11 +219,12 @@ public class UITileInfo : UIBase
     }
     #endregion
 
+    #region UI OnOff
     public void EnterPlace(TokenTile _tile, TileType _tileType)
     {
         //이미 UI가 켜진 해당 장소에서 내부 장소로 이동시 
         //1. 현재 위치를 스택에 추가 
-        m_placeStack.Push(m_curType);
+        m_placeStack.Push(m_curPlace);
         //2. 들어갈 장소로 다시 타일 정보 세팅 
         SetTileInfo(_tile, _tileType);
     }
@@ -250,16 +246,10 @@ public class UITileInfo : UIBase
         SetTileInfo(m_curTile, priorPlace);
     }
 
-    public void ForceOut()
-    {
-        //강제 아웃시
-        m_placeStack.Clear();
-        UISwitch(false);
-    }
-
     public override void OffWindow()
     {
         base.OffWindow();
         PlayerManager.GetInstance().SetHeroPlace(TileType.Nomal);
     }
+    #endregion
 }

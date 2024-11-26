@@ -337,6 +337,10 @@ public class RuleBook
     {
         m_tileActionPart.ConductTileAction(_tile, _action);
     }
+    public void ConductTileAction(TokenTile _tile, TOrderItem _actionOrder)
+    {
+        m_tileActionPart.ConductTileAction(_tile, _actionOrder);
+    }
 
     #endregion
 

@@ -22,7 +22,32 @@ public class RuleBookTileAction
                     break;
             case TileActionType.WorkOrder:
                 //현재 스폰만 일괄중 다른 작업 정의를 위해선 추가 정보 가 필요
-                MakeWorkOrder(_tile, _action, Value);
+                MakeWorkOrder(_tile, (WorkType)subValue, Value);
+                break;
+            default:
+                MgUI.GetInstance().CancleLastUI();
+                break;
+        }
+
+    }
+
+    public void ConductTileAction(TokenTile _tile, TOrderItem _actionOrder)
+    {
+
+        TokenType tileActionType = (TokenType)_actionOrder.Tokentype;
+        int subValue = _actionOrder.SubIdx;
+        int Value = _actionOrder.Value;
+        //tileActionType으로 행태 구별 
+
+        switch (tileActionType)
+        {
+
+            case TokenType.UIOpen:
+                OpenUIByCode((UICodeEnum)subValue, _tile);
+                break;
+            case TokenType.MonsterNationSpawn:
+                //현재 스폰만 일괄중 다른 작업 정의를 위해선 추가 정보 가 필요
+                MakeWorkOrder(_tile, (WorkType)subValue, Value);
                 break;
             default:
                 MgUI.GetInstance().CancleLastUI();
@@ -78,9 +103,9 @@ public class RuleBookTileAction
         }
     }
 
-    private void MakeWorkOrder(TokenTile _tile, TokenTileAction _tileAction, int _value)
+    private void MakeWorkOrder(TokenTile _tile, WorkType _workType, int _value)
     {
-        new WorkOrder(null, 100, _tile, _value, (WorkType)_tileAction.GetStat(TileActionStat.SubValue));
+        new WorkOrder(null, 100, _tile, _value, _workType);
     }
 
 }
