@@ -19658,7 +19658,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1471571218
 RectTransform:
   m_ObjectHideFlags: 0
@@ -24536,6 +24536,7 @@ MonoBehaviour:
   MountainLand: {fileID: 21300000, guid: f8068263d25f5554ca776db952c91c75, type: 3}
   CapitalLand: {fileID: 21300000, guid: fa5189ad96980b245b2dbd61fbe67418, type: 3}
   ChildLand: {fileID: 21300000, guid: 96f5b22089751ab46a0cc5f8df569abd, type: 3}
+  CaveLand: {fileID: 0}
   ExpandLandPin: {fileID: 21300000, guid: 3f8935b5884c9ac4a94ec53e3f9e91ed, type: 3}
   ManageLandPin: {fileID: 21300000, guid: 182c2716615a69949a8f7bcdc19565af, type: 3}
   DefaultPin: {fileID: 21300000, guid: 7aea37976b0944942b4c979fa512ad51, type: 3}
