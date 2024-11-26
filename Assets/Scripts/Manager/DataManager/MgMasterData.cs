@@ -8,7 +8,6 @@ public class MgMasterData : Mg<MgMasterData>
     private Dictionary<int, TileTypeData> m_tileTypeDataDic;
     private Dictionary<int, TokenChar> m_charDataDic;
     private Dictionary<int, List<TOrderItem>> m_charDropItemDataDic;
-    private Dictionary<int, TokenTileAction> m_tileActionDataDic;
     private Dictionary<int, BlessSynerge> m_synergeDataDic;
     private Dictionary<int, TokenAction> m_charActionDataDic;
     private List<int> m_charActionList;
@@ -31,7 +30,6 @@ public class MgMasterData : Mg<MgMasterData>
         g_instance = this;
         
         SetTileTypeData();
-        SetTileActionData();
         SetBlessSynergeData();
         SetCharActionData();
         SetCharData();
@@ -84,11 +82,6 @@ public class MgMasterData : Mg<MgMasterData>
     public List<int> GetCharActionList()
     {
         return m_charActionList;
-    }
-
-    public TokenTileAction GetTileAction(int _actionPID)
-    {
-        return GetDicData<TokenTileAction>(m_tileActionDataDic, _actionPID);
     }
 
     public ContentMasterData GetContentData(int _contentPID)
@@ -155,9 +148,6 @@ public class MgMasterData : Mg<MgMasterData>
         bool isHaveData = false;
         switch (_dataType)
         {
-            case EMasterData.TileActionData:
-                isHaveData = m_tileActionDataDic.ContainsKey(pid);
-                break;
             case EMasterData.CharData:
                 isHaveData = m_charDataDic.ContainsKey(pid);
                 break;
@@ -270,18 +260,6 @@ public class MgMasterData : Mg<MgMasterData>
             //중복 
             if(m_contentDataDic.ContainsKey(masterContent.ContentPid) == false)
             m_contentDataDic.Add(masterContent.ContentPid, masterContent);
-        }
-    }
-
-    private void SetTileActionData()
-    {
-        ParseData parseContainer = MgParsing.GetInstance().GetMasterData(EMasterData.TileActionData);
-        m_tileActionDataDic = new();
-        for (int i = 0; i < parseContainer.DbValueList.Count; i++)
-        {
-            //TokenAction tileAction = new TokenAction(parseContainer.MatchCode, parseContainer.DbValueList[i]);
-            TokenTileAction tileAction = new TokenTileAction(parseContainer.MatchCode, parseContainer.DbValueList[i]);
-            m_tileActionDataDic.Add(tileAction.GetPid(), tileAction);
         }
     }
 

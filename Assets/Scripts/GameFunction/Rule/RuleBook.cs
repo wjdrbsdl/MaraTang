@@ -301,42 +301,6 @@ public class RuleBook
         return false;
     }
 
-    public TokenTileAction[] RequestTileActions(TileType _tileType)
-    {
-        //해당 타일을 가지고 가능한 액션을 뽑아줌. 
-        List<TokenTileAction> ableList = new List<TokenTileAction>();
-        //1.해당 타일의 pid를 확인
-        int tileType = (int)_tileType;
-        //2. pid에 맞는 타일 데이터 가져옴
-        TileTypeData tileData = MgMasterData.GetInstance().GetTileData(tileType); //해당 타입의 타일데이터를 가져옴
-        if (tileData == null)
-            return ableList.ToArray();
-        //3. 가능한 액션 토큰 배열을 순환
-        for (int i = 0; i < tileData.AbleTileActionPID.Length; i++)
-        {
-            //4. 타일 데이터의 작업 가능한 액션 pid 리스트에 해당하는 타일액션들을 찾아서 반환
-            TokenTileAction ableAction = MgMasterData.GetInstance().GetTileAction(tileData.AbleTileActionPID[i]);
-            if(ableAction == null)
-            {
-               // Debug.Log("해당 pid에 해당하는 액션 없음");
-                continue;
-            }
-            ableList.Add(ableAction);
-        }
-        //문제
-        /*
-         * 타일 액션은 해당 타일에 종속되어야하는데, 위는 원본 자료 참조 방식으로 모든 타일이 한 행동을 공유해서
-         * 사용 상태등이 공유 되버림. 
-         */
-
-        
-        return ableList.ToArray();
-    }
-
-    public void ConductTileAction(TokenTile _tile, TokenTileAction _action)
-    {
-        m_tileActionPart.ConductTileAction(_tile, _action);
-    }
     public void ConductTileAction(TokenTile _tile, TOrderItem _actionOrder)
     {
         m_tileActionPart.ConductTileAction(_tile, _actionOrder);

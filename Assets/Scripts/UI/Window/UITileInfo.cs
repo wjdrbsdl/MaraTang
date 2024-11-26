@@ -116,21 +116,22 @@ public class UITileInfo : UIBase
 
     private void SetTileAction()
     {
-        TokenTileAction[] tileWorks = GamePlayMaster.GetInstance().RuleBook.RequestTileActions(m_curPlace);
-        setCount = tileWorks.Length;
-        //사용하는 만큼 버튼 활성화 
-        MakeSamplePool<BtnTileWorkShop>(ref m_workButtones, m_workButtonSample.gameObject, setCount, m_tileActionBox);
-        //버튼 세팅
-        SetActionButtons(m_curTile, tileWorks);
+        Debug.Log("해당 장소에서 활용가능한 기능 표기");
+        //TokenTileAction[] tileWorks = GamePlayMaster.GetInstance().RuleBook.RequestTileActions(m_curPlace);
+        //setCount = tileWorks.Length;
+        ////사용하는 만큼 버튼 활성화 
+        //MakeSamplePool<BtnTileWorkShop>(ref m_workButtones, m_workButtonSample.gameObject, setCount, m_tileActionBox);
+        ////버튼 세팅
+        //SetActionButtons(m_curTile, tileWorks);
     }
 
-    private void SetActionButtons(TokenTile _tile, TokenTileAction[] _workes)
+    private void SetActionButtons(TokenTile _tile)
     {
 
         for (int i = 0; i < setCount; i++)
         {
             m_workButtones[i].SetActive(true);
-            m_workButtones[i].SetButtonInfo(_tile, _workes[i]);
+            m_workButtones[i].SetButtonInfo(_tile);
         }
         for (int i = setCount; i < m_workButtones.Length; i++)
         {

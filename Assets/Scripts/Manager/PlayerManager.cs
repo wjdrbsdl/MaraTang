@@ -173,17 +173,6 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule, KeyIntercepto
         GamePlayMaster.g_instance.PlayCharAction(m_curChar);
         
     }
-
-    public void SelectTileAction(TokenTile _selectedToken, TokenTileAction _tileAction)
-    {
-        TokenChar player = MgToken.GetInstance().GetMainChar();
-        if (GameUtil.GetMinRange(player, _selectedToken) > 0 && GamePlayMaster.GetInstance().AdaptInTileForAct == true)
-        {
-            Debug.Log("해당 타일에 있어야 가능");
-            return;
-        }
-        GamePlayMaster.GetInstance().PlayTileAction(_selectedToken, _tileAction);
-    }
     #endregion
 
     public void PushNumKey(int _index)

@@ -244,12 +244,6 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     #endregion
    
     #region UI 액션 수행
-    public void PlayTileAction(TokenTile _tile, TokenTileAction _action)
-    {
-        //타일 액션의 수행자는 CharMain.
-        RuleBook.ConductTileAction(_tile, _action);
-    }
-
     public void IntenseStat(TokenChar _char, CharStat _stat)
     {
         RuleBook.IntenseStat(_char, _stat);

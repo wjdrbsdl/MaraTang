@@ -32,7 +32,7 @@ public class UIPlayerAction : UIBase, iInventoryUI
     {
         //선택한 아이템 정보 세팅
         m_itemName.text = _action.GetItemName();
-        m_itemInfo.text = _action.GetItemName();
+        m_itemInfo.text = string.Format(_action.GetItemInfo(),"그 테스트 ","1567",5);
     }
 
     private void SetSlots(List<TokenAction> _equiptList)

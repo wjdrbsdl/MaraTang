@@ -133,27 +133,6 @@ public class MgUI : MgGeneric<MgUI>
 
     }
 
-
-    public void ShowCapitalWorkShop(CapitalAction subCode, TokenTile _tile, TokenTileAction _action)
-    {
-        UIBase openUI = null;
-        //재료 관련 작업, 서브 코드에 따라 적당한 UI 호출 
-        if (subCode.Equals(CapitalAction.ChageCapital))
-        {
-            m_capitalChangeUI.SetChangeUI(_tile, _action);
-            openUI = m_capitalChangeUI;
-            return;
-        }
-        if (subCode.Equals(CapitalAction.MixCapital))
-        {
-            m_capitalMixUI.SetChefUI(_tile, _action);
-            openUI = m_capitalMixUI;
-            return;
-        }
-
-        PushUIStack(openUI);
-    }
-
     public void ShowItemList(SelectItemInfo _selectInfo)
     {
         m_rewardSelectItemUI.SetSelectedInfo(_selectInfo);

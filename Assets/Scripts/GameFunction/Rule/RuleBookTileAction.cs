@@ -6,31 +6,6 @@ using System;
 
 public class RuleBookTileAction
 {
-    public void ConductTileAction(TokenTile _tile, TokenTileAction _action)
-    {
-     
-        TileActionType tileActionType = (TileActionType)_action.GetStat(TileActionStat.TileActionType);
-        int subValue = _action.GetStat(TileActionStat.SubValue); //해당 타입에서 부차적인 벨류
-        int Value = _action.GetStat(TileActionStat.Value);
-        //tileActionType으로 행태 구별 
-
-        switch (tileActionType)
-        {
-           
-            case TileActionType.UIOpen:
-                OpenUIByCode((UICodeEnum)subValue, _tile);
-                    break;
-            case TileActionType.WorkOrder:
-                //현재 스폰만 일괄중 다른 작업 정의를 위해선 추가 정보 가 필요
-                MakeWorkOrder(_tile, (WorkType)subValue, Value);
-                break;
-            default:
-                MgUI.GetInstance().CancleLastUI();
-                break;
-        }
-
-    }
-
     public void ConductTileAction(TokenTile _tile, TOrderItem _actionOrder)
     {
 
