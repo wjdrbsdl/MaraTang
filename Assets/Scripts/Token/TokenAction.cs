@@ -12,17 +12,6 @@ public enum CharActionStat
    MinRange, Range, MinRatio, MaxCountInTurn, RemainCountInTurn, Power, NeedActionEnergy, NeedActionCount, CoolTime, RemainCool
 }
 
-public enum TileActionStat
-{
-    NeedActionEnergy, NeedActionCount, TileActionType, SubValue, Value
-}
-
-public enum TileActionType
-{
-    Harvest = 1, UIOpen, WorkOrder
-}
-
-
 [System.Serializable]
 public class TokenAction : TokenBase
 {

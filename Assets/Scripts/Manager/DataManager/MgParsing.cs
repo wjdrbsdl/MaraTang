@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum EMasterData
 {
-    TileActionData, ContentData, TileType, CharData, CharActionData, EventData, NationTechTree, Conversation, God, GodBless, BlessSynerge,
+    ContentData, TileType, CharData, CharActionData, EventData, NationTechTree, Conversation, God, GodBless, BlessSynerge,
     Equipment
 }
 public struct ParseData
@@ -31,15 +31,15 @@ public struct ParseData
 public class MgParsing : MgGeneric<MgParsing>
 {
     private static string docuIDes =  "19xXN_chVCf-ZEsvAly-j-c69gjok0HIKYMaFcAk1Lqg";
-    private string[] sheetIDes = { "0" , "1960523724", "1971334673", "1134768741",
+    private string[] sheetIDes = { "1960523724", "1971334673", "1134768741",
                                     "1603700320","218824529","1858334671" ,
                                     "1780035322", "242617216", "1085432251",
                                     "1134239208"};
-    private EMasterData[] dbId = { EMasterData.TileActionData, EMasterData.ContentData, EMasterData.TileType, EMasterData.CharData, 
+    private EMasterData[] dbId = { EMasterData.ContentData, EMasterData.TileType, EMasterData.CharData, 
                                    EMasterData.CharActionData, EMasterData.NationTechTree, EMasterData.Conversation,
                                    EMasterData.God, EMasterData.GodBless, EMasterData.BlessSynerge,
                                     EMasterData.Equipment};
-    private System.Enum[] matchTypes = { TileActionStat.NeedActionCount, ContentEnum.惯积牧刨明, TileStat.Nation, CharStat.CurActionCount, 
+    private System.Enum[] matchTypes = { ContentEnum.惯积牧刨明, TileStat.Nation, CharStat.CurActionCount, 
                                     CharActionStat.CoolTime, TechTreeStat.Class, ConversationStat.Pid,
                                    null, null, null,
                                    null};
