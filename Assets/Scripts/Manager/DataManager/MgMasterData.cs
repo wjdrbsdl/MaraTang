@@ -363,7 +363,7 @@ public class TileTypeData {
     public int[] NeedTiles;
     public bool IsInterior = false; //해당 장소는 인테리어 타입인지
     public int[] AbleTileActionPID;
-    public int[] TileStat;
+    public int[] TileStat; //해당 장소의 내구도 같은것들
     public List<int> AbleBuildPid; //해당 장소에서 지을 수 있는 건물 모음. 
     public List<int> AbleInteriorPid; //해당 장소에서 지을 수 있는 내부 건물 모음.
     public TItemListData BuildCostData;
