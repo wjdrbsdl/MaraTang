@@ -8,12 +8,7 @@ public class RuleBookTileAction
 {
     public void ConductTileAction(TokenTile _tile, TokenTileAction _action)
     {
-        TokenChar player = MgToken.GetInstance().GetMainChar();
-        if (GameUtil.GetMinRange(player, _tile) > 0 && GamePlayMaster.GetInstance().AdaptInTileForAct == true)
-        {
-            Debug.Log("해당 타일에 있어야 가능");
-            return;
-        }
+     
         TileActionType tileActionType = (TileActionType)_action.GetStat(TileActionStat.TileActionType);
         int subValue = _action.GetStat(TileActionStat.SubValue); //해당 타입에서 부차적인 벨류
         int Value = _action.GetStat(TileActionStat.Value);
