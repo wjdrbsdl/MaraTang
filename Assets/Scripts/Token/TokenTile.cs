@@ -35,7 +35,6 @@ public class TokenTile : TokenBase
     [SerializeField]
     public TileType tileType;
     public TileEffectEnum m_effectType = TileEffectEnum.None;
-    public int m_restLaborAmount = 0;
     public List<int> doneInteriorList; //지어진 장소
     public int ChunkNum;
     public WorkOrder m_workOrder = null; //진행중인 공사
@@ -113,9 +112,6 @@ public class TokenTile : TokenBase
         m_tokenIValues[(int)TileStat.PlaceSight] = masterValue[(int)TileStat.PlaceSight];
         m_tokenIValues[(int)TileStat.MaxDurability] = masterValue[(int)TileStat.MaxDurability];
         m_tokenIValues[(int)TileStat.CurDurability] = m_tokenIValues[(int)TileStat.MaxDurability];
-
-        m_laborType = tileData.LaborType;
-        m_restLaborAmount = tileData.NeedLaborAmount;
         // Debug.Log(tileType + "시야 거리 " + m_tokenIValues[(int)TileStat.PlaceSight]);
     }
 
@@ -274,7 +270,8 @@ public class TokenTile : TokenBase
 
         if(effectType == TileEffectEnum.Tool)
         {
-            
+            Debug.Log(tileType + "에서 작업서 자동 등록");
+            new WorkOrder(null, tileData.NeedLaborTurn, tileData.NeedLaborAmount, this, 0, WorkType.Inherence);
         }
         //for (int i = 0; i < ablePid.Length; i++)
         //{
