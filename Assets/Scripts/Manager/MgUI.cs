@@ -11,6 +11,7 @@ public enum UICodeEnum
 
 public class MgUI : MgGeneric<MgUI>
 {
+    #region 변수
     [Header("액션")]
     [SerializeField] private UIActionTokenBox m_actionTokenBox;
     [SerializeField] private UISelectItem m_rewardSelectItemUI; //아이템 선택
@@ -54,6 +55,8 @@ public class MgUI : MgGeneric<MgUI>
     [SerializeField] private UIShowcase m_shocaseUI;
 
     [SerializeField] private Transform m_uiCase; //UI들 띄울장소 여기서 최근 열린애가 젤 위로 올라오도록 세팅. 
+    #endregion
+
     #region 인터페이스 오픈
     public void ShowNationReport(Nation _nation, NationManageStepEnum _step)
     {
