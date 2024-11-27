@@ -29,7 +29,9 @@ public class WorkOrder
     private List<TOrderItem> m_curList = new List<TOrderItem>();
     private int m_originWorkGauge;
     private int m_restWorkGauge;
+    private bool m_enoughWorkGague = false;
     private int m_restTurn;
+    private bool m_enoughTurn = false;
 
     private int m_baseworkEfficiency = 100; //토큰 1개일때 노동 효율
     private int m_overWorkEfficiency = 10; //추가되는 토큰에 따른 노동 효율
@@ -53,6 +55,7 @@ public class WorkOrder
         m_originWorkGauge = _needWorkGague;
         //m_restWorkGauge = m_originWorkGauge;
         m_restWorkGauge = 0; //임시로 필요 작업량 할당
+        m_restTurn = _needTurn;
         workType = _workType;
         WorkPid = _workPid;
        // string debugStr = "";
@@ -143,13 +146,12 @@ public class WorkOrder
     //작업량 까는거
     public void DoWork()
     {
-        if(IsDoneWork() == true)
+        if(IsDoneWork())
         {
             //이미 완료된 작업
             DoEffect();
             return;
         }
-
 
         //일 시킨다
         if(IsReadyResource() == false)
@@ -158,31 +160,11 @@ public class WorkOrder
             return;
         }
 
-        int laborCoin = GameUtil.GetTileTokenFromMap(WorkPlacePos).GetLaborCoinCount();
-       // Debug.Log(laborCoin + "으로 작업진행");
-        if(laborCoin == 0)
-        {
-            Debug.LogWarning("작업자수 부족 수행 불가");
-            
-        }
-
-        //작업량 구하기
-        int workAmount = m_baseworkEfficiency * 1; //기본 토큰1은 기본효율로
-        int overToken = laborCoin - 1; //초과 토큰 수 계산
-        int overWorkAmount = 0;
-        if (1 <= overToken)
-        {
-            overWorkAmount = overToken * m_overWorkEfficiency;
-        }
-        //작업진행
-        m_restWorkGauge -= (workAmount + overWorkAmount);
-      //  Debug.Log("남은 작업량 " + m_restWorkGauge);
-        if(m_restWorkGauge <= 0)
-        {
-            Debug.Log("작업완료");
-            m_restWorkGauge = 0;
-            DoEffect();
-        }
+        CountTurn();
+        CountWorkGague();
+       
+        if(IsDoneWork())
+           DoEffect();
     }
 
     //할당된 효과 발동
@@ -209,6 +191,51 @@ public class WorkOrder
         RemoveRegist(WorkStateCode.Complete);
 
 
+    }
+
+    private void CountTurn()
+    {
+        if (m_enoughTurn == true)
+            return;
+
+        m_restTurn -= 1;
+        if(m_restTurn <= 0)
+        {
+            m_enoughTurn = true;
+            m_restTurn = 0;
+        }
+    }
+
+    private void CountWorkGague()
+    {
+        if (m_enoughWorkGague == true)
+            return;
+
+        int laborCoin = GameUtil.GetTileTokenFromMap(WorkPlacePos).GetLaborCoinCount();
+        // Debug.Log(laborCoin + "으로 작업진행");
+        if (laborCoin == 0)
+        {
+            Debug.LogWarning("작업자수 부족 수행 불가");
+
+        }
+
+        //작업량 구하기
+        int workAmount = m_baseworkEfficiency * 1; //기본 토큰1은 기본효율로
+        int overToken = laborCoin - 1; //초과 토큰 수 계산
+        int overWorkAmount = 0;
+        if (1 <= overToken)
+        {
+            overWorkAmount = overToken * m_overWorkEfficiency;
+        }
+        //작업진행
+        m_restWorkGauge -= (workAmount + overWorkAmount);
+        //  Debug.Log("남은 작업량 " + m_restWorkGauge);
+        if (m_restWorkGauge <= 0)
+        {
+            Debug.Log("작업완료");
+            m_restWorkGauge = 0;
+            m_enoughWorkGague = true;
+        }
     }
 
     private bool CheckCondition()
@@ -260,7 +287,7 @@ public class WorkOrder
 
     public bool IsDoneWork()
     {
-        if (m_restWorkGauge == 0)
+        if (m_enoughTurn && m_enoughWorkGague)
             return true;
 
         return false;
