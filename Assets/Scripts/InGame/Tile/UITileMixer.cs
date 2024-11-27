@@ -1,38 +1,90 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using TMPro;
 
 public class UITileMixer : UIBase, KeyInterceptor
 {
+    [SerializeField] private TMP_Text m_MadeName; //나중에 아이콘으로 대체될부분
+
+    [SerializeField]
+    private TileMixSlot m_tileMixSlotSample;
+    [SerializeField]
+    private Transform m_needGrid;
+    [SerializeField]
+    private TileMixSlot[] m_mixSlots;
+
     private TileType m_madeTile = TileType.Nomal; //만들려는 타일
     private List<TokenTile> m_inTile = new(); //추가된 타일들
     private int m_nationNum = -1;
     private List<TileType> needTile = new(); //현재 부족한 부분
     private List<TileType> recipe = new(); //최초 필요한 부분
-    
+
     #region 초기화
+    //재료 타일에서 시작한 경우 해당 타일을 기본적으로 넣고 시작
+    public void SetMixInfo(TileType _goalTile, TokenTile _tile)
+    {
+        SetMixInfo(_goalTile, _tile.GetNationNum());
+        OnClickTile(_tile);
+    }
+
     public void SetMixInfo(TileType _goalTile, int _nationNum)
     {
         //만들 조합장소와 포함되는 국가 넘버를 세팅
+        MgUI.GetInstance().OffPlayUI();
         UISwitch(true);
         m_madeTile = _goalTile;
         m_nationNum = _nationNum;
         //해당 타입을 만들기 위한 재료 정보를 가져와야함 
+
+        m_MadeName.text = m_madeTile.ToString();
+        int[] needTilePId = MgMasterData.GetInstance().GetTileData((int)m_madeTile).NeedTiles;
+        MakeSamplePool<TileMixSlot>(ref m_mixSlots, m_tileMixSlotSample.gameObject, needTilePId.Length, m_needGrid);
+        SetSlot(needTilePId);
+
         SetRecipe(_goalTile);
         SetKeyInteceptor();
     }
 
-    public void SetMixInfo(TileType _goalTile, TokenTile _tile)
+    public void SetSlot(int[] _needTilePId)
     {
-        //만들 조합장소와 포함되는 국가 넘버를 세팅
-        UISwitch(true);
-        m_madeTile = _goalTile;
-        m_nationNum = _tile.GetNationNum();
-        //해당 타입을 만들기 위한 재료 정보를 가져와야함 
-        SetRecipe(_goalTile);
-        OnClickTile(_tile);
-        SetKeyInteceptor();
+        //m_inTile을 돌면서 
+        int itemCount = _needTilePId.Length;
+
+        for (int i = 0; i < itemCount; i++)
+        {
+            int index = i;
+            m_mixSlots[i].gameObject.SetActive(true);
+            m_mixSlots[i].SetRecipe((TileType)_needTilePId[i]);
+        }
+        for (int i = itemCount; i < m_mixSlots.Length; i++)
+        {
+            m_mixSlots[i].gameObject.SetActive(false);
+        }
+
+    }
+
+    public void RenewSlot()
+    {
+        //기존 표기 다 없애고
+        for (int i = 0; i < recipe.Count; i++)
+        {
+            m_mixSlots[i].ResetSlot();
+        }
+
+        //다시 순서대로 투입된거대로 표시 색깔 
+        for (int i = 0; i < m_inTile.Count; i++)
+        {
+            TokenTile tile = m_inTile[i];
+            TileType inTileType = tile.GetTileType();
+            for (int x = 0; x < recipe.Count; x++)
+            {
+                if (m_mixSlots[i].PutTile(tile))
+                {
+                    break;
+                }
+            }
+        }
     }
  
     private void SetKeyInteceptor()
@@ -92,17 +144,16 @@ public class UITileMixer : UIBase, KeyInterceptor
     {
         m_inTile.Add(_tile); //리스트에 넣고
         needTile.Remove(_tile.GetTileType()); //필요한 타입에서 제외하고
-        Debug.Log(_tile.GetTileType() + "추가 남은 재료 수" + needTile.Count);
-        //임시로 자동 만들기 진행
-        if (needTile.Count == 0)
-            MakeWorkOrder();
+        RenewSlot();
+       // Debug.Log(_tile.GetTileType() + "추가 남은 재료 수" + needTile.Count);
     }
 
     private void RemoveTile(TokenTile _tile)
     {
         m_inTile.Remove(_tile); //리스트에서 빼고
         needTile.Add(_tile.GetTileType()); //필요한 타입에 추가하고
-        Debug.Log(_tile.GetTileType() + "제거");
+        RenewSlot();
+       // Debug.Log(_tile.GetTileType() + "제거");
     }
 
     private bool InNeed(TileType _type)
@@ -116,7 +167,7 @@ public class UITileMixer : UIBase, KeyInterceptor
     }
     #endregion
 
-    private void MakeWorkOrder()
+    public void MakeWorkOrder()
     {
         Debug.Log("작업서 생성 시작");
         if (needTile.Count != 0)
