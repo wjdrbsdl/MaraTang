@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum WorkType
 {
-    InterBuild, ChangeBuild, ExpandLand, NationLvUp, Research
+    InterBuild, ChangeBuild, ExpandLand, NationLvUp, Research, Inherence
 }
 
 public enum WorkStateCode
