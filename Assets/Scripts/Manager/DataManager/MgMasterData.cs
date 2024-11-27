@@ -332,15 +332,20 @@ public enum TileEffectEnum
 {
   None, Money, Stat, Tool
 }
+public enum LaborType
+{
+    LaborCoin, Turn
+}
 
 public class TileTypeData {
     public int TypePID;
     public string PlaceName;
     public TileEffectEnum effectType = TileEffectEnum.None;
     public TItemListData EffectData;
+    public LaborType LaborType = LaborType.LaborCoin;
+    public int NeedLabor;
     public int[] NeedTiles;
     public bool IsInterior = false; //해당 장소는 인테리어 타입인지
-    public int[] AbleTileActionPID;
     public int[] TileStat; //해당 장소의 내구도 같은것들
     public List<int> AbleBuildPid; //해당 장소에서 지을 수 있는 건물 모음. 
     public List<int> AbleInteriorPid; //해당 장소에서 지을 수 있는 내부 건물 모음.
@@ -368,16 +373,16 @@ public class TileTypeData {
         }
 
 
-        int ableActionIndex = effectIndex + 1;
-        string ables = _parsingData[ableActionIndex]; //가능한 작업이 나열되어있음
-        string[] divideAble = ables.Trim().Split(FixedValue.PARSING_LIST_DIVIDE);
-        AbleTileActionPID = new int[divideAble.Length];
-        for (int i = 0; i < divideAble.Length; i++)
+        int laborTypeIndex = effectIndex + 1;
+        if (_parsingData[laborTypeIndex] == "T")
         {
-            AbleTileActionPID[i] = int.Parse(divideAble[i]);
+            LaborType = LaborType.Turn;
         }
 
-        int interiorTypeIdx = ableActionIndex+1;
+        int needLaborIndex = laborTypeIndex += 1;
+        NeedLabor = int.Parse(_parsingData[needLaborIndex]);
+
+        int interiorTypeIdx = needLaborIndex+1;
         if (_parsingData[interiorTypeIdx] == "T")
         {
             IsInterior = true;
