@@ -20,9 +20,8 @@ public class RuleBookTileAction
             case TokenType.UIOpen:
                 OpenUIByCode((UICodeEnum)subValue, _tile);
                 break;
-            case TokenType.MonsterNationSpawn:
-                //현재 스폰만 일괄중 다른 작업 정의를 위해선 추가 정보 가 필요
-                MakeWorkOrder(_tile, (WorkType)subValue, Value);
+            case TokenType.MonsterSpawn:
+                MonsterSpawn(_tile, subValue, Value);
                 break;
             default:
                 MgUI.GetInstance().CancleLastUI();
@@ -78,9 +77,11 @@ public class RuleBookTileAction
         }
     }
 
-    private void MakeWorkOrder(TokenTile _tile, WorkType _workType, int _value)
+    private void MonsterSpawn(TokenTile _spawnTile, int _monsterPid, int _monsterCount)
     {
-        new WorkOrder(null, 100, _tile, _value, _workType);
+        for (int i = 0; i < _monsterCount; i++)
+        {
+            MgToken.GetInstance().SpawnCharactor(_spawnTile.GetMapIndex(), _monsterPid);
+        }
     }
-
-}
+ }
