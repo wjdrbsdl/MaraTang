@@ -34,11 +34,7 @@ public class WorkOrderExcutor
                 PolicyLevelUp levelUpPolicy = new();
                 levelUpPolicy.LevelUp(workTile);
                 break;
-            case WorkType.Spawn:
-                int monsterPid = workPid;
-                MgToken.GetInstance().SpawnCharactor(workTile.GetMapIndex(), monsterPid);
-                break;
-
+    
         }
     }
 
@@ -63,10 +59,6 @@ public class WorkOrderExcutor
                 //  Debug.Log("집행자가 레벨업");
                 PolicyLevelUp levelUpPolicy = new();
                 break;
-            case WorkType.Spawn:
-                int monsterPid = workPid;
-                break;
-
         }
         return true;
     }
