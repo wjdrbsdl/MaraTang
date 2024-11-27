@@ -173,6 +173,17 @@ public class TokenTile : TokenBase
     }
     #endregion
 
+    #region 장소 변경
+    public void ChangePlace(TileType _tileType)
+    {
+        SetTileType(_tileType);
+        SetTileEffect();
+        SetTileSprite();
+        SetTileValue();
+        DoAutoTileAction();
+    }
+    #endregion 
+
     #region 작업서
     public bool RegisterWork(WorkOrder _work)
     {
@@ -402,14 +413,7 @@ public class TokenTile : TokenBase
 
     }
 
-    public void ChangePlace(TileType _tileType)
-    {
-        SetTileType(_tileType);
-        SetTileEffect();
-        SetTileSprite();
-        SetTileValue();
-        DoAutoTileAction();
-    }
+  
 
     public WorkOrder GetWorkOrder()
     {
