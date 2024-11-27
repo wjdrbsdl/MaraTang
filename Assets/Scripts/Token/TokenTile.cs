@@ -175,7 +175,7 @@ public class TokenTile : TokenBase
         SetTileEffect();
         SetTileSprite();
         SetTileValue();
-        DoAutoTileAction();
+        ReadyInherenceWork();
     }
     #endregion 
 
@@ -469,9 +469,9 @@ public class TokenTile : TokenBase
         }
     }
 
-    private void DoAutoTileAction()
+    private void ReadyInherenceWork()
     {
-        Debug.Log("자동 진행 체크 필요 ");
+        //기능수행에 턴, 자원, 노동량등 준비가 필요한경우 고유작업 등록부터 진행 
         TileTypeData tileData = MgMasterData.GetInstance().GetTileData((int)tileType);
         TileEffectEnum effectType = tileData.effectType;
 
@@ -480,17 +480,6 @@ public class TokenTile : TokenBase
             Debug.Log(tileType + "에서 작업서 자동 등록");
             new WorkOrder(null, tileData.NeedLaborTurn, tileData.NeedLaborAmount, this, 0, WorkType.Inherence);
         }
-        //for (int i = 0; i < ablePid.Length; i++)
-        //{
-        //    TokenTileAction action = MgMasterData.GetInstance().GetTileAction(ablePid[i]);
-        //    if (action == null)
-        //        continue;
-        //    if (action.IsAutoStart)
-        //    {
-        //        Debug.Log("자동 시작함" + tileType);
-        //        GamePlayMaster.GetInstance().RuleBook.ConductTileAction(this, action);
-        //    }
-        //}
     }
 
     private void RepeatTileAction(WorkOrder _workOrder)
