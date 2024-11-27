@@ -262,53 +262,6 @@ public class TokenTile : TokenBase
     }
 
 
-    private void DoAutoTileAction()
-    {
-        Debug.Log("자동 진행 체크 필요 ");
-        TileTypeData tileData = MgMasterData.GetInstance().GetTileData((int)tileType);
-        TileEffectEnum effectType = tileData.effectType;
-
-        if(effectType == TileEffectEnum.Tool)
-        {
-            Debug.Log(tileType + "에서 작업서 자동 등록");
-            new WorkOrder(null, tileData.NeedLaborTurn, tileData.NeedLaborAmount, this, 0, WorkType.Inherence);
-        }
-        //for (int i = 0; i < ablePid.Length; i++)
-        //{
-        //    TokenTileAction action = MgMasterData.GetInstance().GetTileAction(ablePid[i]);
-        //    if (action == null)
-        //        continue;
-        //    if (action.IsAutoStart)
-        //    {
-        //        Debug.Log("자동 시작함" + tileType);
-        //        GamePlayMaster.GetInstance().RuleBook.ConductTileAction(this, action);
-        //    }
-        //}
-    }
-
-    private void RepeatTileAction(WorkOrder _workOrder)
-    {
-        Debug.Log("Torder 형태로 반복 체크 필요");
-        //한번더 수행하는 작업인지 체크
-        //int[] ablePid = MgMasterData.GetInstance().GetTileData((int)tileType).AbleTileActionPID;
-        //for (int i = 0; i < ablePid.Length; i++)
-        //{
-        //    TokenTileAction action = MgMasterData.GetInstance().GetTileAction(ablePid[i]);
-        //    if (action == null)
-        //        continue;
-            
-        //    //타일액션 타입이 워크오더고
-        //    if(action.GetStat(TileActionStat.TileActionType) == (int)TileActionType.WorkOrder)
-        //    {
-        //        //그 작업타입이 동일하다면 고유 기능이 완료된 상태이므로 일단 반복
-        //        if(action.GetStat(TileActionStat.SubValue) == (int)_workOrder.workType)
-        //        {
-        //            Debug.Log("반복 작업 진행 " + _workOrder.workType);
-        //            new WorkOrder(_workOrder.GetNeedList(), _workOrder.GetWorkGauge(), this, _workOrder.WorkPid, _workOrder.workType);
-        //        } 
-        //    }
-        //}
-    }
     #endregion
 
     #region 노동코인
@@ -499,4 +452,69 @@ public class TokenTile : TokenBase
     }
     #endregion
 
+    #region 타일 기능 수행
+    public void DoneWorkReady()
+    {
+        //고유 작업을 위한 준비가 끝났을때
+        TileTypeData tileData = MgMasterData.GetInstance().GetTileData((int)tileType);
+        bool isAuto = tileData.IsAuto;
+        List<TOrderItem> effectList = tileData.EffectData.GetItemList();
+        if (isAuto)
+        {
+            for (int i = 0; i < effectList.Count; i++)
+            {
+                GamePlayMaster.GetInstance().RuleBook.ConductTileAction(this, effectList[i]);
+            }
+            
+        }
+    }
+
+    private void DoAutoTileAction()
+    {
+        Debug.Log("자동 진행 체크 필요 ");
+        TileTypeData tileData = MgMasterData.GetInstance().GetTileData((int)tileType);
+        TileEffectEnum effectType = tileData.effectType;
+
+        if (effectType == TileEffectEnum.Tool)
+        {
+            Debug.Log(tileType + "에서 작업서 자동 등록");
+            new WorkOrder(null, tileData.NeedLaborTurn, tileData.NeedLaborAmount, this, 0, WorkType.Inherence);
+        }
+        //for (int i = 0; i < ablePid.Length; i++)
+        //{
+        //    TokenTileAction action = MgMasterData.GetInstance().GetTileAction(ablePid[i]);
+        //    if (action == null)
+        //        continue;
+        //    if (action.IsAutoStart)
+        //    {
+        //        Debug.Log("자동 시작함" + tileType);
+        //        GamePlayMaster.GetInstance().RuleBook.ConductTileAction(this, action);
+        //    }
+        //}
+    }
+
+    private void RepeatTileAction(WorkOrder _workOrder)
+    {
+        Debug.Log("Torder 형태로 반복 체크 필요");
+        //한번더 수행하는 작업인지 체크
+        //int[] ablePid = MgMasterData.GetInstance().GetTileData((int)tileType).AbleTileActionPID;
+        //for (int i = 0; i < ablePid.Length; i++)
+        //{
+        //    TokenTileAction action = MgMasterData.GetInstance().GetTileAction(ablePid[i]);
+        //    if (action == null)
+        //        continue;
+
+        //    //타일액션 타입이 워크오더고
+        //    if(action.GetStat(TileActionStat.TileActionType) == (int)TileActionType.WorkOrder)
+        //    {
+        //        //그 작업타입이 동일하다면 고유 기능이 완료된 상태이므로 일단 반복
+        //        if(action.GetStat(TileActionStat.SubValue) == (int)_workOrder.workType)
+        //        {
+        //            Debug.Log("반복 작업 진행 " + _workOrder.workType);
+        //            new WorkOrder(_workOrder.GetNeedList(), _workOrder.GetWorkGauge(), this, _workOrder.WorkPid, _workOrder.workType);
+        //        } 
+        //    }
+        //}
+    }
+    #endregion
 }
