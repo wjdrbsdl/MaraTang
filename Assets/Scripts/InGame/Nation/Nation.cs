@@ -254,7 +254,7 @@ public class Nation : ITradeCustomer
         WorkOrder workOrder = policy.WriteWorkOrder();
         if(workOrder.DoneWrite == false)
         {
-            Debug.Log("잘못 쓰인 작업서");
+            //Debug.Log("잘못 쓰인 작업서 - 해당 타일에 이미 진행중인 작업이 있음");
             return;
         }
         //기본 재료 다넣을수있는지 체크
