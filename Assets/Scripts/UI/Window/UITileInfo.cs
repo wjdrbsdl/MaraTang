@@ -78,8 +78,7 @@ public class UITileInfo : UIBase
 
     public void OnClickTileAction()
     {
-        TileTypeData tileData = MgMasterData.GetInstance().GetTileData((int)m_curPlace);
-        GamePlayMaster.GetInstance().RuleBook.ConductTileAction(m_curTile, tileData.EffectData.GetItemList()[0]);
+        m_curTile.DoInhereceWork();
     }
 
     #region UI ¼¼ÆÃ
