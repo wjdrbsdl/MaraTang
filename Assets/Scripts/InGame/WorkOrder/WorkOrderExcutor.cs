@@ -34,6 +34,9 @@ public class WorkOrderExcutor
                 PolicyLevelUp levelUpPolicy = new();
                 levelUpPolicy.LevelUp(workTile);
                 break;
+            case WorkType.Inherence:
+                CallTileInherece(_order);
+                break;
     
         }
     }
@@ -61,5 +64,11 @@ public class WorkOrderExcutor
                 break;
         }
         return true;
+    }
+
+    private void CallTileInherece(WorkOrder _order)
+    {
+        Debug.Log("고유 기능 호출 들어감");
+        TokenTile _tile = GameUtil.GetTileTokenFromMap(_order.WorkPlacePos);
     }
 }
