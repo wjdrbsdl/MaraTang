@@ -342,6 +342,7 @@ public class TileTypeData {
     public string PlaceName;
     public TileEffectEnum effectType = TileEffectEnum.None;
     public TItemListData EffectData;
+    public bool IsAuto = false;
     public LaborType LaborType = LaborType.LaborCoin;
     public int NeedLaborAmount;
     public int[] NeedTiles;
@@ -372,8 +373,13 @@ public class TileTypeData {
             EffectData = GameUtil.ParseCostDataArray(_parsingData, effectIndex);
         }
 
+        int autoActIndex = effectIndex += 1;
+        if (_parsingData[autoActIndex] == "T")
+        {
+            IsAuto = true;
+        }
 
-        int laborTypeIndex = effectIndex + 1;
+        int laborTypeIndex = autoActIndex + 1;
         if (_parsingData[laborTypeIndex] == "T")
         {
             LaborType = LaborType.Turn;
