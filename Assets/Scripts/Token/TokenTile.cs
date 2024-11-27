@@ -37,6 +37,7 @@ public class TokenTile : TokenBase
     public TileEffectEnum m_effectType = TileEffectEnum.None;
     public List<int> doneInteriorList; //지어진 장소
     public int ChunkNum;
+    public bool IsReadyInherece =false;
     public WorkOrder m_workOrder = null; //진행중인 공사
     public Complain m_complain = null; //진행중인 불만
     [JsonProperty] private TileViewState m_viewState = TileViewState.Fog;
@@ -201,7 +202,9 @@ public class TokenTile : TokenBase
             case WorkStateCode.Complete:
                 WorkOrder preWork = m_workOrder; //완료된작업 저장
                 RemoveWork(); //기존 작업은 없애고
-                RepeatTileAction(preWork);
+                //만약 방금마친 일이 고유작업 준비였으면 고유작업 수행을 호출 
+                if (preWork.workType == WorkType.Inherence)
+                    DoInhereceWork();
                 break;
             case WorkStateCode.Cancle:
                 RemoveWork();
@@ -453,20 +456,34 @@ public class TokenTile : TokenBase
     #endregion
 
     #region 타일 기능 수행
-    public void DoneWorkReady()
+    public void DoInhereceWork()
     {
-        //고유 작업을 위한 준비가 끝났을때
+        Debug.Log("고유기능 수행");
+        if(IsReadyInherece == false)
+        {
+            Debug.Log("고유 기능 수행 준비 안 되었음");
+            return;
+        }
         TileTypeData tileData = MgMasterData.GetInstance().GetTileData((int)tileType);
         bool isAuto = tileData.IsAuto;
         List<TOrderItem> effectList = tileData.EffectData.GetItemList();
         if (isAuto)
         {
+            IsReadyInherece = false; //수행하는 순간 준비된상태 풀리고 
             for (int i = 0; i < effectList.Count; i++)
             {
                 GamePlayMaster.GetInstance().RuleBook.ConductTileAction(this, effectList[i]);
             }
-            
+
         }
+    }
+
+    public void DoneWorkReady()
+    {
+        //고유 작업을 위한 준비가 끝났을때
+        // 인헤리슨 작업의 효과 
+        IsReadyInherece = true;
+       
     }
 
     private void ReadyInherenceWork()
@@ -482,28 +499,11 @@ public class TokenTile : TokenBase
         }
     }
 
-    private void RepeatTileAction(WorkOrder _workOrder)
+    public void RepeatInhereceReady()
     {
-        Debug.Log("Torder 형태로 반복 체크 필요");
-        //한번더 수행하는 작업인지 체크
-        //int[] ablePid = MgMasterData.GetInstance().GetTileData((int)tileType).AbleTileActionPID;
-        //for (int i = 0; i < ablePid.Length; i++)
-        //{
-        //    TokenTileAction action = MgMasterData.GetInstance().GetTileAction(ablePid[i]);
-        //    if (action == null)
-        //        continue;
-
-        //    //타일액션 타입이 워크오더고
-        //    if(action.GetStat(TileActionStat.TileActionType) == (int)TileActionType.WorkOrder)
-        //    {
-        //        //그 작업타입이 동일하다면 고유 기능이 완료된 상태이므로 일단 반복
-        //        if(action.GetStat(TileActionStat.SubValue) == (int)_workOrder.workType)
-        //        {
-        //            Debug.Log("반복 작업 진행 " + _workOrder.workType);
-        //            new WorkOrder(_workOrder.GetNeedList(), _workOrder.GetWorkGauge(), this, _workOrder.WorkPid, _workOrder.workType);
-        //        } 
-        //    }
-        //}
+        Debug.Log("고유 기능 준비 반복");
+        if(IsReadyInherece == false)
+           ReadyInherenceWork();
     }
     #endregion
 }
