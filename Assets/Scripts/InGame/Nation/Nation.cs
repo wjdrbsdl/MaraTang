@@ -27,9 +27,9 @@ public class Nation : ITradeCustomer
     private GodClassEnum m_godClass;
     private TokenTile m_capitalCity;
     private List<TokenTile> m_territorryList;
-    private NationPopular m_popularMg; //인구 관리소
-    private NationEvent m_eventMg; //사건 관리소 
-    private NationStatPart m_statPart; //스텟 관리소
+    public NationPopular m_popularMg; //인구 관리소
+    public NationEvent m_eventMg; //사건 관리소 
+    public NationStatPart m_statPart; //스텟 관리소
     public NationTechPart TechPart;
     private int[] m_resources; //보유 자원
     private int[] nationStatValues ; //국가 스텟 - 정서, 환경 통합
