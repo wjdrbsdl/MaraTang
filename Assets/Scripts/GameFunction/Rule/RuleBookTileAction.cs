@@ -22,6 +22,7 @@ public class RuleBookTileAction
                 break;
             case TokenType.MonsterSpawn:
                 MonsterSpawn(_tile, subValue, Value);
+                _tile.RepeatInhereceReady();
                 break;
             default:
                 MgUI.GetInstance().CancleLastUI();
