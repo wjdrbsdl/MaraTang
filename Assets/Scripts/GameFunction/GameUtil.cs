@@ -673,22 +673,7 @@ public static class GameUtil
         }
 
     }
-
-    public static System.Enum FindEnum(TokenType _tokenType, int _subIdx)
-    {
-       
-        switch (_tokenType)
-        {
-            case TokenType.Capital:
-                return (Capital)_subIdx;
-            case TokenType.NationStat:
-                return (NationStatEnum)_subIdx;
-            case TokenType.CharStat:
-                return (CharStat)_subIdx;
-        }
-        return (NationStatEnum)_subIdx;
-    }
-
+   
     public static TOrderItem ParseOrderItem(string costData)
     {
         //토큰그룹_pid_수량 의 string으로 넘어온 코스트 데이터
@@ -720,39 +705,9 @@ public static class GameUtil
             }
 
             //enum의 문자값으로 기록되어있으면 index를 산출
-            System.Type findEnum = null;
-            //토큰 타입에 따라 적절한 enum 타입을 정의하고
-            switch (tokenType)
-            {
-                case TokenType.Capital:
-                    findEnum = typeof(Capital);
-                    break;
-                case TokenType.NationStat:
-                    findEnum = typeof(NationStatEnum);
-                    break;
-                case TokenType.Conversation:
-                    findEnum = typeof(ConversationEnum);
-                    break;
-                case TokenType.Content:
-                    findEnum = typeof(ContentEnum);
-                    break;
-                case TokenType.OnChange:
-                    findEnum = typeof(OnChangeEnum);
-                    break;
-                case TokenType.Nation:
-                    findEnum = typeof(NationEnum);
-                    break;
-                case TokenType.CharStat:
-                    findEnum = typeof(CharStat);
-                    break;
-                case TokenType.Bless:
-                    findEnum = typeof(BlessSynergeCategoryEnum);
-                    break;
-                case TokenType.UIOpen:
-                    findEnum = typeof(UICodeEnum);
-                    break;
-            }
+            System.Type findEnum = FindEnum(tokenType);
 
+            //토큰 타입에 따라 적절한 enum 타입을 정의하고
             if (findEnum == null)
             {
                 //적절한 enum 그룹이 없으면 넘김
@@ -776,6 +731,42 @@ public static class GameUtil
         }
     
         return noneData;
+    }
+
+    public static System.Type FindEnum(TokenType _tokenType)
+    {
+        System.Type findEnum = null;
+        switch (_tokenType)
+        {
+            case TokenType.Capital:
+                findEnum = typeof(Capital);
+                break;
+            case TokenType.NationStat:
+                findEnum = typeof(NationStatEnum);
+                break;
+            case TokenType.Conversation:
+                findEnum = typeof(ConversationEnum);
+                break;
+            case TokenType.Content:
+                findEnum = typeof(ContentEnum);
+                break;
+            case TokenType.OnChange:
+                findEnum = typeof(OnChangeEnum);
+                break;
+            case TokenType.Nation:
+                findEnum = typeof(NationEnum);
+                break;
+            case TokenType.CharStat:
+                findEnum = typeof(CharStat);
+                break;
+            case TokenType.Bless:
+                findEnum = typeof(BlessSynergeCategoryEnum);
+                break;
+            case TokenType.UIOpen:
+                findEnum = typeof(UICodeEnum);
+                break;
+        }
+        return findEnum;
     }
 
     public static List<TOrderItem> ReverseItemList(List<TOrderItem> _originList)
