@@ -20,7 +20,7 @@ public class PolicyLevelUp : NationPolicy
         //임시 벌목장 건설에 필요한 코스트로 진행
         TItemListData changeCost = MgMasterData.GetInstance().GetTileData(1).BuildCostData;
         TokenTile workTile = (TokenTile)m_planToken;
-        WorkOrder levelUpOrder = new WorkOrder(changeCost.GetItemList(), 100, workTile, m_planIndex, WorkType.NationLvUp);
+        WorkOrder levelUpOrder = new WorkOrder(changeCost.GetItemList(),0, 100, workTile, m_planIndex, WorkType.NationLvUp);
         return levelUpOrder;
     }
 

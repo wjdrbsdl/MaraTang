@@ -20,7 +20,7 @@ public class PolicyBuildResrouceTile : NationPolicy
 
         //해당 타일을 자본타일로 바꾸는 작업서
         TokenTile workTile = (TokenTile)m_planToken;
-        WorkOrder manageOrder = new WorkOrder(null, 100, workTile, m_planIndex, WorkType.ChangeBuild);
+        WorkOrder manageOrder = new WorkOrder(null, 0, 100, workTile, m_planIndex, WorkType.ChangeBuild);
         return manageOrder;
     }
 

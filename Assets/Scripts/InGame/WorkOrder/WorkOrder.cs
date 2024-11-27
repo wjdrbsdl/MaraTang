@@ -29,7 +29,8 @@ public class WorkOrder
     private List<TOrderItem> m_curList = new List<TOrderItem>();
     private int m_originWorkGauge;
     private int m_restWorkGauge;
-    
+    private int m_restTurn;
+
     private int m_baseworkEfficiency = 100; //토큰 1개일때 노동 효율
     private int m_overWorkEfficiency = 10; //추가되는 토큰에 따른 노동 효율
 
@@ -37,7 +38,7 @@ public class WorkOrder
     public bool IsCancle = false;
     
 
-    public WorkOrder(List<TOrderItem> _needList, int _needWorkGague, TokenTile _placeTile, int _workPid = -1, WorkType _workType = WorkType.ChangeBuild)
+    public WorkOrder(List<TOrderItem> _needList, int _needTurn, int _needWorkGague, TokenTile _placeTile, int _workPid = -1, WorkType _workType = WorkType.ChangeBuild)
     {
         if (_needList == null)
         {

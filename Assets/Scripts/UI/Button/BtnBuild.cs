@@ -44,7 +44,7 @@ public class BtnBuild : MonoBehaviour
             return;
         }
 
-        new WorkOrder(null, 100, tile, (int)buildType, WorkType.ChangeBuild);
+        new WorkOrder(null, 0, 100, tile, (int)buildType, WorkType.ChangeBuild);
 
         m_tileInfoUI.ReqeustOff();
     }
