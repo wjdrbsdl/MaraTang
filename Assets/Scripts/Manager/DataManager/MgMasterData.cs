@@ -343,7 +343,7 @@ public class TileTypeData {
     public TileEffectEnum effectType = TileEffectEnum.None;
     public TItemListData EffectData;
     public LaborType LaborType = LaborType.LaborCoin;
-    public int NeedLabor;
+    public int NeedLaborAmount;
     public int[] NeedTiles;
     public bool IsInterior = false; //해당 장소는 인테리어 타입인지
     public int[] TileStat; //해당 장소의 내구도 같은것들
@@ -380,7 +380,7 @@ public class TileTypeData {
         }
 
         int needLaborIndex = laborTypeIndex += 1;
-        NeedLabor = int.Parse(_parsingData[needLaborIndex]);
+        NeedLaborAmount = int.Parse(_parsingData[needLaborIndex]);
 
         int interiorTypeIdx = needLaborIndex+1;
         if (_parsingData[interiorTypeIdx] == "T")
