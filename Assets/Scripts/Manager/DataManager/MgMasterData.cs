@@ -332,10 +332,6 @@ public enum TileEffectEnum
 {
   None, Money, Stat, Tool
 }
-public enum LaborType
-{
-    LaborCoin, Turn
-}
 
 public class TileTypeData {
     public int TypePID;
@@ -343,7 +339,7 @@ public class TileTypeData {
     public TileEffectEnum effectType = TileEffectEnum.None;
     public TItemListData EffectData;
     public bool IsAuto = false;
-    public LaborType LaborType = LaborType.LaborCoin;
+    public int NeedLaborTurn; 
     public int NeedLaborAmount;
     public int[] NeedTiles;
     public bool IsInterior = false; //해당 장소는 인테리어 타입인지
@@ -379,13 +375,10 @@ public class TileTypeData {
             IsAuto = true;
         }
 
-        int laborTypeIndex = autoActIndex + 1;
-        if (_parsingData[laborTypeIndex] == "T")
-        {
-            LaborType = LaborType.Turn;
-        }
+        int needLaborTurn = autoActIndex + 1;
+        NeedLaborTurn = int.Parse(_parsingData[needLaborTurn]);
 
-        int needLaborIndex = laborTypeIndex += 1;
+        int needLaborIndex = needLaborTurn += 1;
         NeedLaborAmount = int.Parse(_parsingData[needLaborIndex]);
 
         int interiorTypeIdx = needLaborIndex+1;

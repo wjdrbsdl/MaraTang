@@ -36,7 +36,6 @@ public class TokenTile : TokenBase
     public TileType tileType;
     public TileEffectEnum m_effectType = TileEffectEnum.None;
     public int m_restLaborAmount = 0;
-    public LaborType m_laborType = LaborType.LaborCoin;
     public List<int> doneInteriorList; //지어진 장소
     public int ChunkNum;
     public WorkOrder m_workOrder = null; //진행중인 공사
@@ -270,7 +269,13 @@ public class TokenTile : TokenBase
     private void DoAutoTileAction()
     {
         Debug.Log("자동 진행 체크 필요 ");
-        //int[] ablePid = MgMasterData.GetInstance().GetTileData((int)tileType).AbleTileActionPID;
+        TileTypeData tileData = MgMasterData.GetInstance().GetTileData((int)tileType);
+        TileEffectEnum effectType = tileData.effectType;
+
+        if(effectType == TileEffectEnum.Tool)
+        {
+            
+        }
         //for (int i = 0; i < ablePid.Length; i++)
         //{
         //    TokenTileAction action = MgMasterData.GetInstance().GetTileAction(ablePid[i]);
