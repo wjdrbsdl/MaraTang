@@ -108,6 +108,7 @@ public class OrderExcutor
         TileReturner tileReturner = new();
         //국가 영토중 외곽 타일 하나를 집는다. 
         TokenTile targetTile = tileReturner.NationBoundaryTile();
+        Debug.Log("주변 타일 바꿀때 기준이 되는 타일 확인위해서 WoodLand로 변경");
         targetTile.ChangePlace(TileType.WoodLand); //확인위해 변경
         //그 타일부터 사거리 3~5 중에 영토 주인 없는걸로 진행
         for (int range = 3; range <= 5; range++)
