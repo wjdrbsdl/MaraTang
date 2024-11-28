@@ -14,11 +14,11 @@ public class UITileInfo : UIBase
     [SerializeField]
     private TMP_Text m_workText; //토지 스텟 표기 
     [SerializeField]
-    private Transform m_tileActionBox; //액션 리스트 버튼 담을 장소
+    private Transform m_LaborSlotBox; //액션 리스트 버튼 담을 장소
     [SerializeField]
-    private BtnTileWorkShop m_workButtonSample;
+    private LaborSlot m_LaborSlotSample;
     [SerializeField]
-    private BtnTileWorkShop[] m_workButtones;
+    private LaborSlot[] m_LaborSlots;
 
     [SerializeField]
     private Transform m_placeBox; //내부장소 버튼 담을 포지션
@@ -53,6 +53,7 @@ public class UITileInfo : UIBase
         m_curPlace = _tileType;
         m_placeText.text = _tileType.ToString();
         PlayerManager.GetInstance().SetHeroPlace(_tileType);
+        MakeLaborSlots();
         //Debug.Log("메인 캐릭 있다 " + inMain);
         ResetUI();
     }
@@ -65,10 +66,16 @@ public class UITileInfo : UIBase
     public void ResetUI()
     {
         SetTileWork(); //타일에서 수행중인 작업
+        SetLaborCoin();
         SetInPlace(); //타일 내부 장소들
         SetOutBuildList(); //타일에서 건설가능한 외부건물들
         SetOccupyButton(); //점령하기버튼 - 이건쓸지 잘
         SetTileStat(); //해당 타일 정보
+    }
+    
+    private void MakeLaborSlots()
+    {
+        MakeSamplePool<LaborSlot>(ref m_LaborSlots, m_LaborSlotSample.gameObject, 3, m_LaborSlotBox);
     }
     #endregion
 
@@ -102,7 +109,6 @@ public class UITileInfo : UIBase
         }
     }
 
-
     private void SetTileWork()
     {
         SetPushButton(); //자원투입 - 작업에 필요한 부분이므로 타일워크에서 진행 
@@ -116,6 +122,20 @@ public class UITileInfo : UIBase
         m_workText.text = work.workType.ToString() + "작업 중";
             
 
+    }
+
+    private void SetLaborCoin()
+    {
+        List<LaborCoin> labors = m_curTile.GetLaborList();
+        for (int i = 0; i < labors.Count; i++)
+        {
+            m_LaborSlots[i].gameObject.SetActive(true);
+            m_LaborSlots[i].SetSlot(labors[i]);
+        }
+        for (int x = labors.Count; x < 3; x++)
+        {
+            m_LaborSlots[x].gameObject.SetActive(false);
+        }
     }
 
     private void SetInPlace()
