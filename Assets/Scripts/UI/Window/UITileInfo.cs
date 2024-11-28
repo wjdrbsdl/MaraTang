@@ -10,7 +10,9 @@ public class UITileInfo : UIBase
     [SerializeField]
     private TMP_Text m_statText; //토지 스텟 표기 
     [SerializeField]
-    private TMP_Text m_nationText; //토지 스텟 표기 
+    private TMP_Text m_placeText; //장소 이름 표기 
+    [SerializeField]
+    private TMP_Text m_workText; //토지 스텟 표기 
     [SerializeField]
     private Transform m_tileActionBox; //액션 리스트 버튼 담을 장소
     [SerializeField]
@@ -37,17 +39,19 @@ public class UITileInfo : UIBase
 
     [SerializeField]
     private BtnOccupy m_occupyButton; //토지 점령 버튼
-    private int setCount = 0;
     #endregion
 
     Stack<TileType> m_placeStack = new(); //입장한 로드 
     TileType m_curPlace = TileType.Nomal;
     TokenTile m_curTile = null;
+
+    #region 정보 세팅 호출
     public void SetTileInfo(TokenTile _tile, TileType _tileType)
     {
         UISwitch(true);
         m_curTile = _tile;
         m_curPlace = _tileType;
+        m_placeText.text = _tileType.ToString();
         PlayerManager.GetInstance().SetHeroPlace(_tileType);
         //Debug.Log("메인 캐릭 있다 " + inMain);
         ResetUI();
@@ -60,21 +64,13 @@ public class UITileInfo : UIBase
 
     public void ResetUI()
     {
-        if(m_curTile.IsOutBuilding() == true)
-        {
-            //외부공사중이면 공사내역만 보여주고 끝
-            SetOutBuildInfo();
-            SetPushButton();
-            return;
-        }
-        SetTileAction();
-        SetInPlace();
-        SetOutBuild();
-        SetResourceInfo();
-        SetOccupyButton();
-        SetPushButton();
-        SetTileStat();
+        SetTileWork(); //타일에서 수행중인 작업
+        SetInPlace(); //타일 내부 장소들
+        SetOutBuildList(); //타일에서 건설가능한 외부건물들
+        SetOccupyButton(); //점령하기버튼 - 이건쓸지 잘
+        SetTileStat(); //해당 타일 정보
     }
+    #endregion
 
     public void OnClickTileAction()
     {
@@ -83,13 +79,7 @@ public class UITileInfo : UIBase
 
     #region UI 세팅
 
-    private void SetOutBuildInfo()
-    {
-        m_nationText.text = ((TileType)m_curTile.m_workOrder.WorkPid).ToString() + "작업 중";
-        m_curTile.m_workOrder.NoticeNeedResource();
-    }
-
-    private void SetOutBuild()
+    private void SetOutBuildList()
     {
         //해당 장소에서 만들 수 있는 건축물
         int[] buildPlace = MgMasterData.GetInstance().GetTileData((int)m_curPlace).AbleBuildPid.ToArray();
@@ -113,29 +103,19 @@ public class UITileInfo : UIBase
     }
 
 
-    private void SetTileAction()
+    private void SetTileWork()
     {
-        Debug.Log("해당 장소에서 활용가능한 기능 표기");
-        //TokenTileAction[] tileWorks = GamePlayMaster.GetInstance().RuleBook.RequestTileActions(m_curPlace);
-        //setCount = tileWorks.Length;
-        ////사용하는 만큼 버튼 활성화 
-        //MakeSamplePool<BtnTileWorkShop>(ref m_workButtones, m_workButtonSample.gameObject, setCount, m_tileActionBox);
-        ////버튼 세팅
-        //SetActionButtons(m_curTile, tileWorks);
-    }
-
-    private void SetActionButtons(TokenTile _tile)
-    {
-
-        for (int i = 0; i < setCount; i++)
+        SetPushButton(); //자원투입 - 작업에 필요한 부분이므로 타일워크에서 진행 
+        WorkOrder work = m_curTile.GetWorkOrder();
+        if (work == null)
         {
-            m_workButtones[i].SetActive(true);
-            m_workButtones[i].SetButtonInfo(_tile);
+            m_workText.text = "진행중인 일 없음";
+            return;
         }
-        for (int i = setCount; i < m_workButtones.Length; i++)
-        {
-            m_workButtones[i].SetActive(false);
-        }
+
+        m_workText.text = work.workType.ToString() + "작업 중";
+            
+
     }
 
     private void SetInPlace()
@@ -161,13 +141,6 @@ public class UITileInfo : UIBase
             m_placeButtones[dontUse].SetActive(false);
         }
     }
-    
-    private void SetResourceInfo()
-    {
-        int mainType = (int)m_curTile.GetMainResource();
-        int value = m_curTile.GetResrouceGrade();
-      //  Debug.Log((TokenTile.MainResource)mainType+" 해당 용도에서 등급은" + value);
-    }
 
     private void SetTileStat()
     {
@@ -180,7 +153,7 @@ public class UITileInfo : UIBase
             NationNum, tileType, mainResource, _tile.GetStat(TileStat.TileEnergy), _tile.GetMapIndex()[0], _tile.GetMapIndex()[1], _tile.GetLaborCoinCount());
         m_statText.text = tileStat;
 
-        m_nationText.text = "";
+     
         if (_tile.GetTileType().Equals(TileType.Capital))
         {
             Nation nation = _tile.GetNation();
@@ -191,7 +164,7 @@ public class UITileInfo : UIBase
                 (Capital)1, nation.GetResourceAmount((Capital)1),
                 (Capital)2, nation.GetResourceAmount((Capital)2),
                 (Capital)3, nation.GetResourceAmount((Capital)3));
-            m_nationText.text = nationStat;
+        
         }
     }
 
