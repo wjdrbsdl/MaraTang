@@ -49,6 +49,8 @@ public class BtnPlace : MonoBehaviour
         int laborValue = MgMasterData.GetInstance().GetTileData((int)m_tileType).BuildNeedLaborValue;
         TokenTile tile = m_tile;
         WorkOrder order = new WorkOrder(nothing, 0, laborValue, tile, (int)m_tileType, WorkType.InterBuild);
+        if (order.DoneWrite == false)
+            return;
         order.DoWork();
         if (order.IsDoneWork())
         {
