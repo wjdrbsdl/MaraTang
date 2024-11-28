@@ -68,7 +68,7 @@ public class WorkOrderExcutor
 
     private void CallTileInherece(WorkOrder _order)
     {
-        Debug.Log("고유 기능 호출 들어감");
+       // Debug.Log("고유 기능 호출 들어감");
         TokenTile _tile = GameUtil.GetTileTokenFromMap(_order.WorkPlacePos);
         _tile.DoneWorkReady();
     }
