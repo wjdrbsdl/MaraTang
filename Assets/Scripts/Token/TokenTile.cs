@@ -202,8 +202,8 @@ public class TokenTile : TokenBase
             case WorkStateCode.Complete:
                 WorkOrder preWork = m_workOrder; //완료된작업 저장
                 RemoveWork(); //기존 작업은 없애고
-                //만약 방금마친 일이 고유작업 준비였으면 고유작업 수행을 호출 
-                if (preWork.workType == WorkType.Inherence)
+                //만약 방금마친 일이 고유작업 준비작업이면서, 해당 장소 기능이 자동수행이면 고유작업 진행
+                if (CheckInhereceWork(preWork) && CheckAutoInherece())
                     DoInhereceWork();
                 break;
             case WorkStateCode.Cancle:
@@ -458,24 +458,32 @@ public class TokenTile : TokenBase
     #region 타일 기능 수행
     public void DoInhereceWork()
     {
-        Debug.Log("고유기능 수행");
+       // Debug.Log("고유기능 수행");
         if(IsReadyInherece == false)
         {
-            Debug.Log("고유 기능 수행 준비 안 되었음");
+           // Debug.Log("고유 기능 수행 준비 안 되었음");
             return;
         }
         TileTypeData tileData = MgMasterData.GetInstance().GetTileData((int)tileType);
-        bool isAuto = tileData.IsAuto;
         List<TOrderItem> effectList = tileData.EffectData.GetItemList();
-        if (isAuto)
+        for (int i = 0; i < effectList.Count; i++)
         {
-            IsReadyInherece = false; //수행하는 순간 준비된상태 풀리고 
-            for (int i = 0; i < effectList.Count; i++)
-            {
-                GamePlayMaster.GetInstance().RuleBook.ConductTileAction(this, effectList[i]);
-            }
-
+            GamePlayMaster.GetInstance().RuleBook.ConductTileAction(this, effectList[i]);
         }
+    }
+
+    public bool CheckAutoInherece()
+    {
+        //방금 수행한 작업이 고유작업이면서 자동인지
+        TileTypeData tileData = MgMasterData.GetInstance().GetTileData((int)tileType);
+      //  Debug.Log("자동여부 " + tileData.IsAuto);
+        return tileData.IsAuto;
+    }
+
+    public bool CheckInhereceWork(WorkOrder _workOrder)
+    {
+      //  Debug.Log("고유여부 " + (_workOrder.workType == WorkType.Inherence));
+        return _workOrder.workType == WorkType.Inherence;
     }
 
     public void DoneWorkReady()
