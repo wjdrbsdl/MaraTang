@@ -74,7 +74,7 @@ public class UITileInfo : UIBase
 
     public void OnClickTileAction()
     {
-        m_curTile.DoInhereceWork();
+        m_curTile.DoInhereceWork(m_curPlace);
     }
 
     #region UI ¼¼ÆÃ

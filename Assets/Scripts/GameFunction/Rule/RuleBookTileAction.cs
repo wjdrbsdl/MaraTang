@@ -6,7 +6,7 @@ using System;
 
 public class RuleBookTileAction
 {
-    public void ConductTileAction(TokenTile _tile, TOrderItem _actionOrder)
+    public void ConductTileAction(TokenTile _tile, TOrderItem _actionOrder, TileType _actionPlace)
     {
 
         TokenType tileActionType = (TokenType)_actionOrder.Tokentype;
@@ -22,7 +22,7 @@ public class RuleBookTileAction
                 break;
             case TokenType.MonsterSpawn:
                 MonsterSpawn(_tile, subValue, Value);
-                _tile.RepeatInhereceReady();
+                _tile.RepeatInhereceReady(_actionPlace);
                 break;
             default:
                 MgUI.GetInstance().CancleLastUI();

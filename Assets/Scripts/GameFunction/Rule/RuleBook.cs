@@ -301,9 +301,9 @@ public class RuleBook
         return false;
     }
 
-    public void ConductTileAction(TokenTile _tile, TOrderItem _actionOrder)
+    public void ConductTileAction(TokenTile _tile, TOrderItem _actionOrder, TileType _actionPlace)
     {
-        m_tileActionPart.ConductTileAction(_tile, _actionOrder);
+        m_tileActionPart.ConductTileAction(_tile, _actionOrder, _actionPlace);
     }
 
     #endregion

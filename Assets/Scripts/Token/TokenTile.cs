@@ -176,7 +176,7 @@ public class TokenTile : TokenBase
         SetTileEffect();
         SetTileSprite();
         SetTileValue();
-        ReadyInherenceWork();
+        ReadyInherenceWork(_tileType);
     }
     #endregion 
 
@@ -204,7 +204,10 @@ public class TokenTile : TokenBase
                 RemoveWork(); //기존 작업은 없애고
                 //만약 방금마친 일이 고유작업 준비작업이면서, 해당 장소 기능이 자동수행이면 고유작업 진행
                 if (CheckInhereceWork(preWork) && CheckAutoInherece())
-                    DoInhereceWork();
+                {
+                    DoInhereceWork(tileType);
+                }
+                    
                 break;
             case WorkStateCode.Cancle:
                 RemoveWork();
@@ -456,7 +459,7 @@ public class TokenTile : TokenBase
     #endregion
 
     #region 타일 기능 수행
-    public void DoInhereceWork()
+    public void DoInhereceWork(TileType _tileType)
     {
        // Debug.Log("고유기능 수행");
         if(IsReadyInherece == false)
@@ -464,11 +467,11 @@ public class TokenTile : TokenBase
            // Debug.Log("고유 기능 수행 준비 안 되었음");
             return;
         }
-        TileTypeData tileData = MgMasterData.GetInstance().GetTileData((int)tileType);
+        TileTypeData tileData = MgMasterData.GetInstance().GetTileData((int)_tileType);
         List<TOrderItem> effectList = tileData.EffectData.GetItemList();
         for (int i = 0; i < effectList.Count; i++)
         {
-            GamePlayMaster.GetInstance().RuleBook.ConductTileAction(this, effectList[i]);
+            GamePlayMaster.GetInstance().RuleBook.ConductTileAction(this, effectList[i], _tileType);
         }
     }
 
@@ -490,28 +493,31 @@ public class TokenTile : TokenBase
     {
         //고유 작업을 위한 준비가 끝났을때
         // 인헤리슨 작업의 효과 
-        IsReadyInherece = true;
-       
+        IsReadyInherece = true; 
     }
 
-    private void ReadyInherenceWork()
+    private void ReadyInherenceWork(TileType _tileType)
     {
         //기능수행에 턴, 자원, 노동량등 준비가 필요한경우 고유작업 등록부터 진행 
         TileTypeData tileData = MgMasterData.GetInstance().GetTileData((int)tileType);
         TileEffectEnum effectType = tileData.effectType;
+        //효과없는 경우 진행안함 
+        if (effectType == TileEffectEnum.None)
+            return;
 
         if (effectType == TileEffectEnum.Tool)
         {
-            Debug.Log(tileType + "에서 작업서 자동 등록");
-            new WorkOrder(null, tileData.NeedLaborTurn, tileData.NeedLaborAmount, this, 0, WorkType.Inherence);
+            Debug.Log(_tileType + "작업서 자동 등록");
+            new WorkOrder(null, tileData.NeedLaborTurn, tileData.NeedLaborAmount, this, (int)_tileType, WorkType.Inherence);
         }
     }
 
-    public void RepeatInhereceReady()
+    public void RepeatInhereceReady(TileType _actionPlace)
     {
+        //수행하는 장소, 해당하는 타일.
         Debug.Log("고유 기능 준비 반복");
         if(IsReadyInherece == false)
-           ReadyInherenceWork();
+           ReadyInherenceWork(_actionPlace);
     }
     #endregion
 }
