@@ -330,7 +330,7 @@ public class MgMasterData : Mg<MgMasterData>
 
 public enum TileEffectEnum
 {
-  None, Money, Stat, Tool
+  None, Money, Stat, Tool, OnOff
 }
 
 public class TileTypeData {
@@ -357,11 +357,9 @@ public class TileTypeData {
         GameUtil.InputMatchValue(ref TileStat, _matchCode, _parsingData);
      
         int effectTypeIndex = 2;
-        if (int.TryParse(_parsingData[effectTypeIndex], out int result))
-        {
-            //파싱 됬으면 그걸로 아니면 None 이 베이스 
-            effectType = (TileEffectEnum)result;
-        }
+        if( System.Enum.TryParse(typeof(TileEffectEnum), _parsingData[effectTypeIndex], out object ffectType))
+            effectType = (TileEffectEnum)ffectType;
+        Debug.Log(ffectType + " " + effectType);
 
         int effectIndex = effectTypeIndex + 1;
         if (_parsingData.Length > effectIndex)
