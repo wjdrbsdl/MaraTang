@@ -24,6 +24,9 @@ public class RuleBookTileAction
                 MonsterSpawn(_tile, subValue, Value);
                 _tile.RepeatInhereceReady(_actionPlace);
                 break;
+            case TokenType.NationStat:
+                NationStatUp(_tile, subValue, Value);
+                break;
             default:
                 MgUI.GetInstance().CancleLastUI();
                 break;
@@ -84,5 +87,13 @@ public class RuleBookTileAction
         {
             MgToken.GetInstance().SpawnCharactor(_spawnTile.GetMapIndex(), _monsterPid);
         }
+    }
+
+    private void NationStatUp(TokenTile _statTile, int _nationStatEnum, int _value)
+    {
+        Nation nation = _statTile.GetNation();
+        nation.CalStat((NationStatEnum)_nationStatEnum, _value);
+        Debug.Log(nation.GetNationNum() + "국가 " + (NationStatEnum)_nationStatEnum + "스텟 " + _value + "적용 \n" + nation.GetStat((NationStatEnum)_nationStatEnum));
+
     }
  }
