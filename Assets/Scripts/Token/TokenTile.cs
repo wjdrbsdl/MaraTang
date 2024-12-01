@@ -122,10 +122,9 @@ public class TokenTile : TokenBase
         //3. 마스터 데이터대로 값들 다 복사
         System.Array.Copy(masterValue, m_tokenIValues, size); //스텟값 복사
 
-        //4. 추가 설정이 필요한것들 진행
-        m_tokenIValues[(int)ETileStat.CurDurability] = m_tokenIValues[(int)ETileStat.MaxDurability];
+        //4. 보존했던 값 덮어쓰기
         m_tokenIValues[(int)ETileStat.Nation] = originNationNum;
-        
+       
     }
 
     private void SetTileEffect()
