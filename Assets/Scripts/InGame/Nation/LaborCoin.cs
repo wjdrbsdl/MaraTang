@@ -6,7 +6,8 @@ using UnityEngine;
 public class LaborCoin
 {
     public int ListIndex = 0; //할당된 pid
-    public int[] Pos; //할당된 일자리
+    public TileType tileType; //할단된 장소
+    public int[] Pos; //할당된 포스
     public int NationNum;
 
     public LaborCoin(int _pid, Nation _nation)
@@ -26,6 +27,10 @@ public class LaborCoin
         SetPos(MgNation.GetInstance().GetNation(NationNum).GetCapital().GetMapIndex());
     }
 
+    public void SetPlace(TileType _type)
+    {
+        tileType = _type;
+    }
 
     private void SetPos(int[] _pos)
     {
