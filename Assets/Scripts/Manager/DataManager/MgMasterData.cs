@@ -361,7 +361,7 @@ public class TileTypeData {
         TileStat = new int[System.Enum.GetValues(typeof(ETileStat)).Length];
         GameUtil.InputMatchValue(ref TileStat, _matchCode, _parsingData);
         //추가 설정이 필요한것들 진행
-
+        TileStat[(int)ETileStat.CurDurability] = TileStat[(int)ETileStat.MaxDurability];
      
         int effectTypeIndex = 2;
         if( System.Enum.TryParse(typeof(TileEffectEnum), _parsingData[effectTypeIndex], out object ffectType))
