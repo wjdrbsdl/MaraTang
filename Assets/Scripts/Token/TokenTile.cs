@@ -557,13 +557,6 @@ public class TokenTile : TokenBase
         //효과없는 경우 진행안함 
         if (effectType == TileEffectEnum.None)
             return;
-
-        if(effectType == TileEffectEnum.Stat)
-        {
-            IsReadyInherece = true;
-            Debug.Log("스텟은 바로 작업 준비 끝");
-            return;
-        }
             
 
         if (effectType == TileEffectEnum.Tool)
