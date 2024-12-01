@@ -27,11 +27,6 @@ public class LaborCoin
         SetPos(MgNation.GetInstance().GetNation(NationNum).GetCapital().GetMapIndex());
     }
 
-    public void SetPlace(TileType _type)
-    {
-        tileType = _type;
-    }
-
     private void SetPos(int[] _pos)
     {
         if(Pos != null)
@@ -42,6 +37,7 @@ public class LaborCoin
         
         Pos = _pos;
         //해당 토큰타일에 넣는걸로
+        tileType = GameUtil.GetTileTokenFromMap(_pos).GetTileType();
         GameUtil.GetTileTokenFromMap(_pos).PutInLaborCoin(this);
     }
 }
