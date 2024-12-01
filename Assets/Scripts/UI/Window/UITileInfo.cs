@@ -118,7 +118,7 @@ public class UITileInfo : UIBase
             LaborCoin capitalLaborCoin = capital.RequestLaborCoin();
             //받은 코인이 있으면 해당 코인을 여기 타일로 일보냄 
             if (capitalLaborCoin != null)
-                capitalLaborCoin.GoWork(m_curTile);
+                capitalLaborCoin.SendLaborCoin(m_curTile);
         }
             
 

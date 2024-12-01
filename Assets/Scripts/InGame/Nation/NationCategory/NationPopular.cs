@@ -107,7 +107,7 @@ public class NationPopular
                 TokenTile tile = territory[i];
                 if (tile.GetLaborCoinCount() == findLaborLevel)
                 {
-                    noWorkLabor[coinIndex].GoWork(tile);
+                    noWorkLabor[coinIndex].SendLaborCoin(tile);
                     //휴식중이던 토큰을 하나씩 투입
                     coinIndex += 1;
                     if (coinIndex == restCoinCount)

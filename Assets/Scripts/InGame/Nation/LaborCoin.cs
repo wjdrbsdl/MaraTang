@@ -17,7 +17,7 @@ public class LaborCoin
         SetPos( _nation.GetCapital().GetMapIndex()); //생성시 수도에 노동코인 저장
     }
 
-    public void GoWork(TokenTile _tile)
+    public void SendLaborCoin(TokenTile _tile)
     {
         SetPos(_tile.GetMapIndex());
     }
