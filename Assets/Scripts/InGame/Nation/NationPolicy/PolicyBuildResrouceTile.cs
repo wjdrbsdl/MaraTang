@@ -36,7 +36,7 @@ public class PolicyBuildResrouceTile : NationPolicy
             {
                 TokenTile tile = rangeInTile[tileIdx];
                 //만약 내땅이 아니면 일단 패스 
-                if (tile.GetStat(TileStat.Nation).Equals(m_nation.GetNationNum()) == false)
+                if (tile.GetStat(ETileStat.Nation).Equals(m_nation.GetNationNum()) == false)
                     continue;
 
                 //이미 공사중인 곳은 패스
@@ -75,9 +75,9 @@ public class PolicyBuildResrouceTile : NationPolicy
     private bool AbleManageLand(TokenTile _tile, int _planIndex, int _nationNumber)
     {
         //만약 현재 타일상태가 누군가의 점유로 바꼈으면 확장 불가 
-        if (_tile.GetStat(TileStat.Nation) != _nationNumber)
+        if (_tile.GetStat(ETileStat.Nation) != _nationNumber)
         {
-            Debug.Log(_tile.GetStat(TileStat.Nation)+"토지 번호 "+ _nationNumber+"국가 번호가 다름"+
+            Debug.Log(_tile.GetStat(ETileStat.Nation)+"토지 번호 "+ _nationNumber+"국가 번호가 다름"+
                 _tile.GetMapIndex()[0]+":"+_tile.GetMapIndex()[1]);
             return false;
         }

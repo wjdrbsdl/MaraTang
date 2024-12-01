@@ -168,7 +168,7 @@ public class UITileInfo : UIBase
         //현재 땅의 스텟 정보를 보여주기 
         MainResource mainResource = m_curTile.GetMainResource();
         TileType tileType = _tile.GetTileType();
-        int NationNum = _tile.GetStat(TileStat.Nation);
+        int NationNum = _tile.GetStat(ETileStat.Nation);
         string tileStat = string.Format("소속 국가 : {0}\n토지 용도 {1}\n 토지 적합도{2}\n좌표 {3},{4}\n노동 코인{5}",
             NationNum, tileType, mainResource, _tile.GetMapIndex()[0], _tile.GetMapIndex()[1], _tile.GetLaborCoinCount());
         m_statText.text = tileStat;

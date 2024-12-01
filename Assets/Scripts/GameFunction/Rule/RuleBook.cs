@@ -295,7 +295,7 @@ public class RuleBook
     public bool AbleOccupy(TokenTile _tile)
     {
         //해당 타일 소속 국가가 없으면 가능
-        if (_tile.GetStat(TileStat.Nation).Equals(FixedValue.NO_NATION_NUMBER))
+        if (_tile.GetStat(ETileStat.Nation).Equals(FixedValue.NO_NATION_NUMBER))
             return true;
 
         return false;

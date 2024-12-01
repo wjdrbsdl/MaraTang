@@ -116,7 +116,7 @@ public class OrderExcutor
             List<TokenTile> roundTile = GameUtil.GetTileTokenListInRange(range, targetTile.GetMapIndex(), range);
             for (int r = 0; r < roundTile.Count; r++)
             {
-                int tileNationNum = roundTile[r].GetStat(TileStat.Nation);
+                int tileNationNum = roundTile[r].GetStat(ETileStat.Nation);
                 //주변 영토중 주인없는 거 찾기
                 if (tileNationNum == FixedValue.NO_NATION_NUMBER)
                 {

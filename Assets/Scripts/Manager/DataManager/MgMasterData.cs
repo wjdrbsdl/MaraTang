@@ -356,8 +356,12 @@ public class TileTypeData {
         if (System.Enum.TryParse(typeof(TileType), _parsingData[tileTypeIndex], out object parseTileType))
             TypePID = (int)parseTileType;
         PlaceName = _parsingData[1];
-        TileStat = new int[System.Enum.GetValues(typeof(TileStat)).Length];
+
+        //스텟들 파싱
+        TileStat = new int[System.Enum.GetValues(typeof(ETileStat)).Length];
         GameUtil.InputMatchValue(ref TileStat, _matchCode, _parsingData);
+        //추가 설정이 필요한것들 진행
+
      
         int effectTypeIndex = 2;
         if( System.Enum.TryParse(typeof(TileEffectEnum), _parsingData[effectTypeIndex], out object ffectType))

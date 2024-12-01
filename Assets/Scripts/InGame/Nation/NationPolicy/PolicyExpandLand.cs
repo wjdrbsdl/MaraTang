@@ -34,7 +34,7 @@ public class PolicyExpandLand : NationPolicy
             {
                 TokenTile tile = rangeInTile[tileIdx];
                 //무국적 땅이 아니면 넘김
-                if (tile.GetStat(TileStat.Nation).Equals(FixedValue.NO_NATION_NUMBER) == false)
+                if (tile.GetStat(ETileStat.Nation).Equals(FixedValue.NO_NATION_NUMBER) == false)
                     continue;
 
                 //이미 공사중인 곳은 패스
@@ -77,7 +77,7 @@ public class PolicyExpandLand : NationPolicy
     public bool AbleExpand(TokenTile _tile)
     {
         //만약 현재 타일상태가 누군가의 점유로 바꼈으면 확장 불가 
-        if (_tile.GetStat(TileStat.Nation) != FixedValue.NO_NATION_NUMBER)
+        if (_tile.GetStat(ETileStat.Nation) != FixedValue.NO_NATION_NUMBER)
         {
             //   Debug.Log("미점유상태 타일이 아님");
             return false;

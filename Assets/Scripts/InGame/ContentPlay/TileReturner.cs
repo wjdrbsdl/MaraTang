@@ -20,7 +20,7 @@ public class TileReturner
             for (int r = 0; r < roundTile.Count; r++)
             {
                 //주변 타일의 넘버가 같은 국가가 하나라도 국가가 아니면 얘는 외각
-                int tileInRange = roundTile[r].GetStat(TileStat.Nation);
+                int tileInRange = roundTile[r].GetStat(ETileStat.Nation);
                 if(tileInRange == FixedValue.NO_NATION_NUMBER)
                 {
                     tile = nationTiles[i];

@@ -18,9 +18,9 @@ public enum TileViewState
     Fog, Sight, NoSight
 }
 
-public enum TileStat
+public enum ETileStat
 {
-   Nation, Height, TileEnergy, BaseSight, PlaceSight, MaxDurability, CurDurability
+   Nation, BaseSight, PlaceSight, MaxDurability, CurDurability, Capability, Efficiency
 }
 
 public enum MainResource
@@ -41,6 +41,7 @@ public class TokenTile : TokenBase
     public bool IsReadyInherece =false;
     public WorkOrder m_workOrder = null; //진행중인 공사
     public Complain m_complain = null; //진행중인 불만
+    private float m_height;
     [JsonProperty] private TileViewState m_viewState = TileViewState.Fog;
     [JsonProperty] MainResource m_mainResource = MainResource.Tree;
     [JsonProperty] private int m_resourceGrade = 0;
@@ -63,7 +64,7 @@ public class TokenTile : TokenBase
     {
         TokenTile tileToken = new TokenTile();
         tileToken.tileType = TileType.Nomal;
-        tileToken.m_tokenIValues = new int[GameUtil.EnumLength(TileStat.Height)];
+        tileToken.m_tokenIValues = new int[GameUtil.EnumLength(ETileStat.Nation)];
         tileToken.m_tokenType = TokenType.Tile;
         tileToken.doneInteriorList = new();
         tileToken.childList = new();
@@ -75,7 +76,7 @@ public class TokenTile : TokenBase
     {
         //타일 높이에 따라 강, 노말, 산으로 구별 
         int tileHeight = (int)(_ecoHeight * 100f);
-        SetStatValue(TileStat.Height, tileHeight);
+        m_height = tileHeight;
         if (tileHeight >= 66)
         {
             //생성단계에서 nomal이 아닌경우 장소와 효과를 다시 정의 
@@ -110,12 +111,21 @@ public class TokenTile : TokenBase
     public void SetTileValue()
     {
         //장소마다 따로 특정되어잇는 벨류값들을 재할당하는 부분
+        //1. 마스터 데이터 값 불러옴
         TileTypeData tileData = MgMasterData.GetInstance().GetTileData((int)tileType);
         int[] masterValue = tileData.TileStat;
-        m_tokenIValues[(int)TileStat.PlaceSight] = masterValue[(int)TileStat.PlaceSight];
-        m_tokenIValues[(int)TileStat.MaxDurability] = masterValue[(int)TileStat.MaxDurability];
-        m_tokenIValues[(int)TileStat.CurDurability] = m_tokenIValues[(int)TileStat.MaxDurability];
-        // Debug.Log(tileType + "시야 거리 " + m_tokenIValues[(int)TileStat.PlaceSight]);
+        int size = masterValue.Length;
+
+        //2. 보존이 필요한 값을 따로 저장
+        int originNationNum = m_tokenIValues[(int)ETileStat.Nation]; //
+        
+        //3. 마스터 데이터대로 값들 다 복사
+        System.Array.Copy(masterValue, m_tokenIValues, size); //스텟값 복사
+
+        //4. 추가 설정이 필요한것들 진행
+        m_tokenIValues[(int)ETileStat.CurDurability] = m_tokenIValues[(int)ETileStat.MaxDurability];
+        m_tokenIValues[(int)ETileStat.Nation] = originNationNum;
+        
     }
 
     private void SetTileEffect()
@@ -352,21 +362,21 @@ public class TokenTile : TokenBase
 
     public void SetNation(int _nationNumber)
     {
-        SetStatValue(TileStat.Nation, _nationNumber);
+        SetStatValue(ETileStat.Nation, _nationNumber);
     }
 
     public int GetNationNum()
     {
-        return m_tokenIValues[(int)TileStat.Nation];
+        return m_tokenIValues[(int)ETileStat.Nation];
     }
 
     public Nation GetNation()
     {
-        int nationNum = m_tokenIValues[(int)TileStat.Nation];
+        int nationNum = m_tokenIValues[(int)ETileStat.Nation];
         if (nationNum.Equals(FixedValue.NO_NATION_NUMBER))
             return null;
 
-        return MgNation.GetInstance().GetNation(m_tokenIValues[(int)TileStat.Nation]);
+        return MgNation.GetInstance().GetNation(m_tokenIValues[(int)ETileStat.Nation]);
     }
 
     public GodClassEnum GetGodClass()
@@ -432,23 +442,23 @@ public class TokenTile : TokenBase
         }
             
 
-        CalStat(TileStat.CurDurability, -_damage);
+        CalStat(ETileStat.CurDurability, -_damage);
     }
 
     public override void CalStat(Enum _enumIndex, int _value)
     {
         base.CalStat(_enumIndex, _value);
-        if (_enumIndex.Equals(TileStat.CurDurability)){
+        if (_enumIndex.Equals(ETileStat.CurDurability)){
             CheckDurability();
         }
     }
 
     public void CheckDurability()
     {
-        int durability = GetStat(TileStat.CurDurability);
+        int durability = GetStat(ETileStat.CurDurability);
         if(durability <= 0)
         {
-            SetStatValue(TileStat.CurDurability, 0);
+            SetStatValue(ETileStat.CurDurability, 0);
             DestroyPlace();
         }
     }
