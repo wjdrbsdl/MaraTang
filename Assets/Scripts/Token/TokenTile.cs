@@ -294,6 +294,7 @@ public class TokenTile : TokenBase
 
     public void PutInLaborCoin(LaborCoin _coin)
     {
+        //해당 로직은 LaborCoin 자체에서 진행
         //Debug.Log(GetNationNum() + "번 국가 해당 타일에 " + _coin.ListIndex + " 코인 투입");
         if(m_laborCoinList.IndexOf(_coin)== -1)
         {
@@ -305,6 +306,7 @@ public class TokenTile : TokenBase
 
     public void TakeOutLaborCoin(LaborCoin _coin)
     {
+        //해당 로직은 LaborCoin 자체에서 진행
         if (m_laborCoinList.IndexOf(_coin) != -1)
         {
             m_laborCoinList.Remove(_coin);
