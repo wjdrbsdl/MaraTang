@@ -89,7 +89,12 @@ public class UITileInfo : UIBase
 
     private void MakeLaborRequestBtns()
     {
+        //요청 버튼은 항시 켜놓음. 
         MakeSamplePool<LaborRequestBtn>(ref m_LaborRequestBtns, m_LaborReqeustBtnSample.gameObject, 3, m_requestBox);
+        for (int i = 0; i < m_LaborRequestBtns.Length; i++)
+        {
+            m_LaborRequestBtns[i].gameObject.SetActive(true);
+        }
     }
     #endregion
 
@@ -100,7 +105,25 @@ public class UITileInfo : UIBase
 
     public void OnClickLaborCoin(int _index)
     {
-  
+        //여기서 해당 라보슬롯에 있으면 해당 슬롯 반환을 요청하는거
+        LaborCoin laborCoin = m_LaborSlots[_index].GetLaborCoin();
+        if (laborCoin != null)
+        {
+            laborCoin.BackCapital();
+        }
+        else
+        {
+            //비어있으면 수도에 요청
+            TokenTile capital = m_curTile.GetNation().GetCapital();
+            LaborCoin capitalLaborCoin = capital.RequestLaborCoin();
+            //받은 코인이 있으면 해당 코인을 여기 타일로 일보냄 
+            if (capitalLaborCoin != null)
+                capitalLaborCoin.GoWork(m_curTile);
+        }
+            
+
+       // Debug.Log(_index + "쪽 변환 필요");
+        SetLaborCoin();
     }
 
     #region UI 세팅
@@ -155,6 +178,7 @@ public class UITileInfo : UIBase
         for (int x = labors.Count; x < 3; x++)
         {
             m_LaborSlots[x].gameObject.SetActive(false);
+            m_LaborSlots[x].ResetCoin();
             m_LaborRequestBtns[x].SetSlot(x, false);
         }
     }
