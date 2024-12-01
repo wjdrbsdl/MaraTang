@@ -232,7 +232,7 @@ public class WorkOrder
         //  Debug.Log("남은 작업량 " + m_restWorkGauge);
         if (m_restWorkGauge <= 0)
         {
-            Debug.Log("작업완료");
+           // Debug.Log("작업완료");
             m_restWorkGauge = 0;
             m_enoughWorkGague = true;
         }

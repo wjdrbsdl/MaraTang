@@ -54,7 +54,7 @@ public class BtnPlace : MonoBehaviour
         order.DoWork();
         if (order.IsDoneWork())
         {
-            Debug.Log("바로 작업완료");
+          //  Debug.Log("바로 작업완료");
             return;
         }
 

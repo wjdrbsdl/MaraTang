@@ -121,7 +121,7 @@ public class OrderExcutor
                 if (tileNationNum == FixedValue.NO_NATION_NUMBER)
                 {
                     //찾았으면 변경
-                    Debug.Log("해당 영지 변경");
+                 //   Debug.Log("해당 영지 변경");
                     roundTile[r].ChangePlace((TileType)_tileType);
                     return true;
                 }
