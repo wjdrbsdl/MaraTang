@@ -9,7 +9,8 @@ using System;
 public enum TileType
 {
     //각 타일의 타입 기본 산, 노말, 강 거기에 용도변경으로 농지,광산, 마을 단계까지 모두 정의 해놓기? 아니면 레벨은 따로"?
-    Nomal, WoodLand, Farm, Town, Mine, Capital, Mountain, Cage=16, Child
+    None, Nomal, WoodLand, Farm, Town, Mine, Capital, Mountain, WaterLand,
+    Training, Guild,Lab,Temple,Police,Motel,AbandonStatue,Clinic,Cave,Child, WoodLand2
 }
 
 public enum TileViewState
@@ -61,6 +62,7 @@ public class TokenTile : TokenBase
     public TokenTile MakeTileToken()
     {
         TokenTile tileToken = new TokenTile();
+        tileToken.tileType = TileType.Nomal;
         tileToken.m_tokenIValues = new int[GameUtil.EnumLength(TileStat.Height)];
         tileToken.m_tokenType = TokenType.Tile;
         tileToken.doneInteriorList = new();
