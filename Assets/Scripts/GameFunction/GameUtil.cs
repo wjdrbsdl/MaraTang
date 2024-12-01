@@ -765,6 +765,9 @@ public static class GameUtil
             case TokenType.UIOpen:
                 findEnum = typeof(UICodeEnum);
                 break;
+            case TokenType.EventPlaceNationSpawn:
+                findEnum = typeof(TileType);
+                break;
         }
         return findEnum;
     }
