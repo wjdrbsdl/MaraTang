@@ -27,6 +27,14 @@ public class LaborCoin
         SetPos(MgNation.GetInstance().GetNation(NationNum).GetCapital().GetMapIndex());
     }
 
+    public void ClickLaborCoin()
+    {
+        if (tileType != TileType.Capital)
+            return;
+
+        BackCapital();
+    }
+
     private void SetPos(int[] _pos)
     {
         if(Pos != null)
