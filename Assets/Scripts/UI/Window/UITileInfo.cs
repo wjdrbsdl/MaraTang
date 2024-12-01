@@ -21,6 +21,14 @@ public class UITileInfo : UIBase
     private LaborSlot[] m_LaborSlots;
 
     [SerializeField]
+    private Transform m_requestBox; //액션 리스트 버튼 담을 장소
+    [SerializeField]
+    private LaborRequestBtn m_LaborReqeustBtnSample;
+    [SerializeField]
+    private LaborRequestBtn[] m_LaborRequestBtns;
+
+
+    [SerializeField]
     private Transform m_placeBox; //내부장소 버튼 담을 포지션
     [SerializeField]
     private BtnPlace m_placeButtonSample;
@@ -54,6 +62,7 @@ public class UITileInfo : UIBase
         m_placeText.text = _tileType.ToString();
         PlayerManager.GetInstance().SetHeroPlace(_tileType);
         MakeLaborSlots();
+        MakeLaborRequestBtns();
         //Debug.Log("메인 캐릭 있다 " + inMain);
         ResetUI();
     }
@@ -77,11 +86,21 @@ public class UITileInfo : UIBase
     {
         MakeSamplePool<LaborSlot>(ref m_LaborSlots, m_LaborSlotSample.gameObject, 3, m_LaborSlotBox);
     }
+
+    private void MakeLaborRequestBtns()
+    {
+        MakeSamplePool<LaborRequestBtn>(ref m_LaborRequestBtns, m_LaborReqeustBtnSample.gameObject, 3, m_requestBox);
+    }
     #endregion
 
     public void OnClickTileAction()
     {
         m_curTile.DoInhereceWork(m_curPlace);
+    }
+
+    public void OnClickLaborCoin(int _index)
+    {
+  
     }
 
     #region UI 세팅
@@ -131,10 +150,12 @@ public class UITileInfo : UIBase
         {
             m_LaborSlots[i].gameObject.SetActive(true);
             m_LaborSlots[i].SetSlot(labors[i]);
+            m_LaborRequestBtns[i].SetSlot(i, true);
         }
         for (int x = labors.Count; x < 3; x++)
         {
             m_LaborSlots[x].gameObject.SetActive(false);
+            m_LaborRequestBtns[x].SetSlot(x, false);
         }
     }
 
