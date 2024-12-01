@@ -310,7 +310,18 @@ public class TokenTile : TokenBase
             m_laborCoinList.Remove(_coin);
             AdaptLabor(false);
         }
-        
+    }
+
+    public LaborCoin RequestLaborCoin()
+    {
+        //보유한 리스트중 0 번째를 반환
+        if (m_laborCoinList.Count == 0)
+            return null;
+
+        LaborCoin firstLabor = m_laborCoinList[0];
+        //뺀걸 해당 리스트에서 뺼필욘없음. 
+        //반환한 코인을 다른곳에 GoWork()보내면 그 함수에서 SetPos로 이곳에서 takeOut이 호출 
+        return firstLabor;
     }
 
     private void AdaptLabor(bool _add)
