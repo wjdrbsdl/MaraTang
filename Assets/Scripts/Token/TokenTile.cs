@@ -298,7 +298,9 @@ public class TokenTile : TokenBase
         if(m_laborCoinList.IndexOf(_coin)== -1)
         {
             m_laborCoinList.Add(_coin);
+            AdaptLabor(true);
         }
+        
     }
 
     public void TakeOutLaborCoin(LaborCoin _coin)
@@ -306,6 +308,28 @@ public class TokenTile : TokenBase
         if (m_laborCoinList.IndexOf(_coin) != -1)
         {
             m_laborCoinList.Remove(_coin);
+            AdaptLabor(false);
+        }
+        
+    }
+
+    private void AdaptLabor(bool _add)
+    {
+        //변화된 노동코인대로 진행
+        if(m_effectType == TileEffectEnum.Stat)
+        {
+
+            List<TOrderItem> statEffect = new();
+            if (_add)
+                statEffect = MgMasterData.GetInstance().GetTileData((int)tileType).EffectData.GetItemList();
+            else
+                statEffect = GameUtil.ReverseItemList(MgMasterData.GetInstance().GetTileData((int)tileType).EffectData.GetItemList());
+            
+            for (int i = 0; i < statEffect.Count; i++)
+            {
+                TOrderItem effect = statEffect[i];
+                GamePlayMaster.GetInstance().RuleBook.ConductTileAction(this, effect, tileType);
+            }
         }
     }
     #endregion
@@ -520,6 +544,14 @@ public class TokenTile : TokenBase
         //효과없는 경우 진행안함 
         if (effectType == TileEffectEnum.None)
             return;
+
+        if(effectType == TileEffectEnum.Stat)
+        {
+            IsReadyInherece = true;
+            Debug.Log("스텟은 바로 작업 준비 끝");
+            return;
+        }
+            
 
         if (effectType == TileEffectEnum.Tool)
         {
