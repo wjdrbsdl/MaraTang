@@ -16,4 +16,12 @@ public class LaborSlot : SlotBase
         laborNumText.text = _laborCoin.ListIndex.ToString();
     }
 
+
+    public void ClickLaborCoin()
+    {
+        if (m_laborCoin.tileType != TileType.Capital)
+            return;
+
+        m_laborCoin.BackCapital();
+    }
 }
