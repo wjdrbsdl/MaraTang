@@ -16,6 +16,11 @@ public class LaborSlot : SlotBase
         laborNumText.text = _laborCoin.ListIndex.ToString();
     }
 
+    public void ResetCoin()
+    {
+        m_laborCoin = null;
+    }
+
     public LaborCoin GetLaborCoin()
     {
         return m_laborCoin;
