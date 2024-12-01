@@ -46,7 +46,7 @@ public class TempSpriteBox : MgGeneric<TempSpriteBox>
                 return WoodLand;
             case TileType.Child:
                 return ChildLand;
-            case TileType.Cage:
+            case TileType.Cave:
                 return ChildLand;
         }
         return NomalLand;
