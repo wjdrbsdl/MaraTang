@@ -389,7 +389,7 @@ public class TileTypeData {
         }
     
         int needTileTypeIdx = interiorTypeIdx +1; //해당 건물(장소)를 짓는데 필요한 장소
-        string[] needTiles = _parsingData[needTileTypeIdx].Split(FixedValue.PARSING_LIST_DIVIDE);
+        string[] needTiles = _parsingData[needTileTypeIdx].Split(",");
         NeedTiles = new int[needTiles.Length];
         for (int i = 0; i < needTiles.Length; i++)
         {
@@ -399,7 +399,7 @@ public class TileTypeData {
             {
                 Debug.Log("정의 되지 않은 재료는 " + (TileType)NeedTiles[i]);
             }
-            //NeedTiles[i] = int.Parse(needTiles[i]);
+           // Debug.Log(parseNeedTileType);
         }
             
         AbleBuildPid = new();
