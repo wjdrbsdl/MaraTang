@@ -351,7 +351,10 @@ public class TileTypeData {
 
     public TileTypeData(string[] _parsingData, List<int[]> _matchCode)
     {
-        TypePID = int.Parse(_parsingData[0]);
+        //TypePID = int.Parse(_parsingData[0]);
+        int tileTypeIndex = 0;
+        if (System.Enum.TryParse(typeof(TileType), _parsingData[tileTypeIndex], out object parseTileType))
+            TypePID = (int)parseTileType;
         PlaceName = _parsingData[1];
         TileStat = new int[System.Enum.GetValues(typeof(TileStat)).Length];
         GameUtil.InputMatchValue(ref TileStat, _matchCode, _parsingData);
@@ -359,7 +362,7 @@ public class TileTypeData {
         int effectTypeIndex = 2;
         if( System.Enum.TryParse(typeof(TileEffectEnum), _parsingData[effectTypeIndex], out object ffectType))
             effectType = (TileEffectEnum)ffectType;
-        Debug.Log(ffectType + " " + effectType);
+      //  Debug.Log(ffectType + " " + effectType);
 
         int effectIndex = effectTypeIndex + 1;
         if (_parsingData.Length > effectIndex)
@@ -390,7 +393,13 @@ public class TileTypeData {
         NeedTiles = new int[needTiles.Length];
         for (int i = 0; i < needTiles.Length; i++)
         {
-            NeedTiles[i] = int.Parse(needTiles[i]);
+            if (System.Enum.TryParse(typeof(TileType), needTiles[i], out object parseNeedTileType))
+                NeedTiles[i] = (int)parseNeedTileType;
+            else
+            {
+                Debug.Log("정의 되지 않은 재료는 " + (TileType)NeedTiles[i]);
+            }
+            //NeedTiles[i] = int.Parse(needTiles[i]);
         }
             
         AbleBuildPid = new();
