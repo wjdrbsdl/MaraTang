@@ -137,7 +137,7 @@ public class MGContent : Mg<MGContent>
             bool repeat = curContent.AbleRepeat;
             if (IsContentDone(curContent.ContentPid))
             {
-             //   Debug.Log(curContent.ContentPid + "완료한 컨텐츠는 패쓰");
+             //   Debug.Log(curContent.ContentPid + "했던 컨텐츠는 패쓰");
                 continue;
             }
             if (IsPlayingContent(curContent.ContentPid))
