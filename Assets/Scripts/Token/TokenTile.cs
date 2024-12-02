@@ -188,7 +188,7 @@ public class TokenTile : TokenBase
         SetTileSprite();
         SetTileValue();
         CancleWork();
-        SetReadyState(false); //고유기능 수행 false로 전환
+        SetInhereceReady(false); //고유기능 수행 false로 전환
         RepeatInhereceReady(_tileType); //맨처음 생성시 고유작업 준비 할지
     }
     #endregion 
@@ -217,6 +217,7 @@ public class TokenTile : TokenBase
         {
             if (CheckInhereceWork(preWork))
             {
+                SetInhereceReady(true);
                 DoInhereceWork(tileType);
             }
         }
@@ -484,7 +485,7 @@ public class TokenTile : TokenBase
     #endregion
 
     #region 타일 기능 수행
-    public void SetReadyState(bool _ready)
+    public void SetInhereceReady(bool _ready)
     {
         IsReadyInherece = _ready;
     }
@@ -505,14 +506,8 @@ public class TokenTile : TokenBase
             GamePlayMaster.GetInstance().RuleBook.ConductTileAction(this, effectList[i], _tileType);
         }
         //일단 효과여부 상관없이 발동한걸로 간주 
-        SetReadyState(false);
+        SetInhereceReady(false);
         RepeatInhereceReady(_tileType);
-    }
-
-    public void DoneInhereceReady()
-    {
-        //고유 작업을 위한 준비가 끝났을때
-        SetReadyState(true);
     }
 
     private void ReadyInherenceWork(TileType _tileType)
