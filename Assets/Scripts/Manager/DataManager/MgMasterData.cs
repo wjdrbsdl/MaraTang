@@ -338,7 +338,8 @@ public class TileTypeData {
     public string PlaceName;
     public TileEffectEnum effectType = TileEffectEnum.None;
     public TItemListData EffectData;
-    public bool IsAuto = false;
+    public bool IsAutoReady = false;
+    public bool IsAutoEffect = false;
     public int NeedLaborTurn; 
     public int NeedLaborAmount;
     public int[] NeedTiles;
@@ -374,13 +375,19 @@ public class TileTypeData {
             EffectData = GameUtil.ParseCostDataArray(_parsingData, effectIndex);
         }
 
-        int autoActIndex = effectIndex += 1;
-        if (_parsingData[autoActIndex] == "T")
+        int autoActReadyIndex = effectIndex + 1;
+        if (_parsingData[autoActReadyIndex] == "T")
         {
-            IsAuto = true;
+            IsAutoReady = true;
         }
 
-        int needLaborTurn = autoActIndex + 1;
+        int autoEffectIndex = autoActReadyIndex += 1;
+        if (_parsingData[autoEffectIndex] == "T")
+        {
+            IsAutoEffect = true;
+        }
+
+        int needLaborTurn = autoEffectIndex + 1;
         NeedLaborTurn = int.Parse(_parsingData[needLaborTurn]);
 
         int needLaborIndex = needLaborTurn += 1;
