@@ -435,8 +435,6 @@ public class TokenTile : TokenBase
             Debug.Log("노말타입엔 공격 의미 없음");
             return;
         }
-            
-
         CalStat(ETileStat.CurDurability, -_damage);
     }
 
