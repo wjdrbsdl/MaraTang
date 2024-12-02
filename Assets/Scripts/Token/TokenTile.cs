@@ -189,7 +189,7 @@ public class TokenTile : TokenBase
     {
         if(m_workOrder != null)
         {
-            Debug.Log("공사는 하나만");
+           // Debug.Log("공사는 하나만");
             return false;
         }
 
@@ -523,7 +523,7 @@ public class TokenTile : TokenBase
         TileTypeData tileData = MgMasterData.GetInstance().GetTileData((int)_tileType);
         TileEffectEnum effectType = tileData.effectType;
         //효과없는 경우 진행안함 
-        Debug.Log(_tileType + "작업서 등록");
+        //Debug.Log(_tileType + "작업서 등록");
         new WorkOrder(null, tileData.NeedLaborTurn, tileData.NeedLaborAmount, this, (int)_tileType, WorkType.Inherence);
     }
 
