@@ -47,7 +47,7 @@ public class MgNation : Mg<MgNation>
     public void SettleNationEndTurn()
     {
         //턴 마무리에서 국가들이 할일 
-        if (m_nationList[m_turnNationNumber].IsAlive)
+        if (m_nationList[m_settleNationNumber].IsAlive)
             m_nationList[m_settleNationNumber].SettleNationTurn();
     }
 
