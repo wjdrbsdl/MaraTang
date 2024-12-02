@@ -80,4 +80,10 @@ public class Chunk
         int width = _index % xLength;
         return tiles[width,height];
     }
+
+    public TokenTile GetRandomTile()
+    {
+        int randomTile = Random.Range(0, GetTileCount());
+        return GetTileByIndex(randomTile);
+    }
 }
