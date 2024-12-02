@@ -206,6 +206,10 @@ public class AIPlayer : PlayerRule
             //가장 가까운 수도 고르기
             for (int i = 0; i < nations.Count; i++)
             {
+               
+                if (nations[i].IsAlive == false)  //몬스터가 쫓을 국가에서 파괴된 국가는 넘김 
+                    continue;
+
                 int gap = GameUtil.GetMinRange(nations[i].GetCapital(), _char);
                 if (gap < distance)
                 {
