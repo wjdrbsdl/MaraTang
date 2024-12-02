@@ -187,8 +187,9 @@ public class WorkOrder
         }
 
         m_isComplete = true;
-        EffectByCase();
+        
         RemoveRegist(WorkStateCode.Complete);
+        EffectByCase();
 
 
     }
