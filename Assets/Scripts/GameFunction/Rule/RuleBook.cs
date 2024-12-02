@@ -50,6 +50,11 @@ public class RuleBook
             //Revenge(_target);
         }
 
+        public void AttackPlace(TokenTile _tile)
+        {
+            _tile.AttackTile((int)t_oriignDamage);
+        }
+
         public void Revenge(TokenChar _defenseChar)
         {
          //   Debug.Log("복수의 굴레 :" + t_revengeStep);
@@ -124,6 +129,9 @@ public class RuleBook
             
                     attackProgress.ApplyDamage(enemies[i]);
                 }
+
+                if(targetTile.m_Side != _playChar.m_Side)
+                attackProgress.AttackPlace(targetTile);
             };
             animateCoroutine = co_AttacAction(_playChar, attackSfx, effectDelegate);
 
@@ -261,7 +269,7 @@ public class RuleBook
         }
 
         //2. 액션의 소비 에너지
-        if (_char.GetStat(CharStat.CurActionEnergy) < _action.GetStat(CharActionStat.NeedActionEnergy))
+        if (_char.IsPlayerChar() && _char.GetStat(CharStat.CurActionEnergy) < _action.GetStat(CharActionStat.NeedActionEnergy))
         {
             _failMessage = "행동 에너지 부족 \n보유 :"+ _char.GetStat(CharStat.CurActionEnergy) +"\n필요:"
                 + _action.GetStat(CharActionStat.NeedActionEnergy);
