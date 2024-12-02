@@ -320,7 +320,8 @@ public class RuleBook
     {
         List<(Capital, int)> result = new();
         TMineTileResult mineResult = new(result);
-        TileEffectEnum tileEffect = _tile.GetEffect();
+        TileTypeData tileData = MgMasterData.GetInstance().GetTileData((int)_tile.tileType);
+        TileEffectEnum tileEffect = tileData.effectType;
 
         //해당 타일이 수급가능한 토지가 아니면 얻는거 없이 반환
         if (tileEffect != TileEffectEnum.Money)
@@ -329,7 +330,7 @@ public class RuleBook
         TileType territory = _tile.GetTileType();
         MainResource mainType = _tile.GetMainResource();
         int tileEnegy = _tile.GetResrouceGrade();
-        List<TOrderItem> resourceList = MgMasterData.GetInstance().GetTileData((int)_tile.GetTileType()).EffectData.GetItemList();
+        List<TOrderItem> resourceList = tileData.EffectData.GetItemList();
         //해당 타일에서 산출되는 자원 마스터 데이터 가져옴 
         for (int i = 0; i < resourceList.Count; i++)
         {
