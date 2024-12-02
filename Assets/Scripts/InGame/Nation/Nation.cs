@@ -88,6 +88,7 @@ public class Nation : ITradeCustomer
 
         m_territorryList.Add(_tileToken);
         _tileToken.SetNation(m_nationNumber);
+        _tileToken.m_Side = SideEnum.Player;
         GamePlayMaster.GetInstance().FogContorl(_tileToken, GetStat(NationStatEnum.Sight));
     }
 
