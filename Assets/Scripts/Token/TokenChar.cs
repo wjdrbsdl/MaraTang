@@ -207,6 +207,11 @@ public class TokenChar : TokenBase
         m_object.SyncObjectPosition(_x, _y);
     }
 
+    public void SetTargetChar(TokenChar _char)
+    {
+        m_nextTargetChar = _char;
+    }
+
     public void SetTargetTile(TokenTile _tokenBase)
     {
         m_nextTargetTile = _tokenBase;
