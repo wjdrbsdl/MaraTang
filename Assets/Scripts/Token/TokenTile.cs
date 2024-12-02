@@ -35,7 +35,6 @@ public class TokenTile : TokenBase
     private List<LaborCoin> m_laborCoinList = new(); //할당된 노동 코인들 
     [SerializeField]
     public TileType tileType;
-    public TileEffectEnum m_effectType = TileEffectEnum.None;
     public List<int> doneInteriorList; //지어진 장소
     public int ChunkNum;
     public bool IsReadyInherece =false;
@@ -68,7 +67,6 @@ public class TokenTile : TokenBase
         tileToken.m_tokenType = TokenType.Tile;
         tileToken.doneInteriorList = new();
         tileToken.childList = new();
-        tileToken.SetTileEffect(); //초기 Nomal에 맞는 effect로 
         return tileToken;
     }
 
@@ -81,7 +79,6 @@ public class TokenTile : TokenBase
         {
             //생성단계에서 nomal이 아닌경우 장소와 효과를 다시 정의 
             SetTileType(TileType.Mountain);
-            SetTileEffect();
         }
     }
 
@@ -125,11 +122,6 @@ public class TokenTile : TokenBase
         //4. 보존했던 값 덮어쓰기
         m_tokenIValues[(int)ETileStat.Nation] = originNationNum;
        
-    }
-
-    private void SetTileEffect()
-    {
-        m_effectType = MgMasterData.GetInstance().GetTileData((int)tileType).effectType;
     }
     #endregion
 
@@ -184,7 +176,6 @@ public class TokenTile : TokenBase
     public void ChangePlace(TileType _tileType)
     {
         SetTileType(_tileType);
-        SetTileEffect();
         SetTileSprite();
         SetTileValue();
         CancleWork();
@@ -362,11 +353,6 @@ public class TokenTile : TokenBase
     public void SetTileType(TileType _tileType)
     {
         tileType = _tileType;
-    }
-
-    public TileEffectEnum GetEffect()
-    {
-        return m_effectType;
     }
 
     public void SetNation(int _nationNumber)
