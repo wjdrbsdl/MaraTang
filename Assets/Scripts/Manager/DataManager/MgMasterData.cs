@@ -330,7 +330,7 @@ public class MgMasterData : Mg<MgMasterData>
 
 public enum TileEffectEnum
 {
-  None, Money, Stat, Tool, OnOff
+  None, Money, Stat, Tool, UIOpen
 }
 
 public class TileTypeData {
