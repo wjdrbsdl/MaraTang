@@ -187,7 +187,8 @@ public class TokenTile : TokenBase
         SetTileEffect();
         SetTileSprite();
         SetTileValue();
-        ReadyInherenceWork(_tileType);
+        SetReadyState(false); //고유기능 수행 false로 전환
+        RepeatInhereceReady(_tileType); //고유작업 반복할지 호출
     }
     #endregion 
 
@@ -214,8 +215,9 @@ public class TokenTile : TokenBase
                 WorkOrder preWork = m_workOrder; //완료된작업 저장
                 RemoveWork(); //기존 작업은 없애고
                 //만약 방금마친 일이 고유작업 준비작업이면서, 해당 장소 기능이 자동수행이면 고유작업 진행
-                if (CheckInhereceWork(preWork) && CheckAutoInherece())
+                if (CheckInhereceWork(preWork))
                 {
+                    //일단 모든 고유 기능은 준비작업이 끝나면 발동하는 식으로 진행 
                     DoInhereceWork(tileType);
                 }
                     
@@ -299,9 +301,7 @@ public class TokenTile : TokenBase
         if(m_laborCoinList.IndexOf(_coin)== -1)
         {
             m_laborCoinList.Add(_coin);
-            AdaptLabor(true);
         }
-        
     }
 
     public void TakeOutLaborCoin(LaborCoin _coin)
@@ -310,7 +310,6 @@ public class TokenTile : TokenBase
         if (m_laborCoinList.IndexOf(_coin) != -1)
         {
             m_laborCoinList.Remove(_coin);
-            AdaptLabor(false);
         }
     }
 
@@ -324,26 +323,6 @@ public class TokenTile : TokenBase
         //뺀걸 해당 리스트에서 뺼필욘없음. 
         //반환한 코인을 다른곳에 GoWork()보내면 그 함수에서 SetPos로 이곳에서 takeOut이 호출 
         return firstLabor;
-    }
-
-    private void AdaptLabor(bool _add)
-    {
-        //변화된 노동코인대로 진행
-        if(m_effectType == TileEffectEnum.Stat)
-        {
-
-            List<TOrderItem> statEffect = new();
-            if (_add)
-                statEffect = MgMasterData.GetInstance().GetTileData((int)tileType).EffectData.GetItemList();
-            else
-                statEffect = GameUtil.ReverseItemList(MgMasterData.GetInstance().GetTileData((int)tileType).EffectData.GetItemList());
-            
-            for (int i = 0; i < statEffect.Count; i++)
-            {
-                TOrderItem effect = statEffect[i];
-                GamePlayMaster.GetInstance().RuleBook.ConductTileAction(this, effect, tileType);
-            }
-        }
     }
     #endregion
 
@@ -512,9 +491,15 @@ public class TokenTile : TokenBase
     #endregion
 
     #region 타일 기능 수행
+    public void SetReadyState(bool _ready)
+    {
+        IsReadyInherece = _ready;
+    }
+
     public void DoInhereceWork(TileType _tileType)
     {
        // Debug.Log("고유기능 수행");
+       //플레이어가 기능 수행을 요청하지 않기 때문에 이런경우는 없을텐데 
         if(IsReadyInherece == false)
         {
            // Debug.Log("고유 기능 수행 준비 안 되었음");
@@ -528,35 +513,34 @@ public class TokenTile : TokenBase
         }
     }
 
-    public void DoneWorkReady()
+    public void DoneInhereceReady()
     {
         //고유 작업을 위한 준비가 끝났을때
-        // 인헤리슨 작업의 효과 
-        IsReadyInherece = true; 
+        SetReadyState(true);
     }
 
     private void ReadyInherenceWork(TileType _tileType)
     {
         //기능수행에 턴, 자원, 노동량등 준비가 필요한경우 고유작업 등록부터 진행 
-        TileTypeData tileData = MgMasterData.GetInstance().GetTileData((int)tileType);
+        TileTypeData tileData = MgMasterData.GetInstance().GetTileData((int)_tileType);
         TileEffectEnum effectType = tileData.effectType;
         //효과없는 경우 진행안함 
-        if (effectType == TileEffectEnum.None)
-            return;
-            
-
-        if (effectType == TileEffectEnum.Tool)
-        {
-            Debug.Log(_tileType + "작업서 자동 등록");
-            new WorkOrder(null, tileData.NeedLaborTurn, tileData.NeedLaborAmount, this, (int)_tileType, WorkType.Inherence);
-        }
+        Debug.Log(_tileType + "작업서 등록");
+        new WorkOrder(null, tileData.NeedLaborTurn, tileData.NeedLaborAmount, this, (int)_tileType, WorkType.Inherence);
     }
 
     public void RepeatInhereceReady(TileType _actionPlace)
     {
-        //수행하는 장소, 해당하는 타일.
         Debug.Log("고유 기능 준비 반복");
-        if(IsReadyInherece == false)
+        //이미 준비된 타일이면 넘기고
+        //이것도 문제긴해 어떤거 준비한건지 
+        if (IsReadyInherece == true)
+            return;
+        //타일 정보에서
+        TileTypeData tileData = MgMasterData.GetInstance().GetTileData((int)_actionPlace);
+        bool isAutuReady = tileData.IsAutoReady;
+        //자동 준비 기능이면 준비 수행
+        if(isAutuReady)
            ReadyInherenceWork(_actionPlace);
     }
 
