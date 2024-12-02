@@ -534,7 +534,7 @@ public class TokenTile : TokenBase
 
     public void RepeatInhereceReady(TileType _actionPlace)
     {
-        Debug.Log("고유 기능 준비 반복");
+        //Debug.Log("고유 기능 준비 반복");
         //이미 준비된 타일이면 넘기고
         //이것도 문제긴해 어떤거 준비한건지 
         if (IsReadyInherece == true)
