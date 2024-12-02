@@ -40,14 +40,14 @@ public class MgNation : Mg<MgNation>
 
     public void ManageNationTurn()
     {
-        if(m_nationList[m_turnNationNumber].IsAlive)
-        m_nationList[m_turnNationNumber].StartNationTurn();
+        if(m_nationList[m_turnNationNumber].IsAlive)  //턴 시작시 생존 국가들만
+            m_nationList[m_turnNationNumber].StartNationTurn();
     }
 
     public void SettleNationEndTurn()
     {
-        //턴 마무리에서 국가들이 할일 
-        if (m_nationList[m_settleNationNumber].IsAlive)
+       
+        if (m_nationList[m_settleNationNumber].IsAlive)  //턴 마무리에서 생존 국가들만
             m_nationList[m_settleNationNumber].SettleNationTurn();
     }
 
