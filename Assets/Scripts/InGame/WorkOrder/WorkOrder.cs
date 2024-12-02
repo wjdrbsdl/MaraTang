@@ -27,10 +27,10 @@ public class WorkOrder
 
     private List<TOrderItem> m_needList = new List<TOrderItem>();
     private List<TOrderItem> m_curList = new List<TOrderItem>();
-    private int m_originWorkGauge;
-    private int m_restWorkGauge;
+    public int OriginWorkGauge;
+    public int RestWorkGauge;
     private bool m_enoughWorkGague = false;
-    private int m_restTurn;
+    public int RestTurn;
     private bool m_enoughTurn = false;
 
     private int m_baseworkEfficiency = 100; //토큰 1개일때 노동 효율
@@ -52,10 +52,10 @@ public class WorkOrder
 
         //작업주문서 작성
         m_needList = _needList;
-        m_originWorkGauge = _needWorkGague;
+        OriginWorkGauge = _needWorkGague;
         //m_restWorkGauge = m_originWorkGauge;
-        m_restWorkGauge = m_originWorkGauge; //임시로 필요 작업량 할당
-        m_restTurn = _needTurn;
+        RestWorkGauge = OriginWorkGauge; //임시로 필요 작업량 할당
+        RestTurn = _needTurn;
         workType = _workType;
         WorkPid = _workPid;
        // string debugStr = "";
@@ -199,11 +199,11 @@ public class WorkOrder
         if (m_enoughTurn == true)
             return;
 
-        m_restTurn -= 1;
-        if(m_restTurn <= 0)
+        RestTurn -= 1;
+        if(RestTurn <= 0)
         {
             m_enoughTurn = true;
-            m_restTurn = 0;
+            RestTurn = 0;
         }
     }
 
@@ -229,12 +229,12 @@ public class WorkOrder
             overWorkAmount = overToken * m_overWorkEfficiency;
         }
         //작업진행
-        m_restWorkGauge -= (workAmount + overWorkAmount);
+        RestWorkGauge -= (workAmount + overWorkAmount);
         //  Debug.Log("남은 작업량 " + m_restWorkGauge);
-        if (m_restWorkGauge <= 0)
+        if (RestWorkGauge <= 0)
         {
            // Debug.Log("작업완료");
-            m_restWorkGauge = 0;
+            RestWorkGauge = 0;
             m_enoughWorkGague = true;
         }
     }
@@ -313,6 +313,6 @@ public class WorkOrder
 
     public int GetWorkGauge()
     {
-        return m_originWorkGauge;
+        return OriginWorkGauge;
     }
 }

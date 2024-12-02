@@ -161,8 +161,7 @@ public class UITileInfo : UIBase
             return;
         }
 
-        m_workText.text = work.workType.ToString() + "작업 중";
-            
+        m_workText.text = string.Format("{0} 작업중 {1}/{2} ", work.workType.ToString(),work.RestWorkGauge,work.OriginWorkGauge);    
 
     }
 
