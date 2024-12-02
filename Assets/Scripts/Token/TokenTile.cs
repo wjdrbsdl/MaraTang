@@ -187,6 +187,7 @@ public class TokenTile : TokenBase
         SetTileEffect();
         SetTileSprite();
         SetTileValue();
+        CancleWork();
         SetReadyState(false); //고유기능 수행 false로 전환
         RepeatInhereceReady(_tileType); //맨처음 생성시 고유작업 준비 할지
     }
@@ -209,22 +210,15 @@ public class TokenTile : TokenBase
 
     public void SendWorkStep(WorkStateCode _code)
     {
-        switch (_code)
+        WorkOrder preWork = m_workOrder; //이전 작업중이던거 저장
+        RemoveWork(); //기존 작업은 없애고
+        //완료인 경우에만 재 수행 여부 체크 
+        if(_code == WorkStateCode.Complete)
         {
-            case WorkStateCode.Complete:
-                WorkOrder preWork = m_workOrder; //완료된작업 저장
-                RemoveWork(); //기존 작업은 없애고
-                //만약 방금마친 일이 고유작업 준비작업이면서, 해당 장소 기능이 자동수행이면 고유작업 진행
-                if (CheckInhereceWork(preWork))
-                {
-                    //일단 모든 고유 기능은 준비작업이 끝나면 발동하는 식으로 진행 
-                    DoInhereceWork(tileType);
-                }
-                    
-                break;
-            case WorkStateCode.Cancle:
-                RemoveWork();
-                break;
+            if (CheckInhereceWork(preWork))
+            {
+                DoInhereceWork(tileType);
+            }
         }
     }
 
@@ -242,17 +236,6 @@ public class TokenTile : TokenBase
             return false;
 
         if (m_workOrder.workType != _workType || m_workOrder.WorkPid != _pid)
-            return false;
-
-        return true;
-    }
-
-    public bool IsOutBuilding()
-    {
-        if (m_workOrder == null)
-            return false;
-
-        if (m_workOrder.workType == WorkType.InterBuild)
             return false;
 
         return true;
@@ -280,7 +263,17 @@ public class TokenTile : TokenBase
         doneInteriorList.Add(_pid);
     }
 
+    public void CancleWork()
+    {
+        //작업중이던 땅에 컨텐츠로 그냥 Change가 일어난경우
+        //해당 타일에 토지변경 작업이 아닌 다른 작업중에 Change 가 발생가능
+        //진행중이던 작업이 없으면 상관없음
+        if (m_workOrder == null)
+            return;
 
+        m_workOrder.Cancle(); //있으면 그건 취소. 
+        
+    }
     #endregion
 
     #region 노동코인
