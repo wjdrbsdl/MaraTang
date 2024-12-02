@@ -18,7 +18,7 @@ public class BtnPlace : MonoBehaviour
         TileTypeData tileData = MgMasterData.GetInstance().GetTileData((int)_tileType);
         m_placeText.text = tileData.PlaceName;
         m_tileInfoUI = _motherUI;
-        if (_tile.IsWorking(WorkType.InterBuild, (int)_tileType)) //해당 장소가 공사중인지 확인해서 공사중이면
+        if (_tile.IsWorkingInterPlace(WorkType.InterBuild, (int)_tileType)) //해당 장소가 공사중인지 확인해서 공사중이면
         {
             m_placeText.text += "\n공사중";
         }
@@ -28,7 +28,7 @@ public class BtnPlace : MonoBehaviour
         if (m_tile.IsBuildInterior((int)m_tileType) == false)
         {
            
-            if (m_tile.IsWorking(WorkType.InterBuild, (int)m_tileType)) //이미 공사중이면 추가 발주 안함
+            if (m_tile.IsWorkingInterPlace(WorkType.InterBuild, (int)m_tileType)) //이미 공사중이면 추가 발주 안함
             {
               //  Debug.Log("공사중인 장소");
                 return;

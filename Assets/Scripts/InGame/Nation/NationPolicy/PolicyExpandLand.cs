@@ -38,7 +38,7 @@ public class PolicyExpandLand : NationPolicy
                     continue;
 
                 //이미 공사중인 곳은 패스
-                if (tile.IsBuilding() == true)
+                if (tile.IsWorking() == true)
                     continue;
 
                 TokenBase planToken = tile; //확장가능한 땅이면 타겟 지정

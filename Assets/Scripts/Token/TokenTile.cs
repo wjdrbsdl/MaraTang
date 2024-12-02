@@ -222,7 +222,7 @@ public class TokenTile : TokenBase
         return;
     }
 
-    public bool IsWorking(WorkType _workType, int _pid)
+    public bool IsWorkingInterPlace(WorkType _workType, int _pid)
     {
         if (m_workOrder == null)
             return false;
@@ -233,7 +233,7 @@ public class TokenTile : TokenBase
         return true;
     }
 
-    public bool IsBuilding()
+    public bool IsWorking()
     {
         //다른 건설중인가
         if (m_workOrder != null)
@@ -470,7 +470,7 @@ public class TokenTile : TokenBase
     }
     #endregion
 
-    #region 타일 기능 수행
+    #region 타일 고유 기능 수행
     public void SetInhereceReady(bool _ready)
     {
         IsReadyInherece = _ready;
@@ -496,16 +496,6 @@ public class TokenTile : TokenBase
         RepeatInhereceReady(_tileType);
     }
 
-    private void ReadyInherenceWork(TileType _tileType)
-    {
-        //기능수행에 턴, 자원, 노동량등 준비가 필요한경우 고유작업 등록부터 진행 
-        TileTypeData tileData = MgMasterData.GetInstance().GetTileData((int)_tileType);
-        TileEffectEnum effectType = tileData.effectType;
-        //효과없는 경우 진행안함 
-        Debug.Log(_tileType + "작업서 등록");
-        new WorkOrder(null, tileData.NeedLaborTurn, tileData.NeedLaborAmount, this, (int)_tileType, WorkType.Inherence);
-    }
-
     public void RepeatInhereceReady(TileType _actionPlace)
     {
         //Debug.Log("고유 기능 준비 반복");
@@ -521,17 +511,21 @@ public class TokenTile : TokenBase
            ReadyInherenceWork(_actionPlace);
     }
 
-    private bool CheckAutoInherece()
-    {
-        TileTypeData tileData = MgMasterData.GetInstance().GetTileData((int)tileType);
-        //  Debug.Log("자동여부 " + tileData.IsAuto);
-        return tileData.IsAutoEffect;
-    }
-
     private bool CheckInhereceWork(WorkOrder _workOrder)
     {
         //  Debug.Log("고유여부 " + (_workOrder.workType == WorkType.Inherence));
         return _workOrder.workType == WorkType.Inherence;
     }
+
+    private void ReadyInherenceWork(TileType _tileType)
+    {
+        //기능수행에 턴, 자원, 노동량등 준비가 필요한경우 고유작업 등록부터 진행 
+        TileTypeData tileData = MgMasterData.GetInstance().GetTileData((int)_tileType);
+        TileEffectEnum effectType = tileData.effectType;
+        //효과없는 경우 진행안함 
+        Debug.Log(_tileType + "작업서 등록");
+        new WorkOrder(null, tileData.NeedLaborTurn, tileData.NeedLaborAmount, this, (int)_tileType, WorkType.Inherence);
+    }
+
     #endregion
 }

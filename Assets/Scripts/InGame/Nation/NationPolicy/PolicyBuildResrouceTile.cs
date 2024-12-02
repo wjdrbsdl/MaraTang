@@ -40,7 +40,7 @@ public class PolicyBuildResrouceTile : NationPolicy
                     continue;
 
                 //이미 공사중인 곳은 패스
-                if (tile.IsBuilding() == true)
+                if (tile.IsWorking() == true)
                     continue;
 
                 //용도가 노말이 아니면 패스 

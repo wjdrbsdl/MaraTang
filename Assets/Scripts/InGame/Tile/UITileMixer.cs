@@ -124,7 +124,7 @@ public class UITileMixer : UIBase, KeyInterceptor
           //  return;
         }
 
-        if(_tile.IsBuilding() == true)
+        if(_tile.IsWorking() == true)
         {
             //다른 공사중이면 패스 
             return;
