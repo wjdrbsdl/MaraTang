@@ -31,6 +31,7 @@ public class Nation : ITradeCustomer
     public NationEvent m_eventMg; //사건 관리소 
     public NationStatPart m_statPart; //스텟 관리소
     public NationTechPart TechPart;
+    public bool IsAlive = true;
     private int[] m_resources; //보유 자원
     private int[] nationStatValues ; //국가 스텟 - 정서, 환경 통합
     private Color[] nationColor = { Color.red, Color.yellow, Color.blue };
@@ -77,6 +78,7 @@ public class Nation : ITradeCustomer
     {
         //국가 소멸시 할 작업들. 
         Debug.Log(GetNationNum() + " 국가 수도 파괴 소멸");
+        IsAlive = false;
     }
     #endregion
 

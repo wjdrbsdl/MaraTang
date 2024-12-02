@@ -24,7 +24,7 @@ public class MgNation : Mg<MgNation>
     public void DestroyNation(Nation _nation)
     {
         _nation.Destroy();
-        m_nationList.Remove(_nation);
+      //  m_nationList.Remove(_nation);
     }
     #endregion
 
@@ -40,13 +40,15 @@ public class MgNation : Mg<MgNation>
 
     public void ManageNationTurn()
     {
+        if(m_nationList[m_turnNationNumber].IsAlive)
         m_nationList[m_turnNationNumber].StartNationTurn();
     }
 
     public void SettleNationEndTurn()
     {
         //턴 마무리에서 국가들이 할일 
-        m_nationList[m_settleNationNumber].SettleNationTurn();
+        if (m_nationList[m_turnNationNumber].IsAlive)
+            m_nationList[m_settleNationNumber].SettleNationTurn();
     }
 
     public void EndNationTurn()
