@@ -89,12 +89,6 @@ public class AIPlayer : PlayerRule
     //3. 캐릭터의 액션 고르기 (액션의 내용까지 채움)
     private TokenAction SelectActionLogic(TokenChar _char)
     {
-        //해당 캐릭터가 수행할 수 있는 액션을 골라서 반환 
-        /*
-         * 공통적으로 모든 액션을 취할 때 사용이 가능한지 타겟까지 따져서 반환
-         * 우선은 공격 부터 살피고 끝에 이동 - 추후 캐릭터의 성향, 상태, 액션타입의 추가로 어느 액션타입을 우선 살필지 로직 추가
-         */
-
         _char.ClearNextAction();
  
         //캐릭이 자고있는 상태라면 그냥넘김.
@@ -103,52 +97,18 @@ public class AIPlayer : PlayerRule
           //  Debug.Log(m_turnNumber + "캐릭 잠");
             return null;
         }
-            
 
-        //일단 타겟과 사거리를 구함 
-        TokenChar  enemy = FindEnemy(_char);
-        //타겟없으면 패스
-        if (enemy == null)
-        {
-            //Debug.Log(m_turnNumber + "캐릭 적없음");
-            return null;
-        }
+
+        //1. 공격 가능부터 체크 
+        TokenAction attackChar = AttackCharLogic(_char); //주위 적을 탐색해서 쫓거나 공격할 스킬을 반환 
+        //공격할 상대를 찾았으면 이대로 반환
+        if (attackChar != null)
+            return attackChar;
         
-        //1.캐릭터가 가진 액션을 타입별로 나눈다
-        // 액션 타입 종류만큼 배열을 생성
-        List<TokenAction>[] actionTable = new List<TokenAction>[GameUtil.EnumLength(ActionType.Attack)];
-        List<TokenAction> charActionList = _char.GetActionList();
-        for (int i = 0; i < charActionList.Count; i++)
-        {
-            ActionType actionType = charActionList[i].GetActionType();
-            //해당 타입에 이 액션을 넣을건데, 맨 처음넣는 거라 비어있으면 
-            if (actionTable[(int)actionType] == null)
-                actionTable[(int)actionType] = new List<TokenAction>(); //생성
+        //2. 공격할 Place를 체크 
+        TokenTile nationTile = FindNationPlace(_char);
 
-            actionTable[(int)actionType].Add(charActionList[i]); //추가
-        }
-        //악마라면 부정부터 
-        if (_char.GetCharType().Equals(CharType.Devil))
-        {
-            TokenAction wrongAction = SelectWrongFul(_char, actionTable[(int)ActionType.Wrongfulness], enemy);
-            if(wrongAction != null)
-            {
-                return wrongAction;
-            }
-        }
-
-        //2. 공격 가능한지 본다 
-        TokenAction attactAction = SelectAttack(_char, actionTable[(int)ActionType.Attack], enemy);
-        if (attactAction != null)
-        {
-          //  Debug.Log(m_turnNumber + " 공격 수행");
-            return attactAction;
-        }
-            
-            
-        //마지막으로 이동 액션을 살펴서 반환
-        return SelectMove(_char, actionTable[(int)ActionType.Move], GameUtil.GetTileTokenFromMap(enemy.GetMapIndex()));
-
+        return null;
     }
 
     #region 액션 선택 로직
@@ -183,6 +143,77 @@ public class AIPlayer : PlayerRule
         
         
         return null;
+    }
+
+    private TokenTile FindNationPlace(TokenChar _char)
+    {
+        if (_char.GetTargetTile() != null)
+            return _char.GetTargetTile();
+
+        int tempEyesight = 5;
+        for (int x = 1; x <= tempEyesight; x++)
+        {
+            //각 범위별로 타일을 가져와서 확인
+            //ex : 범위가 10일때, 1~10 타일 모두가 아니라 각 범위별로 확인해서 시간 줄이기 
+            List<TokenTile> inRangedTiles = GameUtil.GetTileTokenListInRange(x, _char.GetMapIndex(), x);
+            for (int i = 0; i < inRangedTiles.Count; i++)
+            {
+                //타일 돌면서 내부 적 확인 
+                TokenTile tile = inRangedTiles[i];
+                if(tile.GetNationNum() != FixedValue.NO_NATION_NUMBER && tile.GetTileType() != TileType.None && tile.GetTileType() != TileType.Nomal)
+                {
+                    _char.SetTargetTile(tile);
+                    return tile;
+                }
+            }
+        }
+        return null;
+    }
+
+    private TokenAction AttackCharLogic(TokenChar _char)
+    {
+        TokenChar enemy = FindEnemy(_char);
+        //쫓는 적이 없으면 반환할 공격로직은 없음 
+        if (enemy == null)
+        {
+            return null;
+        }
+
+        //1.캐릭터가 가진 액션을 타입별로 나눈다
+        // 액션 타입 종류만큼 배열을 생성
+        List<TokenAction>[] actionTable = new List<TokenAction>[GameUtil.EnumLength(ActionType.Attack)];
+        List<TokenAction> charActionList = _char.GetActionList();
+        for (int i = 0; i < charActionList.Count; i++)
+        {
+            ActionType actionType = charActionList[i].GetActionType();
+            //해당 타입에 이 액션을 넣을건데, 맨 처음넣는 거라 비어있으면 
+            if (actionTable[(int)actionType] == null)
+                actionTable[(int)actionType] = new List<TokenAction>(); //생성
+
+            actionTable[(int)actionType].Add(charActionList[i]); //추가
+        }
+
+        //악마라면 부정부터 
+        if (_char.GetCharType().Equals(CharType.Devil))
+        {
+            TokenAction wrongAction = SelectWrongFul(_char, actionTable[(int)ActionType.Wrongfulness], enemy);
+            if (wrongAction != null)
+            {
+                return wrongAction;
+            }
+        }
+
+        //2. 공격 가능한지 본다 
+        TokenAction attactAction = SelectAttack(_char, actionTable[(int)ActionType.Attack], enemy);
+        if (attactAction != null)
+        {
+            //  Debug.Log(m_turnNumber + " 공격 수행");
+            return attactAction;
+        }
+
+
+        //마지막으로 이동 액션을 살펴서 반환
+        return SelectMove(_char, actionTable[(int)ActionType.Move], GameUtil.GetTileTokenFromMap(enemy.GetMapIndex()));
     }
 
     private TokenAction SelectAttack(TokenChar _char, List<TokenAction> _attackList, TokenChar _enemy)
