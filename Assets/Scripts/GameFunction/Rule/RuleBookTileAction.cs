@@ -22,7 +22,6 @@ public class RuleBookTileAction
                 break;
             case TokenType.MonsterSpawn:
                 MonsterSpawn(_tile, subValue, Value);
-                _tile.RepeatInhereceReady(_actionPlace);
                 break;
             case TokenType.NationStat:
                 NationStatUp(_tile, subValue, Value);

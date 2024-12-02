@@ -188,7 +188,7 @@ public class TokenTile : TokenBase
         SetTileSprite();
         SetTileValue();
         SetReadyState(false); //고유기능 수행 false로 전환
-        RepeatInhereceReady(_tileType); //고유작업 반복할지 호출
+        RepeatInhereceReady(_tileType); //맨처음 생성시 고유작업 준비 할지
     }
     #endregion 
 
@@ -511,6 +511,9 @@ public class TokenTile : TokenBase
         {
             GamePlayMaster.GetInstance().RuleBook.ConductTileAction(this, effectList[i], _tileType);
         }
+        //일단 효과여부 상관없이 발동한걸로 간주 
+        SetReadyState(false);
+        RepeatInhereceReady(_tileType);
     }
 
     public void DoneInhereceReady()
