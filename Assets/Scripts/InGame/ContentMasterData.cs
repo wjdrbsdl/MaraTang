@@ -5,6 +5,7 @@ public class ContentMasterData
 {
     //컨텐츠 데이터로 퀘스트 조건, 페널티, 보상안등의 정보를 담고 있음. 
     public int ContentPid;
+    public bool AbleRepeat = false;
     public List<TOrderItem> ActConditionList; //컨텐츠 발동조건 리스트
     public Dictionary<int, StageMasterData> StageDic = new (); //컨텐츠 각 단계 내용
 
@@ -33,6 +34,12 @@ public class ContentMasterData
         int failNeedCountIdx = rewardIdx + 1; //성공에 필요한 수
         int failConditionIdx = failNeedCountIdx + 1; //성공 조건들
         int penaltyIdx = failConditionIdx + 1; //실패시 갈 스텝
+        int helpIdx = penaltyIdx + 1;
+        int repeatIdx = helpIdx + 1;
+       if (_parsingData[repeatIdx] == "T")
+        {
+            AbleRepeat = true;
+        }
 
         string[] ableSelect = _parsingData[ableSelectIdx].Split(FixedValue.PARSING_LINE_DIVIDE);
         string[] situAdapValues = _parsingData[situAdaptCountIdx].Split(FixedValue.PARSING_LINE_DIVIDE);
