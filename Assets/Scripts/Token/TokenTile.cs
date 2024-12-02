@@ -484,13 +484,19 @@ public class TokenTile : TokenBase
     {
        // Debug.Log("고유기능 수행");
        //플레이어가 기능 수행을 요청하지 않기 때문에 이런경우는 없을텐데 
-        if(IsReadyInherece == false)
-        {
-           // Debug.Log("고유 기능 수행 준비 안 되었음");
-            return;
-        }
+      
         TileTypeData tileData = MgMasterData.GetInstance().GetTileData((int)_tileType);
         List<TOrderItem> effectList = tileData.EffectData.GetItemList();
+        if(tileData.effectType == TileEffectEnum.UIOpen)
+        {
+            GamePlayMaster.GetInstance().RuleBook.ConductTileAction(this, effectList[0], _tileType);
+            return;
+        }
+        if (IsReadyInherece == false)
+        {
+            // Debug.Log("고유 기능 수행 준비 안 되었음");
+            return;
+        }
         for (int i = 0; i < effectList.Count; i++)
         {
             GamePlayMaster.GetInstance().RuleBook.ConductTileAction(this, effectList[i], _tileType);
