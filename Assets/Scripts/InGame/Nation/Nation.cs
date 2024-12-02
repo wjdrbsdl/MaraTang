@@ -76,6 +76,7 @@ public class Nation : ITradeCustomer
     public void Destroy()
     {
         //국가 소멸시 할 작업들. 
+        Debug.Log(GetNationNum() + " 국가 수도 파괴 소멸");
     }
     #endregion
 
