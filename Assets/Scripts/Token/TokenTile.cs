@@ -528,20 +528,6 @@ public class TokenTile : TokenBase
         }
     }
 
-    public bool CheckAutoInherece()
-    {
-        //방금 수행한 작업이 고유작업이면서 자동인지
-        TileTypeData tileData = MgMasterData.GetInstance().GetTileData((int)tileType);
-      //  Debug.Log("자동여부 " + tileData.IsAuto);
-        return tileData.IsAuto;
-    }
-
-    public bool CheckInhereceWork(WorkOrder _workOrder)
-    {
-      //  Debug.Log("고유여부 " + (_workOrder.workType == WorkType.Inherence));
-        return _workOrder.workType == WorkType.Inherence;
-    }
-
     public void DoneWorkReady()
     {
         //고유 작업을 위한 준비가 끝났을때
@@ -572,6 +558,19 @@ public class TokenTile : TokenBase
         Debug.Log("고유 기능 준비 반복");
         if(IsReadyInherece == false)
            ReadyInherenceWork(_actionPlace);
+    }
+
+    private bool CheckAutoInherece()
+    {
+        TileTypeData tileData = MgMasterData.GetInstance().GetTileData((int)tileType);
+        //  Debug.Log("자동여부 " + tileData.IsAuto);
+        return tileData.IsAutoEffect;
+    }
+
+    private bool CheckInhereceWork(WorkOrder _workOrder)
+    {
+        //  Debug.Log("고유여부 " + (_workOrder.workType == WorkType.Inherence));
+        return _workOrder.workType == WorkType.Inherence;
     }
     #endregion
 }
