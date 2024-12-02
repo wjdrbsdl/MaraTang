@@ -134,6 +134,7 @@ public class MGContent : Mg<MGContent>
         foreach(KeyValuePair<int, ContentMasterData> pair in contentDic)
         {
             ContentMasterData curContent = pair.Value;
+            bool repeat = curContent.AbleRepeat;
             if (IsContentDone(curContent.ContentPid))
             {
              //   Debug.Log(curContent.ContentPid + "완료한 컨텐츠는 패쓰");
@@ -202,7 +203,7 @@ public class MGContent : Mg<MGContent>
             case ContentEnum.Clear:
                 //벨류는 컨텐츠pid
              //   Debug.Log(_value + "클리어 했는지 체크"+ IsContentDone(_value));
-                if (IsContentDone(_value))
+                if (IsContentClear(_value))
                 {
                     return true;
                 }
@@ -290,10 +291,31 @@ public class MGContent : Mg<MGContent>
 
     public bool IsContentDone(int _contentPId)
     {
-        if (m_QuestRecorde.IndexOf((_contentPId, true)) < 0)
-            return false;
+        //해당 컨텐츠를 해봤능가 
+        for (int i = 0; i < m_QuestRecorde.Count; i++)
+        {
+            (int, bool) recorde = m_QuestRecorde[i];
+            if (recorde.Item1 == _contentPId)
+            {
+                return true;
+            }
+        }
+        //한적 없는 컨텐트는 false
+        return false;
+    }
 
-        return true;
+    public bool IsContentClear(int _contentPid)
+    {
+        for (int i = 0; i < m_QuestRecorde.Count; i++)
+        {
+            (int, bool) recorde = m_QuestRecorde[i];
+            if(recorde.Item1 == _contentPid)
+            {
+                return recorde.Item2;
+            }
+        }
+        //한적 없는 컨텐트는 false
+        return false;
     }
 
     public bool IsPlayingContent(int _cotentPid)
