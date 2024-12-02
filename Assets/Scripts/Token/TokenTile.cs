@@ -458,6 +458,7 @@ public class TokenTile : TokenBase
 
     public void DestroyPlace()
     {
+        TileType preType = tileType;
         ChangePlace(TileType.Nomal);
         for (int i = 0; i < childList.Count; i++)
         {
@@ -465,7 +466,8 @@ public class TokenTile : TokenBase
             //재귀가 되는데, 어차피 자식들은 자식 타일이 없어서 한번만 발생. 그래도 파괴판정은 들어갈수있으므로 해당함수로 진행
             childTile.DestroyPlace(); 
         }
-        if(tileType == TileType.Capital)
+        //이전에 파괴되었던 부분이 수도면 
+        if(preType == TileType.Capital)
         {
             MgNation.GetInstance().DestroyNation(GetNation());
         }
