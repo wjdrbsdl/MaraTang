@@ -20,6 +20,11 @@ public enum TokenType
     MonsterNationSpawn, EventPlaceNationSpawn, Equipt, UIOpen, MonsterSpawn
 }
 
+public enum SideEnum
+{
+    Player, Enemy
+}
+
 public class TokenBase
 {
     #region 데이터 변수
@@ -36,6 +41,7 @@ public class TokenBase
     protected int m_yIndex = 0; //지도상 행렬 포지션
     [JsonProperty][SerializeField]
     protected TokenType m_tokenType;
+    public SideEnum m_Side = SideEnum.Enemy;
     #endregion
 
     #region 유니티 변수
