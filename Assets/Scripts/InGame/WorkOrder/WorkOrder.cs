@@ -34,13 +34,13 @@ public class WorkOrder
     private bool m_enoughTurn = false;
 
     private int m_baseworkEfficiency = 100; //토큰 1개일때 노동 효율
-    private int m_overWorkEfficiency = 10; //추가되는 토큰에 따른 노동 효율
+    private int m_overWorkEfficiency = 100; //추가되는 토큰에 따른 노동 효율
 
     private bool m_isComplete = false; //효과 까지 진행된경우 true
     public bool IsCancle = false;
     
 
-    public WorkOrder(List<TOrderItem> _needList, int _needTurn, int _needWorkGague, TokenTile _placeTile, int _workPid = -1, WorkType _workType = WorkType.ChangeBuild)
+    public WorkOrder(List<TOrderItem> _needList, int _needTurn, int _needWorkGague, TokenTile _placeTile, int _workPid, WorkType _workType)
     {
         if (_needList == null)
         {
