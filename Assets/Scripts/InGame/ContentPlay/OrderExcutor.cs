@@ -56,6 +56,8 @@ public class OrderExcutor
                 return true;
             case TokenType.EventPlaceNationSpawn:
                 return ChangeQuestPlace(_item.SubIdx, _item.Value);
+            case TokenType.EventPlaceChunkSpawn:
+                return ChangeChunkPlace(_item.SubIdx, _item.Value);
             case TokenType.MonsterNationSpawn:
                 SpawnMonster(_item);
                 return true;
@@ -98,6 +100,21 @@ public class OrderExcutor
         {
             MgToken.GetInstance().SpawnCharactor(spawnPos, tokenPid); //월드 좌표로 pid 토큰 스폰 
         }
+
+    }
+
+    public bool ChangeChunkPlace(int _tileType, int _value)
+    {
+        Chunk chunk = MGContent.GetInstance().GetChunk(_value);
+        //잘못된 입력으로 null 반환시 0 번째 청크로 임시 진행 
+        if(chunk == null)
+        {
+            Debug.LogWarning("잘못된 입력으로 null 반환시 0 번째 청크로 임시 진행 ");
+            chunk = MGContent.GetInstance().GetChunk(0);
+        }
+            
+        chunk.GetRandomTile().ChangePlace((TileType)_tileType);
+        return false;
 
     }
 
