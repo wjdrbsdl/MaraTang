@@ -17,6 +17,7 @@ public class TokenChar : TokenBase
 {
     public bool isMainChar = false;
     public bool m_isPlayerChar = false;
+    public bool isLIve = true;
 
     private CharType m_charType = CharType.Monster;
     [JsonProperty] private CharState m_state = CharState.Idle;
@@ -470,6 +471,7 @@ public class TokenChar : TokenBase
         if (m_object != null)
             m_object.DestroyObject();
 
+        isLIve = false;
         //1. »ç¸Á½Ã Ã³¸®
         DropItem();
 
