@@ -45,8 +45,8 @@ public class WorkOrder
         if (_needList == null)
         {
             _needList = new();
-            Debug.LogWarning("임시로 작업 재료 할당");
-            _needList.Add(new TOrderItem(TokenType.Capital, (int)Capital.Wood, 5));
+            //Debug.LogWarning("임시로 작업 재료 할당");
+            //_needList.Add(new TOrderItem(TokenType.Capital, (int)Capital.Wood, 5));
         }
             
 
@@ -54,7 +54,7 @@ public class WorkOrder
         m_needList = _needList;
         m_originWorkGauge = _needWorkGague;
         //m_restWorkGauge = m_originWorkGauge;
-        m_restWorkGauge = 0; //임시로 필요 작업량 할당
+        m_restWorkGauge = m_originWorkGauge; //임시로 필요 작업량 할당
         m_restTurn = _needTurn;
         workType = _workType;
         WorkPid = _workPid;
@@ -220,7 +220,7 @@ public class WorkOrder
         }
 
         //작업량 구하기
-        int workAmount = m_baseworkEfficiency * 1; //기본 토큰1은 기본효율로
+        int workAmount = m_baseworkEfficiency * Math.Min(laborCoin, 1); //기본 토큰1은 기본효율로
         int overToken = laborCoin - 1; //초과 토큰 수 계산
         int overWorkAmount = 0;
         if (1 <= overToken)
