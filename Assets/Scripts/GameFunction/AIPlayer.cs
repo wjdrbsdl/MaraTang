@@ -112,10 +112,27 @@ public class AIPlayer : PlayerRule
     private TokenBase FindTarget(TokenChar _char)
     {
         if (_char.GetTargetChar() != null)
-            return _char.GetTargetChar();
+        {
+            //쫓던 타겟이 살아있으면 그대로 쫓음
+            if(_char.GetTargetChar().isLIve == true)
+                return _char.GetTargetChar();
+         
+            //죽었으면 쫓던 타겟 null로
+            _char.SetTargetChar(null);
+        }
+            
 
         if (_char.GetTargetTile() != null)
-            return _char.GetTargetTile();
+        {
+            TileType targetType = _char.GetTargetTile().GetTileType();
+            //쫓던 장소가 none이나 nomal상태가 아니라면 그대로 쫓음 
+            if (targetType != TileType.None && targetType != TileType.Nomal)
+                return _char.GetTargetTile();
+
+            //장소가 파괴되었으면 쫓던 장소 null로
+            _char.SetTargetTile(null);
+        }
+            
 
         int tempEyesight = 5;
         TokenTile targetPlace = null;
