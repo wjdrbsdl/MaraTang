@@ -98,26 +98,27 @@ public class AIPlayer : PlayerRule
             return null;
         }
 
-
-        //1. 공격 가능부터 체크 
-        TokenAction attackChar = AttackCharLogic(_char); //주위 적을 탐색해서 쫓거나 공격할 스킬을 반환 
-        //공격할 상대를 찾았으면 이대로 반환
-        if (attackChar != null)
-            return attackChar;
-        
-        //2. 공격할 Place를 체크 
-        TokenTile nationTile = FindNationPlace(_char);
-
-        return null;
+        // 주위에서 케릭이나 국가 장소를 타겟으로 찾음
+        // 타겟이 있으면 공격하거나 해당 방향으로 움직임
+        // 타겟이 없으면 가까운 국가 수도를 향해 이동함
+        // 타겟 없는 상대로 이동시에 위 순환
+        // 타겟이 한번 정해졌으면 해당 타겟이 사망 판정 때까지 추적 
+        TokenAction action = CharActionLogic(_char);
+    
+        return action;
     }
 
     #region 액션 선택 로직
-    private TokenChar FindEnemy(TokenChar _char)
+    private TokenBase FindTarget(TokenChar _char)
     {
         if (_char.GetTargetChar() != null)
             return _char.GetTargetChar();
 
+        if (_char.GetTargetTile() != null)
+            return _char.GetTargetTile();
+
         int tempEyesight = 5;
+        TokenTile targetPlace = null;
         for (int x = 1; x <= tempEyesight; x++)
         {
             //각 범위별로 타일을 가져와서 확인
@@ -127,57 +128,42 @@ public class AIPlayer : PlayerRule
             {
                 //타일 돌면서 내부 적 확인 
                 TokenTile tile = inRangedTiles[i];
+                if(targetPlace == null && tile.m_Side == SideEnum.Player)
+                {
+                    //미리 침공할 타일도 찾아둠. 
+                    if(tile.GetTileType()!= TileType.Nomal && tile.GetTileType()!=TileType.None)
+                    targetPlace = tile;
+                }
+
                 for (int tileIndex = 0; tileIndex < tile.GetCharsInTile().Count; tileIndex++)
                 {
                     //적 발견했으면 해당 포문 종료
                     TokenChar enemy = tile.GetCharsInTile()[tileIndex];
                     if (enemy != _char && enemy.IsPlayerChar()) //플레이어 차르인 경우 
                     {
+                        //공격타겟 찾았으면 공격으로 반환
+                        _char.SetTargetChar(enemy);
                         return enemy;
                     }
 
                 }
             }
         }
-        
-        
-        
-        return null;
-    }
-
-    private TokenTile FindNationPlace(TokenChar _char)
-    {
-        if (_char.GetTargetTile() != null)
-            return _char.GetTargetTile();
-
-        int tempEyesight = 5;
-        for (int x = 1; x <= tempEyesight; x++)
+        //아니면 국가 타일이라도 목표로 반환
+        if(targetPlace != null)
         {
-            //각 범위별로 타일을 가져와서 확인
-            //ex : 범위가 10일때, 1~10 타일 모두가 아니라 각 범위별로 확인해서 시간 줄이기 
-            List<TokenTile> inRangedTiles = GameUtil.GetTileTokenListInRange(x, _char.GetMapIndex(), x);
-            for (int i = 0; i < inRangedTiles.Count; i++)
-            {
-                //타일 돌면서 내부 적 확인 
-                TokenTile tile = inRangedTiles[i];
-                if(tile.GetNationNum() != FixedValue.NO_NATION_NUMBER && tile.GetTileType() != TileType.None && tile.GetTileType() != TileType.Nomal)
-                {
-                    _char.SetTargetTile(tile);
-                    return tile;
-                }
-            }
+            _char.SetTargetTile(targetPlace);
+            return targetPlace;
         }
+        
         return null;
     }
 
-    private TokenAction AttackCharLogic(TokenChar _char)
+    private TokenAction CharActionLogic(TokenChar _char)
     {
-        TokenChar enemy = FindEnemy(_char);
+        TokenBase enemy = FindTarget(_char);
         //쫓는 적이 없으면 반환할 공격로직은 없음 
-        if (enemy == null)
-        {
-            return null;
-        }
+  
 
         //1.캐릭터가 가진 액션을 타입별로 나눈다
         // 액션 타입 종류만큼 배열을 생성
@@ -191,6 +177,26 @@ public class AIPlayer : PlayerRule
                 actionTable[(int)actionType] = new List<TokenAction>(); //생성
 
             actionTable[(int)actionType].Add(charActionList[i]); //추가
+        }
+
+        //쫓을 상대가 없으면 가장 가까운 국가 수도를 향해 이동 
+        if (enemy == null)
+        {
+            List<Nation> nations = MgNation.GetInstance().GetNationList();
+            int distance = int.MaxValue;
+            TokenTile closeCapital = null;
+
+            //가장 가까운 수도 고르기
+            for (int i = 0; i < nations.Count; i++)
+            {
+                int gap = GameUtil.GetMinRange(nations[i].GetCapital(), _char);
+                if (gap < distance)
+                {
+                    distance = gap;
+                    closeCapital = nations[i].GetCapital();
+                }
+            }
+            return SelectMove(_char, actionTable[(int)ActionType.Move], GameUtil.GetTileTokenFromMap(closeCapital.GetMapIndex()));
         }
 
         //악마라면 부정부터 
@@ -216,7 +222,7 @@ public class AIPlayer : PlayerRule
         return SelectMove(_char, actionTable[(int)ActionType.Move], GameUtil.GetTileTokenFromMap(enemy.GetMapIndex()));
     }
 
-    private TokenAction SelectAttack(TokenChar _char, List<TokenAction> _attackList, TokenChar _enemy)
+    private TokenAction SelectAttack(TokenChar _char, List<TokenAction> _attackList, TokenBase _targetToken)
     {
         //만약 공격 리스트가 없다면 null 반환
         if (_attackList == null)
@@ -225,7 +231,7 @@ public class AIPlayer : PlayerRule
             return null;
         }
 
-        int enemyDistance = GameUtil.GetMinRange(new TMapIndex(_char, _enemy));
+        int enemyDistance = GameUtil.GetMinRange(new TMapIndex(_char, _targetToken));
 
         List<int> randomAt = GameUtil.GetRandomNum(_attackList.Count, _attackList.Count);
         for (int i = 0; i < randomAt.Count; i++)
@@ -247,7 +253,7 @@ public class AIPlayer : PlayerRule
          
             //액션 내용을 채워서 반환
             attackAction.ClearTarget(); //타겟 리셋후
-            attackAction.SetTargetCoordi(_enemy.GetMapIndex()); //적 위치를 타겟으로 하고 반환
+            attackAction.SetTargetCoordi(_targetToken.GetMapIndex()); //적 위치를 타겟으로 하고 반환
 
             return attackAction; //이녀석을 반환
         }
@@ -292,7 +298,7 @@ public class AIPlayer : PlayerRule
         return null;
     }
 
-    private TokenAction SelectMove(TokenChar _char, List<TokenAction> _moveList, TokenTile _enemy)
+    private TokenAction SelectMove(TokenChar _char, List<TokenAction> _moveList, TokenBase _targetToken)
     {
         if (_moveList == null)
         {
@@ -301,7 +307,7 @@ public class AIPlayer : PlayerRule
         }
 
         //대상까지 사거리가 1이면 이동 안함 
-        int enemyDistance = GameUtil.GetMinRange(new TMapIndex(_char, _enemy));
+        int enemyDistance = GameUtil.GetMinRange(new TMapIndex(_char, _targetToken));
         if (enemyDistance == 1)
         {
             //Debug.Log(m_turnNumber + " 적과 거리가 1");
@@ -310,7 +316,7 @@ public class AIPlayer : PlayerRule
 
         //Debug.Log("타겟 까지 이동");
         int tempStopDistance = 1; //목적지 까지 멈추는 거리 0 이면 해당 타일 위로 
-        TokenTile targetTile = MgToken.GetInstance().GetMaps()[_enemy.GetXIndex(), _enemy.GetYIndex()];  //목적지 타일 
+        TokenTile targetTile = MgToken.GetInstance().GetMaps()[_targetToken.GetXIndex(), _targetToken.GetYIndex()];  //목적지 타일 
 
         //여러가지 이동 수단중에 뽑아서 진행 
         List<int> randomMove = GameUtil.GetRandomNum(_moveList.Count, _moveList.Count);
