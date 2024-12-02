@@ -209,6 +209,8 @@ public class MgToken : MgGeneric<MgToken>
         spawnCharactor.GetObject().gameObject.SetActive(true);
         m_charList.Add(spawnCharactor); //생성된 녀석은 npc리스트에 추가; 
         spawnCharactor.m_isPlayerChar = _isPlayer;
+        if(_isPlayer)
+            spawnCharactor.m_Side = SideEnum.Player;
         RuleBook.FirstMigrate(spawnCharactor, _position);
         return spawnCharactor;
     }
