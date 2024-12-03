@@ -5,7 +5,7 @@ using UnityEngine;
 public enum EMasterData
 {
     ContentData, TileType, CharData, CharActionData, EventData, NationTechTree, Conversation, God, GodBless, BlessSynerge,
-    Equipment
+    Equipment, ChunkContent
 }
 public struct ParseData
 {
@@ -34,15 +34,15 @@ public class MgParsing : MgGeneric<MgParsing>
     private string[] sheetIDes = { "1960523724", "1971334673", "1134768741",
                                     "1603700320","218824529","1858334671" ,
                                     "1780035322", "242617216", "1085432251",
-                                    "1134239208"};
+                                    "1134239208", "539688768"};
     private EMasterData[] dbId = { EMasterData.ContentData, EMasterData.TileType, EMasterData.CharData, 
                                    EMasterData.CharActionData, EMasterData.NationTechTree, EMasterData.Conversation,
                                    EMasterData.God, EMasterData.GodBless, EMasterData.BlessSynerge,
-                                    EMasterData.Equipment};
+                                    EMasterData.Equipment, EMasterData.ChunkContent};
     private System.Enum[] matchTypes = { ContentEnum.발생컨텐츠, ETileStat.Nation, CharStat.CurActionCount, 
                                     CharActionStat.CoolTime, TechTreeStat.Class, ConversationStat.Pid,
                                    null, null, null,
-                                   null};
+                                   null, null};
     private Dictionary<EMasterData, ParseData> dbContainer = new(); //파싱한값을 그냥 갖고만 있는상태 - 사용하는곳에서 다시 가공 필요. 
  
     public override void ManageInitiSet()
