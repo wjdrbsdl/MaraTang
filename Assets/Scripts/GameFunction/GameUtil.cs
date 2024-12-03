@@ -828,13 +828,18 @@ public static class GameUtil
 
     }
 
-    public static List<int> GetRandomNum(int _length, int _randomCount)
+    public static List<int> GetRandomNum(int _length, int _randomCount, List<int> exceptList = null)
     {
         //범위에서 랜덤으로 숫자 count만큼 뽑기
         List<int> randomList = new();
         List<int> rangeList = new();
+        if (exceptList == null)
+            exceptList = new();
         for (int i = 0; i < _length; i++)
         {
+            //제외 리스트에 있는 숫자는 포함 안함 
+            if (exceptList.IndexOf(i) >= 0)
+                continue;
             rangeList.Add(i); //범위 만큼 숫자 넣기
         }
 
