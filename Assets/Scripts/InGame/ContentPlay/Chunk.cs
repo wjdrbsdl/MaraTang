@@ -6,8 +6,8 @@ public class Chunk
 {
     public TokenTile[,] tiles;
     public int ChunkNum;
-    public Quest m_Quest;
     public NaviPin m_Pin;
+    public ChunkContent Content;
 
     public Chunk() { }
 
@@ -35,8 +35,7 @@ public class Chunk
 
     public void ResetQuest()
     {
-        m_Quest = null;
-        RemovePin();
+       RemovePin();
     }
 
     public void SwitchPin(bool _on)
@@ -65,6 +64,18 @@ public class Chunk
         }
     }
 
+    public void ResetContent()
+    {
+        Debug.Log("지울거 지우고");
+    }
+
+    public void RealizeContent(ChunkContent _chunkContent)
+    {
+        ResetContent();
+        _chunkContent.Realize(this);
+    }
+
+    #region 타일 빼오기
     public int GetTileCount()
     {
         int x = tiles.GetLength(0);
@@ -86,4 +97,5 @@ public class Chunk
         int randomTile = Random.Range(0, GetTileCount());
         return GetTileByIndex(randomTile);
     }
+    #endregion
 }
