@@ -168,6 +168,11 @@ public class MgMasterData : Mg<MgMasterData>
         for (int i = 0; i < parseData.DbValueList.Count; i++)
         {
             TileTypeData newTileData = new(parseData.DbValueList[i], parseData.MatchCode);
+            if (m_tileTypeDataDic.ContainsKey(newTileData.TypePID))
+            {
+                Debug.LogError("중첩 pid" + newTileData.TypePID + " " + newTileData.PlaceName);
+                continue;
+            }
             m_tileTypeDataDic.Add(newTileData.TypePID, newTileData);
         }
 
