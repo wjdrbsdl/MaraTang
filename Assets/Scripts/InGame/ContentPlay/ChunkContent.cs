@@ -23,28 +23,61 @@ public class ChunkContent
         //GameUtil.InputMatchValue(ref m_tokenIValues, matchCode, valueCode);
         PID = int.Parse( valueCode[0]);
         ItemList = GameUtil.ParseCostDataArray(valueCode, 2).GetItemList();
-        Debug.Log(ItemList[0].Tokentype + "파싱");
+        //Debug.Log(ItemList[0].Tokentype + "파싱");
     }
 
-    public void ExcuteOrder(TTokenOrder _order)
+    public ChunkContent(ChunkContent _origin)
     {
-        bool ableSelect = _order.AbleSelect;
-        
-        //집행에 선택이 가능한 경우는 선택지를 호출하고
-        if(ableSelect == true)
+        PID = _origin.PID;
+        chunkType = _origin.chunkType;
+        //아이템 리스트 복사 
+        for (int i = 0; i < _origin.ItemList.Count; i++)
         {
-            MakeSelectUI(_order);
-            return;
+            TOrderItem item = _origin.ItemList[i];
+            ItemList.Add(item);
+        }
+    }
+
+    public void Realize(Chunk _chunk)
+    {
+        PosRevise(_chunk.GetTileCount());
+        for (int i = 0; i < ItemList.Count; i++)
+        {
+            AdaptItem(ItemList[i], _chunk);
+        }
+    }
+
+    private void PosRevise(int _chunkTileCount)
+    {
+        //랜덤인 Pos인 경우 미리 위치를 바꿔놓을것
+        List<int> except = new();
+        List<int> needSelectIndexList = new(); //밸류값이 렌덤이라서 수정이 필요한 아이템의 Idx
+        for (int i = 0; i < ItemList.Count; i++)
+        {
+            TOrderItem item = ItemList[i];
+            //바꿔야하는 타입이 아니면 안바꿈
+            if (item.Tokentype != TokenType.Char && item.Tokentype != TokenType.Tile)
+                continue;
+
+            //랜덤화 필요 숫자는 셈
+            if(item.Value < 0 || _chunkTileCount <= item.Value)
+            {
+                needSelectIndexList.Add(i);
+                continue;
+            }
+
+            //그밖에는 제외에 필요한 숫자
+            except.Add(item.Value);
         }
 
-        //불가능한 경우는 
-        //적용 수 만큼 진행인데 지금은 주문서 모두 일괄적용중 
-        for (int i = 0; i < _order.AdaptItemCount; i++)
+        //범위는 타일 숫자 0~24개 중에서 수정이 필요한 인덱스 숫자 만큼, 제외할 인덱스를 빼고 진행 
+        List<int> newRandomValue = GameUtil.GetRandomNum(_chunkTileCount, needSelectIndexList.Count, except);
+        for (int i = 0; i < needSelectIndexList.Count; i++)
         {
-            AdaptItem(_order.orderItemList[i]);
+            TOrderItem reviseItem = ItemList[needSelectIndexList[i]]; //인덱스에 해당하는 아이템을 호출
+            reviseItem.Value = newRandomValue[i]; //할당받은 랜덤값으로 수정
+            ItemList[needSelectIndexList[i]] = reviseItem; //리스트 내부의 아이템을 변경 
         }
-        return;
-
     }
 
     public void MakeSelectUI(TTokenOrder _order)
@@ -58,39 +91,20 @@ public class ChunkContent
 
     }
 
-    public bool AdaptItem(TOrderItem _item)
+    public bool AdaptItem(TOrderItem _item, Chunk _chunk)
     {
         //  Debug.Log("적용");
-        TokenChar mainChar = PlayerManager.GetInstance().GetMainChar();
+        TokenTile targetTile = _chunk.GetTileByIndex(_item.Value);//타겟 타일이 필요한경우 미리 뽑
         switch (_item.Tokentype)
         {
-            case TokenType.Capital:
-                PlayerCapitalData.g_instance.PayCostData(new TItemListData(_item), false);
+            case TokenType.Char:
+                int monsterPid = _item.SubIdx;
+                int[] pos = targetTile.GetMapIndex();
+                SpawnMonster(monsterPid, pos);
                 return true; 
-            case TokenType.Bless:
-                GodBless bless = new GodBless(MgMasterData.GetInstance().GetGodBless(_item.SubIdx));
-                return mainChar.AquireBless(bless);
-            case TokenType.Equipt:
-                EquiptItem equiptCopy = new EquiptItem(MgMasterData.GetInstance().GetEquiptData(_item.SubIdx));
-                return mainChar.AquireEquipt(equiptCopy);
-            case TokenType.CharStat:
-                mainChar.CalStat((CharStat)_item.SubIdx, _item.Value);//형변환 안해두되는데 아쉽군. 
-                return true;
-            case TokenType.EventPlaceNationSpawn:
-                return ChangeQuestPlace(_item.SubIdx, _item.Value);
-            case TokenType.EventPlaceChunkSpawn:
-                return ChangeChunkPlace(_item.SubIdx, _item.Value);
-            case TokenType.MonsterNationSpawn:
-                SpawnMonster(_item);
-                return true;
-            case TokenType.Conversation:
-                MGConversation.GetInstance().ShowCheckScript(_item);
-                return true;
-            case TokenType.Nation:
-                if (_item.SubIdx == (int)NationEnum.Move)
-                {
-                    GamePlayMaster.GetInstance().CharMoveToCapital(_item.Value);
-                }
+            case TokenType.Tile:
+                TileType tileType = (TileType)_item.SubIdx;
+                ChangePlace(tileType, targetTile);
                 return true;
             case TokenType.None:
                 Debug.LogWarning("아무것도 하지 않는 주문");
@@ -101,73 +115,15 @@ public class ChunkContent
     }
 
     #region 따로 정의가 필요한 아이템 타입들
-    private void SpawnMonster( TOrderItem _monterOrder)
+    private void SpawnMonster(int _monsterPid, int[] _spawnPos)
     {
-        TokenType spawnType = _monterOrder.Tokentype;
-        //1. 스폰할 몬스터
-        int tokenPid = _monterOrder.SubIdx;
-        //2. 스폰할 갯수 
-        int spawnCount = _monterOrder.Value;
-        //3. 스폰 장소 - 국경중 하나로
-        //Order의 토큰타입으로 어디서 어떻게 스폰할지 다 정해놓기 일단 모든 스폰은 국경에서 스폰하는걸로 
-        //if(_monterOrder.Tokentype == TokenType.MonsterNationSpawn)
-        //{
-
-        //}
-        TileReturner retuner = new TileReturner();
-        int[] spawnPos = retuner.NationBoundaryTile().GetMapIndex();
-
-        //4. 스폰 진행
-        for (int i = 0; i < spawnCount; i++)
-        {
-            MgToken.GetInstance().SpawnCharactor(spawnPos, tokenPid); //월드 좌표로 pid 토큰 스폰 
-        }
-
+        MgToken.GetInstance().SpawnCharactor(_spawnPos, _monsterPid); //월드 좌표로 pid 토큰 스폰 
     }
 
-    public bool ChangeChunkPlace(int _tileType, int _value)
+    public bool ChangePlace(TileType _tileType, TokenTile _targetTile)
     {
-        Chunk chunk = MGContent.GetInstance().GetChunk(_value);
-        //잘못된 입력으로 null 반환시 0 번째 청크로 임시 진행 
-        if(chunk == null)
-        {
-            Debug.LogWarning("잘못된 입력으로 null 반환시 0 번째 청크로 임시 진행 ");
-            chunk = MGContent.GetInstance().GetChunk(0);
-        }
-            
-        chunk.GetRandomTile().ChangePlace((TileType)_tileType);
-        return false;
-
-    }
-
-    public bool ChangeQuestPlace(int _tileType, int _value)
-    {
-        //국가경계를 기준으로 주변 타일 하나를
-        //정해진 타일로 변경하는 주문 
-        TileReturner tileReturner = new();
-        //국가 영토중 외곽 타일 하나를 집는다. 
-        TokenTile targetTile = tileReturner.NationBoundaryTile();
-        Debug.Log("주변 타일 바꿀때 기준이 되는 타일 확인위해서 WoodLand로 변경");
-        targetTile.ChangePlace(TileType.Police); //확인위해 변경
-        //그 타일부터 사거리 3~5 중에 영토 주인 없는걸로 진행
-        for (int range = 3; range <= 5; range++)
-        {
-            List<TokenTile> roundTile = GameUtil.GetTileTokenListInRange(range, targetTile.GetMapIndex(), range);
-            for (int r = 0; r < roundTile.Count; r++)
-            {
-                int tileNationNum = roundTile[r].GetStat(ETileStat.Nation);
-                //주변 영토중 주인없는 거 찾기
-                if (tileNationNum == FixedValue.NO_NATION_NUMBER)
-                {
-                    //찾았으면 변경
-                 //   Debug.Log("해당 영지 변경");
-                    roundTile[r].ChangePlace((TileType)_tileType);
-                    return true;
-                }
-            }
-        }
-
-        return false;
+        _targetTile.ChangePlace(_tileType);
+        return true;
     }
     #endregion
 
