@@ -17,6 +17,7 @@ public class MgMasterData : Mg<MgMasterData>
     private Dictionary<int, ConversationGroup> m_conversationGroupDic;
     private Dictionary<int, God> m_godDic;
     private Dictionary<int, GodBless> m_blessDic;
+    private Dictionary<int, ChunkContent> m_chunkContentDic;
 
     #region 생성자
     public MgMasterData()
@@ -39,7 +40,7 @@ public class MgMasterData : Mg<MgMasterData>
         SetConversationData();
         SetBlessData();
         SetGodData();
-        
+        SetChunkData();
     }
 
     public override void ReferenceSet()
@@ -325,6 +326,17 @@ public class MgMasterData : Mg<MgMasterData>
         }
     }
 
+    private void SetChunkData()
+    {
+        ParseData parseContainer = MgParsing.GetInstance().GetMasterData(EMasterData.ChunkContent);
+        m_chunkContentDic = new();
+        for (int i = 0; i < parseContainer.DbValueList.Count; i++)
+        {
+            //이후 세부 대화 데이터를 만들어서 그그룹에 추가 
+            ChunkContent chunkContent = new ChunkContent(parseContainer.MatchCode, parseContainer.DbValueList[i]);
+            m_chunkContentDic.Add(chunkContent.PID, chunkContent);
+        }
+    }
     #endregion
 }
 
