@@ -4,12 +4,27 @@ using UnityEngine;
 
 public enum ChunkType
 {
-
+    None, Monster, Capital, Special
 }
 
 public class ChunkContent
 {
+    public ChunkType chunkType = ChunkType.None;
+    public List<TOrderItem> ItemList = new();
+    public int PID;
+    public ChunkContent()
+    {
 
+    }
+
+    public ChunkContent(List<int[]> matchCode, string[] valueCode)
+    {
+        //m_tokenIValues = new int[System.Enum.GetValues(typeof(CharActionStat)).Length];
+        //GameUtil.InputMatchValue(ref m_tokenIValues, matchCode, valueCode);
+        PID = int.Parse( valueCode[0]);
+        ItemList = GameUtil.ParseCostDataArray(valueCode, 2).GetItemList();
+        Debug.Log(ItemList[0].Tokentype + "파싱");
+    }
 
     public void ExcuteOrder(TTokenOrder _order)
     {
