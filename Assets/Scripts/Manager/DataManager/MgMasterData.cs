@@ -131,6 +131,11 @@ public class MgMasterData : Mg<MgMasterData>
         return GetDicData<GodBless>(m_blessDic, _blessPID);
     }
 
+    public ChunkContent GetChunkContent(int _contentPID)
+    {
+        return GetDicData<ChunkContent>(m_chunkContentDic, _contentPID);
+    }
+
     public Dictionary<int, NationTechData> GetTechDic()
     {
         return m_nationTechDataDic;
