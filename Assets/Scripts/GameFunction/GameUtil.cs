@@ -767,6 +767,7 @@ public static class GameUtil
                 break;
             case TokenType.EventPlaceNationSpawn:
             case TokenType.EventPlaceChunkSpawn:
+            case TokenType.Tile:
                 findEnum = typeof(TileType);
                 break;
         }
