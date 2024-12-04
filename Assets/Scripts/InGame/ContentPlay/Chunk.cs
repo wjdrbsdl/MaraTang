@@ -7,7 +7,7 @@ public class Chunk
     public TokenTile[,] tiles;
     public int ChunkNum;
     public NaviPin m_Pin;
-    public ChunkContent Content;
+    public ChunkContent PreContent;
 
     public Chunk() { }
 
@@ -67,11 +67,16 @@ public class Chunk
     public void ResetContent()
     {
         Debug.Log("지울거 지우고");
+        if (PreContent == null)
+            return;
+
+        //기존 컨텐츠에 따라 지울거 지움
     }
 
     public void RealizeContent(ChunkContent _chunkContent)
     {
         ResetContent();
+        PreContent = _chunkContent;
         _chunkContent.Realize(this);
     }
 
