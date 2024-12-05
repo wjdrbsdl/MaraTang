@@ -61,13 +61,24 @@ public class Chunk
             return;
 
         //기존 컨텐츠에 따라 지울거 지움
+        PreContent = null;
     }
 
-    public void RealizeContent(ChunkContent _chunkContent)
+    public bool RealizeContent(ChunkContent _chunkContent)
     {
         ResetContent();
         PreContent = _chunkContent;
-        _chunkContent.Realize(this);
+        bool doneRealize = _chunkContent.Realize(this);
+        //구현 실패 했으면 그 컨텐츠 리셋해버리고
+        if(doneRealize == false)
+        {
+            ResetContent();
+            //실패 반환
+            return false;
+        }
+
+        return true;
+
     }
 
     #region 타일 빼오기
