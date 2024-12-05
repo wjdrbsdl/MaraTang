@@ -73,9 +73,8 @@ public class OrderExcutor
             case TokenType.ChunkContent:
                 Chunk chunk = MGContent.GetInstance().GetChunk(5); //임시로 5번째 청크
                 ChunkContent chunkContent = new ChunkContent(MgMasterData.GetInstance().GetChunkContent(_item.SubIdx)); //마스터 데이터에서 복사 
-                chunk.RealizeContent(chunkContent);
-                return true;
-            case TokenType.None:
+                return chunk.RealizeContent(chunkContent);
+           case TokenType.None:
                 Debug.LogWarning("아무것도 하지 않는 주문");
                 break;
         }
