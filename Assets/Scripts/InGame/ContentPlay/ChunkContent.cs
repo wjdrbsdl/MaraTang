@@ -38,16 +38,23 @@ public class ChunkContent
         }
     }
 
-    public void Realize(Chunk _chunk)
+    public bool Realize(Chunk _chunk)
     {
-        PosRevise(_chunk.GetTileCount(), _chunk);
+        bool enoughTile = DoPosRevise(_chunk.GetTileCount(), _chunk);
+        if (enoughTile == false)
+            return false;
+
         for (int i = 0; i < ItemList.Count; i++)
         {
-            AdaptItem(ItemList[i], _chunk);
+            bool doneAdapt = AdaptItem(ItemList[i], _chunk);
+            //하나라도 적용못했으면 실패 반환
+            if (doneAdapt == false)
+                return false;
         }
+        return true;
     }
 
-    private void PosRevise(int _chunkTileCount, Chunk _chunk)
+    private bool DoPosRevise(int _chunkTileCount, Chunk _chunk)
     {
         //랜덤인 Pos인 경우 미리 위치를 바꿔놓을것
         List<int> except = new();
@@ -79,12 +86,19 @@ public class ChunkContent
 
         //범위는 타일 숫자 0~24개 중에서 수정이 필요한 인덱스 숫자 만큼, 제외할 인덱스를 빼고 진행 
         List<int> newRandomValue = GameUtil.GetRandomNum(_chunkTileCount, needSelectIndexList.Count, except);
+        if (newRandomValue.Count != needSelectIndexList.Count)
+        {
+            Debug.Log("구역에 여분 타일 부족");
+            return false;
+        }
+            
         for (int i = 0; i < needSelectIndexList.Count; i++)
         {
             TOrderItem reviseItem = ItemList[needSelectIndexList[i]]; //인덱스에 해당하는 아이템을 호출
             reviseItem.Value = newRandomValue[i]; //할당받은 랜덤값으로 수정
             ItemList[needSelectIndexList[i]] = reviseItem; //리스트 내부의 아이템을 변경 
         }
+        return true;
     }
 
     public void MakeSelectUI(TTokenOrder _order)
@@ -116,6 +130,8 @@ public class ChunkContent
             case TokenType.None:
                 Debug.LogWarning("아무것도 하지 않는 주문");
                 break;
+            default:
+                return true;
         }
         //적용 항목이 없는 경우엔 적용 안된걸로
         return false;
