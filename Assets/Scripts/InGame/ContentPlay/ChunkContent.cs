@@ -40,14 +40,14 @@ public class ChunkContent
 
     public void Realize(Chunk _chunk)
     {
-        PosRevise(_chunk.GetTileCount());
+        PosRevise(_chunk.GetTileCount(), _chunk);
         for (int i = 0; i < ItemList.Count; i++)
         {
             AdaptItem(ItemList[i], _chunk);
         }
     }
 
-    private void PosRevise(int _chunkTileCount)
+    private void PosRevise(int _chunkTileCount, Chunk _chunk)
     {
         //랜덤인 Pos인 경우 미리 위치를 바꿔놓을것
         List<int> except = new();
@@ -61,6 +61,13 @@ public class ChunkContent
 
             //랜덤화 필요 숫자는 셈
             if(item.Value < 0 || _chunkTileCount <= item.Value)
+            {
+                needSelectIndexList.Add(i);
+                continue;
+            }
+
+            //발생하려는 위치가 국가 타일이면 바꿈 
+            if(_chunk.GetTileByIndex(item.Value).GetNation() != null)
             {
                 needSelectIndexList.Add(i);
                 continue;
