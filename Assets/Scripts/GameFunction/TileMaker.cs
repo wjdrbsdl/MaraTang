@@ -167,17 +167,18 @@ public class TileMaker : MonoBehaviour
             int widthX = _chunkedRecipe[i][1];
             int startY = _chunkedRecipe[i][2];
             int widthY = _chunkedRecipe[i][3];
-            TokenTile[,] chunkedTile = new TokenTile[widthX, widthY];
+            List<int[]> tilePos = new List<int[]>();
             for (int x = 0; x < widthX; x++)
             {
                 for (int y = 0; y < widthY; y++)
                 {
                     TokenTile tile = GameUtil.GetTileTokenFromMap(new int[] {startX+x, startY+y });
-                    tile.ChunkNum = i;
-                    chunkedTile[x, y] = tile;
+                    tile.ChunkNum = i; //타일에 구역 넘버 할당
+                    tilePos.Add(tile.GetMapIndex());
                 }
             }
-            Chunk newChunk = new Chunk(chunkedTile, i);
+            Chunk newChunk = new Chunk(tilePos, i);
+            
             ChunkLIst.Add(newChunk);
         }
 

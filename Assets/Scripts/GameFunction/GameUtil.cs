@@ -350,42 +350,6 @@ public static class GameUtil
 
     #endregion
 
-    #region 스폰 관련
-    public static List<int[]> GetSpawnPos(ESpawnPosType _spawnPosType, int _spawnCount, int _chunkNum = MGContent.NO_CHUNK_NUM)
-    {
-        List<int[]> spawnPos = new();
-        int chunkNum = _chunkNum;
-        if (chunkNum.Equals(MGContent.NO_CHUNK_NUM))
-        {
-            //만약 없는 청크 구역이라면 매인케릭이 있는 청크로 진행 
-            chunkNum = GetMainCharChunkNum();
-        }
-        switch (_spawnPosType)
-        {
-            case ESpawnPosType.Random: //청크 내부에서 랜덤
-                List<int> randomPosList = GameUtil.GetRandomNum(25, _spawnCount);
-                Chunk madeChunk = MGContent.GetInstance().GetChunk(chunkNum);
-                for (int i = 0; i < randomPosList.Count; i++)
-                {
-                    int chunkTileNum = randomPosList[i]; //청크 내부에서 해당 타일의 idx
-                    int[] tilePos = GameUtil.GetXYPosFromIndex(madeChunk.tiles.GetLength(0), chunkTileNum);//청크 기준으로 좌표 도출 
-                    int[] spawnCoord = madeChunk.tiles[tilePos[0], tilePos[1]].GetMapIndex();//청크 좌표를 월드 좌표로 전환
-                    spawnPos.Add(spawnCoord);
-                }
-                break;
-            case ESpawnPosType.CharRound:
-                int[] b = MgToken.GetInstance().GetMainChar().GetMapIndex();
-                int[] rightUp = GameUtil.GetPosFromDirect(b, TileDirection.RightUp);
-                int[] rightDown = GameUtil.GetPosFromDirect(b, TileDirection.RightDown);
-                int[] left = GameUtil.GetPosFromDirect(b, TileDirection.Left);
-                spawnPos = new List<int[]>() { rightUp, rightDown, left };
-                break;
-        }
-
-        return spawnPos;
-    }
-    #endregion
-
     #region 청크 계산
     public static int GetChunkNum(int[] _coordi)
     {
@@ -397,17 +361,6 @@ public static class GameUtil
         return GetChunkNum(PlayerManager.GetInstance().GetMainChar().GetMapIndex());
     }
 
-    public static int GetTileCountInChunk(int _chunkNum)
-    {
-        Chunk chunk = MGContent.GetInstance().GetChunk(_chunkNum);
-
-        if (chunk == null)
-            return 0;
-
-        int x = chunk.tiles.GetLength(0);
-        int y = chunk.tiles.GetLength(1);
-        return x * y;
-    }
     #endregion
 
     /*
@@ -869,35 +822,6 @@ public static class GameUtil
         magnetItem.SetMagnetInfo(dropPosition);
     }
 
-    private static void MakeFence(Chunk _fenceChunk)
-    {
-        Sprite fenceSprite = TempSpriteBox.GetInstance().GetTileSprite(TileType.Nomal);
-
-        int xLength = _fenceChunk.tiles.GetLength(0);
-        int yLength = _fenceChunk.tiles.GetLength(1);
-
-        //외곽인경우만 스프라이트 바꾸기
-
-        for (int x = 0; x < xLength; x++)
-        {
-            for (int y = 0; y < yLength; y++)
-            {
-                if (x == 0 || x == xLength - 1)
-                {
-                    //x축이 0이거나 맨 끝인경우 y 0~max 달리고
-                    _fenceChunk.tiles[x, y].SetSprite(fenceSprite);
-                }
-                else
-                {
-                    //x값이 1~어느 사이인 경우엔 y 처음과 끝만 색칠하고 해당 열은 패스 
-                    _fenceChunk.tiles[x, 0].SetSprite(fenceSprite);
-                    _fenceChunk.tiles[x, yLength - 1].SetSprite(fenceSprite);
-                    break;
-                }
-            }
-        }
-
-    }
 }
 
 public struct TMapIndex

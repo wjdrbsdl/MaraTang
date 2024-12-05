@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class Chunk
 {
-    public TokenTile[,] tiles;
     public int ChunkNum;
     public NaviPin m_Pin;
     public ChunkContent PreContent;
+    public List<int[]> TilePosList;
 
     public Chunk() { }
 
-    public Chunk(TokenTile[,] _tiles, int _num)
+    public Chunk(List<int[]> _tilePosLIst, int _chunkNum)
     {
-        tiles = _tiles;
-        ChunkNum = _num;
+        TilePosList = _tilePosLIst;
+        ChunkNum = _chunkNum;
     }
 
     public void MakePin()
@@ -23,7 +23,7 @@ public class Chunk
         m_Pin = MgNaviPin.GetInstance().RequestNaviPin();
         //2. 핀 받았으면 설정
         if(m_Pin != null)
-            m_Pin.SetPinInfo(tiles[2, 2].GetObject().transform.position, ChunkNum);
+            m_Pin.SetPinInfo(GetTileByIndex(13).GetObject().transform.position, ChunkNum);
     }
 
     public void RemovePin()
@@ -53,16 +53,6 @@ public class Chunk
         //해당 청크에서 나간 순간 
     }
 
-    public void Dye(Color _color)
-    {
-        for (int i = 0; i < tiles.GetLength(0); i++)
-        {
-            for (int x = 0; x < tiles.GetLength(1); x++)
-            {
-                tiles[i, x].GetObject().GetComponent<SpriteRenderer>().color = _color;
-            }
-        }
-    }
 
     public void ResetContent()
     {
@@ -83,18 +73,21 @@ public class Chunk
     #region 타일 빼오기
     public int GetTileCount()
     {
-        int x = tiles.GetLength(0);
-        int y = tiles.GetLength(1);
-        return x * y;
+        return TilePosList.Count;
+
+        //int x = tiles.GetLength(0);
+        //int y = tiles.GetLength(1);
+        //return x * y;
     }
 
     public TokenTile GetTileByIndex(int _index)
     {
+        return GameUtil.GetTileTokenFromMap(TilePosList[_index]);
         //몇행 몇열인지를 빼기. 
-        int xLength = tiles.GetLength(0);
-        int height = _index / xLength;
-        int width = _index % xLength;
-        return tiles[width,height];
+        //int xLength = tiles.GetLength(0);
+        //int height = _index / xLength;
+        //int width = _index % xLength;
+        //return tiles[width,height];
     }
 
     public TokenTile GetRandomTile()
