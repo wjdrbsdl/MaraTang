@@ -61,37 +61,15 @@ public class MGContent : Mg<MGContent>
     {
         // 턴이 지났음
         CountQuestTurn(); //기존에 있던 퀘스트들 턴 감소
-        List<Chunk> questChunk = SelectChunkList(3);
+
+        WriteQuest();
+     
+    }
+
+    private void WriteQuest()
+    {
         Quest newQuest = SelectContent(); //새로 추가할 컨텐츠 있는지 체크 
         RealizeQuest(newQuest); //컨텐츠 추가시 
-        RefreshQuestList();
-    }
-
-    public void WriteContentWhenCharAction(TokenChar _doChar, TokenAction _doAction)
-    {
-        //캐릭이 액션을 수행할때마다 알림 받음 
-        if (_doChar.isMainChar == false)
-            return;
-
-        if (_doAction.GetActionType().Equals(ActionType.Move))
-        {
-            int moveChunk = GameUtil.GetChunkNum(_doChar.GetMapIndex());
-            if (m_mainCharChunkNum.Equals(moveChunk) == false)
-            {
-                //다른 구역으로 넘어갔을때 
-                m_chunkList[m_mainCharChunkNum].OnExitChunk(); //이전건 나간거
-                m_chunkList[moveChunk].OnEnterChunk(); //새로운건 들어간거
-            }
-            m_mainCharChunkNum = moveChunk;
-
-        }
-    }
-
-    public void CheckNextQuest()
-    {
-        //성공이나 실패 컨텐츠 상태값이 바뀐경우 연계 되는 퀘스트가 있는지 보고 실행하는 용도. 
-        Quest newQuest = SelectContent(); //새로 추가할 컨텐츠 있는지 체크 
-        RealizeQuest(newQuest); //연계 퀘스트 
         RefreshQuestList();
     }
 
@@ -239,6 +217,14 @@ public class MGContent : Mg<MGContent>
         CheckNextQuest();
     }
 
+    private void CheckNextQuest()
+    {
+        //성공이나 실패 컨텐츠 상태값이 바뀐경우 연계 되는 퀘스트가 있는지 보고 실행하는 용도. 
+        Quest newQuest = SelectContent(); //새로 추가할 컨텐츠 있는지 체크 
+        RealizeQuest(newQuest); //연계 퀘스트 
+        RefreshQuestList();
+    }
+
     private void RecordeQuest(Quest _quest, bool _result)
     {
         //   Debug.Log(_quest.ContentPid + "번 컨텐츠 성공 여부 :"+_result);
@@ -254,7 +240,7 @@ public class MGContent : Mg<MGContent>
         }
     }
 
-    public void RemoveQuest(Quest _quest)
+    private void RemoveQuest(Quest _quest)
     {
         //퀘스트 관련 마지막 정리 
         //1. 퀘스트 발휘된 구역이 있으면 구역 정리
@@ -279,8 +265,7 @@ public class MGContent : Mg<MGContent>
     {
         MgUI.GetInstance().RefreshQuestList();
     }
-    #endregion
-
+ 
     public int GetSerialNum()
     {
         //
@@ -330,6 +315,7 @@ public class MGContent : Mg<MGContent>
         }
         return false;
     }
+    #endregion
 
     #region 국가데빌 지역 설정
     private void MakeNationDevilRegion()
