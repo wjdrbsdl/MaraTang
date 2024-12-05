@@ -11,7 +11,7 @@ public enum NationEnum
 
 public enum NationManageStepEnum
 {
-   NationEvent, IncomeCapital, ManagePopulation, SelectPolicy, SettleTurnEnd, RemindPolicy, NationTurnEnd, TurnEndSettle
+   NationEvent, IncomeCapital, ManagePopulation, SelectPolicy, CalTurnEndEffect, RemindPolicy, FinishPreTurn, FinishEndEffect
 }
 
 public enum NationStatEnum
@@ -136,13 +136,25 @@ public class Nation : ITradeCustomer
     #region 국가 행동 진행
     public void StartNationTurn()
     {
+        if(IsAlive == false)
+        {
+            MgNation.GetInstance().FinishNationTurn();
+            return;
+        }
+            
         //시작은 수입정산부터
         DoJob(NationManageStepEnum.IncomeCapital);
     }
 
     public void SettleNationTurn()
     {
-        DoJob(NationManageStepEnum.SettleTurnEnd);
+        if(IsAlive == false)
+        {
+            FinishTurnEndEffect();
+            return;
+        }
+            
+        DoJob(NationManageStepEnum.CalTurnEndEffect);
     }
 
     public void DoJob(NationManageStepEnum _step)
@@ -174,12 +186,12 @@ public class Nation : ITradeCustomer
                 m_eventMg.WatchEvent(); //정서 수치와 국가 스텟에 따라서 발생할 이벤트 설정
                 ReportToGameMaster(_step);
                 break;
-            case NationManageStepEnum.NationTurnEnd:
+            case NationManageStepEnum.FinishPreTurn:
                 EndNationTurn();
                 break;
 
             //국가턴 종료후 플레이어턴 몬스터턴 진행 후 턴 정산때 하는 일 
-            case NationManageStepEnum.SettleTurnEnd:
+            case NationManageStepEnum.CalTurnEndEffect:
                 // Debug.Log(m_nationNumber + "정책 집행 진행");
                 // 해당 턴 완료시 본래 국가에서 정책리스트를 통해 WorkOrder를 진행했지만, 해당 부분을 겜플레이마스터로 빼면서 아래 함수가 필요없어짐
                 // 그래도 턴 완료 파트 구조가 필요할지 몰라서 구조는 남겨둠. 
@@ -187,8 +199,8 @@ public class Nation : ITradeCustomer
                 //작업서대로 진행될테고- 그대로 완성이나 효과가 적용
                 ReportToGameMaster(_step);
                 break;
-            case NationManageStepEnum.TurnEndSettle:
-                EndTurnEndSettle();
+            case NationManageStepEnum.FinishEndEffect:
+                FinishTurnEndEffect();
                 break;
         }
     }
@@ -212,10 +224,10 @@ public class Nation : ITradeCustomer
                 DoJob(NationManageStepEnum.NationEvent);
                 break;
             case NationManageStepEnum.NationEvent:
-                DoJob(NationManageStepEnum.NationTurnEnd);
+                DoJob(NationManageStepEnum.FinishPreTurn);
                 break;
-            case NationManageStepEnum.SettleTurnEnd:
-                DoJob(NationManageStepEnum.TurnEndSettle); //정책 결정한거 보고하고
+            case NationManageStepEnum.CalTurnEndEffect:
+                DoJob(NationManageStepEnum.FinishEndEffect); //정책 결정한거 보고하고
                 break;
                 
         }
@@ -230,10 +242,10 @@ public class Nation : ITradeCustomer
 
     private void EndNationTurn()
     {
-        MgNation.GetInstance().EndNationTurn();
+        MgNation.GetInstance().FinishNationTurn();
     }
 
-    private void EndTurnEndSettle()
+    private void FinishTurnEndEffect()
     {
         MgNation.GetInstance().EndTurnEndSettle();
     }

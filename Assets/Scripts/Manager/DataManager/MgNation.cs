@@ -40,20 +40,17 @@ public class MgNation : Mg<MgNation>
 
     public void ManageNationTurn()
     {
-        if(m_nationList[m_turnNationNumber].IsAlive)  //턴 시작시 생존 국가들만
-            m_nationList[m_turnNationNumber].StartNationTurn();
+        m_nationList[m_turnNationNumber].StartNationTurn();
     }
 
     public void SettleNationEndTurn()
     {
-       
-        if (m_nationList[m_settleNationNumber].IsAlive)  //턴 마무리에서 생존 국가들만
-            m_nationList[m_settleNationNumber].SettleNationTurn();
+        m_nationList[m_settleNationNumber].SettleNationTurn();
     }
 
-    public void EndNationTurn()
+    public void FinishNationTurn()
     {
-       // Debug.Log("국가턴 종료" + m_turnNationNumber);
+        //Debug.Log("국가턴 종료" + m_turnNationNumber);
         //턴 진행중이던 국가로부터 자신의 턴이 끝났음을 전달 받으면
         int nationCount = m_nationList.Count;
         m_turnNationNumber += 1; //다음 진행 국가를 뽑고 할 놈이 남았는지 확인
