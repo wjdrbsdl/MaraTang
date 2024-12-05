@@ -12,7 +12,8 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     {
         LivePlayer, AI
     }
-    
+
+    public float m_playSpeed = 1; //게임 애니메이션의 속도 기본 1
     public float m_moveSpeed = 0.5f;
     public const float c_movePrecision = 0.1f; //움직임 정밀도
     public bool m_autoReportCheck = true;
@@ -33,7 +34,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     public int tempDevilBirthrestTurm = 3; //발생주기 세트
 
     //보고 단계에서 저장불러오기를 위해 필요한 변수들
-    public NationManageStepEnum curNationStep = NationManageStepEnum.NationTurnEnd;
+    public NationManageStepEnum curNationStep = NationManageStepEnum.FinishPreTurn;
     public int curNationNum = -1;
 
     #endregion
@@ -50,8 +51,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
             //EquiptItem equipt = new EquiptItem( MgMasterData.GetInstance().GetEquiptData(1));
             //mainChar.AquireEquipt(equipt);
 
-            MgUI.GetInstance().ShowPlayerAction();
-
+            ReadyNextTurn(); //강제 턴 리셋
         }
         if (Input.GetKeyDown(KeyCode.F6))
         {

@@ -179,9 +179,9 @@ public class RuleBook
         _char.SetState(CharState.Move);
 
         Vector3 dir = goal - _char.GetObject().transform.position;
-        while (Vector2.Distance(_char.GetObject().transform.position, goal) > GamePlayMaster.c_movePrecision)
+        while (Vector2.Distance(_char.GetObject().transform.position, goal) > GamePlayMaster.c_movePrecision* GamePlayMaster.GetInstance().m_playSpeed)
         {
-           _char.GetObject().transform.position += (dir.normalized * GamePlayMaster.GetInstance().m_moveSpeed * Time.deltaTime);
+           _char.GetObject().transform.position += (dir.normalized * GamePlayMaster.GetInstance().m_moveSpeed * Time.deltaTime * GamePlayMaster.GetInstance().m_playSpeed);
             yield return null;
         }
         if (effectAction != null)
