@@ -797,7 +797,8 @@ public static class GameUtil
             rangeList.Add(i); //범위 만큼 숫자 넣기
         }
 
-        for (int i = 1; i <= _randomCount; i++)
+        int rulletCount = Math.Min(_randomCount, rangeList.Count);
+        for (int i = 1; i <= rulletCount; i++)
         {
             int ranIndex = UnityEngine.Random.Range(0, rangeList.Count);
             int randomNum = rangeList[ranIndex]; //범위 리스트의 인덱스의 숫자를 빼고
