@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ChunkType
+public enum ChunkContentType
 {
     None, Monster, Capital, Special
 }
 
 public class ChunkContent
 {
-    public ChunkType chunkType = ChunkType.None;
+    public ChunkContentType chunkType = ChunkContentType.None;
     public List<TOrderItem> ItemList = new();
     public int PID;
     public ChunkContent()
