@@ -74,7 +74,7 @@ public class DevilIncubator
         //해당 퀘스트 컨텐츠 결과값이 들어왔을 때 영향을 받는 악마에게 조건 적용
     }
 
-    public void ChangeWorldTurn(int _currentTurn)
+    public void ChangeWorldTurn()
     {
         CountBirthRestTurn();
     }

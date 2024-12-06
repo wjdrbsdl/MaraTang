@@ -61,7 +61,7 @@ public class MGContent : Mg<MGContent>
     {
         // 턴이 지났음
         CountQuestTurn(); //기존에 있던 퀘스트들 턴 감소
-
+        m_devilIncubator.ChangeWorldTurn();
         WriteQuest();
         WriteChunkContent();
     }
@@ -336,10 +336,10 @@ public class MGContent : Mg<MGContent>
     private void MakeNationDevilRegion()
     {
         //1. 사용할 수만큼 겹치지 않도록 Chunk 인덱스 추출
-        List<int> randomIdx = GameUtil.GetRandomNum(m_chunkList.Count, m_devilStartCount+m_nationStartCount);
+        List<int> randomNationChunk = GameUtil.GetRandomNum(m_chunkList.Count, m_nationStartCount);
         //2. 각추출된 구역을 가지고 국가, 악마 봉인지역 생성
-        MakeNation(randomIdx, 0, m_nationStartCount);
-        MakeDevilList(randomIdx, m_nationStartCount-1, m_devilStartCount);
+        MakeNation(randomNationChunk, 0, m_nationStartCount);
+        MakeDevilList(randomNationChunk, m_nationStartCount-1, m_devilStartCount);
     }
 
     private void MakeNation(List<int> _randomIdx, int _startIdx, int _count)
