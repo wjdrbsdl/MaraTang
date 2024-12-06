@@ -6,16 +6,32 @@ public class MapBlock : MonoBehaviour
 {
     public Image m_blockImage;
     public RectTransform rectTransform;
+    public int xPos;
+    public int yPos;
 
-    public void SetSize(float _width, float _height)
+    public void SetInfo(TokenTile _tile)
     {
-        
+        xPos = _tile.GetMapIndex()[0];
+        yPos = _tile.GetMapIndex()[1];
+        SetColor(_tile.GetMainResource());
     }
 
-    public void SetMapPos(Transform _box, TokenTile _tile)
+    private void SetColor(MainResource _resource)
     {
-        int[] pos = _tile.GetMapIndex();
-        rectTransform.position = new Vector3(5, 5);
+        Color color = Color.white;
+        switch (_resource)
+        {
+            case MainResource.Tree:
+                color = Color.green;
+                break;
+            case MainResource.Food:
+                color = Color.yellow;
+                break;
+            case MainResource.Mineral:
+                color = Color.blue;
+                break;
+        }
+        m_blockImage.color = color;
     }
 
 }
