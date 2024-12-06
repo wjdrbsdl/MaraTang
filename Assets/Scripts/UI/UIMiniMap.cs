@@ -48,17 +48,25 @@ public class UIMiniMap : UIBase, IPointerClickHandler
     public void SetMapBlock()
     {
         TokenTile[,] mapToknes = MgToken.GetInstance().GetMaps();
-        float xCount = mapToknes.GetLength(1);
-        float yCount = mapToknes.GetLength(0);
+        float xCount = mapToknes.GetLength(0);
+        float yCount = mapToknes.GetLength(1);
         int totalCount = (int)(xCount * yCount);
         float xSize = widht / xCount;
         float ySize = height / yCount;
         gridBox.cellSize = new Vector2(xSize, ySize);
         gridBox.constraintCount = (int)yCount;
-        for (int i = 0; i < totalCount; i++)
+    
+        for (int x = 0; x < xCount; x++)
         {
-            Instantiate(blockSample).transform.SetParent(gridBox.transform);
+            for (int y = 0; y < yCount; y++)
+            {
+                MapBlock mapBlock = Instantiate(blockSample);
+                mapBlock.transform.SetParent(gridBox.transform);
+                mapBlock.gameObject.SetActive(true);
+                mapBlock.SetInfo(mapToknes[x, y]);
+            }
         }
+
 
     }
 
