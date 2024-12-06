@@ -336,7 +336,7 @@ public class MGContent : Mg<MGContent>
     private void MakeNationDevilRegion()
     {
         //1. 사용할 수만큼 겹치지 않도록 Chunk 인덱스 추출
-        List<int> randomNationChunk = GameUtil.GetRandomNum(m_chunkList.Count, m_nationStartCount);
+        List<int> randomNationChunk = GameUtil.GetRandomNum(m_chunkList.Count, m_devilStartCount + m_nationStartCount);
         //2. 각추출된 구역을 가지고 국가, 악마 봉인지역 생성
         MakeNation(randomNationChunk, 0, m_nationStartCount);
         MakeDevilList(randomNationChunk, m_nationStartCount-1, m_devilStartCount);
