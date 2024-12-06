@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 public class UIMiniMap : UIBase, IPointerClickHandler
@@ -11,6 +12,9 @@ public class UIMiniMap : UIBase, IPointerClickHandler
     public Transform up;
     public Transform down;
 
+    public RectTransform BackGround; //지도 맵
+    public MapBlock blockSample;
+    public GridLayoutGroup gridBox;
     Vector2 minVector;
 
     float widht;
@@ -20,7 +24,7 @@ public class UIMiniMap : UIBase, IPointerClickHandler
     private void Start()
     {
         CalMinimapSize();
-    }
+   }
 
     public void OnPointerClick(PointerEventData eventData)
     {
@@ -38,6 +42,24 @@ public class UIMiniMap : UIBase, IPointerClickHandler
         widht = right.transform.position.x - left.transform.position.x;
         height= up.transform.position.y - down.transform.position.y;
         minVector = new Vector2(left.transform.position.x, down.transform.position.y);
+        Debug.Log("맵 크기 " + widht + " " + height);
+    }
+
+    public void SetMapBlock()
+    {
+        TokenTile[,] mapToknes = MgToken.GetInstance().GetMaps();
+        float xCount = mapToknes.GetLength(1);
+        float yCount = mapToknes.GetLength(0);
+        int totalCount = (int)(xCount * yCount);
+        float xSize = widht / xCount;
+        float ySize = height / yCount;
+        gridBox.cellSize = new Vector2(xSize, ySize);
+        gridBox.constraintCount = (int)yCount;
+        for (int i = 0; i < totalCount; i++)
+        {
+            Instantiate(blockSample).transform.SetParent(gridBox.transform);
+        }
+
     }
 
     private void MakeMinimapContent()
