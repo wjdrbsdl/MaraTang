@@ -192,14 +192,19 @@ public class MgGameIniti : MgGeneric<MgGameIniti>
     {
         //1. ¸Å´ÏÀú
         InitiUIManager();
+        DoPreUIJob();
     }
     private void InitiUIManager()
     {
         m_playerGameUI.ManageInitiSet();
-       doneSetUIPart = true;
+        doneSetUIPart = true;
         SetGame();
     }
 
+    private void DoPreUIJob()
+    {
+        m_playerGameUI.SetMapBlock();
+    }
 
     #endregion
 

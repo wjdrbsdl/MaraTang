@@ -246,6 +246,11 @@ public class MgUI : MgGeneric<MgUI>
 
     }
 
+    public void SetMapBlock()
+    {
+        m_miniMapUI.SetMapBlock();
+    }
+
     #region 활성화 UI 관리
     Stack<UIBase> m_uiStack = new();
     public bool CheckOpenUI()
