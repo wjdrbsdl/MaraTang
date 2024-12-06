@@ -63,7 +63,7 @@ public class MGContent : Mg<MGContent>
         CountQuestTurn(); //기존에 있던 퀘스트들 턴 감소
 
         WriteQuest();
-     
+        WriteChunkContent();
     }
 
     private void WriteQuest()
@@ -73,22 +73,37 @@ public class MGContent : Mg<MGContent>
         RefreshQuestList();
     }
 
+    private int ChunkContentCount = 3; 
+    private void WriteChunkContent()
+    {
+        //0. 컨텐츠를 새로 뽑을 타이밍인지 체크
+        if (IsTimeNewChunkContent() == false)
+            return;
+        //1. 컨텐츠 구현할 청크갯수 를 정함 
+        int newChunkCount = ChunkContentCount;
+        //2. 무슨 컨텐츠를 구현할지 비율로 정함 M, C 1:1 , 보너스 특수 S 추가 획득
+        List<ChunkContentType> contentType = new();
+        //임시로 몬스터 3개 할당
+        contentType.Add(ChunkContentType.Monster);
+        contentType.Add(ChunkContentType.Monster);
+        contentType.Add(ChunkContentType.Monster);
+
+        List<int> randomNum = GameUtil.GetRandomNum(m_chunkList.Count, contentType.Count);
+        for (int i = 0; i < randomNum.Count; i++)
+        {
+            //3. 뽑힌순서대로 구역 확인
+            Chunk chunk = m_chunkList[randomNum[i]];
+            //4. 컨텐츠 구현가능한지 확인
+            ChunkContent content = new ChunkContent(MgMasterData.GetInstance().GetChunkContent(1));
+            //5. 일단 그냥 컨텐츠 구현
+            chunk.RealizeContent(content);
+        } 
+    }
+
     #endregion
 
     #region 퀘스트 생성
-    private List<Chunk> SelectChunkList(int _newQuestCount)
-    {
-        //퀘스트를 수행할 청크 뽑기
-        List<int> ranChunkIdx = GameUtil.GetRandomNum(m_chunkList.Count, _newQuestCount);
-        List<Chunk> rulletChunk = new();
-        for (int i = 0; i < ranChunkIdx.Count; i++)
-        {
-            rulletChunk.Add(m_chunkList[ranChunkIdx[i]]);
-         //   Debug.Log(ranChunkIdx[i] + "번째 청크");
-        }
-
-        return rulletChunk;
-    }
+ 
 
     public Quest RequestGuildQuest()
     {
@@ -375,6 +390,28 @@ public class MGContent : Mg<MGContent>
     }
     #endregion
 
+    #region 구역 컨텐츠 
+    private List<Chunk> SelectChunkList(int _newQuestCount)
+    {
+        //퀘스트를 수행할 청크 뽑기
+        List<int> ranChunkIdx = GameUtil.GetRandomNum(m_chunkList.Count, _newQuestCount);
+        List<Chunk> rulletChunk = new();
+        for (int i = 0; i < ranChunkIdx.Count; i++)
+        {
+            rulletChunk.Add(m_chunkList[ranChunkIdx[i]]);
+            //   Debug.Log(ranChunkIdx[i] + "번째 청크");
+        }
+
+        return rulletChunk;
+    }
+
+    private int periode = 5;
+    private bool IsTimeNewChunkContent()
+    {
+        int curTurn = GamePlayMaster.GetInstance().GetPlayData().PlayTime;
+        return curTurn % periode == 0;
+    }
+
     public Chunk GetChunk(int _chunkNum)
     {
         //청크리스트가 널이거나 idx넘버가 범위 밖이라면 null 반환
@@ -383,7 +420,7 @@ public class MGContent : Mg<MGContent>
 
         return m_chunkList[_chunkNum];
     }
-
+    #endregion
     public void SendActionCode(TOrderItem _orderItem)
     {
         //플레이어 액션 후 결과물을 보고
