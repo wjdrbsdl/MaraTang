@@ -14,6 +14,7 @@ public class MapBlock : MonoBehaviour
         xPos = _tile.GetMapIndex()[0];
         yPos = _tile.GetMapIndex()[1];
         SetColor(_tile.GetMainResource());
+        SetTileType(_tile.tileType);
     }
 
     private void SetColor(MainResource _resource)
@@ -32,6 +33,12 @@ public class MapBlock : MonoBehaviour
                 break;
         }
         m_blockImage.color = color;
+    }
+
+    private void SetTileType(TileType _type)
+    {
+        if (_type == TileType.Mountain)
+            m_blockImage.color = Color.black;
     }
 
 }
