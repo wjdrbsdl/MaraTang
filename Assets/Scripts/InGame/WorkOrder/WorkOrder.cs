@@ -80,7 +80,7 @@ public class WorkOrder
         // Debug.Log(debugStr);
     }
 
-    #region 자원 출입
+    #region 조건 적용
     public bool PutResource(ITradeCustomer _customer)
     {
         //전체 필요한 양을 다 넣어야함. 
@@ -90,20 +90,23 @@ public class WorkOrder
         for (int i = 0; i < m_needList.Count; i++)
         {
             TOrderItem needItem = m_needList[i]; // 애초 필요량
+            //자원류가 아닌것들은 투입대상 아님
+            if (needItem.Tokentype != TokenType.Capital)
+                continue;
             TOrderItem cur = m_curList[i]; //현재 보유량
             TOrderItem need = cur; //요구량 생성
             need.Value = needItem.Value - cur.Value; //요구 수치 차액 진행
             requestList.Add(need);
-          //  debugStr += requestList[i].Tokentype + " :" + requestList[i].Value + "필요";
+          
         }
-      //  Debug.Log(debugStr);
+      
         TItemListData itemListData = new TItemListData(requestList);
         if (_customer.CheckInventory(itemListData) == false)
         {
             Debug.Log("재료 부족");
             return false;
         }
-      //  Debug.Log("재료 지불");
+      
         _customer.PayCostData(itemListData); //재료 지불 시키고
 
         for (int i = 0; i < m_curList.Count; i++)
@@ -137,6 +140,37 @@ public class WorkOrder
 
         Debug.Log(ar);
     }
+
+    public void AdaptItemCondition(TOrderItem _item, int _conditionIndex)
+    {
+        //자원 이외의 경우 따로 조건을 체크하는 부분
+        switch (_item.Tokentype)
+        {
+            case TokenType.NationTech:
+                AdaptNationTechValue(_item, _conditionIndex);
+                break;
+        }
+    }
+
+    private void AdaptNationTechValue(TOrderItem _item, int _conditionIndex)
+    {
+        //작업 토지가 없는데 국가 테크를 조건으로 달면 애초 이상한 조건
+        if (WorkPlacePos == null)
+            return;
+
+        //나라가 없는 땅이면 마찬가지로 이상한 조건
+        Nation nation = GameUtil.GetTileTokenFromMap(WorkPlacePos).GetNation();
+        if (nation == null)
+            return;
+
+        bool isDoneValue = nation.TechPart.IsDoneTech(_item.SubIdx);
+        if(isDoneValue == true)
+        {
+            TOrderItem curCondtion = _item;
+            curCondtion.Value = 1; //배운거면 1로 전환
+            m_curList[_conditionIndex] = curCondtion; //새로운 상태로 갱신 
+        }
+    }
     #endregion
 
     #region 작업진행
@@ -151,9 +185,9 @@ public class WorkOrder
         }
 
         //일 시킨다
-        if(IsReadyResource() == false)
+        if(CheckWorkCondtion() == false)
         {
-            Debug.LogWarning("재료가 부족하여 작업 수행 불가" + workType);
+            Debug.LogWarning("조건이 안맞아서 작업 수행 불가" + workType);
             return;
         }
 
@@ -178,7 +212,7 @@ public class WorkOrder
             return;
         }
 
-        if(CheckCondition() == false)
+        if(CheckEffectCondition() == false)
         {
             return;
         }
@@ -246,7 +280,7 @@ public class WorkOrder
         }
     }
 
-    private bool CheckCondition()
+    private bool CheckEffectCondition()
     {
         WorkOrderExcutor excutor = new();
         return excutor.CheckCondition(this);
@@ -278,7 +312,7 @@ public class WorkOrder
     #endregion
 
     #region 상태 체크
-    public bool IsReadyResource()
+    public bool CheckWorkCondtion()
     {
 #if UNITY_EDITOR
         if (GamePlayMaster.GetInstance().m_cheatWorkFree)
@@ -288,9 +322,15 @@ public class WorkOrder
         for (int i = 0; i < m_needList.Count; i++)
         {
             TOrderItem needItem = m_needList[i]; // 애초 필요량
+
+            //체크하려는 종류가 자원종류가 아니면 따로 적용하고 
+            if (needItem.Tokentype != TokenType.Capital)
+                AdaptItemCondition(needItem, i);
+
             TOrderItem cur = m_curList[i]; //현재 보유량
-            if(cur.Value < needItem.Value)
+            if (cur.Value < needItem.Value)
             {
+                Debug.Log(cur.Tokentype + "이 딸려서 불가");
                 return false;
             }
        
