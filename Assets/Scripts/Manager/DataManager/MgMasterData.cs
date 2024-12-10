@@ -142,9 +142,9 @@ public class MgMasterData : Mg<MgMasterData>
         return m_nationTechDataDic;
     }
 
-    public CapitalData GetCapitalData(int _capitalPid)
+    public CapitalData GetCapitalData(Capital _capitalPid)
     {
-        return GetDicData<CapitalData>(m_capitalDataDic, _capitalPid);
+        return GetDicData<CapitalData>(m_capitalDataDic, (int)_capitalPid);
     }
 
     private T1 GetDicData<T1>(Dictionary<int, T1> _dic, int _pid)
