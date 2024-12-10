@@ -40,7 +40,7 @@ public class MgParsing : MgGeneric<MgParsing>
                                    EMasterData.God, EMasterData.GodBless, EMasterData.BlessSynerge,
                                     EMasterData.Equipment, EMasterData.ChunkContent, EMasterData.CapitalData};
     private System.Enum[] matchTypes = { ContentEnum.발생컨텐츠, ETileStat.Nation, CharStat.CurActionCount, 
-                                    CharActionStat.CoolTime, TechTreeStat.Class, ConversationStat.Pid,
+                                    CharActionStat.CoolTime, null, ConversationStat.Pid,
                                    null, null, null,
                                    null, null, null};
     private Dictionary<EMasterData, ParseData> dbContainer = new(); //파싱한값을 그냥 갖고만 있는상태 - 사용하는곳에서 다시 가공 필요. 

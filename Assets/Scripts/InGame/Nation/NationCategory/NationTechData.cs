@@ -3,11 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public enum TechTreeStat
-{
-    Class, NeedTurn
-}
-
 public class NationTechData
 {
 
