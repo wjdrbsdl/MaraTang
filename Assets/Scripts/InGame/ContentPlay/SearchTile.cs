@@ -13,9 +13,9 @@ public class SearchTile
     }
 
 
-    private void HarvestTile(TokenTile _tile, int _findAbility)
+    private void HarvestTile(TokenTile _tile, int _charFindAbility)
     {
-        List<(Capital, int)> mineResult = GamePlayMaster.GetInstance().RuleBook.MineResource(_tile, _findAbility).GetResourceAmount();
+        List<(Capital, int)> mineResult = GamePlayMaster.GetInstance().RuleBook.MineResource(_tile, _charFindAbility).GetResourceAmount();
         for (int i = 0; i < mineResult.Count; i++)
         {
             //  Debug.Log(mineResult[i].Item1 + " 자원 채취" + mineResult[i].Item2);
