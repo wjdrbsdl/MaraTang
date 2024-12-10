@@ -65,9 +65,17 @@ public struct TItemListData
 
     public List<TOrderItem> GetItemList()
     {
+        List<TOrderItem> copyList = new();
         if (costList == null)
-            costList = new();
+            return copyList;
 
-        return costList;
+        //필요재료를 여러 군데서 쓸 수 있으므로 원본 훼손이 되지 않도록 카피본을 만들어서 반환 .
+        for (int i = 0; i < costList.Count; i++)
+        {
+            TOrderItem copyItem = costList[i];
+            copyList.Add(copyItem);
+        }
+
+        return copyList;
     }
 }
