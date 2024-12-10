@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 using System;
 
 public class RuleBook
@@ -324,7 +323,7 @@ public class RuleBook
     #endregion
 
     #region 자원 규칙
-    public TMineTileResult MineResource(TokenTile _tile)
+    public TMineTileResult MineResource(TokenTile _tile, int _findAbility = 0)
     {
         List<(Capital, int)> result = new();
         TMineTileResult mineResult = new(result);
@@ -335,9 +334,6 @@ public class RuleBook
         if (tileEffect != TileEffectEnum.Money)
             return mineResult;
         
-        TileType territory = _tile.GetTileType();
-        MainResource mainType = _tile.GetMainResource();
-        int tileEnegy = _tile.GetResrouceGrade();
         List<TOrderItem> resourceList = tileData.EffectData.GetItemList();
         //해당 타일에서 산출되는 자원 마스터 데이터 가져옴 
         for (int i = 0; i < resourceList.Count; i++)
@@ -345,10 +341,25 @@ public class RuleBook
             TOrderItem resource = resourceList[i];
             //한번더 자원종류인지 체크하고
             if (resource.Tokentype == TokenType.Capital)
-                result.Add(((Capital)resource.SubIdx, resource.Value));
+            {
+                if(AbleFindCapital((Capital)resource.SubIdx, _findAbility))
+                    result.Add(((Capital)resource.SubIdx, resource.Value));
+            }
+                
         }
 
         return mineResult;
+    }
+
+    private bool AbleFindCapital(Capital _cpaital, int _findAbility)
+    {
+        //해당 자원을 찾았는지 여부 
+        CapitalData capitalData = MgMasterData.GetInstance().GetCapitalData(_cpaital);
+        int ratio = capitalData.baseRatio + _findAbility;
+        int random = UnityEngine.Random.Range(1, 101);
+
+        Debug.Log(ratio + "범위중에" + random + "수치 뽑음");
+        return random <= ratio;
     }
 
     public void MixCapital(List<(Capital, int)> _resources)

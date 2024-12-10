@@ -261,7 +261,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
 
         SearchTile findTile = new();
         //1. 채집 진행
-        findTile.FindSomething(GameUtil.GetTileTokenFromMap(_charToken.GetMapIndex()));
+        findTile.FindSomething(GameUtil.GetTileTokenFromMap(_charToken.GetMapIndex()), _charToken);
 
     }
 
