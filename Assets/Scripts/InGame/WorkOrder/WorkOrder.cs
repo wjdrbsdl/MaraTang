@@ -129,7 +129,7 @@ public class WorkOrder
                 AdaptItemCondition(needItem, i);
             TOrderItem cur = m_curList[i]; //현재 보유량
 
-            ar += cur.Value.ToString() + "/" + cur.Value.ToString() + "\n";
+            ar += needItem.Tokentype+" "+ cur.Value.ToString() + "/" + needItem.Value.ToString() + "\n";
         }
 
         Debug.Log(ar);
