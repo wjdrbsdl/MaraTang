@@ -217,6 +217,11 @@ public class AIPlayer : PlayerRule
                     closeCapital = nations[i].GetCapital();
                 }
             }
+
+            //모든 수도 파괴되었으면 쫓을것도 없음.
+            if (closeCapital == null)
+                return null;
+            
             return SelectMove(_char, actionTable[(int)ActionType.Move], GameUtil.GetTileTokenFromMap(closeCapital.GetMapIndex()));
         }
 
