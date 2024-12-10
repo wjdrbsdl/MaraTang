@@ -45,15 +45,12 @@ public class WorkOrder
         if (_needList == null)
         {
             _needList = new();
-            //Debug.LogWarning("임시로 작업 재료 할당");
-            //_needList.Add(new TOrderItem(TokenType.Capital, (int)Capital.Wood, 5));
         }
             
 
         //작업주문서 작성
         m_needList = _needList;
         OriginWorkGauge = _needWorkGague;
-        //m_restWorkGauge = m_originWorkGauge;
         RestWorkGauge = OriginWorkGauge; //임시로 필요 작업량 할당
         RestTurn = _needTurn;
         workType = _workType;
@@ -212,6 +209,16 @@ public class WorkOrder
         if (m_enoughWorkGague == true)
             return;
 
+#if UNITY_EDITOR
+        if (GamePlayMaster.GetInstance().m_cheatWorkFree)
+        {
+            RestWorkGauge = 0;
+            m_enoughWorkGague = true;
+            return;
+        }
+            
+#endif
+
         int laborCoin = GameUtil.GetTileTokenFromMap(WorkPlacePos).GetLaborCoinCount();
         // Debug.Log(laborCoin + "으로 작업진행");
         if (laborCoin == 0)
@@ -273,6 +280,11 @@ public class WorkOrder
     #region 상태 체크
     public bool IsReadyResource()
     {
+#if UNITY_EDITOR
+        if (GamePlayMaster.GetInstance().m_cheatWorkFree)
+            return true;
+#endif
+
         for (int i = 0; i < m_needList.Count; i++)
         {
             TOrderItem needItem = m_needList[i]; // 애초 필요량
