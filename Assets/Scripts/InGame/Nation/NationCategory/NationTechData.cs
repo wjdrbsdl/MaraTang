@@ -3,26 +3,41 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
+public enum TechEnum
+{
+   None, Build2, Serach, Harvest, SpecialBuild
+}
+
 public class NationTechData
 {
-
     //국가 기술 하나 정보 
     private int m_techPid;
     private string m_techName;
     private int m_techClass;
+
+    public int NeedTurn; //연구에 필요한 턴
+    public int NeedLabor; //연구에 필요한 노동
+
+    public List<int> NeedPreTech; //연구에 필요한 선행 연구들
 
     public TItemListData ResearchCostData;
     public TItemListData TechEffectData;
 
     public NationTechData(List<int[]> matchCode, string[] _parsingData)
     {
-        m_techPid = int.Parse(_parsingData[0]);
+        if (System.Enum.TryParse(typeof(TechEnum), _parsingData[0], out object parseTechPid))
+            m_techPid = (int)parseTechPid;
         m_techName = _parsingData[1];
         m_techClass = (int.Parse(_parsingData[2]));
-        //학습 비용 적어놓은 칸이 있으면
-        int costIndex = 4; //구글 sheet상 열 인덱스
+
+        int needTurnIndex = 3;
+        int needlaborIndex = needTurnIndex + 1;
+        int costIndex = needTurnIndex+1;
+        int effectIndex = costIndex + 1;
+
+        NeedTurn = (int.Parse(_parsingData[needTurnIndex]));
+        NeedLabor = (int.Parse(_parsingData[needlaborIndex]));
         ResearchCostData = GameUtil.ParseCostDataArray(_parsingData, costIndex);
-        int effectIndex = 5;
         TechEffectData = GameUtil.ParseCostDataArray(_parsingData, effectIndex);
     }
 
