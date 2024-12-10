@@ -18,7 +18,7 @@ public class MgMasterData : Mg<MgMasterData>
     private Dictionary<int, God> m_godDic;
     private Dictionary<int, GodBless> m_blessDic;
     private Dictionary<int, ChunkContent> m_chunkContentDic;
-    private Dictionary<Capital, CapitalData> m_capitalDataDic;
+    private Dictionary<int, CapitalData> m_capitalDataDic;
     #region 생성자
     public MgMasterData()
     {
@@ -140,6 +140,11 @@ public class MgMasterData : Mg<MgMasterData>
     public Dictionary<int, NationTechData> GetTechDic()
     {
         return m_nationTechDataDic;
+    }
+
+    public CapitalData GetCapitalData(int _capitalPid)
+    {
+        return GetDicData<CapitalData>(m_capitalDataDic, _capitalPid);
     }
 
     private T1 GetDicData<T1>(Dictionary<int, T1> _dic, int _pid)
@@ -358,7 +363,11 @@ public class MgMasterData : Mg<MgMasterData>
             //이후 세부 대화 데이터를 만들어서 그그룹에 추가 
             CapitalData capitalMasterData = new CapitalData(parseContainer.MatchCode, parseContainer.DbValueList[i]);
             if(m_capitalDataDic.ContainsKey(capitalMasterData.capital) == false)
+            {
+                Debug.Log((Capital)capitalMasterData.capital + " 데이터 추가");
                 m_capitalDataDic.Add(capitalMasterData.capital, capitalMasterData);
+            }
+                
         }
     }
     #endregion
