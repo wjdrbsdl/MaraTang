@@ -360,7 +360,7 @@ public class RuleBook
             return true;
         int random = UnityEngine.Random.Range(1, 101);
 
-        Debug.Log(ratio + "범위중에" + random + "수치 뽑음");
+        //Debug.Log(ratio + "범위중에" + random + "수치 뽑음");
         return random <= ratio;
     }
 

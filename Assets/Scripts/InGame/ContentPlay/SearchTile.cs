@@ -8,7 +8,7 @@ public class SearchTile
     public void FindSomething(TokenTile _tile, TokenChar _char)
     {
         //타일에서 무언갈 찾아서 반환 혹은 플레이어 재산에 포함시키는 곳 
-        Debug.Log("타일에서 뭔가좀 찾아봄");
+       // Debug.Log("타일에서 뭔가좀 찾아봄");
         HarvestTile(_tile, _char.GetStat(CharStat.Dex));
     }
 
