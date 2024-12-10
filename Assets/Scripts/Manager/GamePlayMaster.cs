@@ -19,6 +19,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     public bool m_autoReportCheck = true;
     public bool m_testCheckPlayerInventory = false; //플레이어 인벤 체크하느냐 
     public bool m_testAuto = true;
+    public bool m_cheatWorkFree = true; //작업시 자원 필요여부 
 
     private GamePlayData m_playData = new();
 
