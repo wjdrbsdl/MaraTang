@@ -217,7 +217,11 @@ public class UITileInfo : UIBase
             NationNum, tileType, mainResource, _tile.GetMapIndex()[0], _tile.GetMapIndex()[1], _tile.GetLaborCoinCount());
         m_statText.text = tileStat;
 
-     
+        if (m_curTile.GetWorkOrder() != null)
+            m_curTile.GetWorkOrder().NoticeNeedResource();
+
+
+
         if (_tile.GetTileType().Equals(TileType.Capital))
         {
             Nation nation = _tile.GetNation();
