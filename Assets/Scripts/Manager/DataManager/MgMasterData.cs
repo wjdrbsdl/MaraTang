@@ -18,7 +18,7 @@ public class MgMasterData : Mg<MgMasterData>
     private Dictionary<int, God> m_godDic;
     private Dictionary<int, GodBless> m_blessDic;
     private Dictionary<int, ChunkContent> m_chunkContentDic;
-
+    private Dictionary<Capital, CapitalData> m_capitalDataDic;
     #region 생성자
     public MgMasterData()
     {
@@ -41,6 +41,7 @@ public class MgMasterData : Mg<MgMasterData>
         SetBlessData();
         SetGodData();
         SetChunkData();
+        SetCapitalData();
     }
 
     public override void ReferenceSet()
@@ -345,6 +346,19 @@ public class MgMasterData : Mg<MgMasterData>
             //이후 세부 대화 데이터를 만들어서 그그룹에 추가 
             ChunkContent chunkContent = new ChunkContent(parseContainer.MatchCode, parseContainer.DbValueList[i]);
             m_chunkContentDic.Add(chunkContent.PID, chunkContent);
+        }
+    }
+
+    private void SetCapitalData()
+    {
+        ParseData parseContainer = MgParsing.GetInstance().GetMasterData(EMasterData.CapitalData);
+        m_capitalDataDic = new();
+        for (int i = 0; i < parseContainer.DbValueList.Count; i++)
+        {
+            //이후 세부 대화 데이터를 만들어서 그그룹에 추가 
+            CapitalData capitalMasterData = new CapitalData(parseContainer.MatchCode, parseContainer.DbValueList[i]);
+            if(m_capitalDataDic.ContainsKey(capitalMasterData.capital) == false)
+                m_capitalDataDic.Add(capitalMasterData.capital, capitalMasterData);
         }
     }
     #endregion
