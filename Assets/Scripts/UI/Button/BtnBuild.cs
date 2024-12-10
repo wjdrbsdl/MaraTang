@@ -44,7 +44,8 @@ public class BtnBuild : MonoBehaviour
             return;
         }
 
-        new WorkOrder(null, 0, 100, tile, (int)buildType, WorkType.ChangeBuild);
+        TileTypeData tileData = MgMasterData.GetInstance().GetTileData((int)m_tileType);
+        new WorkOrder(tileData.BuildCostData.GetItemList(), tileData.NeedLaborTurn, tileData.NeedLaborAmount, tile, (int)buildType, WorkType.ChangeBuild);
 
         m_tileInfoUI.ReqeustOff();
     }
