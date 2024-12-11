@@ -30,6 +30,7 @@ public class WorkOrder
     public int OriginWorkGauge;
     public int RestWorkGauge;
     private bool m_enoughWorkGague = false;
+    public int OriginNeedTurn;
     public int RestTurn;
     private bool m_enoughTurn = false;
 
@@ -52,6 +53,8 @@ public class WorkOrder
         m_needList = _needList;
         OriginWorkGauge = _needWorkGague;
         RestWorkGauge = OriginWorkGauge; //임시로 필요 작업량 할당
+        OriginNeedTurn = _needTurn;
+        RestTurn = OriginNeedTurn;
         RestTurn = _needTurn;
         workType = _workType;
         WorkPid = _workPid;
