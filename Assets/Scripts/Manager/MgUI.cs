@@ -180,7 +180,7 @@ public class MgUI : MgGeneric<MgUI>
                 bool isAble = tileNation.CheckInventory(researchCostData);
                 //    Debug.Log(techTree.GetTechName()+" 학습 가능 여부 "+ isAble);
 
-                tileNation.TechPart.CompleteTech(techTree.GetPid());
+                tileNation.TechPart.CompleteTech(techTree.GetPid()); //임시
             }
             tileNation.TechPart.CalTechEffect();
            // ShowNationPolicy(tileNation);
