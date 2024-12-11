@@ -6,7 +6,7 @@ using UnityEngine;
 
 public enum UICodeEnum
 {
-    Guild = 1, Temple, GiveMoney, StudyAction
+    Guild = 1, Temple, GiveMoney, StudyAction, Lab
 }
 
 public class MgUI : MgGeneric<MgUI>
@@ -48,6 +48,7 @@ public class MgUI : MgGeneric<MgUI>
     [SerializeField] private UIGuild m_guildUI;
     [SerializeField] private UIBlessTemple m_templeUI;
     [SerializeField] private UITileMixer m_tileMixUI;
+    [SerializeField] private UIResearch m_researchUI;
 
     [Header("컷씬")]
     [SerializeField] private UICutScene m_cutScene;
@@ -81,6 +82,11 @@ public class MgUI : MgGeneric<MgUI>
     public void ShowTemple(TokenTile _tile)
     {
         m_templeUI.SetTempleInfo(_tile);
+    }
+
+    public void ShowResrachUI(TokenTile _tile)
+    {
+        m_researchUI.SetNationResearch(_tile);
     }
 
     public void ShowGuildInfo()
