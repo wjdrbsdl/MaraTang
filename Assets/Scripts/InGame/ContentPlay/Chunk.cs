@@ -55,8 +55,13 @@ public class Chunk
 
 
     public void ResetContent()
-    {
-        Debug.Log("지울거 지우고");
+    { 
+        if(FixedValue.SAY_CHUNKRESET == false)
+        {
+            Debug.LogWarning("구역 컨텐츠 새로 지을때 지울거 지우고");
+            FixedValue.SAY_CHUNKRESET = true;
+        }
+        
         if (PreContent == null)
             return;
 

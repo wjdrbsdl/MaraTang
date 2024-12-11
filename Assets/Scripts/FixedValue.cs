@@ -31,4 +31,8 @@ public static class FixedValue
         ;
     #endregion
 
+    public static bool
+        SAY_CHUNKRESET = false
+        ;
+
 }
