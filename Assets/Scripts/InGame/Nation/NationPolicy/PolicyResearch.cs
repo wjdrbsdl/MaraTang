@@ -33,7 +33,29 @@ public class PolicyResearch : NationPolicy
         //연구할게 없으면 종료 
         if (reserachIndex == FixedValue.No_INDEX_NUMBER)
             return;
-        SetPlanToken(m_nation.GetCapital()); //연구의 집행은 일단 본진 - 이후 연구소 건물에서? 
+
+        List<TokenTile> territory = m_nation.GetTerritorry();
+        TokenTile labTile = null;
+        for (int i = 0; i < territory.Count; i++)
+        {
+            TokenTile tile = territory[i];
+            //연구소찾기
+            if (tile.GetTileType() != TileType.Lab)
+                continue;
+
+            //빈 작업 찾기
+            if (tile.GetWorkOrder() != null)
+                continue;
+
+            labTile = tile;
+        }
+        if (labTile == null)
+        {
+            Debug.Log("국가에 랩실이 없음");
+            return;
+        }
+
+        SetPlanToken(labTile); //연구의 집행은 일단 본진 - 이후 연구소 건물에서? 
         SetPlanIndex(reserachIndex);
         SetDonePlan(true);
         // Debug.Log("다음 연구 테크pid는" + m_planIndex + "로 결정");
