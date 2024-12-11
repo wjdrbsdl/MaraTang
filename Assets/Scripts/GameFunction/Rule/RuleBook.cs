@@ -404,6 +404,8 @@ public class RuleBook
         int ratio = capitalData.baseRatio + _findAbility;
         if (ratio >= 100)
             return true;
+        if (ratio <= 0)
+            return false;
         int random = UnityEngine.Random.Range(1, 101);
 
         //Debug.Log(ratio + "범위중에" + random + "수치 뽑음");
