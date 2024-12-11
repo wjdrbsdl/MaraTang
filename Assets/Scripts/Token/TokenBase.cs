@@ -16,7 +16,7 @@ public enum OnChangeEnum
 
 public enum TokenType
 {
-    Tile, Char, CharStat, Action, Player, Capital, Event, Nation, None, Content, NationTech, Conversation, NationStat, OnChange, Bless,
+    None, Tile, Char, CharStat, Action, Player, Capital, Event, Nation, Content, NationTech, Conversation, NationStat, OnChange, Bless,
     MonsterNationSpawn, EventPlaceNationSpawn, Equipt, UIOpen, MonsterSpawn, EventPlaceChunkSpawn, ChunkContent, Random
 }
 
