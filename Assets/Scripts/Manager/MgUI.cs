@@ -168,24 +168,6 @@ public class MgUI : MgGeneric<MgUI>
 
     private void ShowTileTokenInfo(TokenTile _tile)
     {
-        TileType tileType = _tile.GetTileType();
-        if (tileType.Equals(TileType.Capital))
-        {
-        //    Debug.Log("국가 트리 정보 보여주기");
-            Nation tileNation = _tile.GetNation();
-            foreach(KeyValuePair<int, NationTechData> tech in MgMasterData.GetInstance().GetTechDic())
-            {
-                NationTechData techTree = tech.Value;
-                TItemListData researchCostData = techTree.ResearchCostData;
-                bool isAble = tileNation.CheckInventory(researchCostData);
-                //    Debug.Log(techTree.GetTechName()+" 학습 가능 여부 "+ isAble);
-
-                tileNation.TechPart.CompleteTech(techTree.GetPid()); //임시
-            }
-            tileNation.TechPart.CalTechEffect();
-           // ShowNationPolicy(tileNation);
-        }
-
         PushUIStack(m_tileWorkShopUI);
         m_tileWorkShopUI.SetTileInfo(_tile, _tile.GetTileType());
 
