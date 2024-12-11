@@ -36,7 +36,6 @@ public class Quest
             MGContent.GetInstance().FailQuest(this);
     }
 
-    bool questWarning = false;
     #region 스테이지 진행
     public void RealizeStage()
     {
@@ -45,9 +44,9 @@ public class Quest
         excutor.ExcuteOrder(order);
 
         //한번만 알림받기
-        if(questWarning == false)
+        if(FixedValue.QUEST_ARALM == false)
         {
-            questWarning = true;
+            FixedValue.QUEST_ARALM = true;
             Debug.LogWarning("새 퀘스트 알람 닫아놓음");
             //MgUI.GetInstance().ShowQuest(this);
         }

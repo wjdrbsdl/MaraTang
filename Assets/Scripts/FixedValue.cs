@@ -32,7 +32,8 @@ public static class FixedValue
     #endregion
 
     public static bool
-        SAY_CHUNKRESET = false
+        SAY_CHUNKRESET = false,
+        QUEST_ARALM = false
         ;
 
 }
