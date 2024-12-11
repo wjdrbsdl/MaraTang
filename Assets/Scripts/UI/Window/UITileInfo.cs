@@ -161,7 +161,9 @@ public class UITileInfo : UIBase
             return;
         }
 
-        m_workText.text = string.Format("{0} 작업중 {1}/{2} ", work.workType.ToString(),work.RestWorkGauge,work.OriginWorkGauge);    
+        m_workText.text = string.Format("{0} 작업중 {1}/{2}\n턴{3}/{4} ", work.workType.ToString(),
+                        (work.OriginWorkGauge-work.RestWorkGauge),work.OriginWorkGauge,
+                        (work.OriginNeedTurn - work.RestTurn), work.OriginNeedTurn);    
 
     }
 
