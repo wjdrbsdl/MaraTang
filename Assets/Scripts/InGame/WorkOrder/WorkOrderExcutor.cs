@@ -34,6 +34,10 @@ public class WorkOrderExcutor
                 PolicyLevelUp levelUpPolicy = new();
                 levelUpPolicy.LevelUp(workTile);
                 break;
+            case WorkType.Research:
+                PolicyResearch research = new();
+                research.CompleteResearch(workTile, workPid);
+                break;
    
         }
     }
