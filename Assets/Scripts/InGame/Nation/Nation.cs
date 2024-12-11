@@ -67,7 +67,7 @@ public class Nation : ITradeCustomer
         //사건파트 생성
         nation.m_eventMg = new NationEvent(nation);
         //기술파트 생성
-        nation.TechPart = new NationTechPart();
+        nation.TechPart = new NationTechPart(nation);
         //자원수량 설정
         nation.m_resources = new int[GameUtil.EnumLength(Capital.Food)];
    

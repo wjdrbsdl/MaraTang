@@ -3,18 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class NationTechPart 
+public class NationTechPart
 {
+    private Nation m_nation;
     private List<int> m_doneTech; // 완료한 테크 Pid
     private List<TOrderItem> m_nationStatEffectList;
-    public NationTechPart()
+    public NationTechPart(Nation _nation)
     {
+        m_nation = _nation;
         m_doneTech = new();
         m_nationStatEffectList = new();
     }
 
     public void CompleteTech(int _techPid)
     {
+        Debug.Log(m_nation.GetNationNum() + "국가에서 " + (TechEnum)_techPid + "기술 완료");
         if (IsDoneTech(_techPid) == false) //배우지 않은 녀석이면
             m_doneTech.Add(_techPid);
     }
