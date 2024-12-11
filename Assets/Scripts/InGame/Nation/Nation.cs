@@ -501,6 +501,19 @@ public class Nation : ITradeCustomer
         return m_territorryList;
     }
 
+    public List<TokenTile> GetPlace(TileType _type)
+    {
+        List<TokenTile> list = new();
+        for (int i = 0; i < m_territorryList.Count; i++)
+        {
+            if (m_territorryList[i].GetTileType().Equals(_type))
+            {
+                list.Add(m_territorryList[i]);
+            }
+        }
+        return list;
+    }
+
     #region 스텟 배열 적용하는 부분
     public int GetStat(NationStatEnum _nationStat)
     {
