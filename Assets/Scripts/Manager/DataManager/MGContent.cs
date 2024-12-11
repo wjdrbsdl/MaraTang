@@ -76,6 +76,7 @@ public class MGContent : Mg<MGContent>
     private int ChunkContentCount = 3; 
     private void WriteChunkContent()
     {
+        return;
         //0. 컨텐츠를 새로 뽑을 타이밍인지 체크
         if (IsTimeNewChunkContent() == false)
             return;
