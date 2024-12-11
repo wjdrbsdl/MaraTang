@@ -5,8 +5,8 @@ using UnityEngine;
 
 public enum TechEnum
 {
-   None, Build2, Serach, Harvest, SpecialBuild
-}
+   None, Build2, Serach, Harvest, SpecialBuild,
+    WorkEffeciency, GoodTalk, SsabaSsaba, GoodPrepare, GodTalking, GreedBless }
 
 public class NationTechData
 {
