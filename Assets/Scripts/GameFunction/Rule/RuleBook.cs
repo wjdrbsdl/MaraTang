@@ -377,7 +377,7 @@ public class RuleBook
                     CapitalData capitalData = MgMasterData.GetInstance().GetCapitalData(test);
                     if (capitalData == null)
                     {
-                        Debug.LogWarning("없는 데이터 토큰타입" + test);
+                        Debug.LogError("없는 데이터 토큰타입" + test);
                         continue;
                     }
                         
