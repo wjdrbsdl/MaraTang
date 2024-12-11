@@ -181,7 +181,7 @@ public class WorkOrder
         //일 시킨다
         if(CheckWorkCondtion() == false)
         {
-            Debug.LogWarning("조건이 안맞아서 작업 수행 불가" + workType);
+            //Debug.Log("조건이 안맞아서 작업 수행 불가" + workType);
             return;
         }
 
