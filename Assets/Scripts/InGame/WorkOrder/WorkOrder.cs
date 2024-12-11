@@ -324,7 +324,7 @@ public class WorkOrder
             TOrderItem cur = m_curList[i]; //현재 보유량
             if (cur.Value < needItem.Value)
             {
-                Debug.Log(cur.Tokentype + "이 딸려서 불가");
+                //Debug.Log(cur.Tokentype + "이 딸려서 불가");
                 return false;
             }
        
