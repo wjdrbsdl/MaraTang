@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 public enum RandomTypeEnum
 {
-    Capital
+    Capital1
 }
 
 public class RandomItem
