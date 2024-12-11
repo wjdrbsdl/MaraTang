@@ -20,6 +20,7 @@ public class PolicyResearch : NationPolicy
         NationTechData techData = MgMasterData.GetInstance().GetTechData(m_planIndex);
         TItemListData changeCost = techData.ResearchCostData;
         TokenTile workTile = (TokenTile)m_planToken;
+      //  Debug.Log(m_nation.GetNationNum()+"에서"+ (TechEnum)techData.GetPid() + "연구 시작");
         WorkOrder researchOrder = new WorkOrder(changeCost.GetItemList(), techData.NeedTurn, techData.NeedLabor, workTile, m_planIndex, WorkType.Research);
         return researchOrder;
     }
@@ -28,9 +29,12 @@ public class PolicyResearch : NationPolicy
     {
         //다음 연구할 기술을 선택. 
         TechTreeSelector treeManager = new(); //매니저 생성하고 
-        int planIndex = treeManager.GetTechPidByNotDone(m_nation.TechPart.GetTechList());
+        int reserachIndex = treeManager.GetTechPidByNotDone(m_nation.TechPart.GetTechList());
+        //연구할게 없으면 종료 
+        if (reserachIndex == FixedValue.No_INDEX_NUMBER)
+            return;
         SetPlanToken(m_nation.GetCapital()); //연구의 집행은 일단 본진 - 이후 연구소 건물에서? 
-        SetPlanIndex(planIndex);
+        SetPlanIndex(reserachIndex);
         SetDonePlan(true);
         // Debug.Log("다음 연구 테크pid는" + m_planIndex + "로 결정");
     }
