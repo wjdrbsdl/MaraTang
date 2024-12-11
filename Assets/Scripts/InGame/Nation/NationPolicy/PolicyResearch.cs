@@ -29,7 +29,7 @@ public class PolicyResearch : NationPolicy
     {
         //다음 연구할 기술을 선택. 
         TechTreeSelector treeManager = new(); //매니저 생성하고 
-        int reserachIndex = treeManager.GetTechPidByNotDone(m_nation.TechPart.GetTechList());
+        int reserachIndex = treeManager.GetTechPidByNotDone(m_nation.TechPart.GetDoneTechList());
         //연구할게 없으면 종료 
         if (reserachIndex == FixedValue.No_INDEX_NUMBER)
             return;

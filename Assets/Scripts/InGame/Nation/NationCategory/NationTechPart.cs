@@ -30,7 +30,7 @@ public class NationTechPart
         return false;
     }
 
-    public List<int> GetTechList()
+    public List<int> GetDoneTechList()
     {
         return m_doneTech;
     }
