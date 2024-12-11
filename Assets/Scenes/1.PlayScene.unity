@@ -22140,6 +22140,7 @@ MonoBehaviour:
   m_autoReportCheck: 1
   m_testCheckPlayerInventory: 0
   m_testAuto: 0
+  m_cheatWorkFree: 0
   m_camFollow: {fileID: 519420033}
   tempDevilBirthrestTurm: 1
   curNationStep: 6
