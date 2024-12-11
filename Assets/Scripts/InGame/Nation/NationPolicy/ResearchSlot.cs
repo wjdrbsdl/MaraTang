@@ -5,7 +5,7 @@ using TMPro;
 
 public enum ReserchSlotFunction
 {
-    Select, Show
+    Select, Show, Lab
 }
 
 public class ResearchSlot : SlotBase
@@ -17,22 +17,65 @@ public class ResearchSlot : SlotBase
     private UIResearch m_reserachUI;
     public TMP_Text reserchText; //나중에 아이콘으로 대체될부분
 
+    private TokenTile m_labTile;
+
     public void SetResearchSlot(NationTechData _techData, bool _done)
     {
-        gameObject.SetActive(true);
+        GetImage().color = Color.white;
         m_techData = _techData;
         m_isComplete = _done;
         reserchText.text = _techData.GetTechName();
+        if (_done == false)
+            GetImage().color = Color.gray;
     }
 
-    public void OnClick()
+    public void SetLabTile(TokenTile _tile)
     {
-        if (m_function != ReserchSlotFunction.Select)
+        GetImage().color = Color.white;
+        m_labTile = _tile;
+        reserchText.text = _tile.GetMapIndex()[0] + "-" + _tile.GetMapIndex()[1]+"연구소";
+        if (_tile.GetWorkOrder() != null)
+            GetImage().color = Color.gray;
+    }
+
+    public void SetResearchSelect(NationTechData _techData)
+    {
+        gameObject.SetActive(true);
+        m_techData = _techData;
+        reserchText.text = _techData.GetTechName();
+    }
+
+    public void SetLabSelect(TokenTile _tile)
+    {
+        m_labTile = _tile;
+        reserchText.text = _tile.GetMapIndex()[0] + "-" + _tile.GetMapIndex()[1] + "연구소";
+    }
+
+    public void ResetShowSlot()
+    {
+        m_techData = null;
+        m_isComplete = false;
+        m_labTile = null;
+        reserchText.text = "";
+    }
+
+    public override void OnLeftClick()
+    {
+        //연구 고르는 파트면, 아직 연구안된 연구 고른경우 진행
+        if (m_function == ReserchSlotFunction.Select && m_isComplete == false)
+        {
+            m_reserachUI.SelectReserach(m_techData);
             return;
+        }
+                
+        if(m_function == ReserchSlotFunction.Lab && m_labTile.GetWorkOrder() == null)
+        {
+            m_reserachUI.SelectLab(m_labTile);
+        }
+
 
         //안 배운경우에만 배우겠다고 의사전달 
-        if (m_isComplete == false)
-            m_reserachUI.SelectReserach(m_techData);
+
 
     }
 }
