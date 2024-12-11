@@ -35,30 +35,14 @@ public class PolicyResearch : NationPolicy
         // Debug.Log("다음 연구 테크pid는" + m_planIndex + "로 결정");
     }
 
-    private bool Research()
+    public void CompleteResearch(TokenTile _workTile, int _techPid)
     {
-        if (AbleResearch(m_planIndex) == false)
-        {
-            return false;
-        }
+        Nation nation = _workTile.GetNation();
+        if (nation == null)
+            return;
 
-
-        m_nation.TechPart.CompleteTech(m_planIndex);
-
-        return true;
+        nation.TechPart.CompleteTech(_techPid);
     }
-
-    private bool AbleResearch(int _techPid)
-    {
-        //마스터데이터에 없는 테크번호면 실패
-        if (MgMasterData.GetInstance().GetTechData(_techPid) == null)
-        {
-            return false;
-        }
-
-        return true;
-    }
-
 
 }
 
