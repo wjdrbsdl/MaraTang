@@ -17,9 +17,10 @@ public class PolicyResearch : NationPolicy
     public override WorkOrder WriteWorkOrder()
     {
         //임시 벌목장 건설에 필요한 코스트로 진행
-        TItemListData changeCost = MgMasterData.GetInstance().GetTileData(1).BuildCostData;
+        NationTechData techData = MgMasterData.GetInstance().GetTechData(m_planIndex);
+        TItemListData changeCost = techData.ResearchCostData;
         TokenTile workTile = (TokenTile)m_planToken;
-        WorkOrder researchOrder = new WorkOrder(changeCost.GetItemList(),0, 100, workTile, m_planIndex, WorkType.Research);
+        WorkOrder researchOrder = new WorkOrder(changeCost.GetItemList(), techData.NeedTurn, techData.NeedLabor, workTile, m_planIndex, WorkType.Research);
         return researchOrder;
     }
 
