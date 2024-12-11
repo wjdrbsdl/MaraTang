@@ -86,6 +86,12 @@ public class MgUI : MgGeneric<MgUI>
 
     public void ShowResrachUI(TokenTile _tile)
     {
+        if (_tile.GetNation() == null)
+        {
+            Debug.Log("사라진 국가의 연구소 폐허 기능 없음");
+            return;
+        }
+            
         m_researchUI.SetNationResearch(_tile);
     }
 
