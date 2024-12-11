@@ -74,6 +74,9 @@ public class RuleBookTileAction
             case UICodeEnum.StudyAction:
                 MgUI.GetInstance().ShowStudyInfo(_tile);
                 break;
+            case UICodeEnum.Lab:
+                MgUI.GetInstance().ShowResrachUI(_tile);
+                break;
             default:
                 Debug.Log("¾ø´Â ¿ÀÇÂ");
                 break;
