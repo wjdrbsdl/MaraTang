@@ -344,12 +344,58 @@ public class RuleBook
             {
                 if(AbleFindCapital((Capital)resource.SubIdx, _findAbility))
                     result.Add(((Capital)resource.SubIdx, resource.Value));
+                continue;
+            }
+            if(resource.Tokentype == TokenType.Random)
+            {
+                TOrderItem selectItem = SelectRandomItem(resource);
+                if (AbleFindCapital((Capital)selectItem.SubIdx, _findAbility))
+                    result.Add(((Capital)selectItem.SubIdx, selectItem.Value));
+                continue;
             }
                 
         }
 
         return mineResult;
     }
+
+    public TOrderItem SelectRandomItem(TOrderItem _randomOrder)
+    {
+        RandomTypeEnum randomType = (RandomTypeEnum)_randomOrder.SubIdx;
+        int value = _randomOrder.Value;
+        TOrderItem selectItem = new TOrderItem(TokenType.None,0,0);
+        switch (randomType)
+        {
+            case RandomTypeEnum.Capital1:
+                //1. 
+                int amount = value; //레벨에 맞는 자원들을 훑어와야함. 
+                List<Capital> randomList = new();
+                Array capital = System.Enum.GetValues(typeof(Capital));
+                for (int i = 0; i < capital.Length; i++)
+                {
+                    Capital test = (Capital)capital.GetValue(i);
+                    CapitalData capitalData = MgMasterData.GetInstance().GetCapitalData(test);
+                    if (capitalData == null)
+                    {
+                        Debug.LogWarning("없는 데이터 토큰타입" + test);
+                        continue;
+                    }
+                        
+                    if(capitalData.Tier == 1)
+                    {
+                        randomList.Add((Capital)capitalData.capital);
+                    }
+                }
+                if (randomList.Count == 0)
+                    break;
+
+                Capital selectCapital = randomList[GameUtil.GetRandomNum(randomList.Count, 1)[0]];
+                selectItem = new TOrderItem(TokenType.Capital, (int)selectCapital, amount);
+                break; 
+        }
+        return selectItem;
+    }
+
 
     private bool AbleFindCapital(Capital _cpaital, int _findAbility)
     {
