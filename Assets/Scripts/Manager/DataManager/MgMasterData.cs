@@ -364,7 +364,7 @@ public class MgMasterData : Mg<MgMasterData>
             CapitalData capitalMasterData = new CapitalData(parseContainer.MatchCode, parseContainer.DbValueList[i]);
             if(m_capitalDataDic.ContainsKey(capitalMasterData.capital) == false)
             {
-                Debug.Log((Capital)capitalMasterData.capital + " 데이터 추가");
+               // Debug.Log((Capital)capitalMasterData.capital + " 데이터 추가");
                 m_capitalDataDic.Add(capitalMasterData.capital, capitalMasterData);
             }
                 

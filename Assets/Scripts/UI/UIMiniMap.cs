@@ -42,7 +42,7 @@ public class UIMiniMap : UIBase, IPointerClickHandler
         widht = right.transform.position.x - left.transform.position.x;
         height= up.transform.position.y - down.transform.position.y;
         minVector = new Vector2(left.transform.position.x, down.transform.position.y);
-        Debug.Log("맵 크기 " + widht + " " + height);
+       // Debug.Log("맵 크기 " + widht + " " + height);
     }
 
     public void SetMapBlock()
