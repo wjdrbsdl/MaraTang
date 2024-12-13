@@ -62,7 +62,7 @@ public class OrderExcutor
                 SpawnMonster(_item);
                 return true;
             case TokenType.Conversation:
-                MGConversation.GetInstance().ShowCheckScript(_item, _serialNum);
+                MGConversation.GetInstance().ShowScriptItem(_item, _serialNum);
                 return true;
             case TokenType.Nation:
                 if (_item.SubIdx == (int)NationEnum.Move)
