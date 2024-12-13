@@ -36,7 +36,7 @@ public class OrderExcutor
 
     }
 
-    public bool AdaptItem(TOrderItem _item)
+    public bool AdaptItem(TOrderItem _item, int _serialNum = FixedValue.No_VALUE)
     {
         //  Debug.Log("적용");
         TokenChar mainChar = PlayerManager.GetInstance().GetMainChar();
@@ -62,7 +62,7 @@ public class OrderExcutor
                 SpawnMonster(_item);
                 return true;
             case TokenType.Conversation:
-                MGConversation.GetInstance().ShowCheckScript(_item);
+                MGConversation.GetInstance().ShowCheckScript(_item, _serialNum);
                 return true;
             case TokenType.Nation:
                 if (_item.SubIdx == (int)NationEnum.Move)
