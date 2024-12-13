@@ -69,8 +69,12 @@ public class MGContent : Mg<MGContent>
 
     private void WriteQuest()
     {
-        Quest newQuest = SelectContent(); //새로 추가할 컨텐츠 있는지 체크 
-        RealizeQuest(newQuest); //컨텐츠 추가시 
+        List<Quest> questList = SelectContent(); //새로 추가할 컨텐츠 있는지 체크 
+        for (int i = 0; i < questList.Count; i++)
+        {
+            RealizeQuest(questList[i]); //컨텐츠 추가시 
+        }
+        
         RefreshQuestList();
     }
 
@@ -121,10 +125,11 @@ public class MGContent : Mg<MGContent>
         return null;
     }
 
-    private Quest SelectContent()
+    private List<Quest> SelectContent()
     {
         //존재하는 모든 컨텐츠들의 발동조건을 따져서 수행 
 
+        List<Quest> newQuestList = new();
         Dictionary<int, ContentMasterData> contentDic = MgMasterData.GetInstance().GetContentDataDic();
         foreach(KeyValuePair<int, ContentMasterData> pair in contentDic)
         {
@@ -145,11 +150,11 @@ public class MGContent : Mg<MGContent>
             {
                 //만약 발동조건이 충족한 컨텐츠가 발견되면 
                 int tempChunkNum = 1;
-                return new Quest(curContent, tempChunkNum);
+                newQuestList.Add( new Quest(curContent, tempChunkNum));
             }
         }
 
-        return null;
+        return newQuestList;
     }
 
     private bool IsSatisfyAct(List<TOrderItem> _conditionList)
@@ -237,8 +242,11 @@ public class MGContent : Mg<MGContent>
     private void CheckNextQuest()
     {
         //성공이나 실패 컨텐츠 상태값이 바뀐경우 연계 되는 퀘스트가 있는지 보고 실행하는 용도. 
-        Quest newQuest = SelectContent(); //새로 추가할 컨텐츠 있는지 체크 
-        RealizeQuest(newQuest); //연계 퀘스트 
+        List<Quest> questList = SelectContent(); //새로 추가할 컨텐츠 있는지 체크 
+        for (int i = 0; i < questList.Count; i++)
+        {
+            RealizeQuest(questList[i]); //컨텐츠 추가시 
+        }
         RefreshQuestList();
     }
 
@@ -423,28 +431,29 @@ public class MGContent : Mg<MGContent>
         return m_chunkList[_chunkNum];
     }
     #endregion
-    public void SendActionCode(TOrderItem _orderItem, int serialNum = FixedValue.No_VALUE)
+    public void SendActionCode(TOrderItem _orderItem, int _serialNum = FixedValue.No_VALUE)
     {
         //플레이어 액션 후 결과물을 보고
         //결과물 따라서 
         //1. 새로운 컨텐츠 조건 해방으로 추가될 컨텐츠가 있는지
         //2. 수행중인 퀘스트에 어떤영향을 미치는지 판단 
         //* 현재 있는 3개 값만으로 분류가 불가해질경우, 추가 변수 설정이 필요. 
-       // Debug.LogFormat("{0}번 타입 {1}서브 {2} 벨류 액션 전달", _orderItem.Tokentype, _orderItem.SubIdx, _orderItem.Value);
-        //퀘스트 클리어 여부 체크 
-        for (int i = 0; i < m_QuestList.Count; i++)
+        // Debug.LogFormat("{0}번 타입 {1}서브 {2} 벨류 액션 전달", _orderItem.Tokentype, _orderItem.SubIdx, _orderItem.Value);
+        //퀘스트 클리어 여부 체크
+        Quest[] curQuest = m_QuestList.ToArray();
+        for (int i = 0; i < curQuest.Length; i++)
         {
-            Quest quest = m_QuestList[i];
+            Quest quest = curQuest[i];
 
            // Debug.Log("시리얼 넘버 " + serialNum + "현재 컨텐츠 시리얼" + quest.SerialNum);
             //시리얼 넘버가 존재하는 코드라면, 퀘스트 시리얼 넘버가 일치해야 체크
-            if (serialNum != FixedValue.No_VALUE && serialNum != quest.SerialNum)
+            if (_serialNum != FixedValue.No_VALUE && _serialNum != quest.SerialNum)
                 continue;
 
             quest.CurStageData.AdaptCondtion(_orderItem); //각 퀘스트에 새로운 상태를 적용하고
             bool isCompelete = quest.CurStageData.CheckSuccess(); //해당 퀘스트의 스테이지가 클리어되었는지 확인
             bool isFail = quest.CurStageData.CheckFail();
-           // Debug.LogFormat("시리얼 넘버{0} 퀘{4}pid, {1}스테이지 클리어 여부 성공{2} 실패{3}", quest.SerialNum, quest.CurStep, isCompelete, isFail, quest.ContentPid);
+            Debug.LogFormat("퀘스트 고유 넘버{0}, 행동 고유넘버{5}, 퀘Pid{4}, {1}스테이지 클리어 여부 성공{2} 실패{3}", quest.SerialNum, quest.CurStep, isCompelete, isFail, quest.ContentPid, _serialNum);
             if (isCompelete)
             {
                 bool isAutoClear = quest.CurStageData.AutoClear;
