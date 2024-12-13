@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
 
-public class Quest 
+public class Quest
 {
     [JsonProperty] public int ContentPid = 0; //content pid
     [JsonProperty] public int SerialNum = 0;
@@ -15,7 +15,7 @@ public class Quest
     #region 생성
     public Quest()
     {
-       
+
     }
 
     public Quest(ContentMasterData _contentData, int _chunkNum)
@@ -39,6 +39,7 @@ public class Quest
     #region 스테이지 진행
     public void RealizeStage()
     {
+        Debug.LogFormat("{0}번 퀘스트, {1}스테이지 구현, 고유번호{2}", ContentPid, CurStep, SerialNum);
         TTokenOrder order = new TTokenOrder(CurStageData.SituationList, CurStageData.AbleSelect, CurStageData.SituAdapCount, SerialNum);
         OrderExcutor excutor = new OrderExcutor();
         excutor.ExcuteOrder(order);
