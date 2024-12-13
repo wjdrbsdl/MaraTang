@@ -5,8 +5,9 @@ using Newtonsoft.Json;
 
 public enum ContentEnum
 {
-    WorldTurnMatch, Clear, ClearCount, 발생컨텐츠
+    WorldTurnMatch, Clear, ClearCount, GameState
 }
+
 
 public class MGContent : Mg<MGContent>
 {
