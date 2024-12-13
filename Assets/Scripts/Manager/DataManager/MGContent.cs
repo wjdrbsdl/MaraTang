@@ -453,7 +453,7 @@ public class MGContent : Mg<MGContent>
             quest.CurStageData.AdaptCondtion(_orderItem); //각 퀘스트에 새로운 상태를 적용하고
             bool isCompelete = quest.CurStageData.CheckSuccess(); //해당 퀘스트의 스테이지가 클리어되었는지 확인
             bool isFail = quest.CurStageData.CheckFail();
-            Debug.LogFormat("퀘스트 고유 넘버{0}, 행동 고유넘버{5}, 퀘Pid{4}, {1}스테이지 클리어 여부 성공{2} 실패{3}", quest.SerialNum, quest.CurStep, isCompelete, isFail, quest.ContentPid, _serialNum);
+           // Debug.LogFormat("퀘스트 고유 넘버{0}, 행동 고유넘버{5}, 퀘Pid{4}, {1}스테이지 클리어 여부 성공{2} 실패{3}", quest.SerialNum, quest.CurStep, isCompelete, isFail, quest.ContentPid, _serialNum);
             if (isCompelete)
             {
                 bool isAutoClear = quest.CurStageData.AutoClear;
