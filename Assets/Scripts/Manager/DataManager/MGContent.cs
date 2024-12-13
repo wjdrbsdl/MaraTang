@@ -436,7 +436,7 @@ public class MGContent : Mg<MGContent>
         {
             Quest quest = m_QuestList[i];
 
-            Debug.Log("시리얼 넘버 " + serialNum + "현재 컨텐츠 시리얼" + quest.SerialNum);
+           // Debug.Log("시리얼 넘버 " + serialNum + "현재 컨텐츠 시리얼" + quest.SerialNum);
             //시리얼 넘버가 존재하는 코드라면, 퀘스트 시리얼 넘버가 일치해야 체크
             if (serialNum != FixedValue.No_VALUE && serialNum != quest.SerialNum)
                 continue;
@@ -444,7 +444,7 @@ public class MGContent : Mg<MGContent>
             quest.CurStageData.AdaptCondtion(_orderItem); //각 퀘스트에 새로운 상태를 적용하고
             bool isCompelete = quest.CurStageData.CheckSuccess(); //해당 퀘스트의 스테이지가 클리어되었는지 확인
             bool isFail = quest.CurStageData.CheckFail();
-            //Debug.LogFormat("시리얼 넘버{0} 퀘{5}pid, {1}스테이지 클리어 여부 성공{2} 실패{3}", quest.SerialNum, quest.CurStep, isCompelete, isFail, quest.ContentPid);
+           // Debug.LogFormat("시리얼 넘버{0} 퀘{4}pid, {1}스테이지 클리어 여부 성공{2} 실패{3}", quest.SerialNum, quest.CurStep, isCompelete, isFail, quest.ContentPid);
             if (isCompelete)
             {
                 bool isAutoClear = quest.CurStageData.AutoClear;
