@@ -52,7 +52,11 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
             //EquiptItem equipt = new EquiptItem( MgMasterData.GetInstance().GetEquiptData(1));
             //mainChar.AquireEquipt(equipt);
 
-            ReadyNextTurn(); //강제 턴 리셋
+            // ReadyNextTurn(); //강제 턴 리셋
+
+            // UnityEngine.SceneManagement.SceneManager.LoadScene("0.IntroScene");
+            TOrderItem deathCode = new TOrderItem(TokenType.Content, (int)ContentEnum.GameState, (int)GameStateEnum.PlayerDead);
+            MGContent.GetInstance().SendActionCode(deathCode);
         }
         if (Input.GetKeyDown(KeyCode.F6))
         {
@@ -120,7 +124,6 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     
     }
     #endregion
-
     
     #region 국가 턴 수행
     public void ReportNationStep(Nation _nation, NationManageStepEnum _step)
@@ -242,14 +245,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     }
 
     #endregion
-   
-    #region UI 액션 수행
-    public void IntenseStat(TokenChar _char, CharStat _stat)
-    {
-        RuleBook.IntenseStat(_char, _stat);
-    }
-    #endregion
-
+ 
     #region 이동 후 처리
 
     private void OccurMoveEvent(TokenChar _charToken)
@@ -547,6 +543,17 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
         }
     }
     #endregion
+
+    public void PlayerDead()
+    {
+        TOrderItem deathCode = new TOrderItem(TokenType.Content, (int)ContentEnum.GameState, (int)GameStateEnum.PlayerDead);
+        MGContent.GetInstance().SendActionCode(deathCode);
+    }
+}
+
+public enum GameStateEnum
+{
+    Play, PlayerDead, Lose, Victory
 }
 
 //게임 전체 관점에서 단계
