@@ -39,7 +39,7 @@ public class MgParsing : MgGeneric<MgParsing>
                                    EMasterData.CharActionData, EMasterData.NationTechTree, EMasterData.Conversation,
                                    EMasterData.God, EMasterData.GodBless, EMasterData.BlessSynerge,
                                     EMasterData.Equipment, EMasterData.ChunkContent, EMasterData.CapitalData};
-    private System.Enum[] matchTypes = { ContentEnum.¹ß»ýÄÁÅÙÃ÷, ETileStat.Nation, CharStat.CurActionCount, 
+    private System.Enum[] matchTypes = { null, ETileStat.Nation, CharStat.CurActionCount, 
                                     CharActionStat.CoolTime, null, ConversationStat.Pid,
                                    null, null, null,
                                    null, null, null};
