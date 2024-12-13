@@ -436,6 +436,7 @@ public class MGContent : Mg<MGContent>
         {
             Quest quest = m_QuestList[i];
 
+            Debug.Log("시리얼 넘버 " + serialNum + "현재 컨텐츠 시리얼" + quest.SerialNum);
             //시리얼 넘버가 존재하는 코드라면, 퀘스트 시리얼 넘버가 일치해야 체크
             if (serialNum != FixedValue.No_VALUE && serialNum != quest.SerialNum)
                 continue;
