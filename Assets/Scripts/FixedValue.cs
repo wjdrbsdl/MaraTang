@@ -4,8 +4,8 @@ using UnityEngine;
 
 public static class FixedValue
 {
-    #region Int
-    public static int
+   #region Int
+    public const int
         ALL = int.MaxValue,
         NO_NATION_NUMBER = -1,
         No_INDEX_NUMBER = -1,
@@ -20,12 +20,12 @@ public static class FixedValue
     #endregion
   
     #region String
-    public static string
+    public const string
         PARSING_TYPE_DIVIDE = "_",
         PARSING_VALUE_ALL = "All"
         ;
 
-    public static char
+    public const char
         PARSING_LINE_DIVIDE = ' ',
         PARSING_LIST_DIVIDE = '/'
         ;

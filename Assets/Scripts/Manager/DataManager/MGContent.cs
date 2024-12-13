@@ -423,7 +423,7 @@ public class MGContent : Mg<MGContent>
         return m_chunkList[_chunkNum];
     }
     #endregion
-    public void SendActionCode(TOrderItem _orderItem)
+    public void SendActionCode(TOrderItem _orderItem, int serialNum = FixedValue.No_VALUE)
     {
         //플레이어 액션 후 결과물을 보고
         //결과물 따라서 
@@ -435,6 +435,11 @@ public class MGContent : Mg<MGContent>
         for (int i = 0; i < m_QuestList.Count; i++)
         {
             Quest quest = m_QuestList[i];
+
+            //시리얼 넘버가 존재하는 코드라면, 퀘스트 시리얼 넘버가 일치해야 체크
+            if (serialNum != FixedValue.No_VALUE && serialNum != quest.SerialNum)
+                continue;
+
             quest.CurStageData.AdaptCondtion(_orderItem); //각 퀘스트에 새로운 상태를 적용하고
             bool isCompelete = quest.CurStageData.CheckSuccess(); //해당 퀘스트의 스테이지가 클리어되었는지 확인
             bool isFail = quest.CurStageData.CheckFail();
