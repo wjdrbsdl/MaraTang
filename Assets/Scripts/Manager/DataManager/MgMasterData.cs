@@ -273,10 +273,17 @@ public class MgMasterData : Mg<MgMasterData>
         ParseData parseData = MgParsing.GetInstance().GetMasterData(EMasterData.ContentData);
         for (int i = 0; i < parseData.DbValueList.Count; i++)
         {
-            ContentMasterData masterContent = new ContentMasterData(parseData.DbValueList[i]);
-            //중복 
-            if(m_contentDataDic.ContainsKey(masterContent.ContentPid) == false)
-            m_contentDataDic.Add(masterContent.ContentPid, masterContent);
+            int ContentPid = int.Parse(parseData.DbValueList[i][0]);
+            //동일한 pid에서 최초 한번 컨텐츠 데이터를 만들고 
+            if(m_contentDataDic.ContainsKey(ContentPid) == false)
+            {
+                ContentMasterData masterContent = new ContentMasterData(parseData.DbValueList[i]);
+                m_contentDataDic.Add(masterContent.ContentPid, masterContent);
+            }
+            //그뒤는 스테이지 정보만 파싱
+            StageMasterData stageData = new StageMasterData(parseData.DbValueList[i]);
+            //위 컨텐츠 데이터 딕션에 스테이지 넘버를 키로 스테이지 정보를 추가
+            m_contentDataDic[ContentPid].StageDic.Add(stageData.StageNum, stageData);
         }
     }
 
