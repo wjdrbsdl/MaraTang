@@ -65,9 +65,7 @@ public class Quest
             MGContent.GetInstance().SuccessQuest(this); //ClearStage()
             return;
         }
-        StageMasterData stage = MgMasterData.GetInstance().GetStageData(ContentPid, CurStep);
-        CurStageData = new CurrentStageData(stage);
-        RealizeStage();
+        GoNextStep();
     }
 
     public void FailStage()
@@ -82,6 +80,13 @@ public class Quest
             MGContent.GetInstance().FailQuest(this); //FailStage에서 호출
             return;
         }
+        GoNextStep();
+    }
+
+    private void GoNextStep()
+    {
+        StageMasterData stage = MgMasterData.GetInstance().GetStageData(ContentPid, CurStep);
+        CurStageData = new CurrentStageData(stage);
         RealizeStage();
     }
 
