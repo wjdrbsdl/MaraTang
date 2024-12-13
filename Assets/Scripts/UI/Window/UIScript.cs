@@ -42,7 +42,7 @@ public class UIScript : UISelectBase
     public override void OffWindow()
     {
         base.OffWindow();//스택에서 뺴면서
-        Debug.Log("다음 대사 요청");
+        //Debug.Log("다음 대사 요청");
         MGConversation.GetInstance().RequestNextScrtip();
     }
 
