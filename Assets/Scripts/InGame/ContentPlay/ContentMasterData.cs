@@ -12,68 +12,15 @@ public class ContentMasterData
     public ContentMasterData(string[] _parsingData)
     {
         ContentPid = int.Parse(_parsingData[0]);
-        //ConditionType = (EOrderType)int.Parse(_parsingData[1]);
         ActConditionList = new(); //발동조건
         int condtionIdx = 1;
         GameUtil.ParseOrderItemList(ActConditionList, _parsingData, condtionIdx, true);
-        //1. 컨디션의 매인 아이템 리스트 파싱
-
-        int stepIdx = condtionIdx + 1;
-        if (_parsingData.Length <= stepIdx)
-            return;
-        int totalStep = _parsingData[stepIdx].Split(FixedValue.PARSING_LINE_DIVIDE).Length; //단계 수 구함 - 각 단계마다 stage 인포 정해져있음
-
-        int ableSelectIdx = stepIdx + 1;
-        int situAdaptCountIdx = ableSelectIdx + 1; //조건 적용할 수 - 이게 왜 필요했지
-        int situationIdx = situAdaptCountIdx + 1; //상황 조성
-        int succesNeedCountIdx = situationIdx + 1; //성공에 필요한 수
-        int completeAutoIdx = succesNeedCountIdx + 1;
-        int succesConditionIdx = completeAutoIdx + 1; //성공 조건들
-        int rewardIdx = succesConditionIdx + 1; //성공시 갈 스텝
-        //실패 조건들 미구현
-        int failNeedCountIdx = rewardIdx + 1; //성공에 필요한 수
-        int failConditionIdx = failNeedCountIdx + 1; //성공 조건들
-        int penaltyIdx = failConditionIdx + 1; //실패시 갈 스텝
-        int helpIdx = penaltyIdx + 1;
-        int repeatIdx = helpIdx + 1;
-       if (_parsingData[repeatIdx] == "T")
+        int repeatIdx = condtionIdx + 1;
+        if (_parsingData[repeatIdx] == "T")
         {
             AbleRepeat = true;
         }
-
-        string[] ableSelect = _parsingData[ableSelectIdx].Split(FixedValue.PARSING_LINE_DIVIDE);
-        string[] situAdapValues = _parsingData[situAdaptCountIdx].Split(FixedValue.PARSING_LINE_DIVIDE);
-        string[] situationDivides = _parsingData[situationIdx].Split(FixedValue.PARSING_LINE_DIVIDE);
-        string[] successNeedCount = _parsingData[succesNeedCountIdx].Split(FixedValue.PARSING_LINE_DIVIDE);
-        string[] completeAutoBool = _parsingData[completeAutoIdx].Split(FixedValue.PARSING_LINE_DIVIDE);
-        string[] succesConditiones = _parsingData[succesConditionIdx].Split(FixedValue.PARSING_LINE_DIVIDE);
-        string[] rewardDivdes = _parsingData[rewardIdx].Split(FixedValue.PARSING_LINE_DIVIDE);
-        string[] failNeedCount = _parsingData[failNeedCountIdx].Split(FixedValue.PARSING_LINE_DIVIDE);
-        string[] failConditiones = _parsingData[failConditionIdx].Split(FixedValue.PARSING_LINE_DIVIDE);
-        string[] penaltyDivdes = _parsingData[penaltyIdx].Split(FixedValue.PARSING_LINE_DIVIDE);
-
-        for (int curStep = 1; curStep <= totalStep; curStep++)
-        {
-            int arrayIndex = curStep - 1;
-            StageMasterData stageInfo = new StageMasterData(curStep, ableSelect[arrayIndex], situAdapValues[arrayIndex], situationDivides[arrayIndex],
-                                                        successNeedCount[arrayIndex], completeAutoBool[arrayIndex], succesConditiones[arrayIndex],
-                                                        failNeedCount[arrayIndex], failConditiones[arrayIndex],
-                                                        rewardDivdes[arrayIndex], penaltyDivdes[arrayIndex]);
-            StageDic.Add(curStep, stageInfo);
-        }
-
-        //foreach (KeyValuePair<int, StageInfo> a in StageDic)
-        //{
-        //    StageInfo stage = a.Value;
-        //    List<TOrderItem> itemList = stage.SituationList;
-        //    for (int i = 0; i < itemList.Count; i++)
-        //    {
-        //        TOrderItem item = itemList[i];
-        //        Debug.LogFormat("{0}타입의 {1}서브 {2} 밸류로 상황 진행", item.Tokentype, item.SubIdx, item.Value);
-        //    }
-        //    Debug.Log("\n");
-        //}
-
+     
     }
 
     public StageMasterData GetStageData(int _stageStep)
@@ -98,44 +45,75 @@ public class StageMasterData
     public int PenaltyStep; //실패시 이동할 Stage 기록
     public int StageNum;
     public bool AutoClear = true;
-    public StageMasterData(int _stageNum, string _ableSelect, string _situAdapStr, string _sitautionStrData, 
-                           string _succesNeedCountStr, string _autoCompleteBool, string _succesConStr,
-                           string _failNeedCountStr, string _failConStr,
-                           string _rewardStrData, string _penaltyStrData)
+    public bool AdatpSerial = true; //관련된 정보만 받기 - 몬스터사냥시, 해당 관련 몬스터만 카운트할지, 다른 컨텐츠 몬스터도 카운트할지 여부
+
+    public StageMasterData(string[] _parsingData)
     {
-        StageNum = _stageNum;
-        AbleSelect = int.Parse(_ableSelect)!=0; //0이나 그밖에 숫자 string으로 들어온 값을 파싱해서 0인지 체크 
+        //스테이지 정보 파싱 
+        int stepIdx = 3;
+        if (_parsingData.Length <= stepIdx)
+            return;
+        StageNum = int.Parse(_parsingData[stepIdx]);
+
+        int ableSelectIdx = stepIdx + 1; // 선택가능 여부
+        AbleSelect = int.Parse(_parsingData[ableSelectIdx]) != 0; //0이나 그밖에 숫자 string으로 들어온 값을 파싱해서 0인지 체크 
+
+        int situAdaptCountIdx = ableSelectIdx + 1; //조건 적용할 수 - 이게 왜 필요했지
         bool noneDataAdd = true;
-        SituAdapCount = int.Parse(_situAdapStr); //상황조성 조건 중 적용할 수
+        SituAdapCount = int.Parse(_parsingData[situAdaptCountIdx]); //상황조성 조건 중 적용할 수
+
+        int situationIdx = situAdaptCountIdx + 1; //상황 조성
         SituationList = new();
-        GameUtil.ParseOrderItemList(SituationList, _sitautionStrData, noneDataAdd);
-        if(SituAdapCount == 0)
+        GameUtil.ParseOrderItemList(SituationList, _parsingData[situationIdx], noneDataAdd);
+        if (SituAdapCount == 0)
         {
             //db에 귀찮아서 0 으로 표기한 경우 모든 선택지 가능으로 수정해주기. 
             SituAdapCount = SituationList.Count;
         }
 
-        SuccedNeedCount = int.Parse(_succesNeedCountStr);
-        if (!_autoCompleteBool.Equals("A"))
+        int serialAdapt = situationIdx + 1; //시리얼 적용여부
+        if (!_parsingData[serialAdapt].Equals("F"))
+        {
+            AdatpSerial = false;
+        }
+
+        int succesNeedCountIdx = serialAdapt + 1; //성공에 필요한 수
+        SuccedNeedCount = int.Parse(_parsingData[succesNeedCountIdx]);
+
+        int completeAutoIdx = succesNeedCountIdx + 1; //크리어 자동여부
+        if (!_parsingData[completeAutoIdx].Equals("A"))
         {
             AutoClear = false;
         }
 
+        int succesConditionIdx = completeAutoIdx + 1; //성공 조건들
         SuccesConList = new();
-        GameUtil.ParseOrderItemList(SuccesConList, _succesConStr);
-        FailNeedCount = int.Parse(_failNeedCountStr);
-        FailConList = new();
-        GameUtil.ParseOrderItemList(FailConList, _failConStr);
-        
-         if (int.TryParse(_rewardStrData, out int rewardStep))
+        GameUtil.ParseOrderItemList(SuccesConList, _parsingData[succesConditionIdx]);
+
+        int rewardIdx = succesConditionIdx + 1; //성공시 갈 스텝
+        if (int.TryParse(_parsingData[rewardIdx], out int rewardStep))
         {
             SuccesStep = rewardStep;
         }
-        if (int.TryParse(_penaltyStrData, out int penaltyStep))
+        //실패 조건들 미구현
+        int failNeedCountIdx = rewardIdx + 1; //실패에 필요 수
+        FailNeedCount = int.Parse(_parsingData[failNeedCountIdx]);
+
+        int failConditionIdx = failNeedCountIdx + 1; //실패 조건
+        FailConList = new();
+        GameUtil.ParseOrderItemList(FailConList, _parsingData[failConditionIdx]);
+
+        int penaltyIdx = failConditionIdx + 1; //실패시 갈 스텝
+
+        if (int.TryParse(_parsingData[penaltyIdx], out int penaltyStep))
         {
             PenaltyStep = penaltyStep;
         }
-        
+
+        int helpIdx = penaltyIdx + 1; //도움말
+     
+
     }
+  
 }
 
