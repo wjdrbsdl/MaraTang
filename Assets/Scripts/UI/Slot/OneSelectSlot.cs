@@ -36,7 +36,7 @@ public class OneSelectSlot : SlotBase
 
     private void SetText(TOrderItem _item)
     {
-        ConversationData sentenece = MgMasterData.GetInstance().GetConversationData((ConversationEnum)_item.SubIdx, _item.Value);
+        ConversationData sentenece = MgMasterData.GetInstance().GetConversationData((ConversationThemeEnum)_item.SubIdx, _item.Value);
         selectedText.text = (slotIndex + 1).ToString();
         selectedValue.text = sentenece.GetScript();
     }

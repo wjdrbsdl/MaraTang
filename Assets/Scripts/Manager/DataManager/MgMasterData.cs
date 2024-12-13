@@ -107,12 +107,12 @@ public class MgMasterData : Mg<MgMasterData>
         return GetDicData<NationTechData>(m_nationTechDataDic, _techPID);
     }
 
-    public ConversationGroup GetThemConversation(ConversationEnum _theme)
+    public ConversationGroup GetThemConversation(ConversationThemeEnum _theme)
     {
         return GetDicData<ConversationGroup>(m_conversationGroupDic, (int)_theme);
     }
 
-    public ConversationData GetConversationData(ConversationEnum _theme, int _pid)
+    public ConversationData GetConversationData(ConversationThemeEnum _theme, int _pid)
     {
         return GetDicData<ConversationGroup>(m_conversationGroupDic, (int)_theme).GetConversationData(_pid);
     }
@@ -299,7 +299,7 @@ public class MgMasterData : Mg<MgMasterData>
         {
             string[] conversationParsingLine = parseContainer.DbValueList[i];
             string themeStr = conversationParsingLine[0]; //db상 0 번째에 테마 작성
-            if(System.Enum.TryParse<ConversationEnum>(themeStr, out ConversationEnum theme) == false)
+            if(System.Enum.TryParse(themeStr, out ConversationThemeEnum theme) == false)
             {
                 //정의 되지 않은 Theme 이면 생성하지말고 넘김
                 continue;

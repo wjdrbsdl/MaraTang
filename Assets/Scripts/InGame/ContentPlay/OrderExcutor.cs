@@ -228,7 +228,7 @@ public struct TOrderItem
         SerialNum = 0;
     }
 
-    public TOrderItem(ConversationEnum _theme, ConversationData _covnersation)
+    public TOrderItem(ConversationThemeEnum _theme, ConversationData _covnersation)
     {
         Tokentype = TokenType.Conversation;
         SubIdx = (int)_theme;

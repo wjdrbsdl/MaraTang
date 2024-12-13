@@ -698,7 +698,7 @@ public static class GameUtil
                 findEnum = typeof(NationStatEnum);
                 break;
             case TokenType.Conversation:
-                findEnum = typeof(ConversationEnum);
+                findEnum = typeof(ConversationThemeEnum);
                 break;
             case TokenType.Content:
                 findEnum = typeof(ContentEnum);

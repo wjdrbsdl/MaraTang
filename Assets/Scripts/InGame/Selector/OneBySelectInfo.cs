@@ -65,7 +65,7 @@ public class OneBySelectInfo
     }
     private void SendActionCode()
     {
-        TOrderItem confirmItem = new TOrderItem(TokenType.Conversation, (int)ConversationEnum.SelectCount, selectCount); //확인용 item 생성
+        TOrderItem confirmItem = new TOrderItem(TokenType.Conversation, (int)ConversationThemeEnum.SelectCount, selectCount); //확인용 item 생성
         MGContent.GetInstance().SendActionCode(confirmItem);
     }
 

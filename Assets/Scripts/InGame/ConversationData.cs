@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ConversationEnum
+public enum ConversationThemeEnum
 {
-    Tutorial, Check, Choose, Response, SelectCount
+    Tutorial, Check, Choose, Response, SelectCount, GamePlay
 }
 
 public enum ResponseEnum
@@ -43,14 +43,14 @@ public class ConversationData
 public class ConversationGroup
 {
     private Dictionary<int, ConversationData> ConversationDataDic;
-    private ConversationEnum Theme;
+    private ConversationThemeEnum Theme;
 
     public ConversationGroup()
     {
         ConversationDataDic = new();
     }
 
-    public ConversationGroup(ConversationEnum _theme)
+    public ConversationGroup(ConversationThemeEnum _theme)
     {
         Theme = _theme;
         ConversationDataDic = new Dictionary<int, ConversationData>();
