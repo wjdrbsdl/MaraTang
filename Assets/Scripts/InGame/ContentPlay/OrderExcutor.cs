@@ -74,6 +74,9 @@ public class OrderExcutor
                 Chunk chunk = MGContent.GetInstance().GetChunk(5); //임시로 5번째 청크
                 ChunkContent chunkContent = new ChunkContent(MgMasterData.GetInstance().GetChunkContent(_item.SubIdx)); //마스터 데이터에서 복사 
                 return chunk.RealizeContent(chunkContent);
+            case TokenType.Content:
+                DoContentAdapt(_item.SubIdx, _item.Value);
+                break;
            case TokenType.None:
                 Debug.LogWarning("아무것도 하지 않는 주문");
                 break;
@@ -151,7 +154,18 @@ public class OrderExcutor
 
         return false;
     }
+
+    private void DoContentAdapt(int _contentEnum, int _value)
+    {
+        switch ((ContentEnum)_contentEnum)
+        {
+            case ContentEnum.GameOver:
+                UnityEngine.SceneManagement.SceneManager.LoadScene("0.IntroScene");
+                break;
+        }
+    }
     #endregion
+
 
 }
 
