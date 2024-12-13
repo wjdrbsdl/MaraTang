@@ -170,7 +170,7 @@ public class MgUI : MgGeneric<MgUI>
 
     public bool ShowScript(ConversationData _scriptData, int _serialNum)
     {
-        if (m_scriptUI.gameObject.activeSelf)
+        if (m_scriptUI.m_window.activeSelf)
             return false;
 
         m_scriptUI.SetScript(_scriptData, _serialNum);
