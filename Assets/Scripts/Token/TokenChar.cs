@@ -467,6 +467,12 @@ public class TokenChar : TokenBase
     #region 사망
     public void Death()
     {
+        if (isMainChar)
+        {
+            PlayerDeath();
+            return;
+        }
+
         //0. 오브젝트 정리
         if (m_object != null)
             m_object.DestroyObject();
@@ -479,6 +485,11 @@ public class TokenChar : TokenBase
         TokenTile inTile = GameUtil.GetTileTokenFromMap(GetMapIndex());
         inTile.RemoveCharToken(this);
         MgToken.GetInstance().RemoveCharToken(this);
+    }
+
+    private void PlayerDeath()
+    {
+        GamePlayMaster.GetInstance().PlayerDead();
     }
 
     public void DropItem()
