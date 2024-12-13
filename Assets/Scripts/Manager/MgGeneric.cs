@@ -31,4 +31,9 @@ public class MgGeneric<T> : MonoBehaviour
     {
         return g_instance;
     }
+
+    public void OnDestroy()
+    {
+        g_instance = default(T);
+    }
 }
