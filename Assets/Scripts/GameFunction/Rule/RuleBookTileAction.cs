@@ -36,7 +36,7 @@ public class RuleBookTileAction
     private void OpenGiveMoneyUI(TokenTile _tile)
     {
         List<TOrderItem> itemList = PlayerCapitalData.g_instance.GetItemList();
-        SelectItemInfo selectItemInfo = new SelectItemInfo(itemList, false, 1, itemList.Count, true); //자원기부는 최소1, 최대 자원수만큼
+        SelectItemInfo selectItemInfo = new SelectItemInfo(itemList, false, 1, itemList.Count, FixedValue.No_VALUE, true); //자원기부는 최소1, 최대 자원수만큼
         selectItemInfo.SetGiver(PlayerCapitalData.g_instance);
         selectItemInfo.SetTaker(_tile.GetNation());
         Action confirmAction = delegate
