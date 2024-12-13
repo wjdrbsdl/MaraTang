@@ -19,7 +19,7 @@ public class OrderExcutor
         //적용 수 만큼 진행인데 지금은 주문서 모두 일괄적용중 
         for (int i = 0; i < _order.AdaptItemCount; i++)
         {
-            AdaptItem(_order.orderItemList[i]);
+            AdaptItem(_order.orderItemList[i], _order.OrderSerialNumber);
         }
         return;
 
