@@ -15493,8 +15493,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2136994770}
-        m_TargetAssemblyTypeName: UISelectBase, Assembly-CSharp
-        m_MethodName: OnConfirm
+        m_TargetAssemblyTypeName: UIScript, Assembly-CSharp
+        m_MethodName: OnConfirmScript
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -31187,6 +31187,7 @@ MonoBehaviour:
   IsTrashNeed: 0
   m_charSprite: {fileID: 0}
   m_scriptText: {fileID: 1704648653}
+  m_serialNum: -1
 --- !u!224 &1221068247265892424
 RectTransform:
   m_ObjectHideFlags: 0
