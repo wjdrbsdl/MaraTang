@@ -20,7 +20,7 @@ public class SelectItemInfo
     private Action ConfirmAction;
 
     #region 클래스 생성부분
-    public SelectItemInfo(List<TOrderItem> _showList, bool _isFixedValue, int _minSelectCount, int _maxSelectCount, bool _ableCancle = false)
+    public SelectItemInfo(List<TOrderItem> _showList, bool _isFixedValue, int _minSelectCount, int _maxSelectCount, int _serialNum = FixedValue.No_VALUE, bool _ableCancle = false)
     {
         //만들려는 아이템 리스트를가지고 클래스 생성
         ItemList = _showList;
@@ -30,17 +30,13 @@ public class SelectItemInfo
         SelectedValue = new List<int>(); //선택한 수량 - FixedValue가 false일때만 입력받음. 
         MinSelectCount = _minSelectCount;
         MaxSelectCount = _maxSelectCount;
+        SerialNum = _serialNum;
         ableCancle = _ableCancle;
     }
 
     public void SetAction(Action _action)
     {
         ConfirmAction = _action;
-    }
-
-    public void SetSerial(int _serialNum)
-    {
-        SerialNum = _serialNum;
     }
 
     public void SetGiver(ITradeCustomer _giver)
@@ -122,7 +118,7 @@ public class SelectItemInfo
             ConfirmAction();
 
         TOrderItem confirmItem = new TOrderItem(TokenType.Conversation, (int)ConversationThemeEnum.Response, (int)ResponseEnum.Check); //확인용 item 생성
-        MGContent.GetInstance().SendActionCode(confirmItem);
+        MGContent.GetInstance().SendActionCode(confirmItem, SerialNum);
     }
 
     public bool AbleCancle()
