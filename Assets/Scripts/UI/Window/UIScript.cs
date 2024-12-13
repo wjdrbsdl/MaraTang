@@ -18,9 +18,4 @@ public class UIScript : UISelectBase
         m_serialNum = _serialNum;
     }
 
-    public void SetSelectInfo(SelectItemInfo _selectInfo)
-    {
-        m_selectInfo = _selectInfo;
-    }
-
 }
