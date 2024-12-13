@@ -13,15 +13,16 @@ public class OneBySelectInfo
     private bool ableCancle = false; //해당 선택지를 취소할 수있는건가. 
     public int restSelectCount;
     public int selectCount = 0; //선택했던 수
-    public int SerialNum = FixedValue.No_INDEX_NUMBER; //사용안할때는 none 넘버로 
+    public int SerialNum = FixedValue.No_VALUE; //사용안할때는 none 넘버로 
     public ITradeCustomer Giver; //제공자
     public ITradeCustomer Taker; //받는자
     public List<TOrderItem> ItemList; //남은 선택 리스트
 
-    public OneBySelectInfo(List<TOrderItem> _selectList, int _ableCount)
+    public OneBySelectInfo(List<TOrderItem> _selectList, int _ableCount, int _orderserialNum = FixedValue.No_VALUE)
     {
         ItemList = _selectList;
         restSelectCount = _ableCount;
+        SerialNum = _orderserialNum;
     }
 
     public void OpenSelectUI()
@@ -66,7 +67,7 @@ public class OneBySelectInfo
     private void SendActionCode()
     {
         TOrderItem confirmItem = new TOrderItem(TokenType.Conversation, (int)ConversationThemeEnum.SelectCount, selectCount); //확인용 item 생성
-        MGContent.GetInstance().SendActionCode(confirmItem);
+        MGContent.GetInstance().SendActionCode(confirmItem, SerialNum);
     }
 
     private void RemoveItem(TOrderItem _item)
