@@ -168,9 +168,9 @@ public class MgUI : MgGeneric<MgUI>
         m_selectTextUI.SetSelectedInfo(_itemInfo);
     }
 
-    public void ShowScript(ConversationData _scriptData)
+    public void ShowScript(ConversationData _scriptData, int _serialNum)
     {
-        m_scriptUI.SetScript(_scriptData);
+        m_scriptUI.SetScript(_scriptData, _serialNum);
     }
 
     public void ShowNationPolicy(Nation _nation)

@@ -42,10 +42,10 @@ public class MGConversation : Mg<MGConversation>
         selectInfo.ShowScript();
     }
     
-    public void ShowCheckScript(TOrderItem _scriptItem)
+    public void ShowCheckScript(TOrderItem _scriptItem, int _serialNum)
     {
         ConversationData scriptData = GetConversationData((ConversationThemeEnum)_scriptItem.SubIdx, _scriptItem.Value);
-        MgUI.GetInstance().ShowScript(scriptData);
+        MgUI.GetInstance().ShowScript(scriptData, _serialNum);
     }
 }
 
