@@ -31,7 +31,7 @@ public class OrderExcutor
 
         // Debug.Log("선택류 리스트로 선택 정보 생성");
         int ableSelectCount = _order.AdaptItemCount; //임시로 1개만 고름 가능
-        OneBySelectInfo oneBySelectInfo = new OneBySelectInfo(ShowList, ableSelectCount);
+        OneBySelectInfo oneBySelectInfo = new OneBySelectInfo(ShowList, ableSelectCount, _order.OrderSerialNumber);
         oneBySelectInfo.OpenSelectUI();
 
     }
