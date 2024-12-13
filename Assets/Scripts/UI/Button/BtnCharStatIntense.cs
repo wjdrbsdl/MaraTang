@@ -25,7 +25,7 @@ public class BtnCharStatIntense : MonoBehaviour
         {
             Debug.Log("스텟 강화하기");
             //임시로 바로 스텟강화
-            GamePlayMaster.GetInstance().IntenseStat(m_char, m_stat);
+            GamePlayMaster.GetInstance().RuleBook.IntenseStat(m_char, m_stat);
         }
         
         else
