@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 public enum ContentEnum
 {
-    WorldTurnMatch, Clear, ClearCount, GameState
+    WorldTurnMatch, Clear, ClearCount, GameState, GameOver
 }
 
 
