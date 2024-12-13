@@ -39,6 +39,7 @@ public class MgParsing : MgGeneric<MgParsing>
                                    EMasterData.CharActionData, EMasterData.NationTechTree, EMasterData.Conversation,
                                    EMasterData.God, EMasterData.GodBless, EMasterData.BlessSynerge,
                                     EMasterData.Equipment, EMasterData.ChunkContent, EMasterData.CapitalData};
+    //stat[] 를 사용하는경우 db에 enum값 MatchValue를 만들기 위해 어떤 enum을 쓰는지 
     private System.Enum[] matchTypes = { null, ETileStat.Nation, CharStat.CurActionCount, 
                                     CharActionStat.CoolTime, null, ConversationStat.Pid,
                                    null, null, null,
