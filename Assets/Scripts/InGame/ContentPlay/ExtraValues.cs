@@ -9,9 +9,11 @@ public class ExtraValues
     public float Enforce3Ratio;
     public float Enforce4Ratio;
     public float CorruptionRatio;
+    public static ExtraValues g_instance;
 
     public ExtraValues(string[] valueCode)
     {
+        g_instance = this;
         int enforce1Index = 0;
         int enforce2Index = enforce1Index+ 1;
         int enforce3Index = enforce2Index+ 1;

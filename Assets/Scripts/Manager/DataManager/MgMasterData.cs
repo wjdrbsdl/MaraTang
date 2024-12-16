@@ -29,7 +29,7 @@ public class MgMasterData : Mg<MgMasterData>
     public override void InitiSet()
     {
         g_instance = this;
-        
+
         SetTileTypeData();
         SetBlessSynergeData();
         SetCharActionData();
@@ -42,12 +42,13 @@ public class MgMasterData : Mg<MgMasterData>
         SetGodData();
         SetChunkData();
         SetCapitalData();
+        SetExtraValue();
     }
 
     public override void ReferenceSet()
     {
-       // Debug.Log("마스터데이터 레퍼런스 시작");
-   
+        // Debug.Log("마스터데이터 레퍼런스 시작");
+
     }
     #region Get
     public TileTypeData GetTileData(int _tileTypeID)
@@ -188,7 +189,7 @@ public class MgMasterData : Mg<MgMasterData>
         }
 
         //파싱한 자료를 근거로 해당 타일에서 지을 수 있는 건물을 재정리
-        foreach(KeyValuePair<int, TileTypeData> item in m_tileTypeDataDic)
+        foreach (KeyValuePair<int, TileTypeData> item in m_tileTypeDataDic)
         {
             int[] needPlaces = item.Value.NeedTiles;
             for (int x = 0; x < needPlaces.Length; x++)
@@ -211,7 +212,7 @@ public class MgMasterData : Mg<MgMasterData>
                 }
             }
         }
-    //    Debug.Log("완료");
+        //    Debug.Log("완료");
     }
 
     private void SetBlessSynergeData()
@@ -252,7 +253,7 @@ public class MgMasterData : Mg<MgMasterData>
             m_charDropItemDataDic.Add(masterChar.GetPid(), dropItemList);
 
         }
-     //   Debug.Log("캐릭터 마스터 데이터 완료");
+        //   Debug.Log("캐릭터 마스터 데이터 완료");
     }
 
     private void SetEquiptData()
@@ -262,8 +263,8 @@ public class MgMasterData : Mg<MgMasterData>
         for (int i = 0; i < parseData.DbValueList.Count; i++)
         {
             EquiptItem equipt = new EquiptItem(parseData.MatchCode, parseData.DbValueList[i]);
-            if(m_equipDataDic.ContainsKey(equipt.GetPid())== false)
-            m_equipDataDic.Add(equipt.GetPid(), equipt);
+            if (m_equipDataDic.ContainsKey(equipt.GetPid()) == false)
+                m_equipDataDic.Add(equipt.GetPid(), equipt);
         }
     }
 
@@ -275,7 +276,7 @@ public class MgMasterData : Mg<MgMasterData>
         {
             int ContentPid = int.Parse(parseData.DbValueList[i][0]);
             //동일한 pid에서 최초 한번 컨텐츠 데이터를 만들고 
-            if(m_contentDataDic.ContainsKey(ContentPid) == false)
+            if (m_contentDataDic.ContainsKey(ContentPid) == false)
             {
                 ContentMasterData masterContent = new ContentMasterData(parseData.DbValueList[i]);
                 m_contentDataDic.Add(masterContent.ContentPid, masterContent);
@@ -306,7 +307,7 @@ public class MgMasterData : Mg<MgMasterData>
         {
             string[] conversationParsingLine = parseContainer.DbValueList[i];
             string themeStr = conversationParsingLine[0]; //db상 0 번째에 테마 작성
-            if(System.Enum.TryParse(themeStr, out ConversationThemeEnum theme) == false)
+            if (System.Enum.TryParse(themeStr, out ConversationThemeEnum theme) == false)
             {
                 //정의 되지 않은 Theme 이면 생성하지말고 넘김
                 continue;
@@ -326,7 +327,7 @@ public class MgMasterData : Mg<MgMasterData>
     private void SetGodData()
     {
         ParseData parseContainer = MgParsing.GetInstance().GetMasterData(EMasterData.God);
-        
+
         m_godDic = new();
         for (int i = 0; i < parseContainer.DbValueList.Count; i++)
         {
@@ -369,14 +370,21 @@ public class MgMasterData : Mg<MgMasterData>
         {
             //이후 세부 대화 데이터를 만들어서 그그룹에 추가 
             CapitalData capitalMasterData = new CapitalData(parseContainer.MatchCode, parseContainer.DbValueList[i]);
-            if(m_capitalDataDic.ContainsKey(capitalMasterData.capital) == false)
+            if (m_capitalDataDic.ContainsKey(capitalMasterData.capital) == false)
             {
-               // Debug.Log((Capital)capitalMasterData.capital + " 데이터 추가");
+                // Debug.Log((Capital)capitalMasterData.capital + " 데이터 추가");
                 m_capitalDataDic.Add(capitalMasterData.capital, capitalMasterData);
             }
-                
+
         }
     }
+
+    private void SetExtraValue()
+    {
+        ParseData parseContainer = MgParsing.GetInstance().GetMasterData(EMasterData.ExtraValue);
+        new ExtraValues(parseContainer.DbValueList[0]);
+    }
+
     #endregion
 }
 
