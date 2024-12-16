@@ -39,7 +39,7 @@ public class TokenAction : TokenBase
         m_synergeList = new();
         GameUtil.ParseIntList(m_synergeList, valueCode, synergeIndex);
 
-        int itemInfoIndex = actionTypeIndex + 1;
+        int itemInfoIndex = synergeIndex + 1;
         m_itemInfo = valueCode[itemInfoIndex];
 
         int powerRatioIndex = itemInfoIndex + 1;
@@ -198,6 +198,11 @@ public class TokenAction : TokenBase
     public List<int> GetSynergePidList()
     {
         return m_synergeList;
+    }
+
+    public List<TOrderItem> GetPowerRatio()
+    {
+        return m_powerRatio;
     }
 
     public void CheckBlessSynerge(TokenChar _char)
