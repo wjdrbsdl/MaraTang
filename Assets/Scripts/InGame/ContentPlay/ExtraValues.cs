@@ -23,6 +23,32 @@ public class ExtraValues
         Enforce2Ratio = float.Parse(valueCode[enforce2Index]);
         Enforce3Ratio = float.Parse(valueCode[enforce3Index]);
         Enforce4Ratio = float.Parse(valueCode[enforce4Index]);
+       // Debug.Log("4단계 강화 수치 " + Enforce4Ratio);
+    }
 
+    public float GetEnforceValue()
+    {
+        float ratio = 1;
+        DevilProgress _devilLevel = MGContent.GetInstance().curDevilLevel;
+        switch (_devilLevel)
+        {
+            case DevilProgress.Enforce1:
+                ratio = Enforce1Ratio;
+                break;
+            case DevilProgress.Enforce2:
+                ratio = Enforce2Ratio;
+                break;
+            case DevilProgress.Enforce3:
+                ratio = Enforce3Ratio;
+                break;
+            case DevilProgress.Enforce4:
+                ratio = Enforce4Ratio;
+                break;
+            case DevilProgress.Corruption:
+                ratio = CorruptionRatio;
+                break;
+        }
+
+        return ratio;
     }
 }
