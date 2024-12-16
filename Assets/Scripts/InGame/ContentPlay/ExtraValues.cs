@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class ExtraValues
 {
-    public float Enforce1Ratio;
-    public float Enforce2Ratio;
-    public float Enforce3Ratio;
-    public float Enforce4Ratio;
-    public float CorruptionRatio;
+    public decimal Enforce1Ratio;
+    public decimal Enforce2Ratio;
+    public decimal Enforce3Ratio;
+    public decimal Enforce4Ratio;
+    public decimal CorruptionRatio;
     public static ExtraValues g_instance;
 
     public ExtraValues(string[] valueCode)
@@ -19,16 +19,16 @@ public class ExtraValues
         int enforce3Index = enforce2Index+ 1;
         int enforce4Index = enforce3Index+ 1;
 
-        Enforce1Ratio = float.Parse(valueCode[enforce1Index]);
-        Enforce2Ratio = float.Parse(valueCode[enforce2Index]);
-        Enforce3Ratio = float.Parse(valueCode[enforce3Index]);
-        Enforce4Ratio = float.Parse(valueCode[enforce4Index]);
+        Enforce1Ratio = decimal.Parse(valueCode[enforce1Index]);
+        Enforce2Ratio = decimal.Parse(valueCode[enforce2Index]);
+        Enforce3Ratio = decimal.Parse(valueCode[enforce3Index]);
+        Enforce4Ratio = decimal.Parse(valueCode[enforce4Index]);
        // Debug.Log("4단계 강화 수치 " + Enforce4Ratio);
     }
 
-    public float GetEnforceValue()
+    public decimal GetEnforceValue()
     {
-        float ratio = 1;
+        decimal ratio = 1;
         DevilProgress _devilLevel = MGContent.GetInstance().curDevilLevel;
         switch (_devilLevel)
         {
