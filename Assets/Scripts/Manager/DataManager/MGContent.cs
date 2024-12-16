@@ -8,9 +8,9 @@ public enum ContentEnum
     WorldTurnMatch, Clear, ClearCount, GameState, GameOver
 }
 
-public enum ExtraContentEnum
+public enum DevilProgress
 {
-    Enforce1, Enforce2, Enforce3, Enforce4
+    Base, Enforce1, Enforce2, Enforce3, Enforce4, Corruption
 }
 
 public class MGContent : Mg<MGContent>
