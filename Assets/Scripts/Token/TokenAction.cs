@@ -19,6 +19,7 @@ public class TokenAction : TokenBase
     private ActionType actionType = ActionType.Move;
     private TokenType actionTarget = TokenType.Tile;
     private int[] m_targetPos; //작용할 위치 
+    private List<TOrderItem> m_powerRatio = new(); //효과에 적용되는 계수들
     private List<int> m_synergeList;
     #region 액션 토큰 : 생성부분 추후 테이블 파싱 값으로 생성하기
     public TokenAction()
@@ -30,16 +31,26 @@ public class TokenAction : TokenBase
     {
         m_tokenPid = int.Parse(valueCode[0]);
         m_itemName = valueCode[1];
-        if (valueCode.Length>11)
-        m_itemInfo = valueCode[11];
-        actionType = (ActionType)(int.Parse(valueCode[2]));
+
+        int actionTypeIndex = 2;
+        actionType = (ActionType)(int.Parse(valueCode[actionTypeIndex]));
+
+        int synergeIndex = actionTypeIndex +1;
+        m_synergeList = new();
+        GameUtil.ParseIntList(m_synergeList, valueCode, synergeIndex);
+
+        int itemInfoIndex = actionTypeIndex + 1;
+        m_itemInfo = valueCode[itemInfoIndex];
+
+        int powerRatioIndex = itemInfoIndex + 1;
+        GameUtil.ParseOrderItemList(m_powerRatio, valueCode, powerRatioIndex);
+
+
         m_tokenIValues = new int[System.Enum.GetValues(typeof(CharActionStat)).Length];
         GameUtil.InputMatchValue(ref m_tokenIValues, matchCode, valueCode);
         m_tokenIValues[(int)CharActionStat.RemainCountInTurn] = m_tokenIValues[(int)CharActionStat.MaxCountInTurn];
 
-        m_synergeList = new();
-        int synergeIndex = 10;
-        GameUtil.ParseIntList(m_synergeList, valueCode, synergeIndex);
+        
     }
 
     public TokenAction(TokenAction _masterToken)
@@ -54,6 +65,7 @@ public class TokenAction : TokenBase
         //마스터 데이터 깊은 복사로 객체 고유 배열 값 생성. 
         System.Array.Copy(_masterToken.m_tokenIValues, m_tokenIValues, arraySize);
         m_synergeList = _masterToken.m_synergeList;
+        m_powerRatio = _masterToken.m_powerRatio;
     }
 
 
