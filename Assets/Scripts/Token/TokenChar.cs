@@ -43,12 +43,16 @@ public class TokenChar : TokenBase
     {
         m_tokenPid = int.Parse(valueCode[0]); //시트 데이터상 0번째는 pid
         m_itemName = valueCode[1]; //1은 이름
-        
-        if (System.Enum.TryParse(typeof(CharType), valueCode[2], out object charType))
+
+        int charTypeIndex = 2;
+        if (System.Enum.TryParse(typeof(CharType), valueCode[charTypeIndex], out object charType))
             m_charType = (CharType)charType;
 
+        int tierIndex = charTypeIndex + 1;
+        int rarityIndex = tierIndex + 1;
+        int actionsIndex = rarityIndex + 1;
 
-        SetAction(ref m_haveActionList, valueCode[3]); //3은 보유 액션 pid
+        SetAction(ref m_haveActionList, valueCode[actionsIndex]); //3은 보유 액션 pid
         m_tokenType = TokenType.Char;
         m_tokenIValues = new int[System.Enum.GetValues(typeof(CharStat)).Length];
         GameUtil.InputMatchValue(ref m_tokenIValues, matchCode, valueCode);
