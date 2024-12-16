@@ -69,7 +69,10 @@ public class TokenChar : TokenBase
         string[] actions = actionCode.Split(FixedValue.PARSING_LIST_DIVIDE);
         for (int i = 0; i < actions.Length; i++)
         {
-            int actionPid = int.Parse(actions[i]);
+            if (int.TryParse(actions[i], out int actionPid) == false)
+            {
+                continue;
+            }
             TokenAction masterAction = MgMasterData.GetInstance().GetMasterCharAction(actionPid);
             //정의되지 않은 액션이라면 넘김. 
             if (masterAction == null)
