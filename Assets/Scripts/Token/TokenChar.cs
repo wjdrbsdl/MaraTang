@@ -43,7 +43,11 @@ public class TokenChar : TokenBase
     {
         m_tokenPid = int.Parse(valueCode[0]); //시트 데이터상 0번째는 pid
         m_itemName = valueCode[1]; //1은 이름
-        m_charType = (CharType)System.Enum.Parse(typeof(CharType), valueCode[2]); //차르타입
+        
+        if (System.Enum.TryParse(typeof(CharType), valueCode[2], out object charType))
+            m_charType = (CharType)charType;
+
+
         SetAction(ref m_haveActionList, valueCode[3]); //3은 보유 액션 pid
         m_tokenType = TokenType.Char;
         m_tokenIValues = new int[System.Enum.GetValues(typeof(CharStat)).Length];
