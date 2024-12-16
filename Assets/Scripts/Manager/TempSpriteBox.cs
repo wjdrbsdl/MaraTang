@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class TempSpriteBox : MgGeneric<TempSpriteBox>
 {
+    public Sprite noneImage;
+
     public Sprite WoodLand;
     public Sprite FarmLand;
     public Sprite TownLand;
@@ -88,5 +90,12 @@ public class TempSpriteBox : MgGeneric<TempSpriteBox>
                 return DefaultPin;
 
         }
+    }
+
+    public Sprite GetSprite(TokenType _type, int _pid)
+    {
+        Sprite sprite = noneImage;
+
+        return sprite;
     }
 }

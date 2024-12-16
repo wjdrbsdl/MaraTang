@@ -92,7 +92,8 @@ public class TokenTile : TokenBase
     {
         if(tileType != TileType.Nomal)
         {
-            GetObject().SetSprite(TempSpriteBox.GetInstance().GetTileSprite(tileType));
+            //GetObject().SetSprite(TempSpriteBox.GetInstance().GetTileSprite(tileType));
+            GetObject().SetSprite(TempSpriteBox.GetInstance().GetSprite(TokenType.Tile, (int)tileType));
             return;
         }
 

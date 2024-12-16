@@ -117,7 +117,8 @@ public class TokenChar : TokenBase
     {
         //pid에 맞게 objectToken의 스프라이트를 변경
         int spriteIdx = m_tokenPid - 1;
-        GetObject().SetSprite(TempSpriteBox.GetInstance().GetCharSprite(spriteIdx));
+        GetObject().SetSprite(TempSpriteBox.GetInstance().GetSprite(TokenType.Char, m_tokenPid));
+        //GetObject().SetSprite(TempSpriteBox.GetInstance().GetCharSprite(spriteIdx));
     }
 
     public CharState GetState()

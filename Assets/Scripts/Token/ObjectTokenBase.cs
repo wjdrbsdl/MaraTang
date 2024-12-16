@@ -55,11 +55,13 @@ public class ObjectTokenBase : MonoBehaviour
         {
             m_token = (TokenChar)_token;
             m_ClickPriority = 3;
+            m_charIcon.sprite = TempSpriteBox.GetInstance().GetSprite(TokenType.Char, _token.GetPid());
         }
         else if (_tokenType == TokenType.Tile)
         {
             m_token = (TokenTile)_token;
             m_ClickPriority = 1;
+            m_charIcon.sprite = TempSpriteBox.GetInstance().GetSprite(TokenType.Tile, _token.GetPid());
         }
         m_token.SetObject(this);
         m_name = _token.GetItemName();
