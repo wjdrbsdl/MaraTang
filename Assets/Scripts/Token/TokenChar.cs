@@ -7,7 +7,7 @@ using System;
 public enum CharStat
 {
     MaxActionEnergy, CurActionEnergy, MaxActionCount, CurActionCount, Sight, Strenth, Dex, Inteligent,
-    MaxHp, CurHp, EquiptSlotCount, BlessSlotCount, ActionSlotCount
+    MaxHp, CurHp, EquiptSlotCount, BlessSlotCount, ActionSlotCount, AttackPoint
 }
 
 public enum CharType
@@ -102,6 +102,13 @@ public class TokenChar : TokenBase
         }
     }
 
+    public void EnforceValue(decimal _value)
+    {
+        //몬스터 강화를 할때 특정 옵션들만 강화하기 
+        int originAttack = GetStat(CharStat.AttackPoint);
+        int enforceValue = (int)( originAttack * _value);
+        Debug.Log("강화전 " + originAttack + " 강화 후 " + enforceValue);
+    }
     #endregion
 
     #region 그래픽
