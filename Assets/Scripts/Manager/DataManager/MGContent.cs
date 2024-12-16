@@ -23,6 +23,7 @@ public class MGContent : Mg<MGContent>
     private List<Chunk> m_chunkList = new List<Chunk>();
     
     public int m_curSerialNum = 0; //컨텐츠등을 만들때마다 생성 
+    public DevilProgress curDevilLevel = DevilProgress.Base;
     [JsonIgnore] public const int NO_CHUNK_NUM = -1;
     [JsonIgnore] public int m_devilStartCount = 4;
     [JsonIgnore] public int m_nationStartCount = 3;
