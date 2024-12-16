@@ -58,34 +58,35 @@ public class Quest
       //  Debug.LogFormat("시리얼 넘버{0} 퀘 {1}스테이지 클리어 됨", SerialNum, CurStep);
         ResetSituation(); //스테이지 진행을 위해 생성되었던거 초기화
         CurStageData.AdaptSucces(); //스테이지 성공을 위해 지불해야할것들 진행
-        int nextStep = MgMasterData.GetInstance().GetStageData(ContentPid, CurStep).SuccesStep; //현재스테이지 정보에서 성공시 스텝 넘버 빼옴
-        CurStep = nextStep;
-        if(CurStep == 0)
-        {
-            MGContent.GetInstance().SuccessQuest(this); //ClearStage()
-            return;
-        }
-        GoNextStep();
+        GoNextStep(true);
     }
 
     public void FailStage()
     {
       //  Debug.LogFormat("시리얼 넘버{0} 퀘 {1}스테이지 실패 됨", SerialNum, CurStep);
         ResetSituation();
-        
-        int nextStep = MgMasterData.GetInstance().GetStageData(ContentPid, CurStep).PenaltyStep; //현재스테이지 정보에서 실패시 스텝 넘버 빼옴
-        CurStep = nextStep;
-        if (CurStep == 0)
-        {
-            MGContent.GetInstance().FailQuest(this); //FailStage에서 호출
-            return;
-        }
-        GoNextStep();
+        GoNextStep(false);
     }
 
-    private void GoNextStep()
+    private void GoNextStep(bool _succes)
     {
+        int nextStep = MgMasterData.GetInstance().GetStageData(ContentPid, CurStep).SuccesStep; //현재스테이지 정보에서 성공시 스텝 넘버 빼옴
+        CurStep = nextStep;
         StageMasterData stage = MgMasterData.GetInstance().GetStageData(ContentPid, CurStep);
+        if (CurStep == 0 || stage == null)
+        {
+            if (_succes)
+            {
+                MGContent.GetInstance().SuccessQuest(this); //ClearStage()
+                return;
+            }
+            else
+            {
+                MGContent.GetInstance().FailQuest(this); //FailStage에서 호출
+                return;
+            }
+            
+        }
         CurStageData = new CurrentStageData(stage);
         RealizeStage();
     }
@@ -94,7 +95,10 @@ public class Quest
     {
    //     Debug.LogFormat("시리얼 넘버{0} 퀘 {1}스테이지 리셋", SerialNum, CurStep);
         StageMasterData stageInfo = MgMasterData.GetInstance().GetStageData(ContentPid, CurStep);
-        TOrderItem doneItem = stageInfo.SituationList[0];
+        for (int i = 0; i < stageInfo.SituationList.Count; i++)
+        {
+
+        } 
     }
 
     #endregion
