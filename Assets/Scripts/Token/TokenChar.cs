@@ -2,6 +2,7 @@ using System.Collections;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public enum CharStat
 {
@@ -282,7 +283,7 @@ public class TokenChar : TokenBase
 
     public bool HaveBless(GodBless _bless)
     {
-        return IsHaveCheck<GodBless>(_bless, m_blessList);
+        return CheckTokenHave<GodBless>(_bless, m_blessList);
     }
 
     public void AddBless(GodBless _bless)
@@ -384,7 +385,7 @@ public class TokenChar : TokenBase
 
     public bool IsHaveAction(TokenAction _actionItem)
     {
-        return IsHaveCheck<TokenAction>(_actionItem, m_haveActionList);
+        return CheckTokenHave<TokenAction>(_actionItem, m_haveActionList);
     }
 
     public List<TokenAction> GetActionList()
@@ -465,7 +466,7 @@ public class TokenChar : TokenBase
     }
     #endregion
 
-    private bool IsHaveCheck<T>(TokenBase _token, List<T> _list) where T : TokenBase
+    private bool CheckTokenHave<T>(TokenBase _token, List<T> _list) where T : TokenBase
     {
         int checkPid = _token.GetPid();
         for (int i = 0; i < _list.Count; i++)
@@ -474,6 +475,35 @@ public class TokenChar : TokenBase
                 return true;
         }
         return false;
+    }
+
+    public override void CalStat(Enum _enumIndex, int _value)
+    {
+        base.CalStat(_enumIndex, _value);
+        AdaptMainStat(_enumIndex);
+
+    }
+
+    private void AdaptMainStat(Enum _enum)
+    {
+        if (isMainChar == false)
+            return;
+
+        if (_enum.Equals(CharStat.Strenth))
+        {
+            Debug.Log("힘 이 도달된 수치에 따라 얻을 보너스 계산");
+            return;
+        }
+        if (_enum.Equals(CharStat.Dex))
+        {
+            Debug.Log("민첩 이 도달된 수치에 따라 얻을 보너스 계산");
+            return;
+        }
+        if (_enum.Equals(CharStat.Inteligent))
+        {
+            Debug.Log("지식 이 도달된 수치에 따라 얻을 보너스 계산");
+            return;
+        }
     }
 
     #region 사망
