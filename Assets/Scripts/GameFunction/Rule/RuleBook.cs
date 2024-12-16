@@ -22,6 +22,14 @@ public class RuleBook
         {
             //구조를 만들면서 내부에서 최종피해량 산출
             t_oriignDamage = _attackAction.GetStat(CharActionStat.Power);
+           // Debug.Log("스킬 계수 구하기");
+            for (int i = 0; i < _attackAction.GetPowerRatio().Count; i++)
+            {
+                TOrderItem ratio = _attackAction.GetPowerRatio()[i];
+             //   Debug.Log((CharStat)ratio.SubIdx + " " + ratio.Value+ "기본 데미지 "+t_oriignDamage);
+                t_oriignDamage += _attackChar.GetStat((CharStat)ratio.SubIdx) * ratio.Value;
+             //   Debug.Log("적용 후 데미지 "+t_oriignDamage);
+            }
             t_reductedDamage = t_oriignDamage;
             t_attacker = _attackChar;
             t_revengeStep = _revenge;
