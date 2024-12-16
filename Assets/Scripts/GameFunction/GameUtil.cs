@@ -508,7 +508,10 @@ public static class GameUtil
             int dbIndex = _matchCode[i][0];
             int tokenIndex = _matchCode[i][1];
 
-            _valueArray[tokenIndex] = int.Parse(valueCode[dbIndex]);
+            if (int.TryParse(valueCode[dbIndex], out int result))
+            {
+                _valueArray[tokenIndex] = result;
+            }
         }
     }
 
