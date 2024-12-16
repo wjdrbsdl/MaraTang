@@ -211,6 +211,11 @@ public class MgToken : MgGeneric<MgToken>
         spawnCharactor.m_isPlayerChar = _isPlayer;
         if(_isPlayer)
             spawnCharactor.m_Side = SideEnum.Player;
+        else
+        {
+            EnforceByDevil(spawnCharactor);
+        }
+        
         RuleBook.FirstMigrate(spawnCharactor, _position);
         return spawnCharactor;
     }
@@ -222,6 +227,13 @@ public class MgToken : MgGeneric<MgToken>
         m_charList.Add(_char); //생성된 녀석은 npc리스트에 추가; 
         RuleBook.FirstMigrate(_char, _char.GetMapIndex());
       
+    }
+
+    private void EnforceByDevil(TokenChar _char)
+    {
+        //몬스터 소환시 게임 진행에 따라 난이도를 상승시키는 부분 
+        float enforceValue = ExtraValues.g_instance.GetEnforceValue();
+        Debug.Log("몬스터 강화 비율" + enforceValue + "현재 단게 " + MGContent.GetInstance().curDevilLevel);
     }
     #endregion
  
