@@ -192,14 +192,18 @@ public class RuleBook
         //   Debug.Log("이동 코루틴 수행 단계" + m_MaxStep+"/ " + curStep);
         _char.SetState(CharState.Attack);
         SoundManager.GetInstance().PlayEfx(SoundManager.EfxList.Attack);
-        if (attackSfx != null)
-            attackSfx();
+    
+        //스킬이 피격까지의 시간
         float waitTime = 1f;
         while (waitTime>0)
         {
             waitTime -= Time.deltaTime;
             yield return null;
         }
+
+        //스킬 피격시 이펙트
+        if (attackSfx != null)
+            attackSfx();
         if (effectAction != null)
              effectAction();
 
