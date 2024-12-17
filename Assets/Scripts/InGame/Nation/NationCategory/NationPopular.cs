@@ -7,38 +7,41 @@ public class NationPopular
 {
     private Nation m_nation;
     private int m_mealRatio = 10; //필요 식량 비율 - 식량 효율이 좋을수록 값 감소
+    private int m_laborRatio = 10; //인구 몇당 노동코인 수 
     private int hungPeople = 0;
-    private List<LaborCoin> m_LaborCoin; //노동코인 
+    private List<LaborCoin> m_LaborCoinList; //노동코인 
     public NationPopular(Nation _nation)
     {
         m_nation = _nation;
-        m_LaborCoin = new();
+        m_LaborCoinList = new();
     }
 
     public void ManagePopular()
     {
         //1. 현재 인구수 만큼 식량 소비 진행 
         EatMeal();
-        //2. 굶은 사람에 대한 페널티 적용
-        AdaptHungryPenalty();
+        //2. 인구증감 진행
+        IncreasePopular();
         //3. 남은 노동 토큰 배치
         PlaceLaborCoin();
     }
 
     public void IncreaseLaborCoin(int _count)
     {
+        Debug.Log(_count + "만큼 노동 코인 증가");
         for (int i = 0; i < _count; i++)
         {
-            int curLaborCount = m_LaborCoin.Count; //리스트에서 순번이 곧 pid
+            int curLaborCount = m_LaborCoinList.Count; //리스트에서 순번이 곧 pid
             LaborCoin newLabor = new LaborCoin(curLaborCount, m_nation);
            // Debug.Log(m_nation.GetNationNum() + "국가에 " + newLabor.ListIndex + "노동 코인 생성");
-            m_LaborCoin.Add(newLabor);
+            m_LaborCoinList.Add(newLabor);
         }
     }
 
+    #region 식량 먹이기
     private void EatMeal()
     {
-        int population = m_nation.GetResourceAmount(Capital.Person);
+        int population = m_nation.GetStat(NationStatEnum.Population);
         int meal = m_nation.GetResourceAmount(Capital.Food);
         int ablePeople = AbleEatPopulation();
         hungPeople = 0; //굶는사람 0
@@ -50,12 +53,14 @@ public class NationPopular
             Debug.Log("기존 식량" + meal +"식후 식량"+m_nation.GetResourceAmount(Capital.Food));
             hungPeople = population - ablePeople; //먹지 못한 인간들
             Debug.Log(hungPeople + "인구가 먹지 못함");
+        
         }
         else if(population <= ablePeople)
         {
             //식량이 풍족하면 현재 인원수만큼 식량 감소
             int needMeal = population * m_mealRatio;
             m_nation.CalResourceAmount(Capital.Food, -needMeal);
+
         }
 
     }
@@ -64,25 +69,60 @@ public class NationPopular
     {
         return m_nation.GetResourceAmount(Capital.Food) / m_mealRatio;
     }
+    #endregion 
+
+    private void IncreasePopular()
+    {
+        if (hungPeople >= 1)
+        {
+            AdaptHungryPenalty();
+        }
+        else
+        {
+            AdaptBreed();
+        }
+    }
 
     private void AdaptHungryPenalty()
-    {
-        if (hungPeople == 0)
-        {
-           // Debug.Log("굶은사람 없음");
-            return;
-        }
+    { 
+        //부족한 식량에 따른 수치에 따라 죽을사람 산정
+       DeadPeople(hungPeople);
+    }
 
-        m_nation.DeadPeople(hungPeople);
-      //  Debug.Log("굶은사람 사망" + hungPeople);
+    private void AdaptBreed()
+    {
+        //여유 식량과 다른 공식을 이용해서 증가할 수치를 산정
+        int birthCount = 6;
+        BirthPeople(birthCount);
+    }
+
+    private void BirthPeople(int _birthCount)
+    {
+        int pre = m_nation.GetStat(NationStatEnum.Population);
+        int final = pre + _birthCount; //증가된 인구 계산
+        m_nation.SetStatValue(NationStatEnum.Population, final); //벨류 넣기
+
+        //노동 코인 증감 계산
+        int laborCoin = final / m_laborRatio; //100으로 나눴을때의 노동 
+        int preLaborCoin = pre / m_laborRatio; //기존 발생가능했던 코인수 //인구와 별개로 노동코인이 삽입될수있기 때문에 인구증감에 따라서만 계산
+        IncreaseLaborCoin(laborCoin - preLaborCoin);
+    }
+
+    private void DeadPeople(int _deathCount)
+    {
+        int pre = m_nation.GetStat(NationStatEnum.Population);
+        int final = pre - _deathCount; //증가된 인구 계산
+        m_nation.SetStatValue(NationStatEnum.Population, final); //벨류 넣기
+
+        //노동 코인 증감 계산
     }
 
     private void PlaceLaborCoin()
     {
         List<LaborCoin> noWorkLabor = new();
-        for (int i = 0; i < m_LaborCoin.Count; i++)
+        for (int i = 0; i < m_LaborCoinList.Count; i++)
         {
-            LaborCoin labor = m_LaborCoin[i];
+            LaborCoin labor = m_LaborCoinList[i];
             if(labor.Pos.SequenceEqual(m_nation.GetCapital().GetMapIndex()))
             {
                 //휴식하는 코인 찾아서
