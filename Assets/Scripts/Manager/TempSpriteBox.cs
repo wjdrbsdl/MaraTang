@@ -95,7 +95,14 @@ public class TempSpriteBox : MgGeneric<TempSpriteBox>
     public Sprite GetSprite(TokenType _type, int _pid)
     {
         Sprite sprite = noneImage;
-
+        if(_type == TokenType.Char)
+        {
+            return GetCharSprite(_pid);
+        }
+        if(_type == TokenType.Tile)
+        {
+            return GetTileSprite((TileType)_pid);
+        }
         return sprite;
     }
 }
