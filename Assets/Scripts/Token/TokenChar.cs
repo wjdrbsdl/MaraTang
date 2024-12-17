@@ -144,6 +144,14 @@ public class TokenChar : TokenBase
     {
         return m_state;
     }
+
+    private void EffectHit()
+    {
+        if (m_object == null)
+            return;
+
+        m_object.PlayHitEffect();
+    }
     #endregion
 
     #region Get
@@ -484,9 +492,11 @@ public class TokenChar : TokenBase
         return false;
     }
 
+    #region ½ºÅÝ Àû¿ë
     public void AttackChar(int _damage)
     {
         PopupDamage.GetInstance().DamagePop(GetObject().gameObject, _damage);
+        EffectHit();
         CalStat(CharStat.CurHp, -_damage);
         MgHud.GetInstance().ShowCharHud(this);
         CheckLive();
@@ -528,6 +538,8 @@ public class TokenChar : TokenBase
             return;
         }
     }
+
+    #endregion
 
     #region »ç¸Á
     public void Death()
