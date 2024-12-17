@@ -107,7 +107,7 @@ public class TokenChar : TokenBase
         //몬스터 강화를 할때 특정 옵션들만 강화하기 
         int originAttack = GetStat(CharStat.AttackPoint);
         int enforceValue = (int)( originAttack * _value);
-        Debug.Log("강화전 " + originAttack + " 강화 후 " + enforceValue);
+       // Debug.Log("강화전 " + originAttack + " 강화 후 " + enforceValue);
     }
     #endregion
 
