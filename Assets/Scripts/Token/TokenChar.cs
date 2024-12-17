@@ -484,11 +484,18 @@ public class TokenChar : TokenBase
         return false;
     }
 
+    public void AttackChar(int _damage)
+    {
+        PopupDamage.GetInstance().DamagePop(GetObject().gameObject, _damage);
+        CalStat(CharStat.CurHp, -_damage);
+        MgHud.GetInstance().ShowCharHud(this);
+        CheckLive();
+    }
+
     public override void CalStat(Enum _enumIndex, int _value)
     {
         base.CalStat(_enumIndex, _value);
         AdaptMainStat(_enumIndex);
-
     }
 
     private void AdaptMainStat(Enum _enum)
@@ -509,6 +516,15 @@ public class TokenChar : TokenBase
         if (_enum.Equals(CharStat.Inteligent))
         {
             Debug.Log("지식 이 도달된 수치에 따라 얻을 보너스 계산");
+            return;
+        }
+    }
+
+    private void CheckLive()
+    {
+        if (GetStat(CharStat.CurHp) <= 0)
+        {
+            Death();
             return;
         }
     }
