@@ -233,7 +233,7 @@ public class MgToken : MgGeneric<MgToken>
     {
         //몬스터 소환시 게임 진행에 따라 난이도를 상승시키는 부분 
         decimal enforceValue = ExtraValues.g_instance.GetEnforceValue();
-        Debug.Log("몬스터 강화 비율" + enforceValue + "현재 단게 " + MGContent.GetInstance().curDevilLevel);
+        //Debug.Log("몬스터 강화 비율" + enforceValue + "현재 단게 " + MGContent.GetInstance().curDevilLevel);
         _char.EnforceValue(enforceValue);
     }
     #endregion
