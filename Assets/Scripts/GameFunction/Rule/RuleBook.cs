@@ -122,7 +122,7 @@ public class RuleBook
             TokenTile targetTile = clickedTile;
             attackSfx = delegate
             {
-                MgSkillFx.GetInstance().MakeSkillFx(targetTile, "테스트");
+                MgSkillFx.GetInstance().MakeSkillFx(targetTile, actionToken.GetPid());
             };
             //2. 범위 내의 타겟을 가져옴
             List<TokenChar> enemies = targetTile.GetCharsInTile();
