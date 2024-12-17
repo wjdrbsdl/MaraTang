@@ -28,7 +28,7 @@ public class UICapital : UIBase
     private void SetButtons(PlayerCapitalData _capitalData)
     {
         //0이 아닌 자원의 수 활성화
-        int capitalTypes = GameUtil.EnumLength(Capital.Person);//총 자원수
+        int capitalTypes = GameUtil.EnumLength(Capital.Food);//총 자원수
         Dictionary<Capital, TokenBase> curCapitals = _capitalData.GetHaveCapitalDic();
         int setCount = 0; //정보 설정한 수
 

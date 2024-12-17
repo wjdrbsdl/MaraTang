@@ -16,7 +16,7 @@ public enum NationManageStepEnum
 
 public enum NationStatEnum
 {
-     Happy, CleanFlat, CleanRatio, 성실, 안정, Sight, CommunityRange
+     Happy, CleanFlat, CleanRatio, 성실, 안정, Sight, CommunityRange, Population
 }
 
 public class Nation : ITradeCustomer
@@ -450,7 +450,7 @@ public class Nation : ITradeCustomer
     #region 인구 관리
     public void DeadPeople(int _count)
     {
-        CalResourceAmount(Capital.Person, -_count);
+        CalStat(NationStatEnum.Population, -_count);
     }
 
     private void ManagePopular()

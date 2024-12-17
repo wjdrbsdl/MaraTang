@@ -5,7 +5,7 @@ using UnityEngine;
 
 public enum Capital
 {
-    None, Wood, Food, Person, Mineral,
+    None, Wood, Food, Mineral,
     RedMushRoom, Paparu, Subak
 }
 
