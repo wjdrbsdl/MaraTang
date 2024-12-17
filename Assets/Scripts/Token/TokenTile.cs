@@ -437,14 +437,12 @@ public class TokenTile : TokenBase
             return;
         }
         CalStat(ETileStat.CurDurability, -_damage);
+        CheckDurability();
     }
 
     public override void CalStat(Enum _enumIndex, int _value)
     {
         base.CalStat(_enumIndex, _value);
-        if (_enumIndex.Equals(ETileStat.CurDurability)){
-            CheckDurability();
-        }
     }
 
     public void CheckDurability()
