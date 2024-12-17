@@ -70,7 +70,7 @@ public class Nation : ITradeCustomer
         nation.TechPart = new NationTechPart(nation);
         //자원수량 설정
         nation.m_resources = new int[GameUtil.EnumLength(Capital.Food)];
-   
+        nation.CalResourceAmount(Capital.Food, 10000);
         return nation;
     }
 
@@ -448,11 +448,6 @@ public class Nation : ITradeCustomer
     #endregion
 
     #region 인구 관리
-    public void DeadPeople(int _count)
-    {
-        CalStat(NationStatEnum.Population, -_count);
-    }
-
     private void ManagePopular()
     {
         m_popularMg.ManagePopular(); 
