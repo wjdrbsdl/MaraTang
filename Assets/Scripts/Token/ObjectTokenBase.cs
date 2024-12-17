@@ -19,7 +19,7 @@ public class ObjectTokenBase : MonoBehaviour
     CharState m_state = CharState.Idle;
     public Animator m_animator;
     public int m_ClickPriority = 0;
-    public AllIn1Shader m_spriteMenu;
+    public Material m_charMaterial;
 
     public void SyncObjectPosition(int _x, int _y)
     {
@@ -113,7 +113,13 @@ public class ObjectTokenBase : MonoBehaviour
 
     public void PlayHitEffect()
     {
+        m_charIcon.material.SetFloat("_HitEffectBlend", 1f);
+        Invoke(nameof(HitBack),0.15f);
+    }
 
+    private void HitBack()
+    {
+        m_charIcon.material.SetFloat("_HitEffectBlend", 0f);
     }
 
     public void DestroyObject()
