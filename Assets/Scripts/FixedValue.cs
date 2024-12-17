@@ -33,7 +33,8 @@ public static class FixedValue
 
     public static bool
         SAY_CHUNKRESET = false,
-        QUEST_ARALM = false
+        QUEST_ARALM = false,
+        CAPITAL_NONE_ARALM = false
         ;
 
 }
