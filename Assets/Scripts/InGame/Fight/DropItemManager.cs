@@ -25,33 +25,52 @@ public class DropItemManager : Mg<DropItemManager>
     private TokenType[] waitArray = { TokenType.CharStat, TokenType.Equipt };
     public void DropItem(int _monsterPid)
     {
-        //드랍된 아이템을 구별하여 선택이 필요한건 선택해서 하도록
-        //퀘스트 보상이나 상황 진행에서 쓰이는 상황과는 별도
-        //드롭아이템은 모두 선택가능하다는 상황아래 언제나 적용이 가능, 유리한 경우는 무조건 적용 플레이어의 추가 조작이 필요한 경우엔 따로 집행.
-        //그밖에 선택수에 제한이 있는 경우는 다른것들과 경쟁해야하기에 예외없이 모두 선택지에 표기해야함. 
-
+        List<TOrderItem> aquireList = new(); //드롭할 아이템
         List<TOrderItem> dropList = MgMasterData.GetInstance().GetDropItem(_monsterPid);
+        //1. 고정 드랍템
+        FixedDrop(aquireList);
+        //2. 공용드랍으로 티어 드랍인 경우
+        TierDrop(aquireList);
+        //3. 드랍 아이템 획득
+        AquireDropItem(aquireList);        
+    }
+
+    private void FixedDrop(List<TOrderItem> _aquireList)
+    {
+
+    }
+
+    private void TierDrop(List<TOrderItem> _aquireList)
+    {
+        //1. 티어별 드랍확률 구함
+
+        //2. 정해진 티어 품목들 나열
+
+        //3. 결정된 품목 드랍률 적용 
+    }
+
+    private void AquireDropItem(List<TOrderItem> _aquireList)
+    {
+        List<TOrderItem> aquireList = _aquireList;
         List<TOrderItem> immediatelyList = new();
         List<TOrderItem> waitList = new();
         //바로 획득 적용 가능한 류와 불가능한류 나눔
-        for (int i = 0; i < dropList.Count; i++)
+        for (int i = 0; i < aquireList.Count; i++)
         {
-            TOrderItem dropItem = dropList[i];
+            TOrderItem dropItem = aquireList[i];
             if (Array.IndexOf(waitArray, dropItem.Tokentype) != -1)
             {
-               // Debug.Log(dropItem.Tokentype + "선택류에 추가");
+                // Debug.Log(dropItem.Tokentype + "선택류에 추가");
                 waitList.Add(dropItem);
             }
             else
             {
-               // Debug.Log(dropItem.Tokentype + "즉시 효과에 추가");
+                // Debug.Log(dropItem.Tokentype + "즉시 효과에 추가");
                 immediatelyList.Add(dropItem);
             }
         }
-       // Debug.Log("선택류 리스트로 선택 정보 생성");
+        // Debug.Log("선택류 리스트로 선택 정보 생성");
         OneBySelectInfo oneBySelectInfo = new OneBySelectInfo(waitList, waitList.Count);
         oneBySelectInfo.OpenSelectUI();
-
     }
-
 }
