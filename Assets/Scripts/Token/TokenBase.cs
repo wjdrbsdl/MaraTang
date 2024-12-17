@@ -4,11 +4,6 @@ using UnityEngine;
 using Newtonsoft.Json;
 
 
-public enum Tier
-{
-    Nomal, Magic, Rare, Unique, Legend
-}
-
 public enum OnChangeEnum
 {
     OnPlaceChange
@@ -30,7 +25,7 @@ public class TokenBase
     #region 데이터 변수
     [JsonProperty] protected string m_itemName;
     [JsonProperty] protected int m_tokenPid;
-    [JsonProperty] protected Tier m_tier;
+    [JsonProperty] protected int m_tier;
     [JsonProperty] protected string m_itemInfo;
 
     [JsonProperty][SerializeField]

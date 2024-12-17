@@ -14,6 +14,12 @@ public enum CharType
 {
     Monster, Player, Devil, Npc
 }
+
+public enum MonsterRarity
+{
+    Nomal, Elite, Unique
+}
+
 public class TokenChar : TokenBase
 {
     public bool isMainChar = false;
@@ -21,6 +27,7 @@ public class TokenChar : TokenBase
     public bool isLIve = true;
 
     private CharType m_charType = CharType.Monster;
+    private MonsterRarity m_rarity = MonsterRarity.Nomal;
     [JsonProperty] private CharState m_state = CharState.Idle;
     [JsonProperty] private List<TokenAction> m_haveActionList = new(); //이 캐릭터가 지니고 있는 액션 토큰들
     private List<GodBless> m_blessList = new();
@@ -36,7 +43,7 @@ public class TokenChar : TokenBase
     #region 캐릭 토큰 생성부분
     public TokenChar()
     {
-
+        
     }
 
     //마스터 캐릭데이터 생성
@@ -50,7 +57,11 @@ public class TokenChar : TokenBase
             m_charType = (CharType)charType;
 
         int tierIndex = charTypeIndex + 1;
+        if (int.TryParse(valueCode[tierIndex], out int tier))
+            m_tier = tier;
         int rarityIndex = tierIndex + 1;
+        if (System.Enum.TryParse(typeof(MonsterRarity), valueCode[rarityIndex], out object rarity))
+            m_rarity = (MonsterRarity)rarity;
         int actionsIndex = rarityIndex + 1;
 
         SetAction(ref m_haveActionList, valueCode[actionsIndex]); //3은 보유 액션 pid
