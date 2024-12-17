@@ -374,13 +374,19 @@ public class RuleBook
                 int amount = value; //레벨에 맞는 자원들을 훑어와야함. 
                 List<Capital> randomList = new();
                 Array capital = System.Enum.GetValues(typeof(Capital));
-                for (int i = 0; i < capital.Length; i++)
+                for (int i = 1; i < capital.Length; i++)
                 {
+                    //0 인덱스는 None이므로 1부터 진행 
                     Capital test = (Capital)capital.GetValue(i);
                     CapitalData capitalData = MgMasterData.GetInstance().GetCapitalData(test);
                     if (capitalData == null)
                     {
-                        Debug.LogError("없는 데이터 토큰타입" + test);
+                        if(FixedValue.CAPITAL_NONE_ARALM == false)
+                        {
+                            Debug.LogError("없는 데이터 토큰타입" + test);
+                            FixedValue.CAPITAL_NONE_ARALM = true;
+                        }
+
                         continue;
                     }
                         
