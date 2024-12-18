@@ -74,8 +74,15 @@ public class TempSpriteBox : MgGeneric<TempSpriteBox>
     public Sprite GetCharSprite(int _pid)
     {
         if (_pid < 0 || Chares.Length <= _pid)
-            return Chares[1];
-        return Chares[_pid];
+            return noneImage;
+        string path = "Char/char_"+_pid.ToString();
+        //Debug.Log(path);
+
+        Sprite charSprite = Resources.Load<Sprite>(path);
+        if(charSprite == null)
+            return noneImage;
+
+        return charSprite;
     }
 
     public Sprite GetPolicySprite(MainPolicyEnum _policy)
