@@ -49,7 +49,7 @@ public class MGContent : Mg<MGContent>
         TileMaker maker = MgToken.GetInstance().m_tileMaker;
         m_chunkList = maker.MakeChunk(maker.DivideChunk(MgToken.GetInstance().m_chunkLength));
         MakeNationDevilRegion();
-
+        MakeChunkCore();
     }
 
     public void LoadGame(MgContentJson _json)
@@ -368,15 +368,18 @@ public class MGContent : Mg<MGContent>
             //만들 구역 넘버
             int chunkNum = _randomIdx[i];
             Chunk chunk = GetChunk(chunkNum);
+
+            //1.구역에서 만들 타일 위치 뽑기
             int chunkTileCount = chunk.GetTileCount();
-            //구역에서 만들 타일 위치 뽑기
             int randomTile = Random.Range(0, chunkTileCount);
             TokenTile capitalTile = chunk.GetTileByIndex(randomTile);
             //Debug.Log(chunkNum + "번 구역의 타일수는 " + chunkTileCount + "그 중 " + randomTile + "번째 타일을 수도화");
-            //해당 구역 수도로 변환
+            //2.해당 구역 수도로 변환
             capitalTile.ChangePlace(TileType.Capital);
-            //새로운 국가 생성
+            //3.새로운 국가 생성
             MgNation.GetInstance().MakeNation(capitalTile, i, (GodClassEnum)(i+1));
+            //4. 국가 구역으로 지정
+            chunk.IsNation = true;
         }
     }
 
@@ -402,6 +405,21 @@ public class MGContent : Mg<MGContent>
         m_devilIncubator.SetBirthRegion(chunkNumList, tileList);
         //악마 뽑기 호출
         m_devilIncubator.DiceDevilList(_count);
+    }
+
+    private void MakeChunkCore()
+    {
+        for (int i = 0; i < m_chunkList.Count; i++)
+        {
+            Chunk chunk = m_chunkList[i];
+            if(chunk.IsNation == true)
+            {
+             //   Debug.Log("국가 지역 핵 생성 안함");
+                continue;
+            }
+
+            chunk.MakeCore();
+        }
     }
     #endregion
 
