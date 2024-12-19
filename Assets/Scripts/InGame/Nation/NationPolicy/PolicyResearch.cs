@@ -51,7 +51,7 @@ public class PolicyResearch : NationPolicy
         }
         if (labTile == null)
         {
-            Debug.Log("국가에 랩실이 없음");
+            //Debug.Log("국가에 랩실이 없음");
             return;
         }
 
