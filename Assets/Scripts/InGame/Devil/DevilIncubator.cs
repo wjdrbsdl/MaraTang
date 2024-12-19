@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 public enum DevilState
 {
-    봉인, 유아, 성인, 토벌
+    봉인, 박동, 유아, 성인, 토벌
 }
 
 public class DevilIncubator
@@ -156,7 +156,16 @@ public class DevilIncubator
             //개별 컨텐츠 조건 확인
             //블라블라 블라라
 
-
+            m_turnEnough = false;
+            m_devilStateList[index] = DevilState.박동;
+            birthCount += 1;
+            //악마 봉인지에 악마 부활 작업을 시작하는거 
+            TokenTile hatchery = GameUtil.GetTileTokenFromMap(m_birthTileList[index]);
+            //해당 해처리 준비완료로 돌리고
+            Debug.LogFormat("{0} 해처리에서 부활 작업 진행", hatchery.GetTileType());
+            hatchery.ReadyInherenceWork(hatchery.GetTileType()); //부화작업 진행 
+            
+            return;
             //부활이 확정되었으면, 턴 조건은 갱신
             m_turnEnough = false;
             SetNextBirthTurn(BirthCountType.Birth); //다음 부활주기 재세팅
