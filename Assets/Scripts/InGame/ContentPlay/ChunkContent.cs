@@ -17,6 +17,14 @@ public class ChunkContent
 
     }
 
+    public ChunkContent(int _tier)
+    {
+        //티어와 그밖의 변수로 적절한 구역 컨텐츠 생성
+        //티어에 따라 스폰할 몬스터와, 장소를 정의
+        TOrderItem monsterItem = new TOrderItem(TokenType.Char, 2, -1);
+        ItemList.Add(monsterItem);
+    }
+
     public ChunkContent(List<int[]> matchCode, string[] valueCode)
     {
         //m_tokenIValues = new int[System.Enum.GetValues(typeof(CharActionStat)).Length];
