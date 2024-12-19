@@ -70,7 +70,7 @@ public class Nation : ITradeCustomer
         nation.TechPart = new NationTechPart(nation);
         //자원수량 설정
         nation.m_resources = new int[GameUtil.EnumLength(Capital.Food)];
-        nation.CalResourceAmount(Capital.Food, 10000);
+        nation.CalResourceAmount(Capital.Food, ExtraValues.g_instance.FirstSupplyMeal);
         return nation;
     }
 
