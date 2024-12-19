@@ -8,6 +8,8 @@ public class Chunk
     public NaviPin m_Pin;
     public ChunkContent PreContent;
     public List<int[]> TilePosList;
+    private bool m_aliveCore = false;
+    public bool IsNation = false; //해당 구역에 나라가 세워졌는가 
 
     public Chunk() { }
 
@@ -53,7 +55,6 @@ public class Chunk
         //해당 청크에서 나간 순간 
     }
 
-
     public void ResetContent()
     { 
         if(FixedValue.SAY_CHUNKRESET == false)
@@ -86,6 +87,24 @@ public class Chunk
 
     }
 
+    public void MakeCore()
+    {
+        //내 타일중 하나를 코어로 바꿈 
+        List<int> tileRan = GameUtil.GetRandomNum(TilePosList.Count, TilePosList.Count);
+        for (int i = 0; i < tileRan.Count; i++)
+        {
+            //0번째부터 최종까지 nomal인 맵 찾기
+            TokenTile tile = GameUtil.GetTileTokenFromMap(TilePosList[tileRan[i]]);
+            if(tile.GetTileType() == TileType.Nomal)
+            {
+                //Debug.LogFormat("{0}번 구역의 {1}번째 타일을 코어로 정의 해당 타일의 구역은{2}",ChunkNum, tileRan[i], tile.ChunkNum);
+                tile.ChangePlace(TileType.ChunkCore);
+                SetCoreLive(true);
+                break;
+            }
+        }
+    }
+
     #region 타일 빼오기
     public int GetTileCount()
     {
@@ -112,4 +131,14 @@ public class Chunk
         return GetTileByIndex(randomTile);
     }
     #endregion
+
+    public void SetCoreLive(bool _live)
+    {
+        m_aliveCore = _live;
+    }
+
+    public bool GetCoreLive()
+    {
+        return m_aliveCore;
+    }
 }
