@@ -38,6 +38,20 @@ public class NationPopular
         }
     }
 
+    public void DecreaseLaborCoin(int _count)
+    {
+        Debug.Log(_count + "만큼 노동 코인 감소");
+        int curLaborCount = m_LaborCoinList.Count;
+        int count = Mathf.Min(_count, curLaborCount);
+        for (int i = 0; i < count; i++)
+        {
+            LaborCoin labor = m_LaborCoinList[0];
+            labor.DieLaborCoin(); //복귀 시키고
+            m_LaborCoinList.RemoveAt(0); //제거
+        }
+        Debug.Log("남은 코인" + m_LaborCoinList.Count);
+    }
+
     #region 식량 먹이기
     private void EatMeal()
     {
@@ -86,7 +100,7 @@ public class NationPopular
     private void AdaptHungryPenalty()
     {
         //부족한 식량에 따른 수치에 따라 죽을사람 산정
-        decimal power = m_nation.GetStat(NationStatEnum.Happy) * 0.1m;
+        decimal power = m_nation.GetStat(NationStatEnum.Happy) * 0.001m;
         int livePeople =(int)(hungPeople * power);
         Debug.LogFormat("생존비율{0}사망 예정인구{1}버티기 인구{2}", power, hungPeople, livePeople);
         DeadPeople(hungPeople - livePeople);
@@ -130,8 +144,11 @@ public class NationPopular
         int pre = m_nation.GetStat(NationStatEnum.Population);
         int final = pre - _deathCount; //증가된 인구 계산
         m_nation.SetStatValue(NationStatEnum.Population, final); //벨류 넣기
-
+        Debug.LogFormat("{0}국가 살아 남은 인구{1} ", m_nation.GetNationNum(), m_nation.GetStat(NationStatEnum.Population));
         //노동 코인 증감 계산
+        int laborCoin = final / m_laborRatio; //10으로 나눴을때의 노동 
+        int preLaborCoin = pre / m_laborRatio; //기존 발생가능했던 코인수 //인구와 별개로 노동코인이 삽입될수있기 때문에 인구증감에 따라서만 계산
+        DecreaseLaborCoin(preLaborCoin-laborCoin);
     }
 
     private void PlaceLaborCoin()
