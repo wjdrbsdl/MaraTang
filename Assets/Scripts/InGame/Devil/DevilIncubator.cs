@@ -10,8 +10,8 @@ public enum DevilState
 public class DevilIncubator
 {
     [JsonProperty] private List<int> m_devilPidList = new List<int>();
-    private List<int> m_chunkNum = new();
-    [JsonProperty] private List<int[]> m_birthTile = new();
+    private List<int> m_chunkNumList = new();
+    [JsonProperty] private List<int[]> m_birthTileList = new();
     [JsonProperty] private List<bool> m_contentMeet = new();
     [JsonProperty] private List<DevilState> m_devilStateList = new();
     private int m_firstTerm = 30; //카운터 최초 시작 주기
@@ -26,7 +26,7 @@ public class DevilIncubator
       First,  Birth, Victory
     }
 
-    #region 초기화
+    #region 초기화 및 초기 설정
     public DevilIncubator()
     {
         SetNextBirthTurn(BirthCountType.First); //첫 탄생 주기로 남은 부활턴 설정
@@ -34,8 +34,15 @@ public class DevilIncubator
 
     public void SetBirthRegion(List<int> _chunkList, List<int[]> _tileListMapIndex)
     {
-        m_chunkNum = _chunkList;
-        m_birthTile = _tileListMapIndex;
+        m_chunkNumList = _chunkList;
+        m_birthTileList = _tileListMapIndex;
+        for (int i = 0; i < m_devilPidList.Count; i++)
+        {
+
+            TileType devilPlace = GetDevilPlace(m_devilPidList[i]); //해당 악마가 탄생할 해처리 타입을 찾기
+            TokenTile hatcheryTile = GameUtil.GetTileTokenFromMap(_tileListMapIndex[i]);
+            hatcheryTile.ChangePlace(devilPlace);
+        }
     }
 
     public void DiceDevilList(int _diceCount)
@@ -65,6 +72,36 @@ public class DevilIncubator
             m_devilStateList.Add(DevilState.봉인);
             //Debug.Log(m_devilList[i].GetItemName() + "악마 확정");
         }
+    }
+
+    private TileType GetDevilPlace(int _pid)
+    {
+        //어떤 악마인지 빼서
+        //6   1번폭력
+        //7   2번나태
+        //8   3번기만
+        //9   4번역병
+        //10  5번공포
+        //11  6번부패
+        //12  7번타락
+        switch (_pid)
+        {
+            case 6:
+                return TileType.Hatchery폭력;
+            case 7:
+                return TileType.Hatchery나태;
+            case 8:
+                return TileType.Hatchery기만;
+            case 9:
+                return TileType.Hatchery역병;
+            case 10:
+                return TileType.Hatchery공포;
+            case 11:
+                return TileType.Hatchery부패;
+            case 12:
+                return TileType.Hatchery타락;
+        }
+        return TileType.Nomal;
     }
     #endregion
 
@@ -124,7 +161,7 @@ public class DevilIncubator
             m_turnEnough = false;
             SetNextBirthTurn(BirthCountType.Birth); //다음 부활주기 재세팅
 
-            TokenChar spawnDevil = MgToken.GetInstance().SpawnCharactor(m_birthTile[index], m_devilPidList[index]);
+            TokenChar spawnDevil = MgToken.GetInstance().SpawnCharactor(m_birthTileList[index], m_devilPidList[index]);
             m_devilStateList[index] = DevilState.유아;
 
             TokenTile targetNation = MgNation.GetInstance().GetNation(0).GetCapital();
