@@ -41,4 +41,14 @@ public class LaborCoin
         tileType = GameUtil.GetTileTokenFromMap(_pos).GetTileType();
         GameUtil.GetTileTokenFromMap(_pos).PutInLaborCoin(this);
     }
+
+    public void DieLaborCoin()
+    {
+        //할당되있던 곳에서 제외 
+        if (Pos != null)
+        {
+            int[] prePos = Pos;
+            GameUtil.GetTileTokenFromMap(prePos).TakeOutLaborCoin(this);
+        }
+    }
 }
