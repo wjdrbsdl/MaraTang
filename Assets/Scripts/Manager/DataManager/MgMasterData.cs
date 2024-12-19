@@ -400,15 +400,21 @@ public class TileTypeData {
     public TItemListData EffectData;
     public bool IsAutoReady = false;
     public bool IsAutoEffect = false;
+    //건설
     public int NeedLaborTurn; 
     public int NeedLaborAmount;
     public int[] NeedTiles;
-    public bool IsInterior = false; //해당 장소는 인테리어 타입인지
-    public int[] TileStat; //해당 장소의 내구도 같은것들
-    public List<int> AbleBuildPid; //해당 장소에서 지을 수 있는 건물 모음. 
-    public List<int> AbleInteriorPid; //해당 장소에서 지을 수 있는 내부 건물 모음.
     public TItemListData BuildCostData;
     public int BuildNeedLaborValue;
+    public bool IsInterior = false; //해당 장소는 인테리어 타입인지
+    //파괴
+    public int NeedDestroyTurn = 1; //보통 1
+    public TItemListData DestroyCostData;
+
+    public int[] TileStat; //해당 장소의 내구도 같은것들
+    public List<int> AbleBuildPid = new(); //진화 가능한 외부 건물
+    public List<int> AbleInteriorPid = new(); //지을 수 있는 내부 건물
+    
 
     public TileTypeData(string[] _parsingData, List<int[]> _matchCode)
     {
@@ -473,16 +479,11 @@ public class TileTypeData {
            // Debug.Log(parseNeedTileType);
         }
             
-        AbleBuildPid = new();
-        AbleInteriorPid = new();
+        
 
         int buildCostIdx = needTileTypeIdx + 1;
-        if (_parsingData.Length > buildCostIdx)
-        {
-            // CostData =  토큰그룹_pid_수량 으로 구성
-            BuildCostData = GameUtil.ParseCostDataArray(_parsingData, buildCostIdx);
-        }
-
+        BuildCostData = GameUtil.ParseCostDataArray(_parsingData, buildCostIdx);
+      
         int laborValueIdx = buildCostIdx += 1;
         if (_parsingData.Length > laborValueIdx)
         {
@@ -491,6 +492,15 @@ public class TileTypeData {
            // Debug.Log("짓는데 필요한 노동량 " + BuildNeedLaborValue);
         }
 
+        int destroyTurnIdx = laborValueIdx + 1;
+        if (int.TryParse(_parsingData[destroyTurnIdx], out int destroyTurn)){
+            NeedDestroyTurn = destroyTurn;
+        }
+
+        int destroyCostIdx = destroyTurnIdx + 1;
+        // CostData =  토큰그룹_pid_수량 으로 구성
+        DestroyCostData = GameUtil.ParseCostDataArray(_parsingData, destroyCostIdx);
+      
     }
 }
 
