@@ -83,34 +83,6 @@ public class MGContent : Mg<MGContent>
         RefreshQuestList();
     }
 
-    private int ChunkContentCount = 3; 
-    private void WriteChunkContent()
-    {
-        return;
-        //0. 컨텐츠를 새로 뽑을 타이밍인지 체크
-        if (IsTimeNewChunkContent() == false)
-            return;
-        //1. 컨텐츠 구현할 청크갯수 를 정함 
-        int newChunkCount = ChunkContentCount;
-        //2. 무슨 컨텐츠를 구현할지 비율로 정함 M, C 1:1 , 보너스 특수 S 추가 획득
-        List<ChunkContentType> contentType = new();
-        //임시로 몬스터 3개 할당
-        contentType.Add(ChunkContentType.Monster);
-        contentType.Add(ChunkContentType.Monster);
-        contentType.Add(ChunkContentType.Monster);
-
-        List<int> randomNum = GameUtil.GetRandomNum(m_chunkList.Count, contentType.Count);
-        for (int i = 0; i < randomNum.Count; i++)
-        {
-            //3. 뽑힌순서대로 구역 확인
-            Chunk chunk = m_chunkList[randomNum[i]];
-            //4. 컨텐츠 구현가능한지 확인
-            ChunkContent content = new ChunkContent(MgMasterData.GetInstance().GetChunkContent(1));
-            //5. 일단 그냥 컨텐츠 구현
-            chunk.RealizeContent(content);
-        } 
-    }
-
     #endregion
 
     #region 퀘스트 생성
@@ -424,6 +396,34 @@ public class MGContent : Mg<MGContent>
     #endregion
 
     #region 구역 컨텐츠 
+
+    private int ChunkContentCount = 3;
+    private void WriteChunkContent()
+    {
+        //0. 컨텐츠를 새로 뽑을 타이밍인지 체크
+        if (IsTimeNewChunkContent() == false)
+            return;
+
+        List<int> randomNum = GameUtil.GetRandomNum(m_chunkList.Count, m_chunkList.Count);
+        for (int i = 0; i < randomNum.Count; i++)
+        {
+            //3. 뽑힌순서대로 구역 확인
+            Chunk chunk = m_chunkList[randomNum[i]];
+
+            if(chunk.GetCoreLive() == false)
+            {
+                //Debug.Log("핵이 파괴된 구역, 컨텐츠 구현 패싱 " + chunk.ChunkNum);
+                continue;
+            }
+
+            //4. 컨텐츠 구현가능한지 확인
+            ChunkContent content = new ChunkContent(MgMasterData.GetInstance().GetChunkContent(1));
+            //5. 일단 그냥 컨텐츠 구현
+            chunk.RealizeContent(content);
+        }
+    }
+
+
     private List<Chunk> SelectChunkList(int _newQuestCount)
     {
         //퀘스트를 수행할 청크 뽑기
