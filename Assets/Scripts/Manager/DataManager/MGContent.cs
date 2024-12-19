@@ -407,17 +407,20 @@ public class MGContent : Mg<MGContent>
         List<int> randomNum = GameUtil.GetRandomNum(m_chunkList.Count, m_chunkList.Count);
         for (int i = 0; i < randomNum.Count; i++)
         {
-            //3. 뽑힌순서대로 구역 확인
+            //1. 뽑힌 순서대로 컨텐츠 생성 진행
             Chunk chunk = m_chunkList[randomNum[i]];
-
+            int testTier = 1; //현 시각에서 발생가능한 구역컨텐츠의 티어를 산출해서 순서대로 적용
+            //2. 코어 죽은곳은 패스
             if(chunk.GetCoreLive() == false)
             {
                 //Debug.Log("핵이 파괴된 구역, 컨텐츠 구현 패싱 " + chunk.ChunkNum);
                 continue;
             }
 
-            //4. 컨텐츠 구현가능한지 확인
-            ChunkContent content = new ChunkContent(MgMasterData.GetInstance().GetChunkContent(1));
+            //3. 티어대로 구역 컨텐츠 생성
+            ChunkContent content = new ChunkContent(testTier);
+            ////3. 컨텐츠 불러온거
+            //chunkcontent content = new chunkcontent(mgmasterdata.getinstance().getchunkcontent(1));
             //5. 일단 그냥 컨텐츠 구현
             chunk.RealizeContent(content);
         }
