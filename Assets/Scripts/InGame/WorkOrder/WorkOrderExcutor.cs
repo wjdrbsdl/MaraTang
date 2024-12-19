@@ -38,6 +38,9 @@ public class WorkOrderExcutor
                 PolicyResearch research = new();
                 research.CompleteResearch(workTile, workPid);
                 break;
+            case WorkType.DestroyPlace:
+                workTile.DestroyPlace();
+                break;
    
         }
     }
