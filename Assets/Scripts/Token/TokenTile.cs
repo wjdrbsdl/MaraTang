@@ -529,7 +529,7 @@ public class TokenTile : TokenBase
         return _workOrder.workType == WorkType.Inherence;
     }
 
-    private void ReadyInherenceWork(TileType _tileType)
+    public void ReadyInherenceWork(TileType _tileType)
     {
         //기능수행에 턴, 자원, 노동량등 준비가 필요한경우 고유작업 등록부터 진행 
         TileTypeData tileData = MgMasterData.GetInstance().GetTileData((int)_tileType);
