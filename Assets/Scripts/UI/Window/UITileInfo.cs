@@ -44,9 +44,10 @@ public class UITileInfo : UIBase
 
     [SerializeField]
     private BtnInputResource m_putButton; //토지 점령 버튼
-
     [SerializeField]
     private BtnOccupy m_occupyButton; //토지 점령 버튼
+    [SerializeField]
+    private BtnDestroy m_destroyButton; //토지 점령 버튼
     #endregion
 
     Stack<TileType> m_placeStack = new(); //입장한 로드 
@@ -79,6 +80,7 @@ public class UITileInfo : UIBase
         SetInPlace(); //타일 내부 장소들
         SetOutBuildList(); //타일에서 건설가능한 외부건물들
         SetOccupyButton(); //점령하기버튼 - 이건쓸지 잘
+        SetDestroyButton(); //파괴하기 버튼
         SetTileStat(); //해당 타일 정보
     }
     
@@ -253,6 +255,18 @@ public class UITileInfo : UIBase
         //3. 세팅
         m_occupyButton.SetButton(_tile, this); 
         
+    }
+
+    private void SetDestroyButton()
+    {
+        TokenTile _tile = m_curTile;
+        if(_tile.GetTileType() == TileType.Nomal)
+        {
+            m_destroyButton.SetActive(false);
+            return;
+        }
+        m_destroyButton.SetActive(true);
+        m_destroyButton.SetButton(_tile, this);
     }
 
     private void SetPushButton()
