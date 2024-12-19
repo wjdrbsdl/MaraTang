@@ -24,4 +24,8 @@ public class BtnDestroy : MonoBehaviour
         }
     }
 
+    public void SetActive(bool _on)
+    {
+        gameObject.SetActive(_on);
+    }
 }
