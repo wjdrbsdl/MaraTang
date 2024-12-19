@@ -16,7 +16,7 @@ public enum NationManageStepEnum
 
 public enum NationStatEnum
 {
-     Happy, CleanFlat, CleanRatio, 성실, 안정, Sight, CommunityRange, Population
+     Happy, CleanFlat, CleanRatio, 성실, 안정, Sight, CommunityRange, Population, BirthRatio
 }
 
 public class Nation : ITradeCustomer
@@ -112,7 +112,8 @@ public class Nation : ITradeCustomer
         SetStatValue(NationStatEnum.Happy, 100);
         SetStatValue(NationStatEnum.Sight, 3);
         SetStatValue(NationStatEnum.CommunityRange, 6); //수도로부터 해당 거리에 있는 경우에 타일의 위에 있지 않아도 상호작용 가능
-        
+        SetStatValue(NationStatEnum.BirthRatio, 36);
+        SetStatValue(NationStatEnum.Population, 30);
     }
 
 
