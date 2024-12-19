@@ -84,15 +84,32 @@ public class NationPopular
     }
 
     private void AdaptHungryPenalty()
-    { 
+    {
         //부족한 식량에 따른 수치에 따라 죽을사람 산정
-       DeadPeople(hungPeople);
+        decimal power = m_nation.GetStat(NationStatEnum.Happy) * 0.1m;
+        int livePeople =(int)(hungPeople * power);
+        Debug.LogFormat("생존비율{0}사망 예정인구{1}버티기 인구{2}", power, hungPeople, livePeople);
+        DeadPeople(hungPeople - livePeople);
     }
 
     private void AdaptBreed()
     {
         //여유 식량과 다른 공식을 이용해서 증가할 수치를 산정
-        int birthCount = 6;
+        int optimalCount = GetOptimalPopulation(); //최적수치
+        int curPeople = m_nation.GetStat(NationStatEnum.Population);
+        int gap = optimalCount - curPeople;
+
+        //만약 최적도를 넘어선 수치라면 인구 증가 안함
+        if (gap <= 0)
+            return;
+
+        decimal increseRatio = m_nation.GetStat(NationStatEnum.BirthRatio) * 0.001m;
+        int birthCount = (int)(curPeople * increseRatio);
+        if (birthCount <= 0)
+            birthCount = 1;
+
+        birthCount = Mathf.Min(birthCount, gap); //최적도까지 남은수와 예상 탄생수 중 낮은값으로 진행 
+        Debug.LogFormat("증감비율{0}현재 인구{1} 증가 인구{2}", increseRatio, curPeople, birthCount);
         BirthPeople(birthCount);
     }
 
@@ -167,4 +184,10 @@ public class NationPopular
         }
     }
 
+    private int GetOptimalPopulation()
+    {
+        //최적인구수 일단 보유 토지 *3 으로 정의
+        int optimalCount = m_nation.GetTerritorry().Count * 3;
+        return optimalCount;
+    }
 }
