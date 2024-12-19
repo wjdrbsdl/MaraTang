@@ -28,7 +28,7 @@ public class NationPopular
 
     public void IncreaseLaborCoin(int _count)
     {
-        Debug.Log(_count + "만큼 노동 코인 증가");
+       // Debug.Log(_count + "만큼 노동 코인 증가");
         for (int i = 0; i < _count; i++)
         {
             int curLaborCount = m_LaborCoinList.Count; //리스트에서 순번이 곧 pid
