@@ -10,7 +10,10 @@ public enum TileType
 {
     //각 타일의 타입 기본 산, 노말, 강 거기에 용도변경으로 농지,광산, 마을 단계까지 모두 정의 해놓기? 아니면 레벨은 따로"?
     None, Nomal, WoodLand, Farm, Town, Mine, Capital, Mountain, WaterLand,
-    Training, Guild,Lab,Temple,Police,Motel,AbandonStatue,Clinic,Cave,Child, WoodLand2
+    Training, Guild, Lab, Temple, Police, Motel, AbandonStatue, Clinic, Cave, Child, 
+    WoodLand2, GoldMine, Mine2, Farm2, GoldWood, GoldFarm, 
+    Hatchery폭력, Hatchery나태, Hatchery공포, Hatchery기만, Hatchery역병, Hatchery부패, Hatchery타락,
+    ChunkCore
 }
 
 public enum TileViewState
