@@ -373,10 +373,12 @@ public class MGContent : Mg<MGContent>
             tileList.Add(devilStartTile.GetMapIndex());
 
         }
-        //구역과 타일을 전달
-        m_devilIncubator.SetBirthRegion(chunkNumList, tileList);
-        //악마 뽑기 호출
+
+        //이번 게임에 등장할 악마 뽑기 호출
         m_devilIncubator.DiceDevilList(_count);
+        //악마가 봉인된 구역과 타일을 전달하여 해당 타일을 봉인지역으로 바꾸기
+        m_devilIncubator.SetBirthRegion(chunkNumList, tileList);
+        
     }
 
     private void MakeChunkCore()
