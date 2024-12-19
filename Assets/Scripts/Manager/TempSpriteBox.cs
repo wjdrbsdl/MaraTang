@@ -52,6 +52,14 @@ public class TempSpriteBox : MgGeneric<TempSpriteBox>
                 return ChildLand;
             case TileType.ChunkCore:
                 return CaveLand;
+            case TileType.Hatchery공포:
+            case TileType.Hatchery기만:
+            case TileType.Hatchery나태:
+            case TileType.Hatchery부패:
+            case TileType.Hatchery역병:
+            case TileType.Hatchery타락:
+            case TileType.Hatchery폭력:
+                return ExpandLandPin;
         }
         return NomalLand;
     }
