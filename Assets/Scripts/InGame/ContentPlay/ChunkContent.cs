@@ -152,7 +152,19 @@ public class ChunkContent
 
     public void ResetItems()
     {
-
+        for (int i = 0; i < MadeList.Count; i++)
+        {
+            TokenBase token = MadeList[i];
+            if(token.GetTokenType() == TokenType.Char)
+            {
+              ((TokenChar)token).CleanToken();
+                continue;
+            }
+            if(token.GetTokenType() == TokenType.Tile)
+            {
+                ((TokenTile)token).ChangePlace(TileType.Nomal);
+            }
+        }
     }
 
     #region 따로 정의가 필요한 아이템 타입들
