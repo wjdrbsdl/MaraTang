@@ -176,7 +176,7 @@ public class MgToken : MgGeneric<MgToken>
         charObj.gameObject.transform.SetParent(m_monsterBox);
         charObj.gameObject.SetActive(false); //비활성
 
-        //3. Go에 정보 Token 세팅
+        //3. Go에 정보 Token 세팅 및 스프라이트 등 모두 진행 
         charObj.SetObjectToken(_char, TokenType.Char);
     }
 
