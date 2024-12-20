@@ -553,6 +553,7 @@ public class MGContent : Mg<MGContent>
         }
     }
     #endregion
+
     public void SendActionCode(TOrderItem _orderItem, int _serialNum = FixedValue.No_VALUE)
     {
         //플레이어 액션 후 결과물을 보고
