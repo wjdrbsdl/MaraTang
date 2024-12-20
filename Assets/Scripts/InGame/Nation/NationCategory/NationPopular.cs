@@ -141,7 +141,7 @@ public class NationPopular
         //노동 코인 증감 계산
         int laborCoin = final / m_laborRatio; //100으로 나눴을때의 노동 
         int preLaborCoin = pre / m_laborRatio; //기존 발생가능했던 코인수 //인구와 별개로 노동코인이 삽입될수있기 때문에 인구증감에 따라서만 계산
-        Debug.LogFormat("{0}국가 탄생 후 남은 인구{1} ", m_nation.GetNationNum(), m_nation.GetStat(NationStatEnum.Population));
+       // Debug.LogFormat("{0}국가 탄생 후 남은 인구{1} ", m_nation.GetNationNum(), m_nation.GetStat(NationStatEnum.Population));
         IncreaseLaborCoin(laborCoin - preLaborCoin);
     }
 
@@ -150,7 +150,7 @@ public class NationPopular
         int pre = m_nation.GetStat(NationStatEnum.Population);
         int final = pre - _deathCount; //증가된 인구 계산
         m_nation.SetStatValue(NationStatEnum.Population, final); //벨류 넣기
-        Debug.LogFormat("{0}국가 사망 후 남은 인구{1} ", m_nation.GetNationNum(), m_nation.GetStat(NationStatEnum.Population));
+      //  Debug.LogFormat("{0}국가 사망 후 남은 인구{1} ", m_nation.GetNationNum(), m_nation.GetStat(NationStatEnum.Population));
         //노동 코인 증감 계산
         int laborCoin = final / m_laborRatio; //10으로 나눴을때의 노동 
         int preLaborCoin = pre / m_laborRatio; //기존 발생가능했던 코인수 //인구와 별개로 노동코인이 삽입될수있기 때문에 인구증감에 따라서만 계산
