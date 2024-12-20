@@ -250,11 +250,6 @@ public class MGContent : Mg<MGContent>
 
     private void RemoveQuest(Quest _quest)
     {
-        //퀘스트 관련 마지막 정리 
-        //1. 퀘스트 발휘된 구역이 있으면 구역 정리
-        if (GetChunk(_quest.ChunkNum) != null)
-            GetChunk(_quest.ChunkNum).ResetQuest();
-        //2. 퀘스트 관련 object들 정리
         m_QuestList.Remove(_quest);
         RefreshQuestList();
     }
