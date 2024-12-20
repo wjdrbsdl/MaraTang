@@ -28,7 +28,7 @@ public class TokenChar : TokenBase
 
     private CharType m_charType = CharType.Monster;
     private MonsterRarity m_rarity = MonsterRarity.Nomal;
-    [JsonProperty] private CharState m_state = CharState.Idle;
+    [JsonProperty] private CharState m_state = CharState.Sleep; //초기 자는상태
     [JsonProperty] private List<TokenAction> m_haveActionList = new(); //이 캐릭터가 지니고 있는 액션 토큰들
     private List<GodBless> m_blessList = new();
     private List<EquiptItem> m_equiptLIst = new(); //착용한 장비류
