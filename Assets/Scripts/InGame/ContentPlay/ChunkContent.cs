@@ -11,7 +11,10 @@ public class ChunkContent
 {
     public ChunkContentType chunkType = ChunkContentType.None;
     public List<TOrderItem> ItemList = new();
+    public List<TokenBase> MadeList = new(); //만들어진 결과물
     public int PID;
+
+    #region 생성자
     public ChunkContent()
     {
 
@@ -45,7 +48,9 @@ public class ChunkContent
             ItemList.Add(item);
         }
     }
+    #endregion
 
+    #region 아이템들 구체화
     public bool Realize(Chunk _chunk)
     {
         bool enoughTile = DoPosRevise(_chunk.GetTileCount(), _chunk);
@@ -129,8 +134,7 @@ public class ChunkContent
             case TokenType.Char:
                 int monsterPid = _item.SubIdx;
                 int[] pos = targetTile.GetMapIndex();
-                SpawnMonster(monsterPid, pos);
-                return true; 
+                return SpawnMonster(monsterPid, pos);
             case TokenType.Tile:
                 TileType tileType = (TileType)_item.SubIdx;
                 ChangePlace(tileType, targetTile);
@@ -144,11 +148,22 @@ public class ChunkContent
         //적용 항목이 없는 경우엔 적용 안된걸로
         return false;
     }
+    #endregion 
+
+    public void ResetItems()
+    {
+
+    }
 
     #region 따로 정의가 필요한 아이템 타입들
-    private void SpawnMonster(int _monsterPid, int[] _spawnPos)
+    private bool SpawnMonster(int _monsterPid, int[] _spawnPos)
     {
-        MgToken.GetInstance().SpawnCharactor(_spawnPos, _monsterPid); //월드 좌표로 pid 토큰 스폰 
+       TokenChar spawnChar = MgToken.GetInstance().SpawnCharactor(_spawnPos, _monsterPid); //월드 좌표로 pid 토큰 스폰 
+        if (spawnChar == null)
+            return false;
+
+        MadeList.Add(spawnChar);
+        return true;
     }
 
     public bool ChangePlace(TileType _tileType, TokenTile _targetTile)
