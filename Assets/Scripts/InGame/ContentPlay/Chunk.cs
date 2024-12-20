@@ -55,6 +55,7 @@ public class Chunk
         //해당 청크에서 나간 순간 
     }
 
+    #region 구역컨텐츠
     public void ResetContent()
     { 
         if(FixedValue.SAY_CHUNKRESET == false)
@@ -88,6 +89,7 @@ public class Chunk
         return true;
 
     }
+    #endregion
 
     #region 코어 관리
     public void MakeCore()
