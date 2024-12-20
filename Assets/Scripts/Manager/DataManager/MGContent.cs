@@ -21,7 +21,8 @@ public class MGContent : Mg<MGContent>
     [JsonProperty] public DevilIncubator m_devilIncubator;
     private int m_mainCharChunkNum = 0;
     private List<Chunk> m_chunkList = new List<Chunk>();
-    
+    private int[,] m_chunkPos;
+
     public int m_curSerialNum = 0; //컨텐츠등을 만들때마다 생성 
     public DevilProgress curDevilLevel = DevilProgress.Enforce3;
     [JsonIgnore] public const int NO_CHUNK_NUM = -1;
@@ -48,6 +49,7 @@ public class MGContent : Mg<MGContent>
         ComplainManager.GetInstance().ReferenceSet();
         TileMaker maker = MgToken.GetInstance().m_tileMaker;
         m_chunkList = maker.MakeChunk(maker.DivideChunk(MgToken.GetInstance().m_chunkLength));
+        MakeChunkPos();
         MakeNationDevilRegion();
         MakeChunkCore();
     }
@@ -320,6 +322,7 @@ public class MGContent : Mg<MGContent>
     #endregion
 
     #region 국가데빌 지역 설정
+
     private void MakeNationDevilRegion()
     {
         //1. 사용할 수만큼 겹치지 않도록 Chunk 인덱스 추출
@@ -460,6 +463,62 @@ public class MGContent : Mg<MGContent>
             return null;
 
         return m_chunkList[_chunkNum];
+    }
+
+    private void MakeChunkPos()
+    {
+        int x = GameUtil.GetMapLength(true) / MgToken.GetInstance().m_chunkLength;
+        if (GameUtil.GetMapLength(true) % MgToken.GetInstance().m_chunkLength != 0)
+            x += 1;
+
+        int y = GameUtil.GetMapLength(false) / MgToken.GetInstance().m_chunkLength;
+        if (GameUtil.GetMapLength(false) % MgToken.GetInstance().m_chunkLength != 0)
+            y += 1;
+
+        //Debug.LogFormat("구역총수는{0} x로는{1} y로는{2}개 존재", (x*y),x,y);
+        m_chunkPos = new int[x, y]; //2차 배열로 생성
+        int chunkNum = 0;
+        for (int i = 0; i < x; i++)
+        {
+            for (int l = 0; l < y; l++)
+            {
+                m_chunkPos[i, l] = chunkNum;
+               // Debug.LogFormat("{0},{1} 좌표 구역의 넘버는 {2}", i,l,chunkNum);
+                chunkNum += 1;
+            }
+        }
+    }
+
+    private int[] GetChunkPos(int _chunkNum)
+    {
+        //구역이 좌표상으론 몇번인지 - 현재 청크 넘버는 0,0에서 y축으로 먼저 쌓은뒤 x가 올라가는 방식이므로
+        //x좌표는 높이만큼 나눈 몫
+        //y좌표는 높이만큼 나눈 나머지
+        int yLength = m_chunkPos.GetLength(1); //나눌 기준 행렬입장에선 행의 수 -> 곧 y 높이.
+        int x = _chunkNum / yLength;
+        int y = _chunkNum % yLength;
+        //Debug.LogFormat("2차 좌표의 높이는{0} {1}구역의 좌표는{2},{3}, 구역 넘버는{4}", yLength, _chunkNum, x, y, _posChunkNum);
+        return new int[] { x, y };
+    }
+
+    private bool GetChunkNumByPos(int _x, int _y, out int _num)
+    {
+        _num = 0;
+        if (_x < 0 || _y < 0)
+        {
+           // Debug.Log("범위 밖");
+            return false;
+        }
+            
+
+        if(_x>= m_chunkPos.GetLength(0) || _y>= m_chunkPos.GetLength(1))
+        {
+           // Debug.Log("범위 밖");
+            return false;
+        }
+
+        _num = m_chunkPos[_x, _y];
+        return true;
     }
     #endregion
     public void SendActionCode(TOrderItem _orderItem, int _serialNum = FixedValue.No_VALUE)
