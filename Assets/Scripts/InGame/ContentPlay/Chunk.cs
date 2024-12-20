@@ -66,6 +66,8 @@ public class Chunk
         if (PreContent == null)
             return;
 
+        PreContent.ResetItems();
+
         //기존 컨텐츠에 따라 지울거 지움
         PreContent = null;
     }
@@ -87,6 +89,7 @@ public class Chunk
 
     }
 
+    #region 코어 관리
     public void MakeCore()
     {
         //내 타일중 하나를 코어로 바꿈 
@@ -104,6 +107,17 @@ public class Chunk
             }
         }
     }
+
+    public void SetCoreLive(bool _live)
+    {
+        m_aliveCore = _live;
+    }
+
+    public bool GetCoreLive()
+    {
+        return m_aliveCore;
+    }
+    #endregion
 
     #region 타일 빼오기
     public int GetTileCount()
@@ -132,13 +146,4 @@ public class Chunk
     }
     #endregion
 
-    public void SetCoreLive(bool _live)
-    {
-        m_aliveCore = _live;
-    }
-
-    public bool GetCoreLive()
-    {
-        return m_aliveCore;
-    }
 }
