@@ -105,7 +105,7 @@ public class DevilIncubator
     }
     #endregion
 
-    #region 턴에 따른 작업
+    #region 월드 변화 적용
     public void ChangeWorldContent(int _pid, bool _result)
     {
         //해당 퀘스트 컨텐츠 결과값이 들어왔을 때 영향을 받는 악마에게 조건 적용
@@ -129,7 +129,7 @@ public class DevilIncubator
     }
     #endregion
 
-    #region 악마 탄생, 토벌
+    #region 악마 탄생
     public void BirthDevil()
     {
         //전체적인 턴 조건 확인
@@ -156,7 +156,7 @@ public class DevilIncubator
             //개별 컨텐츠 조건 확인
             //블라블라 블라라
 
-            m_turnEnough = false;
+            ResetBirthTime();
             m_devilStateList[index] = DevilState.박동;
             birthCount += 1;
             //악마 봉인지에 악마 부활 작업을 시작하는거 
@@ -166,49 +166,60 @@ public class DevilIncubator
             hatchery.ReadyInherenceWork(hatchery.GetTileType()); //부화작업 진행 
             
             return;
-            //부활이 확정되었으면, 턴 조건은 갱신
-            m_turnEnough = false;
-            SetNextBirthTurn(BirthCountType.Birth); //다음 부활주기 재세팅
+            //부활이 확정되었으면, 
+            ResetBirthTime(); //턴 조건은 갱신
 
-            TokenChar spawnDevil = MgToken.GetInstance().SpawnCharactor(m_birthTileList[index], m_devilPidList[index]);
-            m_devilStateList[index] = DevilState.유아;
-
-            TokenTile targetNation = MgNation.GetInstance().GetNation(0).GetCapital();
-            spawnDevil.SetTargetTile(targetNation);
-           // Debug.Log(targetNation.GetItemName() + "을 악마 타겟으로 설정");
-
+            SetDevilInfo(new TokenChar()); //부활한 악마 정보 설정 - 봉인지에서 부활시킨후 해당 악마를 여기로 보내서 정보를 세팅해야함. 
             birthCount += 1;
-            Debug.Log(MgMasterData.GetInstance().GetCharData(m_devilPidList[index]).GetItemName() + "악마 부활");
             //뽑았으면 종료
             break;
         }
       
     }
 
-    //악마 토벌시 호출
-    public void RemoveDevil()
+    private void ResetBirthTime()
     {
-        SetNextBirthTurn(BirthCountType.Victory); 
+        m_turnEnough = false;
+        SetNextBirthTurn(BirthCountType.Birth); //다음 부활주기 재세팅
     }
 
+    //악마봉인지서 부활했을때 전달받아야하는곳. 
+    public void SetDevilInfo(TokenChar _devil)
+    {
+        for (int i = 0; i < m_devilPidList.Count; i++)
+        {
+           if(_devil.GetPid() == m_devilPidList[i])
+            {
+                m_devilStateList[i] = DevilState.유아;
+                break;
+            }
+        }
+
+        TokenTile targetNation = MgNation.GetInstance().GetNation(0).GetCapital();
+        _devil.SetTargetTile(targetNation);
+    }
+    #endregion
+
+    #region 악마 부활 시기
     //다음 발생주기 턴 정하는 부분
     private void SetNextBirthTurn(BirthCountType _birthType)
     {
+        int restTurn = int.MaxValue;
         switch (_birthType)
         {
             //기존 악마 토벌이나 봉인으로 승리했을땐, 남은 주기의 3분의1에 다음 준비기간을 추가
             case BirthCountType.Victory:
-                m_birthRestTurn = m_birthRestTurn / 3 + m_nextTerm;
+                restTurn = m_birthRestTurn / 3 + m_nextTerm;
                 break;
             //악마가 탄생했을때는 해당 악마 활동 주기 만큼 다음 악마 도래까지 설정
             case BirthCountType.Birth:
-                m_birthRestTurn = m_baseActiveTerm;
+                restTurn = m_baseActiveTerm;
                 break;
             case BirthCountType.First:
-                m_birthRestTurn = m_firstTerm;
+                restTurn = m_firstTerm;
                 break;
         }
-
+        SetRestBrithTurn(restTurn);
     }
 
     public void SetRestBrithTurn(int _turn)
@@ -216,6 +227,13 @@ public class DevilIncubator
         m_birthRestTurn = _turn;
     }
     #endregion
+
+    //악마 토벌시 호출
+    public void AllKillDevil()
+    {
+        SetNextBirthTurn(BirthCountType.Victory); 
+    }
+
 
 
 }
