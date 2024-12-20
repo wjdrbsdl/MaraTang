@@ -83,11 +83,11 @@ public class TempSpriteBox : MgGeneric<TempSpriteBox>
 
     public Sprite GetCharSprite(int _pid)
     {
-        Debug.Log(_pid + "요청");
+        //Debug.Log(_pid + "요청");
         if (_pid < 0)
             return noneImage;
         string path = "Char/char_"+_pid.ToString();
-        Debug.Log(path);
+        //Debug.Log(path);
 
         Sprite charSprite = Resources.Load<Sprite>(path);
         if(charSprite == null)
