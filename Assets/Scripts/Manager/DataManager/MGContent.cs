@@ -50,6 +50,10 @@ public class MGContent : Mg<MGContent>
         TileMaker maker = MgToken.GetInstance().m_tileMaker;
         m_chunkList = maker.MakeChunk(maker.DivideChunk(MgToken.GetInstance().m_chunkLength));
         MakeChunkPos();
+        GetChunkByRange(4, 1);
+        GetChunkByRange(4, 2);
+        GetChunkByRange(4, 9);
+        GetChunkByRange(4, 10);
         MakeNationDevilRegion();
         MakeChunkCore();
     }
@@ -501,9 +505,11 @@ public class MGContent : Mg<MGContent>
         return new int[] { x, y };
     }
 
-    private bool GetChunkNumByPos(int _x, int _y, out int _num)
+    private bool GetChunkNumByPos(int[] _pos, out int _num)
     {
         _num = 0;
+        int _x = _pos[0];
+        int _y = _pos[1];
         if (_x < 0 || _y < 0)
         {
            // Debug.Log("범위 밖");
@@ -519,6 +525,32 @@ public class MGContent : Mg<MGContent>
 
         _num = m_chunkPos[_x, _y];
         return true;
+    }
+
+    int[,] rangeBase = { { 1, 1 }, { 1, -1 }, { -1, -1 }, { -1, 1 } };
+    private void GetChunkByRange(int _centerChunkNum, int _range)
+    {
+        int[] find = GetChunkPos(_centerChunkNum);
+        int findx = find[0];
+        int findy = find[1];
+        //Debug.LogFormat("찾는 {0}의 좌표는 {1},{2}, 거리는{3}",_centerChunkNum, findx, findy, _range);
+
+       find[0] -= _range; //시작점을 _range만큼 x감소 해서 시작
+        for (int i = 0; i < 4; i++)
+        {
+            //4방향 모두 
+            for (int plus = 0; plus < _range; plus++)
+            {
+                //거리만큼 더하기 진행
+                //거리 배열 i 번째꺼중 [0]x ,[1]y 를 더하며 좌표를 산출
+                find[0] += rangeBase[i,0]; 
+                find[1] += rangeBase[i,1];
+                if(GetChunkNumByPos(find, out int chunkNum))
+                {
+                    //Debug.LogFormat("{3}사거리에 있는 구역의 좌표는 {4},{5} 구역넘버는 {6}, ",_centerChunkNum, findx, findy, _range, find[0], find[1], chunkNum);
+                }
+            }
+        }
     }
     #endregion
     public void SendActionCode(TOrderItem _orderItem, int _serialNum = FixedValue.No_VALUE)
