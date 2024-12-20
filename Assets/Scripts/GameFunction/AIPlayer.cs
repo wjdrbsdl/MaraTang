@@ -134,9 +134,9 @@ public class AIPlayer : PlayerRule
         }
             
 
-        int tempEyesight = 5;
+        int sight = _char.GetStat(CharStat.Sight);
         TokenTile targetPlace = null;
-        for (int x = 1; x <= tempEyesight; x++)
+        for (int x = 1; x <= sight; x++)
         {
             //각 범위별로 타일을 가져와서 확인
             //ex : 범위가 10일때, 1~10 타일 모두가 아니라 각 범위별로 확인해서 시간 줄이기 
