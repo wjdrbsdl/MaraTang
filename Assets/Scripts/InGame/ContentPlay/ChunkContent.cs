@@ -166,9 +166,10 @@ public class ChunkContent
         return true;
     }
 
-    public bool ChangePlace(TileType _tileType, TokenTile _targetTile)
+    private bool ChangePlace(TileType _tileType, TokenTile _targetTile)
     {
         _targetTile.ChangePlace(_tileType);
+        MadeList.Add(_targetTile);
         return true;
     }
     #endregion
