@@ -178,9 +178,6 @@ public class MgToken : MgGeneric<MgToken>
 
         //3. Go에 정보 Token 세팅
         charObj.SetObjectToken(_char, TokenType.Char);
-
-        //4. 오브젝트 스프라이트 변경
-        _char.SetSprite();
     }
 
     //캐릭 +오브젝트까지
