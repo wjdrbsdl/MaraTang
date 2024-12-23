@@ -23,7 +23,7 @@ public enum TileViewState
 
 public enum ETileStat
 {
-   Nation, BaseSight, PlaceSight, MaxDurability, CurDurability, Capability, Efficiency
+   Nation, BaseSight, PlaceSight, MaxDurability, CurDurability, Capability, Efficiency, MaxLaborCoin
 }
 
 public enum MainResource
