@@ -86,13 +86,16 @@ public class UITileInfo : UIBase
     
     private void MakeLaborSlots()
     {
-        MakeSamplePool<LaborSlot>(ref m_LaborSlots, m_LaborSlotSample.gameObject, 3, m_LaborSlotBox);
+        int placeLaborCount = m_curTile.GetStat(ETileStat.MaxLaborCoin);
+        Debug.Log("현재 타일 최대 노동 가능 수 " + placeLaborCount);
+        MakeSamplePool<LaborSlot>(ref m_LaborSlots, m_LaborSlotSample.gameObject, placeLaborCount, m_LaborSlotBox);
     }
 
     private void MakeLaborRequestBtns()
     {
+        int placeLaborCount = m_curTile.GetStat(ETileStat.MaxLaborCoin);
         //요청 버튼은 항시 켜놓음. 
-        MakeSamplePool<LaborRequestBtn>(ref m_LaborRequestBtns, m_LaborReqeustBtnSample.gameObject, 3, m_requestBox);
+        MakeSamplePool<LaborRequestBtn>(ref m_LaborRequestBtns, m_LaborReqeustBtnSample.gameObject, placeLaborCount, m_requestBox);
         for (int i = 0; i < m_LaborRequestBtns.Length; i++)
         {
             m_LaborRequestBtns[i].gameObject.SetActive(true);
@@ -171,18 +174,31 @@ public class UITileInfo : UIBase
 
     private void SetLaborCoin()
     {
-        List<LaborCoin> labors = m_curTile.GetLaborList();
-        for (int i = 0; i < labors.Count; i++)
+        int placeLaborCount = m_curTile.GetStat(ETileStat.MaxLaborCoin);
+        List<LaborCoin> haveLaborList = m_curTile.GetLaborList();
+        
+        //보유가능한 코인수 만큼 슬롯 열고
+        for (int i = 0; i < placeLaborCount; i++)
         {
             m_LaborSlots[i].gameObject.SetActive(true);
-            m_LaborSlots[i].SetSlot(labors[i]);
-            m_LaborRequestBtns[i].SetSlot(i, true);
+            m_LaborRequestBtns[i].gameObject.SetActive(true);
+            //보유 코인만큼 정보 세팅하고
+            if (i < haveLaborList.Count)
+            {
+                m_LaborSlots[i].SetSlot(haveLaborList[i]);
+                m_LaborRequestBtns[i].SetSlot(i, true);
+            }
+            else
+            {
+                m_LaborSlots[i].ResetCoin();
+                m_LaborRequestBtns[i].SetSlot(i, false);
+            }
         }
-        for (int x = labors.Count; x < 3; x++)
+        //보유가능한 슬롯 이외 슬롯은 닫기
+        for (int x = placeLaborCount; x < m_LaborSlots.Length; x++)
         {
             m_LaborSlots[x].gameObject.SetActive(false);
-            m_LaborSlots[x].ResetCoin();
-            m_LaborRequestBtns[x].SetSlot(x, false);
+            m_LaborRequestBtns[x].gameObject.SetActive(false);
         }
     }
 
