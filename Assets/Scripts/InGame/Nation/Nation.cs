@@ -31,6 +31,7 @@ public class Nation : ITradeCustomer
     public NationEvent m_eventMg; //사건 관리소 
     public NationStatPart m_statPart; //스텟 관리소
     public NationTechPart TechPart;
+    public NationTerritoryPart TerritoryPart;
     public bool IsAlive = true;
     private int[] m_resources; //보유 자원
     private int[] nationStatValues ; //국가 스텟 - 정서, 환경 통합
@@ -71,6 +72,8 @@ public class Nation : ITradeCustomer
         //자원수량 설정
         nation.m_resources = new int[GameUtil.EnumLength(Capital.Food)];
         nation.CalResourceAmount(Capital.Food, ExtraValues.g_instance.FirstSupplyMeal);
+        //영지 파트 설정
+        nation.TerritoryPart = new NationTerritoryPart(nation);
         return nation;
     }
 
