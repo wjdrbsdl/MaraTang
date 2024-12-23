@@ -9,7 +9,14 @@ public class PolicyExpandLand : NationPolicy
     
     public override void MakePlan()
     {
-   //     Debug.Log("확장 계획");
+        //     Debug.Log("확장 계획");
+        if (EnoughOwnCount(m_nation) == false)
+        {
+           // Debug.Log("최대 보유수 "+m_nation.GetNationNum()+"번 국가 ");
+           //여유분이 없으면 그대로 return 되서 무계획으로 해당 정책은 폐기됨.
+            return;
+        }
+            
         FindExpandLand();
     }
 
@@ -74,7 +81,15 @@ public class PolicyExpandLand : NationPolicy
         return true;
     }
 
-    public bool AbleExpand(TokenTile _tile)
+    public bool EnoughOwnCount(Nation _nation)
+    {
+        int able = _nation.TerritoryPart.GetMaxTerritoryCount();
+        int curCount = _nation.GetTerritorry().Count;
+
+        return (able - curCount) >= 1;
+    }
+
+    public bool AbleOccupy(TokenTile _tile)
     {
         //만약 현재 타일상태가 누군가의 점유로 바꼈으면 확장 불가 
         if (_tile.GetStat(ETileStat.Nation) != FixedValue.NO_NATION_NUMBER)
