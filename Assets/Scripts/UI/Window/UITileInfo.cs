@@ -191,6 +191,7 @@ public class UITileInfo : UIBase
             else
             {
                 m_LaborSlots[i].ResetCoin();
+                m_LaborSlots[i].gameObject.SetActive(false);
                 m_LaborRequestBtns[i].SetSlot(i, false);
             }
         }
