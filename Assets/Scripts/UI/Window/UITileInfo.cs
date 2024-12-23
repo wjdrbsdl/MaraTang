@@ -87,7 +87,7 @@ public class UITileInfo : UIBase
     private void MakeLaborSlots()
     {
         int placeLaborCount = m_curTile.GetStat(ETileStat.MaxLaborCoin);
-        Debug.Log("현재 타일 최대 노동 가능 수 " + placeLaborCount);
+        //Debug.Log("현재 타일 최대 노동 가능 수 " + placeLaborCount);
         MakeSamplePool<LaborSlot>(ref m_LaborSlots, m_LaborSlotSample.gameObject, placeLaborCount, m_LaborSlotBox);
     }
 
