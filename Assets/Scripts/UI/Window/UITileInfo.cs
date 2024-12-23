@@ -86,14 +86,14 @@ public class UITileInfo : UIBase
     
     private void MakeLaborSlots()
     {
-        int placeLaborCount = m_curTile.GetStat(ETileStat.MaxLaborCoin);
+        int placeLaborCount = m_curTile.GetMaxLaborCoinCount();
         //Debug.Log("현재 타일 최대 노동 가능 수 " + placeLaborCount);
         MakeSamplePool<LaborSlot>(ref m_LaborSlots, m_LaborSlotSample.gameObject, placeLaborCount, m_LaborSlotBox);
     }
 
     private void MakeLaborRequestBtns()
     {
-        int placeLaborCount = m_curTile.GetStat(ETileStat.MaxLaborCoin);
+        int placeLaborCount = m_curTile.GetMaxLaborCoinCount();
         //요청 버튼은 항시 켜놓음. 
         MakeSamplePool<LaborRequestBtn>(ref m_LaborRequestBtns, m_LaborReqeustBtnSample.gameObject, placeLaborCount, m_requestBox);
         for (int i = 0; i < m_LaborRequestBtns.Length; i++)
@@ -174,7 +174,7 @@ public class UITileInfo : UIBase
 
     private void SetLaborCoin()
     {
-        int placeLaborCount = m_curTile.GetStat(ETileStat.MaxLaborCoin);
+        int placeLaborCount = m_curTile.GetMaxLaborCoinCount();
         List<LaborCoin> haveLaborList = m_curTile.GetLaborList();
         
         //보유가능한 코인수 만큼 슬롯 열고

@@ -273,6 +273,11 @@ public class TokenTile : TokenBase
     #endregion
 
     #region 노동코인
+    public int GetMaxLaborCoinCount()
+    {
+        return GetStat(ETileStat.MaxLaborCoin);
+    }
+
     public int GetLaborCoinCount()
     {
         return m_laborCoinList.Count;
