@@ -19,6 +19,8 @@ public class MgMasterData : Mg<MgMasterData>
     private Dictionary<int, GodBless> m_blessDic;
     private Dictionary<int, ChunkContent> m_chunkContentDic;
     private Dictionary<int, CapitalData> m_capitalDataDic;
+    private Dictionary<int, EquiptOptionData> m_equiptOptionDataDic;
+
     #region 생성자
     public MgMasterData()
     {
@@ -43,6 +45,7 @@ public class MgMasterData : Mg<MgMasterData>
         SetChunkData();
         SetCapitalData();
         SetExtraValue();
+        SetEquiptOptionData();
     }
 
     public override void ReferenceSet()
@@ -386,6 +389,22 @@ public class MgMasterData : Mg<MgMasterData>
         new ExtraValues(parseContainer.DbValueList[0]);
     }
 
+    private void SetEquiptOptionData()
+    {
+        ParseData parseContainer = MgParsing.GetInstance().GetMasterData(EMasterData.EquiptOptionData);
+        m_equiptOptionDataDic = new();
+        for (int i = 0; i < parseContainer.DbValueList.Count; i++)
+        {
+            //이후 세부 대화 데이터를 만들어서 그그룹에 추가 
+            EquiptOptionData optionData = new EquiptOptionData(parseContainer.DbValueList[i]);
+            if (m_equiptOptionDataDic.ContainsKey(optionData.Pid) == false)
+            {
+                // Debug.Log((Capital)capitalMasterData.capital + " 데이터 추가");
+                m_equiptOptionDataDic.Add(optionData.Pid, optionData);
+            }
+
+        }
+    }
     #endregion
 }
 
