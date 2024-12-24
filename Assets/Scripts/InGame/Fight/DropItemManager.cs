@@ -25,19 +25,32 @@ public class DropItemManager : Mg<DropItemManager>
     private TokenType[] waitArray = { TokenType.CharStat, TokenType.Equipt };
     public void DropItem(int _monsterPid)
     {
-        List<TOrderItem> aquireList = new(); //드롭할 아이템
-        List<TOrderItem> dropList = MgMasterData.GetInstance().GetDropItem(_monsterPid);
+        List<TOrderItem> aquireList = new(); //획득할 아이템
+        List<TOrderItem> dropList = MgMasterData.GetInstance().GetDropItem(_monsterPid); //해당 몬스터가 드랍할 무언가들
         //1. 고정 드랍템
-        FixedDrop(aquireList);
+        FixedDrop(aquireList, dropList);
         //2. 공용드랍으로 티어 드랍인 경우
         TierDrop(aquireList);
         //3. 드랍 아이템 획득
         AquireDropItem(aquireList);        
     }
 
-    private void FixedDrop(List<TOrderItem> _aquireList)
+    private void FixedDrop(List<TOrderItem> _aquireList, List<TOrderItem> _fixedDropList)
     {
-
+        for (int i = 0; i < _fixedDropList.Count; i++)
+        {
+            TOrderItem dropItem = _fixedDropList[i]; //아이템 보기
+            if (dropItem.Tokentype.Equals(TokenType.Equipt))
+            {
+                //장비쪽이면
+                EquiptItemPool equiptPool = MgMasterData.GetInstance().GetEquiptPoolData(dropItem.SubIdx); //풀 정보 가져옴
+                int tier = dropItem.Value;
+                EquiptItem equipt = equiptPool.GetItem(tier);
+                dropItem.tokenItem = equipt;
+                _aquireList.Add(dropItem);
+                continue;
+            }
+        }
     }
 
     private void TierDrop(List<TOrderItem> _aquireList)

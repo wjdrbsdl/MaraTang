@@ -49,8 +49,14 @@ public class OrderExcutor
                 GodBless bless = new GodBless(MgMasterData.GetInstance().GetGodBless(_item.SubIdx));
                 return mainChar.AquireBless(bless);
             case TokenType.Equipt:
-                EquiptItem equiptCopy = new EquiptItem(MgMasterData.GetInstance().GetEquiptData(_item.SubIdx));
-                return mainChar.AquireEquipt(equiptCopy);
+                if (_item.tokenItem == null)
+                {
+                    Debug.LogError("장비는 생성될때 Pool에서 적절한 Equipt를 만들어서 담아둬야함");
+                    return false;
+                }
+                EquiptItem equipt = (EquiptItem)_item.tokenItem;
+               // Debug.LogFormat("획득한 아이템 이름{0} pid{1} 옵션수 {2}", equipt.GetItemName(), equipt.GetPid(), equipt.m_effect.Count);
+                return mainChar.AquireEquipt(equipt);
             case TokenType.CharStat:
                 mainChar.CalStat((CharStat)_item.SubIdx, _item.Value);//형변환 안해두되는데 아쉽군. 
                 return true;

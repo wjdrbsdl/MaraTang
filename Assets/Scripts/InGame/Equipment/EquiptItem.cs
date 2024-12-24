@@ -17,28 +17,14 @@ public class EquiptItem : TokenBase
         
     }
 
-    public EquiptItem(string[] _dbValueList)
+    public EquiptItem (int _pid, string _name, EquiptPartEnum _part, int _tier, List<TOrderItem> _effectList)
     {
-        m_tokenPid = int.Parse(_dbValueList[0]);
-        m_tokenType = TokenType.Equipt;
-        m_itemName = _dbValueList[1];
-
-        int partIdx = 2;
-        if (System.Enum.TryParse(typeof(EquiptPartEnum), _dbValueList[partIdx], out object parsePart))
-            m_part = (EquiptPartEnum)parsePart;
-
+        m_tokenPid = _pid;
+        m_itemName = _name;
+        m_part = _part;
+        m_effect = _effectList;
+        m_tier = _tier;
     }
 
-    public EquiptItem(EquiptItem _masterData)
-    {
-        m_tokenPid = _masterData.m_tokenPid;
-        m_tokenType = _masterData.m_tokenType;
-        m_itemName = _masterData.m_itemName;
-        for (int i = 0; i < _masterData.m_effect.Count; i++)
-        {
-            TOrderItem effect = _masterData.m_effect[i];
-            m_effect.Add(effect);
-        }
-    }
 
 }
