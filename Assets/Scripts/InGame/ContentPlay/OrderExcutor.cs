@@ -233,6 +233,7 @@ public struct TOrderItem
     public int SubIdx;
     public int Value;
     public int SerialNum;
+    public TokenBase tokenBase;
 
     public TOrderItem(TokenType _tokenGroup, int _subIdx, int _value)
     {
@@ -240,14 +241,7 @@ public struct TOrderItem
         SubIdx = _subIdx;
         Value = _value;
         SerialNum = 0;
-    }
-
-    public TOrderItem(ConversationThemeEnum _theme, ConversationData _covnersation)
-    {
-        Tokentype = TokenType.Conversation;
-        SubIdx = (int)_theme;
-        Value = _covnersation.GetPid();
-        SerialNum = 0;
+        tokenBase = null;
     }
 
     public void SetSerialNum(int _serialNum)
