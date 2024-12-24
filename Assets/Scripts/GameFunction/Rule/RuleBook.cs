@@ -351,7 +351,7 @@ public class RuleBook
             }
             if(resource.Tokentype == TokenType.Random)
             {
-                TOrderItem selectItem = new RandomItem().GetDiceItem(resource);
+                TOrderItem selectItem = new DiceRandomItem().GetDiceItem(resource);
                 if (AbleFindCapital((Capital)selectItem.SubIdx, _findAbility))
                     result.Add(((Capital)selectItem.SubIdx, selectItem.Value));
                 continue;

@@ -9,7 +9,7 @@ public enum RandomTypeEnum
     Capital1, EquiptAllPart
 }
 
-public class RandomItem
+public class DiceRandomItem
 {
  
 
