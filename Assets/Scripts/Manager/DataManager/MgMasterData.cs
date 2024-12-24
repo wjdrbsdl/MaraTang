@@ -265,6 +265,7 @@ public class MgMasterData : Mg<MgMasterData>
     private void SetEquiptData()
     {
         m_equipDataDic = new();
+        m_equipPoolDataDic = new();
         ParseData parseData = MgParsing.GetInstance().GetMasterData(EMasterData.Equipment);
         for (int i = 0; i < parseData.DbValueList.Count; i++)
         {
