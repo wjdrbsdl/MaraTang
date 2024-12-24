@@ -69,6 +69,11 @@ public class DropItemManager : Mg<DropItemManager>
                 immediatelyList.Add(dropItem);
             }
         }
+        
+        //선택할게 없으면 띄우기 없음
+        if (waitList.Count == 0)
+            return;
+
         // Debug.Log("선택류 리스트로 선택 정보 생성");
         OneBySelectInfo oneBySelectInfo = new OneBySelectInfo(waitList, waitList.Count);
         oneBySelectInfo.OpenSelectUI();
