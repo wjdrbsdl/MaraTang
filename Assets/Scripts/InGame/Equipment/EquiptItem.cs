@@ -2,13 +2,14 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public enum EquiptEnum
+public enum EquiptPartEnum
 {
-    PartType
+    None, Weapon, Armor, Shoese, Gloves, Helmet
 }
 
 public class EquiptItem : TokenBase
 {
+    public EquiptPartEnum m_part = EquiptPartEnum.None;
     public List<TOrderItem> m_effect = new(); //플레이어 스텟에 가하는 요소
 
     public EquiptItem()
@@ -16,12 +17,16 @@ public class EquiptItem : TokenBase
         
     }
 
-    public EquiptItem(List<int[]> matchCode, string[] _dbValueList)
+    public EquiptItem(string[] _dbValueList)
     {
         m_tokenPid = int.Parse(_dbValueList[0]);
         m_tokenType = TokenType.Equipt;
         m_itemName = _dbValueList[1];
-        GameUtil.ParseOrderItemList(m_effect, _dbValueList[3]);
+
+        int partIdx = 2;
+        if (System.Enum.TryParse(typeof(EquiptPartEnum), _dbValueList[partIdx], out object parsePart))
+            m_part = (EquiptPartEnum)parsePart;
+
     }
 
     public EquiptItem(EquiptItem _masterData)
