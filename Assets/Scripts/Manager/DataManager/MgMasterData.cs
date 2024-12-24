@@ -12,6 +12,7 @@ public class MgMasterData : Mg<MgMasterData>
     private Dictionary<int, TokenAction> m_charActionDataDic;
     private List<int> m_charActionList;
     private Dictionary<int, EquiptItem> m_equipDataDic;
+    private Dictionary<int, EquiptItemPool> m_equipPoolDataDic;
     private Dictionary<int, ContentMasterData> m_contentDataDic;
     private Dictionary<int, NationTechData> m_nationTechDataDic;
     private Dictionary<int, ConversationGroup> m_conversationGroupDic;
@@ -65,6 +66,11 @@ public class MgMasterData : Mg<MgMasterData>
     public EquiptItem GetEquiptData(int _equiptPid)
     {
         return GetDicData<EquiptItem>(m_equipDataDic, _equiptPid);
+    }
+
+    public EquiptItemPool GetEquiptPoolData(int _equiptPid)
+    {
+        return GetDicData<EquiptItemPool>(m_equipPoolDataDic, _equiptPid);
     }
 
     public List<TOrderItem> GetDropItem(int _monsterPid)
@@ -265,6 +271,10 @@ public class MgMasterData : Mg<MgMasterData>
             EquiptItem equipt = new EquiptItem(parseData.DbValueList[i]);
             if (m_equipDataDic.ContainsKey(equipt.GetPid()) == false)
                 m_equipDataDic.Add(equipt.GetPid(), equipt);
+
+            EquiptItemPool equiptPool = new EquiptItemPool(parseData.DbValueList[i]);
+            if (m_equipPoolDataDic.ContainsKey(equiptPool.m_pid) == false)
+                m_equipPoolDataDic.Add(equipt.GetPid(), equiptPool);
         }
     }
 
