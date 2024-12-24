@@ -233,7 +233,7 @@ public struct TOrderItem
     public int SubIdx;
     public int Value;
     public int SerialNum;
-    public TokenBase tokenBase;
+    public TokenBase tokenItem;
 
     public TOrderItem(TokenType _tokenGroup, int _subIdx, int _value)
     {
@@ -241,7 +241,7 @@ public struct TOrderItem
         SubIdx = _subIdx;
         Value = _value;
         SerialNum = 0;
-        tokenBase = null;
+        tokenItem = null;
     }
 
     public void SetSerialNum(int _serialNum)
