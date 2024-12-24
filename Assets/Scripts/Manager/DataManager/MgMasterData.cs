@@ -11,7 +11,6 @@ public class MgMasterData : Mg<MgMasterData>
     private Dictionary<int, BlessSynerge> m_synergeDataDic;
     private Dictionary<int, TokenAction> m_charActionDataDic;
     private List<int> m_charActionList;
-    private Dictionary<int, EquiptItem> m_equipDataDic;
     private Dictionary<int, EquiptItemPool> m_equipPoolDataDic;
     private Dictionary<int, ContentMasterData> m_contentDataDic;
     private Dictionary<int, NationTechData> m_nationTechDataDic;
@@ -61,11 +60,6 @@ public class MgMasterData : Mg<MgMasterData>
     public Dictionary<int, TokenChar> GetCharDic()
     {
         return m_charDataDic;
-    }
-
-    public EquiptItem GetEquiptData(int _equiptPid)
-    {
-        return GetDicData<EquiptItem>(m_equipDataDic, _equiptPid);
     }
 
     public EquiptItemPool GetEquiptPoolData(int _equiptPid)
@@ -254,7 +248,8 @@ public class MgMasterData : Mg<MgMasterData>
         {
             TokenChar masterChar = new(parseData.MatchCode, parseData.DbValueList[i]);
             List<TOrderItem> dropItemList = new();
-            GameUtil.ParseOrderItemList(dropItemList, parseData.DbValueList[i], 4);
+            int dropListIdx = 6;
+            GameUtil.ParseOrderItemList(dropItemList, parseData.DbValueList[i], dropListIdx);
             m_charDataDic.Add(masterChar.GetPid(), masterChar);
             m_charDropItemDataDic.Add(masterChar.GetPid(), dropItemList);
 
@@ -264,18 +259,13 @@ public class MgMasterData : Mg<MgMasterData>
 
     private void SetEquiptData()
     {
-        m_equipDataDic = new();
         m_equipPoolDataDic = new();
         ParseData parseData = MgParsing.GetInstance().GetMasterData(EMasterData.Equipment);
         for (int i = 0; i < parseData.DbValueList.Count; i++)
         {
-            EquiptItem equipt = new EquiptItem(parseData.DbValueList[i]);
-            if (m_equipDataDic.ContainsKey(equipt.GetPid()) == false)
-                m_equipDataDic.Add(equipt.GetPid(), equipt);
-
             EquiptItemPool equiptPool = new EquiptItemPool(parseData.DbValueList[i]);
             if (m_equipPoolDataDic.ContainsKey(equiptPool.m_pid) == false)
-                m_equipPoolDataDic.Add(equipt.GetPid(), equiptPool);
+                m_equipPoolDataDic.Add(equiptPool.m_pid, equiptPool);
         }
     }
 
