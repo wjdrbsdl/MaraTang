@@ -44,7 +44,7 @@ public class EquiptItemPool
         List<TOrderItem> effect = new();
         //1. 유효한 옵션을 고른다
         //2. 옵션의 수치를 tier에 따라 정의한다
-        effect.Add(new TOrderItem(TokenType.CharStat, 2, 100));
+        effect.Add(new TOrderItem(TokenType.CharStat,(int)CharStat.Strenth, 100)); //확인용 위해 힘스텟 100
         //3. 해당 옵션으로 장비를 새로 만든다. 
         EquiptItem item = new EquiptItem(m_pid, m_itemName, m_part, _tier, effect);
 
