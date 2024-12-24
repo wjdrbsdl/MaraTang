@@ -469,13 +469,13 @@ public class TokenChar : TokenBase
 
     public void AdaptEquipt(EquiptItem _equiptItem)
     {
-        // Debug.Log("어뎁터 클래스에서 블래스 적용하기");
+        // Debug.Log("장비 효과 적용하기");
         OrderExcutor excutor = new();
 
         for (int i = 0; i < _equiptItem.m_effect.Count; i++)
         {
-            TOrderItem blessEffect = _equiptItem.m_effect[i];
-            excutor.AdaptItem(blessEffect);
+            TOrderItem equiptEffect = _equiptItem.m_effect[i];
+            excutor.AdaptItem(equiptEffect);
             // Debug.Log(blessEffect.Value);
         }
 
