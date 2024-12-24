@@ -31,5 +31,17 @@ public class EquiptOptionData
         
     }
 
+    public TOrderItem GetOptionValue(int _tier)
+    {
+        if(SubIdx == 0)
+        {
+            return new TOrderItem(TokenType.None, 0, 0);
+        }
 
+        //다음 시작점은 gap+1 씩이네
+        int effectMinValue = Tier1Value + (TierGap + 1) * (_tier - 1); //해당 티어 에서 최소 값
+        Debug.Log(_tier + "의 최소 값은" + effectMinValue);
+        TOrderItem effect = new TOrderItem(TokenType.CharStat, SubIdx, effectMinValue);
+        return effect;
+    }
 }
