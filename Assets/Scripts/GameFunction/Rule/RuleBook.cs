@@ -351,7 +351,7 @@ public class RuleBook
             }
             if(resource.Tokentype == TokenType.Random)
             {
-                TOrderItem selectItem = SelectRandomItem(resource);
+                TOrderItem selectItem = new RandomItem().GetDiceItem(resource);
                 if (AbleFindCapital((Capital)selectItem.SubIdx, _findAbility))
                     result.Add(((Capital)selectItem.SubIdx, selectItem.Value));
                 continue;
@@ -361,50 +361,6 @@ public class RuleBook
 
         return mineResult;
     }
-
-    public TOrderItem SelectRandomItem(TOrderItem _randomOrder)
-    {
-        RandomTypeEnum randomType = (RandomTypeEnum)_randomOrder.SubIdx;
-        int value = _randomOrder.Value;
-        TOrderItem selectItem = new TOrderItem(TokenType.None,0,0);
-        switch (randomType)
-        {
-            case RandomTypeEnum.Capital1:
-                //1. 
-                int amount = value; //레벨에 맞는 자원들을 훑어와야함. 
-                List<Capital> randomList = new();
-                Array capital = System.Enum.GetValues(typeof(Capital));
-                for (int i = 1; i < capital.Length; i++)
-                {
-                    //0 인덱스는 None이므로 1부터 진행 
-                    Capital test = (Capital)capital.GetValue(i);
-                    CapitalData capitalData = MgMasterData.GetInstance().GetCapitalData(test);
-                    if (capitalData == null)
-                    {
-                        if(FixedValue.CAPITAL_NONE_ARALM == false)
-                        {
-                            Debug.LogError("없는 데이터 토큰타입" + test);
-                            FixedValue.CAPITAL_NONE_ARALM = true;
-                        }
-
-                        continue;
-                    }
-                        
-                    if(capitalData.Tier == 1)
-                    {
-                        randomList.Add((Capital)capitalData.capital);
-                    }
-                }
-                if (randomList.Count == 0)
-                    break;
-
-                Capital selectCapital = randomList[GameUtil.GetRandomNum(randomList.Count, 1)[0]];
-                selectItem = new TOrderItem(TokenType.Capital, (int)selectCapital, amount);
-                break; 
-        }
-        return selectItem;
-    }
-
 
     private bool AbleFindCapital(Capital _cpaital, int _findAbility)
     {
