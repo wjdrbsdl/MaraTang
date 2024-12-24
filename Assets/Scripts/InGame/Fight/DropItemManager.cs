@@ -42,12 +42,22 @@ public class DropItemManager : Mg<DropItemManager>
             TOrderItem dropItem = _fixedDropList[i]; //아이템 보기
             if (dropItem.Tokentype.Equals(TokenType.Equipt))
             {
-                //장비쪽이면
-                EquiptItemPool equiptPool = MgMasterData.GetInstance().GetEquiptPoolData(dropItem.SubIdx); //풀 정보 가져옴
-                int tier = dropItem.Value;
-                EquiptItem equipt = equiptPool.GetItem(tier);
-                dropItem.tokenItem = equipt;
-                _aquireList.Add(dropItem);
+                //지정된 장비는 - 바로 옵션만 랜덤으로 돌려서 진행
+                TOrderItem equiptItem = new RandomItem().GetDiceEquiptOption(dropItem); //해당 장비 오더에 맞게 equipt를 생성
+                _aquireList.Add(equiptItem);
+                continue;
+            }
+            if (dropItem.Tokentype.Equals(TokenType.Random))
+            {
+                //randomType의 SubIdx에 따라서 TorderItem을 반환
+                //장비일지 자원일지는 모를일. 
+                RandomItem diceClass = new();
+                TOrderItem randomItem = diceClass.GetDiceItem(dropItem);
+                if(randomItem.Tokentype.Equals(TokenType.None) == false)
+                {
+                    _aquireList.Add(randomItem);
+                }
+
                 continue;
             }
         }
@@ -91,4 +101,5 @@ public class DropItemManager : Mg<DropItemManager>
         OneBySelectInfo oneBySelectInfo = new OneBySelectInfo(waitList, waitList.Count);
         oneBySelectInfo.OpenSelectUI();
     }
+
 }
