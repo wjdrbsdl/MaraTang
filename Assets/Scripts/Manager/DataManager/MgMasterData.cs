@@ -148,7 +148,12 @@ public class MgMasterData : Mg<MgMasterData>
 
     public CapitalData GetCapitalData(Capital _capitalPid)
     {
-        return GetDicData<CapitalData>(m_capitalDataDic, (int)_capitalPid);
+        return GetDicData(m_capitalDataDic, (int)_capitalPid);
+    }
+
+    public EquiptOptionData GetEquiptOptionData(int _pid)
+    {
+        return GetDicData(m_equiptOptionDataDic, _pid);
     }
 
     private T1 GetDicData<T1>(Dictionary<int, T1> _dic, int _pid)
