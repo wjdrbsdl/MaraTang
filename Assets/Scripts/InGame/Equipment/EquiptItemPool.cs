@@ -43,8 +43,24 @@ public class EquiptItemPool
     {
         List<TOrderItem> effect = new();
         //1. 유효한 옵션을 고른다
+        
+        for (int i = 0; i < m_optionPoolList.Count; i++)
+        {
+            EquiptOptionData optionData = MgMasterData.GetInstance().GetEquiptOptionData(m_optionPoolList[i]);
+            if(optionData == null)
+            {
+                //Debug.Log("잘못된 옵션 pid 할당");
+                continue;
+            }
+
+            TOrderItem ranOption = optionData.GetOptionValue(_tier);
+            if(ranOption.Tokentype.Equals(TokenType.None) == false)
+            {
+                effect.Add(ranOption);
+            }
+        }
         //2. 옵션의 수치를 tier에 따라 정의한다
-        effect.Add(new TOrderItem(TokenType.CharStat,(int)CharStat.Strenth, 100)); //확인용 위해 힘스텟 100
+        //effect.Add(new TOrderItem(TokenType.CharStat,(int)CharStat.Strenth, 100)); //확인용 위해 힘스텟 100
         //3. 해당 옵션으로 장비를 새로 만든다. 
         EquiptItem item = new EquiptItem(m_pid, m_itemName, m_part, _tier, effect);
 
