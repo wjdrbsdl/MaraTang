@@ -2,11 +2,6 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public enum EquiptPartEnum
-{
-    None, Weapon, Armor, Shoese, Gloves, Helmet
-}
-
 public class EquiptItemPool
 {
     public int m_pid = 0;
