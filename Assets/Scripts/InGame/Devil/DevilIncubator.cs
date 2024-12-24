@@ -166,13 +166,6 @@ public class DevilIncubator
             hatchery.ReadyInherenceWork(hatchery.GetTileType()); //부화작업 진행 
             
             return;
-            //부활이 확정되었으면, 
-            ResetBirthTime(); //턴 조건은 갱신
-
-            SetDevilInfo(new TokenChar()); //부활한 악마 정보 설정 - 봉인지에서 부활시킨후 해당 악마를 여기로 보내서 정보를 세팅해야함. 
-            birthCount += 1;
-            //뽑았으면 종료
-            break;
         }
       
     }
