@@ -24,9 +24,13 @@ public class GodBless : TokenBase
         m_tokenPid = int.Parse(_dbValueList[0]);
         m_tokenType = TokenType.Bless;
         m_itemName = _dbValueList[1];
+        int subPartIdx = 2;
+        if (System.Enum.TryParse(typeof(BlessSubCategory), _dbValueList[subPartIdx], out object parsePart))
+            m_subCategory = (BlessSubCategory)parsePart;
         m_effect = new();
         GameUtil.ParseOrderItemList(m_effect, _dbValueList[3]);
-        
+
+
         //for (int i = 0; i < m_effect.Count; i++)
         //{
         //   Debug.Log(GameUtil.FindEnum(m_effect[i].Tokentype, m_effect[i].SubIdx)+"에 효과" + m_effect[i].Value);
