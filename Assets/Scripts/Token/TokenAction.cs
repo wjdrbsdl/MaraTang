@@ -21,6 +21,7 @@ public class TokenAction : TokenBase
     private int[] m_targetPos; //작용할 위치 
     private List<TOrderItem> m_powerRatio = new(); //효과에 적용되는 계수들
     private List<int> m_synergeList;
+    private List<bool> m_synergeAdapt;
     #region 액션 토큰 : 생성부분 추후 테이블 파싱 값으로 생성하기
     public TokenAction()
     {
@@ -38,6 +39,10 @@ public class TokenAction : TokenBase
         int synergeIndex = actionTypeIndex +1;
         m_synergeList = new();
         GameUtil.ParseIntList(m_synergeList, valueCode, synergeIndex);
+        for (int i = 0; i < m_synergeList.Count; i++)
+        {
+            m_synergeAdapt.Add(false); //시너지 수만큼 미적용 값을 추가 
+        }
 
         int itemInfoIndex = synergeIndex + 1;
         m_itemInfo = valueCode[itemInfoIndex];
@@ -210,7 +215,11 @@ public class TokenAction : TokenBase
         for (int i = 0; i < m_synergeList.Count; i++)
         {
            bool check = MgMasterData.GetInstance().GetBlessSynergeData(m_synergeList[i]).CheckSynerge(_char);
-           //Debug.Log(m_synergeList[i] + "시너지 활성화 여부 " + check);
+            if(check == true)
+            {
+                //해당 시너지가 온이 되었다면 효과를 적용
+            }
+           Debug.Log(m_synergeList[i] + "시너지 활성화 여부 " + check);
         }
     }
 }
