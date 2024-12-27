@@ -152,7 +152,7 @@ public class RuleBook
         GamePlayMaster.GetInstance().AnimateTokenObject(animateCoroutine, effectDelegate, _playChar);
     }
 
-    private static int curChunkNum = FixedValue.No_VALUE;
+    public static int curChunkNum = FixedValue.No_VALUE;
     public static void Migrate(TokenChar _char, TokenTile _targetTile)
     {
         //해당 타일로 해당 캐릭터를 이주 시키기 
