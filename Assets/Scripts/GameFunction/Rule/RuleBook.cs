@@ -152,11 +152,29 @@ public class RuleBook
         GamePlayMaster.GetInstance().AnimateTokenObject(animateCoroutine, effectDelegate, _playChar);
     }
 
+    private static int curChunkNum = FixedValue.No_VALUE;
     public static void Migrate(TokenChar _char, TokenTile _targetTile)
     {
         //해당 타일로 해당 캐릭터를 이주 시키기 
-        MgToken.g_instance.GetMaps()[_char.GetXIndex(), _char.GetYIndex()].RemoveCharToken(_char); //이사 보내고
-        _targetTile.Migrate(_char); //이사 넣고 
+        TokenTile preTile = MgToken.g_instance.GetMaps()[_char.GetXIndex(), _char.GetYIndex()];
+        preTile.RemoveCharToken(_char); //이사 보내고
+        _targetTile.Migrate(_char); //이사 넣고
+        //다른 위치로 이동하게 된 경우
+        if(_char.isMainChar && _targetTile.ChunkNum != curChunkNum)
+        {
+            Chunk preChunk = MGContent.GetInstance().GetChunk(curChunkNum);
+            if (preChunk != null)
+                preChunk.OnExitChunk();
+            
+            Chunk curChunk = MGContent.GetInstance().GetChunk(_targetTile.ChunkNum);
+            if(curChunk != null)
+            {
+                curChunkNum = _targetTile.ChunkNum; //새로 할당
+                curChunk.OnEnterChunk(); //새 타겟 구역으로 들어간걸로
+            }
+ 
+            
+        }
         _char.GetObject().SyncObjectPosition();
     }
 
