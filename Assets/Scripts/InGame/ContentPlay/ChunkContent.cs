@@ -133,8 +133,8 @@ public class ChunkContent
         {
             case TokenType.Char:
                 int monsterPid = _item.SubIdx;
-                int[] pos = targetTile.GetMapIndex();
-                return SpawnMonster(monsterPid, pos);
+             
+                return SpawnMonster(monsterPid, targetTile);
             case TokenType.Tile:
                 TileType tileType = (TileType)_item.SubIdx;
                 ChangePlace(tileType, targetTile);
@@ -168,12 +168,20 @@ public class ChunkContent
     }
 
     #region 따로 정의가 필요한 아이템 타입들
-    private bool SpawnMonster(int _monsterPid, int[] _spawnPos)
+    private bool SpawnMonster(int _monsterPid, TokenTile _targetTile)
     {
-       TokenChar spawnChar = MgToken.GetInstance().SpawnCharactor(_spawnPos, _monsterPid); //월드 좌표로 pid 토큰 스폰 
+        int[] pos = _targetTile.GetMapIndex();
+        TokenChar spawnChar = MgToken.GetInstance().SpawnCharactor(pos, _monsterPid); //월드 좌표로 pid 토큰 스폰 
         if (spawnChar == null)
             return false;
 
+        spawnChar.SetState(CharState.Sleep);//몬스터 재우기
+        if (RuleBook.curChunkNum == _targetTile.ChunkNum)
+        {
+            //몬스터 스폰 시킨 구역에 플레이어와 이미 들어와 잇다면
+         //   Debug.Log("플레이어가 있는 구역 ");
+            spawnChar.SetState(CharState.Idle);//일반상태로 깨우기
+        }
         MadeList.Add(spawnChar);
         return true;
     }
@@ -186,4 +194,29 @@ public class ChunkContent
     }
     #endregion
 
+    public void WakeMonster()
+    {
+        for (int i = 0; i < MadeList.Count; i++)
+        {
+            TokenBase item = MadeList[i];
+            if (item.GetTokenType().Equals(TokenType.Char))
+            {
+                ((TokenChar)item).SetState(CharState.Idle);
+            }
+        }
+    }
+
+    public void SleepMonster()
+    {
+        for (int i = 0; i < MadeList.Count; i++)
+        {
+            TokenBase item = MadeList[i];
+            if (item.GetTokenType().Equals(TokenType.Char))
+            {
+                TokenChar monster = ((TokenChar)item);
+                if (monster.GetState() == CharState.Idle)
+                    monster.SetState(CharState.Sleep);
+            }
+        }
+    }
 }
