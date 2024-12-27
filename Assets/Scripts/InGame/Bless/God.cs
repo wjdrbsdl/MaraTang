@@ -15,20 +15,10 @@ public class God
     public God(string[] _parseStr)
     {
         PID = int.Parse(_parseStr[0]);
-        string className = _parseStr[2];
-        if(className == "전사")
-        {
-            m_mainCategory = GodClassEnum.전사;
-        }
-        else if (className == "법사")
-        {
-            m_mainCategory = GodClassEnum.마법;
-        }
-        else if (className == "궁사")
-        {
-            m_mainCategory = GodClassEnum.궁사;
-        }
-     
+        int partIdx = 2;
+        if (System.Enum.TryParse(typeof(GodClassEnum), _parseStr[partIdx], out object parsePart))
+            m_mainCategory = (GodClassEnum)parsePart;
+
         Tier = int.Parse(_parseStr[3]);
 
         string[] haveBless = _parseStr[4].Split(FixedValue.PARSING_LIST_DIVIDE);
