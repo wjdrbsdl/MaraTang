@@ -5,7 +5,7 @@ using UnityEngine;
 
 public enum GodClassEnum
 {
-    무, 마법, 전사, 궁사
+    무, 마법, 전사, 궁사, 여정
 }
 
 public enum BlessSubCategory
@@ -26,6 +26,7 @@ public class GodBless : TokenBase
         m_itemName = _dbValueList[1];
         m_effect = new();
         GameUtil.ParseOrderItemList(m_effect, _dbValueList[3]);
+        
         //for (int i = 0; i < m_effect.Count; i++)
         //{
         //   Debug.Log(GameUtil.FindEnum(m_effect[i].Tokentype, m_effect[i].SubIdx)+"에 효과" + m_effect[i].Value);
