@@ -17,9 +17,9 @@ public class BlessSynerge
     public BlessSynerge(string[] _divdeValues)
     {
         PID = int.Parse( _divdeValues[0]);
-        Name = _divdeValues[1];
+        Name = _divdeValues[2];
         m_needBlessList = new();
-        GameUtil.ParseOrderItemList(m_needBlessList, _divdeValues[2]);
+        GameUtil.ParseOrderItemList(m_needBlessList, _divdeValues[3]);
         //서브 인덱스가 클수록 더 좁은 범위 먼저 확인해야하므로 앞으로 배치 
         m_needBlessList.Sort((TOrderItem A, TOrderItem B) => B.SubIdx.CompareTo(A.SubIdx));
     }
