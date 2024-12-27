@@ -156,6 +156,7 @@ public class RuleBook
     public static void Migrate(TokenChar _char, TokenTile _targetTile)
     {
         //해당 타일로 해당 캐릭터를 이주 시키기 
+        //최초 케릭 생성시 기본 좌표는 0,0 이라서 GetMap에서 null은 반환되지 않는다.
         TokenTile preTile = MgToken.g_instance.GetMaps()[_char.GetXIndex(), _char.GetYIndex()];
         preTile.RemoveCharToken(_char); //이사 보내고
         _targetTile.Migrate(_char); //이사 넣고
