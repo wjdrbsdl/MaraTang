@@ -45,7 +45,7 @@ public class MgGodBless : Mg<MgGodBless>
         //그 신에서 가능한 은총을 뽑는다
         TokenChar mainChar = PlayerManager.GetInstance().GetMainChar();
         GodBless bless = god.m_blessList[0];
-        if(mainChar.HaveBless(bless) == false)
+        if(mainChar.HaveBless(bless) == true)
         {
             //갖고 있으면 다시 체크
             return null;
