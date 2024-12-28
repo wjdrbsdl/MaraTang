@@ -727,6 +727,9 @@ public static class GameUtil
             case TokenType.Random:
                 findEnum = typeof(RandomTypeEnum);
                 break;
+            case TokenType.ActionStat:
+                findEnum = typeof(CharActionStat);
+                break;
             case TokenType.EventPlaceNationSpawn:
             case TokenType.EventPlaceChunkSpawn:
             case TokenType.Tile:
