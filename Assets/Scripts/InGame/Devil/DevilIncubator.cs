@@ -163,7 +163,7 @@ public class DevilIncubator
             TokenTile hatchery = GameUtil.GetTileTokenFromMap(m_birthTileList[index]);
             //해당 해처리 준비완료로 돌리고
             Debug.LogFormat("{0} 해처리에서 부활 작업 진행", hatchery.GetTileType());
-            hatchery.ReadyInherenceWork(hatchery.GetTileType()); //부화작업 진행 
+            hatchery.ReadyInherenceWork(); //부화작업 진행 
             
             return;
         }
