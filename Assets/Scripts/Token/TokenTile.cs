@@ -506,9 +506,12 @@ public class TokenTile : TokenBase
         {
             GamePlayMaster.GetInstance().RuleBook.ConductTileAction(this, effectList[i], _tileType);
         }
-        //일단 효과여부 상관없이 발동한걸로 간주 
-        SetInhereceReady(false);
-        RepeatInhereceReady();
+        //고유작업 사용유무는 각 기능에서 따로 
+        //DoneInhereceFunction();
+        if (tileData.NeedCommand == false)
+            DoneInhereceFunction(); //따로 조작이 필요없이 사용하기 기능을 수행한경우에는 다음 작업 준비 
+
+        //따로 조작이 필요한 경우에는 - UI를 열고 선택을 하는등 그 구조에서 결과가 수행되었을때 호출할것. 
     }
 
     public void SelfCastInhereceWork()
@@ -529,6 +532,11 @@ public class TokenTile : TokenBase
         {
             GamePlayMaster.GetInstance().RuleBook.ConductTileAction(this, effectList[i], tileType);
         }
+        DoneInhereceFunction(); //셀프 캐스팅 이후 작업마무리
+    }
+
+    public void DoneInhereceFunction()
+    {
         SetInhereceReady(false);
         RepeatInhereceReady();
     }
