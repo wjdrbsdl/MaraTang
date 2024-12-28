@@ -26,6 +26,8 @@ public class UIBlessTemple : UIBase
             return;
         }
 
+        Debug.Log(newBless.m_godPid + "받았다.");
+
     }
 
     public void AquireBlessBtn()
