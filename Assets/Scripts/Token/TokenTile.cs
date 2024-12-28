@@ -536,7 +536,13 @@ public class TokenTile : TokenBase
 
     public void ReadyInherenceWork(TileType _tileType)
     {
-        //기능수행에 턴, 자원, 노동량등 준비가 필요한경우 고유작업 등록부터 진행 
+        //1. 자동 준비 기능에 의해 준비에 들어가거나
+        //2. 플레이어 요청으로 인해 준비에 들어가거나
+
+        //이미 준비가 된 상태 타일이면 준비는 미실행
+        if (IsReadyInherece == true)
+            return;
+
         TileTypeData tileData = MgMasterData.GetInstance().GetTileData((int)_tileType);
         TileEffectEnum effectType = tileData.effectType;
         //효과없는 경우 진행안함 
