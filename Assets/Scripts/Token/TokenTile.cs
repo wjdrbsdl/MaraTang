@@ -41,6 +41,8 @@ public class TokenTile : TokenBase
     public List<int> doneInteriorList; //지어진 장소
     public int ChunkNum;
     public bool IsReadyInherece =false;
+    public bool IsAutoReady = false; //기존작업이 끝났을 떄 고유작업 준비를 자동으로 할것인가. 
+    public bool NeedReady = false; //기존작업이 필요한 장소인가 - 귀속되는 장소는 모두 외부장소 속성값을 따라갈것. 
     public WorkOrder m_workOrder = null; //진행중인 공사
     public Complain m_complain = null; //진행중인 불만
     private float m_height;
@@ -125,7 +127,10 @@ public class TokenTile : TokenBase
 
         //4. 보존했던 값 덮어쓰기
         m_tokenIValues[(int)ETileStat.Nation] = originNationNum;
-       
+
+        //5.
+        IsAutoReady = tileData.IsAutoReady;
+        NeedReady = tileData.NeedReadyWork;
     }
     #endregion
 
@@ -184,7 +189,7 @@ public class TokenTile : TokenBase
         SetTileValue();
         CancleWork();
         SetInhereceReady(false); //고유기능 수행 false로 전환
-        RepeatInhereceReady(_tileType); //맨처음 생성시 고유작업 준비 할지
+        RepeatInhereceReady(); //맨처음 생성시 고유작업 준비 할지
     }
     #endregion 
 
@@ -510,22 +515,18 @@ public class TokenTile : TokenBase
         }
         //일단 효과여부 상관없이 발동한걸로 간주 
         SetInhereceReady(false);
-        RepeatInhereceReady(_tileType);
+        RepeatInhereceReady();
     }
 
-    public void RepeatInhereceReady(TileType _actionPlace)
+    public void RepeatInhereceReady()
     {
-        //Debug.Log("고유 기능 준비 반복");
-        //이미 준비된 타일이면 넘기고
-        //이것도 문제긴해 어떤거 준비한건지 
+        //해당 타일에서 고유작업을 준비 - 내부 장소도 모두 외부 장소의 준비상태에 귀속
         if (IsReadyInherece == true)
             return;
-        //타일 정보에서
-        TileTypeData tileData = MgMasterData.GetInstance().GetTileData((int)_actionPlace);
-        bool isAutuReady = tileData.IsAutoReady;
+        
         //자동 준비 기능이면 준비 수행
-        if(isAutuReady)
-           ReadyInherenceWork(_actionPlace);
+        if(IsAutoReady)
+           ReadyInherenceWork();
     }
 
     private bool CheckInhereceWork(WorkOrder _workOrder)
@@ -534,20 +535,20 @@ public class TokenTile : TokenBase
         return _workOrder.workType == WorkType.Inherence;
     }
 
-    public void ReadyInherenceWork(TileType _tileType)
+    public void ReadyInherenceWork()
     {
-        //1. 자동 준비 기능에 의해 준비에 들어가거나
-        //2. 플레이어 요청으로 인해 준비에 들어가거나
+        //작업준비가 필요한 애가 아니면 진행안함
+        if (NeedReady == false)
+            return;
 
         //이미 준비가 된 상태 타일이면 준비는 미실행
         if (IsReadyInherece == true)
             return;
 
-        TileTypeData tileData = MgMasterData.GetInstance().GetTileData((int)_tileType);
-        TileEffectEnum effectType = tileData.effectType;
-        //효과없는 경우 진행안함 
-        //Debug.Log(_tileType + "작업서 등록");
-        new WorkOrder(null, tileData.NeedLaborTurn, tileData.NeedLaborAmount, this, (int)_tileType, WorkType.Inherence);
+
+        //해당 장소의 고유작업에 필요한 자원으로 작업오더 생성. 
+        TileTypeData tileData = MgMasterData.GetInstance().GetTileData((int)tileType);
+        new WorkOrder(null, tileData.NeedLaborTurn, tileData.NeedLaborAmount, this, (int)tileType, WorkType.Inherence);
     }
 
     #endregion
