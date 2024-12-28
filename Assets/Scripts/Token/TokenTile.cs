@@ -218,7 +218,7 @@ public class TokenTile : TokenBase
             if (CheckInhereceWork(preWork))
             {
                 SetInhereceReady(true);
-                DoInhereceWork(tileType);
+                SelfCastInhereceWork();
             }
         }
     }
@@ -514,6 +514,28 @@ public class TokenTile : TokenBase
             GamePlayMaster.GetInstance().RuleBook.ConductTileAction(this, effectList[i], _tileType);
         }
         //일단 효과여부 상관없이 발동한걸로 간주 
+        SetInhereceReady(false);
+        RepeatInhereceReady();
+    }
+
+    public void SelfCastInhereceWork()
+    {
+        //준비작업이 완료되었을때 자동 캐스팅 
+        TileTypeData tileData = MgMasterData.GetInstance().GetTileData((int)tileType);
+        if (tileData.NeedCommand == true) //별도 추가 조작이 필요한거면 자동수행 못함
+            return;
+        if (tileData.IsAutoEffect == false) //단순 효과 적용도 자동 적용 상태가 아니면 수행 안함
+            return;
+        if (IsReadyInherece == false)
+        {
+            // Debug.Log("고유 기능 수행 준비 안 되었음");
+            return;
+        }
+        List<TOrderItem> effectList = tileData.EffectData.GetItemList();
+        for (int i = 0; i < effectList.Count; i++)
+        {
+            GamePlayMaster.GetInstance().RuleBook.ConductTileAction(this, effectList[i], tileType);
+        }
         SetInhereceReady(false);
         RepeatInhereceReady();
     }
