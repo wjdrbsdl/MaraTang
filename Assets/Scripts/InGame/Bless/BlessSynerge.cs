@@ -22,6 +22,7 @@ public class BlessSynerge
         GameUtil.ParseOrderItemList(m_needBlessList, _divdeValues[3]);
 
         m_effectList = new();
+        if(_divdeValues.Length>= 5)
         GameUtil.ParseOrderItemList(m_effectList, _divdeValues[4]);
         //서브 인덱스가 클수록 더 좁은 범위 먼저 확인해야하므로 앞으로 배치 
         m_needBlessList.Sort((TOrderItem A, TOrderItem B) => B.SubIdx.CompareTo(A.SubIdx));
@@ -95,4 +96,8 @@ public class BlessSynerge
         }
     }
 
+    public List<TOrderItem> GetEffectList()
+    {
+        return m_effectList;
+    }
 }
