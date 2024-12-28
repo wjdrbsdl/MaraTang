@@ -494,21 +494,14 @@ public class TokenTile : TokenBase
 
     public void DoInhereceWork(TileType _tileType)
     {
-       // Debug.Log("고유기능 수행");
-       //플레이어가 기능 수행을 요청하지 않기 때문에 이런경우는 없을텐데 
+        // Debug.Log("고유기능 수행");
+        
+        //준비가 필요한 기능인데 준비가 안되었으면 패싱
+        if (NeedReady && IsReadyInherece == false)
+            return;
       
         TileTypeData tileData = MgMasterData.GetInstance().GetTileData((int)_tileType);
         List<TOrderItem> effectList = tileData.EffectData.GetItemList();
-        if(tileData.effectType == TileEffectEnum.UIOpen)
-        {
-            GamePlayMaster.GetInstance().RuleBook.ConductTileAction(this, effectList[0], _tileType);
-            return;
-        }
-        if (IsReadyInherece == false)
-        {
-            // Debug.Log("고유 기능 수행 준비 안 되었음");
-            return;
-        }
         for (int i = 0; i < effectList.Count; i++)
         {
             GamePlayMaster.GetInstance().RuleBook.ConductTileAction(this, effectList[i], _tileType);
@@ -524,7 +517,7 @@ public class TokenTile : TokenBase
         TileTypeData tileData = MgMasterData.GetInstance().GetTileData((int)tileType);
         if (tileData.NeedCommand == true) //별도 추가 조작이 필요한거면 자동수행 못함
             return;
-        if (tileData.IsAutoEffect == false) //단순 효과 적용도 자동 적용 상태가 아니면 수행 안함
+        if (tileData.ImmediatelyEffect == false) //즉시 적용 효과가 아니면 패스 
             return;
         if (IsReadyInherece == false)
         {
