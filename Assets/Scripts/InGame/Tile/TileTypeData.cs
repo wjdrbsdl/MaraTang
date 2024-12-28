@@ -17,7 +17,7 @@ public class TileTypeData
     public TItemListData EffectData;
     public bool IsAutoReady = false; //자동준비를 할것인가 - 사전준비가 필요한 작업안에서만 결정
     public bool NeedReadyWork = false; //사전준비가 필요한 작업인가
-    public bool IsAutoEffect = false; //때 되면 즉발 효과 인가 - 단순 효과인경우만 적용가능.
+    public bool ImmediatelyEffect = false; //때 되면 즉발 효과 인가 - 단순 효과인경우만 적용가능.
     public bool NeedCommand = false; //추가 조작이 필요한 효과인가
     //건설
     public int NeedLaborTurn;
@@ -72,10 +72,10 @@ public class TileTypeData
             NeedReadyWork = true;
         }
 
-        int autoEffectIndex = autoActReadyIndex += 1;
+        int autoEffectIndex = needReadyIndex += 1;
         if (_parsingData[autoEffectIndex] == "T")
         {
-            IsAutoEffect = true;
+            ImmediatelyEffect = true;
         }
 
         int needCommandIdx = autoEffectIndex + 1;
