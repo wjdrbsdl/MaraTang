@@ -68,13 +68,13 @@ public class BlessSynerge
                 }
                 return false;
             case BlessSynergeCategoryEnum.God:
-                if(_value == (int)_bless.m_subCategory)
+                if(_value == _bless.m_godPid)
                 {
                     return true;
                 }
                 return false;
             case BlessSynergeCategoryEnum.Main:
-                if(_value == (int)_bless.m_mainCategory)
+                if(_value == (int)_bless.m_classCategory)
                 {
                     return true;
                 }
