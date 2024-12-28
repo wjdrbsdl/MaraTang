@@ -21,7 +21,7 @@ public class GodBless : TokenBase
         m_itemName = _dbValueList[1];
      
         m_effect = new();
-        GameUtil.ParseOrderItemList(m_effect, _dbValueList[3]);
+        GameUtil.ParseOrderItemList(m_effect, _dbValueList[2]);
 
 
         //for (int i = 0; i < m_effect.Count; i++)
