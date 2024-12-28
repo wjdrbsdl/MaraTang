@@ -552,14 +552,9 @@ public class TokenTile : TokenBase
 
     public void ReadyInherenceWork()
     {
-        //작업준비가 필요한 애가 아니면 진행안함
-        if (NeedReady == false)
-            return;
-
         //이미 준비가 된 상태 타일이면 준비는 미실행
         if (IsReadyInherece == true)
             return;
-
 
         //해당 장소의 고유작업에 필요한 자원으로 작업오더 생성. 
         TileTypeData tileData = MgMasterData.GetInstance().GetTileData((int)tileType);
