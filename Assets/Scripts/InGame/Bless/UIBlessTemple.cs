@@ -19,6 +19,14 @@ public class UIBlessTemple : UIBase
 
     public void PleaseBlessBtn()
     {
+        bool prayReady = m_curTile.IsReadyInherece;
+        if(prayReady == false)
+        {
+            Debug.Log("신전에 기도드릴 준비가 안되었음");
+            return;
+        }
+
+
         newBless =  MgGodBless.GetInstance().PleaseBless(m_curTempleClass);
         if(newBless == null)
         {
@@ -26,6 +34,7 @@ public class UIBlessTemple : UIBase
             return;
         }
 
+        m_curTile.DoneInhereceFunction();//신전에서 가호 무언가를 내림받았을때 작업 수행한걸로
         Debug.Log(newBless.m_godPid + "받았다.");
 
     }
