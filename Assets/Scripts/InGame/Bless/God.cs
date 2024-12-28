@@ -29,8 +29,8 @@ public class God
             GodBless bless = MgMasterData.GetInstance().GetGodBless(blessPid);
             if(bless != null)
             {
-                bless.m_mainCategory = m_mainCategory; //은총의 주요 카테고리는 해당 신이 속한 카테고리
-
+                bless.m_classCategory = m_mainCategory; //은총의 주요 카테고리는 해당 신이 속한 카테고리
+                bless.m_godPid = PID;
                 m_blessList.Add(bless);
             }
                
