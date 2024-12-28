@@ -444,6 +444,16 @@ public static class GameUtil
     #endregion
 
     #region enum 관련 함수
+    public static string GetTokenEnumName(TOrderItem _item)
+    {
+        //해당 아이템의 sub 값을 해당 enum으로 반환해주기
+        System.Type findEnum = GameUtil.FindEnum(_item.Tokentype);
+        if (findEnum == null)
+            return "없는 이넘";
+
+        return System.Enum.GetName(findEnum, _item.SubIdx);
+    }
+
     public static int ParseEnumValue(System.Enum _enumValue)
     {
         int enumIntValue = (int)System.Enum.Parse(_enumValue.GetType(), _enumValue.ToString());
