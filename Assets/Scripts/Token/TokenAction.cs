@@ -38,7 +38,9 @@ public class TokenAction : TokenBase
 
         int synergeIndex = actionTypeIndex +1;
         m_synergeList = new();
+        m_synergeAdapt = new();
         GameUtil.ParseIntList(m_synergeList, valueCode, synergeIndex);
+        
         for (int i = 0; i < m_synergeList.Count; i++)
         {
             m_synergeAdapt.Add(false); //시너지 수만큼 미적용 값을 추가 
@@ -71,9 +73,14 @@ public class TokenAction : TokenBase
         System.Array.Copy(_masterToken.m_tokenIValues, m_tokenIValues, arraySize);
         m_synergeList = _masterToken.m_synergeList;
         m_powerRatio = _masterToken.m_powerRatio;
+
+        m_synergeAdapt = new();
+        for (int i = 0; i < m_synergeList.Count; i++)
+        {
+            m_synergeAdapt.Add(false); //시너지 수만큼 미적용 값을 추가 
+        }
+
     }
-
-
     public TokenAction MakeTestAction(ActionType _type)
     {
         TokenAction actionToken = new TokenAction();
@@ -214,12 +221,30 @@ public class TokenAction : TokenBase
     {
         for (int i = 0; i < m_synergeList.Count; i++)
         {
-           bool check = MgMasterData.GetInstance().GetBlessSynergeData(m_synergeList[i]).CheckSynerge(_char);
-            if(check == true)
+            BlessSynerge synerge = MgMasterData.GetInstance().GetBlessSynergeData(m_synergeList[i]);
+            bool check = synerge.CheckSynerge(_char);
+            if(check == true && m_synergeAdapt[i] == false)
             {
-                //해당 시너지가 온이 되었다면 효과를 적용
+                //해당 시너지가 온이고 미적용이였다면 적용
+                List<TOrderItem> effect = synerge.GetEffectList();
+                for (int x = 0; x < effect.Count; x++)
+                {
+                    AdaptEffect(effect[x]);
+                }
+            }
+            else if (check == false && m_synergeAdapt[i] == true)
+            {
+                //미적용인데 적용되었던 거라면 해제
+
             }
            Debug.Log(m_synergeList[i] + "시너지 활성화 여부 " + check);
         }
+    }
+
+    private void AdaptEffect(TOrderItem _item)
+    {
+        System.Type findEnum = GameUtil.FindEnum(_item.Tokentype);
+        Debug.Log("적용할건 " + GameUtil.GetTokenEnumName(_item));
+
     }
 }
