@@ -564,6 +564,10 @@ public class TokenTile : TokenBase
         if (IsReadyInherece == true)
             return;
 
+        //다른 일 혹은 이미 준비 작업이 진행중이면 추가 작업 불가 
+        if (m_workOrder != null)
+            return;
+
         //해당 장소의 고유작업에 필요한 자원으로 작업오더 생성. 
         TileTypeData tileData = MgMasterData.GetInstance().GetTileData((int)tileType);
         new WorkOrder(null, tileData.NeedLaborTurn, tileData.NeedLaborAmount, this, (int)tileType, WorkType.Inherence);
