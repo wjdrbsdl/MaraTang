@@ -23,6 +23,7 @@ public class UIBlessTemple : UIBase
         if(prayReady == false)
         {
             Debug.Log("신전에 기도드릴 준비가 안되었음");
+            m_curTile.ReadyInherenceWork(); //신전 기도드릴 준비 템플에서 하기 
             return;
         }
 
