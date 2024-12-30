@@ -43,6 +43,7 @@ public class DropItemManager : Mg<DropItemManager>
             if (dropItem.Tokentype.Equals(TokenType.Equipt))
             {
                 //지정된 장비는 - 바로 옵션만 랜덤으로 돌려서 진행
+               // Debug.Log(dropItem.SubIdx + "번 장비" + dropItem.Value + "티어로 드랍");
                 TOrderItem equiptItem = new DiceRandomItem().GetDiceEquiptOption(dropItem); //해당 장비 오더에 맞게 equipt를 생성
                 _aquireList.Add(equiptItem);
                 continue;
