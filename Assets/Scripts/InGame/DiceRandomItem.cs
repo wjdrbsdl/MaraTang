@@ -101,7 +101,7 @@ public class DiceRandomItem
 
         Capital selectCapital = randomList[GameUtil.GetRandomNum(randomList.Count, 1)[0]];
         CapitalData capitalDataf = MgMasterData.GetInstance().GetCapitalData(selectCapital);
-        Debug.Log((Capital)capitalDataf.capitalPid + "의 기본 채집수량 " + capitalDataf.baseAmount);
+        //Debug.Log((Capital)capitalDataf.capitalPid + "의 기본 채집수량 " + capitalDataf.baseAmount);
         return new TOrderItem(TokenType.Capital, (int)selectCapital, capitalDataf.baseAmount);
 
     }
