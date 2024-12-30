@@ -48,6 +48,7 @@ public class MGContent : Mg<MGContent>
         MgGodBless.GetInstance().ReferenceSet();
         ComplainManager.GetInstance().ReferenceSet();
         TileMaker maker = MgToken.GetInstance().m_tileMaker;
+        DropItemManager.GetInstance().ReferenceSet();
         m_chunkList = maker.MakeChunk(maker.DivideChunk(MgToken.GetInstance().m_chunkLength));
         MakeChunkPos();
         GetChunkByRange(4, 1);
