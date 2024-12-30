@@ -110,7 +110,7 @@ public class DiceRandomItem
     {
         TOrderItem equiptItem = _equiptItem;
         int poolPid = _equiptItem.SubIdx;
-        EquiptItemPool equiptPool = MgMasterData.GetInstance().GetEquiptPoolData(poolPid); //풀 정보 가져옴
+        EquiptItemData equiptPool = MgMasterData.GetInstance().GetEquiptPoolData(poolPid); //풀 정보 가져옴
         int tier = _equiptItem.Value;
         EquiptItem equipt = equiptPool.GetItem(tier);
         equiptItem.tokenItem = equipt;

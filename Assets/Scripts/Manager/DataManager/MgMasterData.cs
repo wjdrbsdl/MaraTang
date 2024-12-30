@@ -11,7 +11,7 @@ public class MgMasterData : Mg<MgMasterData>
     private Dictionary<int, BlessSynerge> m_synergeDataDic;
     private Dictionary<int, TokenAction> m_charActionDataDic;
     private List<int> m_charActionList;
-    private Dictionary<int, EquiptItemPool> m_equipPoolDataDic;
+    private Dictionary<int, EquiptItemData> m_equipPoolDataDic;
     private Dictionary<int, ContentMasterData> m_contentDataDic;
     private Dictionary<int, NationTechData> m_nationTechDataDic;
     private Dictionary<int, ConversationGroup> m_conversationGroupDic;
@@ -65,9 +65,9 @@ public class MgMasterData : Mg<MgMasterData>
         return m_charDataDic;
     }
 
-    public EquiptItemPool GetEquiptPoolData(int _equiptPid)
+    public EquiptItemData GetEquiptPoolData(int _equiptPid)
     {
-        return GetDicData<EquiptItemPool>(m_equipPoolDataDic, _equiptPid);
+        return GetDicData<EquiptItemData>(m_equipPoolDataDic, _equiptPid);
     }
 
     public List<TOrderItem> GetDropItem(int _monsterPid)
@@ -271,7 +271,7 @@ public class MgMasterData : Mg<MgMasterData>
         ParseData parseData = MgParsing.GetInstance().GetMasterData(EMasterData.Equipment);
         for (int i = 0; i < parseData.DbValueList.Count; i++)
         {
-            EquiptItemPool equiptPool = new EquiptItemPool(parseData.DbValueList[i]);
+            EquiptItemData equiptPool = new EquiptItemData(parseData.DbValueList[i]);
             if (m_equipPoolDataDic.ContainsKey(equiptPool.m_pid) == false)
                 m_equipPoolDataDic.Add(equiptPool.m_pid, equiptPool);
         }

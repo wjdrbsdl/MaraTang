@@ -2,7 +2,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class EquiptItemPool
+public class EquiptItemData
 {
     public int m_pid = 0;
     public TokenType m_tokenType = TokenType.Equipt;
@@ -12,12 +12,12 @@ public class EquiptItemPool
     public List<int> m_optionPoolList = new();
 
 
-    public EquiptItemPool()
+    public EquiptItemData()
     {
         
     }
 
-    public EquiptItemPool(string[] _dbValueList)
+    public EquiptItemData(string[] _dbValueList)
     {
         m_pid = int.Parse(_dbValueList[0]);
         m_tokenType = TokenType.Equipt;
@@ -37,6 +37,9 @@ public class EquiptItemPool
                 m_optionPoolList.Add(varidPid);
             }
         }
+
+        int dropTierIdx = optionIdx + 1;
+        int dropRatioIdx = dropTierIdx + 1;
     }
 
     public EquiptItem GetItem(int _tier)
