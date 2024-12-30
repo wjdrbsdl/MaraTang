@@ -379,10 +379,10 @@ public class MgMasterData : Mg<MgMasterData>
         {
             //이후 세부 대화 데이터를 만들어서 그그룹에 추가 
             CapitalData capitalMasterData = new CapitalData(parseContainer.MatchCode, parseContainer.DbValueList[i]);
-            if (m_capitalDataDic.ContainsKey(capitalMasterData.capital) == false)
+            if (m_capitalDataDic.ContainsKey(capitalMasterData.capitalPid) == false)
             {
                 // Debug.Log((Capital)capitalMasterData.capital + " 데이터 추가");
-                m_capitalDataDic.Add(capitalMasterData.capital, capitalMasterData);
+                m_capitalDataDic.Add(capitalMasterData.capitalPid, capitalMasterData);
             }
 
         }
