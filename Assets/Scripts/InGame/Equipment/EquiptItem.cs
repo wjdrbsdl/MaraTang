@@ -19,6 +19,7 @@ public class EquiptItem : TokenBase
 
     public EquiptItem (int _pid, string _name, EquiptPartEnum _part, int _tier, List<TOrderItem> _effectList)
     {
+        m_tokenType = TokenType.Equipt;
         m_tokenPid = _pid;
         m_itemName = _name;
         m_part = _part;
