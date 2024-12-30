@@ -370,7 +370,7 @@ public class RuleBook
             }
             if(resource.Tokentype == TokenType.Random)
             {
-                TOrderItem selectItem = new DiceRandomItem().GetDiceItem(resource);
+                TOrderItem selectItem = new DiceRandomItem().GetDiceItem(resource); //자원채집 랜덤 캐기
                 if (AbleFindCapital((Capital)selectItem.SubIdx, _findAbility))
                     result.Add(((Capital)selectItem.SubIdx, selectItem.Value));
                 continue;
@@ -392,7 +392,7 @@ public class RuleBook
             return false;
         int random = UnityEngine.Random.Range(1, 101);
 
-        //Debug.Log(ratio + "범위중에" + random + "수치 뽑음");
+        //Debug.Log(_cpaital+" 뽑는데 범위" + ratio + "/" + random + "수치 뽑음");
         return random <= ratio;
     }
 
