@@ -71,7 +71,7 @@ public class TokenChar : TokenBase
         m_tokenIValues[(int)CharStat.CurActionCount] = m_tokenIValues[(int)CharStat.MaxActionCount];
         m_tokenIValues[(int)CharStat.CurActionEnergy] = m_tokenIValues[(int)CharStat.MaxActionEnergy];
         m_tokenIValues[(int)CharStat.CurHp] = m_tokenIValues[(int)CharStat.MaxHp];
-        m_tokenIValues[(int)CharStat.EquiptSlotCount] = 3; //임시로 착용가능장비 3으로 세팅
+        m_tokenIValues[(int)CharStat.EquiptSlotCount] = 1; //임시로 착용가능장비 3으로 세팅
         m_tokenIValues[(int)CharStat.BlessSlotCount] = 3;
         m_tokenIValues[(int)CharStat.ActionSlotCount] = 3;
     }
