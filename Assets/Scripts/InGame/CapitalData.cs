@@ -18,7 +18,8 @@ public class CapitalData
         Tier = int.Parse(_parsingData[2]);
         baseRatio = int.Parse(_parsingData[3]);
 
-        if (System.Enum.TryParse(typeof(TileType), _parsingData[capitalPidIndex], out object ableTileType))
+        int ableTileIndex = 4;
+        if (System.Enum.TryParse(typeof(TileType), _parsingData[ableTileIndex], out object ableTileType))
             ablePlace = (TileType)ableTileType;
 
         Debug.Log((Capital)capitalPid + "자원 발견 가능장소 " + ablePlace);
