@@ -10,7 +10,8 @@ public class EquiptItemData
     public EquiptPartEnum m_part = EquiptPartEnum.None;
     public List<TOrderItem> m_effect = new(); //플레이어 스텟에 가하는 요소
     public List<int> m_optionPoolList = new();
-
+    public int ableDropTir = 0;
+    public int dropRatio = 0;
 
     public EquiptItemData()
     {
@@ -39,7 +40,9 @@ public class EquiptItemData
         }
 
         int dropTierIdx = optionIdx + 1;
+        ableDropTir = int.Parse(_dbValueList[dropTierIdx]); //드랍하려는 티어 Point가 able값 이상이어야 해당 장비 드랍 가능
         int dropRatioIdx = dropTierIdx + 1;
+        dropRatio = int.Parse(_dbValueList[dropRatioIdx]); //다른 Pool의 장비들과 비교해서 드랍될 수치
     }
 
     public EquiptItem GetItem(int _tier)
