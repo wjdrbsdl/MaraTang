@@ -11,6 +11,8 @@ public class EquiptOptionData
     public int Tier1Value; //1티어 시작점 + Gap이 1티어 구간
     public int TierGap; //각 티어 폭
     public int PoolDiceValue; //해당 옵션 가중치 - 높을수록 여러 옵션중 잘뜸
+    public int StartTier; //해당 옵션이 발생가능한 Tier
+
 
     public EquiptOptionData(string[] _parsingData)
     {
@@ -20,7 +22,7 @@ public class EquiptOptionData
         int tier1valueIdx = subvalueIdx + 1;
         int tierGapIdx = tier1valueIdx + 1;
         int pooldiceIdx = tierGapIdx + 1;
-
+        int startTierIdx = pooldiceIdx + 1;
         Pid = int.Parse(_parsingData[pidIdx]);
         Name = _parsingData[nameIdx];
         if (System.Enum.TryParse(typeof(CharStat), _parsingData[subvalueIdx], out object sub))
@@ -28,7 +30,8 @@ public class EquiptOptionData
         Tier1Value = int.Parse(_parsingData[tier1valueIdx]);
         TierGap = int.Parse(_parsingData[tierGapIdx]);
         PoolDiceValue = int.Parse(_parsingData[pooldiceIdx]);
-        
+        StartTier = int.Parse(_parsingData[startTierIdx]);
+
     }
 
     public TOrderItem GetOptionValue(int _tier)
