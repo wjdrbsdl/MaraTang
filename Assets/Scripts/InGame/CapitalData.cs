@@ -22,7 +22,7 @@ public class CapitalData
         if (System.Enum.TryParse(typeof(TileType), _parsingData[ableTileIndex], out object ableTileType))
             ablePlace = (TileType)ableTileType;
 
-        Debug.Log((Capital)capitalPid + "자원 발견 가능장소 " + ablePlace);
+      //  Debug.Log((Capital)capitalPid + "자원 발견 가능장소 " + ablePlace);
         baseAmount = int.Parse(_parsingData[5]);
 
 
