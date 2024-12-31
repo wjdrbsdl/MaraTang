@@ -264,7 +264,15 @@ public class TokenChar : TokenBase
     }
     #endregion
 
-    #region 액션 카운트 회복
+    #region 매턴 할일
+    public void TurnReset()
+    {
+        //턴 정산할때 할일
+        RecoverActionCount();
+        RecoverActionTokenCount();
+        RecoverActionEnergy();
+    }
+
     public void RecoverActionTokenCount()
     {
         for (int i = 0; i < m_haveActionList.Count; i++)
