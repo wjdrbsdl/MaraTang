@@ -32,6 +32,7 @@ public class TokenChar : TokenBase
     [JsonProperty] private List<TokenAction> m_haveActionList = new(); //이 캐릭터가 지니고 있는 액션 토큰들
     private List<GodBless> m_blessList = new();
     private List<EquiptItem> m_equiptLIst = new(); //착용한 장비류
+    private List<TokenBuff> m_buffLIst = new(); //가미된 버프류
 
     //매턴 바뀌는 요소
     private TokenAction m_nextAction = null;
@@ -166,6 +167,11 @@ public class TokenChar : TokenBase
     #endregion
 
     #region Get
+    public List<TokenBuff> GetBuffList()
+    {
+        return m_buffLIst;
+    }
+
     public List<GodBless> GetBlessList()
     {
         return m_blessList;
@@ -330,7 +336,6 @@ public class TokenChar : TokenBase
         CheckActionSynerge();
     }
 
-
     public void AdaptBless(GodBless _godBless)
     {
         // Debug.Log("어뎁터 클래스에서 블래스 적용하기");
@@ -489,6 +494,76 @@ public class TokenChar : TokenBase
     public List<EquiptItem> GetEquiptList()
     {
         return m_equiptLIst;
+    }
+    #endregion
+
+    #region 버프
+    public bool CastBuff(TokenBuff _buff)
+    {
+        //버프를 걸었다.
+
+        //1. 해당 버프를 걸수있는지 체크 
+        if (AbleBuff(_buff) == false)
+            return false;
+
+        //2. 아니면 적용
+        AddBuff(_buff);
+
+        //가득차있을 경우
+        if (IsPlayerChar() == true)
+        {
+            //  Debug.Log("은총보유 UI에서 제거할것을 요청");
+            MgUI.GetInstance().ShowPlayerBless();  //가득찬 가호를 비우도록 유도 
+        }
+
+        return false;
+    }
+
+    public bool AbleBuff(TokenBuff _buff)
+    {
+        //해당 버프를 추가로 걸수 있는가 -
+        //버프 중첩타입에 cant인경우엔 반려
+        if (_buff.m_nestType == NestingType.Cant)
+            return false;
+
+        return true;
+    }
+
+    public bool HaveBuff(TokenBuff _bless)
+    {
+        return CheckTokenHave<TokenBuff>(_bless, m_buffLIst);
+    }
+
+    public void AddBuff(TokenBuff _buff)
+    {
+        // Debug.Log(_bless.Name + "은총 추가");
+
+        m_buffLIst.Add(_buff);
+        AdaptBuff(_buff);
+    }
+
+    public void RemoveBuff(TokenBuff _buff)
+    {
+        m_buffLIst.Remove(_buff);
+        List<TOrderItem> reverseEffect = GameUtil.ReverseItemList(_buff.m_effect);
+        //효과 역계산
+        _buff.m_effect = reverseEffect;
+        //역계산한걸로 적용
+        AdaptBuff(_buff);
+    }
+
+    public void AdaptBuff(TokenBuff _buff)
+    {
+        // Debug.Log("어뎁터 클래스에서 블래스 적용하기");
+        OrderExcutor excutor = new();
+
+        for (int i = 0; i < _buff.m_effect.Count; i++)
+        {
+            TOrderItem blessEffect = _buff.m_effect[i];
+            excutor.AdaptItem(blessEffect);
+            // Debug.Log(blessEffect.Value);
+        }
+
     }
     #endregion
 
