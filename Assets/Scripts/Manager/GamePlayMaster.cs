@@ -59,7 +59,8 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
             TOrderItem deathCode = new TOrderItem(TokenType.Content, (int)ContentEnum.GameState, (int)GameStateEnum.PlayerDead);
             MGContent.GetInstance().SendActionCode(deathCode);
 
-            TokenBuff buff = MgMasterData.GetInstance().getbuf
+            TokenBuff armorBreakbuff = MgMasterData.GetInstance().GetBuffData((int)BuffEnum.ArmorBreak);
+            PlayerManager.GetInstance().GetMainChar().CastBuff(armorBreakbuff);
         }
         if (Input.GetKeyDown(KeyCode.F6))
         {
@@ -282,7 +283,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     {
         PopupMessage("턴 종료"); 
         EffectEndTurn(); //턴이 종료할때 발휘되는 효과나 계산할것들 정산
-        RecoverResource(); //소비되었던 액션 에너지등 회복
+        ResetCharTurn(); //소비되었던 액션 에너지등 회복
         ReadyNextWorldTurn(); //월드 턴 변화 진행
         ResetNationTurn(); //국가 집행순서 세팅
         ResetPlayerTurn(); //플레이어 턴으로 세팅
@@ -302,29 +303,11 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
       //  Debug.Log("겜마스터 완료 제거 후 남은 작업수 " + m_globalWorkList.Count);
     }
 
-    private void RecoverResource() 
-    {
-        //턴에 소비되었던 자원들 회복
-        // Debug.Log("행동 횟수 초기화");
-        RecoverActionCount();
-        RecoverActionEnergy();
-    }
-
-    private void RecoverActionCount()
-    {
-       AnnounceState("소비된 액션 카운트 회복");
-        for (int i = 0; i < MgToken.GetInstance().GetCharList().Count; i++)
-        {
-            MgToken.GetInstance().GetCharList()[i].RecoverActionCount(); //
-            MgToken.GetInstance().GetCharList()[i].RecoverActionTokenCount();
-        }
-    }
-
-    private void RecoverActionEnergy()
+    private void ResetCharTurn() 
     {
         for (int i = 0; i < MgToken.GetInstance().GetCharList().Count; i++)
         {
-            MgToken.GetInstance().GetCharList()[i].RecoverActionEnergy();
+            MgToken.GetInstance().GetCharList()[i].TurnReset();
         }
     }
 
