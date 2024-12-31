@@ -9,7 +9,7 @@ public enum ActionType
 
 public enum CharActionStat
 {
-   MinRange, Range, MinRatio, MaxCountInTurn, RemainCountInTurn, Power, NeedActionEnergy, NeedActionCount, CoolTime, RemainCool
+   MinLich, Lich, MinRatio, MaxCountInTurn, RemainCountInTurn, Power, NeedActionEnergy, NeedActionCount, CoolTime, RemainCool
 }
 
 [System.Serializable]
@@ -167,7 +167,7 @@ public class TokenAction : TokenBase
 
     public int GetFinalRange(TokenChar _char)
     {
-        int finalRange = GetStat(CharActionStat.Range);
+        int finalRange = GetStat(CharActionStat.Lich);
         int dex = _char.GetStat(CharStat.Dex);
         int ratio = GetStat(CharActionStat.MinRatio);
         float ratioValue = (finalRange * dex * ratio * 0.01f);

@@ -149,10 +149,10 @@ public static class GameUtil
     public static int GetMinRange(TokenBase _fromToken, TokenBase _toToken)
     {
         TMapIndex mapIndex = new TMapIndex(_fromToken, _toToken);
-        return GetMinRange(mapIndex);
+        return GetMinDistance(mapIndex);
     }
 
-    public static int GetMinRange(TMapIndex _tMapIndex)
+    public static int GetMinDistance(TMapIndex _tMapIndex)
     {
         int minY = Mathf.Abs(_tMapIndex.curY - _tMapIndex.toY); //최소 움직여야하는 Y 값 
         int gapX = Mathf.Abs(_tMapIndex.curX - _tMapIndex.toX); //같은 y축이 되었을 때 x 이동 값

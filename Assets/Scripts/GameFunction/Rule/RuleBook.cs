@@ -264,16 +264,16 @@ public class RuleBook
     #endregion
 
     #region 조건 체크 
-    public bool IsInRangeTarget(TokenChar _char, TokenAction _action, TokenBase _target)
+    public bool IsInLichTarget(TokenChar _char, TokenAction _action, TokenBase _target)
     {
         TMapIndex mapIndex = new TMapIndex(_char, _target);
-        int targetRange = GameUtil.GetMinRange(mapIndex);
+        int targetDistance = GameUtil.GetMinDistance(mapIndex);
 
         //Debug.Log(_char.GetXIndex() + "," + _char.GetYIndex() + "에서 " + _target.GetXIndex() + "," + _target.GetYIndex() + "거리는 " + targetRange);
-        if (targetRange < _action.GetStat(CharActionStat.MinRange))
+        if (targetDistance < _action.GetStat(CharActionStat.MinLich))
             return false;
 
-        if (_action.GetStat(CharActionStat.Range) < targetRange)
+        if (_action.GetStat(CharActionStat.Lich) < targetDistance)
            return false;
 
         return true;

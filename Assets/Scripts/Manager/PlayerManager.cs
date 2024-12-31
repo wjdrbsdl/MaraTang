@@ -82,7 +82,7 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule, KeyIntercepto
             case CharTurnStep.FillCharActiContent:
                 //누른게 타일이던 그 위의 오브젝트던 일단 위치로 변환해서
                 
-                if (GamePlayMaster.g_instance.RuleBook.IsInRangeTarget(m_curChar, m_curAction, _token) == false)
+                if (GamePlayMaster.g_instance.RuleBook.IsInLichTarget(m_curChar, m_curAction, _token) == false)
                 {
                    // Debug.Log("해당 타겟은 사거리밖이라 요청 반려");
                     return;

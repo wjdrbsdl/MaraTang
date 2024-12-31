@@ -257,7 +257,7 @@ public class AIPlayer : PlayerRule
             return null;
         }
 
-        int enemyDistance = GameUtil.GetMinRange(new TMapIndex(_char, _targetToken));
+        int enemyDistance = GameUtil.GetMinDistance(new TMapIndex(_char, _targetToken));
 
         List<int> randomAt = GameUtil.GetRandomNum(_attackList.Count, _attackList.Count);
         for (int i = 0; i < randomAt.Count; i++)
@@ -295,7 +295,7 @@ public class AIPlayer : PlayerRule
             return null;
         }
 
-        int enemyDistance = GameUtil.GetMinRange(new TMapIndex(_devilChar, _target));
+        int enemyDistance = GameUtil.GetMinDistance(new TMapIndex(_devilChar, _target));
         //사용할 부정 순서 섞기
         List<int> randomAt = GameUtil.GetRandomNum(_wrongList.Count, _wrongList.Count);
         for (int i = 0; i < randomAt.Count; i++)
@@ -333,7 +333,7 @@ public class AIPlayer : PlayerRule
         }
 
         //대상까지 사거리가 1이면 이동 안함 
-        int enemyDistance = GameUtil.GetMinRange(new TMapIndex(_char, _targetToken));
+        int enemyDistance = GameUtil.GetMinDistance(new TMapIndex(_char, _targetToken));
         if (enemyDistance == 1)
         {
             //Debug.Log(m_turnNumber + " 적과 거리가 1");
@@ -385,7 +385,7 @@ public class AIPlayer : PlayerRule
         for (int i = 1; i <= tempMoveCount; i++)
         {
             //1. 계속 찾을지 체크
-            if(GameUtil.GetMinRange(mapInfoes) <= stopDistance)//현재 위치에서 목적지까지 사거리가 멈춰야하는 거리 이내라면 루트 찾기 종료 
+            if(GameUtil.GetMinDistance(mapInfoes) <= stopDistance)//현재 위치에서 목적지까지 사거리가 멈춰야하는 거리 이내라면 루트 찾기 종료 
             {
                 break;
             }
