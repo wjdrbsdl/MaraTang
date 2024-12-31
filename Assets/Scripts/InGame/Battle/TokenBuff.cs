@@ -41,6 +41,8 @@ public class TokenBuff : TokenBase
         int nestingIdx = 2;
         int restTurnIdx = nestingIdx + 1;
         m_restTurn = int.Parse(_valueCode[restTurnIdx]);
+        int effectIdx = restTurnIdx + 1;
+        GameUtil.ParseOrderItemList(m_effect, _valueCode[effectIdx]);
     }
     //복사본 캐릭 생성 : 캐릭터 스폰 시 사용
     public TokenBuff(TokenBuff _masterToken)
@@ -50,12 +52,16 @@ public class TokenBuff : TokenBase
         m_itemName = _masterToken.m_itemName;
         m_tokenType = _masterToken.m_tokenType;
         m_restTurn = _masterToken.m_restTurn;
-        int arraySize = _masterToken.m_tokenIValues.Length;
-        m_tokenIValues = new int[arraySize];
-        //마스터 데이터 깊은 복사로 객체 고유 배열 값 생성. 
-        System.Array.Copy(_masterToken.m_tokenIValues, m_tokenIValues, arraySize); //스텟값 복사
-        //스킬 마스터값 복사
-
+        //int arraySize = _masterToken.m_tokenIValues.Length;
+        //m_tokenIValues = new int[arraySize];
+        ////마스터 데이터 깊은 복사로 객체 고유 배열 값 생성. 
+        //System.Array.Copy(_masterToken.m_tokenIValues, m_tokenIValues, arraySize); //스텟값 복사
+        //                                                                           //스킬 마스터값 복사
+        m_effect = new();
+        for (int i = 0; i < _masterToken.m_effect.Count; i++)
+        {
+            m_effect.Add(_masterToken.m_effect[i]);
+        }
     }
 
     #endregion
