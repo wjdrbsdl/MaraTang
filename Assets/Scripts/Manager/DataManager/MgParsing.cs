@@ -5,7 +5,7 @@ using UnityEngine;
 public enum EMasterData
 {
     ContentData, TileType, CharData, CharActionData, EventData, NationTechTree, Conversation, God, GodBless, BlessSynerge,
-    Equipment, ChunkContent, CapitalData, ExtraValue, EquiptOptionData
+    Equipment, ChunkContent, CapitalData, ExtraValue, EquiptOptionData, BuffData
 }
 public struct ParseData
 {
@@ -34,16 +34,19 @@ public class MgParsing : MgGeneric<MgParsing>
     private string[] sheetIDes = { "1290425553", "1971334673", "1134768741",
                                     "1603700320","218824529","1858334671" ,
                                     "1780035322", "242617216", "1085432251",
-                                    "1134239208", "539688768", "1379552483", "912493453", "1097378561" };
+                                    "1134239208", "539688768", "1379552483", "912493453", "1097378561",
+                                    "1674324686"};
     private EMasterData[] dbId = { EMasterData.ContentData, EMasterData.TileType, EMasterData.CharData, 
                                    EMasterData.CharActionData, EMasterData.NationTechTree, EMasterData.Conversation,
                                    EMasterData.God, EMasterData.GodBless, EMasterData.BlessSynerge,
-                                    EMasterData.Equipment, EMasterData.ChunkContent, EMasterData.CapitalData, EMasterData.ExtraValue, EMasterData.EquiptOptionData};
+                                    EMasterData.Equipment, EMasterData.ChunkContent, EMasterData.CapitalData, EMasterData.ExtraValue, EMasterData.EquiptOptionData,
+                                    EMasterData.BuffData};
     //stat[] 를 사용하는경우 db에 enum값 MatchValue를 만들기 위해 어떤 enum을 쓰는지 
     private System.Enum[] matchTypes = { null, ETileStat.Nation, CharStat.CurActionCount, 
                                     CharActionStat.CoolTime, null, ConversationStat.Pid,
                                    null, null, null,
-                                   null, null, null, null, null};
+                                   null, null, null, null, null,
+                                    null};
     private Dictionary<EMasterData, ParseData> dbContainer = new(); //파싱한값을 그냥 갖고만 있는상태 - 사용하는곳에서 다시 가공 필요. 
  
     public override void ManageInitiSet()
