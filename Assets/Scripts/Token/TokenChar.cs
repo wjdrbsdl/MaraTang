@@ -522,9 +522,14 @@ public class TokenChar : TokenBase
     public bool AbleBuff(TokenBuff _buff)
     {
         //해당 버프를 추가로 걸수 있는가 -
-        //버프 중첩타입에 cant인경우엔 반려
-        if (_buff.m_nestType == NestingType.Cant)
-            return false;
+        
+        //이미 부여된 버프이면서
+        if (HaveBuff(_buff))
+        {
+            //중첩 불가인 버프인경우에는 false 반환
+            if (_buff.m_nestType == NestingType.Cant)
+                return false;
+        }
 
         return true;
     }
