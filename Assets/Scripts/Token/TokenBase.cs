@@ -12,7 +12,7 @@ public enum OnChangeEnum
 public enum TokenType
 {
     None, Tile, Char, CharStat, Action, ActionStat, Player, Capital, Event, Nation, Content, NationTech, Conversation, NationStat, OnChange, Bless,
-    MonsterNationSpawn, EventPlaceNationSpawn, Equipt, UIOpen, MonsterSpawn, EventPlaceChunkSpawn, ChunkContent, Random
+    MonsterNationSpawn, EventPlaceNationSpawn, Equipt, UIOpen, MonsterSpawn, EventPlaceChunkSpawn, ChunkContent, Random, Buff
 }
 
 public enum SideEnum
