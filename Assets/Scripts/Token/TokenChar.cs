@@ -271,6 +271,7 @@ public class TokenChar : TokenBase
         RecoverActionCount();
         RecoverActionTokenCount();
         RecoverActionEnergy();
+        CountBuff(1);
     }
 
     public void RecoverActionTokenCount()
@@ -557,6 +558,8 @@ public class TokenChar : TokenBase
 
     public void RemoveBuff(TokenBuff _buff)
     {
+        if (HaveBuff(_buff) == false)
+            return;
         m_buffLIst.Remove(_buff);
         List<TOrderItem> reverseEffect = GameUtil.ReverseItemList(_buff.m_effect);
         //효과 역계산
@@ -577,6 +580,20 @@ public class TokenChar : TokenBase
             // Debug.Log(blessEffect.Value);
         }
 
+    }
+
+    public void CountBuff(int _count)
+    {
+        //전달된 수치만큼 보유중인 버프 유지턴을 감소
+        TokenBuff[] buffes = m_buffLIst.ToArray();
+        for (int i = 0; i < buffes.Length; i++)
+        {
+            buffes[i].Count(_count);
+            if (buffes[i].DoneTime())
+            {
+                RemoveBuff((buffes[i]));
+            }
+        }
     }
     #endregion
 
