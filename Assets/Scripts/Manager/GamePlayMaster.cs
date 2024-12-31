@@ -58,6 +58,8 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
             // UnityEngine.SceneManagement.SceneManager.LoadScene("0.IntroScene");
             TOrderItem deathCode = new TOrderItem(TokenType.Content, (int)ContentEnum.GameState, (int)GameStateEnum.PlayerDead);
             MGContent.GetInstance().SendActionCode(deathCode);
+
+            TokenBuff buff = MgMasterData.GetInstance().getbuf
         }
         if (Input.GetKeyDown(KeyCode.F6))
         {
