@@ -12,6 +12,54 @@ public enum TileDirection
 public static class GameUtil 
 {
     #region 타일 계산
+    public static List<int[]> GetTilePosListInRangeNoLand(int _range, int _centerX, int _centerY, int _minRange = 0)
+    {
+        //   _1 _2
+        //  /6    |3  왼쪽을 스타트로 해당 사거리 _range 단계만큼 TileDirection enum 방향으로 진행하면서 상대적 좌표 도출
+        //   |5  /4
+
+        List<int[]> rangedTile = new List<int[]>();
+
+
+        int[] startPoint = { _centerX, _centerY }; //기준이되는 시작점을 센터로 잡음
+        //최소 사거리가 0 일때만 원점 추가 
+        if (_minRange == 0)
+            rangedTile.Add(new int[] { _centerX, _centerY });
+        //string resultLog = "";
+        //한칸씩 주변을 돌면서 기록
+        for (int range = _minRange; range <= _range; range++)
+        {
+            //주변을 도는 6 방향 - TileDirection으로 매칭 -> RightUp방향으로 먼저 진행하므로, -1(살피려는 범위의 사거리)로 시작점을 조정
+            startPoint[0] = _centerX - range;
+            for (int direction = 0; direction <= 5; direction++)
+            {
+                //해당 방향으로 나아가는 횟수는 현재 살펴보는 range
+                for (int i = 1; i <= range; i++) //6방향으로 돔
+                {
+                    // Debug.Log((TileDirection)x + "방향으로 " + i + "번 진행");
+                    //1. 타일에서 특정방향으로 갈때 상대 좌표값 도출
+                    int[] newTile = GetGapCoordiFromDirect(startPoint[1], (TileDirection)direction);
+
+                    //2. 도출된 상대좌표에 기본 좌표값을 더하면 이동한 절대 좌표가 나옴. 
+                    newTile[0] += startPoint[0];
+                    newTile[1] += startPoint[1];
+
+                    //3. 시작점을 이동한 절대좌표로 갱신
+                    startPoint[0] = newTile[0];
+                    startPoint[1] = newTile[1];
+                    rangedTile.Add(newTile); //
+                    //resultLog += (startPoint[0] + _centerX).ToString() + "," + (startPoint[1] + _centerY).ToString() + "/";
+                }
+                //resultLog += "\n";
+            }
+            //6방향 모두 돌았으면 다시 Left 지점으로 돌아옴 여기서 한칸더 주변 범위를 돌기 때문에 왼쪽으로 이동
+
+        }
+
+        //Debug.Log("찾은 타일 갯수" + rangedTile.Count);
+
+        return rangedTile;
+    }
     public static List<int[]> GetTileIdxListInRange(int _range, int _centerX, int _centerY, int _minRange = 0)
     {
         //   _1 _2
@@ -143,6 +191,11 @@ public static class GameUtil
         }
 
         return null;
+    }
+    public static int GetMinDistance(int[] _fromPos, int[] _toPos)
+    {
+        TMapIndex mapIndex = new TMapIndex(_fromPos, _toPos);
+        return GetMinDistance(mapIndex);
     }
 
     //목적지까지 최단 타일 개수
@@ -860,5 +913,13 @@ public struct TMapIndex
         curY = _curToken.GetYIndex();
         toX = _toToken.GetXIndex();
         toY = _toToken.GetYIndex();
+    }
+
+    public TMapIndex(int[] _from, int[] _to)
+    {
+        curX = _from[0];
+        curY = _from[1];
+        toX = _to[0];
+        toY = _to[1];
     }
 }
