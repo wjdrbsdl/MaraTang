@@ -49,9 +49,10 @@ public class UIBlessTemple : UIBase
         }
 
         //메인케릭터에 블레스 추가 
-        TOrderItem blessItem = new TOrderItem(TokenType.Bless, newBless.GetPid(), 0); //벨류는 머해야되나
-        OrderExcutor excutor = new();
-        excutor.AdaptItem(blessItem);
+        TokenChar mainChar = PlayerManager.GetInstance().GetMainChar();
+        //새 축복 클래스로 복사해서 케릭터에게 획득 진행 
+        GodBless bless = new GodBless(newBless);
+        mainChar.AquireBless(bless);
     }
 
     public void OpenPlayerBless()
