@@ -162,6 +162,11 @@ public class MgMasterData : Mg<MgMasterData>
         return GetDicData(m_equiptOptionDataDic, _pid);
     }
 
+    public TokenBuff GetBuffData(int _pid)
+    {
+        return GetDicData(m_buffDataDic, _pid);
+    }
+
     private T1 GetDicData<T1>(Dictionary<int, T1> _dic, int _pid)
     {
         if (_dic.ContainsKey(_pid))
