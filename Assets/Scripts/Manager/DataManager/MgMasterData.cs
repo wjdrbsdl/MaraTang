@@ -20,7 +20,7 @@ public class MgMasterData : Mg<MgMasterData>
     private Dictionary<int, ChunkContent> m_chunkContentDic;
     private Dictionary<int, CapitalData> m_capitalDataDic;
     private Dictionary<int, EquiptOptionData> m_equiptOptionDataDic;
-
+    private Dictionary<int, TokenBuff> m_buffDataDic;
     #region 생성자
     public MgMasterData()
     {
@@ -46,6 +46,7 @@ public class MgMasterData : Mg<MgMasterData>
         SetCapitalData();
         SetExtraValue();
         SetEquiptOptionData();
+        SetBuffData();
     }
 
     public override void ReferenceSet()
@@ -411,6 +412,23 @@ public class MgMasterData : Mg<MgMasterData>
             {
                 // Debug.Log((Capital)capitalMasterData.capital + " 데이터 추가");
                 m_equiptOptionDataDic.Add(optionData.Pid, optionData);
+            }
+
+        }
+    }
+
+    private void SetBuffData()
+    {
+        ParseData parseContainer = MgParsing.GetInstance().GetMasterData(EMasterData.BuffData);
+        m_buffDataDic = new();
+        for (int i = 0; i < parseContainer.DbValueList.Count; i++)
+        {
+            //이후 세부 대화 데이터를 만들어서 그그룹에 추가 
+            TokenBuff buffData = new TokenBuff(parseContainer.DbValueList[i]);
+            if (m_buffDataDic.ContainsKey(buffData.GetPid()) == false)
+            {
+                // Debug.Log((Capital)capitalMasterData.capital + " 데이터 추가");
+                m_buffDataDic.Add(buffData.GetPid(), buffData);
             }
 
         }
