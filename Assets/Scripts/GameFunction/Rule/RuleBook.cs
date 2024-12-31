@@ -10,7 +10,8 @@ public class RuleBook
     private Dictionary<int, TokenAction> m_tileActionDic;
     private CapitalRecipe m_capitalRecipe = new();
     private RuleBookTileAction m_tileActionPart;
-   
+    private RuleBookActionPart m_skillActionPart;
+
     public struct TAttackProgress
     {
         public float t_oriignDamage;
@@ -82,8 +83,8 @@ public class RuleBook
 
     public RuleBook()
     {
-        RuleBookTileAction tilePart = new();
-        m_tileActionPart = tilePart;
+        m_tileActionPart = new RuleBookTileAction();
+        m_skillActionPart = new RuleBookActionPart();
     }
 
     #region 액션 수행 절차
@@ -115,21 +116,28 @@ public class RuleBook
             {
                 MgSkillFx.GetInstance().MakeSkillFx(targetTile, actionToken.GetPid());
             };
-            //2. 범위 내의 타겟을 가져옴
-            List<TokenChar> enemies = targetTile.GetCharsInTile();
-            //3. 해당 타겟에게 해당 공격의 효과를 적용 
+            //2. 타겟 지점을 기준으로 적용될 장소를 산정
+            List<TokenTile> targetTiles = m_skillActionPart.GetActionRangeTile(_playChar.GetMapIndex(), targetTile.GetMapIndex(), 15);
+        
+            //3. 모든 장소를 돌며 적을 찾아 공격 수행
             effectDelegate = delegate
             {
                 TAttackProgress attackProgress = new TAttackProgress(_playChar, actionToken);
-                for (int i = 0; i < enemies.Count; i++)
+                for (int i = 0; i < targetTiles.Count; i++)
                 {
-                    //   Debug.Log(_playChar.GetItemName() + "이 " + enemies[i].GetItemName() + "를 공격");
-            
-                    attackProgress.ApplyDamage(enemies[i]);
-                }
+                    TokenTile attackTile = targetTiles[i];
+                    List<TokenChar> enemies = attackTile.GetCharsInTile();
+                    for (int x = 0; x < enemies.Count; x++)
+                    {
+                        Debug.Log(_playChar.GetItemName() + "이 " + enemies[x].GetItemName() + "를 공격");
 
-                if(targetTile.m_Side != _playChar.m_Side)
-                attackProgress.AttackPlace(targetTile);
+                        attackProgress.ApplyDamage(enemies[x]);
+                    }
+
+                    if (attackTile.m_Side != _playChar.m_Side)
+                        attackProgress.AttackPlace(attackTile);
+                }
+                
             };
             animateCoroutine = co_AttacAction(_playChar, attackSfx, effectDelegate);
 
