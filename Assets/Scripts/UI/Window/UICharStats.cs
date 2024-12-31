@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using TMPro;
 
 public class UICharStats : UIBase
 {
@@ -12,6 +12,8 @@ public class UICharStats : UIBase
     private BtnCharStatIntense m_statButtonSample;
     [SerializeField]
     private BtnCharStatIntense[] m_statkButtones;
+    [SerializeField]
+    private TMP_Text m_buffText;
     private int setCount = 0;
     private CharStat[] m_showStat = {CharStat.Strenth, CharStat.Dex, CharStat.Inteligent };
 
@@ -24,6 +26,7 @@ public class UICharStats : UIBase
         MakeSamplePool<BtnCharStatIntense>(ref m_statkButtones, m_statButtonSample.gameObject, setCount, m_charStatBox);
         //버튼 세팅
         SetButtons(_char);
+        SetBuffInfo(_char);
     }
 
  
@@ -41,4 +44,15 @@ public class UICharStats : UIBase
         }
     }
 
+    private void SetBuffInfo(TokenChar _char)
+    {
+        List<TokenBuff> buffList = _char.GetBuffList();
+        string info = "";
+        for (int i = 0; i < buffList.Count; i++)
+        {
+            TokenBuff buff = buffList[i];
+            info += buff.GetItemName() + " \n";
+        }
+        m_buffText.text = info;
+    }
 }
