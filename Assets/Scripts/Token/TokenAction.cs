@@ -81,38 +81,6 @@ public class TokenAction : TokenBase
         }
 
     }
-    public TokenAction MakeTestAction(ActionType _type)
-    {
-        TokenAction actionToken = new TokenAction();
-        actionToken.m_tokenIValues = new int[System.Enum.GetValues(typeof(CharActionStat)).Length];
-        actionToken.m_targetPos = null;
-        actionToken.m_tokenType = TokenType.Action;
-        actionToken.actionType = _type;
-        actionToken.SetStatValue(CharActionStat.MinRange, 1);
-        if (_type.Equals(ActionType.Move))
-        {
-            actionToken.actionTarget = TokenType.Tile;
-            actionToken.SetStatValue(CharActionStat.Range, 3);
-            actionToken.SetStatValue(CharActionStat.MinRatio, 2);
-            actionToken.SetStatValue(CharActionStat.RemainCountInTurn, 2);
-            actionToken.SetStatValue(CharActionStat.MaxCountInTurn, 2);
-            actionToken.SetStatValue(CharActionStat.NeedActionCount, 1);
-            actionToken.SetStatValue(CharActionStat.CoolTime, 2);
-        }
-        else if (_type.Equals(ActionType.Attack))
-        {
-            actionToken.actionTarget = TokenType.Char;
-            actionToken.SetStatValue(CharActionStat.Range, 1);
-            actionToken.SetStatValue(CharActionStat.MinRatio, 1);
-            actionToken.SetStatValue(CharActionStat.RemainCountInTurn, 1);
-            actionToken.SetStatValue(CharActionStat.MaxCountInTurn, 1);
-            actionToken.SetStatValue(CharActionStat.NeedActionCount, 0);
-     
-        }
-        
-        return actionToken;
-    }
-
     #endregion
 
     #region 타겟 수정 관련

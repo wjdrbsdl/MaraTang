@@ -235,16 +235,6 @@ public class MgToken : MgGeneric<MgToken>
     }
     #endregion
  
-    #region 액션 토큰 생성
-    public void MakeTestCharActionToken(TokenChar _tokenChar)
-    {
-        TokenAction moveAction = new TokenAction().MakeTestAction(ActionType.Move);
-        TokenAction attackAction = new TokenAction().MakeTestAction(ActionType.Attack);
-        _tokenChar.AquireAction(moveAction); 
-        _tokenChar.AquireAction(attackAction);
-    }
-    #endregion
-
     #region Get
     public List<TokenChar> GetCharList()
     {
