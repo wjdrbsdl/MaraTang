@@ -9310,7 +9310,7 @@ GameObject:
   - component: {fileID: 640958249}
   - component: {fileID: 640958248}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: BuffText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11379,6 +11379,7 @@ MonoBehaviour:
   m_charStatBox: {fileID: 1611222265}
   m_statButtonSample: {fileID: 531653228}
   m_statkButtones: []
+  m_buffText: {fileID: 640958248}
 --- !u!224 &838283122
 RectTransform:
   m_ObjectHideFlags: 0
