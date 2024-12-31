@@ -20,7 +20,7 @@ public class TokenBuff : TokenBase
     public BuffEnum m_buff = BuffEnum.Fracture;
     public NestingType m_nestType = NestingType.Cant;
     public List<TOrderItem> m_effect = new();
-
+    public int m_restTurn;
     #region 버프 생성부분
     public TokenBuff()
     {
@@ -28,16 +28,19 @@ public class TokenBuff : TokenBase
     }
 
     //마스터 캐릭데이터 생성
-    public TokenBuff(string[] valueCode)
+    public TokenBuff(string[] _valueCode)
     {
-        if (System.Enum.TryParse(typeof(BuffEnum), valueCode[0], out object parsebuff))
+        m_tokenType = TokenType.Buff;
+        if (System.Enum.TryParse(typeof(BuffEnum), _valueCode[0], out object parsebuff))
         {
             m_tokenPid = (int)parsebuff;
             m_buff = (BuffEnum)parsebuff;
         }
 
-        m_itemName = valueCode[1]; //1은 이름
-        m_tokenType = TokenType.Buff;
+        m_itemName = _valueCode[1]; //1은 이름
+        int nestingIdx = 2;
+        int restTurnIdx = nestingIdx + 1;
+        m_restTurn = int.Parse(_valueCode[restTurnIdx]);
     }
     //복사본 캐릭 생성 : 캐릭터 스폰 시 사용
     public TokenBuff(TokenBuff _masterToken)
@@ -46,7 +49,7 @@ public class TokenBuff : TokenBase
         m_buff = _masterToken.m_buff;
         m_itemName = _masterToken.m_itemName;
         m_tokenType = _masterToken.m_tokenType;
-
+        m_restTurn = _masterToken.m_restTurn;
         int arraySize = _masterToken.m_tokenIValues.Length;
         m_tokenIValues = new int[arraySize];
         //마스터 데이터 깊은 복사로 객체 고유 배열 값 생성. 
@@ -57,6 +60,16 @@ public class TokenBuff : TokenBase
 
     #endregion
 
+    public void Count(int _count)
+    {
+        m_restTurn -= 1;
+        if (m_restTurn <= 0)
+            m_restTurn = 0;
+    }
 
+    public bool DoneTime()
+    {
+        return m_restTurn <= 0;
+    }
 
 }
