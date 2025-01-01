@@ -111,6 +111,7 @@ public class TokenAction : TokenBase
     }
     #endregion
 
+    #region 스킬계수
     public override void CalStat(Enum _enumIndex, int _value)
     {
         base.CalStat(_enumIndex, _value);
@@ -176,16 +177,13 @@ public class TokenAction : TokenBase
         return finalRange;
     }
 
-    public List<int> GetSynergePidList()
-    {
-        return m_synergeList;
-    }
-
     public List<TOrderItem> GetPowerRatio()
     {
         return m_powerRatio;
     }
+    #endregion
 
+    #region 가호 시너지
     public void CheckBlessSynerge(TokenChar _char)
     {
         for (int i = 0; i < m_synergeList.Count; i++)
@@ -214,6 +212,11 @@ public class TokenAction : TokenBase
             }
            Debug.Log(m_synergeList[i] + "시너지 활성화 여부 " + check);
         }
+    }
+
+    public List<int> GetSynergePidList()
+    {
+        return m_synergeList;
     }
 
     private void AdaptEffect(TOrderItem _item)
@@ -251,6 +254,13 @@ public class TokenAction : TokenBase
 
         }
     }
+    #endregion
+
+    #region 버프
+    public List<TokenBuff> GetBuffList()
+    {
+        return m_buffList;
+    }
 
     private void AddBuff(TOrderItem _buffItem)
     {
@@ -269,4 +279,5 @@ public class TokenAction : TokenBase
             }
         }
     }
+    #endregion
 }
