@@ -22,7 +22,7 @@ public class TokenAction : TokenBase
     private List<TOrderItem> m_powerRatio = new(); //효과에 적용되는 계수들
     private List<int> m_synergeList;
     private List<bool> m_synergeAdapt;
-    private List<TokenBuff> m_buffList; //이스킬 사용시 적용시킬 버프들
+    private List<TokenBuff> m_buffList = new(); //이스킬 사용시 적용시킬 버프들
     #region 액션 토큰 : 생성부분 추후 테이블 파싱 값으로 생성하기
     public TokenAction()
     {
@@ -200,6 +200,7 @@ public class TokenAction : TokenBase
                 {
                     AdaptEffect(effect[x]);
                 }
+                m_synergeAdapt[i] = true;
             }
             else if (check == false && m_synergeAdapt[i] == true)
             {
@@ -209,6 +210,7 @@ public class TokenAction : TokenBase
                 {
                     RemoveEffect(effect[x]);
                 }
+                m_synergeAdapt[i] = false;
             }
            Debug.Log(m_synergeList[i] + "시너지 활성화 여부 " + check);
         }
@@ -216,7 +218,6 @@ public class TokenAction : TokenBase
 
     private void AdaptEffect(TOrderItem _item)
     {
-        System.Type findEnum = GameUtil.FindEnum(_item.Tokentype);
         Debug.Log("적용할건 " + GameUtil.GetTokenEnumName(_item));
 
         //각 시너지 효과를 그타입에 맞게 적용하기
@@ -235,7 +236,6 @@ public class TokenAction : TokenBase
 
     private void RemoveEffect(TOrderItem _item)
     {
-        System.Type findEnum = GameUtil.FindEnum(_item.Tokentype);
         Debug.Log("해제 적용할건 " + GameUtil.GetTokenEnumName(_item));
         //각 시너지 효과를 그타입에 맞게 적용하기
         TokenType adaptType = _item.Tokentype;
@@ -255,6 +255,7 @@ public class TokenAction : TokenBase
     private void AddBuff(TOrderItem _buffItem)
     {
         TokenBuff buff = new TokenBuff(MgMasterData.GetInstance().GetBuffData(_buffItem.SubIdx));
+        Debug.Log("액션에 추가된 기능 버프 " + GameUtil.GetTokenEnumName(_buffItem));
         m_buffList.Add(buff);
     }
 
