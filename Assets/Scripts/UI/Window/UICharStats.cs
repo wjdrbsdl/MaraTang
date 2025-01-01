@@ -51,7 +51,14 @@ public class UICharStats : UIBase
         for (int i = 0; i < buffList.Count; i++)
         {
             TokenBuff buff = buffList[i];
-            info += buff.GetItemName() + " \n";
+            info += buff.GetItemName() + "의 효과는 ";
+            for (int x = 0; x < buff.m_effect.Count; x++)
+            {
+                TOrderItem effect = buff.m_effect[x];
+                string effectStr = GameUtil.GetTokenEnumName(effect);
+                info += effectStr + " ";
+            }
+           info +=" \n";
         }
         m_buffText.text = info;
     }
