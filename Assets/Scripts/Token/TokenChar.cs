@@ -661,6 +661,10 @@ public class TokenChar : TokenBase
     #region 사망
     public void Death()
     {
+        //이미 죽은상대면 진행안함 
+        if (isLIve == false)
+            return;
+
         if (isMainChar)
         {
             PlayerDeath();
