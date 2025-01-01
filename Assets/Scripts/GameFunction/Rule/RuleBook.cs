@@ -117,7 +117,7 @@ public class RuleBook
                 MgSkillFx.GetInstance().MakeSkillFx(targetTile, actionToken.GetPid());
             };
             //2. 타겟 지점을 기준으로 적용될 장소를 산정
-            List<TokenTile> targetTiles = m_skillActionPart.GetActionRangeTile(_playChar.GetMapIndex(), targetTile.GetMapIndex(), 15);
+            List<TokenTile> targetTiles = m_skillActionPart.GetActionRangeTile(_playChar.GetMapIndex(), targetTile.GetMapIndex(), actionToken.GetStat(CharActionStat.Range));
         
             //3. 모든 장소를 돌며 적을 찾아 공격 수행
             effectDelegate = delegate
