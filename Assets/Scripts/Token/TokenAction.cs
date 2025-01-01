@@ -9,7 +9,7 @@ public enum ActionType
 
 public enum CharActionStat
 {
-   MinLich, Lich, MinRatio, MaxCountInTurn, RemainCountInTurn, Power, NeedActionEnergy, NeedActionCount, CoolTime, RemainCool
+   MinLich, Lich, Range, MinRatio, MaxCountInTurn, RemainCountInTurn, Power, NeedActionEnergy, NeedActionCount, CoolTime, RemainCool
 }
 
 [System.Serializable]
@@ -203,7 +203,13 @@ public class TokenAction : TokenBase
             else if (check == false && m_synergeAdapt[i] == true)
             {
                 //미적용인데 적용되었던 거라면 해제
-
+                List<TOrderItem> effect = synerge.GetEffectList();
+                for (int x = 0; x < effect.Count; x++)
+                {
+                    //해제를 위해 효과 역추산 
+                    TOrderItem reverseEffect = GameUtil.ReverseItemValue(effect[i]);
+                    AdaptEffect(reverseEffect); //반대적용
+                }
             }
            Debug.Log(m_synergeList[i] + "시너지 활성화 여부 " + check);
         }
@@ -214,5 +220,13 @@ public class TokenAction : TokenBase
         System.Type findEnum = GameUtil.FindEnum(_item.Tokentype);
         Debug.Log("적용할건 " + GameUtil.GetTokenEnumName(_item));
 
+        //각 시너지 효과를 그타입에 맞게 적용하기
+        TokenType adaptType = _item.Tokentype;
+        switch (adaptType)
+        {
+            case TokenType.ActionStat:
+                CalStat((CharActionStat)_item.SubIdx, _item.Value);
+                break;
+        }
     }
 }
