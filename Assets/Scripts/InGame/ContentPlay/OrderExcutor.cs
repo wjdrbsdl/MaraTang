@@ -40,6 +40,7 @@ public class OrderExcutor
     {
         //  Debug.Log("적용");
         TokenChar mainChar = PlayerManager.GetInstance().GetMainChar();
+        TokenChar targetChar = _item.targetChar;
         switch (_item.Tokentype)
         {
             case TokenType.Capital:
@@ -47,7 +48,9 @@ public class OrderExcutor
                 return true; 
             case TokenType.Bless:
                 GodBless bless = new GodBless(MgMasterData.GetInstance().GetGodBless(_item.SubIdx));
-                return mainChar.AquireBless(bless);
+                if (targetChar == null)
+                    targetChar = mainChar;
+                return targetChar.AquireBless(bless);
             case TokenType.Equipt:
                 if (_item.tokenItem == null)
                 {
@@ -55,10 +58,10 @@ public class OrderExcutor
                     return false;
                 }
                 EquiptItem equipt = (EquiptItem)_item.tokenItem;
-               // Debug.LogFormat("획득한 아이템 이름{0} pid{1} 옵션수 {2}", equipt.GetItemName(), equipt.GetPid(), equipt.m_effect.Count);
-                return mainChar.AquireEquipt(equipt);
+                if (targetChar == null)
+                    targetChar = mainChar;
+                return targetChar.AquireEquipt(equipt);
             case TokenType.CharStat:
-                TokenChar targetChar = _item.targetChar;
                 if (targetChar == null)
                     targetChar = mainChar;
                 targetChar.CalStat((CharStat)_item.SubIdx, _item.Value);//형변환 안해두되는데 아쉽군. 
