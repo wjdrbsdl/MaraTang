@@ -58,7 +58,10 @@ public class OrderExcutor
                // Debug.LogFormat("획득한 아이템 이름{0} pid{1} 옵션수 {2}", equipt.GetItemName(), equipt.GetPid(), equipt.m_effect.Count);
                 return mainChar.AquireEquipt(equipt);
             case TokenType.CharStat:
-                mainChar.CalStat((CharStat)_item.SubIdx, _item.Value);//형변환 안해두되는데 아쉽군. 
+                TokenChar targetChar = _item.targetChar;
+                if (targetChar == null)
+                    targetChar = mainChar;
+                targetChar.CalStat((CharStat)_item.SubIdx, _item.Value);//형변환 안해두되는데 아쉽군. 
                 return true;
             case TokenType.EventPlaceNationSpawn:
                 return ChangeQuestPlace(_item.SubIdx, _item.Value);
@@ -240,6 +243,7 @@ public struct TOrderItem
     public int Value;
     public int SerialNum;
     public TokenBase tokenItem;
+    public TokenChar targetChar;
 
     public TOrderItem(TokenType _tokenGroup, int _subIdx, int _value)
     {
@@ -248,6 +252,7 @@ public struct TOrderItem
         Value = _value;
         SerialNum = 0;
         tokenItem = null;
+        targetChar = null;
     }
 
     public void SetSerialNum(int _serialNum)
