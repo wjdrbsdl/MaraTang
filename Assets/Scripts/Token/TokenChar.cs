@@ -576,6 +576,7 @@ public class TokenChar : TokenBase
         for (int i = 0; i < _buff.m_effect.Count; i++)
         {
             TOrderItem blessEffect = _buff.m_effect[i];
+            blessEffect.targetChar = this;
             excutor.AdaptItem(blessEffect);
             // Debug.Log(blessEffect.Value);
         }
