@@ -51,7 +51,11 @@ public class RuleBook
 
         public void ApplyBuff(TokenChar _target)
         {
-         //   List<TokenBuff> buffList = 
+            List<TokenBuff> buffList = t_skill.GetBuffList();
+            for (int i = 0; i < buffList.Count; i++)
+            {
+                _target.CastBuff(new TokenBuff(buffList[i]));
+            }
         }
 
         public void AttackPlace(TokenTile _tile)
