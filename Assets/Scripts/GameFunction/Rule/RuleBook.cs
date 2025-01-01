@@ -17,9 +17,9 @@ public class RuleBook
         public float t_oriignDamage;
         public float t_reductedDamage;
         public TokenChar t_attacker;
-        public int t_revengeStep; //공격한 단계
+        public TokenAction t_skill;
 
-        public TAttackProgress(TokenChar _attackChar, TokenAction _attackAction, int _revenge = 1)
+        public TAttackProgress(TokenChar _attackChar, TokenAction _attackAction)
         {
             //구조를 만들면서 내부에서 최종피해량 산출
             t_oriignDamage = _attackAction.GetStat(CharActionStat.Power);
@@ -33,7 +33,7 @@ public class RuleBook
             }
             t_reductedDamage = t_oriignDamage;
             t_attacker = _attackChar;
-            t_revengeStep = _revenge;
+            t_skill = _attackAction;
         }
 
         public float CalDamageByDefense(TokenChar _defenseChar)
@@ -49,21 +49,16 @@ public class RuleBook
             _target.AttackChar(damage);
          }
 
+        public void ApplyBuff(TokenChar _target)
+        {
+         //   List<TokenBuff> buffList = 
+        }
+
         public void AttackPlace(TokenTile _tile)
         {
             _tile.AttackTile((int)t_oriignDamage);
         }
 
-        public void Revenge(TokenChar _defenseChar)
-        {
-         //   Debug.Log("복수의 굴레 :" + t_revengeStep);
-            if (t_revengeStep >= 2)
-                return;
-
-            TAttackProgress revenge = new TAttackProgress(_defenseChar, new TokenAction(), t_revengeStep +1);
-            revenge.ApplyDamage(t_attacker);
-
-        }
     }
 
     public struct TMineTileResult
@@ -131,7 +126,8 @@ public class RuleBook
                     {
                         Debug.Log(_playChar.GetItemName() + "이 " + enemies[x].GetItemName() + "를 공격");
 
-                        attackProgress.ApplyDamage(enemies[x]);
+                        attackProgress.ApplyDamage(enemies[x]);//룰북에서 공격진행 과정에서 피해 주기
+                        attackProgress.ApplyBuff(enemies[x]); //룰북에서 공격진행 과정에서 버프 걸기
                     }
 
                     if (attackTile.m_Side != _playChar.m_Side)
