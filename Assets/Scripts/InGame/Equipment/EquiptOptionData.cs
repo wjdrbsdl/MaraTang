@@ -38,7 +38,7 @@ public class EquiptOptionData
     {
         int dropTier = _tier;
         int adaptTier = dropTier - StartTier + 1; //해당 옵션이 등장가능한 티어
-        Debug.Log(Name + "옵션 현재 티어 " + _tier + " 최소 발현가능한 티어 " + StartTier + "보정 티어" + adaptTier);
+      //  Debug.Log(Name + "옵션 현재 티어 " + _tier + " 최소 발현가능한 티어 " + StartTier + "보정 티어" + adaptTier);
         if (SubIdx == 0 || adaptTier <= 0)
         {
             return new TOrderItem(TokenType.None, 0, 0);
