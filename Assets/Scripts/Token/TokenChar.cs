@@ -327,7 +327,7 @@ public class TokenChar : TokenBase
         return CheckTokenHave<GodBless>(_bless, m_blessList);
     }
 
-    public void AddBless(GodBless _bless)
+    private void AddBless(GodBless _bless)
     {
        // Debug.Log(_bless.Name + "은총 추가");
    
@@ -345,7 +345,7 @@ public class TokenChar : TokenBase
         CheckActionSynerge();
     }
 
-    public void AdaptBless(GodBless _godBless)
+    private void AdaptBless(GodBless _godBless)
     {
         // Debug.Log("어뎁터 클래스에서 블래스 적용하기");
         OrderExcutor excutor = new();
@@ -398,7 +398,7 @@ public class TokenChar : TokenBase
 
         return false;
     }
-    public void AddAction(TokenAction _actionItem)
+    private void AddAction(TokenAction _actionItem)
     {
         if (IsHaveAction(_actionItem) == true)
             return;
@@ -454,7 +454,7 @@ public class TokenChar : TokenBase
         return false;
     }
 
-    public void AddEquipt(EquiptItem _equiptItem)
+    private void AddEquipt(EquiptItem _equiptItem)
     {
         //  Debug.Log("해당케릭에 장비 장착 진행 " + _equiptitem.GetPid());
         if (m_equiptLIst.IndexOf(_equiptItem) != -1)
@@ -481,7 +481,7 @@ public class TokenChar : TokenBase
         AdaptEquipt(_equiptItem);
     }
 
-    public void AdaptEquipt(EquiptItem _equiptItem)
+    private void AdaptEquipt(EquiptItem _equiptItem)
     {
         // Debug.Log("장비 효과 적용하기");
         OrderExcutor excutor = new();
@@ -528,7 +528,7 @@ public class TokenChar : TokenBase
         return false;
     }
 
-    public bool AbleBuff(TokenBuff _buff)
+    private bool AbleBuff(TokenBuff _buff)
     {
         //해당 버프를 추가로 걸수 있는가 -
         
@@ -548,7 +548,7 @@ public class TokenChar : TokenBase
         return CheckTokenHave<TokenBuff>(_bless, m_buffLIst);
     }
 
-    public void AddBuff(TokenBuff _buff)
+    private void AddBuff(TokenBuff _buff)
     {
         // Debug.Log(_bless.Name + "은총 추가");
 
@@ -556,7 +556,7 @@ public class TokenChar : TokenBase
         AdaptBuff(_buff);
     }
 
-    public void RemoveBuff(TokenBuff _buff)
+    private void RemoveBuff(TokenBuff _buff)
     {
         if (HaveBuff(_buff) == false)
             return;
@@ -568,7 +568,7 @@ public class TokenChar : TokenBase
         AdaptBuff(_buff);
     }
 
-    public void AdaptBuff(TokenBuff _buff)
+    private void AdaptBuff(TokenBuff _buff)
     {
         // Debug.Log("어뎁터 클래스에서 블래스 적용하기");
         OrderExcutor excutor = new();
