@@ -125,8 +125,8 @@ public class RuleBook
                 for (int i = 0; i < targetTiles.Count; i++)
                 {
                     TokenTile attackTile = targetTiles[i];
-                    List<TokenChar> enemies = attackTile.GetCharsInTile();
-                    for (int x = 0; x < enemies.Count; x++)
+                    TokenChar[] enemies = attackTile.GetCharsInTile().ToArray();
+                    for (int x = 0; x < enemies.Length; x++)
                     {
                         Debug.Log(_playChar.GetItemName() + "이 " + enemies[x].GetItemName() + "를 공격");
 
