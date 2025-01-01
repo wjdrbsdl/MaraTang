@@ -22,6 +22,7 @@ public class TokenAction : TokenBase
     private List<TOrderItem> m_powerRatio = new(); //효과에 적용되는 계수들
     private List<int> m_synergeList;
     private List<bool> m_synergeAdapt;
+    private List<TokenBuff> m_buffList; //이스킬 사용시 적용시킬 버프들
     #region 액션 토큰 : 생성부분 추후 테이블 파싱 값으로 생성하기
     public TokenAction()
     {
@@ -206,9 +207,7 @@ public class TokenAction : TokenBase
                 List<TOrderItem> effect = synerge.GetEffectList();
                 for (int x = 0; x < effect.Count; x++)
                 {
-                    //해제를 위해 효과 역추산 
-                    TOrderItem reverseEffect = GameUtil.ReverseItemValue(effect[i]);
-                    AdaptEffect(reverseEffect); //반대적용
+                    RemoveEffect(effect[x]);
                 }
             }
            Debug.Log(m_synergeList[i] + "시너지 활성화 여부 " + check);
@@ -227,6 +226,46 @@ public class TokenAction : TokenBase
             case TokenType.ActionStat:
                 CalStat((CharActionStat)_item.SubIdx, _item.Value);
                 break;
+            case TokenType.Buff:
+                AddBuff(_item);
+                break;
+                
+        }
+    }
+
+    private void RemoveEffect(TOrderItem _item)
+    {
+        System.Type findEnum = GameUtil.FindEnum(_item.Tokentype);
+        Debug.Log("해제 적용할건 " + GameUtil.GetTokenEnumName(_item));
+        //각 시너지 효과를 그타입에 맞게 적용하기
+        TokenType adaptType = _item.Tokentype;
+        switch (adaptType)
+        {
+            case TokenType.ActionStat:
+                TOrderItem reverse = GameUtil.ReverseItemValue(_item);
+                CalStat((CharActionStat)reverse.SubIdx, reverse.Value);
+                break;
+            case TokenType.Buff:
+                RemoveBuff(_item);
+                break;
+
+        }
+    }
+
+    private void AddBuff(TOrderItem _buffItem)
+    {
+        TokenBuff buff = new TokenBuff(MgMasterData.GetInstance().GetBuffData(_buffItem.SubIdx));
+        m_buffList.Add(buff);
+    }
+
+    private void RemoveBuff(TOrderItem _buffItem)
+    {
+        for (int i = 0; i < m_buffList.Count; i++)
+        {
+            if (m_buffList[i].GetPid() == _buffItem.SubIdx)
+            {
+                m_buffList.RemoveAt(i);
+            }
         }
     }
 }
