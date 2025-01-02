@@ -51,12 +51,14 @@ public class RuleBook
 
         public void ApplyBuff(TokenChar _target)
         {
-            List<TokenBuff> buffList = t_skill.GetBuffList();
-            for (int i = 0; i < buffList.Count; i++)
+           int armorBreakRatio = t_attacker.GetStat(CharStat.ArmorBreakRatio) + t_skill.GetStat(CharActionStat.ArmorBreakRatio);
+            int armorPower = t_attacker.GetStat(CharStat.ArmorBreakPower) + t_skill.GetStat(CharActionStat.ArmorBreakPower);
+       
+            if(GameUtil.RollDice(armorBreakRatio, FixedValue.Dice100))
             {
-                _target.CastBuff(new TokenBuff(buffList[i]));
+                TokenBuff armorBuff = new TokenBuff(MgMasterData.GetInstance().GetBuffData((int)BuffEnum.ArmorBreak), armorPower);
+                _target.CastBuff(armorBuff);
             }
-            int armorBreakRatio = t_attacker.GetStat(CharStat.ArmorBreakRatio) + t_skill.GetStat(CharActionStat.ArmorBreakRatio);
         }
 
         public void AttackPlace(TokenTile _tile)
