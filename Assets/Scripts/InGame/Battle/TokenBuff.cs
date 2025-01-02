@@ -7,7 +7,7 @@ using System;
 
 public enum BuffEnum
 {
-    Fracture, ArmorBreak, Chop
+    Fracture, ArmorBreak, Chop, DefenseStance
 }
 
 public enum NestingType
