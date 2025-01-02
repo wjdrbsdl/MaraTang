@@ -7,7 +7,7 @@ using System;
 public enum CharStat
 {
     MaxActionEnergy, CurActionEnergy, MaxActionCount, CurActionCount, Sight, Strenth, Dex, Inteligent,
-    MaxHp, CurHp, EquiptSlotCount, BlessSlotCount, ActionSlotCount, AttackPoint,
+    MaxHp, CurHp, EquiptSlotCount, BlessSlotCount, ActionSlotCount, AttackPoint, Defense,
     ArmorBreakRatio, ArmorBreakPower, FractureRatio, FracturePower
 }
 
