@@ -18,12 +18,15 @@ public class BlessSynergeData
     public BlessSynergeData(string[] _divdeValues)
     {
         PID = int.Parse( _divdeValues[0]);
-        Name = _divdeValues[2];
+        int nameIdx = 1;
+        Name = _divdeValues[nameIdx];
+
+        int needBlessIdx = nameIdx + 1;
         m_needBlessList = new();
-        GameUtil.ParseOrderItemList(m_needBlessList, _divdeValues[3]);
+        GameUtil.ParseOrderItemList(m_needBlessList, _divdeValues[needBlessIdx]);
         m_needBlessList.Sort((TOrderItem A, TOrderItem B) => B.SubIdx.CompareTo(A.SubIdx));
 
-        int needCountIdx = 4;
+        int needCountIdx = needBlessIdx +1;
         m_needCount = new();
         int effectIdx = 5;
         m_effectList = new();
