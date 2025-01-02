@@ -275,16 +275,17 @@ public class TokenChar : TokenBase
     {
         //턴 정산할때 할일
         RecoverActionCount();
-        RecoverActionTokenCount();
         RecoverActionEnergy();
         CountBuff(1);
+        ResetBuff();
+        ActionTokenTurnReset(); //액션토큰은 맨 아래 단계에서 또 개별적으로 턴 리셋 진행
     }
 
-    public void RecoverActionTokenCount()
+    public void ActionTokenTurnReset()
     {
         for (int i = 0; i < m_haveActionList.Count; i++)
         {
-            m_haveActionList[i].RcoverRemainCountInTurn();
+            m_haveActionList[i].TurnReset();
         }
     }
 
@@ -606,6 +607,15 @@ public class TokenChar : TokenBase
             {
                 RemoveBuff((buffes[i]));
             }
+        }
+    }
+
+    public void ResetBuff()
+    {
+        TokenBuff[] buffes = m_buffLIst.ToArray();
+        for (int i = 0; i < buffes.Length; i++)
+        {
+            buffes[i].Reset(); //캐릭 수준에 할당된 버프 리셋 
         }
     }
     #endregion
