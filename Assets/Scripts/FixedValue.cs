@@ -11,6 +11,10 @@ public static class FixedValue
         No_INDEX_NUMBER = -1,
         No_VALUE = -1
          ;
+
+    public static int
+        Dice100 = 100
+        ;
     #endregion
 
     #region Float
