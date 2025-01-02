@@ -168,6 +168,11 @@ public class TokenChar : TokenBase
     #endregion
 
     #region Get
+    public MonsterRarity GetRarity()
+    {
+        return m_rarity;
+    }
+
     public List<TokenBuff> GetBuffList()
     {
         return m_buffLIst;
