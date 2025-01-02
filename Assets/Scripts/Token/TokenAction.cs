@@ -22,7 +22,7 @@ public class TokenAction : TokenBase
     private int[] m_targetPos; //작용할 위치 
     private List<TOrderItem> m_powerRatio = new(); //효과에 적용되는 계수들
     private List<int> m_synergeList;
-    private List<bool> m_synergeAdapt;
+    private List<int> m_synergeStep;
     private List<TokenBuff> m_buffList = new(); //이스킬 사용시 적용시킬 버프들
     #region 액션 토큰 : 생성부분 추후 테이블 파싱 값으로 생성하기
     public TokenAction()
@@ -40,12 +40,12 @@ public class TokenAction : TokenBase
 
         int synergeIndex = actionTypeIndex +1;
         m_synergeList = new();
-        m_synergeAdapt = new();
+        m_synergeStep = new();
         GameUtil.ParseIntList(m_synergeList, valueCode, synergeIndex);
         
         for (int i = 0; i < m_synergeList.Count; i++)
         {
-            m_synergeAdapt.Add(false); //시너지 수만큼 미적용 값을 추가 
+            m_synergeStep.Add(0); //시너지 수만큼 적용 단계를 0 으로 설정. 
         }
 
         int itemInfoIndex = synergeIndex + 1;
@@ -76,10 +76,10 @@ public class TokenAction : TokenBase
         m_synergeList = _masterToken.m_synergeList;
         m_powerRatio = _masterToken.m_powerRatio;
 
-        m_synergeAdapt = new();
+        m_synergeStep = new();
         for (int i = 0; i < m_synergeList.Count; i++)
         {
-            m_synergeAdapt.Add(false); //시너지 수만큼 미적용 값을 추가 
+            m_synergeStep.Add(0); //시너지 수만큼 미적용 값을 추가 
         }
 
     }
@@ -190,28 +190,27 @@ public class TokenAction : TokenBase
         for (int i = 0; i < m_synergeList.Count; i++)
         {
             BlessSynergeData synerge = MgMasterData.GetInstance().GetBlessSynergeData(m_synergeList[i]);
-            bool check = synerge.CheckSynerge(_char);
-            if(check == true && m_synergeAdapt[i] == false)
+            int synergeStep = synerge.CheckSynergeStep(_char);
+            if(synergeStep != m_synergeStep[i])
             {
-                //해당 시너지가 온이고 미적용이였다면 적용
-                List<TOrderItem> effect = synerge.GetEffectList();
-                for (int x = 0; x < effect.Count; x++)
+                //충족된 단계가 현재 적용중인 step가 다른경우 - 올라갔거나 내려갔거나 무튼 변했음
+
+                List<TOrderItem> curEffect = synerge.GetEffectList(m_synergeStep[i]); //현재 적용중인 효과 가져오고
+                List<TOrderItem> newEffect = synerge.GetEffectList(synergeStep); //새로 적용될 효과 가져옴
+                for (int x = 0; x < curEffect.Count; x++)
                 {
-                    AdaptEffect(effect[x]);
+                    //기존 효과 제거
+                   RemoveEffect(curEffect[x]);
                 }
-                m_synergeAdapt[i] = true;
-            }
-            else if (check == false && m_synergeAdapt[i] == true)
-            {
-                //미적용인데 적용되었던 거라면 해제
-                List<TOrderItem> effect = synerge.GetEffectList();
-                for (int x = 0; x < effect.Count; x++)
+                for (int x = 0; x < newEffect.Count; x++)
                 {
-                    RemoveEffect(effect[x]);
+                    //새 효과 적용
+                    AdaptEffect(newEffect[x]);
                 }
-                m_synergeAdapt[i] = false;
+                m_synergeStep[i] = synergeStep; //새단계 저장
             }
-           Debug.Log(m_synergeList[i] + "시너지 활성화 여부 " + check);
+            
+           Debug.Log(m_synergeList[i] + "시너지 활성화 여부 " + synergeStep);
         }
     }
 
