@@ -191,6 +191,7 @@ public class TokenAction : TokenBase
         {
             BlessSynergeData synerge = MgMasterData.GetInstance().GetBlessSynergeData(m_synergeList[i]);
             int synergeStep = synerge.CheckSynergeStep(_char);
+        
             if(synergeStep != m_synergeStep[i])
             {
                 //충족된 단계가 현재 적용중인 step가 다른경우 - 올라갔거나 내려갔거나 무튼 변했음
@@ -209,8 +210,8 @@ public class TokenAction : TokenBase
                 }
                 m_synergeStep[i] = synergeStep; //새단계 저장
             }
-            
-           Debug.Log(m_synergeList[i] + "시너지 활성화 여부 " + synergeStep);
+
+            Debug.Log(synerge.Name + "시너지 단계 " + synergeStep + " 기존 단계로 활성 ");
         }
     }
 
@@ -221,7 +222,7 @@ public class TokenAction : TokenBase
 
     private void AdaptEffect(TOrderItem _item)
     {
-        Debug.Log("적용할건 " + GameUtil.GetTokenEnumName(_item));
+       // Debug.Log("적용할건 " + GameUtil.GetTokenEnumName(_item));
 
         //각 시너지 효과를 그타입에 맞게 적용하기
         TokenType adaptType = _item.Tokentype;
@@ -239,7 +240,7 @@ public class TokenAction : TokenBase
 
     private void RemoveEffect(TOrderItem _item)
     {
-        Debug.Log("해제 적용할건 " + GameUtil.GetTokenEnumName(_item));
+       // Debug.Log("해제 적용할건 " + GameUtil.GetTokenEnumName(_item));
         //각 시너지 효과를 그타입에 맞게 적용하기
         TokenType adaptType = _item.Tokentype;
         switch (adaptType)
