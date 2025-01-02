@@ -34,7 +34,7 @@ public class BlessSynergeData
             for (int i = 0; i < effectStrs.Length; i++)
             {
                 m_needCount.Add(int.Parse(needCountStrs[i]));
-                m_effectList[i] = new();
+                m_effectList.Add(new List<TOrderItem>());
                 GameUtil.ParseOrderItemList(m_effectList[i], effectStrs[i]);
             }
         }
@@ -43,16 +43,16 @@ public class BlessSynergeData
         
     }
 
-    public int CheckSynerge(TokenChar _char)
+    public int CheckSynergeStep(TokenChar _char)
     {
         List<GodBless> haveBless = _char.GetBlessList();
         List<int> checkIdx = new(); //체크된건 여기 추가해서 중복확인
         int needCount = m_needBlessList.Count;
         int checkCount = 0;
+        int step = 0;
         for (int i = 0; i < needCount; i++)
         {
             BlessSynergeCategoryEnum category = (BlessSynergeCategoryEnum)m_needBlessList[i].SubIdx;
-            bool oneCondition = false; //해당 조건 충족인지 확인
             for (int x = 0; x < haveBless.Count; x++)
             {
                 GodBless bless = haveBless[i]; //확인할 가호
@@ -68,8 +68,16 @@ public class BlessSynergeData
                 } 
             }
         }
-        //무사히 for문 나왔다는건 모든 조건이 충족했다는 말
-        return checkCount;
+        //충족 수에 따라 현재 적용할 시너지가 몇단계인지 도출
+        for (int i = m_needCount.Count-1; i >= 0; i--)
+        {
+            if (m_needCount[i]<= checkCount)
+            {
+                step = i + 1;
+                break;
+            }
+        }
+        return step;
     }
 
     private bool CheckDetail(BlessSynergeCategoryEnum _category, int _value, GodBless _bless)
@@ -107,8 +115,12 @@ public class BlessSynergeData
         }
     }
 
-    public List<TOrderItem> GetEffectList()
+    public List<TOrderItem> GetEffectList(int _step)
     {
-        return m_effectList;
+        if (_step == 0)
+            return new List<TOrderItem>(); //아무것도 없는거 반환
+
+        //이펙트는 1단계부터 정의되어 있어서 인덱스는 -1 해줘야함. 
+        return m_effectList[_step-1];
     }
 }
