@@ -263,6 +263,11 @@ public class TokenAction : TokenBase
         return m_buffList;
     }
 
+    public TokenBuff GetBuffByIndex(int _index)
+    {
+        return m_buffList[_index];
+    }
+
     private void AddBuff(TOrderItem _buffItem)
     {
         TokenBuff buff = new TokenBuff(MgMasterData.GetInstance().GetBuffData(_buffItem.SubIdx));
@@ -280,5 +285,17 @@ public class TokenAction : TokenBase
             }
         }
     }
+
+    public int HaveBuffIndex(BuffEnum _buff)
+    {
+        int checkPid = (int)_buff;
+        for (int i = 0; i < m_buffList.Count; i++)
+        {
+            if (m_buffList[i].GetPid() == checkPid)
+                return i;
+        }
+        return FixedValue.No_INDEX_NUMBER;
+    }
     #endregion
+
 }
