@@ -21,6 +21,7 @@ public class TokenBuff : TokenBase
     public NestingType m_nestType = NestingType.Cant;
     public List<TOrderItem> m_effect = new();
     public int m_restTurn;
+    public int m_power; //별도 파워 설정
     #region 버프 생성부분
     public TokenBuff()
     {
@@ -45,7 +46,7 @@ public class TokenBuff : TokenBase
         GameUtil.ParseOrderItemList(m_effect, _valueCode[effectIdx]);
     }
     //복사본 캐릭 생성 : 캐릭터 스폰 시 사용
-    public TokenBuff(TokenBuff _masterToken)
+    public TokenBuff(TokenBuff _masterToken, int _power = 0)
     {
         m_tokenPid = _masterToken.m_tokenPid;
         m_buff = _masterToken.m_buff;
@@ -62,6 +63,7 @@ public class TokenBuff : TokenBase
         {
             m_effect.Add(_masterToken.m_effect[i]);
         }
+        m_power = _power;
     }
 
     #endregion
