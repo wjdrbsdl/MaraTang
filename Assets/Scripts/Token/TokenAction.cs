@@ -9,7 +9,8 @@ public enum ActionType
 
 public enum CharActionStat
 {
-   MinLich, Lich, Range, MinRatio, MaxCountInTurn, RemainCountInTurn, Power, NeedActionEnergy, NeedActionCount, CoolTime, RemainCool
+   MinLich, Lich, Range, MinRatio, MaxCountInTurn, RemainCountInTurn, Power, NeedActionEnergy, NeedActionCount, CoolTime, RemainCool,
+    ArmorBreakRatio, ArmorBreakPower, FractureRatio, FracturePower
 }
 
 [System.Serializable]
