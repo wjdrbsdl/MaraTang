@@ -8,7 +8,7 @@ public enum CharStat
 {
     MaxActionEnergy, CurActionEnergy, MaxActionCount, CurActionCount, Sight, Strenth, Dex, Inteligent,
     MaxHp, CurHp, EquiptSlotCount, BlessSlotCount, ActionSlotCount, AttackPoint, Defense,
-    ArmorBreakRatio, ArmorBreakPower, FractureRatio, FracturePower
+    ArmorBreakRatio, ArmorBreakPower, FractureRatio, FracturePower, ChopRatio, ChopPower
 }
 
 public enum CharType
