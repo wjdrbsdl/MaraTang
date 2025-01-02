@@ -56,6 +56,7 @@ public class RuleBook
             {
                 _target.CastBuff(new TokenBuff(buffList[i]));
             }
+            int armorBreakRatio = t_attacker.GetStat(CharStat.ArmorBreakRatio) + t_skill.GetStat(CharActionStat.ArmorBreakRatio);
         }
 
         public void AttackPlace(TokenTile _tile)
