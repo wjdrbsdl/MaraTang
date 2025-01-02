@@ -112,6 +112,33 @@ public class TokenAction : TokenBase
     }
     #endregion
 
+    #region 턴 정산
+    public void TurnReset()
+    {
+        //스킬 액션 단계에서 리셋해야할것들 수행 
+        RecoverRemainCountInTurn();
+        ResetBuff();
+    }
+
+    private void RecoverRemainCountInTurn()
+    {
+        int coolTime = GetStat(CharActionStat.RemainCool); //남은쿨을 보고
+        if (0 < coolTime) //쿨이 돌고 있으면
+        {
+            CalStat(CharActionStat.RemainCool, -1); //1을 깐다. 
+        }
+
+    }
+
+    private void ResetBuff()
+    {
+        for (int i = 0; i < m_buffList.Count; i++)
+        {
+            m_buffList[i].Reset(); //액션 토큰에 할당된 버프들 리셋
+        }
+    }
+    #endregion
+
     #region 스킬계수
     public override void CalStat(Enum _enumIndex, int _value)
     {
@@ -148,16 +175,7 @@ public class TokenAction : TokenBase
         }
     }
 
-    public void RcoverRemainCountInTurn()
-    {
-        int coolTime = GetStat(CharActionStat.RemainCool); //남은쿨을 보고
-        if(0 < coolTime) //쿨이 돌고 있으면
-        {
-            CalStat(CharActionStat.RemainCool, -1); //1을 깐다. 
-        }
-      
-    }
-
+    
     public bool AbleUse()
     {
         //1. 남은 횟수가 1 이상이면
