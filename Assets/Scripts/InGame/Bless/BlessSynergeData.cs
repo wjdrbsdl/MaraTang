@@ -55,7 +55,7 @@ public class BlessSynergeData
             BlessSynergeCategoryEnum category = (BlessSynergeCategoryEnum)m_needBlessList[i].SubIdx;
             for (int x = 0; x < haveBless.Count; x++)
             {
-                GodBless bless = haveBless[i]; //확인할 가호
+                GodBless bless = haveBless[x]; //확인할 가호
                 if(CheckDetail(category, m_needBlessList[i].Value, bless) == true)//조건 충족 가호가 있고
                 {
                     //사용 안된 가호라면
