@@ -36,18 +36,42 @@ public class RuleBook
             t_skill = _attackAction;
         }
 
-        public float CalDamageByDefense(TokenChar _defenseChar)
+        public float CalDamageByDefense(TokenChar _defenseChar, float _oriDamage)
         {
-            float reductedDamage = t_oriignDamage * 0.8f;
+            float reductedDamage = _oriDamage * 0.8f;
             return reductedDamage;
         }
 
-        public void ApplyDamage(TokenChar _target)
+        public void ApplyDamage(TokenChar _target, float _damage, bool _isTrueDamage = false)
         {
-            float reductedDamage = CalDamageByDefense(_target);
-            int damage = (int)reductedDamage;
-            _target.AttackChar(damage);
+            float calDamage = _damage;
+            if (_isTrueDamage == false)
+                calDamage = CalDamageByDefense(_target, calDamage);
+
+            int finalDamage = (int)calDamage;
+            _target.AttackChar(finalDamage);
          }
+
+        public void ApplyAfterEffect(TokenChar _target)
+        {
+            //피해를 준후 주는 이펙트 
+           if(CheckDice(BuffEnum.Chop, t_attacker, t_skill))
+            {
+                //쪼개기 확률 되었으면
+                MonsterRarity rarity = _target.GetRarity();
+                int power = GetBuffPower(BuffEnum.Chop, t_attacker, t_skill);
+                int damage = (int)( _target.GetStat(CharStat.MaxHp) * power * 0.03f); //30% 효과 
+                Debug.Log("쪼개기 % 데미지 " + (power * 0.03f));
+                bool trueDamage = true;
+                ApplyDamage(_target, damage, trueDamage);
+            }
+            int defenseBuff = t_skill.HaveBuffIndex(BuffEnum.DefenseStance);
+            if (defenseBuff != FixedValue.No_INDEX_NUMBER){
+                TokenBuff buff = t_skill.GetBuffByIndex(defenseBuff);
+                Debug.Log("방어태세 능력 " + buff.m_power + "을 공격력에 더한다 ");
+                buff.m_power += 30;
+            }
+        }
 
         public void ApplyBuff(TokenChar _target)
         {
@@ -88,6 +112,10 @@ public class RuleBook
                     charStat = CharStat.ArmorBreakRatio;
                     actionStat = CharActionStat.ArmorBreakRatio;
                     break;
+                case BuffEnum.Chop:
+                    charStat = CharStat.ChopRatio;
+                    actionStat = CharActionStat.ChopRatio;
+                    break;
                 default: //정의되지 않은 경우엔 false
                     return false;
             }
@@ -95,7 +123,7 @@ public class RuleBook
             return GameUtil.RollDice(armorBreakRatio, FixedValue.Dice100);
         }
 
-        private TokenBuff MakeBuff(BuffEnum _buffEnum, TokenChar _caster, TokenAction _action)
+        private int GetBuffPower(BuffEnum _buffEnum, TokenChar _caster, TokenAction _action)
         {
             CharStat charPower = CharStat.MaxActionEnergy;
             CharActionStat actionPower = CharActionStat.MinLich;
@@ -109,11 +137,21 @@ public class RuleBook
                     charPower = CharStat.ArmorBreakPower;
                     actionPower = CharActionStat.ArmorBreakPower;
                     break;
+                case BuffEnum.Chop:
+                    charPower = CharStat.ChopPower;
+                    actionPower = CharActionStat.ChopPower;
+                    break;
                 default: //정의되지 않은 경우엔 null
-                    return null;
+                    return 0;
             }
-            int armorPower = _caster.GetStat(charPower) + _action.GetStat(actionPower);
-            TokenBuff buff = new TokenBuff(MgMasterData.GetInstance().GetBuffData((int)_buffEnum), armorPower);
+            int effectPower = _caster.GetStat(charPower) + _action.GetStat(actionPower);
+            return effectPower;
+        }
+
+        private TokenBuff MakeBuff(BuffEnum _buffEnum, TokenChar _caster, TokenAction _action)
+        {
+            int buffPower = GetBuffPower(_buffEnum, _caster, _action);
+            TokenBuff buff = new TokenBuff(MgMasterData.GetInstance().GetBuffData((int)_buffEnum), buffPower);
             return buff;
         }
     }
@@ -183,7 +221,8 @@ public class RuleBook
                     {
                         Debug.Log(_playChar.GetItemName() + "이 " + enemies[x].GetItemName() + "를 공격");
 
-                        attackProgress.ApplyDamage(enemies[x]);//룰북에서 공격진행 과정에서 피해 주기
+                        attackProgress.ApplyDamage(enemies[x], attackProgress.t_oriignDamage);//룰북에서 공격진행 과정에서 피해 주기
+                        attackProgress.ApplyAfterEffect(enemies[x]);
                         attackProgress.ApplyBuff(enemies[x]); //룰북에서 공격진행 과정에서 버프 걸기
                     }
 
