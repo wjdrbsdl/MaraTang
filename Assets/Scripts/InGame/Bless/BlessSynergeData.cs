@@ -13,26 +13,42 @@ public class BlessSynergeData
     public int PID;
     public string Name;
     List<TOrderItem> m_needBlessList; //시너지 활성화에 필요한 가호 조건 리스트
-    List<TOrderItem> m_effectList; 
+    List<List<TOrderItem>> m_effectList;
+    List<int> m_needCount;
     public BlessSynergeData(string[] _divdeValues)
     {
         PID = int.Parse( _divdeValues[0]);
         Name = _divdeValues[2];
         m_needBlessList = new();
         GameUtil.ParseOrderItemList(m_needBlessList, _divdeValues[3]);
-
-        m_effectList = new();
-        if(_divdeValues.Length>= 5)
-        GameUtil.ParseOrderItemList(m_effectList, _divdeValues[4]);
-        //서브 인덱스가 클수록 더 좁은 범위 먼저 확인해야하므로 앞으로 배치 
         m_needBlessList.Sort((TOrderItem A, TOrderItem B) => B.SubIdx.CompareTo(A.SubIdx));
+
+        int needCountIdx = 4;
+        m_needCount = new();
+        int effectIdx = 5;
+        m_effectList = new();
+        if(_divdeValues.Length>= 6)
+        {
+            string[] effectStrs = _divdeValues[effectIdx].Split(FixedValue.PARSING_LINE_DIVIDE);
+            string[] needCountStrs = _divdeValues[needCountIdx].Split(FixedValue.PARSING_LINE_DIVIDE);
+            for (int i = 0; i < effectStrs.Length; i++)
+            {
+                m_needCount.Add(int.Parse(needCountStrs[i]));
+                m_effectList[i] = new();
+                GameUtil.ParseOrderItemList(m_effectList[i], effectStrs[i]);
+            }
+        }
+        
+        //서브 인덱스가 클수록 더 좁은 범위 먼저 확인해야하므로 앞으로 배치 
+        
     }
 
-    public bool CheckSynerge(TokenChar _char)
+    public int CheckSynerge(TokenChar _char)
     {
         List<GodBless> haveBless = _char.GetBlessList();
         List<int> checkIdx = new(); //체크된건 여기 추가해서 중복확인
         int needCount = m_needBlessList.Count;
+        int checkCount = 0;
         for (int i = 0; i < needCount; i++)
         {
             BlessSynergeCategoryEnum category = (BlessSynergeCategoryEnum)m_needBlessList[i].SubIdx;
@@ -46,19 +62,14 @@ public class BlessSynergeData
                     if(checkIdx.IndexOf(x) == -1)
                     {
                         checkIdx.Add(x); //해당 인덱스 추가하고 
-                        oneCondition = true; //해당 조건 충족으로 진행
+                        checkCount +=1; //충족수 +1
                         break; //다음 거 확인
                     }
                 } 
             }
-            if(oneCondition == false)
-            {
-                //만약 하나라도 조건 안맞으면 실패
-                return false;
-            }
         }
         //무사히 for문 나왔다는건 모든 조건이 충족했다는 말
-        return true;
+        return checkCount;
     }
 
     private bool CheckDetail(BlessSynergeCategoryEnum _category, int _value, GodBless _bless)
