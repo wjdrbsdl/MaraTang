@@ -28,7 +28,6 @@ public class UICharStats : UIBase
         SetButtons(_char);
         SetBuffInfo(_char);
     }
-
  
     private void SetButtons(TokenChar _char)
     {
@@ -56,7 +55,7 @@ public class UICharStats : UIBase
             {
                 TOrderItem effect = buff.m_effect[x];
                 string effectStr = GameUtil.GetTokenEnumName(effect);
-                info += effectStr + " ";
+                info += effectStr + " 파워는 "+buff.m_power.ToString();
             }
            info +=" \n";
         }
