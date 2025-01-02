@@ -56,18 +56,24 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
             // ReadyNextTurn(); //강제 턴 리셋
 
             // UnityEngine.SceneManagement.SceneManager.LoadScene("0.IntroScene");
-            TOrderItem deathCode = new TOrderItem(TokenType.Content, (int)ContentEnum.GameState, (int)GameStateEnum.PlayerDead);
-            MGContent.GetInstance().SendActionCode(deathCode);
+            //TOrderItem deathCode = new TOrderItem(TokenType.Content, (int)ContentEnum.GameState, (int)GameStateEnum.PlayerDead);
+            //MGContent.GetInstance().SendActionCode(deathCode);
 
-            TokenBuff armorBreakbuff = MgMasterData.GetInstance().GetBuffData((int)BuffEnum.ArmorBreak);
-            PlayerManager.GetInstance().GetMainChar().CastBuff(armorBreakbuff);
+            GodBless bless = new GodBless(MgMasterData.GetInstance().GetGodBless(4));
+            PlayerManager.GetInstance().GetMainChar().AquireBless(bless);
+
+            //TokenBuff armorBreakbuff = new TokenBuff( MgMasterData.GetInstance().GetBuffData((int)BuffEnum.ArmorBreak));
+            //PlayerManager.GetInstance().GetMainChar().CastBuff(armorBreakbuff);
+            //TokenBuff secondBuff = new TokenBuff(MgMasterData.GetInstance().GetBuffData((int)BuffEnum.Fracture));
+            //PlayerManager.GetInstance().GetMainChar().CastBuff(secondBuff);
         }
         if (Input.GetKeyDown(KeyCode.F6))
         {
             //MgToken.GetInstance().MakeMap(); // 맵 다시만들기
             //FirstStart();
             //  MGContent.GetInstance().m_devilIncubator.SetRestBrithTurn(tempDevilBirthrestTurm);
-
+            GodBless bless = new GodBless(MgMasterData.GetInstance().GetGodBless(4));
+            PlayerManager.GetInstance().GetMainChar().RemoveBless(bless);
             //kmp테스트
             //KMP kmpTest = new KMP();
             //kmpTest.Search();
