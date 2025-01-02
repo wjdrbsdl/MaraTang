@@ -887,6 +887,12 @@ public static class GameUtil
         return randomList;
     }
 
+    public static bool RollDice(int _diceNum, int _range)
+    {
+        int randomNum = UnityEngine.Random.Range(1, _range + 1);
+        return randomNum <= _diceNum;
+    }
+
     public static void LookTargetTile(TokenChar _char, TokenTile _targetTile)
     {
         bool isRight = IsRight(_char.GetMapIndex(), _targetTile.GetMapIndex());
