@@ -75,6 +75,15 @@ public class TokenBuff : TokenBase
             m_restTurn = 0;
     }
 
+    public void Reset()
+    {
+        //뭔가 리셋할게 필요한 경우 
+        if (m_buff.Equals(BuffEnum.DefenseStance))
+        {
+            m_power = 0;
+        }
+    }
+
     public bool DoneTime()
     {
         return m_restTurn <= 0;
