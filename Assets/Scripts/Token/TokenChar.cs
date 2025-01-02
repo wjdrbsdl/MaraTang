@@ -339,8 +339,13 @@ public class TokenChar : TokenBase
 
     public void RemoveBless(GodBless _bless)
     {
-      
-        m_blessList.Remove(_bless);
+        int haveIndex = CheckHaveIndex(_bless, m_blessList);
+        if (haveIndex == FixedValue.No_INDEX_NUMBER)
+        {
+            return;
+        }
+
+        m_blessList.RemoveAt(haveIndex);
         List<TOrderItem> reverseEffect = GameUtil.ReverseItemList(_bless.m_effect);
         _bless.m_effect = reverseEffect;
         AdaptBless(_bless);
