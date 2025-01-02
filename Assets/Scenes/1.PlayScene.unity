@@ -23572,6 +23572,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   testMangetSample: {fileID: 4823927384914364228, guid: 6f92de07b7f9178458ba0d3a0b60670d, type: 3}
   testNaviPin: {fileID: 1003702659785373538, guid: 4f3ce1904dc74c846bc72778633b5db2, type: 3}
+  testBlessPid: 1
   m_playSpeed: 1
   m_moveSpeed: 5
   m_autoReportCheck: 1
