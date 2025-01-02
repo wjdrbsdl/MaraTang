@@ -28,9 +28,9 @@ public class BlessSynergeData
 
         int needCountIdx = needBlessIdx +1;
         m_needCount = new();
-        int effectIdx = 5;
+        int effectIdx = needCountIdx+1;
         m_effectList = new();
-        if(_divdeValues.Length>= 6)
+        if(_divdeValues.Length>= effectIdx+1)
         {
             string[] effectStrs = _divdeValues[effectIdx].Split(FixedValue.PARSING_LINE_DIVIDE);
             string[] needCountStrs = _divdeValues[needCountIdx].Split(FixedValue.PARSING_LINE_DIVIDE);
