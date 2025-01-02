@@ -51,14 +51,10 @@ public class RuleBook
 
         public void ApplyBuff(TokenChar _target)
         {
-           int armorBreakRatio = t_attacker.GetStat(CharStat.ArmorBreakRatio) + t_skill.GetStat(CharActionStat.ArmorBreakRatio);
-            int armorPower = t_attacker.GetStat(CharStat.ArmorBreakPower) + t_skill.GetStat(CharActionStat.ArmorBreakPower);
-       
-            if(GameUtil.RollDice(armorBreakRatio, FixedValue.Dice100))
-            {
-                TokenBuff armorBuff = new TokenBuff(MgMasterData.GetInstance().GetBuffData((int)BuffEnum.ArmorBreak), armorPower);
-                _target.CastBuff(armorBuff);
-            }
+            //걸수 있는 버프 정류를 하나씩 체크해서 진행 - 
+            //최적화 한다면 해당 액션이 걸 수 있는 버프만 콕 찝어서 살펴보기 될 듯. 
+            DoDebuff(BuffEnum.Fracture, _target, t_attacker, t_skill);
+            DoDebuff(BuffEnum.ArmorBreak, _target, t_attacker, t_skill);
         }
 
         public void AttackPlace(TokenTile _tile)
@@ -66,6 +62,60 @@ public class RuleBook
             _tile.AttackTile((int)t_oriignDamage);
         }
 
+        public void DoDebuff(BuffEnum _buffEnum, TokenChar _targetChar, TokenChar _caster, TokenAction _action)
+        {
+           if( CheckDice(_buffEnum, _caster, _action))
+            {
+                TokenBuff makeBuff = MakeBuff(_buffEnum, _caster, _action);
+                if (makeBuff == null)
+                    return;
+
+                _targetChar.CastBuff(makeBuff);
+            }
+        }
+
+        private bool CheckDice(BuffEnum _buffEnum, TokenChar _caster, TokenAction _action)
+        {
+            CharStat charStat = CharStat.MaxActionEnergy;
+            CharActionStat actionStat = CharActionStat.MinLich;
+            switch (_buffEnum)
+            {
+                case BuffEnum.Fracture:
+                    charStat = CharStat.FractureRatio;
+                    actionStat = CharActionStat.FractureRatio;
+                    break;
+                case BuffEnum.ArmorBreak:
+                    charStat = CharStat.ArmorBreakRatio;
+                    actionStat = CharActionStat.ArmorBreakRatio;
+                    break;
+                default: //정의되지 않은 경우엔 false
+                    return false;
+            }
+            int armorBreakRatio = _caster.GetStat(charStat) + _action.GetStat(actionStat);
+            return GameUtil.RollDice(armorBreakRatio, FixedValue.Dice100);
+        }
+
+        private TokenBuff MakeBuff(BuffEnum _buffEnum, TokenChar _caster, TokenAction _action)
+        {
+            CharStat charPower = CharStat.MaxActionEnergy;
+            CharActionStat actionPower = CharActionStat.MinLich;
+            switch (_buffEnum)
+            {
+                case BuffEnum.Fracture:
+                    charPower = CharStat.FracturePower;
+                    actionPower = CharActionStat.FracturePower;
+                    break;
+                case BuffEnum.ArmorBreak:
+                    charPower = CharStat.ArmorBreakPower;
+                    actionPower = CharActionStat.ArmorBreakPower;
+                    break;
+                default: //정의되지 않은 경우엔 null
+                    return null;
+            }
+            int armorPower = _caster.GetStat(charPower) + _action.GetStat(actionPower);
+            TokenBuff buff = new TokenBuff(MgMasterData.GetInstance().GetBuffData((int)_buffEnum), armorPower);
+            return buff;
+        }
     }
 
     public struct TMineTileResult
