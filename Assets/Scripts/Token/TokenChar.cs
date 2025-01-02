@@ -7,7 +7,8 @@ using System;
 public enum CharStat
 {
     MaxActionEnergy, CurActionEnergy, MaxActionCount, CurActionCount, Sight, Strenth, Dex, Inteligent,
-    MaxHp, CurHp, EquiptSlotCount, BlessSlotCount, ActionSlotCount, AttackPoint
+    MaxHp, CurHp, EquiptSlotCount, BlessSlotCount, ActionSlotCount, AttackPoint,
+    ArmorBreakRatio, ArmorBreakPower, FractureRatio, FracturePower
 }
 
 public enum CharType
@@ -338,6 +339,7 @@ public class TokenChar : TokenBase
 
     public void RemoveBless(GodBless _bless)
     {
+      
         m_blessList.Remove(_bless);
         List<TOrderItem> reverseEffect = GameUtil.ReverseItemList(_bless.m_effect);
         _bless.m_effect = reverseEffect;
@@ -609,6 +611,16 @@ public class TokenChar : TokenBase
         return false;
     }
 
+    private int CheckHaveIndex<T>(TokenBase _token, List<T> _list) where T : TokenBase
+    {
+        int checkPid = _token.GetPid();
+        for (int i = 0; i < _list.Count; i++)
+        {
+            if (_list[i].GetPid() == checkPid)
+                return i;
+        }
+        return FixedValue.No_INDEX_NUMBER;
+    }
     #region ½ºÅÝ Àû¿ë
     public void AttackChar(int _damage)
     {
