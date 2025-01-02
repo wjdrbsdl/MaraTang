@@ -8,7 +8,7 @@ public class MgMasterData : Mg<MgMasterData>
     private Dictionary<int, TileTypeData> m_tileTypeDataDic;
     private Dictionary<int, TokenChar> m_charDataDic;
     private Dictionary<int, List<TOrderItem>> m_charDropItemDataDic;
-    private Dictionary<int, BlessSynerge> m_synergeDataDic;
+    private Dictionary<int, BlessSynergeData> m_synergeDataDic;
     private Dictionary<int, TokenAction> m_charActionDataDic;
     private List<int> m_charActionList;
     private Dictionary<int, EquiptItemData> m_equiptDataDic;
@@ -127,9 +127,9 @@ public class MgMasterData : Mg<MgMasterData>
         return GetDicData<ConversationGroup>(m_conversationGroupDic, (int)_theme).GetConversationData(_pid);
     }
 
-    public BlessSynerge GetBlessSynergeData(int _pid)
+    public BlessSynergeData GetBlessSynergeData(int _pid)
     {
-        return GetDicData<BlessSynerge>(m_synergeDataDic, _pid);
+        return GetDicData<BlessSynergeData>(m_synergeDataDic, _pid);
     }
 
     public Dictionary<int, God> GetGodDic()
@@ -240,7 +240,7 @@ public class MgMasterData : Mg<MgMasterData>
         ParseData parseData = MgParsing.GetInstance().GetMasterData(EMasterData.BlessSynerge);
         for (int i = 0; i < parseData.DbValueList.Count; i++)
         {
-            BlessSynerge newSynergeData = new(parseData.DbValueList[i]);
+            BlessSynergeData newSynergeData = new(parseData.DbValueList[i]);
             m_synergeDataDic.Add(newSynergeData.PID, newSynergeData);
         }
     }

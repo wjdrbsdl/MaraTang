@@ -189,7 +189,7 @@ public class TokenAction : TokenBase
     {
         for (int i = 0; i < m_synergeList.Count; i++)
         {
-            BlessSynerge synerge = MgMasterData.GetInstance().GetBlessSynergeData(m_synergeList[i]);
+            BlessSynergeData synerge = MgMasterData.GetInstance().GetBlessSynergeData(m_synergeList[i]);
             bool check = synerge.CheckSynerge(_char);
             if(check == true && m_synergeAdapt[i] == false)
             {

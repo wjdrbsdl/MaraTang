@@ -8,13 +8,13 @@ public enum BlessSynergeCategoryEnum
     Main, God, Pid
 }
 
-public class BlessSynerge
+public class BlessSynergeData
 {
     public int PID;
     public string Name;
     List<TOrderItem> m_needBlessList; //시너지 활성화에 필요한 가호 조건 리스트
     List<TOrderItem> m_effectList; 
-    public BlessSynerge(string[] _divdeValues)
+    public BlessSynergeData(string[] _divdeValues)
     {
         PID = int.Parse( _divdeValues[0]);
         Name = _divdeValues[2];
