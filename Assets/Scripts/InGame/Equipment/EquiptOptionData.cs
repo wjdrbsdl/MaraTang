@@ -74,7 +74,7 @@ public class EquiptOptionData
 
         int stepdice = Random.Range(0, ableStepCount); //가능한 단계수에서 뽑기시작 - 만약 1단계만 가능하면 0만 나와서 0번째 수치가 적용될것
         int selectPower = TierPowerList[stepdice];
-        Debug.Log(Name + " 적용 "+ (stepdice + 1) + "단계 파워 적용 인덱스는 " + stepdice + " 효과 수치는 " + selectPower);
+       // Debug.Log(Name + " 적용 "+ (stepdice + 1) + "단계 파워 적용 인덱스는 " + stepdice + " 효과 수치는 " + selectPower);
         TOrderItem effect = new TOrderItem(TokenType.CharStat, SubIdx, selectPower);
         return effect;
     }
