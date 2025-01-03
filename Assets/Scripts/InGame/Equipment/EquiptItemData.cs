@@ -65,10 +65,24 @@ public class EquiptItemData
                 effect.Add(ranOption);
             }
         }
-        //2. 옵션의 수치를 tier에 따라 정의한다
-        //effect.Add(new TOrderItem(TokenType.CharStat,(int)CharStat.Strenth, 100)); //확인용 위해 힘스텟 100
+        //2. 옵션중 할당가능한건 1개 혹은 그 장비에 정의된 옵션가능수치로 
+        int optionSpace = 1; //이후 장비에서 가져올수도
+        List<int> diceRan = GameUtil.GetRandomNum(effect.Count, effect.Count); //이펙트 수만큼 랜덤 뽑이 아닌데 비중으로가야하는데
+        List<TOrderItem> selectOption = new();
+        for (int i = 1; i <= optionSpace; i++)
+        {
+            if (effect.Count < i)
+            {
+                //할당하려는 옵션수보다 할당할 수있는 이펙트수가 적으면 그냥 패싱 
+                break;
+            }
+
+            TOrderItem selectItem = effect[diceRan[i-1]];
+            Debug.Log(GameUtil.GetTokenEnumName(selectItem) + "옵션이 뽑힘");
+            selectOption.Add(selectItem);
+        }
         //3. 해당 옵션으로 장비를 새로 만든다. 
-        EquiptItem item = new EquiptItem(m_pid, m_itemName, m_part, _tier, effect);
+        EquiptItem item = new EquiptItem(m_pid, m_itemName, m_part, _tier, selectOption);
 
         return item;
     }
