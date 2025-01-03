@@ -77,7 +77,7 @@ public class EquiptItemData
 
         int parsingOptionSpace = 1;//장비 자체가 가질수 있는 옵션 공간
         int optionSpace = Mathf.Min(parsingOptionSpace, effect.Count); //옵션공간과 보유 옵션 중 낮은수로 뽑기진행
-        List<int> weightDice = DiceByWeight(optionSpace, weightList);
+        List<int> weightDice = GameUtil.DiceByWeight(optionSpace, weightList);
         List<TOrderItem> selectOption = new();
         for (int i = 0; i < optionSpace; i++)
         {
@@ -91,36 +91,4 @@ public class EquiptItemData
         return item;
     }
 
-    private List<int> DiceByWeight(int _count, List<int> _weightList)
-    {
-        //가중치들을 보고 순서대로 뽑은 index를 반환
-        int diceCount = Mathf.Min(_count, _weightList.Count); //돌릴 횟수
-        int sum = 0; //가중치 총합
-        List<int> diceList = new(); //뽑힌 순서 index
-        for (int i = 0; i < _weightList.Count; i++)
-        {
-            sum += _weightList[i];
-        }
-
-        for (int i = 0; i < diceCount; i++)
-        {
-            int dice = Random.Range(1, sum + 1);
-            int cur = 0;
-            
-            for (int x = 0; x < _weightList.Count; x++)
-            {
-                cur += _weightList[x]; //보는 상태의 가중치를 더한다
-                if(dice <= cur)
-                {
-                    //룰렛수치보다 크면 당첨된거
-                    diceList.Add(x); //뽑힌 순서를 넣고
-                   // Debug.LogFormat("{0}가중치중 {1}수치 뽑아서 {2}번째 아이템이 당첨", sum, dice, x);
-                    sum -= _weightList[x]; //가중치에서 빼고
-                    _weightList[x] = 0;//가중치 값을 바꾸고 
-                    break; //이번 다이스는 종료 
-                }
-            }
-        }
-        return diceList;
-    }
 }
