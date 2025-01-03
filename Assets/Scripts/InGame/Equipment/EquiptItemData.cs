@@ -53,6 +53,7 @@ public class EquiptItemData
     public EquiptItem GetItem(int _tier)
     {
         List<TOrderItem> effect = new();
+        List<int> weightList = new(); //옵션 가중치들
         int adaptTier = Mathf.Min(_tier, maxTier); //고점 티어 결정
         //1. 유효한 옵션을 고른다 - 티어에 걸맞는 수치까지 결정
         for (int i = 0; i < m_optionPoolList.Count; i++)
@@ -67,28 +68,59 @@ public class EquiptItemData
             TOrderItem ranOption = optionData.GetOptionValue(adaptTier, optionEffeciency);
             if(ranOption.Tokentype.Equals(TokenType.None) == false)
             {
+                //유효한 옵션이 뽑혔으면 리스트에 추가
                 effect.Add(ranOption);
+                weightList.Add(optionData.PoolDiceValue);
             }
         }
         //2. 적용할 옵션을 정한다 - optionPool로 정해야하는데 지금은 그냥 룰렛.
-        int optionSpace = 1; //이후 장비에서 가져올수도
-        List<int> diceRan = GameUtil.GetRandomNum(effect.Count, effect.Count); //이펙트 수만큼 랜덤 뽑이 아닌데 비중으로가야하는데
-        List<TOrderItem> selectOption = new();
-        for (int i = 1; i <= optionSpace; i++)
-        {
-            if (effect.Count < i)
-            {
-                //할당하려는 옵션수보다 할당할 수있는 이펙트수가 적으면 그냥 패싱 
-                break;
-            }
 
-            TOrderItem selectItem = effect[diceRan[i-1]];
-            Debug.Log(GameUtil.GetTokenEnumName(selectItem) + "옵션이 뽑힘");
+        int parsingOptionSpace = 1;//장비 자체가 가질수 있는 옵션 공간
+        int optionSpace = Mathf.Min(parsingOptionSpace, effect.Count); //옵션공간과 보유 옵션 중 낮은수로 뽑기진행
+        List<int> weightDice = DiceByWeight(optionSpace, weightList);
+        List<TOrderItem> selectOption = new();
+        for (int i = 0; i < optionSpace; i++)
+        {
+            TOrderItem selectItem = effect[weightDice[i]];
+          //  Debug.Log(GameUtil.GetTokenEnumName(selectItem) + "옵션이 뽑힘");
             selectOption.Add(selectItem);
         }
         //3. 해당 옵션으로 장비를 새로 만든다. 
         EquiptItem item = new EquiptItem(m_pid, m_itemName, m_part, _tier, selectOption);
 
         return item;
+    }
+
+    private List<int> DiceByWeight(int _count, List<int> _weightList)
+    {
+        //가중치들을 보고 순서대로 뽑은 index를 반환
+        int diceCount = Mathf.Min(_count, _weightList.Count); //돌릴 횟수
+        int sum = 0; //가중치 총합
+        List<int> diceList = new(); //뽑힌 순서 index
+        for (int i = 0; i < _weightList.Count; i++)
+        {
+            sum += _weightList[i];
+        }
+
+        for (int i = 0; i < diceCount; i++)
+        {
+            int dice = Random.Range(1, sum + 1);
+            int cur = 0;
+            
+            for (int x = 0; x < _weightList.Count; x++)
+            {
+                cur += _weightList[x]; //보는 상태의 가중치를 더한다
+                if(dice <= cur)
+                {
+                    //룰렛수치보다 크면 당첨된거
+                    diceList.Add(x); //뽑힌 순서를 넣고
+                   // Debug.LogFormat("{0}가중치중 {1}수치 뽑아서 {2}번째 아이템이 당첨", sum, dice, x);
+                    sum -= _weightList[x]; //가중치에서 빼고
+                    _weightList[x] = 0;//가중치 값을 바꾸고 
+                    break; //이번 다이스는 종료 
+                }
+            }
+        }
+        return diceList;
     }
 }
