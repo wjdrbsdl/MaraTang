@@ -45,7 +45,7 @@ public class EquiptOptionData
 
     }
 
-    public TOrderItem GetOptionValue(int _tier)
+    public TOrderItem GetOptionValue(int _tier, int _effeciency)
     {
         int dropTier = _tier;
         int adaptTier = dropTier - StartTier + 1; //해당 옵션이 등장가능한 티어
