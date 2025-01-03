@@ -220,6 +220,7 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     //5. 해당 플레이어가 턴을 종료하면, 다음 차례 플레이어를 뽑거나 턴정산을 진행
     public void EndPlayerTurn()
     {
+        CharTurnEnd(m_playerMemeber);
         int cur = (int)m_playerMemeber;
         cur += 1; //다음차례
 
@@ -233,6 +234,17 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
         //그게 아니라면
         m_playerMemeber = (PlayerMember)cur; //현 플레이어 멤버 바꾸고
         NoticeTurnPlayer();//다음 차례 플레이어를 호출 
+    }
+
+    private void CharTurnEnd(PlayerMember _member)
+    {
+        List<TokenChar> charlist = MgToken.GetInstance().GetCharList();
+        bool isPlayer = _member == PlayerMember.LivePlayer;
+        for (int i = 0; i < charlist.Count; i++)
+        {
+            if (charlist[i].IsPlayerChar() == isPlayer)
+                charlist[i].TurnReset();
+        }
     }
 
     public void StopAnimateTokenObject()
@@ -290,7 +302,6 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
     {
         PopupMessage("턴 종료"); 
         EffectEndTurn(); //턴이 종료할때 발휘되는 효과나 계산할것들 정산
-        ResetCharTurn(); //소비되었던 액션 에너지등 회복
         ReadyNextWorldTurn(); //월드 턴 변화 진행
         ResetNationTurn(); //국가 집행순서 세팅
         ResetPlayerTurn(); //플레이어 턴으로 세팅
@@ -308,14 +319,6 @@ public class GamePlayMaster : MgGeneric<GamePlayMaster>
         DoWorkList();
         CountComplainTurn();
       //  Debug.Log("겜마스터 완료 제거 후 남은 작업수 " + m_globalWorkList.Count);
-    }
-
-    private void ResetCharTurn() 
-    {
-        for (int i = 0; i < MgToken.GetInstance().GetCharList().Count; i++)
-        {
-            MgToken.GetInstance().GetCharList()[i].TurnReset();
-        }
     }
 
     private void ReadyNextWorldTurn()
