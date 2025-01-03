@@ -36,8 +36,7 @@ public class DiceRandomItem
         //Debug.Log(_tier + "장비 랜덤 드랍");
         //1. 티어대로 드랍가능한 티어 선출
         List<int> ableEquipt = new();
-        List<int> dropRatio = new();
-        int totalRatio = 0;
+        List<int> dropWeight = new(); //드랍 가중치
         List<int> equiptPid = DropItemManager.GetInstance().equiptPidList;
         
         for (int i = 0; i < equiptPid.Count; i++)
@@ -46,28 +45,22 @@ public class DiceRandomItem
             if(equiptData.ableDropTir<= _tier)
             {
                 ableEquipt.Add(equiptData.m_pid);
-                dropRatio.Add(equiptData.dropRatio); //드랍가중치도 추가
-                totalRatio += equiptData.dropRatio; //총 드랍치 합산
+                dropWeight.Add(equiptData.dropRatio); //드랍가중치도 추가
+  
                // Debug.Log(equiptData.m_pid + "번 장비 " + _tier + "티어로 드랍 가능 리스트에 추가");
             }
         }
         //2. 정해진 장비를 가지고 룰렛 진행 
-        int diceNum = UnityEngine.Random.Range(1, totalRatio + 1);
-        int curRatio = 0;
-        
-        for (int i = 0; i < dropRatio.Count; i++)
+        List<int> selectItem = GameUtil.DiceByWeight(1, dropWeight);
+        if (selectItem.Count >= 1)
         {
-            curRatio += dropRatio[i];
-            //가중치합이 뽑기번호보다 큰순간 해당 장비가 뽑힌거
-            if(diceNum <= curRatio)
-            {
-                int selectPid = ableEquipt[i]; //선택된 장비 pid
-                int equiptTier = _tier; //장비에 할당할 티어
-                TOrderItem equipt = new TOrderItem(TokenType.Equipt, selectPid, equiptTier);
-              //  Debug.Log(selectPid + "장비를 " + equiptTier + "티어로 생성하기로 하고 옵션 선택 진행");
-                return GetDiceEquiptOption(equipt); //3. 해당 장비 해당 티어에서 옵션뽑기 진행 후 반환. 
-            }
+            int selectEquiptPid = ableEquipt[selectItem[0]];
+            int tier = _tier;
+            TOrderItem equipt = new TOrderItem(TokenType.Equipt, selectEquiptPid, tier);
+            //  Debug.Log(selectPid + "장비를 " + equiptTier + "티어로 생성하기로 하고 옵션 선택 진행");
+            return GetDiceEquiptOption(equipt); //3. 해당 장비 해당 티어에서 옵션뽑기 진행 후 반환. 
         }
+  
         return noneItem;
     }
 
