@@ -53,6 +53,7 @@ public class EquiptItemData
     public EquiptItem GetItem(int _tier)
     {
         List<TOrderItem> effect = new();
+        int adaptTier = Mathf.Min(_tier, maxTier); //고점 티어 결정
         //1. 유효한 옵션을 고른다 - 티어에 걸맞는 수치까지 결정
         for (int i = 0; i < m_optionPoolList.Count; i++)
         {
@@ -63,7 +64,7 @@ public class EquiptItemData
                 continue;
             }
 
-            TOrderItem ranOption = optionData.GetOptionValue(_tier);
+            TOrderItem ranOption = optionData.GetOptionValue(adaptTier, optionEffeciency);
             if(ranOption.Tokentype.Equals(TokenType.None) == false)
             {
                 effect.Add(ranOption);
