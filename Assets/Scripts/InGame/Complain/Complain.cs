@@ -6,10 +6,20 @@ using System.Text;
 using System.Threading.Tasks;
 
 
+public enum ComplainTypeEnum
+{
+    Compensation, Nomal, Hard, Incident, Accident
+}
+
+public enum ComplainRequestTypeEnum
+{
+    Hunt, Item
+}
+
 public class Complain
 {
     public string Name;
-    public string ComplainType; // 컴플레인의 부류 - 자원 요구, 특정 스텟 요구치로 단순 확률싸움
+    public ComplainTypeEnum ComplainType = ComplainTypeEnum.Nomal ; // 컴플레인의 부류 - 자원 요구, 특정 스텟 요구치로 단순 확률싸움
     public List<TOrderItem> NeedItems = new(); // 필요한것들
     public int RestTurn; //인내기간
     public List<TOrderItem> FailEffect = new(); //실패시 어쩔지
@@ -19,7 +29,6 @@ public class Complain
     {
         //테스트용 아무거나
         Name = "테스트 컴플레인";
-        ComplainType = "자원요구";
   
         NeedItems.Add(new TOrderItem(TokenType.Capital, (int)Capital.Food, 30));
      
@@ -48,16 +57,10 @@ public class Complain
         TokenChar mainChar = PlayerManager.GetInstance().GetMainChar();
         int RandomNum = Random.Range(0, 2);
         bool Succes = false;
-        switch (ComplainType)
+        //필요한 아이템을 충족하는지 
+        for (int i = 0; i < NeedItems.Count; i++)
         {
-            case "자원요구":
-                //돈 계산
-                Succes = RandomNum == 0; //50% 반반으로 반환
-                break;
-            case "스텟요구":
-                //스텟으로 확률 계산
-                Succes = true;
-                break;
+            //충족 여부 체크
         }
 
         //실패는 단번으로 끝날것인가? 예를들어 자원 없는데 시도했다고 끝날 순 없잖아 
