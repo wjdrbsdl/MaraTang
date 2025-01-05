@@ -19,7 +19,7 @@ public class NationTerritoryPart
 
         int level = m_nation.GetNationLevel();
         int countByLevel = m_nation.GetStat(NationStatEnum.TerritoryByLevel);
-        int addCount = m_nation.GetStat(NationStatEnum.AddTerritory);
+        int addCount = m_nation.GetStat(NationStatEnum.TerritoryByPlus);
 
         maxCount = (level * countByLevel) + addCount;
 

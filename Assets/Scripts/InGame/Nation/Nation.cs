@@ -16,7 +16,9 @@ public enum NationManageStepEnum
 
 public enum NationStatEnum
 {
-     Happy, CleanFlat, CleanRatio, 성실, 안정, Sight, CommunityRange, Population, BirthRatio, TerritoryByLevel, AddTerritory
+     Happy, CleanFlat, CleanRatio, 성실, 안정, Sight, CommunityRange, Population, BirthRatio, TerritoryByLevel, TerritoryByPlus,
+     용기, 신뢰, 자애, 건강, 근면,
+     안정도, 행복도, 청결
 }
 
 public class Nation : ITradeCustomer
@@ -118,7 +120,7 @@ public class Nation : ITradeCustomer
         SetStatValue(NationStatEnum.BirthRatio, 36);
         SetStatValue(NationStatEnum.Population, 30);
         SetStatValue(NationStatEnum.TerritoryByLevel, 6);
-        SetStatValue(NationStatEnum.AddTerritory, 0);
+        SetStatValue(NationStatEnum.TerritoryByPlus, 0);
     }
 
 
