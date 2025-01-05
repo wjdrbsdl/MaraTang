@@ -19,24 +19,7 @@ public class NationEvent
         List<TokenTile> territory = m_nation.GetTerritorry();
         ComplainManager compleMg = ComplainManager.GetInstance();
         //Debug.Log(m_nation.GetNationNum() + " 사건 발생 유무 확인");
-        for (int i = 1; i < territory.Count; i++)
-        {
-            TokenTile tile = territory[i];
-            if (tile.HaveComplain())
-            {
-                continue;
-            }
-            Complain complain = compleMg.OccurComplain(tile);
-            if (complain == null)
-            {
-                continue;
-            }
-            //임시로 여기서 좌표 새김, Complain 생성자에서 매개변수로 받은 위치로 생성하는게 좋아보임. 
-            complain.SetComplainMapIndex(tile.GetMapIndex());
-            tile.SendComplain(complain);
-                
-        }
+        compleMg.OccurComplain(m_nation);
     }
 
-  
 }
