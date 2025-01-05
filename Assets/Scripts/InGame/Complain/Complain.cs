@@ -39,6 +39,7 @@ public class Complain
         GamePlayMaster.GetInstance().RegistorComplain(this);
     }
 
+    #region 컴플레인 배정 및 턴 관리
     public void TurnCount()
     {
         //턴이 다 된경우 실패
@@ -51,6 +52,35 @@ public class Complain
             
     }
 
+    public void AssignTile(TokenTile _tile)
+    {
+        //기존 진행중이던 작업은 발생한 민원에 따라 영향
+        // -> 중대사고인경우 기존 작업이 취소될수도, 노동코인이 상실될수도
+        // ->미미한 경우는 해당 작업의 효율, 효과정도가 너프되는 버프에 걸릴 수도
+        //1. 배정시 기존 작업에 어떤 영향을 미칠지
+        //2. 타일의 스텟 버프등에 어떤 영향을 미칠지 정의 
+
+        
+        //3. 타일과 민원에 서로를 참조
+        SetComplainMapIndex(_tile.GetMapIndex());
+        _tile.SendComplain(this);
+    }
+
+    public void SetComplainMapIndex(int[] _pos)
+    {
+        MapIndex = _pos;
+    }
+
+    public void RemoveComplain()
+    {
+        Debug.Log("컴플레인 제거");
+        TokenTile complainTile = GameUtil.GetTileTokenFromMap(MapIndex);
+        complainTile.RemoveComplain();
+        GamePlayMaster.GetInstance().RemoveComplain(this);
+    }
+    #endregion
+
+    #region 컴플레인 대응 과 결과
     public void Respond()
     {
         //컴플레인에 대응하기
@@ -98,18 +128,7 @@ public class Complain
         //char Stat의 경우는 일괄적
         //어떤건 특수적 흠..
     }
+    #endregion
 
-    public void SetComplainMapIndex(int[] _pos)
-    {
-        MapIndex = _pos;
-    }
-
-    public void RemoveComplain()
-    {
-        Debug.Log("컴플레인 제거");
-        TokenTile complainTile = GameUtil.GetTileTokenFromMap(MapIndex);
-        complainTile.RemoveComplain();
-        GamePlayMaster.GetInstance().RemoveComplain(this);
-    }
 }
 
