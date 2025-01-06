@@ -25,7 +25,7 @@ public class AccidentAdaptor
     public void AdaptPenalty(Complain _complaint)
     {
         int _penaltyLevel = CalPenaltyLevel(_complaint.ComplainType);
-        if (_penaltyLevel == FixedValue.No_VALUE)
+        if (_penaltyLevel == FixedValue.No_VALUE) //민원 유형이 보은인 경우엔 적용할 페널티 레벨이 없어서 리턴. 
             return;
 
         //1. 벌칙 수준에 따라 벌칙을 결정
