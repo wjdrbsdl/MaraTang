@@ -6239,6 +6239,7 @@ MonoBehaviour:
   IsOnType: 0
   IsStackType: 1
   IsTrashNeed: 0
+  InfoText: {fileID: 438851483}
 --- !u!224 &425673962
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6567,7 +6568,7 @@ GameObject:
   - component: {fileID: 438851484}
   - component: {fileID: 438851483}
   m_Layer: 5
-  m_Name: Box
+  m_Name: InfoText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
