@@ -73,10 +73,10 @@ public class Complain
         //3. 필요 재료 추가
         NeedItems.Add(needItem); //
         //4. 남은 턴 설정하고, 구역 컨텐츠의 남은 시간도 갱신
-        RestTurn = 20;
+        SetRestTurn(ExtraValues.g_instance.ChunkComplaintTurn);
         //5. 둘중 긴걸로 진행
         int maxRestTurn = Mathf.Max(MGContent.GetInstance().GetChunk(chunkNum).PreContent.RestTurn, RestTurn);
-        MGContent.GetInstance().GetChunk(chunkNum).PreContent.RestTurn = maxRestTurn; //컴플레인 해결을 위해 남은시간 갱신
+        MGContent.GetInstance().GetChunk(chunkNum).PreContent.SetRestTurn(maxRestTurn); //컴플레인 해결을 위해 남은시간 갱신
     }
 
     private void NomalSetting()
@@ -99,7 +99,12 @@ public class Complain
         }
 
         //3. 민원 대응 시간 설정
-        RestTurn = 10;
+        SetRestTurn(ExtraValues.g_instance.NomalComplaintTurn);
+    }
+
+    private void SetRestTurn(int _turn)
+    {
+        RestTurn = _turn;
     }
     #endregion
 
