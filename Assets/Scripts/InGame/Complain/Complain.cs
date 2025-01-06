@@ -142,25 +142,47 @@ public class Complain
     public void Respond()
     {
         //자원 요구하는 경우에 보유 자원 지불하는 방식등 민원 타입 혹은 필요한 아이템에 따라 요구하기 요청
+        for (int i = 0; i < NeedItems.Count; i++)
+        {
+            TOrderItem item = NeedItems[i];
+            if (item.Tokentype.Equals(TokenType.Capital) == false)
+                continue;
 
+            //자원 아닌 건 넘기고 자원이면
+            Debug.Log("지불전 비용 " + item.Value);
+            ITradeCustomer customer = PlayerCapitalData.g_instance;
+            TItemListData cost = new TItemListData(item);
+            if (customer.CheckInventory(cost))
+            {
+                customer.PayCostData(cost);
+            }
+            item.Value = 0;
+            NeedItems[i] = item;
+            Debug.Log("지불후 비용 " + NeedItems[i].Value);
+        }
+        SuccesCheck();
     }
 
     public void SuccesCheck()
     {
         //컴플레인에 대응하기
-        bool Succes = false;
+        int needCount = NeedItems.Count;
         //필요한 아이템을 충족하는지 
         for (int i = 0; i < NeedItems.Count; i++)
         {
             //충족 여부 체크
             Debug.Log(GameUtil.GetTokenEnumName(NeedItems[i]) + " 요구 횟수 " + NeedItems[i].Value);
+            if (NeedItems[i].Value == 0)
+                needCount -= 1;
         }
 
         //실패는 단번으로 끝날것인가? 예를들어 자원 없는데 시도했다고 끝날 순 없잖아 
         //성공한 경우에 성공 호출
-       // Debug.Log("컴플레이 대응 성공 여부 " + Succes);
+        // Debug.Log("컴플레이 대응 성공 여부 " + Succes);
+        bool Succes = needCount ==0;
         if (Succes)
         {
+            Debug.Log("민원 해결");
             EffectReward();
             RemoveComplain();
         }
