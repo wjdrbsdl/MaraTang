@@ -715,6 +715,9 @@ public class TokenChar : TokenBase
         TokenTile inTile = GameUtil.GetTileTokenFromMap(GetMapIndex());
         inTile.RemoveCharToken(this);
         MgToken.GetInstance().RemoveCharToken(this);
+
+        //3. 액션 코드 전달
+        MGContent.GetInstance().SendActionCode( new TOrderItem(TokenType.Char, m_tokenPid, 1)); //몬스터 사망시 코드전달
     }
 
     private void PlayerDeath()
