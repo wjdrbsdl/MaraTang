@@ -473,18 +473,18 @@ public class MGContent : Mg<MGContent>
             //몬스터면 해당 몬스터 사냥을 목표로 함
             for (int x = 0; x < madeList.Count; x++)
             {
-                TokenBase item = madeList[i];
+                TokenBase item = madeList[x];
                 if (item.GetTokenType().Equals(TokenType.Tile))
                 {
                     //해당 타일에서 나는 재료를 훑어 보면서 특정 capital인 경우 그 아이템을 요구
                     List<TOrderItem> tileItemList = MgMasterData.GetInstance().GetTileData(item.GetPid()).EffectData.GetItemList();
                     for (int itemIdx = 0; itemIdx < tileItemList.Count; itemIdx++)
                     {
-                        if (tileItemList[i].Tokentype.Equals(TokenType.Capital))
+                        if (tileItemList[itemIdx].Tokentype.Equals(TokenType.Capital))
                         {
-                            Debug.Log(GameUtil.GetTokenEnumName(tileItemList[i])+"자원 요구 하도록 구역 컴플레인 세팅");
+                            Debug.Log(GameUtil.GetTokenEnumName(tileItemList[itemIdx])+"자원 요구 하도록 구역 컴플레인 세팅");
                             chunkNum = randomIdx[i];
-                            return new TOrderItem(TokenType.Capital, tileItemList[i].SubIdx, 1);
+                            return new TOrderItem(TokenType.Capital, tileItemList[itemIdx].SubIdx, 1);
                         }
                     }
                 }
@@ -655,7 +655,7 @@ public class MGContent : Mg<MGContent>
                         TOrderItem renewValue = complainItem;
                         renewValue.Value -= 1;
                         complain.NeedItems[x] = renewValue;
-                        complain.Respond(); //대응 호출해서 클리어했는지 체크
+                        complain.SuccesCheck(); //대응 호출해서 클리어했는지 체크
                     }
                 }
                 
