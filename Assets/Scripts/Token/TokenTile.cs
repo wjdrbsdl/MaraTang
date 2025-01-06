@@ -335,6 +335,7 @@ public class TokenTile : TokenBase
         }
 
         m_complain = _complain;
+        GetNation().AddComplaint(_complain); //해당 국가에 민원 등록
         MgWorkOrderPin.GetInstance().RequestComplainPin(this);
         return true;
     }
@@ -343,6 +344,7 @@ public class TokenTile : TokenBase
     {
         //1. 작업오더가 핀의 키값이므로 먼저 핀제거 요청 
         MgWorkOrderPin.GetInstance().RemoveComplainPin(this);
+        GetNation().RemoveCompalint(m_complain); //해당 국가에 민원 삭제
         m_complain = null;
         return;
     }
