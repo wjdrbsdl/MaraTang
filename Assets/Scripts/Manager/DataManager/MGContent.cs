@@ -74,9 +74,9 @@ public class MGContent : Mg<MGContent>
     {
         // 턴이 지났음
         CountQuestTurn(); //기존에 있던 퀘스트들 턴 감소
+        CountChunkTurn(); //구역컨텐츠 턴 감소
         m_devilIncubator.ChangeWorldTurn();
         WriteQuest();
-        WriteChunkContent();
     }
 
     private void WriteQuest()
@@ -402,38 +402,13 @@ public class MGContent : Mg<MGContent>
 
     #region 구역 컨텐츠 
 
-    private int ChunkContentCount = 3;
-    private void WriteChunkContent()
+    private void CountChunkTurn()
     {
-        if (GamePlayMaster.GetInstance().m_actChunkContent == false)
-            return;
-
-        //0. 컨텐츠를 새로 뽑을 타이밍인지 체크
-        if (IsTimeNewChunkContent() == false)
-            return;
-
-        List<int> randomNum = GameUtil.GetRandomNum(m_chunkList.Count, m_chunkList.Count);
-        for (int i = 0; i < randomNum.Count; i++)
+        for (int i = 0; i < m_chunkList.Count; i++)
         {
-            //1. 뽑힌 순서대로 컨텐츠 생성 진행
-            Chunk chunk = m_chunkList[randomNum[i]];
-            int testTier = 1; //현 시각에서 발생가능한 구역컨텐츠의 티어를 산출해서 순서대로 적용
-            //2. 코어 죽은곳은 패스
-            if(chunk.GetCoreLive() == false)
-            {
-                //Debug.Log("핵이 파괴된 구역, 컨텐츠 구현 패싱 " + chunk.ChunkNum);
-                continue;
-            }
-
-            //3. 티어대로 구역 컨텐츠 생성
-            ChunkContent content = new ChunkContent(testTier);
-            ////3. 컨텐츠 불러온거
-            //chunkcontent content = new chunkcontent(mgmasterdata.getinstance().getchunkcontent(1));
-            //5. 일단 그냥 컨텐츠 구현
-            chunk.RealizeContent(content);
+            m_chunkList[i].CountContentTurn();
         }
     }
-
 
     private List<Chunk> SelectChunkList(int _newQuestCount)
     {
@@ -447,13 +422,6 @@ public class MGContent : Mg<MGContent>
         }
 
         return rulletChunk;
-    }
-
-    private int periode = 5;
-    private bool IsTimeNewChunkContent()
-    {
-        int curTurn = GamePlayMaster.GetInstance().GetPlayData().PlayTime;
-        return curTurn % periode == 0;
     }
 
     public TOrderItem GetComplaintChunkItem(out int chunkNum)
