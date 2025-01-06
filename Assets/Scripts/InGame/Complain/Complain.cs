@@ -11,10 +11,17 @@ public enum ComplaintTypeEnum
     Compensation, Nomal, Accident
 }
 
+public enum ComplaintRequestType
+{
+    Hunt, Capital
+}
+
 public class Complain
 {
     public string Name;
     public ComplaintTypeEnum ComplainType = ComplaintTypeEnum.Accident ; // 컴플레인의 부류 - 자원 요구, 특정 스텟 요구치로 단순 확률싸움
+    public ComplaintRequestType RequestType = ComplaintRequestType.Hunt;
+    public bool IsContentTarget = false;
     public List<TOrderItem> NeedItems = new(); // 필요한것들
     public int RestTurn; //인내기간
     public List<TOrderItem> SuccesEffect = new(); //성공시 어쩔지
@@ -23,13 +30,60 @@ public class Complain
     {
         //테스트용 아무거나
         Name = "테스트 컴플레인";
-  
-        NeedItems.Add(new TOrderItem(TokenType.Capital, (int)Capital.Food, 30));
-     
+        //1. 범용성 결정
+        int ran = Random.Range(0, 2);
+        if (ran.Equals(1))
+            IsContentTarget = true;
+
+        //2. 타겟팅 여부에 따라 갈래
+        //-1. 컨텐츠 타입이면 구역중 하나를 정해서 해당 구역의 내용에 따라 요청타입을 설정, 내부 아이템을 카운팅으로 진행, 해당 구역 갱신기간 재설정
+        //-2. 무상관이면 요청 타입을 결정 그에 맞게 재료나 몬스터 사냥 카운트를 진행
+        if (IsContentTarget)
+        {
+            ChunkContentSetting();
+        }
+        else
+        {
+            NomalSetting();
+        }
         SuccesEffect.Add(new TOrderItem(TokenType.Capital, (int)Capital.Food, 30));
 
-        RestTurn = 1;
+       
         GamePlayMaster.GetInstance().RegistorComplain(this);
+    }
+
+    private void ChunkContentSetting()
+    {
+       //랜덤 순으로 구역을 돌면서 해당 구역에서 민원이 가능한지 체크
+
+        //가능하다면 해당 구역 컨텐츠의 타입에 따라 요구 설정
+
+        //구역 컨텐츠에 생성된 아이템에 따라 몬스터 pid 혹은 자원 pid 와 수량을 세팅
+
+        //남은 턴 설정하고, 구역 컨텐츠의 남은 시간도 갱신
+    }
+
+    private void NomalSetting()
+    {
+        //1. 요청 타입을 결정
+        int ran = Random.Range(0, 2);
+        RequestType = (ComplaintRequestType)ran;
+
+        //2. 요청 타입에 따라 필요한것들 세팅
+        if (RequestType.Equals(ComplaintRequestType.Capital))
+        {
+            TOrderItem capitalItem = new TOrderItem(TokenType.Capital, (int)Capital.Food, 30);
+            NeedItems.Add(capitalItem);
+        }
+        else
+        {
+            //몬스터 Hunt 인경우 몬스터 카운트만 되면됨 pid 무관인데 흠. 
+            TOrderItem huntItem = new TOrderItem(TokenType.Char, int.MaxValue, 4);
+            NeedItems.Add(huntItem);
+        }
+
+        //3. 민원 대응 시간 설정
+        RestTurn = 10;
     }
 
     #region 컴플레인 배정 및 턴 관리
