@@ -93,9 +93,14 @@ public class AccidentAdaptor
         {
             case AccidentEnum.붕괴://장소 내구도 감소
                 //power에 따라 최대 내구도의 비율로 상실
+                int maxHp = _targetTile.GetStat(ETileStat.MaxDurability);
+                int damage = (int)(maxHp * ratio);
+                _targetTile.AttackTile(damage);
                 break;
             case AccidentEnum.화재: //노동 코인 손실
                 //power에 따라 현재 할당된 노동 코인의 비율로 상실로 해당 타일의 노동코인에 영향
+                int laborCount = _targetTile.GetLaborCoinCount();
+                int lossCount = (int)(laborCount * ratio);
                 break;
             case AccidentEnum.정전: //작업 효율 감소
                 //power에 따라 n턴 동안 작업 효율이 감소 되는 디버프를 해당 장소에 검
