@@ -11,18 +11,12 @@ public enum ComplaintTypeEnum
     Compensation, Nomal, Accident
 }
 
-public enum ComplainRequestTypeEnum
-{
-    Hunt, Item
-}
-
 public class Complain
 {
     public string Name;
-    public ComplaintTypeEnum ComplainType = ComplaintTypeEnum.Nomal ; // 컴플레인의 부류 - 자원 요구, 특정 스텟 요구치로 단순 확률싸움
+    public ComplaintTypeEnum ComplainType = ComplaintTypeEnum.Accident ; // 컴플레인의 부류 - 자원 요구, 특정 스텟 요구치로 단순 확률싸움
     public List<TOrderItem> NeedItems = new(); // 필요한것들
     public int RestTurn; //인내기간
-    public List<TOrderItem> FailEffect = new(); //실패시 어쩔지
     public List<TOrderItem> SuccesEffect = new(); //성공시 어쩔지
     public int[] MapIndex;
     public Complain()
@@ -34,8 +28,7 @@ public class Complain
      
         SuccesEffect.Add(new TOrderItem(TokenType.Capital, (int)Capital.Food, 30));
 
-        FailEffect.Add(new TOrderItem(TokenType.Capital, (int)Capital.Food, -30));
-        RestTurn = 3;
+        RestTurn = 1;
         GamePlayMaster.GetInstance().RegistorComplain(this);
     }
 
