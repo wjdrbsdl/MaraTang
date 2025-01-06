@@ -13,7 +13,7 @@ public class ChunkContent
     public List<TOrderItem> ItemList = new();
     public List<TokenBase> MadeList = new(); //만들어진 결과물
     public int PID;
-
+    public int RestTurn;
     #region 생성자
     public ChunkContent()
     {
@@ -26,6 +26,7 @@ public class ChunkContent
         //티어에 따라 스폰할 몬스터와, 장소를 정의
         TOrderItem monsterItem = new TOrderItem(TokenType.Char, 2, -1);
         ItemList.Add(monsterItem);
+        RestTurn = 10;
     }
 
     public ChunkContent(List<int[]> matchCode, string[] valueCode)
@@ -35,6 +36,7 @@ public class ChunkContent
         PID = int.Parse( valueCode[0]);
         ItemList = GameUtil.ParseCostDataArray(valueCode, 2).GetItemList();
         //Debug.Log(ItemList[0].Tokentype + "파싱");
+        RestTurn = 10;
     }
 
     public ChunkContent(ChunkContent _origin)
@@ -47,6 +49,7 @@ public class ChunkContent
             TOrderItem item = _origin.ItemList[i];
             ItemList.Add(item);
         }
+        RestTurn = _origin.RestTurn;
     }
     #endregion
 
@@ -165,6 +168,8 @@ public class ChunkContent
                 ((TokenTile)token).ChangePlace(TileType.Nomal);
             }
         }
+
+        MadeList.Clear();
     }
 
     #region 따로 정의가 필요한 아이템 타입들
