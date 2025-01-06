@@ -6,9 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-public enum ComplainTypeEnum
+public enum ComplaintTypeEnum
 {
-    Compensation, Nomal, Hard, Incident, Accident
+    Compensation, Nomal, Accident
 }
 
 public enum ComplainRequestTypeEnum
@@ -19,7 +19,7 @@ public enum ComplainRequestTypeEnum
 public class Complain
 {
     public string Name;
-    public ComplainTypeEnum ComplainType = ComplainTypeEnum.Nomal ; // 컴플레인의 부류 - 자원 요구, 특정 스텟 요구치로 단순 확률싸움
+    public ComplaintTypeEnum ComplainType = ComplaintTypeEnum.Nomal ; // 컴플레인의 부류 - 자원 요구, 특정 스텟 요구치로 단순 확률싸움
     public List<TOrderItem> NeedItems = new(); // 필요한것들
     public int RestTurn; //인내기간
     public List<TOrderItem> FailEffect = new(); //실패시 어쩔지
@@ -114,12 +114,8 @@ public class Complain
 
     public void EffectPenalty()
     {
-        OrderExcutor excutor = new OrderExcutor();
-        //실패했다면 있는거 그대로 다 적용
-        for (int i = 0; i < FailEffect.Count; i++)
-        {
-            excutor.AdaptItem(FailEffect[i]);
-        }
+        AccidentAdaptor accident = new AccidentAdaptor();
+        accident.AdaptPenalty(this);
     }
 
     public void AdaptItem(TOrderItem _item)
@@ -130,5 +126,11 @@ public class Complain
     }
     #endregion
 
+    public TokenTile GetTile()
+    {
+        //발생한 타일 
+        TokenTile tile = GameUtil.GetTileTokenFromMap(MapIndex);
+        return tile;
+    }
 }
 
