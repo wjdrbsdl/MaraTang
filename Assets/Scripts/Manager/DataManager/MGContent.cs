@@ -431,7 +431,7 @@ public class MGContent : Mg<MGContent>
 
         for (int i = 0; i < m_chunkList.Count; i++)
         {
-            Debug.Log(randomIdx[i] + "구역에 민원 아이템 확인");
+           // Debug.Log(randomIdx[i] + "구역에 민원 아이템 확인");
             Chunk chunk = m_chunkList[randomIdx[i]];
             if (chunk.PreContent == null)
                 continue;
@@ -450,7 +450,7 @@ public class MGContent : Mg<MGContent>
                     {
                         if (tileItemList[itemIdx].Tokentype.Equals(TokenType.Capital))
                         {
-                            Debug.Log(GameUtil.GetTokenEnumName(tileItemList[itemIdx])+"자원 요구 하도록 구역 컴플레인 세팅");
+                           // Debug.Log(GameUtil.GetTokenEnumName(tileItemList[itemIdx])+"자원 요구 하도록 구역 컴플레인 세팅");
                             chunkNum = randomIdx[i];
                             return new TOrderItem(TokenType.Capital, tileItemList[itemIdx].SubIdx, 1);
                         }
@@ -459,7 +459,7 @@ public class MGContent : Mg<MGContent>
                 else if (item.GetTokenType().Equals(TokenType.Char))
                 {
                     //헌트 아이템으로
-                    Debug.Log(item.GetPid() + "번 몬스터 사냥 하도록 구역 컴플레인 세팅");
+                  //  Debug.Log(item.GetPid() + "번 몬스터 사냥 하도록 구역 컴플레인 세팅");
                     chunkNum = randomIdx[i];
                     return new TOrderItem(TokenType.Char, item.GetPid(), 1);
                 }

@@ -136,7 +136,7 @@ public class Complain
 
     public void RemoveComplain()
     {
-        Debug.Log("컴플레인 제거");
+       // Debug.Log("컴플레인 제거");
         TokenTile complainTile = GameUtil.GetTileTokenFromMap(MapIndex);
         complainTile.RemoveComplain();
         GamePlayMaster.GetInstance().RemoveComplain(this);
