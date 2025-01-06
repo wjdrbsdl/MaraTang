@@ -9,25 +9,12 @@ using System.Threading.Tasks;
 //명칭은 enum이고 그 효과는 그 명칭에 걸맞게
 public enum AccidentEnum
 {
-    폭파, 화재, 붕괴, 정전, 빙결
+   화재, 붕괴, 정전, 빙결
 }
 
 
 public class AccidentAdaptor
 {
-    /*
-     * 효과 적용 분류
-     * 1.내구도 감소 - 운행은 가능하나 내구도가 상실된 상황 - 수리와 동시에 기능 수행은 가능
-     * -> 폭파, 붕괴, 화재
-     * 2. 노동 공간 감소 - 일을 할 수 있는 공간이 상실됨 - 해당 슬롯 사라지기 -> 공간 확장공사 필요. 
-     * -> 붕괴
-     * 3. 노동 효율 감소 - 일을 완수하는데 오래걸림 - 해당 장소에 나태 버프 걸림 - 작업 정산시 효율 감소시켜서 진행
-     * -> 정전, 나태, 공포
-     * 4. 노동 효과 감소 - 일 완료시 효과 수금시 효율이 떨어짐 - 효과감소 버프 
-     * -> 빙결, 기만, 공포
-     * 5. 노동 코인 상실 - 비율로 상실 - 일할 공간, 슬롯은 남아있는데 거기 있던 노동코인이 죽음. 
-     * -> 화재, 폭파, 붕괴
-     */
 
     //민원에 대응 하지 못했을 때 발생하는 사고들 
     //민원에 실패했다. 그 실패한 Level을 보낸다. 
@@ -35,34 +22,87 @@ public class AccidentAdaptor
     //결정된 유형도대로 페널티를 적용한다. 
     List<TOrderItem> m_penaltyEffect; // 할당 받은 이펙트들
 
-    public void AdaptPenalty(TokenTile _tile, int _penaltyLevel)
+    public void AdaptPenalty(Complain _complaint)
     {
+        int _penaltyLevel = CalPenaltyLevel(_complaint.ComplainType);
+        if (_penaltyLevel == FixedValue.No_VALUE)
+            return;
+
         //1. 벌칙 수준에 따라 벌칙을 결정
-        AccidentEnum adaptPenalty = SelectPenalty(_penaltyLevel);
+        AccidentEnum adaptPenalty = SelectPenalty();
         //2. 벌칙 강도 결정
-        int power = CalPenaltyPower(adaptPenalty, _penaltyLevel);
+        int power = CalPenaltyPower(_penaltyLevel);
         //3. 케이스별로 적용진행
-        AdaptByCase(_tile, adaptPenalty, power);
+        TokenTile tile = _complaint.GetTile();
+        if (tile == null)
+            return;
+        AdaptByCase(tile, adaptPenalty, power);
     }
 
-    private AccidentEnum SelectPenalty(int _penaltyLevel)
+    private int CalPenaltyLevel(ComplaintTypeEnum _complaintType)
     {
-        return AccidentEnum.정전;
+        //1,2,3,4 로서
+        //기본 난이도에 추가 난이도 더해서 
+        
+        switch (_complaintType)
+        {
+            case ComplaintTypeEnum.Nomal:
+                return Random.Range(1, 3); // 1~2
+            case ComplaintTypeEnum.Accident:
+                return Random.Range(3, 5); // 3~4
+        }
+        return FixedValue.No_VALUE; //없는 난이도는 0
     }
 
-    private int CalPenaltyPower(AccidentEnum _accident, int _penaltyLevel)
+    private AccidentEnum SelectPenalty()
+    {
+        //사고 유형들중 하나 반환
+        int accidentCount = System.Enum.GetValues(typeof(AccidentEnum)).Length;
+        int randomIndex = Random.Range(0, accidentCount);
+
+        return (AccidentEnum)randomIndex;
+    }
+
+    private int CalPenaltyPower(int _penaltyLevel)
     {
         //벌칙 타입과 벌칙수준에 따라 그 효력을 결정
-        return 30;
+
+        if (_penaltyLevel.Equals(1))
+        {
+            return Random.Range(1,3);
+        }
+        if (_penaltyLevel.Equals(2))
+        {
+            return Random.Range(3, 5);
+        }
+        if (_penaltyLevel.Equals(3))
+        {
+            return Random.Range(5, 8);
+        }
+        if (_penaltyLevel.Equals(4))
+        {
+            return Random.Range(8, 11);
+        }
+        return FixedValue.No_VALUE;
     }
 
     private void AdaptByCase(TokenTile _targetTile, AccidentEnum _case, int _power)
     {
+        decimal ratio = _power * 0.1m; // 1~10 인수치에 %로 0.1을 곱해서 진행 
         switch (_case)
         {
-            case AccidentEnum.폭파:
+            case AccidentEnum.붕괴://장소 내구도 감소
+                //power에 따라 최대 내구도의 비율로 상실
                 break;
-
+            case AccidentEnum.화재: //노동 코인 손실
+                //power에 따라 현재 할당된 노동 코인의 비율로 상실로 해당 타일의 노동코인에 영향
+                break;
+            case AccidentEnum.정전: //작업 효율 감소
+                //power에 따라 n턴 동안 작업 효율이 감소 되는 디버프를 해당 장소에 검
+                break;
+            case AccidentEnum.빙결: //작업 효과 감소
+                //power에 따라 n 턴 동안 작업 완료시 얻는 효과가 감소 되는 디버프를 해당 장소에 검
+                break;
         }
     }
 }
