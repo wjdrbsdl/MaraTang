@@ -456,6 +456,49 @@ public class MGContent : Mg<MGContent>
         return curTurn % periode == 0;
     }
 
+    public TOrderItem GetComplaintChunkItem()
+    {
+        //가능한 청크를 반환
+        List<int> randomIdx = GameUtil.GetRandomNum(m_chunkList.Count, m_chunkList.Count);
+
+        for (int i = 0; i < m_chunkList.Count; i++)
+        {
+            Debug.Log(randomIdx[i] + "구역에 민원 아이템 확인");
+            Chunk chunk = m_chunkList[randomIdx[i]];
+            if (chunk.PreContent == null)
+                continue;
+            List<TokenBase> madeList = chunk.PreContent.MadeList;
+            //해당 구역이 무슨 내용인지는 모르겠는데 무튼 생성된 재료가
+            //타일이면 거기서 나는 채집 아이템을
+            //몬스터면 해당 몬스터 사냥을 목표로 함
+            for (int x = 0; x < madeList.Count; x++)
+            {
+                TokenBase item = madeList[i];
+                if (item.GetTokenType().Equals(TokenType.Tile))
+                {
+                    //해당 타일에서 나는 재료를 훑어 보면서 특정 capital인 경우 그 아이템을 요구
+                    List<TOrderItem> tileItemList = MgMasterData.GetInstance().GetTileData(item.GetPid()).EffectData.GetItemList();
+                    for (int itemIdx = 0; itemIdx < tileItemList.Count; itemIdx++)
+                    {
+                        if (tileItemList[i].Tokentype.Equals(TokenType.Capital))
+                        {
+                            Debug.Log(GameUtil.GetTokenEnumName(tileItemList[i])+"자원 요구 하도록 구역 컴플레인 세팅");
+                            return new TOrderItem(TokenType.Capital, tileItemList[i].SubIdx, 1);
+                        }
+                    }
+                }
+                else if (item.GetTokenType().Equals(TokenType.Char))
+                {
+                    //헌트 아이템으로
+                    Debug.Log(item.GetPid() + "번 몬스터 사냥 하도록 구역 컴플레인 세팅");
+                    return new TOrderItem(TokenType.Char, item.GetPid(), 1);
+                }
+            } 
+        } 
+        //가능한 내용물이 없으면 none 반환
+        return new TOrderItem(TokenType.None,1,1);
+    }
+
     public Chunk GetChunk(int _chunkNum)
     {
         //청크리스트가 널이거나 idx넘버가 범위 밖이라면 null 반환
