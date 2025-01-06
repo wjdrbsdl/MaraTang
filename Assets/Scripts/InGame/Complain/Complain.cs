@@ -26,6 +26,8 @@ public class Complain
     public int RestTurn; //인내기간
     public List<TOrderItem> SuccesEffect = new(); //성공시 어쩔지
     public int[] MapIndex;
+
+    #region 컴플레인 생성
     public Complain()
     {
         //테스트용 아무거나
@@ -38,6 +40,7 @@ public class Complain
         //2. 타겟팅 여부에 따라 갈래
         //-1. 컨텐츠 타입이면 구역중 하나를 정해서 해당 구역의 내용에 따라 요청타입을 설정, 내부 아이템을 카운팅으로 진행, 해당 구역 갱신기간 재설정
         //-2. 무상관이면 요청 타입을 결정 그에 맞게 재료나 몬스터 사냥 카운트를 진행
+        NeedItems.Clear();
         if (IsContentTarget)
         {
             ChunkContentSetting();
@@ -47,20 +50,33 @@ public class Complain
             NomalSetting();
         }
         SuccesEffect.Add(new TOrderItem(TokenType.Capital, (int)Capital.Food, 30));
-
-       
         GamePlayMaster.GetInstance().RegistorComplain(this);
+        //토지 할당은 컴플레인 매니저에서 AssingTile 호출해서 진행
     }
 
     private void ChunkContentSetting()
     {
-       //랜덤 순으로 구역을 돌면서 해당 구역에서 민원이 가능한지 체크
+        //1. 컨텐츠 매니저에게 민원 대상이 될만한 아이템 요구
+        TOrderItem needItem = MGContent.GetInstance().GetComplaintChunkItem(out int chunkNum);
+        if (needItem.Tokentype.Equals(TokenType.None))
+        {
+            //구역에서 민원 대상이 될만한게 없으면 그냥 노말세팅으로 전환
+            NomalSetting();
+            return;
+        }
+        //2. 할당된 아잍메에 따라 요청 타입 수정
+        if (needItem.Tokentype.Equals(TokenType.Capital))
+        {
+            RequestType = ComplaintRequestType.Capital;
+        }
 
-        //가능하다면 해당 구역 컨텐츠의 타입에 따라 요구 설정
-
-        //구역 컨텐츠에 생성된 아이템에 따라 몬스터 pid 혹은 자원 pid 와 수량을 세팅
-
-        //남은 턴 설정하고, 구역 컨텐츠의 남은 시간도 갱신
+        //3. 필요 재료 추가
+        NeedItems.Add(needItem); //
+        //4. 남은 턴 설정하고, 구역 컨텐츠의 남은 시간도 갱신
+        RestTurn = 20;
+        //5. 둘중 긴걸로 진행
+        int maxRestTurn = Mathf.Max(MGContent.GetInstance().GetChunk(chunkNum).PreContent.RestTurn, RestTurn);
+        MGContent.GetInstance().GetChunk(chunkNum).PreContent.RestTurn = maxRestTurn; //컴플레인 해결을 위해 남은시간 갱신
     }
 
     private void NomalSetting()
@@ -85,6 +101,7 @@ public class Complain
         //3. 민원 대응 시간 설정
         RestTurn = 10;
     }
+    #endregion
 
     #region 컴플레인 배정 및 턴 관리
     public void TurnCount()
@@ -101,14 +118,7 @@ public class Complain
 
     public void AssignTile(TokenTile _tile)
     {
-        //기존 진행중이던 작업은 발생한 민원에 따라 영향
-        // -> 중대사고인경우 기존 작업이 취소될수도, 노동코인이 상실될수도
-        // ->미미한 경우는 해당 작업의 효율, 효과정도가 너프되는 버프에 걸릴 수도
-        //1. 배정시 기존 작업에 어떤 영향을 미칠지
-        //2. 타일의 스텟 버프등에 어떤 영향을 미칠지 정의 
-
-        
-        //3. 타일과 민원에 서로를 참조
+        //1. 타일과 민원에 서로를 참조
         SetComplainMapIndex(_tile.GetMapIndex());
         _tile.SendComplain(this);
         TurnCount(); //세팅시 바로 카운트 진행 - 사건 사고의 경우 남은 턴이 바로 0 이하가 되며 효과가 즉발 
