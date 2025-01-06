@@ -456,7 +456,7 @@ public class MGContent : Mg<MGContent>
         return curTurn % periode == 0;
     }
 
-    public TOrderItem GetComplaintChunkItem()
+    public TOrderItem GetComplaintChunkItem(out int chunkNum)
     {
         //가능한 청크를 반환
         List<int> randomIdx = GameUtil.GetRandomNum(m_chunkList.Count, m_chunkList.Count);
@@ -483,6 +483,7 @@ public class MGContent : Mg<MGContent>
                         if (tileItemList[i].Tokentype.Equals(TokenType.Capital))
                         {
                             Debug.Log(GameUtil.GetTokenEnumName(tileItemList[i])+"자원 요구 하도록 구역 컴플레인 세팅");
+                            chunkNum = randomIdx[i];
                             return new TOrderItem(TokenType.Capital, tileItemList[i].SubIdx, 1);
                         }
                     }
@@ -491,11 +492,13 @@ public class MGContent : Mg<MGContent>
                 {
                     //헌트 아이템으로
                     Debug.Log(item.GetPid() + "번 몬스터 사냥 하도록 구역 컴플레인 세팅");
+                    chunkNum = randomIdx[i];
                     return new TOrderItem(TokenType.Char, item.GetPid(), 1);
                 }
             } 
-        } 
+        }
         //가능한 내용물이 없으면 none 반환
+        chunkNum = NO_CHUNK_NUM;
         return new TOrderItem(TokenType.None,1,1);
     }
 
