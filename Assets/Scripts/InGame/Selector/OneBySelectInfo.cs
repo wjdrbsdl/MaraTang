@@ -14,8 +14,6 @@ public class OneBySelectInfo
     public int restSelectCount;
     public int selectCount = 0; //선택했던 수
     public int SerialNum = FixedValue.No_VALUE; //사용안할때는 none 넘버로 
-    public ITradeCustomer Giver; //제공자
-    public ITradeCustomer Taker; //받는자
     public List<TOrderItem> ItemList; //남은 선택 리스트
 
     public OneBySelectInfo(List<TOrderItem> _selectList, int _ableCount, int _orderserialNum = FixedValue.No_VALUE)
