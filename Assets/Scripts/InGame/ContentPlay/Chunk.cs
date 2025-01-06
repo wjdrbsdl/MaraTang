@@ -62,6 +62,44 @@ public class Chunk
     }
 
     #region 备开牧刨明
+    public void CountContentTurn()
+    {
+        if(PreContent == null)
+        {
+            MakeContent();
+            return;
+        }
+
+        PreContent.RestTurn -= 1;
+        if(PreContent.RestTurn == 0)
+        {
+          //  Debug.Log("牧刨明 蜡瘤矫埃 促登辑 府悸 促澜 牧刨明 积己 夸备");
+            ResetContent();
+            MakeContent();
+        }
+    }
+
+    public void MakeContent()
+    {
+        if (GamePlayMaster.GetInstance().m_actChunkContent == false)
+            return;
+        if (GetCoreLive() == false)
+        {
+          //  Debug.Log("琴捞 颇鲍等 备开, 牧刨明 备泅 菩教 " + ChunkNum);
+            return;
+        }
+      //  Debug.Log("备开俊辑 牧刨明 积己");
+        int testTier = 3;
+        //3. 萍绢措肺 备开 牧刨明 积己
+        ChunkContent content = new ChunkContent(testTier);
+        ////3. 牧刨明 阂矾柯芭
+        //chunkcontent content = new chunkcontent(mgmasterdata.getinstance().getchunkcontent(1));
+        //5. 老窜 弊成 牧刨明 备泅
+        RealizeContent(content);
+        content.RestTurn = 1; 
+    }
+
+
     public void ResetContent()
     { 
         if(FixedValue.SAY_CHUNKRESET == false)
