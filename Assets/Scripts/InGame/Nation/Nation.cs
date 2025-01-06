@@ -40,6 +40,7 @@ public class Nation : ITradeCustomer
     private Color[] nationColor = { Color.red, Color.yellow, Color.blue };
 
     private List<WorkOrder> m_workList = new(); //진행중인 작업들. 
+    private List<Complain> m_complaintList = new(); //진행중인 민원들. 
 
     #region 국가 생성자
     public Nation()
@@ -461,7 +462,23 @@ public class Nation : ITradeCustomer
         m_popularMg.ManagePopular(); 
     }
     #endregion
-  
+
+    #region 민원 리스트관리
+    public void AddComplaint(Complain _complaint)
+    {
+        m_complaintList.Add(_complaint);
+    }
+
+    public void RemoveCompalint(Complain _complaint)
+    {
+        m_complaintList.Remove(_complaint);
+    }
+
+    public int GetComplaintCount()
+    {
+        return m_complaintList.Count;
+    }
+    #endregion
 
     public void LevelUp()
     {
