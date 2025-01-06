@@ -634,6 +634,34 @@ public class MGContent : Mg<MGContent>
                 quest.FailStage();
         }
 
+        //몬스터 사냥인 경우에만 컴플레인 따로 진행 
+        if (_orderItem.Tokentype.Equals(TokenType.Char))
+        {
+            Complain[] curComplain = GamePlayMaster.GetInstance().m_globalComplainList.ToArray();
+            for (int i = 0; i < curComplain.Length; i++)
+            {
+                //컴플레인용 적용
+                Complain complain = curComplain[i];
+                for (int x = 0; x < complain.NeedItems.Count; x++)
+                {
+                    TOrderItem complainItem = complain.NeedItems[x];
+                    //민원 내용이 hunt가 아니면 패스
+                    if (complainItem.Tokentype.Equals(TokenType.Char) == false)
+                        continue;
+
+                    //사냥 대상이 전 몬스터 혹은 동일 몬스터면 요구 사냥 횟수를 1 차감
+                    if(complainItem.SubIdx.Equals(int.MaxValue) || complainItem.SubIdx.Equals(_orderItem.SubIdx))
+                    {
+                        TOrderItem renewValue = complainItem;
+                        renewValue.Value -= 1;
+                        complain.NeedItems[x] = renewValue;
+                        complain.Respond(); //대응 호출해서 클리어했는지 체크
+                    }
+                }
+                
+            }
+        }
+        
     }
 }
 
