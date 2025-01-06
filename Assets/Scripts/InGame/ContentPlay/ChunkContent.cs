@@ -26,7 +26,7 @@ public class ChunkContent
         //티어에 따라 스폰할 몬스터와, 장소를 정의
         TOrderItem monsterItem = new TOrderItem(TokenType.Char, 2, -1);
         ItemList.Add(monsterItem);
-        SetRestTurn(10);
+        SetRestTurn(ExtraValues.g_instance.ChunkContentTurn);
     }
 
     public ChunkContent(List<int[]> matchCode, string[] valueCode)
