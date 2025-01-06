@@ -26,7 +26,7 @@ public class ChunkContent
         //티어에 따라 스폰할 몬스터와, 장소를 정의
         TOrderItem monsterItem = new TOrderItem(TokenType.Char, 2, -1);
         ItemList.Add(monsterItem);
-        RestTurn = 10;
+        SetRestTurn(10);
     }
 
     public ChunkContent(List<int[]> matchCode, string[] valueCode)
@@ -36,7 +36,7 @@ public class ChunkContent
         PID = int.Parse( valueCode[0]);
         ItemList = GameUtil.ParseCostDataArray(valueCode, 2).GetItemList();
         //Debug.Log(ItemList[0].Tokentype + "파싱");
-        RestTurn = 10;
+        SetRestTurn(10);
     }
 
     public ChunkContent(ChunkContent _origin)
@@ -49,7 +49,12 @@ public class ChunkContent
             TOrderItem item = _origin.ItemList[i];
             ItemList.Add(item);
         }
-        RestTurn = _origin.RestTurn;
+        SetRestTurn(_origin.RestTurn);
+    }
+
+    public void SetRestTurn(int _turn)
+    {
+        RestTurn = _turn;
     }
     #endregion
 

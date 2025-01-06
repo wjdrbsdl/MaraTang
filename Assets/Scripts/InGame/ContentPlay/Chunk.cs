@@ -96,7 +96,7 @@ public class Chunk
         //chunkcontent content = new chunkcontent(mgmasterdata.getinstance().getchunkcontent(1));
         //5. 老窜 弊成 牧刨明 备泅
         RealizeContent(content);
-        content.RestTurn = 1; 
+        content.SetRestTurn(1);
     }
 
 
