@@ -56,11 +56,14 @@ public class ComplainManager : Mg<ComplainManager>
     private int CalComplainCount(Nation _nation)
     {
         int territoryCount = _nation.GetTerritorry().Count-1 ;//수도 제거 
+        int ableTileCount = territoryCount - _nation.GetComplaintCount(); //영지수만큼 할당가능인데 영지수만큼 이미 민원이 있으면 넣을자리가 없음
+        if (ableTileCount == 0)
+            return 0;
         int tempOccurRatio = 30;
         decimal accurateRatio = tempOccurRatio * 0.01m;
         int occurCount = (int)(territoryCount * accurateRatio);
-        Debug.Log("정밀 비율" + accurateRatio + " 발생 수치" + occurCount);
-        return occurCount;
+       // Debug.Log("정밀 비율" + accurateRatio + " 발생 수치" + occurCount);
+        return Mathf.Min(occurCount, ableTileCount);
     }
 
     private List<Complain> FindComplainList(Nation nation, int _occurCount)
@@ -92,10 +95,12 @@ public class ComplainManager : Mg<ComplainManager>
                     continue;
                 }
                 complaint.AssignTile(tile);
+                complaint.AssingGameMaster();
                 break;
             }
         }
         //국가 모든 장소에서 민원이 진행중이면 추가 민원은 발생안할수도. 
+        //애초 발생 카운트에서 민원을 할당할 자리가 있는지 체크후 진행하기 때문에 발생된 민원은 모두 어떤 영지든 할당이 됨. 
         
     }
 }
