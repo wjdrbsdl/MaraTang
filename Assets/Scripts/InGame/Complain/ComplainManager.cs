@@ -94,6 +94,7 @@ public class ComplainManager : Mg<ComplainManager>
                 complaint.AssignTile(tile);
             }
         }
+        //국가 모든 장소에서 민원이 진행중이면 추가 민원은 발생안할수도. 
         
     }
 }
