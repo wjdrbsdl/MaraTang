@@ -50,7 +50,7 @@ public class Complain
             NomalSetting();
         }
         SuccesEffect.Add(new TOrderItem(TokenType.Capital, (int)Capital.Food, 30));
-        GamePlayMaster.GetInstance().RegistorComplain(this);
+       
         //토지 할당은 컴플레인 매니저에서 AssingTile 호출해서 진행
     }
 
@@ -122,6 +122,11 @@ public class Complain
         SetComplainMapIndex(_tile.GetMapIndex());
         _tile.SendComplain(this);
         TurnCount(); //세팅시 바로 카운트 진행 - 사건 사고의 경우 남은 턴이 바로 0 이하가 되며 효과가 즉발 
+    }
+
+    public void AssingGameMaster()
+    {
+        GamePlayMaster.GetInstance().RegistorComplain(this);
     }
 
     public void SetComplainMapIndex(int[] _pos)
