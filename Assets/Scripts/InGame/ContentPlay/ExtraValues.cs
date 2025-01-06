@@ -12,6 +12,10 @@ public class ExtraValues
     public static ExtraValues g_instance;
     public int FirstSupplyMeal;
 
+    public int NomalComplaintTurn;
+    public int ChunkComplaintTurn;
+    public int ChunkContentTurn;
+
     public ExtraValues(string[] valueCode)
     {
         g_instance = this;
@@ -20,13 +24,19 @@ public class ExtraValues
         int enforce3Index = enforce2Index+ 1;
         int enforce4Index = enforce3Index+ 1;
         int supplyIndex = enforce4Index + 1;
+        int nomalComplaintTurn = supplyIndex + 1;
+        int chunkComplaintTurn = nomalComplaintTurn + 1;
+        int chunkContentTurn = chunkComplaintTurn + 1;
 
         Enforce1Ratio = decimal.Parse(valueCode[enforce1Index]);
         Enforce2Ratio = decimal.Parse(valueCode[enforce2Index]);
         Enforce3Ratio = decimal.Parse(valueCode[enforce3Index]);
         Enforce4Ratio = decimal.Parse(valueCode[enforce4Index]);
         FirstSupplyMeal = int.Parse(valueCode[supplyIndex]);
-       // Debug.Log("4단계 강화 수치 " + Enforce4Ratio);
+        NomalComplaintTurn = int.Parse(valueCode[nomalComplaintTurn]);
+        ChunkComplaintTurn = int.Parse(valueCode[chunkComplaintTurn]);
+        ChunkContentTurn = int.Parse(valueCode[chunkContentTurn]);
+        // Debug.Log("4단계 강화 수치 " + Enforce4Ratio);
     }
 
     public decimal GetEnforceValue()
