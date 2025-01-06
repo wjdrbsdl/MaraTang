@@ -141,14 +141,19 @@ public class Complain
     #region 컴플레인 대응 과 결과
     public void Respond()
     {
+        //자원 요구하는 경우에 보유 자원 지불하는 방식등 민원 타입 혹은 필요한 아이템에 따라 요구하기 요청
+
+    }
+
+    public void SuccesCheck()
+    {
         //컴플레인에 대응하기
-        TokenChar mainChar = PlayerManager.GetInstance().GetMainChar();
-        int RandomNum = Random.Range(0, 2);
         bool Succes = false;
         //필요한 아이템을 충족하는지 
         for (int i = 0; i < NeedItems.Count; i++)
         {
             //충족 여부 체크
+            Debug.Log(GameUtil.GetTokenEnumName(NeedItems[i]) + " 요구 횟수 " + NeedItems[i].Value);
         }
 
         //실패는 단번으로 끝날것인가? 예를들어 자원 없는데 시도했다고 끝날 순 없잖아 
