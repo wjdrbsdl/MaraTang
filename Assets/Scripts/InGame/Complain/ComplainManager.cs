@@ -55,7 +55,7 @@ public class ComplainManager : Mg<ComplainManager>
 
     private int CalComplainCount(Nation _nation)
     {
-        int territoryCount = _nation.GetTerritorry().Count;
+        int territoryCount = _nation.GetTerritorry().Count-1 ;//수도 제거 
         int tempOccurRatio = 30;
         decimal accurateRatio = tempOccurRatio * 0.01m;
         int occurCount = (int)(territoryCount * accurateRatio);
