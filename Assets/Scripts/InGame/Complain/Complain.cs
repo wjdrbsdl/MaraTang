@@ -64,6 +64,7 @@ public class Complain
         //3. 타일과 민원에 서로를 참조
         SetComplainMapIndex(_tile.GetMapIndex());
         _tile.SendComplain(this);
+        TurnCount(); //세팅시 바로 카운트 진행 - 사건 사고의 경우 남은 턴이 바로 0 이하가 되며 효과가 즉발 
     }
 
     public void SetComplainMapIndex(int[] _pos)
