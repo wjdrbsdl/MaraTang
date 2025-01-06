@@ -89,13 +89,14 @@ public class AccidentAdaptor
     private void AdaptByCase(TokenTile _targetTile, AccidentEnum _case, int _power)
     {
         decimal ratio = _power * 0.1m; // 1~10 인수치에 %로 0.1을 곱해서 진행 
+        Debug.Log(_case + "사고발생");
         switch (_case)
         {
             case AccidentEnum.붕괴://장소 내구도 감소
                 //power에 따라 최대 내구도의 비율로 상실
                 int maxHp = _targetTile.GetStat(ETileStat.MaxDurability);
                 int damage = (int)(maxHp * ratio);
-                _targetTile.AttackTile(damage);
+                _targetTile.AttackTile(damage); //붕괴로 인한 피해
                 break;
             case AccidentEnum.화재: //노동 코인 손실
                 //power에 따라 현재 할당된 노동 코인의 비율로 상실로 해당 타일의 노동코인에 영향
