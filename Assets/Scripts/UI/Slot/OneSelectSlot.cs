@@ -43,7 +43,7 @@ public class OneSelectSlot : SlotBase
 
     private void SetIcon(TOrderItem _item)
     {
-        selectedText.text = ((Capital)_item.SubIdx).ToString();
+        selectedText.text = GameUtil.GetTokenEnumName(_item);
         selectedValue.text = _item.Value.ToString();
     }
 
