@@ -46,6 +46,8 @@ public class ComplainManager : Mg<ComplainManager>
         
         //1. 민원 발생 수 - 일정 비율에 토지 수를 곱해서 결정 - 일정비율은 변화가능 분위기좋을땐 높은게 좋고, 나쁠땐 낮은게 좋고
         int occurCount = CalComplainCount(_nation);
+        if (occurCount == 0)
+            return;
         //2. 발생 민원 결정
         List<Complain> occurComplainList = FindComplainList(_nation, occurCount);
         //3. 민원 영토에 배정
@@ -55,6 +57,16 @@ public class ComplainManager : Mg<ComplainManager>
 
     private int CalComplainCount(Nation _nation)
     {
+        int ratio = _nation.GetStat(NationStatEnum.ComplaintRatio);
+        int dice = Random.Range(0, ratio);
+        if (dice != 0)
+        {
+            //확률 5~ 정수중에 맨처음 0 이 뜨는 경우에만 민원이 발생. 턴주기가 곧 확률로 적용 
+            Debug.Log("민원 확률 실패");
+            return 0;
+        }
+            
+
         int territoryCount = _nation.GetTerritorry().Count-1 ;//수도 제거 
         int ableTileCount = territoryCount - _nation.GetComplaintCount(); //영지수만큼 할당가능인데 영지수만큼 이미 민원이 있으면 넣을자리가 없음
         if (ableTileCount == 0)
