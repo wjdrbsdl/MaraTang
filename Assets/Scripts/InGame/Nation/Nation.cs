@@ -16,7 +16,7 @@ public enum NationManageStepEnum
 
 public enum NationStatEnum
 {
-     Happy, CleanFlat, CleanRatio, 성실, 안정, Sight, CommunityRange, Population, BirthRatio, TerritoryByLevel, TerritoryByPlus,
+     Happy, CleanFlat, CleanRatio, 성실, 안정, Sight, CommunityRange, Population, BirthRatio, TerritoryByLevel, TerritoryByPlus, ComplaintRatio,
      용기, 신뢰, 자애, 건강, 근면,
      안정도, 행복도, 청결
 }
@@ -122,6 +122,7 @@ public class Nation : ITradeCustomer
         SetStatValue(NationStatEnum.Population, 30);
         SetStatValue(NationStatEnum.TerritoryByLevel, 6);
         SetStatValue(NationStatEnum.TerritoryByPlus, 0);
+        SetStatValue(NationStatEnum.ComplaintRatio, 6); //주기로 의미를 가지되 매턴 매턴 n 분의 1 으로 확률 적용
     }
 
 
