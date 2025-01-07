@@ -211,6 +211,13 @@ public class PlayerManager : MgGeneric<PlayerManager>, PlayerRule, KeyIntercepto
 
     private void AutoEnd()
     {
+        if (MgUI.GetInstance().CheckOpenUI())
+        {
+            Debug.Log("UI 켜져있어서 자동 턴넘김 못함");
+            return;
+        }
+
+
         if (m_mainChar.GetStat(CharStat.CurActionCount) == 0 && m_autoEnd == true)
             EndTurn();
     }
